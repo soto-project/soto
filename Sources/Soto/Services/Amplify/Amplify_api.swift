@@ -87,7 +87,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    /// Creates a new backend environment for an Amplify app.
+    /// Creates a new backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to applications created using the Amplify Gen 2 public preview. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     @Sendable
     public func createBackendEnvironment(_ input: CreateBackendEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBackendEnvironmentResult {
         return try await self.client.execute(
@@ -126,7 +126,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Creates a new domain association for an Amplify app. This action associates a custom domain with the Amplify app
+    /// Creates a new domain association for an Amplify app. This action associates a custom domain with the Amplify app
     @Sendable
     public func createDomainAssociation(_ input: CreateDomainAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDomainAssociationResult {
         return try await self.client.execute(
@@ -165,7 +165,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    /// Deletes a backend environment for an Amplify app.
+    /// Deletes a backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend was created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to applications created using the Amplify Gen 2 public preview. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     @Sendable
     public func deleteBackendEnvironment(_ input: DeleteBackendEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBackendEnvironmentResult {
         return try await self.client.execute(
@@ -191,7 +191,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Deletes a domain association for an Amplify app.
+    /// Deletes a domain association for an Amplify app.
     @Sendable
     public func deleteDomainAssociation(_ input: DeleteDomainAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDomainAssociationResult {
         return try await self.client.execute(
@@ -269,7 +269,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    /// Returns a backend environment for an Amplify app.
+    /// Returns a backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend was created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to applications created using the Amplify Gen 2 public preview. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     @Sendable
     public func getBackendEnvironment(_ input: GetBackendEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBackendEnvironmentResult {
         return try await self.client.execute(
@@ -295,7 +295,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Returns the domain information for an Amplify app.
+    /// Returns the domain information for an Amplify app.
     @Sendable
     public func getDomainAssociation(_ input: GetDomainAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDomainAssociationResult {
         return try await self.client.execute(
@@ -360,7 +360,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    /// Lists the backend environments for an Amplify app.
+    /// Lists the backend environments for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend was created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to applications created using the Amplify Gen 2 public preview. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     @Sendable
     public func listBackendEnvironments(_ input: ListBackendEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackendEnvironmentsResult {
         return try await self.client.execute(
@@ -386,7 +386,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Returns the domain associations for an Amplify app.
+    /// Returns the domain associations for an Amplify app.
     @Sendable
     public func listDomainAssociations(_ input: ListDomainAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainAssociationsResult {
         return try await self.client.execute(
@@ -529,7 +529,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    ///  Creates a new domain association for an Amplify app.
+    /// Creates a new domain association for an Amplify app.
     @Sendable
     public func updateDomainAssociation(_ input: UpdateDomainAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDomainAssociationResult {
         return try await self.client.execute(
@@ -607,7 +607,7 @@ extension Amplify {
         )
     }
 
-    ///  Returns the domain associations for an Amplify app.
+    /// Returns the domain associations for an Amplify app.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

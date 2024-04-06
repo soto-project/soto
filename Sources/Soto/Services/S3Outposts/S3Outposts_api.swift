@@ -73,12 +73,50 @@ public struct S3Outposts: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "s3-outposts.af-south-1.api.aws",
+            "ap-east-1": "s3-outposts.ap-east-1.api.aws",
+            "ap-northeast-1": "s3-outposts.ap-northeast-1.api.aws",
+            "ap-northeast-2": "s3-outposts.ap-northeast-2.api.aws",
+            "ap-northeast-3": "s3-outposts.ap-northeast-3.api.aws",
+            "ap-south-1": "s3-outposts.ap-south-1.api.aws",
+            "ap-southeast-1": "s3-outposts.ap-southeast-1.api.aws",
+            "ap-southeast-2": "s3-outposts.ap-southeast-2.api.aws",
+            "ap-southeast-3": "s3-outposts.ap-southeast-3.api.aws",
+            "ca-central-1": "s3-outposts.ca-central-1.api.aws",
+            "eu-central-1": "s3-outposts.eu-central-1.api.aws",
+            "eu-north-1": "s3-outposts.eu-north-1.api.aws",
+            "eu-south-1": "s3-outposts.eu-south-1.api.aws",
+            "eu-west-1": "s3-outposts.eu-west-1.api.aws",
+            "eu-west-2": "s3-outposts.eu-west-2.api.aws",
+            "eu-west-3": "s3-outposts.eu-west-3.api.aws",
+            "il-central-1": "s3-outposts.il-central-1.api.aws",
+            "me-south-1": "s3-outposts.me-south-1.api.aws",
+            "sa-east-1": "s3-outposts.sa-east-1.api.aws",
+            "us-east-1": "s3-outposts.us-east-1.api.aws",
+            "us-east-2": "s3-outposts.us-east-2.api.aws",
+            "us-gov-east-1": "s3-outposts.us-gov-east-1.api.aws",
+            "us-gov-west-1": "s3-outposts.us-gov-west-1.api.aws",
+            "us-west-1": "s3-outposts.us-west-1.api.aws",
+            "us-west-2": "s3-outposts.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "s3-outposts-fips.ca-central-1.api.aws",
+            "us-east-1": "s3-outposts-fips.us-east-1.api.aws",
+            "us-east-2": "s3-outposts-fips.us-east-2.api.aws",
+            "us-gov-east-1": "s3-outposts-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "s3-outposts-fips.us-gov-west-1.api.aws",
+            "us-west-1": "s3-outposts-fips.us-west-1.api.aws",
+            "us-west-2": "s3-outposts-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "s3-outposts-fips.ca-central-1.amazonaws.com",
             "us-east-1": "s3-outposts-fips.us-east-1.amazonaws.com",
             "us-east-2": "s3-outposts-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "s3-outposts-fips.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "s3-outposts-fips.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "s3-outposts-fips.us-iso-east-1.c2s.ic.gov",
+            "us-isob-east-1": "s3-outposts-fips.us-isob-east-1.sc2s.sgov.gov",
             "us-west-1": "s3-outposts-fips.us-west-1.amazonaws.com",
             "us-west-2": "s3-outposts-fips.us-west-2.amazonaws.com"
         ])

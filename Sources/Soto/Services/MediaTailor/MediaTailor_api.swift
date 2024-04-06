@@ -816,6 +816,7 @@ extension MediaTailor {
 extension MediaTailor.GetChannelScheduleRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaTailor.GetChannelScheduleRequest {
         return .init(
+            audience: self.audience,
             channelName: self.channelName,
             durationMinutes: self.durationMinutes,
             maxResults: self.maxResults,

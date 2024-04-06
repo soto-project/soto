@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Detective service.
 ///
-/// Detective uses machine learning and purpose-built visualizations to help you to analyze and investigate security issues across your Amazon Web Services (Amazon Web Services) workloads. Detective automatically extracts time-based events such as login attempts, API calls, and network traffic from CloudTrail and Amazon Virtual Private Cloud (Amazon VPC) flow logs. It also extracts findings detected by Amazon GuardDuty. The Detective API primarily supports the creation and management of behavior graphs. A behavior graph contains the extracted data from a set of member accounts, and is created and managed by an administrator account. To add a member account to the behavior graph, the administrator account sends an invitation to the account. When the account accepts the invitation, it becomes a member account in the behavior graph. Detective is also integrated with Organizations. The organization management account designates the Detective administrator account for the organization. That account becomes the administrator account for the organization behavior graph. The Detective administrator account is also the delegated administrator account for Detective in Organizations. The Detective administrator account can enable any organization account as a member account in the organization behavior graph. The organization accounts do not receive invitations. The Detective administrator account can also invite other accounts to the organization behavior graph. Every behavior graph is specific to a Region. You can only use the API to manage behavior graphs that belong to the Region that is associated with the currently selected endpoint. The administrator account for a behavior graph can use the Detective API to do the following:   Enable and disable Detective. Enabling Detective creates a new behavior graph.   View the list of member accounts in a behavior graph.   Add member accounts to a behavior graph.   Remove member accounts from a behavior graph.   Apply tags to a behavior graph.   The organization management account can use the Detective API to select the delegated administrator for Detective. The Detective administrator account for an organization can use the Detective API to do the following:   Perform all of the functions of an administrator account.   Determine whether to automatically enable new organization accounts as member accounts in the organization behavior graph.   An invited member account can use the Detective API to do the following:   View the list of behavior graphs that they are invited to.   Accept an invitation to contribute to a behavior graph.   Decline an invitation to contribute to a behavior graph.   Remove their account from a behavior graph.   All API actions are logged as CloudTrail events. See Logging Detective API Calls with CloudTrail.  We replaced the term "master account" with the term "administrator account." An administrator account is used to centrally manage multiple accounts. In the case of Detective, the administrator account manages the accounts in their behavior graph.
+/// Detective uses machine learning and purpose-built visualizations to help you to analyze and investigate security issues across your Amazon Web Services (Amazon Web Services) workloads. Detective automatically extracts time-based events such as login attempts, API calls, and network traffic from CloudTrail and Amazon Virtual Private Cloud (Amazon VPC) flow logs. It also extracts findings detected by Amazon GuardDuty. The Detective API primarily supports the creation and management of behavior graphs. A behavior graph contains the extracted data from a set of member accounts, and is created and managed by an administrator account. To add a member account to the behavior graph, the administrator account sends an invitation to the account. When the account accepts the invitation, it becomes a member account in the behavior graph. Detective is also integrated with Organizations. The organization management account designates the Detective administrator account for the organization. That account becomes the administrator account for the organization behavior graph. The Detective administrator account is also the delegated administrator account for Detective in Organizations. The Detective administrator account can enable any organization account as a member account in the organization behavior graph. The organization accounts do not receive invitations. The Detective administrator account can also invite other accounts to the organization behavior graph. Every behavior graph is specific to a Region. You can only use the API to manage behavior graphs that belong to the Region that is associated with the currently selected endpoint. The administrator account for a behavior graph can use the Detective API to do the following:   Enable and disable Detective. Enabling Detective creates a new behavior graph.   View the list of member accounts in a behavior graph.   Add member accounts to a behavior graph.   Remove member accounts from a behavior graph.   Apply tags to a behavior graph.   The organization management account can use the Detective API to select the delegated administrator for Detective. The Detective administrator account for an organization can use the Detective API to do the following:   Perform all of the functions of an administrator account.   Determine whether to automatically enable new organization accounts as member accounts in the organization behavior graph.   An invited member account can use the Detective API to do the following:   View the list of behavior graphs that they are invited to.   Accept an invitation to contribute to a behavior graph.   Decline an invitation to contribute to a behavior graph.   Remove their account from a behavior graph.   All API actions are logged as CloudTrail events. See Logging Detective API Calls with CloudTrail.  We replaced the term "master account" with the term "administrator account". An administrator account is used to centrally manage multiple accounts. In the case of Detective, the administrator account manages the accounts in their behavior graph.
 public struct Detective: AWSService {
     // MARK: Member variables
 
@@ -126,7 +126,7 @@ public struct Detective: AWSService {
         )
     }
 
-    /// Creates a new behavior graph for the calling account, and sets that account as the administrator account. This operation is called by the account that is enabling Detective. Before you try to enable Detective, make sure that your account has been enrolled in Amazon GuardDuty for at least 48 hours. If you do not meet this requirement, you cannot enable Detective. If you do meet the GuardDuty prerequisite, then when you make the request to enable Detective, it checks whether your data volume is within the Detective quota. If it exceeds the quota, then you cannot enable Detective.  The operation also enables Detective for the calling account in the currently selected Region. It returns the ARN of the new behavior graph.  CreateGraph triggers a process to create the corresponding data tables for the new behavior graph. An account can only be the administrator account for one behavior graph within a Region. If the same account calls CreateGraph with the same administrator account, it always returns the same behavior graph ARN. It does not create a new behavior graph.
+    /// Creates a new behavior graph for the calling account, and sets that account as the administrator account. This operation is called by the account that is enabling Detective. The operation also enables Detective for the calling account in the currently selected Region. It returns the ARN of the new behavior graph.  CreateGraph triggers a process to create the corresponding data tables for the new behavior graph. An account can only be the administrator account for one behavior graph within a Region. If the same account calls CreateGraph with the same administrator account, it always returns the same behavior graph ARN. It does not create a new behavior graph.
     @Sendable
     public func createGraph(_ input: CreateGraphRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGraphResponse {
         return try await self.client.execute(
@@ -229,7 +229,7 @@ public struct Detective: AWSService {
         )
     }
 
-    /// Returns the investigation results of an investigation for a behavior graph.
+    /// Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident.  GetInvestigation returns the investigation results of an investigation for a behavior graph.
     @Sendable
     public func getInvestigation(_ input: GetInvestigationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvestigationResponse {
         return try await self.client.execute(
@@ -281,7 +281,7 @@ public struct Detective: AWSService {
         )
     }
 
-    /// Get the indicators from an investigation
+    /// Gets the indicators from an investigation. You can use the information from the indicators to determine if an IAM user and/or IAM role is involved in an unusual activity that could indicate malicious behavior and its impact.
     @Sendable
     public func listIndicators(_ input: ListIndicatorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIndicatorsResponse {
         return try await self.client.execute(
@@ -294,7 +294,7 @@ public struct Detective: AWSService {
         )
     }
 
-    /// List all Investigations.
+    /// Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. ListInvestigations lists all active Detective investigations.
     @Sendable
     public func listInvestigations(_ input: ListInvestigationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvestigationsResponse {
         return try await self.client.execute(
@@ -372,7 +372,7 @@ public struct Detective: AWSService {
         )
     }
 
-    /// initiate an investigation on an entity in a graph
+    /// Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. StartInvestigation initiates an investigation on an entity in a behavior graph.
     @Sendable
     public func startInvestigation(_ input: StartInvestigationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartInvestigationResponse {
         return try await self.client.execute(
@@ -437,7 +437,7 @@ public struct Detective: AWSService {
         )
     }
 
-    /// Update the state of an investigation.
+    /// Updates the state of an investigation.
     @Sendable
     public func updateInvestigationState(_ input: UpdateInvestigationStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(

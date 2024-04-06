@@ -542,6 +542,9 @@
                     "target": "com.amazonaws.rds#CreateDBSecurityGroup"
                 },
                 {
+                    "target": "com.amazonaws.rds#CreateDBShardGroup"
+                },
+                {
                     "target": "com.amazonaws.rds#CreateDBSnapshot"
                 },
                 {
@@ -600,6 +603,9 @@
                 },
                 {
                     "target": "com.amazonaws.rds#DeleteDBSecurityGroup"
+                },
+                {
+                    "target": "com.amazonaws.rds#DeleteDBShardGroup"
                 },
                 {
                     "target": "com.amazonaws.rds#DeleteDBSnapshot"
@@ -689,7 +695,13 @@
                     "target": "com.amazonaws.rds#DescribeDBProxyTargets"
                 },
                 {
+                    "target": "com.amazonaws.rds#DescribeDBRecommendations"
+                },
+                {
                     "target": "com.amazonaws.rds#DescribeDBSecurityGroups"
+                },
+                {
+                    "target": "com.amazonaws.rds#DescribeDBShardGroups"
                 },
                 {
                     "target": "com.amazonaws.rds#DescribeDBSnapshotAttributes"
@@ -755,7 +767,13 @@
                     "target": "com.amazonaws.rds#DescribeValidDBInstanceModifications"
                 },
                 {
+                    "target": "com.amazonaws.rds#DisableHttpEndpoint"
+                },
+                {
                     "target": "com.amazonaws.rds#DownloadDBLogFilePortion"
+                },
+                {
+                    "target": "com.amazonaws.rds#EnableHttpEndpoint"
                 },
                 {
                     "target": "com.amazonaws.rds#FailoverDBCluster"
@@ -806,6 +824,12 @@
                     "target": "com.amazonaws.rds#ModifyDBProxyTargetGroup"
                 },
                 {
+                    "target": "com.amazonaws.rds#ModifyDBRecommendation"
+                },
+                {
+                    "target": "com.amazonaws.rds#ModifyDBShardGroup"
+                },
+                {
                     "target": "com.amazonaws.rds#ModifyDBSnapshot"
                 },
                 {
@@ -819,6 +843,9 @@
                 },
                 {
                     "target": "com.amazonaws.rds#ModifyGlobalCluster"
+                },
+                {
+                    "target": "com.amazonaws.rds#ModifyIntegration"
                 },
                 {
                     "target": "com.amazonaws.rds#ModifyOptionGroup"
@@ -840,6 +867,9 @@
                 },
                 {
                     "target": "com.amazonaws.rds#RebootDBInstance"
+                },
+                {
+                    "target": "com.amazonaws.rds#RebootDBShardGroup"
                 },
                 {
                     "target": "com.amazonaws.rds#RegisterDBProxyTargets"
@@ -2943,6 +2973,9 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The storage type for the DB cluster.</p>"
                     }
+                },
+                "CertificateDetails": {
+                    "target": "com.amazonaws.rds#CertificateDetails"
                 }
             },
             "traits": {
@@ -3023,6 +3056,32 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Displays the settings that control the size and behavior of the connection pool associated with a <code>DBProxyTarget</code>.</p>"
+            }
+        },
+        "com.amazonaws.rds#ContextAttribute": {
+            "type": "structure",
+            "members": {
+                "Key": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The key of <code>ContextAttribute</code>.</p>"
+                    }
+                },
+                "Value": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The value of <code>ContextAttribute</code>.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The additional attributes of <code>RecommendedAction</code> data type.</p>"
+            }
+        },
+        "com.amazonaws.rds#ContextAttributeList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.rds#ContextAttribute"
             }
         },
         "com.amazonaws.rds#CopyDBClusterParameterGroup": {
@@ -3660,7 +3719,7 @@
                 "TargetDBInstanceClass": {
                     "target": "com.amazonaws.rds#TargetDBInstanceClass",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specify the DB instance class for the databases in the green environment.</p>"
+                        "smithy.api#documentation": "<p>Specify the DB instance class for the databases in the green environment.</p>\n         <p>This parameter only applies to RDS DB instances, because DB instances within an Aurora DB cluster can\n        have multiple different instance classes. If you're creating a blue/green deployment from an Aurora DB cluster,\n        don't specify this parameter. After the green environment is created, you can individually modify the instance classes \n        of the DB instances within the green DB cluster.</p>"
                     }
                 },
                 "UpgradeTargetStorageConfig": {
@@ -3843,6 +3902,9 @@
                     "target": "com.amazonaws.rds#GlobalClusterNotFoundFault"
                 },
                 {
+                    "target": "com.amazonaws.rds#InsufficientDBInstanceCapacityFault"
+                },
+                {
                     "target": "com.amazonaws.rds#InsufficientStorageClusterCapacityFault"
                 },
                 {
@@ -3934,6 +3996,63 @@
                                 "HostedZoneId": "Z2R2ITUGPM61AM",
                                 "ReaderEndpoint": "sample-cluster.cluster-ro-cnpexample.us-east-1.rds.amazonaws.com",
                                 "CopyTagsToSnapshot": false
+                            }
+                        }
+                    },
+                    {
+                        "title": "To create a PostgreSQL-compatible DB cluster",
+                        "documentation": "The following example creates a PostgreSQL-compatible Aurora DB cluster.",
+                        "input": {
+                            "DBClusterIdentifier": "sample-pg-cluster",
+                            "Engine": "aurora-postgresql",
+                            "MasterUsername": "admin",
+                            "MasterUserPassword": "mypassword",
+                            "VpcSecurityGroupIds": [
+                                "sg-0b91305example"
+                            ],
+                            "DBSubnetGroupName": "default"
+                        },
+                        "output": {
+                            "DBCluster": {
+                                "Endpoint": "sample-pg-cluster.cluster-cnpexample.us-east-1.rds.amazonaws.com",
+                                "HttpEndpointEnabled": false,
+                                "DBClusterMembers": [],
+                                "EngineMode": "provisioned",
+                                "CopyTagsToSnapshot": false,
+                                "HostedZoneId": "Z2R2ITUGPM61AM",
+                                "IAMDatabaseAuthenticationEnabled": false,
+                                "AllocatedStorage": 1,
+                                "VpcSecurityGroups": [
+                                    {
+                                        "VpcSecurityGroupId": "sg-0b91305example",
+                                        "Status": "active"
+                                    }
+                                ],
+                                "DeletionProtection": false,
+                                "StorageEncrypted": false,
+                                "BackupRetentionPeriod": 1,
+                                "PreferredBackupWindow": "09:56-10:26",
+                                "ClusterCreateTime": "2019-06-07T23:26:08.371Z",
+                                "DBClusterParameterGroup": "default.aurora-postgresql9.6",
+                                "EngineVersion": "9.6.9",
+                                "Engine": "aurora-postgresql",
+                                "Status": "creating",
+                                "DBClusterIdentifier": "sample-pg-cluster",
+                                "MultiAZ": false,
+                                "Port": 5432,
+                                "DBClusterArn": "arn:aws:rds:us-east-1:123456789012:cluster:sample-pg-cluster",
+                                "AssociatedRoles": [],
+                                "DbClusterResourceId": "cluster-ANPAJ4AE5446DAEXAMPLE",
+                                "PreferredMaintenanceWindow": "wed:03:33-wed:04:03",
+                                "ReaderEndpoint": "sample-pg-cluster.cluster-ro-cnpexample.us-east-1.rds.amazonaws.com",
+                                "MasterUsername": "master",
+                                "AvailabilityZones": [
+                                    "us-east-1a",
+                                    "us-east-1b",
+                                    "us-east-1c"
+                                ],
+                                "ReadReplicaIdentifiers": [],
+                                "DBSubnetGroup": "default"
                             }
                         }
                     }
@@ -4083,7 +4202,7 @@
                     "target": "com.amazonaws.rds#String",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The identifier for this DB cluster. This parameter is stored as a lowercase string.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>Must contain from 1 to 63 letters, numbers, or hyphens.</p>\n            </li>\n            <li>\n               <p>First character must be a letter.</p>\n            </li>\n            <li>\n               <p>Can't end with a hyphen or contain two consecutive hyphens.</p>\n            </li>\n         </ul>\n         <p>Example: <code>my-cluster1</code>\n         </p>",
+                        "smithy.api#documentation": "<p>The identifier for this DB cluster. This parameter is stored as a lowercase string.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>Must contain from 1 to 63 (for Aurora DB clusters) or 1 to 52 (for Multi-AZ DB\n                    clusters) letters, numbers, or hyphens.</p>\n            </li>\n            <li>\n               <p>First character must be a letter.</p>\n            </li>\n            <li>\n               <p>Can't end with a hyphen or contain two consecutive hyphens.</p>\n            </li>\n         </ul>\n         <p>Example: <code>my-cluster1</code>\n         </p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -4236,7 +4355,7 @@
                 "EnableHttpEndpoint": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint \n            is disabled.</p>\n         <p>When enabled, the HTTP endpoint provides a connectionless web service API for running\n            SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database\n            from inside the RDS console with the query editor.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using the Data API for Aurora Serverless v1</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters only</p>"
+                        "smithy.api#documentation": "<p>Specifies whether to enable the HTTP endpoint for the DB cluster. By default, the HTTP endpoint \n            isn't enabled.</p>\n         <p>When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running\n            SQL queries on the DB cluster. You can also query your database\n            from inside the RDS console with the RDS query editor.</p>\n         <p>RDS Data API is supported with the following DB clusters:</p>\n         <ul>\n            <li>\n               <p>Aurora PostgreSQL Serverless v2 and provisioned</p>\n            </li>\n            <li>\n               <p>Aurora PostgreSQL and Aurora MySQL Serverless v1</p>\n            </li>\n         </ul>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using RDS Data API</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters only</p>"
                     }
                 },
                 "CopyTagsToSnapshot": {
@@ -4278,7 +4397,7 @@
                 "StorageType": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The storage type to associate with the DB cluster.</p>\n         <p>For information on storage types for Aurora DB clusters, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.StorageReliability.html#aurora-storage-type\">Storage configurations for Amazon Aurora DB clusters</a>. For information on storage types for Multi-AZ DB\n            clusters, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/create-multi-az-db-cluster.html#create-multi-az-db-cluster-settings\">Settings for creating Multi-AZ DB clusters</a>.</p>\n         <p>This setting is required to create a Multi-AZ DB cluster.</p>\n         <p>When specified for a Multi-AZ DB cluster, a value for the <code>Iops</code> parameter is required.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>\n         <p>Valid Values:</p>\n         <ul>\n            <li>\n               <p>Aurora DB clusters - <code>aurora | aurora-iopt1</code>\n               </p>\n            </li>\n            <li>\n               <p>Multi-AZ DB clusters - <code>io1</code>\n               </p>\n            </li>\n         </ul>\n         <p>Default:</p>\n         <ul>\n            <li>\n               <p>Aurora DB clusters - <code>aurora</code>\n               </p>\n            </li>\n            <li>\n               <p>Multi-AZ DB clusters - <code>io1</code>\n               </p>\n            </li>\n         </ul>\n         <note>\n            <p>When you create an Aurora DB cluster with the storage type set to <code>aurora-iopt1</code>, the storage type is returned\n                in the response. The storage type isn't returned when you set it to <code>aurora</code>.</p>\n         </note>"
+                        "smithy.api#documentation": "<p>The storage type to associate with the DB cluster.</p>\n         <p>For information on storage types for Aurora DB clusters, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.StorageReliability.html#aurora-storage-type\">Storage configurations for Amazon Aurora DB clusters</a>. For information on storage types for Multi-AZ DB\n            clusters, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/create-multi-az-db-cluster.html#create-multi-az-db-cluster-settings\">Settings for creating Multi-AZ DB clusters</a>.</p>\n         <p>This setting is required to create a Multi-AZ DB cluster.</p>\n         <p>When specified for a Multi-AZ DB cluster, a value for the <code>Iops</code> parameter is required.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>\n         <p>Valid Values:</p>\n         <ul>\n            <li>\n               <p>Aurora DB clusters - <code>aurora | aurora-iopt1</code>\n               </p>\n            </li>\n            <li>\n               <p>Multi-AZ DB clusters - <code>io1 | io2 | gp3</code>\n               </p>\n            </li>\n         </ul>\n         <p>Default:</p>\n         <ul>\n            <li>\n               <p>Aurora DB clusters - <code>aurora</code>\n               </p>\n            </li>\n            <li>\n               <p>Multi-AZ DB clusters - <code>io1</code>\n               </p>\n            </li>\n         </ul>\n         <note>\n            <p>When you create an Aurora DB cluster with the storage type set to <code>aurora-iopt1</code>, the storage type is returned\n                in the response. The storage type isn't returned when you set it to <code>aurora</code>.</p>\n         </note>"
                     }
                 },
                 "Iops": {
@@ -4329,6 +4448,12 @@
                         "smithy.api#documentation": "<p>The number of days to retain Performance Insights data.</p>\n         <p>Valid for Cluster Type: Multi-AZ DB clusters only</p>\n         <p>Valid Values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>7</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <i>month</i> * 31, where <i>month</i> is a number of months from 1-23. \n                Examples: <code>93</code> (3 months * 31), <code>341</code> (11 months * 31), <code>589</code> (19 months * 31)</p>\n            </li>\n            <li>\n               <p>\n                  <code>731</code>\n               </p>\n            </li>\n         </ul>\n         <p>Default: <code>7</code> days</p>\n         <p>If you specify a retention period that isn't valid, such as <code>94</code>,  Amazon RDS issues an error.</p>"
                     }
                 },
+                "EnableLimitlessDatabase": {
+                    "target": "com.amazonaws.rds#BooleanOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group.</p>\n         <p>Valid for: Aurora DB clusters only</p>"
+                    }
+                },
                 "ServerlessV2ScalingConfiguration": {
                     "target": "com.amazonaws.rds#ServerlessV2ScalingConfiguration"
                 },
@@ -4360,6 +4485,12 @@
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
                         "smithy.api#documentation": "<p>Specifies whether read replicas can forward write operations to the writer DB instance in the DB cluster. By\n            default, write operations aren't allowed on reader DB instances.</p>\n         <p>Valid for: Aurora DB clusters only</p>"
+                    }
+                },
+                "CACertificateIdentifier": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The CA certificate identifier to use for the DB cluster's server certificate.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html\">Using SSL/TLS to encrypt a connection to a DB \n            instance</a> in the <i>Amazon RDS User Guide</i>.</p>\n         <p>Valid for Cluster Type: Multi-AZ DB clusters</p>"
                     }
                 }
             },
@@ -4422,7 +4553,7 @@
                     "target": "com.amazonaws.rds#String",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster \n          parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family.</p>\n         <p>\n            <b>Aurora MySQL</b>\n         </p>\n         <p>Example: <code>aurora-mysql5.7</code>, <code>aurora-mysql8.0</code>\n         </p>\n         <p>\n            <b>Aurora PostgreSQL</b>\n         </p>\n         <p>Example: <code>aurora-postgresql14</code>\n         </p>\n         <p>\n            <b>RDS for MySQL</b>\n         </p>\n         <p>Example: <code>mysql8.0</code>\n         </p>\n         <p>\n            <b>RDS for PostgreSQL</b>\n         </p>\n         <p>Example: <code>postgres12</code>\n         </p>\n         <p>To list all of the available parameter group families for a DB engine, use the following command:</p>\n         <p>\n            <code>aws rds describe-db-engine-versions --query \"DBEngineVersions[].DBParameterGroupFamily\" --engine <engine></code>\n         </p>\n         <p>For example, to list all of the available parameter group families for the Aurora PostgreSQL DB engine, use the following command:</p>\n         <p>\n            <code>aws rds describe-db-engine-versions --query \"DBEngineVersions[].DBParameterGroupFamily\" --engine aurora-postgresql</code>\n         </p>\n         <note>\n            <p>The output contains duplicates.</p>\n         </note>\n         <p>The following are the valid DB engine values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>aurora-mysql</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>aurora-postgresql</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>mysql</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>postgres</code>\n               </p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster \n          parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family.</p>\n         <p>\n            <b>Aurora MySQL</b>\n         </p>\n         <p>Example: <code>aurora-mysql5.7</code>, <code>aurora-mysql8.0</code>\n         </p>\n         <p>\n            <b>Aurora PostgreSQL</b>\n         </p>\n         <p>Example: <code>aurora-postgresql14</code>\n         </p>\n         <p>\n            <b>RDS for MySQL</b>\n         </p>\n         <p>Example: <code>mysql8.0</code>\n         </p>\n         <p>\n            <b>RDS for PostgreSQL</b>\n         </p>\n         <p>Example: <code>postgres13</code>\n         </p>\n         <p>To list all of the available parameter group families for a DB engine, use the following command:</p>\n         <p>\n            <code>aws rds describe-db-engine-versions --query \"DBEngineVersions[].DBParameterGroupFamily\" --engine <engine></code>\n         </p>\n         <p>For example, to list all of the available parameter group families for the Aurora PostgreSQL DB engine, use the following command:</p>\n         <p>\n            <code>aws rds describe-db-engine-versions --query \"DBEngineVersions[].DBParameterGroupFamily\" --engine aurora-postgresql</code>\n         </p>\n         <note>\n            <p>The output contains duplicates.</p>\n         </note>\n         <p>The following are the valid DB engine values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>aurora-mysql</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>aurora-postgresql</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>mysql</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>postgres</code>\n               </p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
                     }
                 },
@@ -4766,7 +4897,7 @@
                 "DBName": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The meaning of this parameter differs according to the database engine you use.</p>\n         <dl>\n            <dt>Amazon Aurora MySQL</dt>\n            <dd>\n               <p>The name of the database to create when the primary DB instance of the Aurora MySQL DB cluster is\n                  created. If this parameter isn't specified for an Aurora MySQL DB cluster, no database is created \n                  in the DB cluster.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 64 alphanumeric characters.</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>Amazon Aurora PostgreSQL</dt>\n            <dd>\n               <p>The name of the database to create when the primary DB instance of the Aurora PostgreSQL DB cluster is\n                  created. If this parameter isn't specified for an Aurora PostgreSQL DB cluster, \n                  a database named <code>postgres</code> is created in the DB cluster.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>It must contain 1 to 63 alphanumeric characters.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits\n                          (0 to 9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>Amazon RDS Custom for Oracle</dt>\n            <dd>\n               <p>The Oracle System ID (SID) of the created RDS Custom DB instance. If you don't specify a value, the default value is <code>ORCL</code> for non-CDBs and\n                <code>RDSCDB</code> for CDBs.</p>\n               <p>Default: <code>ORCL</code>\n               </p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 8 alphanumeric characters.</p>\n                  </li>\n                  <li>\n                     <p>Must contain a letter.</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>Amazon RDS Custom for SQL Server</dt>\n            <dd>\n               <p>Not applicable. Must be null.</p>\n            </dd>\n            <dt>RDS for Db2</dt>\n            <dd>\n               <p>The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 64 letters or numbers.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the specified database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for MariaDB</dt>\n            <dd>\n               <p>The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 64 letters or numbers.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the specified database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for MySQL</dt>\n            <dd>\n               <p>The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 64 letters or numbers.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the specified database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for Oracle</dt>\n            <dd>\n               <p>The Oracle System ID (SID) of the created DB instance. If you don't specify a value, \n                    the default value is <code>ORCL</code>. You can't specify the \n                    string <code>null</code>, or any other reserved word, for <code>DBName</code>.</p>\n               <p>Default: <code>ORCL</code>\n               </p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Can't be longer than 8 characters.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for PostgreSQL</dt>\n            <dd>\n               <p>The name of the database to create when the DB instance is created. If this parameter isn't specified, a database named <code>postgres</code> \n                  is created in the DB instance.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 63 letters, numbers, or underscores.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the specified database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for SQL Server</dt>\n            <dd>\n               <p>Not applicable. Must be null.</p>\n            </dd>\n         </dl>"
+                        "smithy.api#documentation": "<p>The meaning of this parameter differs according to the database engine you use.</p>\n         <dl>\n            <dt>Amazon Aurora MySQL</dt>\n            <dd>\n               <p>The name of the database to create when the primary DB instance of the Aurora MySQL DB cluster is\n                  created. If this parameter isn't specified for an Aurora MySQL DB cluster, no database is created \n                  in the DB cluster.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 64 alphanumeric characters.</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>Amazon Aurora PostgreSQL</dt>\n            <dd>\n               <p>The name of the database to create when the primary DB instance of the Aurora PostgreSQL DB cluster is\n                  created. If this parameter isn't specified for an Aurora PostgreSQL DB cluster, \n                  a database named <code>postgres</code> is created in the DB cluster.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>It must contain 1 to 63 alphanumeric characters.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits\n                          (0 to 9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>Amazon RDS Custom for Oracle</dt>\n            <dd>\n               <p>The Oracle System ID (SID) of the created RDS Custom DB instance. If you don't specify a value, the default value is <code>ORCL</code> for non-CDBs and\n                <code>RDSCDB</code> for CDBs.</p>\n               <p>Default: <code>ORCL</code>\n               </p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 8 alphanumeric characters.</p>\n                  </li>\n                  <li>\n                     <p>Must contain a letter.</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>Amazon RDS Custom for SQL Server</dt>\n            <dd>\n               <p>Not applicable. Must be null.</p>\n            </dd>\n            <dt>RDS for Db2</dt>\n            <dd>\n               <p>The name of the database to create when the DB instance is created. If\n                        this parameter isn't specified, no database is created in the DB instance.\n                        In some cases, we recommend that you don't add a database name. For more\n                        information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-db-instance-prereqs.html#db2-prereqs-additional-considerations\">Additional considerations</a> in the <i>Amazon RDS User\n                            Guide</i>.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 64 letters or numbers.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters,\n                                underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the specified database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for MariaDB</dt>\n            <dd>\n               <p>The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 64 letters or numbers.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the specified database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for MySQL</dt>\n            <dd>\n               <p>The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 64 letters or numbers.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the specified database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for Oracle</dt>\n            <dd>\n               <p>The Oracle System ID (SID) of the created DB instance. If you don't specify a value, \n                    the default value is <code>ORCL</code>. You can't specify the \n                    string <code>null</code>, or any other reserved word, for <code>DBName</code>.</p>\n               <p>Default: <code>ORCL</code>\n               </p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Can't be longer than 8 characters.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for PostgreSQL</dt>\n            <dd>\n               <p>The name of the database to create when the DB instance is created. If this parameter isn't specified, a database named <code>postgres</code> \n                  is created in the DB instance.</p>\n               <p>Constraints:</p>\n               <ul>\n                  <li>\n                     <p>Must contain 1 to 63 letters, numbers, or underscores.</p>\n                  </li>\n                  <li>\n                     <p>Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).</p>\n                  </li>\n                  <li>\n                     <p>Can't be a word reserved by the specified database engine.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for SQL Server</dt>\n            <dd>\n               <p>Not applicable. Must be null.</p>\n            </dd>\n         </dl>"
                     }
                 },
                 "DBInstanceIdentifier": {
@@ -4780,7 +4911,7 @@
                 "AllocatedStorage": {
                     "target": "com.amazonaws.rds#IntegerOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>The amount of storage in gibibytes (GiB) to allocate for the DB instance.</p>\n         <p>This setting doesn't apply to Amazon Aurora DB instances. Aurora cluster volumes automatically grow as the amount of data in your \n                    database increases, though you are only charged for the space that you use in an Aurora cluster volume.</p>\n         <dl>\n            <dt>Amazon RDS Custom</dt>\n            <dd>\n               <p>Constraints to the amount of storage for each storage type are the following:</p>\n               <ul>\n                  <li>\n                     <p>General Purpose (SSD) storage (gp2, gp3): Must be an integer from 40 to 65536 for RDS Custom for Oracle, \n                            16384 for RDS Custom for SQL Server.</p>\n                  </li>\n                  <li>\n                     <p>Provisioned IOPS storage (io1): Must be an integer from 40 to 65536 for RDS Custom for Oracle, \n                           16384 for RDS Custom for SQL Server.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for Db2</dt>\n            <dd>\n               <p>Constraints to the amount of storage for each storage type are the following:</p>\n               <ul>\n                  <li>\n                     <p>General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 64000.</p>\n                  </li>\n                  <li>\n                     <p>Provisioned IOPS storage (io1): Must be an integer from 100 to 64000.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for MariaDB</dt>\n            <dd>\n               <p>Constraints to the amount of storage for each storage type are the following:</p>\n               <ul>\n                  <li>\n                     <p>General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Magnetic storage (standard): Must be an integer from 5 to 3072.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for MySQL</dt>\n            <dd>\n               <p>Constraints to the amount of storage for each storage type are the following:</p>\n               <ul>\n                  <li>\n                     <p>General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Magnetic storage (standard): Must be an integer from 5 to 3072.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for Oracle</dt>\n            <dd>\n               <p>Constraints to the amount of storage for each storage type are the following:</p>\n               <ul>\n                  <li>\n                     <p>General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Magnetic storage (standard): Must be an integer from 10 to 3072.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for PostgreSQL</dt>\n            <dd>\n               <p>Constraints to the amount of storage for each storage type are the following:</p>\n               <ul>\n                  <li>\n                     <p>General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Magnetic storage (standard): Must be an integer from 5 to 3072.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for SQL Server</dt>\n            <dd>\n               <p>Constraints to the amount of storage for each storage type are the following:</p>\n               <ul>\n                  <li>\n                     <p>General Purpose (SSD) storage (gp2, gp3):</p>\n                     <ul>\n                        <li>\n                           <p>Enterprise and Standard editions: Must be an integer from 20 to 16384.</p>\n                        </li>\n                        <li>\n                           <p>Web and Express editions: Must be an integer from 20 to 16384.</p>\n                        </li>\n                     </ul>\n                  </li>\n                  <li>\n                     <p>Provisioned IOPS storage (io1):</p>\n                     <ul>\n                        <li>\n                           <p>Enterprise and Standard editions: Must be an integer from 100 to 16384.</p>\n                        </li>\n                        <li>\n                           <p>Web and Express editions: Must be an integer from 100 to 16384.</p>\n                        </li>\n                     </ul>\n                  </li>\n                  <li>\n                     <p>Magnetic storage (standard):</p>\n                     <ul>\n                        <li>\n                           <p>Enterprise and Standard editions: Must be an integer from 20 to 1024.</p>\n                        </li>\n                        <li>\n                           <p>Web and Express editions: Must be an integer from 20 to 1024.</p>\n                        </li>\n                     </ul>\n                  </li>\n               </ul>\n            </dd>\n         </dl>"
+                        "smithy.api#documentation": "<p>The amount of storage in gibibytes (GiB) to allocate for the DB instance.</p>\n         <p>This setting doesn't apply to Amazon Aurora DB instances. Aurora cluster volumes automatically grow as the amount of data in your \n                    database increases, though you are only charged for the space that you use in an Aurora cluster volume.</p>\n         <dl>\n            <dt>Amazon RDS Custom</dt>\n            <dd>\n               <p>Constraints to the amount of storage for each storage type are the following:</p>\n               <ul>\n                  <li>\n                     <p>General Purpose (SSD) storage (gp2, gp3): Must be an integer from 40 to 65536 for RDS Custom for Oracle, \n                            16384 for RDS Custom for SQL Server.</p>\n                  </li>\n                  <li>\n                     <p>Provisioned IOPS storage (io1, io2): Must be an integer from 40 to 65536 for RDS Custom for Oracle, \n                           16384 for RDS Custom for SQL Server.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for Db2</dt>\n            <dd>\n               <p>Constraints to the amount of storage for each storage type are the following:</p>\n               <ul>\n                  <li>\n                     <p>General Purpose (SSD) storage (gp3): Must be an integer from 20 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for MariaDB</dt>\n            <dd>\n               <p>Constraints to the amount of storage for each storage type are the following:</p>\n               <ul>\n                  <li>\n                     <p>General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Magnetic storage (standard): Must be an integer from 5 to 3072.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for MySQL</dt>\n            <dd>\n               <p>Constraints to the amount of storage for each storage type are the following:</p>\n               <ul>\n                  <li>\n                     <p>General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Magnetic storage (standard): Must be an integer from 5 to 3072.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for Oracle</dt>\n            <dd>\n               <p>Constraints to the amount of storage for each storage type are the following:</p>\n               <ul>\n                  <li>\n                     <p>General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Magnetic storage (standard): Must be an integer from 10 to 3072.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for PostgreSQL</dt>\n            <dd>\n               <p>Constraints to the amount of storage for each storage type are the following:</p>\n               <ul>\n                  <li>\n                     <p>General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.</p>\n                  </li>\n                  <li>\n                     <p>Magnetic storage (standard): Must be an integer from 5 to 3072.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>RDS for SQL Server</dt>\n            <dd>\n               <p>Constraints to the amount of storage for each storage type are the following:</p>\n               <ul>\n                  <li>\n                     <p>General Purpose (SSD) storage (gp2, gp3):</p>\n                     <ul>\n                        <li>\n                           <p>Enterprise and Standard editions: Must be an integer from 20 to 16384.</p>\n                        </li>\n                        <li>\n                           <p>Web and Express editions: Must be an integer from 20 to 16384.</p>\n                        </li>\n                     </ul>\n                  </li>\n                  <li>\n                     <p>Provisioned IOPS storage (io1, io2):</p>\n                     <ul>\n                        <li>\n                           <p>Enterprise and Standard editions: Must be an integer from 100 to 16384.</p>\n                        </li>\n                        <li>\n                           <p>Web and Express editions: Must be an integer from 100 to 16384.</p>\n                        </li>\n                     </ul>\n                  </li>\n                  <li>\n                     <p>Magnetic storage (standard):</p>\n                     <ul>\n                        <li>\n                           <p>Enterprise and Standard editions: Must be an integer from 20 to 1024.</p>\n                        </li>\n                        <li>\n                           <p>Web and Express editions: Must be an integer from 20 to 1024.</p>\n                        </li>\n                     </ul>\n                  </li>\n               </ul>\n            </dd>\n         </dl>"
                     }
                 },
                 "DBInstanceClass": {
@@ -4934,7 +5065,7 @@
                 "StorageType": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The storage type to associate with the DB instance.</p>\n         <p>If you specify <code>io1</code> or <code>gp3</code>, you must also include a value for the\n            <code>Iops</code> parameter.</p>\n         <p>This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster.</p>\n         <p>Valid Values: <code>gp2 | gp3 | io1 | standard</code>\n         </p>\n         <p>Default: <code>io1</code>, if the <code>Iops</code> parameter\n          is specified. Otherwise, <code>gp2</code>.</p>"
+                        "smithy.api#documentation": "<p>The storage type to associate with the DB instance.</p>\n         <p>If you specify <code>io1</code>, <code>io2</code>, or <code>gp3</code>, you must also include a value for the\n            <code>Iops</code> parameter.</p>\n         <p>This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster.</p>\n         <p>Valid Values: <code>gp2 | gp3 | io1 | io2 | standard</code>\n         </p>\n         <p>Default: <code>io1</code>, if the <code>Iops</code> parameter\n          is specified. Otherwise, <code>gp2</code>.</p>"
                     }
                 },
                 "TdeCredentialArn": {
@@ -5338,7 +5469,7 @@
                 "StorageType": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The storage type to associate with the read replica.</p>\n         <p>If you specify <code>io1</code> or <code>gp3</code>, you must also include a value for the\n            <code>Iops</code> parameter.</p>\n         <p>Valid Values: <code>gp2 | gp3 | io1 | standard</code>\n         </p>\n         <p>Default: <code>io1</code> if the <code>Iops</code> parameter\n            is specified. Otherwise, <code>gp2</code>.</p>"
+                        "smithy.api#documentation": "<p>The storage type to associate with the read replica.</p>\n         <p>If you specify <code>io1</code>, <code>io2</code>, or <code>gp3</code>, you must also include a value for the\n            <code>Iops</code> parameter.</p>\n         <p>Valid Values: <code>gp2 | gp3 | io1 | io2 | standard</code>\n         </p>\n         <p>Default: <code>io1</code> if the <code>Iops</code> parameter\n            is specified. Otherwise, <code>gp2</code>.</p>"
                     }
                 },
                 "CopyTagsToSnapshot": {
@@ -5914,6 +6045,85 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.rds#CreateDBShardGroup": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.rds#CreateDBShardGroupMessage"
+            },
+            "output": {
+                "target": "com.amazonaws.rds#DBShardGroup"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.rds#DBClusterNotFoundFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#DBShardGroupAlreadyExistsFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#InvalidDBClusterStateFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#InvalidMaxAcuFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#InvalidVPCNetworkStateFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#MaxDBShardGroupLimitReached"
+                },
+                {
+                    "target": "com.amazonaws.rds#UnsupportedDBEngineVersionFault"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Creates a new DB shard group for Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group.</p>\n         <p>Valid for: Aurora DB clusters only</p>"
+            }
+        },
+        "com.amazonaws.rds#CreateDBShardGroupMessage": {
+            "type": "structure",
+            "members": {
+                "DBShardGroupIdentifier": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The name of the DB shard group.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "DBClusterIdentifier": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The name of the primary DB cluster for the DB shard group.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ComputeRedundancy": {
+                    "target": "com.amazonaws.rds#IntegerOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies whether to create standby instances for the DB shard group. Valid values are the following:</p>\n         <ul>\n            <li>\n               <p>0 - Creates a single, primary DB instance for each physical shard. This is the default value, and the only one supported for the preview.</p>\n            </li>\n            <li>\n               <p>1 - Creates a primary DB instance and a standby instance in a different Availability Zone (AZ) for each physical shard.</p>\n            </li>\n            <li>\n               <p>2 - Creates a primary DB instance and two standby instances in different AZs for each physical shard.</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "MaxACU": {
+                    "target": "com.amazonaws.rds#DoubleOptional",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The maximum capacity of the DB shard group in Aurora capacity units (ACUs).</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "PubliclyAccessible": {
+                    "target": "com.amazonaws.rds#BooleanOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies whether the DB shard group is publicly accessible.</p>\n         <p>When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from \n            within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. \n            Access to the DB shard group is ultimately controlled by the security group it uses. \n            That public access is not permitted if the security group assigned to the DB shard group doesn't permit it.</p>\n         <p>When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address.</p>\n         <p>Default: The default behavior varies depending on whether <code>DBSubnetGroupName</code> is specified.</p>\n         <p>If <code>DBSubnetGroupName</code> isn't specified, and <code>PubliclyAccessible</code> isn't specified, the following applies:</p>\n         <ul>\n            <li>\n               <p>If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB shard group is private.</p>\n            </li>\n            <li>\n               <p>If the default VPC in the target Region has an internet gateway attached to it, the DB shard group is public.</p>\n            </li>\n         </ul>\n         <p>If <code>DBSubnetGroupName</code> is specified, and <code>PubliclyAccessible</code> isn't specified, the following applies:</p>\n         <ul>\n            <li>\n               <p>If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB shard group is private.</p>\n            </li>\n            <li>\n               <p>If the subnets are part of a VPC that has an internet gateway attached to it, the DB shard group is public.</p>\n            </li>\n         </ul>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
         "com.amazonaws.rds#CreateDBSnapshot": {
             "type": "operation",
             "input": {
@@ -6223,7 +6433,7 @@
                     "target": "com.amazonaws.rds#String",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.</p>",
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the SNS topic created for event notification. SNS\n            automatically creates the ARN when you create a topic and subscribe to it.</p>\n         <note>\n            <p>RDS doesn't support FIFO (first in, first out) topics. For more information, see\n                    <a href=\"https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html\">Message\n                    ordering and deduplication (FIFO topics)</a> in the <i>Amazon Simple\n                    Notification Service Developer Guide</i>.</p>\n         </note>",
                         "smithy.api#required": {}
                     }
                 },
@@ -6410,7 +6620,28 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Creates a zero-ETL integration with Amazon Redshift.</p>"
+                "smithy.api#documentation": "<p>Creates a zero-ETL integration with Amazon Redshift.</p>",
+                "smithy.api#examples": [
+                    {
+                        "title": "To create a zero-ETL integration",
+                        "documentation": "The following example creates a zero-ETL integration with Amazon Redshift.",
+                        "input": {
+                            "IntegrationName": "my-integration",
+                            "SourceArn": "arn:aws:rds:us-east-1:123456789012:cluster:my-cluster",
+                            "TargetArn": "arn:aws:redshift-serverless:us-east-1:123456789012:namespace/62c70612-0302-4db7-8414-b5e3e049f0d8"
+                        },
+                        "output": {
+                            "IntegrationName": "my-integration",
+                            "IntegrationArn": "arn:aws:rds:us-east-1:123456789012:integration:5b9f3d79-7392-4a3e-896c-58eaa1b53231",
+                            "SourceArn": "arn:aws:rds:us-east-1:123456789012:cluster:my-cluster",
+                            "TargetArn": "arn:aws:redshift-serverless:us-east-1:123456789012:namespace/62c70612-0302-4db7-8414-b5e3e049f0d8",
+                            "Tags": [],
+                            "CreateTime": "2023-12-28T17:20:20.629Z",
+                            "KMSKeyId": "arn:aws:kms:us-east-1:123456789012:key/a1b2c3d4-5678-90ab-cdef-EXAMPLEaaaaa",
+                            "Status": "creating"
+                        }
+                    }
+                ]
             }
         },
         "com.amazonaws.rds#CreateIntegrationMessage": {
@@ -6454,6 +6685,18 @@
                 },
                 "Tags": {
                     "target": "com.amazonaws.rds#TagList"
+                },
+                "DataFilter": {
+                    "target": "com.amazonaws.rds#DataFilter",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Data filtering options for the integration. For more information, see \n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.filtering.html\">Data filtering for Aurora zero-ETL integrations with Amazon Redshift</a>.\n        </p>\n         <p>Valid for: Integrations with Aurora MySQL source DB clusters only</p>"
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.rds#IntegrationDescription",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A description of the integration.</p>"
+                    }
                 }
             },
             "traits": {
@@ -7079,7 +7322,7 @@
                 "HttpEndpointEnabled": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Indicates whether the HTTP endpoint for an Aurora Serverless v1 DB cluster is enabled.</p>\n         <p>When enabled, the HTTP endpoint provides a connectionless web service API for running\n          SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database\n          from inside the RDS console with the query editor.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using the Data API for Aurora Serverless v1</a> in the \n          <i>Amazon Aurora User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>Indicates whether the HTTP endpoint is enabled for an Aurora DB cluster.</p>\n         <p>When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running\n          SQL queries on the DB cluster. You can also query your database\n          from inside the RDS console with the RDS query editor.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using RDS Data API</a> in the \n          <i>Amazon Aurora User Guide</i>.</p>"
                     }
                 },
                 "ActivityStreamMode": {
@@ -7243,6 +7486,21 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.</p>"
                     }
+                },
+                "LimitlessDatabase": {
+                    "target": "com.amazonaws.rds#LimitlessDatabase",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The details for Aurora Limitless Database.</p>"
+                    }
+                },
+                "StorageThroughput": {
+                    "target": "com.amazonaws.rds#IntegerOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The storage throughput for the DB cluster. The throughput is automatically set based on the IOPS that you provision, and is not configurable.</p>\n         <p>This setting is only for non-Aurora Multi-AZ DB clusters.</p>"
+                    }
+                },
+                "CertificateDetails": {
+                    "target": "com.amazonaws.rds#CertificateDetails"
                 }
             },
             "traits": {
@@ -7408,6 +7666,12 @@
                     "target": "com.amazonaws.rds#String",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.</p>"
+                    }
+                },
+                "StorageThroughput": {
+                    "target": "com.amazonaws.rds#IntegerOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The storage throughput for the automated backup. The throughput is automatically set based on the IOPS that you provision, and is not configurable.</p>\n         <p>This setting is only for non-Aurora Multi-AZ DB clusters.</p>"
                     }
                 }
             },
@@ -8243,6 +8507,12 @@
                     "target": "com.amazonaws.rds#String",
                     "traits": {
                         "smithy.api#documentation": "<p>The resource ID of the DB cluster that this DB cluster snapshot was created from.</p>"
+                    }
+                },
+                "StorageThroughput": {
+                    "target": "com.amazonaws.rds#IntegerOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The storage throughput for the DB cluster snapshot. The throughput is automatically set based on the IOPS that you provision, and is not configurable.</p>\n         <p>This setting is only for non-Aurora Multi-AZ DB clusters.</p>"
                     }
                 }
             },
@@ -10403,6 +10673,171 @@
                 "smithy.api#httpError": 404
             }
         },
+        "com.amazonaws.rds#DBRecommendation": {
+            "type": "structure",
+            "members": {
+                "RecommendationId": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique identifier of the recommendation.</p>"
+                    }
+                },
+                "TypeId": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A value that indicates the type of recommendation. This value determines how the description is rendered.</p>"
+                    }
+                },
+                "Severity": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The severity level of the recommendation. The severity level can help you decide the \n            urgency with which to address the recommendation.</p>\n         <p>Valid values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>high</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>medium</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>low</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>informational</code>\n               </p>\n            </li>\n         </ul>"
+                    }
+                },
+                "ResourceArn": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the RDS resource associated with the recommendation.</p>"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The current status of the recommendation.</p>\n         <p>Valid values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>active</code> - The recommendations which are ready for you to apply.</p>\n            </li>\n            <li>\n               <p>\n                  <code>pending</code> - The applied or scheduled recommendations which are in progress.</p>\n            </li>\n            <li>\n               <p>\n                  <code>resolved</code> - The recommendations which are completed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>dismissed</code> - The recommendations that you dismissed.</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "CreatedTime": {
+                    "target": "com.amazonaws.rds#TStamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time when the recommendation was created. For example, <code>2023-09-28T01:13:53.931000+00:00</code>.</p>"
+                    }
+                },
+                "UpdatedTime": {
+                    "target": "com.amazonaws.rds#TStamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time when the recommendation was last updated.</p>"
+                    }
+                },
+                "Detection": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A short description of the issue identified for this recommendation. The description might contain markdown.</p>"
+                    }
+                },
+                "Recommendation": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A short description of the recommendation to resolve an issue. The description might contain markdown.</p>"
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A detailed description of the recommendation. The description might contain markdown.</p>"
+                    }
+                },
+                "Reason": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The reason why this recommendation was created. The information might contain markdown.</p>"
+                    }
+                },
+                "RecommendedActions": {
+                    "target": "com.amazonaws.rds#RecommendedActionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of recommended actions.</p>"
+                    }
+                },
+                "Category": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The category of the recommendation.</p>\n         <p>Valid values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>performance efficiency</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>security</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>reliability</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>cost optimization</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>operational excellence</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>sustainability</code>\n               </p>\n            </li>\n         </ul>"
+                    }
+                },
+                "Source": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Web Services service that generated the recommendations.</p>"
+                    }
+                },
+                "TypeDetection": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A short description of the recommendation type. The description might contain markdown.</p>"
+                    }
+                },
+                "TypeRecommendation": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A short description that summarizes the recommendation to fix all the issues of the recommendation type. The description might contain markdown.</p>"
+                    }
+                },
+                "Impact": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A short description that explains the possible impact of an issue.</p>"
+                    }
+                },
+                "AdditionalInfo": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Additional information about the recommendation. The information might contain markdown.</p>"
+                    }
+                },
+                "Links": {
+                    "target": "com.amazonaws.rds#DocLinkList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A link to documentation that provides additional information about the recommendation.</p>"
+                    }
+                },
+                "IssueDetails": {
+                    "target": "com.amazonaws.rds#IssueDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Details of the issue that caused the recommendation.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The recommendation for your DB instances, DB clusters, and DB parameter groups.</p>"
+            }
+        },
+        "com.amazonaws.rds#DBRecommendationList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.rds#DBRecommendation"
+            }
+        },
+        "com.amazonaws.rds#DBRecommendationMessage": {
+            "type": "structure",
+            "members": {
+                "DBRecommendation": {
+                    "target": "com.amazonaws.rds#DBRecommendation"
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.rds#DBRecommendationsMessage": {
+            "type": "structure",
+            "members": {
+                "DBRecommendations": {
+                    "target": "com.amazonaws.rds#DBRecommendationList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of recommendations which is returned from <code>DescribeDBRecommendations</code> API request.</p>"
+                    }
+                },
+                "Marker": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An optional pagination token provided by a previous <code>DBRecommendationsMessage</code> request.  This token can be used \n            later in a <code>DescribeDBRecomendations</code> request.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.rds#DBSecurityGroup": {
             "type": "structure",
             "members": {
@@ -10586,6 +11021,112 @@
                 "target": "com.amazonaws.rds#DBSecurityGroup",
                 "traits": {
                     "smithy.api#xmlName": "DBSecurityGroup"
+                }
+            }
+        },
+        "com.amazonaws.rds#DBShardGroup": {
+            "type": "structure",
+            "members": {
+                "DBShardGroupResourceId": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Web Services Region-unique, immutable identifier for the DB shard group.</p>"
+                    }
+                },
+                "DBShardGroupIdentifier": {
+                    "target": "com.amazonaws.rds#DBShardGroupIdentifier",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the DB shard group.</p>"
+                    }
+                },
+                "DBClusterIdentifier": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the primary DB cluster for the DB shard group.</p>"
+                    }
+                },
+                "MaxACU": {
+                    "target": "com.amazonaws.rds#DoubleOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum capacity of the DB shard group in Aurora capacity units (ACUs).</p>"
+                    }
+                },
+                "ComputeRedundancy": {
+                    "target": "com.amazonaws.rds#IntegerOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies whether to create standby instances for the DB shard group. Valid values are the following:</p>\n         <ul>\n            <li>\n               <p>0 - Creates a single, primary DB instance for each physical shard. This is the default value, and the only one supported for the preview.</p>\n            </li>\n            <li>\n               <p>1 - Creates a primary DB instance and a standby instance in a different Availability Zone (AZ) for each physical shard.</p>\n            </li>\n            <li>\n               <p>2 - Creates a primary DB instance and two standby instances in different AZs for each physical shard.</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status of the DB shard group.</p>"
+                    }
+                },
+                "PubliclyAccessible": {
+                    "target": "com.amazonaws.rds#BooleanOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates whether the DB shard group is publicly accessible.</p>\n         <p>When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint\n            resolves to the private IP address from within the DB shard group's virtual private cloud\n            (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access\n            to the DB shard group is ultimately controlled by the security group it uses. That public\n            access isn't permitted if the security group assigned to the DB shard group doesn't permit\n            it.</p>\n         <p>When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address.</p>\n         <p>For more information, see <a>CreateDBShardGroup</a>.</p>\n         <p>This setting is only for Aurora Limitless Database.</p>"
+                    }
+                },
+                "Endpoint": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The connection endpoint for the DB shard group.</p>"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.rds#DBShardGroupAlreadyExistsFault": {
+            "type": "structure",
+            "members": {
+                "message": {
+                    "target": "com.amazonaws.rds#ExceptionMessage"
+                }
+            },
+            "traits": {
+                "aws.protocols#awsQueryError": {
+                    "code": "DBShardGroupAlreadyExists",
+                    "httpResponseCode": 400
+                },
+                "smithy.api#documentation": "<p>The specified DB shard group name must be unique in your Amazon Web Services account in the specified Amazon Web Services Region.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 400
+            }
+        },
+        "com.amazonaws.rds#DBShardGroupIdentifier": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 63
+                },
+                "smithy.api#pattern": "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$"
+            }
+        },
+        "com.amazonaws.rds#DBShardGroupNotFoundFault": {
+            "type": "structure",
+            "members": {
+                "message": {
+                    "target": "com.amazonaws.rds#ExceptionMessage"
+                }
+            },
+            "traits": {
+                "aws.protocols#awsQueryError": {
+                    "code": "DBShardGroupNotFound",
+                    "httpResponseCode": 404
+                },
+                "smithy.api#documentation": "<p>The specified DB shard group name wasn't found.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 404
+            }
+        },
+        "com.amazonaws.rds#DBShardGroupsList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.rds#DBShardGroup",
+                "traits": {
+                    "smithy.api#xmlName": "DBShardGroup"
                 }
             }
         },
@@ -11249,6 +11790,16 @@
                 "smithy.api#documentation": "<p>The DB upgrade failed because a resource the DB depends on can't be\n            modified.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 400
+            }
+        },
+        "com.amazonaws.rds#DataFilter": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 25600
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9_ \"\\\\\\-$,*.:?+\\/]*$"
             }
         },
         "com.amazonaws.rds#DatabaseArn": {
@@ -12076,6 +12627,45 @@
                 "smithy.api#input": {}
             }
         },
+        "com.amazonaws.rds#DeleteDBShardGroup": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.rds#DeleteDBShardGroupMessage"
+            },
+            "output": {
+                "target": "com.amazonaws.rds#DBShardGroup"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.rds#DBShardGroupNotFoundFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#InvalidDBClusterStateFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#InvalidDBShardGroupStateFault"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Deletes an Aurora Limitless Database DB shard group.</p>"
+            }
+        },
+        "com.amazonaws.rds#DeleteDBShardGroupMessage": {
+            "type": "structure",
+            "members": {
+                "DBShardGroupIdentifier": {
+                    "target": "com.amazonaws.rds#DBShardGroupIdentifier",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>Teh name of the DB shard group to delete.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
         "com.amazonaws.rds#DeleteDBSnapshot": {
             "type": "operation",
             "input": {
@@ -12375,7 +12965,26 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Deletes a zero-ETL integration with Amazon Redshift.</p>"
+                "smithy.api#documentation": "<p>Deletes a zero-ETL integration with Amazon Redshift.</p>",
+                "smithy.api#examples": [
+                    {
+                        "title": "To delete a zero-ETL integration",
+                        "documentation": "The following example deletes a zero-ETL integration with Amazon Redshift.",
+                        "input": {
+                            "IntegrationIdentifier": "5b9f3d79-7392-4a3e-896c-58eaa1b53231"
+                        },
+                        "output": {
+                            "SourceArn": "arn:aws:rds:us-east-1:123456789012:cluster:my-cluster",
+                            "IntegrationName": "my-integration",
+                            "IntegrationArn": "arn:aws:rds:us-east-1:123456789012:integration:5b9f3d79-7392-4a3e-896c-58eaa1b53231",
+                            "TargetArn": "arn:aws:redshift-serverless:us-east-1:123456789012:namespace/62c70612-0302-4db7-8414-b5e3e049f0d8",
+                            "Tags": [],
+                            "CreateTime": "2023-12-28T17:20:20.629Z",
+                            "KMSKeyId": "arn:aws:kms:us-east-1:123456789012:key/a1b2c3d4-5678-90ab-cdef-EXAMPLEaaaaa",
+                            "Status": "deleting"
+                        }
+                    }
+                ]
             }
         },
         "com.amazonaws.rds#DeleteIntegrationMessage": {
@@ -13014,6 +13623,23 @@
                                     "Endpoint": "mydbcluster.cluster-ro-cnpexample.us-east-1.rds.amazonaws.com",
                                     "Status": "available",
                                     "EndpointType": "READER"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "title": "To describe DB cluster endpoints of a single DB cluster",
+                        "documentation": "The following example retrieves details for the DB cluster endpoints of a single specified DB cluster. Aurora Serverless clusters have only a single endpoint with a type of WRITER.",
+                        "input": {
+                            "DBClusterIdentifier": "serverless-cluster"
+                        },
+                        "output": {
+                            "DBClusterEndpoints": [
+                                {
+                                    "Status": "available",
+                                    "Endpoint": "serverless-cluster.cluster-cnpexample.us-east-1.rds.amazonaws.com",
+                                    "DBClusterIdentifier": "serverless-cluster",
+                                    "EndpointType": "WRITER"
                                 }
                             ]
                         }
@@ -13872,7 +14498,7 @@
                 "MaxRecords": {
                     "target": "com.amazonaws.rds#IntegerOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>The maximum number of records to include in the response.\n            If more records exist than the specified <code>MaxRecords</code> value,\n          a pagination token called a marker is included in the response so you can retrieve the remaining results.</p>\n         <p>Default: 100</p>\n         <p>Constraints: Minimum 20, maximum 100.</p>"
+                        "smithy.api#documentation": "<p>The maximum number of records to include in the response.\n            If more records exist than the specified <code>MaxRecords</code> value,\n          a pagination token called a marker is included in the response so you can retrieve the remaining results.</p>\n         <p>Default: 100</p>\n         <p>Constraints: Minimum 20, maximum 100</p>"
                     }
                 },
                 "Marker": {
@@ -15033,6 +15659,68 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.rds#DescribeDBRecommendations": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.rds#DescribeDBRecommendationsMessage"
+            },
+            "output": {
+                "target": "com.amazonaws.rds#DBRecommendationsMessage"
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Describes the recommendations to resolve the issues for your DB instances, DB clusters, and DB parameter groups.</p>",
+                "smithy.api#paginated": {
+                    "inputToken": "Marker",
+                    "outputToken": "Marker",
+                    "items": "DBRecommendations",
+                    "pageSize": "MaxRecords"
+                }
+            }
+        },
+        "com.amazonaws.rds#DescribeDBRecommendationsMessage": {
+            "type": "structure",
+            "members": {
+                "LastUpdatedAfter": {
+                    "target": "com.amazonaws.rds#TStamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A filter to include only the recommendations that were updated after this specified time.</p>"
+                    }
+                },
+                "LastUpdatedBefore": {
+                    "target": "com.amazonaws.rds#TStamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A filter to include only the recommendations that were updated before this specified time.</p>"
+                    }
+                },
+                "Locale": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The language that you choose to return the list of recommendations.</p>\n         <p>Valid values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>en</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>en_UK</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>de</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>es</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>fr</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>id</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>it</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ja</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ko</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>pt_BR</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>zh_TW</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>zh_CN</code>\n               </p>\n            </li>\n         </ul>"
+                    }
+                },
+                "Filters": {
+                    "target": "com.amazonaws.rds#FilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A filter that specifies one or more recommendations to describe.</p>\n         <p>Supported Filters:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>recommendation-id</code> - Accepts a list of recommendation identifiers. The results list\n                only includes the recommendations whose identifier is one of the specified filter values.</p>\n            </li>\n            <li>\n               <p>\n                  <code>status</code> - Accepts a list of recommendation statuses.</p>\n               <p>Valid values:</p>\n               <ul>\n                  <li>\n                     <p>\n                        <code>active</code> - The recommendations which are ready for you to apply.</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>pending</code> - The applied or scheduled recommendations which are in progress.</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>resolved</code> - The recommendations which are completed.</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>dismissed</code> - The recommendations that you dismissed.</p>\n                  </li>\n               </ul>\n               <p>The results list only includes the recommendations whose status is one of the specified filter values.</p>\n            </li>\n            <li>\n               <p>\n                  <code>severity</code> - Accepts a list of recommendation severities. The results list only includes \n                the recommendations whose severity is one of the specified filter values.</p>\n               <p>Valid values:</p>\n               <ul>\n                  <li>\n                     <p>\n                        <code>high</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>medium</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>low</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>informational</code>\n                     </p>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>\n                  <code>type-id</code> - Accepts a list of recommendation type identifiers. The results list only\n            includes the recommendations whose type is one of the specified filter values.</p>\n            </li>\n            <li>\n               <p>\n                  <code>dbi-resource-id</code> - Accepts a list of database resource identifiers. The results list only\n                includes the recommendations that generated for the specified databases.</p>\n            </li>\n            <li>\n               <p>\n                  <code>cluster-resource-id</code> - Accepts a list of cluster resource identifiers. The results list only\n                includes the recommendations that generated for the specified clusters.</p>\n            </li>\n            <li>\n               <p>\n                  <code>pg-arn</code> - Accepts a list of parameter group ARNs. The results list only\n                includes the recommendations that generated for the specified parameter groups.</p>\n            </li>\n            <li>\n               <p>\n                  <code>cluster-pg-arn</code> - Accepts a list of cluster parameter group ARNs. The results list only\n                includes the recommendations that generated for the specified cluster parameter groups.</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "MaxRecords": {
+                    "target": "com.amazonaws.rds#IntegerOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of recommendations to include in the response. If more records exist than the \n            specified <code>MaxRecords</code> value, a pagination token called a marker is included in the response so \n            that you can retrieve the remaining results.</p>"
+                    }
+                },
+                "Marker": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An optional pagination token provided by a previous <code>DescribeDBRecommendations</code> request. \n            If this parameter is specified, the response includes only records beyond the marker, up to the \n            value specified by <code>MaxRecords</code>.\n           </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
         "com.amazonaws.rds#DescribeDBSecurityGroups": {
             "type": "operation",
             "input": {
@@ -15097,6 +15785,78 @@
             "traits": {
                 "smithy.api#documentation": "<p></p>",
                 "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.rds#DescribeDBShardGroups": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.rds#DescribeDBShardGroupsMessage"
+            },
+            "output": {
+                "target": "com.amazonaws.rds#DescribeDBShardGroupsResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.rds#DBClusterNotFoundFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#DBShardGroupNotFoundFault"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Describes existing Aurora Limitless Database DB shard groups.</p>"
+            }
+        },
+        "com.amazonaws.rds#DescribeDBShardGroupsMessage": {
+            "type": "structure",
+            "members": {
+                "DBShardGroupIdentifier": {
+                    "target": "com.amazonaws.rds#DBShardGroupIdentifier",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The user-supplied DB shard group identifier or the Amazon Resource Name (ARN) of the DB shard group. If this parameter is specified, \n            information for only the specific DB shard group is returned. This parameter isn't case-sensitive.</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>If supplied, must match an existing DB shard group identifier.</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "Filters": {
+                    "target": "com.amazonaws.rds#FilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A filter that specifies one or more DB shard groups to describe.</p>"
+                    }
+                },
+                "Marker": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An optional pagination token provided by a previous <code>DescribeDBShardGroups</code> request. If this parameter is\n            specified, the response includes only records beyond the marker, up to the value specified by <code>MaxRecords</code>.</p>"
+                    }
+                },
+                "MaxRecords": {
+                    "target": "com.amazonaws.rds#MaxRecords",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of records to include in the response. If more records exist than the specified <code>MaxRecords</code>\n            value, a pagination token called a marker is included in the response so you can retrieve the remaining results.</p>\n         <p>Default: 100</p>\n         <p>Constraints: Minimum 20, maximum 100</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.rds#DescribeDBShardGroupsResponse": {
+            "type": "structure",
+            "members": {
+                "DBShardGroups": {
+                    "target": "com.amazonaws.rds#DBShardGroupsList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Contains a list of DB shard groups for the user.</p>"
+                    }
+                },
+                "Marker": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A pagination token that can be used in a later <code>DescribeDBClusters</code> request.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.rds#DescribeDBSnapshotAttributes": {
@@ -16225,7 +16985,7 @@
                 "Filters": {
                     "target": "com.amazonaws.rds#FilterList",
                     "traits": {
-                        "smithy.api#documentation": "<p>This parameter isn't currently supported.</p>"
+                        "smithy.api#documentation": "<p>A filter that specifies one or more global database clusters to describe. This parameter is case-sensitive.</p>\n         <p>Currently, the only supported filter is <code>region</code>.</p>\n         <p>If used, the request returns information about any global cluster with at least one member (primary or secondary) in the specified Amazon Web Services Regions.</p>"
                     }
                 },
                 "MaxRecords": {
@@ -16260,6 +17020,29 @@
             ],
             "traits": {
                 "smithy.api#documentation": "<p>Describe one or more zero-ETL integrations with Amazon Redshift.</p>",
+                "smithy.api#examples": [
+                    {
+                        "title": "To describe a zero-ETL integration",
+                        "documentation": "The following example retrieves information about a zero-ETL integration with Amazon Redshift.",
+                        "input": {
+                            "IntegrationIdentifier": "5b9f3d79-7392-4a3e-896c-58eaa1b53231"
+                        },
+                        "output": {
+                            "Integrations": [
+                                {
+                                    "IntegrationName": "my-integration",
+                                    "IntegrationArn": "arn:aws:rds:us-east-1:123456789012:integration:5b9f3d79-7392-4a3e-896c-58eaa1b53231",
+                                    "SourceArn": "arn:aws:rds:us-east-1:123456789012:cluster:my-cluster",
+                                    "TargetArn": "arn:aws:redshift-serverless:us-east-1:123456789012:namespace/62c70612-0302-4db7-8414-b5e3e049f0d8",
+                                    "Tags": [],
+                                    "CreateTime": "2023-12-28T17:20:20.629Z",
+                                    "KMSKeyId": "arn:aws:kms:us-east-1:123456789012:key/a1b2c3d4-5678-90ab-cdef-EXAMPLEaaaaa",
+                                    "Status": "active"
+                                }
+                            ]
+                        }
+                    }
+                ],
                 "smithy.api#paginated": {
                     "inputToken": "Marker",
                     "outputToken": "Marker",
@@ -17372,6 +18155,88 @@
                 "smithy.api#pattern": ".*"
             }
         },
+        "com.amazonaws.rds#DisableHttpEndpoint": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.rds#DisableHttpEndpointRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.rds#DisableHttpEndpointResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.rds#InvalidResourceStateFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#ResourceNotFoundFault"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Disables the HTTP endpoint for the specified DB cluster. Disabling this endpoint disables RDS Data API.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using RDS Data API</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <note>\n            <p>This operation applies only to Aurora PostgreSQL Serverless v2 and provisioned DB clusters. To disable the HTTP endpoint for Aurora Serverless v1 DB clusters, \n        use the <code>EnableHttpEndpoint</code> parameter of the <code>ModifyDBCluster</code> operation.</p>\n         </note>"
+            }
+        },
+        "com.amazonaws.rds#DisableHttpEndpointRequest": {
+            "type": "structure",
+            "members": {
+                "ResourceArn": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the DB cluster.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.rds#DisableHttpEndpointResponse": {
+            "type": "structure",
+            "members": {
+                "ResourceArn": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the DB cluster.</p>"
+                    }
+                },
+                "HttpEndpointEnabled": {
+                    "target": "com.amazonaws.rds#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates whether the HTTP endpoint is enabled or disabled for the DB cluster.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.rds#DocLink": {
+            "type": "structure",
+            "members": {
+                "Text": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The text with the link to documentation for the recommendation.</p>"
+                    }
+                },
+                "Url": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The URL for the documentation for the recommendation.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A link to documentation that provides additional information for a recommendation.</p>"
+            }
+        },
+        "com.amazonaws.rds#DocLinkList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.rds#DocLink"
+            }
+        },
         "com.amazonaws.rds#DomainMembership": {
             "type": "structure",
             "members": {
@@ -17638,6 +18503,62 @@
                 "smithy.api#documentation": "<p>The AMI configuration prerequisite has not been met.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 400
+            }
+        },
+        "com.amazonaws.rds#EnableHttpEndpoint": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.rds#EnableHttpEndpointRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.rds#EnableHttpEndpointResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.rds#InvalidResourceStateFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#ResourceNotFoundFault"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Enables the HTTP endpoint for the DB cluster. By default, the HTTP endpoint \n          isn't enabled.</p>\n         <p>When enabled, this endpoint provides a connectionless web service API (RDS Data API) \n          for running SQL queries on the Aurora DB cluster. You can also query your database from inside the RDS console \n          with the RDS query editor.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using RDS Data API</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <note>\n            <p>This operation applies only to Aurora PostgreSQL Serverless v2 and provisioned DB clusters. To enable the HTTP endpoint for Aurora Serverless v1 DB clusters, \n        use the <code>EnableHttpEndpoint</code> parameter of the <code>ModifyDBCluster</code> operation.</p>\n         </note>"
+            }
+        },
+        "com.amazonaws.rds#EnableHttpEndpointRequest": {
+            "type": "structure",
+            "members": {
+                "ResourceArn": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the DB cluster.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.rds#EnableHttpEndpointResponse": {
+            "type": "structure",
+            "members": {
+                "ResourceArn": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the DB cluster.</p>"
+                    }
+                },
+                "HttpEndpointEnabled": {
+                    "target": "com.amazonaws.rds#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates whether the HTTP endpoint is enabled or disabled for the DB cluster.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.rds#EncryptionContextMap": {
@@ -18179,7 +19100,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Forces a failover for a DB cluster.</p>\n         <p>For an Aurora DB cluster, failover for a DB cluster promotes one of the Aurora Replicas (read-only instances)\n          in the DB cluster to be the primary DB instance (the cluster writer).</p>\n         <p>For a Multi-AZ DB cluster, failover for a DB cluster promotes one of the readable standby DB instances (read-only instances)\n          in the DB cluster to be the primary DB instance (the cluster writer).</p>\n         <p>An Amazon Aurora DB cluster automatically fails over to an Aurora Replica, if one exists,\n          when the primary DB instance fails. A Multi-AZ DB cluster automatically fails over to a readable standby \n          DB instance when the primary DB instance fails.</p>\n         <p>To simulate a failure of a primary instance for testing, you can force a failover. \n          Because each instance in a DB cluster has its own endpoint address, make sure to clean up and re-establish any existing \n          connections that use those endpoint addresses when the failover is complete.</p>\n         <p>For more information on Amazon Aurora DB clusters, see  \n          <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html\">\n              What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.</p>\n         <p>For more information on Multi-AZ DB clusters, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html\"> Multi-AZ DB\n                cluster deployments</a> in the <i>Amazon RDS User\n            Guide</i>.</p>",
+                "smithy.api#documentation": "<p>Forces a failover for a DB cluster.</p>\n         <p>For an Aurora DB cluster, failover for a DB cluster promotes one of the Aurora Replicas (read-only instances)\n          in the DB cluster to be the primary DB instance (the cluster writer).</p>\n         <p>For a Multi-AZ DB cluster, after RDS terminates the primary DB instance, the\n            internal monitoring system detects that the primary DB instance is unhealthy and promotes a readable standby (read-only instances) \n            in the DB cluster to be the primary DB instance (the cluster writer).\n            Failover times are typically less than 35 seconds.</p>\n         <p>An Amazon Aurora DB cluster automatically fails over to an Aurora Replica, if one exists,\n          when the primary DB instance fails. A Multi-AZ DB cluster automatically fails over to a readable standby \n          DB instance when the primary DB instance fails.</p>\n         <p>To simulate a failure of a primary instance for testing, you can force a failover. \n          Because each instance in a DB cluster has its own endpoint address, make sure to clean up and re-establish any existing \n          connections that use those endpoint addresses when the failover is complete.</p>\n         <p>For more information on Amazon Aurora DB clusters, see  \n          <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html\">\n              What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.</p>\n         <p>For more information on Multi-AZ DB clusters, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html\"> Multi-AZ DB\n                cluster deployments</a> in the <i>Amazon RDS User\n            Guide</i>.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "To perform a failover for a DB cluster",
@@ -18384,7 +19305,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A filter name and value pair that is used to return a more specific list of results \n            from a describe operation. Filters can be used to match a set of resources by specific \n            criteria, such as IDs. The filters supported by a describe operation are documented \n            with the describe operation.</p>\n         <note>\n            <p>Currently, wildcards are not supported in filters.</p>\n         </note>\n         <p>The following actions can be filtered:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DescribeDBClusterBacktracks</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DescribeDBClusterEndpoints</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DescribeDBClusters</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DescribeDBInstances</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DescribePendingMaintenanceActions</code>\n               </p>\n            </li>\n         </ul>"
+                "smithy.api#documentation": "<p>A filter name and value pair that is used to return a more specific list of results \n            from a describe operation. Filters can be used to match a set of resources by specific \n            criteria, such as IDs. The filters supported by a describe operation are documented \n            with the describe operation.</p>\n         <note>\n            <p>Currently, wildcards are not supported in filters.</p>\n         </note>\n         <p>The following actions can be filtered:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DescribeDBClusterBacktracks</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DescribeDBClusterEndpoints</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DescribeDBClusters</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DescribeDBInstances</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DescribeDBRecommendations</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DescribeDBShardGroups</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DescribePendingMaintenanceActions</code>\n               </p>\n            </li>\n         </ul>"
             }
         },
         "com.amazonaws.rds#FilterList": {
@@ -18869,6 +19790,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Any errors associated with the integration.</p>"
                     }
+                },
+                "DataFilter": {
+                    "target": "com.amazonaws.rds#DataFilter",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Data filters for the integration. These filters determine which tables\n            from the source database are sent to the target Amazon Redshift data warehouse. \n        </p>"
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.rds#IntegrationDescription",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A description of the integration.</p>"
+                    }
                 }
             },
             "traits": {
@@ -18899,7 +19832,7 @@
                     "min": 1,
                     "max": 255
                 },
-                "smithy.api#pattern": "^arn:aws[a-z\\-]*:rds(-[a-z]*)?:[a-z0-9\\-]*:[0-9]*:integration:[a-z][a-z0-9]*(-[a-zA-Z0-9]+)*\\/[a-zA-Z0-9_:\\-\\/]+$"
+                "smithy.api#pattern": "^arn:aws[a-z\\-]*:rds(-[a-z]*)?:[a-z0-9\\-]*:[0-9]*:integration:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
             }
         },
         "com.amazonaws.rds#IntegrationConflictOperationFault": {
@@ -18917,6 +19850,16 @@
                 "smithy.api#documentation": "<p>A conflicting conditional operation is currently in progress against this resource.\n            Typically occurs when there are multiple requests being made to the same resource at the same time,\n            and these requests conflict with each other.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 400
+            }
+        },
+        "com.amazonaws.rds#IntegrationDescription": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 1000
+                },
+                "smithy.api#pattern": ".*"
             }
         },
         "com.amazonaws.rds#IntegrationError": {
@@ -19281,6 +20224,23 @@
                 "smithy.api#httpError": 400
             }
         },
+        "com.amazonaws.rds#InvalidDBShardGroupStateFault": {
+            "type": "structure",
+            "members": {
+                "message": {
+                    "target": "com.amazonaws.rds#ExceptionMessage"
+                }
+            },
+            "traits": {
+                "aws.protocols#awsQueryError": {
+                    "code": "InvalidDBShardGroupState",
+                    "httpResponseCode": 400
+                },
+                "smithy.api#documentation": "<p>The DB shard group must be in the available state.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 400
+            }
+        },
         "com.amazonaws.rds#InvalidDBSnapshotStateFault": {
             "type": "structure",
             "members": {
@@ -19451,6 +20411,23 @@
                 "smithy.api#httpError": 400
             }
         },
+        "com.amazonaws.rds#InvalidMaxAcuFault": {
+            "type": "structure",
+            "members": {
+                "message": {
+                    "target": "com.amazonaws.rds#ExceptionMessage"
+                }
+            },
+            "traits": {
+                "aws.protocols#awsQueryError": {
+                    "code": "InvalidMaxAcu",
+                    "httpResponseCode": 400
+                },
+                "smithy.api#documentation": "<p>The maximum capacity of the DB shard group must be 48-7168 Aurora capacity units (ACUs).</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 400
+            }
+        },
         "com.amazonaws.rds#InvalidOptionGroupStateFault": {
             "type": "structure",
             "members": {
@@ -19464,6 +20441,23 @@
                     "httpResponseCode": 400
                 },
                 "smithy.api#documentation": "<p>The option group isn't in the <i>available</i> state.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 400
+            }
+        },
+        "com.amazonaws.rds#InvalidResourceStateFault": {
+            "type": "structure",
+            "members": {
+                "message": {
+                    "target": "com.amazonaws.rds#ExceptionMessage"
+                }
+            },
+            "traits": {
+                "aws.protocols#awsQueryError": {
+                    "code": "InvalidResourceStateFault",
+                    "httpResponseCode": 400
+                },
+                "smithy.api#documentation": "<p>The operation can't be performed because another operation is in progress.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 400
             }
@@ -19536,6 +20530,20 @@
                 "smithy.api#httpError": 400
             }
         },
+        "com.amazonaws.rds#IssueDetails": {
+            "type": "structure",
+            "members": {
+                "PerformanceIssueDetails": {
+                    "target": "com.amazonaws.rds#PerformanceIssueDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A detailed description of the issue when the recommendation category is <code>performance</code>.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The details of an issue with your DB instances, DB clusters, and DB parameter groups.</p>"
+            }
+        },
         "com.amazonaws.rds#KMSKeyNotAccessibleFault": {
             "type": "structure",
             "members": {
@@ -19567,6 +20575,79 @@
                     "max": 2048
                 },
                 "smithy.api#pattern": "^[a-zA-Z0-9_:\\-\\/]+$"
+            }
+        },
+        "com.amazonaws.rds#LimitlessDatabase": {
+            "type": "structure",
+            "members": {
+                "Status": {
+                    "target": "com.amazonaws.rds#LimitlessDatabaseStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status of Aurora Limitless Database.</p>"
+                    }
+                },
+                "MinRequiredACU": {
+                    "target": "com.amazonaws.rds#DoubleOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The minimum required capacity for Aurora Limitless Database in Aurora capacity units (ACUs).</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains details for Aurora Limitless Database.</p>"
+            }
+        },
+        "com.amazonaws.rds#LimitlessDatabaseStatus": {
+            "type": "enum",
+            "members": {
+                "ACTIVE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "active"
+                    }
+                },
+                "NOT_IN_USE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "not-in-use"
+                    }
+                },
+                "ENABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "enabled"
+                    }
+                },
+                "DISABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "disabled"
+                    }
+                },
+                "ENABLING": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "enabling"
+                    }
+                },
+                "DISABLING": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "disabling"
+                    }
+                },
+                "MODIFYING_MAX_CAPACITY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "modifying-max-capacity"
+                    }
+                },
+                "ERROR": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "error"
+                    }
+                }
             }
         },
         "com.amazonaws.rds#ListTagsForResource": {
@@ -19736,6 +20817,23 @@
                 "smithy.api#documentation": "<p>Contains the secret managed by RDS in Amazon Web Services Secrets Manager for the master user password.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html\">Password management with Amazon Web Services Secrets Manager</a> \n            in the <i>Amazon RDS User Guide</i> and <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html\">Password management with Amazon Web Services Secrets Manager</a> \n            in the <i>Amazon Aurora User Guide.</i>\n         </p>"
             }
         },
+        "com.amazonaws.rds#MaxDBShardGroupLimitReached": {
+            "type": "structure",
+            "members": {
+                "message": {
+                    "target": "com.amazonaws.rds#ExceptionMessage"
+                }
+            },
+            "traits": {
+                "aws.protocols#awsQueryError": {
+                    "code": "MaxDBShardGroupLimitReached",
+                    "httpResponseCode": 400
+                },
+                "smithy.api#documentation": "<p>The maximum number of DB shard groups for your Amazon Web Services account in the specified Amazon Web Services Region has been reached.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 400
+            }
+        },
         "com.amazonaws.rds#MaxRecords": {
             "type": "integer",
             "traits": {
@@ -19743,6 +20841,84 @@
                     "min": 20,
                     "max": 100
                 }
+            }
+        },
+        "com.amazonaws.rds#Metric": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of a metric.</p>"
+                    }
+                },
+                "References": {
+                    "target": "com.amazonaws.rds#MetricReferenceList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of metric references (thresholds).</p>"
+                    }
+                },
+                "StatisticsDetails": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The details of different statistics for a metric. The description might contain markdown.</p>"
+                    }
+                },
+                "MetricQuery": {
+                    "target": "com.amazonaws.rds#MetricQuery",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The query to retrieve metric data points.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The representation of a metric.</p>"
+            }
+        },
+        "com.amazonaws.rds#MetricList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.rds#Metric"
+            }
+        },
+        "com.amazonaws.rds#MetricQuery": {
+            "type": "structure",
+            "members": {
+                "PerformanceInsightsMetricQuery": {
+                    "target": "com.amazonaws.rds#PerformanceInsightsMetricQuery",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Performance Insights query that you can use to retrieve Performance Insights metric data points.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The query to retrieve metric data points.</p>"
+            }
+        },
+        "com.amazonaws.rds#MetricReference": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the metric reference.</p>"
+                    }
+                },
+                "ReferenceDetails": {
+                    "target": "com.amazonaws.rds#ReferenceDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The details of a performance issue.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The reference (threshold) for a metric.</p>"
+            }
+        },
+        "com.amazonaws.rds#MetricReferenceList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.rds#MetricReference"
             }
         },
         "com.amazonaws.rds#MinimumEngineVersionPerAllowedValue": {
@@ -20414,7 +21590,7 @@
                 "EnableHttpEndpoint": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint \n            is disabled.</p>\n         <p>When enabled, the HTTP endpoint provides a connectionless web service API for running\n            SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database\n            from inside the RDS console with the query editor.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using the Data API for Aurora Serverless v1</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters only</p>"
+                        "smithy.api#documentation": "<p>Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint \n            isn't enabled.</p>\n         <p>When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running\n            SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database\n            from inside the RDS console with the RDS query editor.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using RDS Data API</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <note>\n            <p>This parameter applies only to Aurora Serverless v1 DB clusters. To enable or disable the HTTP endpoint for an Aurora PostgreSQL \n        Serverless v2 or provisioned DB cluster, use the <code>EnableHttpEndpoint</code> and <code>DisableHttpEndpoint</code> operations.</p>\n         </note>\n         <p>Valid for Cluster Type: Aurora DB clusters only</p>"
                     }
                 },
                 "CopyTagsToSnapshot": {
@@ -20444,7 +21620,7 @@
                 "StorageType": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The storage type to associate with the DB cluster.</p>\n         <p>For information on storage types for Aurora DB clusters, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.StorageReliability.html#aurora-storage-type\">Storage configurations for Amazon Aurora DB clusters</a>. For information on storage types for Multi-AZ DB\n            clusters, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/create-multi-az-db-cluster.html#create-multi-az-db-cluster-settings\">Settings for creating Multi-AZ DB clusters</a>.</p>\n         <p>When specified for a Multi-AZ DB cluster, a value for the <code>Iops</code> parameter is required.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>\n         <p>Valid Values:</p>\n         <ul>\n            <li>\n               <p>Aurora DB clusters - <code>aurora | aurora-iopt1</code>\n               </p>\n            </li>\n            <li>\n               <p>Multi-AZ DB clusters - <code>io1</code>\n               </p>\n            </li>\n         </ul>\n         <p>Default:</p>\n         <ul>\n            <li>\n               <p>Aurora DB clusters - <code>aurora</code>\n               </p>\n            </li>\n            <li>\n               <p>Multi-AZ DB clusters - <code>io1</code>\n               </p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>The storage type to associate with the DB cluster.</p>\n         <p>For information on storage types for Aurora DB clusters, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.StorageReliability.html#aurora-storage-type\">Storage configurations for Amazon Aurora DB clusters</a>. For information on storage types for Multi-AZ DB\n            clusters, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/create-multi-az-db-cluster.html#create-multi-az-db-cluster-settings\">Settings for creating Multi-AZ DB clusters</a>.</p>\n         <p>When specified for a Multi-AZ DB cluster, a value for the <code>Iops</code> parameter is required.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters</p>\n         <p>Valid Values:</p>\n         <ul>\n            <li>\n               <p>Aurora DB clusters - <code>aurora | aurora-iopt1</code>\n               </p>\n            </li>\n            <li>\n               <p>Multi-AZ DB clusters - <code>io1 | io2 | gp3</code>\n               </p>\n            </li>\n         </ul>\n         <p>Default:</p>\n         <ul>\n            <li>\n               <p>Aurora DB clusters - <code>aurora</code>\n               </p>\n            </li>\n            <li>\n               <p>Multi-AZ DB clusters - <code>io1</code>\n               </p>\n            </li>\n         </ul>"
                     }
                 },
                 "Iops": {
@@ -20538,6 +21714,18 @@
                     "target": "com.amazonaws.rds#AwsBackupRecoveryPointArn",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.</p>"
+                    }
+                },
+                "EnableLimitlessDatabase": {
+                    "target": "com.amazonaws.rds#BooleanOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group.</p>\n         <p>Valid for: Aurora DB clusters only</p>"
+                    }
+                },
+                "CACertificateIdentifier": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The CA certificate identifier to use for the DB cluster's server certificate.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html\">Using SSL/TLS to encrypt a connection to a DB \n            instance</a> in the <i>Amazon RDS User Guide</i>.</p>\n         <p>Valid for Cluster Type: Multi-AZ DB clusters</p>"
                     }
                 }
             },
@@ -20973,7 +22161,7 @@
                 "StorageType": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The storage type to associate with the DB instance.</p>\n         <p>If you specify Provisioned IOPS (<code>io1</code>), \n          you must also include a value for the <code>Iops</code> parameter.</p>\n         <p>If you choose to migrate your DB instance from using standard storage to using\n            Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process\n            can take time. The duration of the migration depends on several factors such as database\n            load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS\n            provisioned (if any), and the number of prior scale storage operations. Typical\n            migration times are under 24 hours, but the process can take up to several days in some\n            cases. During the migration, the DB instance is available for use, but might experience\n            performance degradation. While the migration takes place, nightly backups for the\n            instance are suspended. No other Amazon RDS operations can take place for the instance,\n            including modifying the instance, rebooting the instance, deleting the instance,\n            creating a read replica for the instance, and creating a DB snapshot of the instance.</p>\n         <p>Valid Values: <code>gp2 | gp3 | io1 | standard</code>\n         </p>\n         <p>Default: <code>io1</code>, if the <code>Iops</code> parameter\n          is specified. Otherwise, <code>gp2</code>.</p>"
+                        "smithy.api#documentation": "<p>The storage type to associate with the DB instance.</p>\n         <p>If you specify <code>io1</code>, <code>io2</code>, or <code>gp3</code> \n          you must also include a value for the <code>Iops</code> parameter.</p>\n         <p>If you choose to migrate your DB instance from using standard storage to using\n            Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process\n            can take time. The duration of the migration depends on several factors such as database\n            load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS\n            provisioned (if any), and the number of prior scale storage operations. Typical\n            migration times are under 24 hours, but the process can take up to several days in some\n            cases. During the migration, the DB instance is available for use, but might experience\n            performance degradation. While the migration takes place, nightly backups for the\n            instance are suspended. No other Amazon RDS operations can take place for the instance,\n            including modifying the instance, rebooting the instance, deleting the instance,\n            creating a read replica for the instance, and creating a DB snapshot of the instance.</p>\n         <p>Valid Values: <code>gp2 | gp3 | io1 | io2 | standard</code>\n         </p>\n         <p>Default: <code>io1</code>, if the <code>Iops</code> parameter\n          is specified. Otherwise, <code>gp2</code>.</p>"
                     }
                 },
                 "TdeCredentialArn": {
@@ -21527,6 +22715,100 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.rds#ModifyDBRecommendation": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.rds#ModifyDBRecommendationMessage"
+            },
+            "output": {
+                "target": "com.amazonaws.rds#DBRecommendationMessage"
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Updates the recommendation status and recommended action status for the specified recommendation.</p>"
+            }
+        },
+        "com.amazonaws.rds#ModifyDBRecommendationMessage": {
+            "type": "structure",
+            "members": {
+                "RecommendationId": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The identifier of the recommendation to update.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Locale": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The language of the modified recommendation.</p>"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The recommendation status to update.</p>\n         <p>Valid values:</p>\n         <ul>\n            <li>\n               <p>active</p>\n            </li>\n            <li>\n               <p>dismissed</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "RecommendedActionUpdates": {
+                    "target": "com.amazonaws.rds#RecommendedActionUpdateList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of recommended action status to update. You can update multiple recommended actions at one time.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.rds#ModifyDBShardGroup": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.rds#ModifyDBShardGroupMessage"
+            },
+            "output": {
+                "target": "com.amazonaws.rds#DBShardGroup"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.rds#DBShardGroupAlreadyExistsFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#DBShardGroupNotFoundFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#InvalidDBClusterStateFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#InvalidMaxAcuFault"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Modifies the settings of an Aurora Limitless Database DB shard group. You can change one or more settings by \n            specifying these parameters and the new values in the request.</p>"
+            }
+        },
+        "com.amazonaws.rds#ModifyDBShardGroupMessage": {
+            "type": "structure",
+            "members": {
+                "DBShardGroupIdentifier": {
+                    "target": "com.amazonaws.rds#DBShardGroupIdentifier",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The name of the DB shard group to modify.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "MaxACU": {
+                    "target": "com.amazonaws.rds#DoubleOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum capacity of the DB shard group in Aurora capacity units (ACUs).</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
         "com.amazonaws.rds#ModifyDBSnapshot": {
             "type": "operation",
             "input": {
@@ -21622,6 +22904,30 @@
                                         "AttributeValues": [
                                             "111122223333",
                                             "444455556666"
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "title": "To prevent an AWS account from restoring a DB snapshot",
+                        "documentation": "The following example removes permission from the AWS account with the identifier 444455556666 to restore the DB snapshot named mydbsnapshot.",
+                        "input": {
+                            "DBSnapshotIdentifier": "mydbsnapshot",
+                            "AttributeName": "restore",
+                            "ValuesToRemove": [
+                                "444455556666"
+                            ]
+                        },
+                        "output": {
+                            "DBSnapshotAttributesResult": {
+                                "DBSnapshotIdentifier": "mydbsnapshot",
+                                "DBSnapshotAttributes": [
+                                    {
+                                        "AttributeName": "restore",
+                                        "AttributeValues": [
+                                            "111122223333"
                                         ]
                                     }
                                 ]
@@ -22050,6 +23356,84 @@
             },
             "traits": {
                 "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.rds#ModifyIntegration": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.rds#ModifyIntegrationMessage"
+            },
+            "output": {
+                "target": "com.amazonaws.rds#Integration"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.rds#IntegrationConflictOperationFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#IntegrationNotFoundFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#InvalidIntegrationStateFault"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Modifies a zero-ETL integration with Amazon Redshift.</p>\n         <note>\n            <p>Currently, you can only modify integrations that have Aurora MySQL source DB clusters. Integrations with Aurora PostgreSQL and RDS sources currently don't support modifying the integration.</p>\n         </note>",
+                "smithy.api#examples": [
+                    {
+                        "title": "To modify a zero-ETL integration",
+                        "documentation": "The following example modifies the name of an existing zero-ETL integration.",
+                        "input": {
+                            "IntegrationIdentifier": "a1b2c3d4-5678-90ab-cdef-EXAMPLE11111",
+                            "IntegrationName": "my-renamed-integration"
+                        },
+                        "output": {
+                            "SourceArn": "arn:aws:rds:us-east-1:123456789012:cluster:my-cluster",
+                            "IntegrationName": "my-renamed-integration",
+                            "IntegrationArn": "arn:aws:rds:us-east-1:123456789012:integration:5b9f3d79-7392-4a3e-896c-58eaa1b53231",
+                            "TargetArn": "arn:aws:redshift-serverless:us-east-1:123456789012:namespace/62c70612-0302-4db7-8414-b5e3e049f0d8",
+                            "Tags": [],
+                            "DataFilter": "include: *.*",
+                            "CreateTime": "2023-12-28T17:20:20.629Z",
+                            "KMSKeyId": "arn:aws:kms:us-east-1:123456789012:key/a1b2c3d4-5678-90ab-cdef-EXAMPLEaaaaa",
+                            "Status": "active"
+                        }
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.rds#ModifyIntegrationMessage": {
+            "type": "structure",
+            "members": {
+                "IntegrationIdentifier": {
+                    "target": "com.amazonaws.rds#IntegrationIdentifier",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The unique identifier of the integration to modify.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "IntegrationName": {
+                    "target": "com.amazonaws.rds#IntegrationName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A new name for the integration.</p>"
+                    }
+                },
+                "DataFilter": {
+                    "target": "com.amazonaws.rds#DataFilter",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A new data filter for the integration. For more information, see \n            <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Zero_ETL_Filtering.html\">Data filtering for Aurora zero-ETL integrations with Amazon Redshift</a>.</p>"
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.rds#IntegrationDescription",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A new description for the integration.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
             }
         },
         "com.amazonaws.rds#ModifyOptionGroup": {
@@ -23467,6 +24851,84 @@
                 "smithy.api#documentation": "<p>This data type is used as a response element in the <code>ModifyDBInstance</code> operation and \n          contains changes that will be applied during the next maintenance window.</p>"
             }
         },
+        "com.amazonaws.rds#PerformanceInsightsMetricDimensionGroup": {
+            "type": "structure",
+            "members": {
+                "Dimensions": {
+                    "target": "com.amazonaws.rds#StringList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of specific dimensions from a dimension group. If this list isn't included, then all of the dimensions in the group were requested, or are present in the response.</p>"
+                    }
+                },
+                "Group": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The available dimension groups for Performance Insights metric type.</p>"
+                    }
+                },
+                "Limit": {
+                    "target": "com.amazonaws.rds#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of items to fetch for this dimension group.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A logical grouping of Performance Insights metrics for a related subject area. For example, the <code>db.sql</code> dimension group consists of the following dimensions: </p>\n         <ul>\n            <li>\n               <p>\n                  <code>db.sql.id</code> - The hash of a running SQL statement, generated by Performance Insights.</p>\n            </li>\n            <li>\n               <p>\n                  <code>db.sql.db_id</code> - Either the SQL ID generated by the database engine, or a value generated by Performance Insights that begins with <code>pi-</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>db.sql.statement</code> - The full text of the SQL statement that is running, for example, <code>SELECT * FROM employees</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>db.sql_tokenized.id</code> - The hash of the SQL digest generated by Performance Insights.</p>\n            </li>\n         </ul>\n         <note>\n            <p>Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first 500 bytes are returned.</p>\n         </note>"
+            }
+        },
+        "com.amazonaws.rds#PerformanceInsightsMetricQuery": {
+            "type": "structure",
+            "members": {
+                "GroupBy": {
+                    "target": "com.amazonaws.rds#PerformanceInsightsMetricDimensionGroup",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A specification for how to aggregate the data points from a query result. You must\n           specify a valid dimension group. Performance Insights will return all of the dimensions within that group,\n           unless you provide the names of specific dimensions within that group. You can also request\n           that Performance Insights return a limited number of values for a dimension.</p>"
+                    }
+                },
+                "Metric": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of a Performance Insights metric to be measured.</p>\n         <p>Valid Values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>db.load.avg</code> - A scaled representation of the number of active sessions for the \n                    database engine.</p>\n            </li>\n            <li>\n               <p>\n                  <code>db.sampledload.avg</code> - The raw number of active sessions for the database engine.</p>\n            </li>\n            <li>\n               <p>The counter metrics listed in <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights_Counters.html#USER_PerfInsights_Counters.OS\">Performance Insights\n                    operating system counters</a> in the <i>Amazon Aurora User Guide</i>.</p>\n            </li>\n         </ul>\n         <p>If the number of active sessions is less than an internal Performance Insights threshold, <code>db.load.avg</code> \n            and <code>db.sampledload.avg</code> are the same value. If the number of active sessions is greater than the \n            internal threshold, Performance Insights samples the active sessions, with <code>db.load.avg</code> showing the\n            scaled values, <code>db.sampledload.avg</code> showing the raw values, and <code>db.sampledload.avg</code> less than\n            <code>db.load.avg</code>. For most use cases, you can query <code>db.load.avg</code> only.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A single Performance Insights metric query to process. You must provide the metric to the query. \n            If other parameters aren't specified, Performance Insights returns all data points for the \n            specified metric. Optionally, you can request the data points to be aggregated by dimension \n            group (<code>GroupBy</code>) and return only those data points that match your criteria (<code>Filter</code>).</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>Must be a valid Performance Insights query.</p>\n            </li>\n         </ul>"
+            }
+        },
+        "com.amazonaws.rds#PerformanceIssueDetails": {
+            "type": "structure",
+            "members": {
+                "StartTime": {
+                    "target": "com.amazonaws.rds#TStamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time when the performance issue started.</p>"
+                    }
+                },
+                "EndTime": {
+                    "target": "com.amazonaws.rds#TStamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time when the performance issue stopped.</p>"
+                    }
+                },
+                "Metrics": {
+                    "target": "com.amazonaws.rds#MetricList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The metrics that are relevant to the performance issue.</p>"
+                    }
+                },
+                "Analysis": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The analysis of the performance issue. The information might contain markdown.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Details of the performance issue.</p>"
+            }
+        },
         "com.amazonaws.rds#PointInTimeRestoreNotEnabledFault": {
             "type": "structure",
             "members": {
@@ -23976,6 +25438,166 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.rds#RebootDBShardGroup": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.rds#RebootDBShardGroupMessage"
+            },
+            "output": {
+                "target": "com.amazonaws.rds#DBShardGroup"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.rds#DBShardGroupNotFoundFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#InvalidDBShardGroupStateFault"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>You might need to reboot your DB shard group, usually for maintenance reasons. For example, if you make certain modifications, reboot \n            the DB shard group for the changes to take effect.</p>\n         <p>This operation applies only to Aurora Limitless Database DBb shard groups.</p>"
+            }
+        },
+        "com.amazonaws.rds#RebootDBShardGroupMessage": {
+            "type": "structure",
+            "members": {
+                "DBShardGroupIdentifier": {
+                    "target": "com.amazonaws.rds#DBShardGroupIdentifier",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The name of the DB shard group to reboot.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.rds#RecommendedAction": {
+            "type": "structure",
+            "members": {
+                "ActionId": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique identifier of the recommended action.</p>"
+                    }
+                },
+                "Title": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A short description to summarize the action. The description might contain markdown.</p>"
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A detailed description of the action. The description might contain markdown.</p>"
+                    }
+                },
+                "Operation": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An API operation for the action.</p>"
+                    }
+                },
+                "Parameters": {
+                    "target": "com.amazonaws.rds#RecommendedActionParameterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The parameters for the API operation.</p>"
+                    }
+                },
+                "ApplyModes": {
+                    "target": "com.amazonaws.rds#StringList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The methods to apply the recommended action.</p>\n         <p>Valid values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>manual</code> - The action requires you to resolve the recommendation manually.</p>\n            </li>\n            <li>\n               <p>\n                  <code>immediately</code> - The action is applied immediately.</p>\n            </li>\n            <li>\n               <p>\n                  <code>next-maintainance-window</code> - The action is applied during the next scheduled maintainance.</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status of the action.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>ready</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>applied</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>scheduled</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>resolved</code>\n               </p>\n            </li>\n         </ul>"
+                    }
+                },
+                "IssueDetails": {
+                    "target": "com.amazonaws.rds#IssueDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The details of the issue.</p>"
+                    }
+                },
+                "ContextAttributes": {
+                    "target": "com.amazonaws.rds#ContextAttributeList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The supporting attributes to explain the recommended action.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The recommended actions to apply to resolve the issues associated with your DB instances, DB clusters, and DB parameter groups.</p>"
+            }
+        },
+        "com.amazonaws.rds#RecommendedActionList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.rds#RecommendedAction"
+            }
+        },
+        "com.amazonaws.rds#RecommendedActionParameter": {
+            "type": "structure",
+            "members": {
+                "Key": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The key of the parameter to use with the <code>RecommendedAction</code> API operation.</p>"
+                    }
+                },
+                "Value": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The value of the parameter to use with the <code>RecommendedAction</code> API operation.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A single parameter to use with the <code>RecommendedAction</code> API operation to apply the action.</p>"
+            }
+        },
+        "com.amazonaws.rds#RecommendedActionParameterList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.rds#RecommendedActionParameter"
+            }
+        },
+        "com.amazonaws.rds#RecommendedActionUpdate": {
+            "type": "structure",
+            "members": {
+                "ActionId": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>A unique identifier of the updated recommendation action.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The status of the updated recommendation action.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>applied</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>scheduled</code>\n               </p>\n            </li>\n         </ul>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The recommended status to update for the specified recommendation action ID.</p>"
+            }
+        },
+        "com.amazonaws.rds#RecommendedActionUpdateList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.rds#RecommendedActionUpdate"
+            }
+        },
         "com.amazonaws.rds#RecurringCharge": {
             "type": "structure",
             "members": {
@@ -24003,6 +25625,20 @@
                 "traits": {
                     "smithy.api#xmlName": "RecurringCharge"
                 }
+            }
+        },
+        "com.amazonaws.rds#ReferenceDetails": {
+            "type": "structure",
+            "members": {
+                "ScalarReferenceDetails": {
+                    "target": "com.amazonaws.rds#ScalarReferenceDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The metric reference details when the reference is a scalar.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The reference details of a metric.</p>"
             }
         },
         "com.amazonaws.rds#RegisterDBProxyTargets": {
@@ -25346,6 +26982,9 @@
                     "target": "com.amazonaws.rds#InsufficientDBClusterCapacityFault"
                 },
                 {
+                    "target": "com.amazonaws.rds#InsufficientDBInstanceCapacityFault"
+                },
+                {
                     "target": "com.amazonaws.rds#InsufficientStorageClusterCapacityFault"
                 },
                 {
@@ -25671,6 +27310,9 @@
                 },
                 {
                     "target": "com.amazonaws.rds#InsufficientDBClusterCapacityFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#InsufficientDBInstanceCapacityFault"
                 },
                 {
                     "target": "com.amazonaws.rds#InsufficientStorageClusterCapacityFault"
@@ -26165,7 +27807,7 @@
                 "StorageType": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the storage type to be associated with the DB instance.</p>\n         <p>Valid Values: <code>gp2 | gp3 | io1 | standard</code>\n         </p>\n         <p>If you specify <code>io1</code> or <code>gp3</code>, you must also include a value for the\n            <code>Iops</code> parameter.</p>\n         <p>Default: <code>io1</code> if the <code>Iops</code> parameter\n            is specified, otherwise <code>gp2</code>\n         </p>"
+                        "smithy.api#documentation": "<p>Specifies the storage type to be associated with the DB instance.</p>\n         <p>Valid Values: <code>gp2 | gp3 | io1 | io2 | standard</code>\n         </p>\n         <p>If you specify <code>io1</code>, <code>io2</code>, or <code>gp3</code>, you must also include a value for the\n            <code>Iops</code> parameter.</p>\n         <p>Default: <code>io1</code> if the <code>Iops</code> parameter\n            is specified, otherwise <code>gp2</code>\n         </p>"
                     }
                 },
                 "TdeCredentialArn": {
@@ -26297,7 +27939,7 @@
                 "DBClusterSnapshotIdentifier": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The identifier for the RDS for MySQL Multi-AZ DB cluster snapshot to restore from.</p>\n         <p>For more information on Multi-AZ DB clusters, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html\"> Multi-AZ DB\n                cluster deployments</a> in the <i>Amazon RDS User\n            Guide</i>.</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>Must match the identifier of an existing Multi-AZ DB cluster snapshot.</p>\n            </li>\n            <li>\n               <p>Can't be specified when <code>DBSnapshotIdentifier</code> is specified.</p>\n            </li>\n            <li>\n               <p>Must be specified when <code>DBSnapshotIdentifier</code> isn't specified.</p>\n            </li>\n            <li>\n               <p>If you are restoring from a shared manual Multi-AZ DB cluster snapshot, the <code>DBClusterSnapshotIdentifier</code>\n                    must be the ARN of the shared snapshot.</p>\n            </li>\n            <li>\n               <p>Can't be the identifier of an Aurora DB cluster snapshot.</p>\n            </li>\n            <li>\n               <p>Can't be the identifier of an RDS for PostgreSQL Multi-AZ DB cluster snapshot.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>The identifier for the Multi-AZ DB cluster snapshot to restore from.</p>\n         <p>For more information on Multi-AZ DB clusters, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html\"> Multi-AZ DB\n                cluster deployments</a> in the <i>Amazon RDS User\n            Guide</i>.</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>Must match the identifier of an existing Multi-AZ DB cluster snapshot.</p>\n            </li>\n            <li>\n               <p>Can't be specified when <code>DBSnapshotIdentifier</code> is specified.</p>\n            </li>\n            <li>\n               <p>Must be specified when <code>DBSnapshotIdentifier</code> isn't specified.</p>\n            </li>\n            <li>\n               <p>If you are restoring from a shared manual Multi-AZ DB cluster snapshot, the <code>DBClusterSnapshotIdentifier</code>\n                    must be the ARN of the shared snapshot.</p>\n            </li>\n            <li>\n               <p>Can't be the identifier of an Aurora DB cluster snapshot.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "AllocatedStorage": {
@@ -26553,7 +28195,7 @@
                 "StorageType": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the storage type to be associated with the DB instance.</p>\n         <p>Valid Values: <code>gp2 | gp3 | io1 | standard</code>\n         </p>\n         <p>If you specify <code>io1</code> or <code>gp3</code>, \n            you must also include a value for the <code>Iops</code> parameter.</p>\n         <p>Default: <code>io1</code> \n            if the <code>Iops</code> parameter is specified; \n            otherwise <code>gp2</code>\n         </p>"
+                        "smithy.api#documentation": "<p>Specifies the storage type to be associated with the DB instance.</p>\n         <p>Valid Values: <code>gp2 | gp3 | io1 | io2 | standard</code>\n         </p>\n         <p>If you specify <code>io1</code>, <code>io2</code>, or <code>gp3</code>, \n            you must also include a value for the <code>Iops</code> parameter.</p>\n         <p>Default: <code>io1</code> \n            if the <code>Iops</code> parameter is specified; \n            otherwise <code>gp2</code>\n         </p>"
                     }
                 },
                 "StorageEncrypted": {
@@ -27013,7 +28655,7 @@
                 "StorageType": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The storage type to associate with the DB instance.</p>\n         <p>Valid Values: <code>gp2 | gp3 | io1 | standard</code>\n         </p>\n         <p>Default: <code>io1</code>, if the <code>Iops</code> parameter\n            is specified. Otherwise, <code>gp2</code>.</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>If you specify <code>io1</code> or <code>gp3</code>, you must also include a value for the\n            <code>Iops</code> parameter.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>The storage type to associate with the DB instance.</p>\n         <p>Valid Values: <code>gp2 | gp3 | io1 | io2 | standard</code>\n         </p>\n         <p>Default: <code>io1</code>, if the <code>Iops</code> parameter\n            is specified. Otherwise, <code>gp2</code>.</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>If you specify <code>io1</code>, <code>io2</code>, or <code>gp3</code>, you must also include a value for the\n            <code>Iops</code> parameter.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "TdeCredentialArn": {
@@ -27340,6 +28982,20 @@
                 "smithy.api#documentation": "<p>The SNS topic ARN does not exist.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 404
+            }
+        },
+        "com.amazonaws.rds#ScalarReferenceDetails": {
+            "type": "structure",
+            "members": {
+                "Value": {
+                    "target": "com.amazonaws.rds#Double",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The value of a scalar reference.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The metric reference details when the reference is a scalar.</p>"
             }
         },
         "com.amazonaws.rds#ScalingConfiguration": {
@@ -29393,6 +31049,23 @@
                 "smithy.api#documentation": "<p>A time zone associated with a \n            <code>DBInstance</code> \n            or a <code>DBSnapshot</code>.\n            This data type is an element in the response to  \n            the <code>DescribeDBInstances</code>, \n            the <code>DescribeDBSnapshots</code>,\n            and the <code>DescribeDBEngineVersions</code>\n            actions.</p>"
             }
         },
+        "com.amazonaws.rds#UnsupportedDBEngineVersionFault": {
+            "type": "structure",
+            "members": {
+                "message": {
+                    "target": "com.amazonaws.rds#ExceptionMessage"
+                }
+            },
+            "traits": {
+                "aws.protocols#awsQueryError": {
+                    "code": "UnsupportedDBEngineVersion",
+                    "httpResponseCode": 400
+                },
+                "smithy.api#documentation": "<p>The specified DB engine version isn't supported for Aurora Limitless Database.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 400
+            }
+        },
         "com.amazonaws.rds#UpgradeTarget": {
             "type": "structure",
             "members": {
@@ -29599,7 +31272,7 @@
                 "StorageType": {
                     "target": "com.amazonaws.rds#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The valid storage types for your DB instance.\n            For example: gp2, gp3, io1.</p>"
+                        "smithy.api#documentation": "<p>The valid storage types for your DB instance.\n            For example: gp2, gp3, io1, io2.</p>"
                     }
                 },
                 "StorageSize": {

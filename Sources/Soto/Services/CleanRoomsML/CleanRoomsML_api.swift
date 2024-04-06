@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS CleanRoomsML service.
 ///
-/// API Reference for Amazon Web Services Clean Rooms ML.
+/// Welcome to the Amazon Web Services Clean Rooms ML API Reference. Amazon Web Services Clean Rooms ML provides a privacy-enhancing method for two parties to identify similar users in their data without the need to share their data with each other. The first party brings the training data to Clean Rooms so that they can create and configure an audience model (lookalike model) and associate it with a collaboration. The second party then brings their seed data to Clean Rooms  and generates an audience (lookalike segment) that resembles the training data. To learn more about Amazon Web Services Clean Rooms ML concepts, procedures, and best practices, see the Clean Rooms User Guide. To learn more about SQL commands, functions, and conditions supported in Clean Rooms, see the Clean Rooms SQL Reference.
 public struct CleanRoomsML: AWSService {
     // MARK: Member variables
 
@@ -99,7 +99,7 @@ public struct CleanRoomsML: AWSService {
         )
     }
 
-    /// Defines the information necessary to create a training dataset, or seed audience. In Clean Rooms ML, the TrainingDataset is metadata that points to a Glue table, which is read only during AudienceModel creation.
+    /// Defines the information necessary to create a training dataset. In Clean Rooms ML, the TrainingDataset is metadata that points to a Glue table, which is read only during AudienceModel creation.
     @Sendable
     public func createTrainingDataset(_ input: CreateTrainingDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrainingDatasetResponse {
         return try await self.client.execute(

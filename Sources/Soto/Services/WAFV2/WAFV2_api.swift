@@ -242,6 +242,19 @@ public struct WAFV2: AWSService {
         )
     }
 
+    /// Deletes the specified API key.  After you delete a key, it can take up to 24 hours for WAF to disallow use of the key in all regions.
+    @Sendable
+    public func deleteAPIKey(_ input: DeleteAPIKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAPIKeyResponse {
+        return try await self.client.execute(
+            operation: "DeleteAPIKey", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes all rule groups that are managed by Firewall Manager for the specified web ACL.  You can only use this if ManagedByFirewallManager is false in the specified WebACL.
     @Sendable
     public func deleteFirewallManagerRuleGroups(_ input: DeleteFirewallManagerRuleGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFirewallManagerRuleGroupsResponse {

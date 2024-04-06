@@ -85,6 +85,7 @@ public struct DynamoDB: AWSService {
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
             "ca-central-1": "dynamodb-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "dynamodb-fips.ca-west-1.amazonaws.com",
             "us-east-1": "dynamodb-fips.us-east-1.amazonaws.com",
             "us-east-2": "dynamodb-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "dynamodb.us-gov-east-1.amazonaws.com",
@@ -204,6 +205,21 @@ public struct DynamoDB: AWSService {
     public func deleteItem(_ input: DeleteItemInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteItemOutput {
         return try await self.client.execute(
             operation: "DeleteItem", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the resource-based policy attached to the resource, which can be a table or stream.  DeleteResourcePolicy is an idempotent operation; running it multiple times on the same resource doesn't result in an error response, unless you specify an ExpectedRevisionId, which will then return a PolicyNotFoundException.  To make sure that you don't inadvertently lock yourself out of your own resources, the root principal in your Amazon Web Services account can perform DeleteResourcePolicy requests, even if your resource-based policy explicitly denies the root principal's access.     DeleteResourcePolicy is an asynchronous operation. If you issue a GetResourcePolicy request immediately after running the DeleteResourcePolicy request, DynamoDB might still return the deleted policy. This is because the policy for your resource might not have been deleted yet. Wait for a few seconds, and then try the GetResourcePolicy request again.
+    @Sendable
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyOutput {
+        return try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config
@@ -498,6 +514,21 @@ public struct DynamoDB: AWSService {
         )
     }
 
+    /// Returns the resource-based policy document attached to the resource, which can be a table or stream, in JSON format.  GetResourcePolicy follows an  eventually consistent model. The following list describes the outcomes when you issue the GetResourcePolicy request immediately after issuing another request:   If you issue a GetResourcePolicy request immediately after a PutResourcePolicy request, DynamoDB might return a PolicyNotFoundException.   If you issue a GetResourcePolicyrequest immediately after a DeleteResourcePolicy request, DynamoDB might return the policy that was present before the deletion request.   If you issue a GetResourcePolicy request immediately after a CreateTable request, which includes a resource-based policy, DynamoDB might return a ResourceNotFoundException or a PolicyNotFoundException.   Because GetResourcePolicy uses an eventually consistent query, the metadata for your policy or table might not be available at that moment. Wait for a few seconds, and then retry the GetResourcePolicy request. After a GetResourcePolicy request returns a policy created using the PutResourcePolicy request, you can assume the policy will start getting applied in the authorization of requests to the resource. Because this process is eventually consistent, it will take some time to apply the policy to all requests to a resource. Policies that you attach while creating a table using the CreateTable request will always be applied to all requests for that table.
+    @Sendable
+    public func getResourcePolicy(_ input: GetResourcePolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyOutput {
+        return try await self.client.execute(
+            operation: "GetResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
+            input: input, 
+            logger: logger
+        )
+    }
+
     ///  Imports table data from an S3 bucket.
     @Sendable
     public func importTable(_ input: ImportTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportTableOutput {
@@ -625,6 +656,21 @@ public struct DynamoDB: AWSService {
         )
     }
 
+    /// Attaches a resource-based policy document to the resource, which can be a table or stream. When you attach a resource-based policy using this API, the policy application is  eventually consistent .  PutResourcePolicy is an idempotent operation; running it multiple times on the same resource using the same policy document will return the same revision ID. If you specify an ExpectedRevisionId which doesn't match the current policy's RevisionId, the PolicyNotFoundException will be returned.   PutResourcePolicy is an asynchronous operation. If you issue a GetResourcePolicy request immediately after a PutResourcePolicy request, DynamoDB might return your previous policy, if there was one, or return the PolicyNotFoundException. This is because GetResourcePolicy uses an eventually consistent query, and the metadata for your policy or table might not be available at that moment. Wait for a few seconds, and then try the GetResourcePolicy request again.
+    @Sendable
+    public func putResourcePolicy(_ input: PutResourcePolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyOutput {
+        return try await self.client.execute(
+            operation: "PutResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// You must provide the name of the partition key attribute and a single value for that attribute. Query returns all items with that partition key value. Optionally, you can provide a sort key attribute and use a comparison operator to refine the search results. Use the KeyConditionExpression parameter to provide a specific value for the partition key. The Query operation will return all of the items from the table or index with that partition key value. You can optionally narrow the scope of the Query operation by specifying a sort key value and a comparison operator in KeyConditionExpression. To further refine the Query results, you can optionally provide a FilterExpression. A FilterExpression determines which items within the results should be returned to you. All of the other results are discarded.  A Query operation always returns a result set. If no matching items are found, the result set will be empty. Queries that do not return results consume the minimum number of read capacity units for that type of read operation.   DynamoDB calculates the number of read capacity units consumed based on item size, not on the amount of data that is returned to an application. The number of capacity units consumed will be the same whether you request all of the attributes (the default behavior) or just some of them (using a projection expression). The number will also be the same whether or not you use a FilterExpression.    Query results are always sorted by the sort key value. If the data type of the sort key is Number, the results are returned in numeric order; otherwise, the results are returned in order of UTF-8 bytes. By default, the sort order is ascending. To reverse the order, set the ScanIndexForward parameter to false.  A single Query operation will read up to the maximum number of items set (if using the Limit parameter) or a maximum of 1 MB of data and then apply any filtering to the results using FilterExpression. If LastEvaluatedKey is present in the response, you will need to paginate the result set. For more information, see Paginating the Results in the Amazon DynamoDB Developer Guide.   FilterExpression is applied after a Query finishes, but before the results are returned. A FilterExpression cannot contain partition key or sort key attributes. You need to specify those attributes in the KeyConditionExpression.   A Query operation can return an empty result set and a LastEvaluatedKey if all the items read for the page of results are filtered out.   You can query a table, a local secondary index, or a global secondary index. For a query on a table or on a local secondary index, you can set the ConsistentRead parameter to true and obtain a strongly consistent result. Global secondary indexes support eventually consistent reads only, so do not specify ConsistentRead when querying a global secondary index.
     @Sendable
     public func query(_ input: QueryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> QueryOutput {
@@ -655,7 +701,7 @@ public struct DynamoDB: AWSService {
         )
     }
 
-    /// Restores the specified table to the specified point in time within EarliestRestorableDateTime and LatestRestorableDateTime. You can restore your table to any point in time during the last 35 days. Any number of users can execute up to 4 concurrent restores (any type of restore) in a given account.  When you restore using point in time recovery, DynamoDB restores your table data to the state based on the selected date and time (day:hour:minute:second) to a new table.  Along with data, the following are also included on the new restored table using point in time recovery:    Global secondary indexes (GSIs)   Local secondary indexes (LSIs)   Provisioned read and write capacity   Encryption settings  All these settings come from the current settings of the source table at the time of restore.     You must manually set up the following on the restored table:   Auto scaling policies   IAM policies   Amazon CloudWatch metrics and alarms   Tags   Stream settings   Time to Live (TTL) settings   Point in time recovery settings
+    /// Restores the specified table to the specified point in time within EarliestRestorableDateTime and LatestRestorableDateTime. You can restore your table to any point in time during the last 35 days. Any number of users can execute up to 50 concurrent restores (any type of restore) in a given account.  When you restore using point in time recovery, DynamoDB restores your table data to the state based on the selected date and time (day:hour:minute:second) to a new table.  Along with data, the following are also included on the new restored table using point in time recovery:    Global secondary indexes (GSIs)   Local secondary indexes (LSIs)   Provisioned read and write capacity   Encryption settings  All these settings come from the current settings of the source table at the time of restore.     You must manually set up the following on the restored table:   Auto scaling policies   IAM policies   Amazon CloudWatch metrics and alarms   Tags   Stream settings   Time to Live (TTL) settings   Point in time recovery settings
     @Sendable
     public func restoreTableToPointInTime(_ input: RestoreTableToPointInTimeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreTableToPointInTimeOutput {
         return try await self.client.execute(
@@ -773,7 +819,7 @@ public struct DynamoDB: AWSService {
         )
     }
 
-    /// Adds or removes replicas in the specified global table. The global table must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units.  This operation only applies to Version 2017.11.29 (Legacy) of global tables. We recommend using Version 2019.11.21 (Current) when creating new global tables, as it provides greater flexibility, higher efficiency and consumes less write capacity than  2017.11.29 (Legacy). To determine which version you are using, see  Determining the version.  To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see  Updating global tables.     This operation only applies to Version 2017.11.29 of global tables. If you are using global tables Version 2019.11.21 you can use DescribeTable instead.   Although you can use UpdateGlobalTable to add replicas and remove replicas in a single request, for simplicity we recommend that you issue separate requests for adding or removing replicas.   If global secondary indexes are specified, then the following conditions must also be met:    The global secondary indexes must have the same name.    The global secondary indexes must have the same hash key and sort key (if present).    The global secondary indexes must have the same provisioned and maximum write capacity units.
+    /// Adds or removes replicas in the specified global table. The global table must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units.  This operation only applies to Version 2017.11.29 (Legacy) of global tables. We recommend using Version 2019.11.21 (Current) when creating new global tables, as it provides greater flexibility, higher efficiency and consumes less write capacity than  2017.11.29 (Legacy). To determine which version you are using, see  Determining the version.  To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see  Updating global tables.     This operation only applies to Version 2017.11.29 of global tables. If you are using global tables Version 2019.11.21 you can use UpdateTable instead.   Although you can use UpdateGlobalTable to add replicas and remove replicas in a single request, for simplicity we recommend that you issue separate requests for adding or removing replicas.   If global secondary indexes are specified, then the following conditions must also be met:    The global secondary indexes must have the same name.    The global secondary indexes must have the same hash key and sort key (if present).    The global secondary indexes must have the same provisioned and maximum write capacity units.
     @Sendable
     public func updateGlobalTable(_ input: UpdateGlobalTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGlobalTableOutput {
         return try await self.client.execute(
@@ -818,7 +864,22 @@ public struct DynamoDB: AWSService {
         )
     }
 
-    /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table.  This operation only applies to Version 2019.11.21 (Current)  of global tables.   You can only perform one of the following operations at once:   Modify the provisioned throughput settings of the table.   Remove a global secondary index from the table.   Create a new global secondary index on the table. After the index begins backfilling, you can use UpdateTable to perform other operations.    UpdateTable is an asynchronous operation; while it is executing, the table status changes from ACTIVE to UPDATING. While it is UPDATING, you cannot issue another UpdateTable request. When the table returns to the ACTIVE state, the UpdateTable operation is complete.
+    /// The command to update the Kinesis stream destination.
+    @Sendable
+    public func updateKinesisStreamingDestination(_ input: UpdateKinesisStreamingDestinationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKinesisStreamingDestinationOutput {
+        return try await self.client.execute(
+            operation: "UpdateKinesisStreamingDestination", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table.  This operation only applies to Version 2019.11.21 (Current)  of global tables.   You can only perform one of the following operations at once:   Modify the provisioned throughput settings of the table.   Remove a global secondary index from the table.   Create a new global secondary index on the table. After the index begins backfilling, you can use UpdateTable to perform other operations.    UpdateTable is an asynchronous operation; while it's executing, the table status changes from ACTIVE to UPDATING. While it's UPDATING, you can't issue another UpdateTable request. When the table returns to the ACTIVE state, the UpdateTable operation is complete.
     @Sendable
     public func updateTable(_ input: UpdateTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTableOutput {
         return try await self.client.execute(

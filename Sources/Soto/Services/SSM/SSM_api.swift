@@ -77,6 +77,7 @@ public struct SSM: AWSService {
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
             "ca-central-1": "ssm-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "ssm-fips.ca-west-1.amazonaws.com",
             "us-east-1": "ssm-fips.us-east-1.amazonaws.com",
             "us-east-2": "ssm-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "ssm.us-gov-east-1.amazonaws.com",
@@ -88,7 +89,7 @@ public struct SSM: AWSService {
 
     // MARK: API Calls
 
-    /// Adds or overwrites one or more tags for the specified resource. Tags are metadata that you can assign to your automations, documents, managed nodes, maintenance windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed nodes that helps you track each node's owner and stack level. For example:    Key=Owner,Value=DbAdmin     Key=Owner,Value=SysAdmin     Key=Owner,Value=Dev     Key=Stack,Value=Production     Key=Stack,Value=Pre-Production     Key=Stack,Value=Test    Most resources can have a maximum of 50 tags. Automations can have a maximum of 5 tags. We recommend that you devise a set of tag keys that meets your needs for each resource type. Using a consistent set of tag keys makes it easier for you to manage your resources. You can search and filter the resources based on the tags you add. Tags don't have any semantic meaning to and are interpreted strictly as a string of characters. For more information about using tags with Amazon Elastic Compute Cloud (Amazon EC2) instances, see Tagging your Amazon EC2 resources in the Amazon EC2 User Guide.
+    /// Adds or overwrites one or more tags for the specified resource. Tags are metadata that you can assign to your automations, documents, managed nodes, maintenance windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed nodes that helps you track each node's owner and stack level. For example:    Key=Owner,Value=DbAdmin     Key=Owner,Value=SysAdmin     Key=Owner,Value=Dev     Key=Stack,Value=Production     Key=Stack,Value=Pre-Production     Key=Stack,Value=Test    Most resources can have a maximum of 50 tags. Automations can have a maximum of 5 tags. We recommend that you devise a set of tag keys that meets your needs for each resource type. Using a consistent set of tag keys makes it easier for you to manage your resources. You can search and filter the resources based on the tags you add. Tags don't have any semantic meaning to and are interpreted strictly as a string of characters. For more information about using tags with Amazon Elastic Compute Cloud (Amazon EC2) instances, see Tag your Amazon EC2 resources in the Amazon EC2 User Guide.
     @Sendable
     public func addTagsToResource(_ input: AddTagsToResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddTagsToResourceResult {
         return try await self.client.execute(
@@ -140,7 +141,7 @@ public struct SSM: AWSService {
         )
     }
 
-    /// Generates an activation code and activation ID you can use to register your on-premises servers, edge devices, or virtual machine (VM) with Amazon Web Services Systems Manager. Registering these machines with Systems Manager makes it possible to manage them using Systems Manager capabilities. You use the activation code and ID when installing SSM Agent on machines in your hybrid environment. For more information about requirements for managing on-premises machines using Systems Manager, see Setting up Amazon Web Services Systems Manager for hybrid environments in the Amazon Web Services Systems Manager User Guide.   Amazon Elastic Compute Cloud (Amazon EC2) instances, edge devices, and on-premises servers and VMs that are configured for Systems Manager are all called managed nodes.
+    /// Generates an activation code and activation ID you can use to register your on-premises servers, edge devices, or virtual machine (VM) with Amazon Web Services Systems Manager. Registering these machines with Systems Manager makes it possible to manage them using Systems Manager capabilities. You use the activation code and ID when installing SSM Agent on machines in your hybrid environment. For more information about requirements for managing on-premises machines using Systems Manager, see Setting up Amazon Web Services Systems Manager for hybrid and multicloud environments in the Amazon Web Services Systems Manager User Guide.   Amazon Elastic Compute Cloud (Amazon EC2) instances, edge devices, and on-premises servers and VMs that are configured for Systems Manager are all called managed nodes.
     @Sendable
     public func createActivation(_ input: CreateActivationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateActivationResult {
         return try await self.client.execute(
@@ -400,7 +401,7 @@ public struct SSM: AWSService {
         )
     }
 
-    /// Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. Currently, OpsItemGroup is the only resource that supports Systems Manager resource policies. The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
+    /// Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following resources support Systems Manager resource policies.    OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).    Parameter - The resource policy is used to share a parameter with other accounts using Resource Access Manager (RAM). For more information about cross-account sharing of parameters, see Working with shared parameters in the Amazon Web Services Systems Manager User Guide.
     @Sendable
     public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyResponse {
         return try await self.client.execute(
@@ -543,7 +544,7 @@ public struct SSM: AWSService {
         )
     }
 
-    /// Lists all patches eligible to be included in a patch baseline.
+    /// Lists all patches eligible to be included in a patch baseline.  Currently, DescribeAvailablePatches supports only the Amazon Linux 1, Amazon Linux 2, and Windows Server operating systems.
     @Sendable
     public func describeAvailablePatches(_ input: DescribeAvailablePatchesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAvailablePatchesResult {
         return try await self.client.execute(
@@ -582,7 +583,7 @@ public struct SSM: AWSService {
         )
     }
 
-    /// All associations for the managed node(s).
+    /// All associations for the managed nodes.
     @Sendable
     public func describeEffectiveInstanceAssociations(_ input: DescribeEffectiveInstanceAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEffectiveInstanceAssociationsResult {
         return try await self.client.execute(
@@ -608,7 +609,7 @@ public struct SSM: AWSService {
         )
     }
 
-    /// The status of the associations for the managed node(s).
+    /// The status of the associations for the managed nodes.
     @Sendable
     public func describeInstanceAssociationsStatus(_ input: DescribeInstanceAssociationsStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceAssociationsStatusResult {
         return try await self.client.execute(
@@ -790,7 +791,7 @@ public struct SSM: AWSService {
         )
     }
 
-    /// Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see OpsCenter in the Amazon Web Services Systems Manager User Guide.
+    /// Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see Amazon Web Services Systems Manager OpsCenter in the Amazon Web Services Systems Manager User Guide.
     @Sendable
     public func describeOpsItems(_ input: DescribeOpsItemsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOpsItemsResponse {
         return try await self.client.execute(
@@ -803,7 +804,7 @@ public struct SSM: AWSService {
         )
     }
 
-    /// Get information about a parameter. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.  If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, DescribeParameters retrieves whatever the original key alias was referencing.
+    /// Lists the parameters in your Amazon Web Services account or the parameters shared with you when you enable the Shared option. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.  If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, DescribeParameters retrieves whatever the original key alias was referencing.
     @Sendable
     public func describeParameters(_ input: DescribeParametersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeParametersResult {
         return try await self.client.execute(
@@ -1076,7 +1077,7 @@ public struct SSM: AWSService {
         )
     }
 
-    /// Get information about an OpsItem by using the ID. You must have permission in Identity and Access Management (IAM) to view information about an OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see OpsCenter in the Amazon Web Services Systems Manager User Guide.
+    /// Get information about an OpsItem by using the ID. You must have permission in Identity and Access Management (IAM) to view information about an OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see Amazon Web Services Systems Manager OpsCenter in the Amazon Web Services Systems Manager User Guide.
     @Sendable
     public func getOpsItem(_ input: GetOpsItemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOpsItemResponse {
         return try await self.client.execute(
@@ -1492,7 +1493,7 @@ public struct SSM: AWSService {
         )
     }
 
-    /// Creates or updates a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. Currently, OpsItemGroup is the only resource that supports Systems Manager resource policies. The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
+    /// Creates or updates a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. The following resources support Systems Manager resource policies.    OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).    Parameter - The resource policy is used to share a parameter with other accounts using Resource Access Manager (RAM).  To share a parameter, it must be in the advanced parameter tier. For information about parameter tiers, see Managing parameter tiers. For information about changing an existing standard parameter to an advanced parameter, see Changing a standard parameter to an advanced parameter. To share a SecureString parameter, it must be encrypted with a customer managed key, and you must share the key separately through Key Management Service. Amazon Web Services managed keys cannot be shared. Parameters encrypted with the default Amazon Web Services managed key can be updated to use a customer managed key instead. For KMS key definitions, see KMS concepts in the Key Management Service Developer Guide.  While you can share a parameter using the Systems Manager PutResourcePolicy operation, we recommend using Resource Access Manager (RAM) instead. This is because using PutResourcePolicy requires the extra step of promoting the parameter to a standard RAM Resource Share using the RAM PromoteResourceShareCreatedFromPolicy API operation. Otherwise, the parameter won't be returned by the Systems Manager DescribeParameters API operation using the --shared option. For more information, see Sharing a parameter in the Amazon Web Services Systems Manager User Guide
     @Sendable
     public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
         return try await self.client.execute(
@@ -1830,7 +1831,7 @@ public struct SSM: AWSService {
         )
     }
 
-    /// Edit or change an OpsItem. You must have permission in Identity and Access Management (IAM) to update an OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see OpsCenter in the Amazon Web Services Systems Manager User Guide.
+    /// Edit or change an OpsItem. You must have permission in Identity and Access Management (IAM) to update an OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see Amazon Web Services Systems Manager OpsCenter in the Amazon Web Services Systems Manager User Guide.
     @Sendable
     public func updateOpsItem(_ input: UpdateOpsItemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOpsItemResponse {
         return try await self.client.execute(
@@ -2004,7 +2005,7 @@ extension SSM {
         )
     }
 
-    /// Lists all patches eligible to be included in a patch baseline.
+    /// Lists all patches eligible to be included in a patch baseline.  Currently, DescribeAvailablePatches supports only the Amazon Linux 1, Amazon Linux 2, and Windows Server operating systems.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2023,7 +2024,7 @@ extension SSM {
         )
     }
 
-    /// All associations for the managed node(s).
+    /// All associations for the managed nodes.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2061,7 +2062,7 @@ extension SSM {
         )
     }
 
-    /// The status of the associations for the managed node(s).
+    /// The status of the associations for the managed nodes.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2327,7 +2328,7 @@ extension SSM {
         )
     }
 
-    /// Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see OpsCenter in the Amazon Web Services Systems Manager User Guide.
+    /// Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see Amazon Web Services Systems Manager OpsCenter in the Amazon Web Services Systems Manager User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2346,7 +2347,7 @@ extension SSM {
         )
     }
 
-    /// Get information about a parameter. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.  If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, DescribeParameters retrieves whatever the original key alias was referencing.
+    /// Lists the parameters in your Amazon Web Services account or the parameters shared with you when you enable the Shared option. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.  If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, DescribeParameters retrieves whatever the original key alias was referencing.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -3057,7 +3058,8 @@ extension SSM.DescribeParametersRequest: AWSPaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
-            parameterFilters: self.parameterFilters
+            parameterFilters: self.parameterFilters,
+            shared: self.shared
         )
     }
 }

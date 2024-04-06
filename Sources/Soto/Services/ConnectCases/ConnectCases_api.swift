@@ -107,7 +107,8 @@ public struct ConnectCases: AWSService {
         )
     }
 
-    /// Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. The following fields are required when creating a case:     customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID     title
+    ///  If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide
+    ///  Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. The following fields are required when creating a case:     customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID     title
     @Sendable
     public func createCase(_ input: CreateCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCaseResponse {
         return try await self.client.execute(
@@ -159,7 +160,8 @@ public struct ConnectCases: AWSService {
         )
     }
 
-    /// Creates a related item (comments, tasks, and contacts) and associates it with a case.    A Related Item is a resource that is associated with a case. It may or may not have an external identifier linking it to an external resource (for example, a contactArn). All Related Items have their own internal identifier, the relatedItemArn. Examples of related items include comments and contacts.   If you provide a value for performedBy.userArn you must also have  DescribeUser permission on the ARN of the user that you provide.
+    /// Creates a related item (comments, tasks, and contacts) and associates it with a case.    A Related Item is a resource that is associated with a case. It may or may not have an external identifier linking it to an external resource (for example, a contactArn). All Related Items have their own internal identifier, the relatedItemArn. Examples of related items include comments and contacts.   If you provide a value for performedBy.userArn you must also have DescribeUser permission on the ARN of the user that you provide.
+    ///
     @Sendable
     public func createRelatedItem(_ input: CreateRelatedItemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRelatedItemResponse {
         return try await self.client.execute(
@@ -205,6 +207,19 @@ public struct ConnectCases: AWSService {
         return try await self.client.execute(
             operation: "GetCase", 
             path: "/domains/{domainId}/cases/{caseId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns the audit history about a specific case if it exists.
+    @Sendable
+    public func getCaseAuditEvents(_ input: GetCaseAuditEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCaseAuditEventsResponse {
+        return try await self.client.execute(
+            operation: "GetCaseAuditEvents", 
+            path: "/domains/{domainId}/cases/{caseId}/audit-history", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -420,7 +435,8 @@ public struct ConnectCases: AWSService {
         )
     }
 
-    /// Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    ///  If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide
+    ///  Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     @Sendable
     public func updateCase(_ input: UpdateCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCaseResponse {
         return try await self.client.execute(
@@ -501,6 +517,25 @@ extension ConnectCases {
             command: self.getCase,
             inputKey: \GetCaseRequest.nextToken,
             outputKey: \GetCaseResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns the audit history about a specific case if it exists.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func getCaseAuditEventsPaginator(
+        _ input: GetCaseAuditEventsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetCaseAuditEventsRequest, GetCaseAuditEventsResponse> {
+        return .init(
+            input: input,
+            command: self.getCaseAuditEvents,
+            inputKey: \GetCaseAuditEventsRequest.nextToken,
+            outputKey: \GetCaseAuditEventsResponse.nextToken,
             logger: logger
         )
     }
@@ -654,6 +689,17 @@ extension ConnectCases {
             inputKey: \SearchRelatedItemsRequest.nextToken,
             outputKey: \SearchRelatedItemsResponse.nextToken,
             logger: logger
+        )
+    }
+}
+
+extension ConnectCases.GetCaseAuditEventsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConnectCases.GetCaseAuditEventsRequest {
+        return .init(
+            caseId: self.caseId,
+            domainId: self.domainId,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

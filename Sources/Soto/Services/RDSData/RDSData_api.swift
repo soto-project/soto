@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS RDSData service.
 ///
-/// Amazon RDS Data Service Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon Aurora Serverless v1 DB cluster. To run these statements, you work with the Data Service API.  The Data Service API isn't supported on Amazon Aurora Serverless v2 DB clusters.  For more information about the Data Service API, see Using the Data API in the Amazon Aurora User Guide.
+/// RDS Data API Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon Aurora DB cluster. To run these statements, you use the RDS Data API (Data API). Data API is available with the following types of Aurora databases:   Aurora PostgreSQL - Serverless v2, Serverless v1, and provisioned   Aurora MySQL - Serverless v1 only   For more information about the Data API, see Using RDS Data API in the Amazon Aurora User Guide.
 public struct RDSData: AWSService {
     // MARK: Member variables
 
@@ -122,7 +122,7 @@ public struct RDSData: AWSService {
         )
     }
 
-    /// Runs one or more SQL statements.  This operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation.
+    /// Runs one or more SQL statements.  This operation isn't supported for Aurora PostgreSQL Serverless v2 and provisioned DB clusters, and for Aurora Serverless v1 DB clusters,  the operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation.
     @available(*, deprecated, message: "The ExecuteSql API is deprecated, please use the ExecuteStatement API.")
     @Sendable
     public func executeSql(_ input: ExecuteSqlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExecuteSqlResponse {

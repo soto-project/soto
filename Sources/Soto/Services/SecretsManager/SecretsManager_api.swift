@@ -74,8 +74,54 @@ public struct SecretsManager: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "secretsmanager.af-south-1.api.aws",
+            "ap-east-1": "secretsmanager.ap-east-1.api.aws",
+            "ap-northeast-1": "secretsmanager.ap-northeast-1.api.aws",
+            "ap-northeast-2": "secretsmanager.ap-northeast-2.api.aws",
+            "ap-northeast-3": "secretsmanager.ap-northeast-3.api.aws",
+            "ap-south-1": "secretsmanager.ap-south-1.api.aws",
+            "ap-south-2": "secretsmanager.ap-south-2.api.aws",
+            "ap-southeast-1": "secretsmanager.ap-southeast-1.api.aws",
+            "ap-southeast-2": "secretsmanager.ap-southeast-2.api.aws",
+            "ap-southeast-3": "secretsmanager.ap-southeast-3.api.aws",
+            "ap-southeast-4": "secretsmanager.ap-southeast-4.api.aws",
+            "ca-central-1": "secretsmanager.ca-central-1.api.aws",
+            "ca-west-1": "secretsmanager.ca-west-1.api.aws",
+            "cn-north-1": "secretsmanager.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "secretsmanager.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "secretsmanager.eu-central-1.api.aws",
+            "eu-central-2": "secretsmanager.eu-central-2.api.aws",
+            "eu-north-1": "secretsmanager.eu-north-1.api.aws",
+            "eu-south-1": "secretsmanager.eu-south-1.api.aws",
+            "eu-south-2": "secretsmanager.eu-south-2.api.aws",
+            "eu-west-1": "secretsmanager.eu-west-1.api.aws",
+            "eu-west-2": "secretsmanager.eu-west-2.api.aws",
+            "eu-west-3": "secretsmanager.eu-west-3.api.aws",
+            "il-central-1": "secretsmanager.il-central-1.api.aws",
+            "me-central-1": "secretsmanager.me-central-1.api.aws",
+            "me-south-1": "secretsmanager.me-south-1.api.aws",
+            "sa-east-1": "secretsmanager.sa-east-1.api.aws",
+            "us-east-1": "secretsmanager.us-east-1.api.aws",
+            "us-east-2": "secretsmanager.us-east-2.api.aws",
+            "us-gov-east-1": "secretsmanager.us-gov-east-1.api.aws",
+            "us-gov-west-1": "secretsmanager.us-gov-west-1.api.aws",
+            "us-west-1": "secretsmanager.us-west-1.api.aws",
+            "us-west-2": "secretsmanager.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "secretsmanager-fips.ca-central-1.api.aws",
+            "ca-west-1": "secretsmanager-fips.ca-west-1.api.aws",
+            "us-east-1": "secretsmanager-fips.us-east-1.api.aws",
+            "us-east-2": "secretsmanager-fips.us-east-2.api.aws",
+            "us-gov-east-1": "secretsmanager-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "secretsmanager-fips.us-gov-west-1.api.aws",
+            "us-west-1": "secretsmanager-fips.us-west-1.api.aws",
+            "us-west-2": "secretsmanager-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "secretsmanager-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "secretsmanager-fips.ca-west-1.amazonaws.com",
             "us-east-1": "secretsmanager-fips.us-east-1.amazonaws.com",
             "us-east-2": "secretsmanager-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "secretsmanager-fips.us-gov-east-1.amazonaws.com",
@@ -166,7 +212,7 @@ public struct SecretsManager: AWSService {
         )
     }
 
-    /// Generates a random password. We recommend that you specify the maximum length and include every character type that the system you are generating a password for can support. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:GetRandomPassword.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
+    /// Generates a random password. We recommend that you specify the maximum length and include every character type that the system you are generating a password for can support. By default, Secrets Manager uses uppercase and lowercase letters, numbers, and the following characters in passwords: !\"#$%&'()*+,-./:;?@[\\]^_`{|}~  Secrets Manager generates a CloudTrail log entry when you call this action.  Required permissions:  secretsmanager:GetRandomPassword.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
     @Sendable
     public func getRandomPassword(_ input: GetRandomPasswordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRandomPasswordResponse {
         return try await self.client.execute(
@@ -218,7 +264,7 @@ public struct SecretsManager: AWSService {
         )
     }
 
-    /// Lists the secrets that are stored by Secrets Manager in the Amazon Web Services account, not including secrets  that are marked for deletion. To see secrets marked for deletion, use the Secrets Manager console. ListSecrets is eventually consistent, however it might not reflect changes from the last five minutes.  To get the latest information for a specific secret, use DescribeSecret. To list the versions of a secret, use ListSecretVersionIds. To retrieve the values for the secrets, call BatchGetSecretValue or GetSecretValue. For information about finding secrets in the console, see Find secrets in Secrets Manager. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:ListSecrets.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
+    /// Lists the secrets that are stored by Secrets Manager in the Amazon Web Services account, not including secrets  that are marked for deletion. To see secrets marked for deletion, use the Secrets Manager console. All Secrets Manager operations are eventually consistent. ListSecrets might not reflect changes from the last five minutes. You can get more recent information for a specific secret by calling DescribeSecret. To list the versions of a secret, use ListSecretVersionIds. To retrieve the values for the secrets, call BatchGetSecretValue or GetSecretValue. For information about finding secrets in the console, see Find secrets in Secrets Manager. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:ListSecrets.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
     @Sendable
     public func listSecrets(_ input: ListSecretsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecretsResponse {
         return try await self.client.execute(
@@ -270,7 +316,7 @@ public struct SecretsManager: AWSService {
         )
     }
 
-    /// Replicates the secret to a new Regions. See Multi-Region secrets. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:ReplicateSecretToRegions.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
+    /// Replicates the secret to a new Regions. See Multi-Region secrets. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:ReplicateSecretToRegions.  If the primary secret is encrypted with a KMS key other than aws/secretsmanager, you also need kms:Decrypt permission to the key. To encrypt the replicated secret with a KMS key other than aws/secretsmanager, you need kms:GenerateDataKey and kms:Encrypt to the key. For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
     @Sendable
     public func replicateSecretToRegions(_ input: ReplicateSecretToRegionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplicateSecretToRegionsResponse {
         return try await self.client.execute(
@@ -439,7 +485,7 @@ extension SecretsManager {
         )
     }
 
-    /// Lists the secrets that are stored by Secrets Manager in the Amazon Web Services account, not including secrets  that are marked for deletion. To see secrets marked for deletion, use the Secrets Manager console. ListSecrets is eventually consistent, however it might not reflect changes from the last five minutes.  To get the latest information for a specific secret, use DescribeSecret. To list the versions of a secret, use ListSecretVersionIds. To retrieve the values for the secrets, call BatchGetSecretValue or GetSecretValue. For information about finding secrets in the console, see Find secrets in Secrets Manager. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:ListSecrets.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
+    /// Lists the secrets that are stored by Secrets Manager in the Amazon Web Services account, not including secrets  that are marked for deletion. To see secrets marked for deletion, use the Secrets Manager console. All Secrets Manager operations are eventually consistent. ListSecrets might not reflect changes from the last five minutes. You can get more recent information for a specific secret by calling DescribeSecret. To list the versions of a secret, use ListSecretVersionIds. To retrieve the values for the secrets, call BatchGetSecretValue or GetSecretValue. For information about finding secrets in the console, see Find secrets in Secrets Manager. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required permissions:  secretsmanager:ListSecrets.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

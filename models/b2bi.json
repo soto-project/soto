@@ -812,7 +812,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A capability object. Currently, only EDI (electronic data interchange) capabilities are supported. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.</p>"
+                "smithy.api#documentation": "<p>A capability object. Currently, only EDI (electronic data interchange) capabilities are supported. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.</p>"
             }
         },
         "com.amazonaws.b2bi#CapabilityId": {
@@ -879,7 +879,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Returns the capability summary details. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.</p>"
+                "smithy.api#documentation": "<p>Returns the capability summary details. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.</p>"
             }
         },
         "com.amazonaws.b2bi#CapabilityType": {
@@ -944,7 +944,7 @@
                 "aws.iam#requiredActions": [
                     "b2bi:TagResource"
                 ],
-                "smithy.api#documentation": "<p>Instantiates a capability based on the specified parameters. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.</p>",
+                "smithy.api#documentation": "<p>Instantiates a capability based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample CreateCapability call",
@@ -1166,7 +1166,7 @@
                 "aws.iam#requiredActions": [
                     "b2bi:TagResource"
                 ],
-                "smithy.api#documentation": "<p>Creates a partnership between a customer and a trading partner, based on the supplied parameters. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.</p>",
+                "smithy.api#documentation": "<p>Creates a partnership between a customer and a trading partner, based on the supplied parameters. A partnership represents the connection between you and your trading partner. It ties\n   together a profile and one or more trading capabilities.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample CreatePartnership call",
@@ -1375,7 +1375,7 @@
                     "logs:PutLogEvents",
                     "logs:PutResourcePolicy"
                 ],
-                "smithy.api#documentation": "<p>Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. Profiles contain basic information about you and your business.</p>",
+                "smithy.api#documentation": "<p>Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mechanism used to create the concept of\n   a private network.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample CreateProfile call",
@@ -1573,7 +1573,7 @@
                 "aws.iam#requiredActions": [
                     "b2bi:TagResource"
                 ],
-                "smithy.api#documentation": "<p>Creates a transformer. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.</p>",
+                "smithy.api#documentation": "<p>Creates a transformer. A transformer\n   describes how to process the incoming EDI documents and extract the necessary\n   information to the output file.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample CreateTransformer call",
@@ -1783,7 +1783,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Deletes the specified capability. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.</p>",
+                "smithy.api#documentation": "<p>Deletes the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample DeleteCapabilty call",
@@ -1845,7 +1845,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Deletes the specified partnership. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.</p>",
+                "smithy.api#documentation": "<p>Deletes the specified partnership. A partnership represents the connection between you and your trading partner. It ties\n   together a profile and one or more trading capabilities.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample DeletePartnership call",
@@ -1911,7 +1911,7 @@
                     "logs:DeleteLogDelivery",
                     "logs:ListLogDeliveries"
                 ],
-                "smithy.api#documentation": "<p>Deletes the specified profile. Profiles contain basic information about you and your business.</p>",
+                "smithy.api#documentation": "<p>Deletes the specified profile. A profile is the mechanism used to create the concept of\n   a private network.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample DeleteProfile call",
@@ -1973,7 +1973,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Deletes the specified transformer. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.</p>",
+                "smithy.api#documentation": "<p>Deletes the specified transformer. A transformer\n   describes how to process the incoming EDI documents and extract the necessary\n   information to the output file.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample DeleteTransformer call",
@@ -2128,7 +2128,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Retrieves the details for the specified capability. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.</p>",
+                "smithy.api#documentation": "<p>Retrieves the details for the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample GetCapabilty call",
@@ -2282,7 +2282,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Retrieves the details for a partnership, based on the partner and profile IDs specified. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.</p>",
+                "smithy.api#documentation": "<p>Retrieves the details for a partnership, based on the partner and profile IDs specified. A partnership represents the connection between you and your trading partner. It ties\n   together a profile and one or more trading capabilities.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample GetPartnership call",
@@ -2430,7 +2430,7 @@
                 "aws.iam#requiredActions": [
                     "b2bi:ListTagsForResource"
                 ],
-                "smithy.api#documentation": "<p>Retrieves the details for the profile specified by the profile ID. Profiles contain basic information about you and your business.</p>",
+                "smithy.api#documentation": "<p>Retrieves the details for the profile specified by the profile ID. A profile is the mechanism used to create the concept of\n   a private network.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample GetProfile call",
@@ -2574,7 +2574,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Retrieves the details for the transformer specified by the transformer ID. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.</p>",
+                "smithy.api#documentation": "<p>Retrieves the details for the transformer specified by the transformer ID. A transformer\n   describes how to process the incoming EDI documents and extract the necessary\n   information to the output file.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample GetTransformer call",
@@ -2849,7 +2849,7 @@
                 "target": "com.amazonaws.b2bi#ListCapabilitiesResponse"
             },
             "traits": {
-                "smithy.api#documentation": "<p>Lists the capabilities associated with your Amazon Web Services account for your current or specified region. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.</p>",
+                "smithy.api#documentation": "<p>Lists the capabilities associated with your Amazon Web Services account for your current or specified region. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample ListCapabilities call",
@@ -2954,7 +2954,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Lists the partnerships associated with your Amazon Web Services account for your current or specified region. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.</p>",
+                "smithy.api#documentation": "<p>Lists the partnerships associated with your Amazon Web Services account for your current or specified region. A partnership represents the connection between you and your trading partner. It ties\n   together a profile and one or more trading capabilities.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample ListPartnerships call",
@@ -3054,7 +3054,7 @@
                 "target": "com.amazonaws.b2bi#ListProfilesResponse"
             },
             "traits": {
-                "smithy.api#documentation": "<p>Lists the profiles associated with your Amazon Web Services account for your current or specified region. Profiles contain basic information about you and your business.</p>",
+                "smithy.api#documentation": "<p>Lists the profiles associated with your Amazon Web Services account for your current or specified region. A profile is the mechanism used to create the concept of\n   a private network.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample ListProfiles call",
@@ -3144,6 +3144,9 @@
             },
             "errors": [
                 {
+                    "target": "com.amazonaws.b2bi#InternalServerException"
+                },
+                {
                     "target": "com.amazonaws.b2bi#ResourceNotFoundException"
                 },
                 {
@@ -3215,7 +3218,7 @@
                 "target": "com.amazonaws.b2bi#ListTransformersResponse"
             },
             "traits": {
-                "smithy.api#documentation": "<p>Lists the available transformers. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.</p>",
+                "smithy.api#documentation": "<p>Lists the available transformers. A transformer\n   describes how to process the incoming EDI documents and extract the necessary\n   information to the output file.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample ListTransformers call",
@@ -3480,7 +3483,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A structure that contains the details for a partnership. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.</p>",
+                "smithy.api#documentation": "<p>A structure that contains the details for a partnership. A partnership represents the connection between you and your trading partner. It ties\n   together a profile and one or more trading capabilities.</p>",
                 "smithy.api#references": [
                     {
                         "resource": "com.amazonaws.b2bi#Profile"
@@ -3612,7 +3615,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Contains the details for a profile. Profiles contain basic information about you and your business.</p>",
+                "smithy.api#documentation": "<p>Contains the details for a profile. A profile is the mechanism used to create the concept of\n   a private network.</p>",
                 "smithy.api#references": [
                     {
                         "resource": "com.amazonaws.b2bi#Profile"
@@ -3750,7 +3753,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2BI Data Interchange.</p>",
+                "smithy.api#documentation": "<p>Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2BI Data Interchange.</p>\n         <p>If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just\n      create and configure a transformer, and then run the <code>StartTransformerJob</code> API to process your files.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample StartTransformerJob call",
@@ -3894,6 +3897,9 @@
             },
             "errors": [
                 {
+                    "target": "com.amazonaws.b2bi#InternalServerException"
+                },
+                {
                     "target": "com.amazonaws.b2bi#ResourceNotFoundException"
                 },
                 {
@@ -3984,7 +3990,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Maps the input file according to the provided template file.</p>",
+                "smithy.api#documentation": "<p>Maps the input file according to the provided template file. The API call downloads the file contents from the Amazon S3 location, and passes the contents in as a string, to the <code>inputFileContent</code> parameter.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample TestMapping call",
@@ -4011,7 +4017,7 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 0,
-                    "max": 200000
+                    "max": 5000000
                 }
             }
         },
@@ -4021,7 +4027,7 @@
                 "inputFileContent": {
                     "target": "com.amazonaws.b2bi#TestMappingInputFileContent",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specify the EDI (electronic data interchange) file that is used as input for the transform.</p>",
+                        "smithy.api#documentation": "<p>Specify the contents of the EDI (electronic data interchange) XML or JSON file that is used as input for the transform.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -4085,7 +4091,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Parses the input EDI (electronic data interchange) file.</p>",
+                "smithy.api#documentation": "<p>Parses the input EDI (electronic data interchange) file. The input file has a file size limit of 250 KB.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample TestParsing call",
@@ -4371,7 +4377,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Contains the details for a transformer object. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.</p>",
+                "smithy.api#documentation": "<p>Contains the details for a transformer object. A transformer\n   describes how to process the incoming EDI documents and extract the necessary\n   information to the output file.</p>",
                 "smithy.api#references": [
                     {
                         "resource": "com.amazonaws.b2bi#Transformer"
@@ -4388,6 +4394,9 @@
                 "target": "smithy.api#Unit"
             },
             "errors": [
+                {
+                    "target": "com.amazonaws.b2bi#InternalServerException"
+                },
                 {
                     "target": "com.amazonaws.b2bi#ResourceNotFoundException"
                 },
@@ -4476,7 +4485,7 @@
                     "b2bi:TagResource",
                     "b2bi:UntagResource"
                 ],
-                "smithy.api#documentation": "<p>Updates some of the parameters for a capability, based on the specified parameters.\n      Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.</p>",
+                "smithy.api#documentation": "<p>Updates some of the parameters for a capability, based on the specified parameters.\n      A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample UpdateCapability call",
@@ -4684,7 +4693,7 @@
                     "b2bi:TagResource",
                     "b2bi:UntagResource"
                 ],
-                "smithy.api#documentation": "<p>Updates some of the parameters for a partnership between a customer and trading partner. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.</p>",
+                "smithy.api#documentation": "<p>Updates some of the parameters for a partnership between a customer and trading partner. A partnership represents the connection between you and your trading partner. It ties\n   together a profile and one or more trading capabilities.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample UpdatePartnership call",
@@ -4855,7 +4864,7 @@
                     "b2bi:TagResource",
                     "b2bi:UntagResource"
                 ],
-                "smithy.api#documentation": "<p>Updates the specified parameters for a profile. Profiles contain basic information about you and your business.</p>",
+                "smithy.api#documentation": "<p>Updates the specified parameters for a profile. A profile is the mechanism used to create the concept of\n   a private network.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample UpdateProfile call",
@@ -5038,7 +5047,7 @@
                     "b2bi:TagResource",
                     "b2bi:UntagResource"
                 ],
-                "smithy.api#documentation": "<p>Updates the specified parameters for a transformer. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.</p>",
+                "smithy.api#documentation": "<p>Updates the specified parameters for a transformer. A transformer\n   describes how to process the incoming EDI documents and extract the necessary\n   information to the output file.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "Sample UpdateTransformer call",
@@ -5240,12 +5249,12 @@
                 "version": {
                     "target": "com.amazonaws.b2bi#X12Version",
                     "traits": {
-                        "smithy.api#documentation": "<p>Returns the version to use for the specified X12 transaction set. Supported versions are <code>4010</code>, <code>4030</code>, and <code>5010</code>.</p>"
+                        "smithy.api#documentation": "<p>Returns the version to use for the specified X12 transaction set.\n         \n         \n         \n      </p>"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A structure that contains the X12 transaction set and version. The X12 structure is used when the system transforms an EDI (electronic data interchange) file.</p>"
+                "smithy.api#documentation": "<p>A structure that contains the X12 transaction set and version. The X12 structure is used when the system transforms an EDI (electronic data interchange) file.</p>\n         <note>\n            <p>If an EDI input file contains more than one transaction, each transaction must have the same transaction set and version, for example 214/4010. If not, the transformer cannot parse the file.</p>\n         </note>"
             }
         },
         "com.amazonaws.b2bi#X12TransactionSet": {
@@ -5275,6 +5284,12 @@
                         "smithy.api#enumValue": "X12_210"
                     }
                 },
+                "X12_211": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_211"
+                    }
+                },
                 "X12_214": {
                     "target": "smithy.api#Unit",
                     "traits": {
@@ -5285,6 +5300,72 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "X12_215"
+                    }
+                },
+                "X12_259": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_259"
+                    }
+                },
+                "X12_260": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_260"
+                    }
+                },
+                "X12_266": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_266"
+                    }
+                },
+                "X12_269": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_269"
+                    }
+                },
+                "X12_270": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_270"
+                    }
+                },
+                "X12_271": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_271"
+                    }
+                },
+                "X12_274": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_274"
+                    }
+                },
+                "X12_275": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_275"
+                    }
+                },
+                "X12_276": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_276"
+                    }
+                },
+                "X12_277": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_277"
+                    }
+                },
+                "X12_278": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_278"
                     }
                 },
                 "X12_310": {
@@ -5317,6 +5398,30 @@
                         "smithy.api#enumValue": "X12_410"
                     }
                 },
+                "X12_417": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_417"
+                    }
+                },
+                "X12_421": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_421"
+                    }
+                },
+                "X12_426": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_426"
+                    }
+                },
+                "X12_810": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_810"
+                    }
+                },
                 "X12_820": {
                     "target": "smithy.api#Unit",
                     "traits": {
@@ -5335,10 +5440,46 @@
                         "smithy.api#enumValue": "X12_830"
                     }
                 },
+                "X12_832": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_832"
+                    }
+                },
+                "X12_834": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_834"
+                    }
+                },
+                "X12_835": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_835"
+                    }
+                },
+                "X12_837": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_837"
+                    }
+                },
+                "X12_844": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_844"
+                    }
+                },
                 "X12_846": {
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "X12_846"
+                    }
+                },
+                "X12_849": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_849"
                     }
                 },
                 "X12_850": {
@@ -5383,10 +5524,34 @@
                         "smithy.api#enumValue": "X12_864"
                     }
                 },
+                "X12_865": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_865"
+                    }
+                },
+                "X12_869": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_869"
+                    }
+                },
+                "X12_870": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_870"
+                    }
+                },
                 "X12_940": {
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "X12_940"
+                    }
+                },
+                "X12_945": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_945"
                     }
                 },
                 "X12_990": {
@@ -5399,6 +5564,150 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "X12_997"
+                    }
+                },
+                "X12_999": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_999"
+                    }
+                },
+                "X12_270_X279": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_270_X279"
+                    }
+                },
+                "X12_271_X279": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_271_X279"
+                    }
+                },
+                "X12_275_X210": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_275_X210"
+                    }
+                },
+                "X12_275_X211": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_275_X211"
+                    }
+                },
+                "X12_276_X212": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_276_X212"
+                    }
+                },
+                "X12_277_X212": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_277_X212"
+                    }
+                },
+                "X12_277_X214": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_277_X214"
+                    }
+                },
+                "X12_277_X364": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_277_X364"
+                    }
+                },
+                "X12_278_X217": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_278_X217"
+                    }
+                },
+                "X12_820_X218": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_820_X218"
+                    }
+                },
+                "X12_820_X306": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_820_X306"
+                    }
+                },
+                "X12_824_X186": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_824_X186"
+                    }
+                },
+                "X12_834_X220": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_834_X220"
+                    }
+                },
+                "X12_834_X307": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_834_X307"
+                    }
+                },
+                "X12_834_X318": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_834_X318"
+                    }
+                },
+                "X12_835_X221": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_835_X221"
+                    }
+                },
+                "X12_837_X222": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_837_X222"
+                    }
+                },
+                "X12_837_X223": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_837_X223"
+                    }
+                },
+                "X12_837_X224": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_837_X224"
+                    }
+                },
+                "X12_837_X291": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_837_X291"
+                    }
+                },
+                "X12_837_X292": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_837_X292"
+                    }
+                },
+                "X12_837_X298": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_837_X298"
+                    }
+                },
+                "X12_999_X231": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "X12_999_X231"
                     }
                 }
             }
@@ -5422,6 +5731,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "VERSION_5010"
+                    }
+                },
+                "VERSION_5010_HIPAA": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VERSION_5010_HIPAA"
                     }
                 }
             }

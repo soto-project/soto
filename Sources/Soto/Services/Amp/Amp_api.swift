@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Amp service.
 ///
-/// Amazon Managed Service for Prometheus
+/// Amazon Managed Service for Prometheus is a serverless, Prometheus-compatible monitoring service for container metrics that makes it easier to securely monitor container environments at scale. With Amazon Managed Service for Prometheus, you can use the same open-source Prometheus data model and query language that you use today to monitor the performance of your containerized workloads, and also enjoy improved scalability, availability, and security without having to manage the underlying infrastructure. For more information about Amazon Managed Service for Prometheus, see the Amazon Managed Service for Prometheus User Guide. Amazon Managed Service for Prometheus includes two APIs.   Use the Amazon Web Services API described in this guide to manage Amazon Managed Service for Prometheus resources, such as workspaces, rule groups, and alert managers.   Use the Prometheus-compatible API to work within your Prometheus workspace.
 public struct Amp: AWSService {
     // MARK: Member variables
 
@@ -73,7 +73,7 @@ public struct Amp: AWSService {
 
     // MARK: API Calls
 
-    /// Create an alert manager definition.
+    /// The CreateAlertManagerDefinition operation creates the alert manager definition in a workspace. If a workspace already has an alert manager definition, don't use this operation to update it. Instead, use PutAlertManagerDefinition.
     @Sendable
     public func createAlertManagerDefinition(_ input: CreateAlertManagerDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAlertManagerDefinitionResponse {
         return try await self.client.execute(
@@ -86,7 +86,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Create logging configuration.
+    /// The CreateLoggingConfiguration operation creates a logging configuration for the workspace. Use this operation to set the CloudWatch log group to which the logs will be published to.
     @Sendable
     public func createLoggingConfiguration(_ input: CreateLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLoggingConfigurationResponse {
         return try await self.client.execute(
@@ -99,7 +99,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Create a rule group namespace.
+    /// The CreateRuleGroupsNamespace operation creates a rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. Use this operation only to create new rule groups namespaces. To update an existing rule groups namespace, use PutRuleGroupsNamespace.
     @Sendable
     public func createRuleGroupsNamespace(_ input: CreateRuleGroupsNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRuleGroupsNamespaceResponse {
         return try await self.client.execute(
@@ -112,7 +112,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Create a scraper.
+    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to your Amazon Managed Service for Prometheus workspace. You can configure the scraper to control what metrics are collected, and what transformations are applied prior to sending them to your workspace. If needed, an IAM role will be created for you that gives Amazon Managed Service for Prometheus access to the metrics in your cluster. For more information, see  Using roles for scraping metrics from EKS in the Amazon Managed Service for Prometheus User  Guide. You cannot update a scraper. If you want to change the configuration of the scraper, create a new scraper and delete the old one. The scrapeConfiguration parameter contains the base64-encoded version of the YAML configuration file.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Amazon Web Services managed collectors in the Amazon Managed Service for Prometheus User  Guide.
     @Sendable
     public func createScraper(_ input: CreateScraperRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScraperResponse {
         return try await self.client.execute(
@@ -125,7 +125,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Creates a new AMP workspace.
+    /// Creates a Prometheus workspace. A workspace is a logical space dedicated to the storage and querying of Prometheus metrics. You can have one or more workspaces in each Region in your account.
     @Sendable
     public func createWorkspace(_ input: CreateWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspaceResponse {
         return try await self.client.execute(
@@ -138,7 +138,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Deletes an alert manager definition.
+    /// Deletes the alert manager definition from a workspace.
     @Sendable
     public func deleteAlertManagerDefinition(_ input: DeleteAlertManagerDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -151,7 +151,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Delete logging configuration.
+    /// Deletes the logging configuration for a workspace.
     @Sendable
     public func deleteLoggingConfiguration(_ input: DeleteLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -164,7 +164,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Delete a rule groups namespace.
+    /// Deletes one rule groups namespace and its associated rule groups definition.
     @Sendable
     public func deleteRuleGroupsNamespace(_ input: DeleteRuleGroupsNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -177,7 +177,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Deletes a scraper.
+    /// The DeleteScraper operation deletes one scraper, and stops any metrics collection that the scraper performs.
     @Sendable
     public func deleteScraper(_ input: DeleteScraperRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteScraperResponse {
         return try await self.client.execute(
@@ -190,7 +190,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Deletes an AMP workspace.
+    /// Deletes an existing workspace.   When you delete a workspace, the data that has been ingested into it is not immediately deleted. It will be permanently deleted within one month.
     @Sendable
     public func deleteWorkspace(_ input: DeleteWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -203,7 +203,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Describes an alert manager definition.
+    /// Retrieves the full information about the alert manager definition for a workspace.
     @Sendable
     public func describeAlertManagerDefinition(_ input: DescribeAlertManagerDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAlertManagerDefinitionResponse {
         return try await self.client.execute(
@@ -216,7 +216,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Describes logging configuration.
+    /// Returns complete information about the current logging configuration of the workspace.
     @Sendable
     public func describeLoggingConfiguration(_ input: DescribeLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLoggingConfigurationResponse {
         return try await self.client.execute(
@@ -229,7 +229,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Describe a rule groups namespace.
+    /// Returns complete information about one rule groups namespace. To retrieve a list of rule groups namespaces, use ListRuleGroupsNamespaces.
     @Sendable
     public func describeRuleGroupsNamespace(_ input: DescribeRuleGroupsNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRuleGroupsNamespaceResponse {
         return try await self.client.execute(
@@ -242,7 +242,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Describe an existing scraper.
+    /// The DescribeScraper operation displays information about an existing scraper.
     @Sendable
     public func describeScraper(_ input: DescribeScraperRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeScraperResponse {
         return try await self.client.execute(
@@ -255,7 +255,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Describes an existing AMP workspace.
+    /// Returns information about an existing workspace.
     @Sendable
     public func describeWorkspace(_ input: DescribeWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkspaceResponse {
         return try await self.client.execute(
@@ -268,7 +268,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Gets a default configuration.
+    /// The GetDefaultScraperConfiguration operation returns the default  scraper configuration used when Amazon EKS creates a scraper for you.
     @Sendable
     public func getDefaultScraperConfiguration(_ input: GetDefaultScraperConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDefaultScraperConfigurationResponse {
         return try await self.client.execute(
@@ -281,7 +281,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Lists rule groups namespaces.
+    /// Returns a list of rule groups namespaces in a workspace.
     @Sendable
     public func listRuleGroupsNamespaces(_ input: ListRuleGroupsNamespacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRuleGroupsNamespacesResponse {
         return try await self.client.execute(
@@ -294,7 +294,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Lists all scrapers in a customer account, including scrapers being created or deleted. You may provide filters to return a more specific list of results.
+    /// The ListScrapers operation lists all of the scrapers in your account. This includes scrapers being created or deleted. You can optionally filter the returned list.
     @Sendable
     public func listScrapers(_ input: ListScrapersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListScrapersResponse {
         return try await self.client.execute(
@@ -307,7 +307,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Lists the tags you have assigned to the resource.
+    /// The ListTagsForResource operation returns the tags that are associated with an Amazon Managed Service for Prometheus resource. Currently, the only resources that can be tagged are workspaces and rule groups namespaces.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(
@@ -320,7 +320,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Lists all AMP workspaces, including workspaces being created or deleted.
+    /// Lists all of the Amazon Managed Service for Prometheus workspaces in your account. This includes workspaces being created or deleted.
     @Sendable
     public func listWorkspaces(_ input: ListWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkspacesResponse {
         return try await self.client.execute(
@@ -333,7 +333,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Update an alert manager definition.
+    /// Updates an existing alert manager definition in a workspace. If the workspace does not already have an alert manager definition, don't use this operation to create it. Instead, use CreateAlertManagerDefinition.
     @Sendable
     public func putAlertManagerDefinition(_ input: PutAlertManagerDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAlertManagerDefinitionResponse {
         return try await self.client.execute(
@@ -346,7 +346,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Update a rule groups namespace.
+    /// Updates an existing rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. Use this operation only to update existing rule groups namespaces. To create a new rule groups namespace, use CreateRuleGroupsNamespace. You can't use this operation to add tags to an existing rule groups namespace. Instead, use TagResource.
     @Sendable
     public func putRuleGroupsNamespace(_ input: PutRuleGroupsNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRuleGroupsNamespaceResponse {
         return try await self.client.execute(
@@ -359,7 +359,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Creates tags for the specified resource.
+    /// The TagResource operation associates tags with an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are workspaces and rule groups namespaces.  If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
         return try await self.client.execute(
@@ -372,7 +372,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Deletes tags from the specified resource.
+    /// Removes the specified tags from an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are workspaces and rule groups namespaces.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         return try await self.client.execute(
@@ -385,7 +385,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Update logging configuration.
+    /// Updates the log group ARN or the workspace ID of the current logging configuration.
     @Sendable
     public func updateLoggingConfiguration(_ input: UpdateLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLoggingConfigurationResponse {
         return try await self.client.execute(
@@ -398,7 +398,7 @@ public struct Amp: AWSService {
         )
     }
 
-    /// Updates an AMP workspace alias.
+    /// Updates the alias of an existing workspace.
     @Sendable
     public func updateWorkspaceAlias(_ input: UpdateWorkspaceAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -425,7 +425,7 @@ extension Amp {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Amp {
-    /// Lists rule groups namespaces.
+    /// Returns a list of rule groups namespaces in a workspace.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -444,7 +444,7 @@ extension Amp {
         )
     }
 
-    /// Lists all scrapers in a customer account, including scrapers being created or deleted. You may provide filters to return a more specific list of results.
+    /// The ListScrapers operation lists all of the scrapers in your account. This includes scrapers being created or deleted. You can optionally filter the returned list.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -463,7 +463,7 @@ extension Amp {
         )
     }
 
-    /// Lists all AMP workspaces, including workspaces being created or deleted.
+    /// Lists all of the Amazon Managed Service for Prometheus workspaces in your account. This includes workspaces being created or deleted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

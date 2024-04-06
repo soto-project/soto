@@ -76,6 +76,7 @@ public struct DocDB: AWSService {
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
             "ca-central-1": "rds-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "rds-fips.ca-west-1.amazonaws.com",
             "us-east-1": "rds-fips.us-east-1.amazonaws.com",
             "us-east-2": "rds-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "rds.us-gov-east-1.amazonaws.com",
@@ -771,6 +772,19 @@ public struct DocDB: AWSService {
     public func stopDBCluster(_ input: StopDBClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StopDBClusterResult {
         return try await self.client.execute(
             operation: "StopDBCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Switches over the specified secondary Amazon DocumentDB cluster to be the new primary Amazon DocumentDB cluster in the global database cluster.
+    @Sendable
+    public func switchoverGlobalCluster(_ input: SwitchoverGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> SwitchoverGlobalClusterResult {
+        return try await self.client.execute(
+            operation: "SwitchoverGlobalCluster", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 

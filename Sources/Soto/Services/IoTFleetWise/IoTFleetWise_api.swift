@@ -1106,7 +1106,8 @@ extension IoTFleetWise.ListSignalCatalogNodesRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             name: self.name,
-            nextToken: token
+            nextToken: token,
+            signalNodeType: self.signalNodeType
         )
     }
 }

@@ -59,8 +59,6 @@ public struct ResourceExplorer2: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2022-07-28",
             endpoint: endpoint,
-            serviceEndpoints: Self.serviceEndpoints,
-            variantEndpoints: Self.variantEndpoints,
             errorType: ResourceExplorer2ErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -70,78 +68,8 @@ public struct ResourceExplorer2: AWSService {
     }
 
 
-    /// custom endpoints for regions
-    static var serviceEndpoints: [String: String] {[
-        "af-south-1": "resource-explorer-2.af-south-1.api.aws",
-        "ap-east-1": "resource-explorer-2.ap-east-1.api.aws",
-        "ap-northeast-1": "resource-explorer-2.ap-northeast-1.api.aws",
-        "ap-northeast-2": "resource-explorer-2.ap-northeast-2.api.aws",
-        "ap-northeast-3": "resource-explorer-2.ap-northeast-3.api.aws",
-        "ap-south-1": "resource-explorer-2.ap-south-1.api.aws",
-        "ap-south-2": "resource-explorer-2.ap-south-2.api.aws",
-        "ap-southeast-1": "resource-explorer-2.ap-southeast-1.api.aws",
-        "ap-southeast-2": "resource-explorer-2.ap-southeast-2.api.aws",
-        "ap-southeast-3": "resource-explorer-2.ap-southeast-3.api.aws",
-        "ap-southeast-4": "resource-explorer-2.ap-southeast-4.api.aws",
-        "ca-central-1": "resource-explorer-2.ca-central-1.api.aws",
-        "cn-north-1": "resource-explorer-2.cn-north-1.api.amazonwebservices.com.cn",
-        "cn-northwest-1": "resource-explorer-2.cn-northwest-1.api.amazonwebservices.com.cn",
-        "eu-central-1": "resource-explorer-2.eu-central-1.api.aws",
-        "eu-central-2": "resource-explorer-2.eu-central-2.api.aws",
-        "eu-north-1": "resource-explorer-2.eu-north-1.api.aws",
-        "eu-south-1": "resource-explorer-2.eu-south-1.api.aws",
-        "eu-west-1": "resource-explorer-2.eu-west-1.api.aws",
-        "eu-west-2": "resource-explorer-2.eu-west-2.api.aws",
-        "eu-west-3": "resource-explorer-2.eu-west-3.api.aws",
-        "il-central-1": "resource-explorer-2.il-central-1.api.aws",
-        "me-central-1": "resource-explorer-2.me-central-1.api.aws",
-        "me-south-1": "resource-explorer-2.me-south-1.api.aws",
-        "sa-east-1": "resource-explorer-2.sa-east-1.api.aws",
-        "us-east-1": "resource-explorer-2.us-east-1.api.aws",
-        "us-east-2": "resource-explorer-2.us-east-2.api.aws",
-        "us-gov-east-1": "resource-explorer-2.us-gov-east-1.api.aws",
-        "us-gov-west-1": "resource-explorer-2.us-gov-west-1.api.aws",
-        "us-west-1": "resource-explorer-2.us-west-1.api.aws",
-        "us-west-2": "resource-explorer-2.us-west-2.api.aws"
-    ]}
 
 
-    /// FIPS and dualstack endpoints
-    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
-        [.fips]: .init(endpoints: [
-            "af-south-1": "resource-explorer-2-fips.af-south-1.api.aws",
-            "ap-east-1": "resource-explorer-2-fips.ap-east-1.api.aws",
-            "ap-northeast-1": "resource-explorer-2-fips.ap-northeast-1.api.aws",
-            "ap-northeast-2": "resource-explorer-2-fips.ap-northeast-2.api.aws",
-            "ap-northeast-3": "resource-explorer-2-fips.ap-northeast-3.api.aws",
-            "ap-south-1": "resource-explorer-2-fips.ap-south-1.api.aws",
-            "ap-south-2": "resource-explorer-2-fips.ap-south-2.api.aws",
-            "ap-southeast-1": "resource-explorer-2-fips.ap-southeast-1.api.aws",
-            "ap-southeast-2": "resource-explorer-2-fips.ap-southeast-2.api.aws",
-            "ap-southeast-3": "resource-explorer-2-fips.ap-southeast-3.api.aws",
-            "ap-southeast-4": "resource-explorer-2-fips.ap-southeast-4.api.aws",
-            "ca-central-1": "resource-explorer-2-fips.ca-central-1.api.aws",
-            "cn-north-1": "resource-explorer-2-fips.cn-north-1.api.amazonwebservices.com.cn",
-            "cn-northwest-1": "resource-explorer-2-fips.cn-northwest-1.api.amazonwebservices.com.cn",
-            "eu-central-1": "resource-explorer-2-fips.eu-central-1.api.aws",
-            "eu-central-2": "resource-explorer-2-fips.eu-central-2.api.aws",
-            "eu-north-1": "resource-explorer-2-fips.eu-north-1.api.aws",
-            "eu-south-1": "resource-explorer-2-fips.eu-south-1.api.aws",
-            "eu-west-1": "resource-explorer-2-fips.eu-west-1.api.aws",
-            "eu-west-2": "resource-explorer-2-fips.eu-west-2.api.aws",
-            "eu-west-3": "resource-explorer-2-fips.eu-west-3.api.aws",
-            "il-central-1": "resource-explorer-2-fips.il-central-1.api.aws",
-            "me-central-1": "resource-explorer-2-fips.me-central-1.api.aws",
-            "me-south-1": "resource-explorer-2-fips.me-south-1.api.aws",
-            "sa-east-1": "resource-explorer-2-fips.sa-east-1.api.aws",
-            "us-east-1": "resource-explorer-2-fips.us-east-1.api.aws",
-            "us-east-2": "resource-explorer-2-fips.us-east-2.api.aws",
-            "us-gov-east-1": "resource-explorer-2-fips.us-gov-east-1.api.aws",
-            "us-gov-west-1": "resource-explorer-2-fips.us-gov-west-1.api.aws",
-            "us-west-1": "resource-explorer-2-fips.us-west-1.api.aws",
-            "us-west-2": "resource-explorer-2-fips.us-west-2.api.aws"
-        ])
-    ]}
 
     // MARK: API Calls
 

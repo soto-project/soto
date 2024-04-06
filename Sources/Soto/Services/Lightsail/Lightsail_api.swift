@@ -282,7 +282,7 @@ public struct Lightsail: AWSService {
         )
     }
 
-    /// Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g., us-east-2a). The create disk operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide.
+    /// Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a). The create disk operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide.
     @Sendable
     public func createDisk(_ input: CreateDiskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDiskResult {
         return try await self.client.execute(
@@ -295,7 +295,7 @@ public struct Lightsail: AWSService {
         )
     }
 
-    /// Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting disk can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g., us-east-2a). The create disk from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by disk snapshot name. For more information, see the Amazon Lightsail Developer Guide.
+    /// Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting disk can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a). The create disk from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by disk snapshot name. For more information, see the Amazon Lightsail Developer Guide.
     @Sendable
     public func createDiskFromSnapshot(_ input: CreateDiskFromSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDiskFromSnapshotResult {
         return try await self.client.execute(
@@ -334,7 +334,7 @@ public struct Lightsail: AWSService {
         )
     }
 
-    /// Creates a domain resource for the specified domain (e.g., example.com). The create domain operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide.
+    /// Creates a domain resource for the specified domain (example.com). The create domain operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide.
     @Sendable
     public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDomainResult {
         return try await self.client.execute(
@@ -1491,7 +1491,7 @@ public struct Lightsail: AWSService {
         )
     }
 
-    /// Gets operations for a specific resource (e.g., an instance or a static IP).
+    /// Gets operations for a specific resource (an instance or a static IP).
     @Sendable
     public func getOperationsForResource(_ input: GetOperationsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOperationsForResourceResult {
         return try await self.client.execute(
@@ -1666,6 +1666,19 @@ public struct Lightsail: AWSService {
         return try await self.client.execute(
             operation: "GetRelationalDatabases", 
             path: "/ls/api/2016-11-28/GetRelationalDatabases", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns detailed information for five of the most recent SetupInstanceHttps requests that were ran on the target instance.
+    @Sendable
+    public func getSetupHistory(_ input: GetSetupHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSetupHistoryResult {
+        return try await self.client.execute(
+            operation: "GetSetupHistory", 
+            path: "/ls/api/2016-11-28/get-setup-history", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -1874,6 +1887,19 @@ public struct Lightsail: AWSService {
         return try await self.client.execute(
             operation: "SetResourceAccessForBucket", 
             path: "/ls/api/2016-11-28/SetResourceAccessForBucket", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates an SSL/TLS certificate that secures traffic for your website. After the certificate is created, it is installed on the specified Lightsail instance. If you provide more than one domain name in the request, at least one name must be less than or equal to 63 characters in length.
+    @Sendable
+    public func setupInstanceHttps(_ input: SetupInstanceHttpsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetupInstanceHttpsResult {
+        return try await self.client.execute(
+            operation: "SetupInstanceHttps", 
+            path: "/ls/api/2016-11-28/setup-instance-https", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 

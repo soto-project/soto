@@ -14,6 +14,15 @@
                 "smithy.api#httpError": 403
             }
         },
+        "com.amazonaws.internetmonitor#AccountId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 12,
+                    "max": 12
+                }
+            }
+        },
         "com.amazonaws.internetmonitor#Arn": {
             "type": "string",
             "traits": {
@@ -338,6 +347,13 @@
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
+                },
+                "LinkedAccountId": {
+                    "target": "com.amazonaws.internetmonitor#AccountId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>TBD </p>",
+                        "smithy.api#httpQuery": "LinkedAccountId"
+                    }
                 }
             }
         },
@@ -464,6 +480,13 @@
                         "smithy.api#documentation": "<p>The name of the monitor.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
+                    }
+                },
+                "LinkedAccountId": {
+                    "target": "com.amazonaws.internetmonitor#AccountId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>TBD </p>",
+                        "smithy.api#httpQuery": "LinkedAccountId"
                     }
                 }
             },
@@ -1029,6 +1052,12 @@
                     "target": "com.amazonaws.internetmonitor#InternetHealth",
                     "traits": {
                         "smithy.api#documentation": "<p>The calculated health at a specific location.</p>"
+                    }
+                },
+                "Ipv4Prefixes": {
+                    "target": "com.amazonaws.internetmonitor#Ipv4PrefixList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The IPv4 prefixes at the client location that was impacted by the health event.</p>"
                     }
                 }
             },
@@ -1795,6 +1824,12 @@
                 }
             }
         },
+        "com.amazonaws.internetmonitor#Ipv4PrefixList": {
+            "type": "list",
+            "member": {
+                "target": "smithy.api#String"
+            }
+        },
         "com.amazonaws.internetmonitor#LimitExceededException": {
             "type": "structure",
             "members": {
@@ -1892,6 +1927,13 @@
                         "smithy.api#documentation": "<p>The status of a health event.</p>",
                         "smithy.api#httpQuery": "EventStatus"
                     }
+                },
+                "LinkedAccountId": {
+                    "target": "com.amazonaws.internetmonitor#AccountId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>TBD </p>",
+                        "smithy.api#httpQuery": "LinkedAccountId"
+                    }
                 }
             }
         },
@@ -1972,6 +2014,13 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The status of a monitor. This includes the status of the data processing for the monitor and the status of the monitor itself.</p>\n         <p>For information about the statuses for a monitor, see <a href=\"https://docs.aws.amazon.com/internet-monitor/latest/api/API_Monitor.html\">\n\t\t\t\tMonitor</a>.</p>",
                         "smithy.api#httpQuery": "MonitorStatus"
+                    }
+                },
+                "IncludeLinkedAccounts": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>TBD </p>",
+                        "smithy.api#httpQuery": "IncludeLinkedAccounts"
                     }
                 }
             },
@@ -2088,7 +2137,7 @@
                     "target": "com.amazonaws.internetmonitor#Percentage",
                     "traits": {
                         "smithy.api#default": 0,
-                        "smithy.api#documentation": "<p>The minimum percentage of overall traffic for an application that must be impacted by an issue before Internet Monitor creates an event when a\n\t\t\tthreshold is crossed for a local health score.</p>\n         <p>If you don't set a minimum traffic impact threshold, the default value is 0.01%.</p>"
+                        "smithy.api#documentation": "<p>The minimum percentage of overall traffic for an application that must be impacted by an issue before Internet Monitor creates an event when a\n\t\t\tthreshold is crossed for a local health score.</p>\n         <p>If you don't set a minimum traffic impact threshold, the default value is 0.1%.</p>"
                     }
                 }
             },
@@ -2671,7 +2720,7 @@
                 "QueryType": {
                     "target": "com.amazonaws.internetmonitor#QueryType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of query to run. The following are the three types of queries that you can run using the Internet Monitor query interface:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>MEASUREMENTS</code>: TBD definition</p>\n            </li>\n            <li>\n               <p>\n                  <code>TOP_LOCATIONS</code>: TBD definition</p>\n            </li>\n            <li>\n               <p>\n                  <code>TOP_LOCATION_DETAILS</code>: TBD definition</p>\n            </li>\n         </ul>\n         <p>For lists of the fields returned with each query type and more information about how each type of query is\n\t\t\tperformed, see <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html\">\n\t\t\t\tUsing the Amazon CloudWatch Internet Monitor query interface</a> in the Amazon CloudWatch Internet Monitor User Guide.</p>",
+                        "smithy.api#documentation": "<p>The type of query to run. The following are the three types of queries that you can run using the Internet Monitor query interface:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>MEASUREMENTS</code>: Provides availability score, performance score, total traffic, \n\t\t\t\tand round-trip times, at 5 minute intervals.</p>\n            </li>\n            <li>\n               <p>\n                  <code>TOP_LOCATIONS</code>: Provides availability score, performance score, total traffic, \n\t\t\t\tand time to first byte (TTFB) information, for the top location and ASN combinations that you're monitoring, by traffic volume.</p>\n            </li>\n            <li>\n               <p>\n                  <code>TOP_LOCATION_DETAILS</code>: Provides TTFB for Amazon CloudFront, your \n\t\t\t\tcurrent configuration, and the best performing EC2 configuration, at 1 hour intervals.</p>\n            </li>\n         </ul>\n         <p>For lists of the fields returned with each query type and more information about how each type of query is\n\t\t\tperformed, see <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html\">\n\t\t\t\tUsing the Amazon CloudWatch Internet Monitor query interface</a> in the Amazon CloudWatch Internet Monitor User Guide.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -2679,6 +2728,12 @@
                     "target": "com.amazonaws.internetmonitor#FilterParameters",
                     "traits": {
                         "smithy.api#documentation": "<p>The <code>FilterParameters</code> field that you use with Amazon CloudWatch Internet Monitor queries is a string the defines \n\t\t\thow you want a query to be filtered. The filter parameters that you can specify depend on the query type, since \n\t\t\teach query type returns a different set of Internet Monitor data.</p>\n         <p>For more information about specifying filter parameters, see\n\t\t\t<a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html\">Using the Amazon CloudWatch Internet Monitor query interface</a>\n\t\t\tin the Amazon CloudWatch Internet Monitor User Guide.</p>"
+                    }
+                },
+                "LinkedAccountId": {
+                    "target": "com.amazonaws.internetmonitor#AccountId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>TBD </p>"
                     }
                 }
             },

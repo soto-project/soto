@@ -59,6 +59,7 @@ public struct SecurityLake: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-05-10",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: SecurityLakeErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -70,6 +71,15 @@ public struct SecurityLake: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-east-1": "securitylake-fips.us-east-1.amazonaws.com",
+            "us-east-2": "securitylake-fips.us-east-2.amazonaws.com",
+            "us-west-1": "securitylake-fips.us-west-1.amazonaws.com",
+            "us-west-2": "securitylake-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

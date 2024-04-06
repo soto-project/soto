@@ -113,7 +113,7 @@ public struct Transfer: AWSService {
         )
     }
 
-    /// Creates the connector, which captures the parameters for a connection for the AS2 or SFTP protocol. For AS2, the connector is required for sending files to an externally hosted AS2 server. For SFTP, the connector is required when sending files to an SFTP server or receiving files from an SFTP server. For more details about connectors, see Create AS2 connectors and Create SFTP connectors.  You must specify exactly one configuration object: either for AS2 (As2Config) or SFTP (SftpConfig).
+    /// Creates the connector, which captures the parameters for a connection for the AS2 or SFTP protocol. For AS2, the connector is required for sending files to an externally hosted AS2 server. For SFTP, the connector is required when sending files to an SFTP server or receiving files from an SFTP server. For more details about connectors, see Configure AS2 connectors and Create SFTP connectors.  You must specify exactly one configuration object: either for AS2 (As2Config) or SFTP (SftpConfig).
     @Sendable
     public func createConnector(_ input: CreateConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectorResponse {
         return try await self.client.execute(
@@ -399,7 +399,7 @@ public struct Transfer: AWSService {
         )
     }
 
-    /// Describes the security policy that is attached to your file transfer protocol-enabled server. The response contains a description of the security policy's properties. For more information about security policies, see Working with security policies.
+    /// Describes the security policy that is attached to your server or SFTP connector. The response contains a description of the security policy's properties. For more information about security policies, see Working with security policies for servers or Working with security policies for SFTP connectors.
     @Sendable
     public func describeSecurityPolicy(_ input: DescribeSecurityPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSecurityPolicyResponse {
         return try await self.client.execute(
@@ -581,7 +581,7 @@ public struct Transfer: AWSService {
         )
     }
 
-    /// Lists the security policies that are attached to your file transfer protocol-enabled servers.
+    /// Lists the security policies that are attached to your servers and SFTP connectors. For more information about security policies, see Working with security policies for servers or Working with security policies for SFTP connectors.
     @Sendable
     public func listSecurityPolicies(_ input: ListSecurityPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityPoliciesResponse {
         return try await self.client.execute(
@@ -841,7 +841,7 @@ public struct Transfer: AWSService {
         )
     }
 
-    /// Assigns new properties to a user. Parameters you pass modify any or all of the following: the home directory, role, and policy for the UserName and ServerId you specify. The response returns the ServerId and the UserName for the updated user.
+    /// Assigns new properties to a user. Parameters you pass modify any or all of the following: the home directory, role, and policy for the UserName and ServerId you specify. The response returns the ServerId and the UserName for the updated user. In the console, you can select Restricted when you create or update a user. This  ensures that the user can't access anything outside of their home directory. The programmatic way to configure this behavior is to update the user. Set their HomeDirectoryType to LOGICAL, and specify HomeDirectoryMappings with Entry as root (/) and Target as their home directory. For example, if the user's home directory is /test/admin-user, the following command updates the user so that their configuration in the console shows the Restricted flag as selected.  aws transfer update-user --server-id &lt;server-id&gt; --user-name admin-user --home-directory-type LOGICAL --home-directory-mappings "[{\"Entry\":\"/\", \"Target\":\"/test/admin-user\"}]"
     @Sendable
     public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserResponse {
         return try await self.client.execute(
@@ -982,7 +982,7 @@ extension Transfer {
         )
     }
 
-    /// Lists the security policies that are attached to your file transfer protocol-enabled servers.
+    /// Lists the security policies that are attached to your servers and SFTP connectors. For more information about security policies, see Working with security policies for servers or Working with security policies for SFTP connectors.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

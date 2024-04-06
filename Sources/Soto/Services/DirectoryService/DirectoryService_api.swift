@@ -77,6 +77,7 @@ public struct DirectoryService: AWSService {
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
             "ca-central-1": "ds-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "ds-fips.ca-west-1.amazonaws.com",
             "us-east-1": "ds-fips.us-east-1.amazonaws.com",
             "us-east-2": "ds-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "ds-fips.us-gov-east-1.amazonaws.com",

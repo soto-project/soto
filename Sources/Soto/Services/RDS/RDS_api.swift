@@ -76,6 +76,7 @@ public struct RDS: AWSService {
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
             "ca-central-1": "rds-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "rds-fips.ca-west-1.amazonaws.com",
             "us-east-1": "rds-fips.us-east-1.amazonaws.com",
             "us-east-2": "rds-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "rds.us-gov-east-1.amazonaws.com",
@@ -415,6 +416,19 @@ public struct RDS: AWSService {
         )
     }
 
+    /// Creates a new DB shard group for Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only
+    @Sendable
+    public func createDBShardGroup(_ input: CreateDBShardGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBShardGroup {
+        return try await self.client.execute(
+            operation: "CreateDBShardGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a snapshot of a DB instance. The source DB instance must be in the available or storage-optimization state.
     @Sendable
     public func createDBSnapshot(_ input: CreateDBSnapshotMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDBSnapshotResult {
@@ -667,6 +681,19 @@ public struct RDS: AWSService {
     public func deleteDBSecurityGroup(_ input: DeleteDBSecurityGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
             operation: "DeleteDBSecurityGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an Aurora Limitless Database DB shard group.
+    @Sendable
+    public func deleteDBShardGroup(_ input: DeleteDBShardGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBShardGroup {
+        return try await self.client.execute(
+            operation: "DeleteDBShardGroup", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1052,11 +1079,37 @@ public struct RDS: AWSService {
         )
     }
 
+    /// Describes the recommendations to resolve the issues for your DB instances, DB clusters, and DB parameter groups.
+    @Sendable
+    public func describeDBRecommendations(_ input: DescribeDBRecommendationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBRecommendationsMessage {
+        return try await self.client.execute(
+            operation: "DescribeDBRecommendations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group.  EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that  you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the  Amazon EC2 User Guide, the blog EC2-Classic Networking is Retiring –  Here’s How to Prepare, and Moving a DB instance not in a VPC  into a VPC in the Amazon RDS User Guide.
     @Sendable
     public func describeDBSecurityGroups(_ input: DescribeDBSecurityGroupsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBSecurityGroupMessage {
         return try await self.client.execute(
             operation: "DescribeDBSecurityGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describes existing Aurora Limitless Database DB shard groups.
+    @Sendable
+    public func describeDBShardGroups(_ input: DescribeDBShardGroupsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDBShardGroupsResponse {
+        return try await self.client.execute(
+            operation: "DescribeDBShardGroups", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1338,6 +1391,19 @@ public struct RDS: AWSService {
         )
     }
 
+    /// Disables the HTTP endpoint for the specified DB cluster. Disabling this endpoint disables RDS Data API. For more information, see Using RDS Data API in the  Amazon Aurora User Guide.  This operation applies only to Aurora PostgreSQL Serverless v2 and provisioned DB clusters. To disable the HTTP endpoint for Aurora Serverless v1 DB clusters,  use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
+    @Sendable
+    public func disableHttpEndpoint(_ input: DisableHttpEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableHttpEndpointResponse {
+        return try await self.client.execute(
+            operation: "DisableHttpEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Downloads all or a portion of the specified log file, up to 1 MB in size. This command doesn't apply to RDS Custom.
     @Sendable
     public func downloadDBLogFilePortion(_ input: DownloadDBLogFilePortionMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DownloadDBLogFilePortionDetails {
@@ -1351,7 +1417,20 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Forces a failover for a DB cluster. For an Aurora DB cluster, failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). For a Multi-AZ DB cluster, failover for a DB cluster promotes one of the readable standby DB instances (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). An Amazon Aurora DB cluster automatically fails over to an Aurora Replica, if one exists, when the primary DB instance fails. A Multi-AZ DB cluster automatically fails over to a readable standby  DB instance when the primary DB instance fails. To simulate a failure of a primary instance for testing, you can force a failover.  Because each instance in a DB cluster has its own endpoint address, make sure to clean up and re-establish any existing  connections that use those endpoint addresses when the failover is complete. For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
+    /// Enables the HTTP endpoint for the DB cluster. By default, the HTTP endpoint  isn't enabled. When enabled, this endpoint provides a connectionless web service API (RDS Data API)  for running SQL queries on the Aurora DB cluster. You can also query your database from inside the RDS console  with the RDS query editor. For more information, see Using RDS Data API in the  Amazon Aurora User Guide.  This operation applies only to Aurora PostgreSQL Serverless v2 and provisioned DB clusters. To enable the HTTP endpoint for Aurora Serverless v1 DB clusters,  use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
+    @Sendable
+    public func enableHttpEndpoint(_ input: EnableHttpEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableHttpEndpointResponse {
+        return try await self.client.execute(
+            operation: "EnableHttpEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Forces a failover for a DB cluster. For an Aurora DB cluster, failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). For a Multi-AZ DB cluster, after RDS terminates the primary DB instance, the internal monitoring system detects that the primary DB instance is unhealthy and promotes a readable standby (read-only instances)  in the DB cluster to be the primary DB instance (the cluster writer). Failover times are typically less than 35 seconds. An Amazon Aurora DB cluster automatically fails over to an Aurora Replica, if one exists, when the primary DB instance fails. A Multi-AZ DB cluster automatically fails over to a readable standby  DB instance when the primary DB instance fails. To simulate a failure of a primary instance for testing, you can force a failover.  Because each instance in a DB cluster has its own endpoint address, make sure to clean up and re-establish any existing  connections that use those endpoint addresses when the failover is complete. For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
     @Sendable
     public func failoverDBCluster(_ input: FailoverDBClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> FailoverDBClusterResult {
         return try await self.client.execute(
@@ -1559,6 +1638,32 @@ public struct RDS: AWSService {
         )
     }
 
+    /// Updates the recommendation status and recommended action status for the specified recommendation.
+    @Sendable
+    public func modifyDBRecommendation(_ input: ModifyDBRecommendationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBRecommendationMessage {
+        return try await self.client.execute(
+            operation: "ModifyDBRecommendation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Modifies the settings of an Aurora Limitless Database DB shard group. You can change one or more settings by  specifying these parameters and the new values in the request.
+    @Sendable
+    public func modifyDBShardGroup(_ input: ModifyDBShardGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBShardGroup {
+        return try await self.client.execute(
+            operation: "ModifyDBShardGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates a manual DB snapshot with a new engine version. The snapshot can be encrypted or unencrypted, but not shared or public.   Amazon RDS supports upgrading DB snapshots for MySQL, PostgreSQL, and Oracle. This operation doesn't apply to RDS Custom or RDS for Db2.
     @Sendable
     public func modifyDBSnapshot(_ input: ModifyDBSnapshotMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyDBSnapshotResult {
@@ -1616,6 +1721,19 @@ public struct RDS: AWSService {
     public func modifyGlobalCluster(_ input: ModifyGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyGlobalClusterResult {
         return try await self.client.execute(
             operation: "ModifyGlobalCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Modifies a zero-ETL integration with Amazon Redshift.  Currently, you can only modify integrations that have Aurora MySQL source DB clusters. Integrations with Aurora PostgreSQL and RDS sources currently don't support modifying the integration.
+    @Sendable
+    public func modifyIntegration(_ input: ModifyIntegrationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> Integration {
+        return try await self.client.execute(
+            operation: "ModifyIntegration", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1707,6 +1825,19 @@ public struct RDS: AWSService {
     public func rebootDBInstance(_ input: RebootDBInstanceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> RebootDBInstanceResult {
         return try await self.client.execute(
             operation: "RebootDBInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// You might need to reboot your DB shard group, usually for maintenance reasons. For example, if you make certain modifications, reboot  the DB shard group for the changes to take effect. This operation applies only to Aurora Limitless Database DBb shard groups.
+    @Sendable
+    public func rebootDBShardGroup(_ input: RebootDBShardGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DBShardGroup {
+        return try await self.client.execute(
+            operation: "RebootDBShardGroup", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -2441,6 +2572,25 @@ extension RDS {
         )
     }
 
+    /// Describes the recommendations to resolve the issues for your DB instances, DB clusters, and DB parameter groups.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeDBRecommendationsPaginator(
+        _ input: DescribeDBRecommendationsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeDBRecommendationsMessage, DBRecommendationsMessage> {
+        return .init(
+            input: input,
+            command: self.describeDBRecommendations,
+            inputKey: \DescribeDBRecommendationsMessage.marker,
+            outputKey: \DBRecommendationsMessage.marker,
+            logger: logger
+        )
+    }
+
     /// Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group.  EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that  you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the  Amazon EC2 User Guide, the blog EC2-Classic Networking is Retiring –  Here’s How to Prepare, and Moving a DB instance not in a VPC  into a VPC in the Amazon RDS User Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -3033,6 +3183,19 @@ extension RDS.DescribeDBProxyTargetsRequest: AWSPaginateToken {
             marker: token,
             maxRecords: self.maxRecords,
             targetGroupName: self.targetGroupName
+        )
+    }
+}
+
+extension RDS.DescribeDBRecommendationsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> RDS.DescribeDBRecommendationsMessage {
+        return .init(
+            filters: self.filters,
+            lastUpdatedAfter: self.lastUpdatedAfter,
+            lastUpdatedBefore: self.lastUpdatedBefore,
+            locale: self.locale,
+            marker: token,
+            maxRecords: self.maxRecords
         )
     }
 }

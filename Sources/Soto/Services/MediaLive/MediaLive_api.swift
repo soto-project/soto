@@ -693,6 +693,19 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Restart pipelines in one channel that is currently running.
+    @Sendable
+    public func restartChannelPipelines(_ input: RestartChannelPipelinesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestartChannelPipelinesResponse {
+        return try await self.client.execute(
+            operation: "RestartChannelPipelines", 
+            path: "/prod/channels/{ChannelId}/restartChannelPipelines", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Starts an existing channel
     @Sendable
     public func startChannel(_ input: StartChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartChannelResponse {

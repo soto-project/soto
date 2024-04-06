@@ -214,6 +214,19 @@ public struct CostExplorer: AWSService {
         )
     }
 
+    /// Retrieves estimated usage records for hourly granularity or resource-level data at daily granularity.
+    @Sendable
+    public func getApproximateUsageRecords(_ input: GetApproximateUsageRecordsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApproximateUsageRecordsResponse {
+        return try await self.client.execute(
+            operation: "GetApproximateUsageRecords", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves cost and usage metrics for your account. You can specify which cost and usage-related metric that you want the request to return. For example, you can specify BlendedCosts or UsageQuantity. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Management account in an organization in Organizations have access to all member accounts. For information about filter limitations, see Quotas and restrictions in the Billing and Cost Management User Guide.
     @Sendable
     public func getCostAndUsage(_ input: GetCostAndUsageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCostAndUsageResponse {
@@ -422,6 +435,19 @@ public struct CostExplorer: AWSService {
         )
     }
 
+    ///  Retrieves a list of your historical cost allocation tag backfill requests.
+    @Sendable
+    public func listCostAllocationTagBackfillHistory(_ input: ListCostAllocationTagBackfillHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCostAllocationTagBackfillHistoryResponse {
+        return try await self.client.execute(
+            operation: "ListCostAllocationTagBackfillHistory", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Get a list of cost allocation tags. All inputs in the API are optional and serve as filters. By default, all cost allocation tags are returned.
     @Sendable
     public func listCostAllocationTags(_ input: ListCostAllocationTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCostAllocationTagsResponse {
@@ -479,6 +505,19 @@ public struct CostExplorer: AWSService {
     public func provideAnomalyFeedback(_ input: ProvideAnomalyFeedbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProvideAnomalyFeedbackResponse {
         return try await self.client.execute(
             operation: "ProvideAnomalyFeedback", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Request a cost allocation tag backfill. This will backfill the activation status (either active or inactive) for all tag keys from para:BackfillFrom up to the when this request is made. You can request a backfill once every 24 hours.
+    @Sendable
+    public func startCostAllocationTagBackfill(_ input: StartCostAllocationTagBackfillRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCostAllocationTagBackfillResponse {
+        return try await self.client.execute(
+            operation: "StartCostAllocationTagBackfill", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -630,6 +669,25 @@ extension CostExplorer {
         )
     }
 
+    ///  Retrieves a list of your historical cost allocation tag backfill requests.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listCostAllocationTagBackfillHistoryPaginator(
+        _ input: ListCostAllocationTagBackfillHistoryRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCostAllocationTagBackfillHistoryRequest, ListCostAllocationTagBackfillHistoryResponse> {
+        return .init(
+            input: input,
+            command: self.listCostAllocationTagBackfillHistory,
+            inputKey: \ListCostAllocationTagBackfillHistoryRequest.nextToken,
+            outputKey: \ListCostAllocationTagBackfillHistoryResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Get a list of cost allocation tags. All inputs in the API are optional and serve as filters. By default, all cost allocation tags are returned.
     /// Return PaginatorSequence for operation.
     ///
@@ -693,6 +751,15 @@ extension CostExplorer.GetSavingsPlansUtilizationDetailsRequest: AWSPaginateToke
             nextToken: token,
             sortBy: self.sortBy,
             timePeriod: self.timePeriod
+        )
+    }
+}
+
+extension CostExplorer.ListCostAllocationTagBackfillHistoryRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CostExplorer.ListCostAllocationTagBackfillHistoryRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

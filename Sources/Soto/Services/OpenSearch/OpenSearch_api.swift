@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS OpenSearch service.
 ///
-/// Use the Amazon OpenSearch Service configuration API to create, configure, and manage OpenSearch Service domains. For sample code that uses the configuration API, see the  Amazon OpenSearch Service Developer Guide . The guide also contains sample code for sending signed HTTP requests to the OpenSearch APIs. The endpoint for configuration service requests is Region specific: es.region.amazonaws.com. For example, es.us-east-1.amazonaws.com. For a current list of supported Regions and endpoints, see Amazon Web Services service endpoints.
+/// Use the Amazon OpenSearch Service configuration API to create, configure, and manage OpenSearch Service domains. The endpoint for configuration service requests is Region specific: es.region.amazonaws.com. For example, es.us-east-1.amazonaws.com. For a current list of supported Regions and endpoints, see Amazon Web Services service endpoints.
 public struct OpenSearch: AWSService {
     // MARK: Member variables
 
@@ -87,6 +87,7 @@ public struct OpenSearch: AWSService {
             "ap-southeast-3": "aos.ap-southeast-3.api.aws",
             "ap-southeast-4": "aos.ap-southeast-4.api.aws",
             "ca-central-1": "aos.ca-central-1.api.aws",
+            "ca-west-1": "aos.ca-west-1.api.aws",
             "cn-north-1": "aos.cn-north-1.api.amazonwebservices.com.cn",
             "cn-northwest-1": "aos.cn-northwest-1.api.amazonwebservices.com.cn",
             "eu-central-1": "aos.eu-central-1.api.aws",
@@ -133,7 +134,7 @@ public struct OpenSearch: AWSService {
         )
     }
 
-    /// Adds the data source on the domain.
+    /// Creates a new direct-query data source to the specified domain. For more information, see Creating Amazon OpenSearch Service data source integrations with Amazon S3.
     @Sendable
     public func addDataSource(_ input: AddDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddDataSourceResponse {
         return try await self.client.execute(
@@ -178,6 +179,19 @@ public struct OpenSearch: AWSService {
         return try await self.client.execute(
             operation: "AuthorizeVpcEndpointAccess", 
             path: "/2021-01-01/opensearch/domain/{DomainName}/authorizeVpcEndpointAccess", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Cancels a pending configuration change on an Amazon OpenSearch Service domain.
+    @Sendable
+    public func cancelDomainConfigChange(_ input: CancelDomainConfigChangeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelDomainConfigChangeResponse {
+        return try await self.client.execute(
+            operation: "CancelDomainConfigChange", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/config/cancel", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -250,7 +264,7 @@ public struct OpenSearch: AWSService {
         )
     }
 
-    /// Deletes the data source.
+    /// Deletes a direct-query data source. For more information, see Deleting an Amazon OpenSearch Service data source with Amazon S3.
     @Sendable
     public func deleteDataSource(_ input: DeleteDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataSourceResponse {
         return try await self.client.execute(
@@ -549,7 +563,7 @@ public struct OpenSearch: AWSService {
         )
     }
 
-    /// Describes the data source details.
+    /// Retrieves information about a direct query data source.
     @Sendable
     public func getDataSource(_ input: GetDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataSourceResponse {
         return try await self.client.execute(
@@ -614,7 +628,7 @@ public struct OpenSearch: AWSService {
         )
     }
 
-    /// A list of the data source details of the domain.
+    /// Lists direct-query data sources for a specific domain. For more information, see  For more information, see Working with Amazon OpenSearch Service direct queries with Amazon S3.
     @Sendable
     public func listDataSources(_ input: ListDataSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSourcesResponse {
         return try await self.client.execute(
@@ -848,7 +862,7 @@ public struct OpenSearch: AWSService {
         )
     }
 
-    /// Updates the data source on the domain.
+    /// Updates a direct-query data source. For more information, see Working with Amazon OpenSearch Service data source integrations with Amazon S3.
     @Sendable
     public func updateDataSource(_ input: UpdateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSourceResponse {
         return try await self.client.execute(

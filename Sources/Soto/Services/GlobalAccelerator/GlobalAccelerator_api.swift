@@ -194,13 +194,17 @@ public struct GlobalAccelerator: AWSService {
     }
 
     /// Create a cross-account attachment in Global Accelerator. You create a cross-account attachment to
-    /// 			specify the principals who have permission to add to accelerators in their own
-    /// 			account the resources in your account that you also list in the attachment. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an
-    /// 			accelerator. For account numbers that are listed as principals, to add a resource listed in the attachment to an accelerator,
-    /// 			you must sign in to an account specified as a principal. Then you can add the resources that are listed
-    /// 			to any of your accelerators. If an accelerator ARN is listed in the cross-account attachment as a principal,
-    /// 			anyone with permission to make updates to the accelerator can add as endpoints resources that are listed in the
-    /// 			attachment.
+    /// 			specify the principals who have permission to work with resources
+    /// 			in accelerators in their own account. You specify, in the same attachment, the resources that are shared. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an
+    /// 			accelerator. For account numbers that are listed as principals, to work with a resource listed in the attachment,
+    /// 			you must sign in to an account specified as a principal. Then, you can work with resources that are listed,
+    /// 			with any of your accelerators. If an accelerator ARN is listed in the cross-account attachment as a principal,
+    /// 			anyone with permission to make updates to the accelerator can work with resources that are listed in the
+    /// 			attachment.  Specify each principal and resource separately. To specify two CIDR address pools, list
+    /// 			them individually under Resources, and so on. For a command line operation, for example,
+    /// 			you might use a statement like the following:  "Resources": [{"Cidr": "169.254.60.0/24"},{"Cidr": "169.254.59.0/24"}]  For more information, see
+    /// 			Working with cross-account attachments and resources in Global Accelerator in the
+    /// 				Global Accelerator Developer Guide.
     @Sendable
     public func createCrossAccountAttachment(_ input: CreateCrossAccountAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCrossAccountAttachmentResponse {
         return try await self.client.execute(
@@ -315,13 +319,9 @@ public struct GlobalAccelerator: AWSService {
 
     /// Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes the permission
     /// 			to use the resources in the attachment from all principals in the list of principals. Global Accelerator
-    /// 			revokes the permission for specific resources by doing the following:   If the principal is an account ID, Global Accelerator reviews every accelerator in the account
-    /// 			and removes cross-account endpoints from all accelerators.   If the principal is an accelerator, Global Accelerator reviews just that accelerator
-    /// 			and removes cross-account endpoints from it.   If there are overlapping permissions provided by multiple cross-account attachments,
-    /// 		Global Accelerator only removes endpoints if there are no current cross-account attachments that provide
-    /// 		access permission. For example, if you delete a cross-account attachment that lists an
-    /// 		accelerator as a principal, but another cross-account attachment includes the account ID
-    /// 		that owns that accelerator, endpoints will not be removed from the accelerator.
+    /// 			revokes the permission for specific resources. For more information, see
+    /// 			Working with cross-account attachments and resources in Global Accelerator in the
+    /// 				Global Accelerator Developer Guide.
     @Sendable
     public func deleteCrossAccountAttachment(_ input: DeleteCrossAccountAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -600,7 +600,9 @@ public struct GlobalAccelerator: AWSService {
         )
     }
 
-    /// List the accounts that have cross-account endpoints.
+    /// List the accounts that have cross-account resources. For more information, see
+    /// 			Working with cross-account attachments and resources in Global Accelerator in the
+    /// 				Global Accelerator Developer Guide.
     @Sendable
     public func listCrossAccountResourceAccounts(_ input: ListCrossAccountResourceAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCrossAccountResourceAccountsResponse {
         return try await self.client.execute(
@@ -613,7 +615,7 @@ public struct GlobalAccelerator: AWSService {
         )
     }
 
-    /// List the cross-account endpoints available to add to an accelerator.
+    /// List the cross-account resources available to work with.
     @Sendable
     public func listCrossAccountResources(_ input: ListCrossAccountResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCrossAccountResourcesResponse {
         return try await self.client.execute(
@@ -849,13 +851,9 @@ public struct GlobalAccelerator: AWSService {
 
     /// Update a cross-account attachment to add or remove principals or resources. When you update
     /// 			an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator
-    /// 			revokes the permission for specific resources by doing the following:   If the principal is an account ID, Global Accelerator reviews every accelerator in the account
-    /// 				and removes cross-account endpoints from all accelerators.   If the principal is an accelerator, Global Accelerator reviews just that accelerator
-    /// 				and removes cross-account endpoints from it.   If there are overlapping permissions provided by multiple cross-account attachments,
-    /// 			Global Accelerator only removes endpoints if there are no current cross-account attachments that provide
-    /// 			access permission. For example, if you delete a cross-account attachment that lists an
-    /// 			accelerator as a principal, but another cross-account attachment includes the account ID
-    /// 			that owns that accelerator, endpoints will not be removed from the accelerator.
+    /// 			revokes the permission for specific resources.  For more information, see
+    /// 			Working with cross-account attachments and resources in Global Accelerator in the
+    /// 				Global Accelerator Developer Guide.
     @Sendable
     public func updateCrossAccountAttachment(_ input: UpdateCrossAccountAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCrossAccountAttachmentResponse {
         return try await self.client.execute(
@@ -1022,7 +1020,7 @@ extension GlobalAccelerator {
         )
     }
 
-    /// List the cross-account endpoints available to add to an accelerator.
+    /// List the cross-account resources available to work with.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

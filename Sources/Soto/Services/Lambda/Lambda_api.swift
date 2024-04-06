@@ -86,6 +86,7 @@ public struct Lambda: AWSService {
             "ap-southeast-3": "lambda.ap-southeast-3.api.aws",
             "ap-southeast-4": "lambda.ap-southeast-4.api.aws",
             "ca-central-1": "lambda.ca-central-1.api.aws",
+            "ca-west-1": "lambda.ca-west-1.api.aws",
             "cn-north-1": "lambda.cn-north-1.api.amazonwebservices.com.cn",
             "cn-northwest-1": "lambda.cn-northwest-1.api.amazonwebservices.com.cn",
             "eu-central-1": "lambda.eu-central-1.api.aws",
@@ -561,7 +562,7 @@ public struct Lambda: AWSService {
         )
     }
 
-    ///  For asynchronous function invocation, use Invoke.  Invokes a function asynchronously.
+    ///  For asynchronous function invocation, use Invoke.  Invokes a function asynchronously.  If you do use the InvokeAsync action, note that it doesn't support the use of X-Ray active tracing. Trace ID is not  propagated to the function, even if X-Ray active tracing is turned on.
     @Sendable
     public func invokeAsync(_ input: InvokeAsyncRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeAsyncResponse {
         return try await self.client.execute(

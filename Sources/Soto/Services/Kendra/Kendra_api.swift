@@ -331,7 +331,7 @@ public struct Kendra: AWSService {
         )
     }
 
-    /// Deletes an existing Amazon Kendra index. An exception is not thrown if the index is already being deleted. While the index is being deleted, the Status field returned by a call to the DescribeIndex API is set to DELETING.
+    /// Deletes an Amazon Kendra index. An exception is not thrown if the index is already being deleted. While the index is being deleted, the Status field returned by a call to the DescribeIndex API is set to DELETING.
     @Sendable
     public func deleteIndex(_ input: DeleteIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -370,7 +370,7 @@ public struct Kendra: AWSService {
         )
     }
 
-    /// Deletes an existing Amazon Kendra thesaurus.
+    /// Deletes an Amazon Kendra thesaurus.
     @Sendable
     public func deleteThesaurus(_ input: DeleteThesaurusRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -448,7 +448,7 @@ public struct Kendra: AWSService {
         )
     }
 
-    /// Gets information about an existing Amazon Kendra index.
+    /// Gets information about an Amazon Kendra index.
     @Sendable
     public func describeIndex(_ input: DescribeIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIndexResponse {
         return try await self.client.execute(
@@ -500,7 +500,7 @@ public struct Kendra: AWSService {
         )
     }
 
-    /// Gets information about an existing Amazon Kendra thesaurus.
+    /// Gets information about an Amazon Kendra thesaurus.
     @Sendable
     public func describeThesaurus(_ input: DescribeThesaurusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeThesaurusResponse {
         return try await self.client.execute(
@@ -851,7 +851,7 @@ public struct Kendra: AWSService {
         )
     }
 
-    /// Updates an existing Amazon Kendra data source connector.
+    /// Updates an Amazon Kendra data source connector.
     @Sendable
     public func updateDataSource(_ input: UpdateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -890,7 +890,7 @@ public struct Kendra: AWSService {
         )
     }
 
-    /// Updates an existing Amazon Kendra index.
+    /// Updates an Amazon Kendra index.
     @Sendable
     public func updateIndex(_ input: UpdateIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(

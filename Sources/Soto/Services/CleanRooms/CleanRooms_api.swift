@@ -99,6 +99,19 @@ public struct CleanRooms: AWSService {
         )
     }
 
+    /// Retrieves multiple analysis rule schemas.
+    @Sendable
+    public func batchGetSchemaAnalysisRule(_ input: BatchGetSchemaAnalysisRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetSchemaAnalysisRuleOutput {
+        return try await self.client.execute(
+            operation: "BatchGetSchemaAnalysisRule", 
+            path: "/collaborations/{collaborationIdentifier}/batch-schema-analysis-rule", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a new analysis template.
     @Sendable
     public func createAnalysisTemplate(_ input: CreateAnalysisTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAnalysisTemplateOutput {

@@ -82,6 +82,7 @@ public struct ACM: AWSService {
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
             "ca-central-1": "acm-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "acm-fips.ca-west-1.amazonaws.com",
             "us-east-1": "acm-fips.us-east-1.amazonaws.com",
             "us-east-2": "acm-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "acm.us-gov-east-1.amazonaws.com",

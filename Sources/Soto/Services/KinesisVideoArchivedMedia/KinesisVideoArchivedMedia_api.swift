@@ -110,7 +110,7 @@ public struct KinesisVideoArchivedMedia: AWSService {
         )
     }
 
-    /// Retrieves a list of Images corresponding to each timestamp for a given time range, sampling interval, and image format configuration.
+    /// Retrieves a list of images corresponding to each timestamp for a given time range, sampling interval, and image format configuration.
     @Sendable
     public func getImages(_ input: GetImagesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImagesOutput {
         return try await self.client.execute(
@@ -163,7 +163,7 @@ extension KinesisVideoArchivedMedia {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension KinesisVideoArchivedMedia {
-    /// Retrieves a list of Images corresponding to each timestamp for a given time range, sampling interval, and image format configuration.
+    /// Retrieves a list of images corresponding to each timestamp for a given time range, sampling interval, and image format configuration.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

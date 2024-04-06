@@ -126,6 +126,19 @@ public struct Finspace: AWSService {
         )
     }
 
+    /// Creates a snapshot of kdb database with tiered storage capabilities and a pre-warmed cache, ready for mounting on kdb clusters.  Dataviews are only available for clusters running on a scaling group. They are not supported on dedicated clusters.
+    @Sendable
+    public func createKxDataview(_ input: CreateKxDataviewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKxDataviewResponse {
+        return try await self.client.execute(
+            operation: "CreateKxDataview", 
+            path: "/kx/environments/{environmentId}/databases/{databaseName}/dataviews", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a managed kdb environment for the account.
     @Sendable
     public func createKxEnvironment(_ input: CreateKxEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKxEnvironmentResponse {
@@ -139,12 +152,38 @@ public struct Finspace: AWSService {
         )
     }
 
+    /// Creates a new scaling group.
+    @Sendable
+    public func createKxScalingGroup(_ input: CreateKxScalingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKxScalingGroupResponse {
+        return try await self.client.execute(
+            operation: "CreateKxScalingGroup", 
+            path: "/kx/environments/{environmentId}/scalingGroups", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a user in FinSpace kdb environment with an associated IAM role.
     @Sendable
     public func createKxUser(_ input: CreateKxUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKxUserResponse {
         return try await self.client.execute(
             operation: "CreateKxUser", 
             path: "/kx/environments/{environmentId}/users", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a new volume with a specific amount of throughput and storage capacity.
+    @Sendable
+    public func createKxVolume(_ input: CreateKxVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKxVolumeResponse {
+        return try await self.client.execute(
+            operation: "CreateKxVolume", 
+            path: "/kx/environments/{environmentId}/kxvolumes", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -179,12 +218,38 @@ public struct Finspace: AWSService {
         )
     }
 
+    /// Deletes the specified nodes from a cluster.
+    @Sendable
+    public func deleteKxClusterNode(_ input: DeleteKxClusterNodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKxClusterNodeResponse {
+        return try await self.client.execute(
+            operation: "DeleteKxClusterNode", 
+            path: "/kx/environments/{environmentId}/clusters/{clusterName}/nodes/{nodeId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes the specified database and all of its associated data. This action is irreversible. You must copy any data out of the database before deleting it if the data is to be retained.
     @Sendable
     public func deleteKxDatabase(_ input: DeleteKxDatabaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKxDatabaseResponse {
         return try await self.client.execute(
             operation: "DeleteKxDatabase", 
             path: "/kx/environments/{environmentId}/databases/{databaseName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the specified dataview. Before deleting a dataview, make sure that it is not in use by any cluster.
+    @Sendable
+    public func deleteKxDataview(_ input: DeleteKxDataviewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKxDataviewResponse {
+        return try await self.client.execute(
+            operation: "DeleteKxDataview", 
+            path: "/kx/environments/{environmentId}/databases/{databaseName}/dataviews/{dataviewName}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -205,12 +270,38 @@ public struct Finspace: AWSService {
         )
     }
 
+    /// Deletes the specified scaling group. This action is irreversible. You cannot delete a scaling group until all the clusters running on it have been deleted.
+    @Sendable
+    public func deleteKxScalingGroup(_ input: DeleteKxScalingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKxScalingGroupResponse {
+        return try await self.client.execute(
+            operation: "DeleteKxScalingGroup", 
+            path: "/kx/environments/{environmentId}/scalingGroups/{scalingGroupName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes a user in the specified kdb environment.
     @Sendable
     public func deleteKxUser(_ input: DeleteKxUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKxUserResponse {
         return try await self.client.execute(
             operation: "DeleteKxUser", 
             path: "/kx/environments/{environmentId}/users/{userName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Deletes a volume. You can only delete a volume if it's not attached to a cluster or a dataview. When a volume is deleted, any data on the volume is lost. This action is irreversible.
+    @Sendable
+    public func deleteKxVolume(_ input: DeleteKxVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKxVolumeResponse {
+        return try await self.client.execute(
+            operation: "DeleteKxVolume", 
+            path: "/kx/environments/{environmentId}/kxvolumes/{volumeName}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -284,6 +375,19 @@ public struct Finspace: AWSService {
         )
     }
 
+    /// Retrieves details of the dataview.
+    @Sendable
+    public func getKxDataview(_ input: GetKxDataviewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKxDataviewResponse {
+        return try await self.client.execute(
+            operation: "GetKxDataview", 
+            path: "/kx/environments/{environmentId}/databases/{databaseName}/dataviews/{dataviewName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves all the information for the specified kdb environment.
     @Sendable
     public func getKxEnvironment(_ input: GetKxEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKxEnvironmentResponse {
@@ -297,12 +401,38 @@ public struct Finspace: AWSService {
         )
     }
 
+    /// Retrieves details of a scaling group.
+    @Sendable
+    public func getKxScalingGroup(_ input: GetKxScalingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKxScalingGroupResponse {
+        return try await self.client.execute(
+            operation: "GetKxScalingGroup", 
+            path: "/kx/environments/{environmentId}/scalingGroups/{scalingGroupName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves information about the specified kdb user.
     @Sendable
     public func getKxUser(_ input: GetKxUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKxUserResponse {
         return try await self.client.execute(
             operation: "GetKxUser", 
             path: "/kx/environments/{environmentId}/users/{userName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the information about the volume.
+    @Sendable
+    public func getKxVolume(_ input: GetKxVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKxVolumeResponse {
+        return try await self.client.execute(
+            operation: "GetKxVolume", 
+            path: "/kx/environments/{environmentId}/kxvolumes/{volumeName}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -376,6 +506,19 @@ public struct Finspace: AWSService {
         )
     }
 
+    /// Returns a list of all the dataviews in the database.
+    @Sendable
+    public func listKxDataviews(_ input: ListKxDataviewsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKxDataviewsResponse {
+        return try await self.client.execute(
+            operation: "ListKxDataviews", 
+            path: "/kx/environments/{environmentId}/databases/{databaseName}/dataviews", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a list of kdb environments created in an account.
     @Sendable
     public func listKxEnvironments(_ input: ListKxEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKxEnvironmentsResponse {
@@ -389,12 +532,38 @@ public struct Finspace: AWSService {
         )
     }
 
+    /// Returns a list of scaling groups in a kdb environment.
+    @Sendable
+    public func listKxScalingGroups(_ input: ListKxScalingGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKxScalingGroupsResponse {
+        return try await self.client.execute(
+            operation: "ListKxScalingGroups", 
+            path: "/kx/environments/{environmentId}/scalingGroups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists all the users in a kdb environment.
     @Sendable
     public func listKxUsers(_ input: ListKxUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKxUsersResponse {
         return try await self.client.execute(
             operation: "ListKxUsers", 
             path: "/kx/environments/{environmentId}/users", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists all the volumes in a kdb environment.
+    @Sendable
+    public func listKxVolumes(_ input: ListKxVolumesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKxVolumesResponse {
+        return try await self.client.execute(
+            operation: "ListKxVolumes", 
+            path: "/kx/environments/{environmentId}/kxvolumes", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -494,6 +663,19 @@ public struct Finspace: AWSService {
         )
     }
 
+    /// Updates the specified dataview. The dataviews get automatically updated when any new changesets are ingested. Each update of the dataview creates a new version, including changeset details and cache configurations
+    @Sendable
+    public func updateKxDataview(_ input: UpdateKxDataviewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKxDataviewResponse {
+        return try await self.client.execute(
+            operation: "UpdateKxDataview", 
+            path: "/kx/environments/{environmentId}/databases/{databaseName}/dataviews/{dataviewName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates information for the given kdb environment.
     @Sendable
     public func updateKxEnvironment(_ input: UpdateKxEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKxEnvironmentResponse {
@@ -527,6 +709,20 @@ public struct Finspace: AWSService {
             operation: "UpdateKxUser", 
             path: "/kx/environments/{environmentId}/users/{userName}", 
             httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the throughput or capacity of a volume. During the update process, the filesystem
+    /// might be unavailable for a few minutes. You can retry any operations after the update is complete.
+    @Sendable
+    public func updateKxVolume(_ input: UpdateKxVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKxVolumeResponse {
+        return try await self.client.execute(
+            operation: "UpdateKxVolume", 
+            path: "/kx/environments/{environmentId}/kxvolumes/{volumeName}", 
+            httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -604,6 +800,25 @@ extension Finspace {
         )
     }
 
+    /// Returns a list of all the dataviews in the database.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listKxDataviewsPaginator(
+        _ input: ListKxDataviewsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListKxDataviewsRequest, ListKxDataviewsResponse> {
+        return .init(
+            input: input,
+            command: self.listKxDataviews,
+            inputKey: \ListKxDataviewsRequest.nextToken,
+            outputKey: \ListKxDataviewsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns a list of kdb environments created in an account.
     /// Return PaginatorSequence for operation.
     ///
@@ -619,6 +834,25 @@ extension Finspace {
             command: self.listKxEnvironments,
             inputKey: \ListKxEnvironmentsRequest.nextToken,
             outputKey: \ListKxEnvironmentsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of scaling groups in a kdb environment.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listKxScalingGroupsPaginator(
+        _ input: ListKxScalingGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListKxScalingGroupsRequest, ListKxScalingGroupsResponse> {
+        return .init(
+            input: input,
+            command: self.listKxScalingGroups,
+            inputKey: \ListKxScalingGroupsRequest.nextToken,
+            outputKey: \ListKxScalingGroupsResponse.nextToken,
             logger: logger
         )
     }
@@ -656,9 +890,30 @@ extension Finspace.ListKxDatabasesRequest: AWSPaginateToken {
     }
 }
 
+extension Finspace.ListKxDataviewsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Finspace.ListKxDataviewsRequest {
+        return .init(
+            databaseName: self.databaseName,
+            environmentId: self.environmentId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Finspace.ListKxEnvironmentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Finspace.ListKxEnvironmentsRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Finspace.ListKxScalingGroupsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Finspace.ListKxScalingGroupsRequest {
+        return .init(
+            environmentId: self.environmentId,
             maxResults: self.maxResults,
             nextToken: token
         )

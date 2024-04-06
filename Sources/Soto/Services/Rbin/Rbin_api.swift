@@ -75,6 +75,7 @@ public struct Rbin: AWSService {
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
             "ca-central-1": "rbin-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "rbin-fips.ca-west-1.amazonaws.com",
             "us-east-1": "rbin-fips.us-east-1.amazonaws.com",
             "us-east-2": "rbin-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "rbin-fips.us-gov-east-1.amazonaws.com",

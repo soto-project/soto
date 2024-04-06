@@ -329,6 +329,7 @@ public struct Wisdom: AWSService {
     }
 
     /// Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use NotifyRecommendationsReceived. This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use QueryAssistant.
+    @available(*, deprecated, message: "GetRecommendations API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     @Sendable
     public func getRecommendations(_ input: GetRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecommendationsResponse {
         return try await self.client.execute(
@@ -459,6 +460,7 @@ public struct Wisdom: AWSService {
     }
 
     /// Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
+    @available(*, deprecated, message: "QueryAssistant API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     @Sendable
     public func queryAssistant(_ input: QueryAssistantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> QueryAssistantResponse {
         return try await self.client.execute(
@@ -748,6 +750,7 @@ extension Wisdom {
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
+    @available(*, deprecated, message: "QueryAssistant API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     public func queryAssistantPaginator(
         _ input: QueryAssistantRequest,
         logger: Logger = AWSClient.loggingDisabled

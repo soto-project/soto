@@ -72,7 +72,8 @@ public struct Health: AWSService {
     /// custom endpoints for regions
     static var serviceEndpoints: [String: String] {[
         "aws-cn-global": "global.health.amazonaws.com.cn",
-        "aws-global": "global.health.amazonaws.com"
+        "aws-global": "global.health.amazonaws.com",
+        "aws-us-gov-global": "global.health.us-gov.amazonaws.com"
     ]}
 
     /// Default endpoint and region to use for each partition

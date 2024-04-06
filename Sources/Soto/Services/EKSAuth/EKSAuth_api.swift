@@ -59,6 +59,8 @@ public struct EKSAuth: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2023-11-26",
             endpoint: endpoint,
+            serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: EKSAuthErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -68,8 +70,82 @@ public struct EKSAuth: AWSService {
     }
 
 
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "af-south-1": "eks-auth.af-south-1.api.aws",
+        "ap-east-1": "eks-auth.ap-east-1.api.aws",
+        "ap-northeast-1": "eks-auth.ap-northeast-1.api.aws",
+        "ap-northeast-2": "eks-auth.ap-northeast-2.api.aws",
+        "ap-northeast-3": "eks-auth.ap-northeast-3.api.aws",
+        "ap-south-1": "eks-auth.ap-south-1.api.aws",
+        "ap-south-2": "eks-auth.ap-south-2.api.aws",
+        "ap-southeast-1": "eks-auth.ap-southeast-1.api.aws",
+        "ap-southeast-2": "eks-auth.ap-southeast-2.api.aws",
+        "ap-southeast-3": "eks-auth.ap-southeast-3.api.aws",
+        "ap-southeast-4": "eks-auth.ap-southeast-4.api.aws",
+        "ca-central-1": "eks-auth.ca-central-1.api.aws",
+        "ca-west-1": "eks-auth.ca-west-1.api.aws",
+        "cn-north-1": "eks-auth.cn-north-1.api.amazonwebservices.com.cn",
+        "cn-northwest-1": "eks-auth.cn-northwest-1.api.amazonwebservices.com.cn",
+        "eu-central-1": "eks-auth.eu-central-1.api.aws",
+        "eu-central-2": "eks-auth.eu-central-2.api.aws",
+        "eu-north-1": "eks-auth.eu-north-1.api.aws",
+        "eu-south-1": "eks-auth.eu-south-1.api.aws",
+        "eu-south-2": "eks-auth.eu-south-2.api.aws",
+        "eu-west-1": "eks-auth.eu-west-1.api.aws",
+        "eu-west-2": "eks-auth.eu-west-2.api.aws",
+        "eu-west-3": "eks-auth.eu-west-3.api.aws",
+        "il-central-1": "eks-auth.il-central-1.api.aws",
+        "me-central-1": "eks-auth.me-central-1.api.aws",
+        "me-south-1": "eks-auth.me-south-1.api.aws",
+        "sa-east-1": "eks-auth.sa-east-1.api.aws",
+        "us-east-1": "eks-auth.us-east-1.api.aws",
+        "us-east-2": "eks-auth.us-east-2.api.aws",
+        "us-gov-east-1": "eks-auth.us-gov-east-1.api.aws",
+        "us-gov-west-1": "eks-auth.us-gov-west-1.api.aws",
+        "us-west-1": "eks-auth.us-west-1.api.aws",
+        "us-west-2": "eks-auth.us-west-2.api.aws"
+    ]}
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "af-south-1": "eks-auth-fips.af-south-1.api.aws",
+            "ap-east-1": "eks-auth-fips.ap-east-1.api.aws",
+            "ap-northeast-1": "eks-auth-fips.ap-northeast-1.api.aws",
+            "ap-northeast-2": "eks-auth-fips.ap-northeast-2.api.aws",
+            "ap-northeast-3": "eks-auth-fips.ap-northeast-3.api.aws",
+            "ap-south-1": "eks-auth-fips.ap-south-1.api.aws",
+            "ap-south-2": "eks-auth-fips.ap-south-2.api.aws",
+            "ap-southeast-1": "eks-auth-fips.ap-southeast-1.api.aws",
+            "ap-southeast-2": "eks-auth-fips.ap-southeast-2.api.aws",
+            "ap-southeast-3": "eks-auth-fips.ap-southeast-3.api.aws",
+            "ap-southeast-4": "eks-auth-fips.ap-southeast-4.api.aws",
+            "ca-central-1": "eks-auth-fips.ca-central-1.api.aws",
+            "ca-west-1": "eks-auth-fips.ca-west-1.api.aws",
+            "cn-north-1": "eks-auth-fips.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "eks-auth-fips.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "eks-auth-fips.eu-central-1.api.aws",
+            "eu-central-2": "eks-auth-fips.eu-central-2.api.aws",
+            "eu-north-1": "eks-auth-fips.eu-north-1.api.aws",
+            "eu-south-1": "eks-auth-fips.eu-south-1.api.aws",
+            "eu-south-2": "eks-auth-fips.eu-south-2.api.aws",
+            "eu-west-1": "eks-auth-fips.eu-west-1.api.aws",
+            "eu-west-2": "eks-auth-fips.eu-west-2.api.aws",
+            "eu-west-3": "eks-auth-fips.eu-west-3.api.aws",
+            "il-central-1": "eks-auth-fips.il-central-1.api.aws",
+            "me-central-1": "eks-auth-fips.me-central-1.api.aws",
+            "me-south-1": "eks-auth-fips.me-south-1.api.aws",
+            "sa-east-1": "eks-auth-fips.sa-east-1.api.aws",
+            "us-east-1": "eks-auth-fips.us-east-1.api.aws",
+            "us-east-2": "eks-auth-fips.us-east-2.api.aws",
+            "us-gov-east-1": "eks-auth-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "eks-auth-fips.us-gov-west-1.api.aws",
+            "us-west-1": "eks-auth-fips.us-west-1.api.aws",
+            "us-west-2": "eks-auth-fips.us-west-2.api.aws"
+        ])
+    ]}
 
     // MARK: API Calls
 

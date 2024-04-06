@@ -221,6 +221,7 @@ public struct MediaConvert: AWSService {
     }
 
     /// Send an request with an empty body to the regional API endpoint to get your account API endpoint.
+    @available(*, deprecated, message: "DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.")
     @Sendable
     public func describeEndpoints(_ input: DescribeEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointsResponse {
         return try await self.client.execute(
@@ -474,6 +475,7 @@ extension MediaConvert {
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
+    @available(*, deprecated, message: "DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.")
     public func describeEndpointsPaginator(
         _ input: DescribeEndpointsRequest,
         logger: Logger = AWSClient.loggingDisabled

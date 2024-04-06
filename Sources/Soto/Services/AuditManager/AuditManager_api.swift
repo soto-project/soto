@@ -59,6 +59,7 @@ public struct AuditManager: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-07-25",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: AuditManagerErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -70,6 +71,15 @@ public struct AuditManager: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-east-1": "auditmanager-fips.us-east-1.amazonaws.com",
+            "us-east-2": "auditmanager-fips.us-east-2.amazonaws.com",
+            "us-west-1": "auditmanager-fips.us-west-1.amazonaws.com",
+            "us-west-2": "auditmanager-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

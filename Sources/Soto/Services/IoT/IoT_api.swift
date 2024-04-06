@@ -347,6 +347,19 @@ public struct IoT: AWSService {
         )
     }
 
+    /// Creates an Amazon Web Services IoT Core certificate provider. You can use Amazon Web Services IoT Core certificate provider to customize how to sign a certificate signing request (CSR) in IoT fleet provisioning. For more information, see Customizing certificate signing using Amazon Web Services IoT Core certificate provider from Amazon Web Services IoT Core Developer Guide. Requires permission to access the CreateCertificateProvider action.  After you create a certificate provider, the behavior of  CreateCertificateFromCsr API for fleet provisioning will change and all API calls to CreateCertificateFromCsr will invoke the certificate provider to create the certificates. It can take up to a few minutes for this behavior to change after a certificate provider is created.
+    @Sendable
+    public func createCertificateProvider(_ input: CreateCertificateProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCertificateProviderResponse {
+        return try await self.client.execute(
+            operation: "CreateCertificateProvider", 
+            path: "/certificate-providers/{certificateProviderName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     ///  Use this API to define a Custom Metric published by your devices to Device Defender.  Requires permission to access the CreateCustomMetric action.
     @Sendable
     public func createCustomMetric(_ input: CreateCustomMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomMetricResponse {
@@ -763,6 +776,19 @@ public struct IoT: AWSService {
         return try await self.client.execute(
             operation: "DeleteCertificate", 
             path: "/certificates/{certificateId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a certificate provider. Requires permission to access the DeleteCertificateProvider action.  If you delete the certificate provider resource, the behavior of CreateCertificateFromCsr will resume, and IoT will create certificates signed by IoT from a certificate signing request (CSR).
+    @Sendable
+    public func deleteCertificateProvider(_ input: DeleteCertificateProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCertificateProviderResponse {
+        return try await self.client.execute(
+            operation: "DeleteCertificateProvider", 
+            path: "/certificate-providers/{certificateProviderName}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -1255,6 +1281,19 @@ public struct IoT: AWSService {
         )
     }
 
+    /// Describes a certificate provider. Requires permission to access the DescribeCertificateProvider action.
+    @Sendable
+    public func describeCertificateProvider(_ input: DescribeCertificateProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCertificateProviderResponse {
+        return try await self.client.execute(
+            operation: "DescribeCertificateProvider", 
+            path: "/certificate-providers/{certificateProviderName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     ///  Gets information about a Device Defender detect custom metric.  Requires permission to access the DescribeCustomMetric action.
     @Sendable
     public func describeCustomMetric(_ input: DescribeCustomMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCustomMetricResponse {
@@ -1320,7 +1359,7 @@ public struct IoT: AWSService {
         )
     }
 
-    /// Returns a unique endpoint specific to the Amazon Web Services account making the call. Requires permission to access the DescribeEndpoint action.
+    /// Returns or creates a unique endpoint specific to the Amazon Web Services account making the call.  The first time DescribeEndpoint is called, an endpoint is created. All subsequent calls to DescribeEndpoint return the same endpoint.  Requires permission to access the DescribeEndpoint action.
     @Sendable
     public func describeEndpoint(_ input: DescribeEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointResponse {
         return try await self.client.execute(
@@ -1830,7 +1869,7 @@ public struct IoT: AWSService {
         )
     }
 
-    /// Gets a registration code used to register a CA certificate with IoT. Requires permission to access the GetRegistrationCode action.
+    /// Gets a registration code used to register a CA certificate with IoT. IoT will create a registration code as part of this API call if the registration code doesn't exist or has been deleted. If you already have a registration code, this API call will return the same registration code. Requires permission to access the GetRegistrationCode action.
     @Sendable
     public func getRegistrationCode(_ input: GetRegistrationCodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegistrationCodeResponse {
         return try await self.client.execute(
@@ -2018,6 +2057,19 @@ public struct IoT: AWSService {
         return try await self.client.execute(
             operation: "ListCACertificates", 
             path: "/cacertificates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists all your certificate providers in your Amazon Web Services account. Requires permission to access the ListCertificateProviders action.
+    @Sendable
+    public func listCertificateProviders(_ input: ListCertificateProvidersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCertificateProvidersResponse {
+        return try await self.client.execute(
+            operation: "ListCertificateProviders", 
+            path: "/certificate-providers", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -3071,6 +3123,19 @@ public struct IoT: AWSService {
         return try await self.client.execute(
             operation: "UpdateCertificate", 
             path: "/certificates/{certificateId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates a certificate provider. Requires permission to access the UpdateCertificateProvider action.
+    @Sendable
+    public func updateCertificateProvider(_ input: UpdateCertificateProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCertificateProviderResponse {
+        return try await self.client.execute(
+            operation: "UpdateCertificateProvider", 
+            path: "/certificate-providers/{certificateProviderName}", 
             httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 

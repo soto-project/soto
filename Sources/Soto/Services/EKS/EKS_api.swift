@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS EKS service.
 ///
-/// Amazon Elastic Kubernetes Service (Amazon EKS) is a managed service that makes it easy for you to run Kubernetes on Amazon Web Services without needing to stand up or maintain your own Kubernetes control plane. Kubernetes is an open-source system for automating the deployment, scaling, and management of containerized applications.  Amazon EKS runs up-to-date versions of the open-source Kubernetes software, so you can use all the existing plugins and tooling from the Kubernetes community. Applications running on Amazon EKS are fully compatible with applications running on any standard Kubernetes environment, whether running in on-premises data centers or public clouds. This means that you can easily migrate any standard Kubernetes application to Amazon EKS without any code modification required.
+/// Amazon Elastic Kubernetes Service (Amazon EKS) is a managed service that makes it easy for you to run Kubernetes on Amazon Web Services without needing to setup or maintain your own Kubernetes control plane. Kubernetes is an open-source system for automating the deployment, scaling, and management of containerized applications. Amazon EKS runs up-to-date versions of the open-source Kubernetes software, so you can use all the existing plugins and tooling from the Kubernetes community. Applications running on Amazon EKS are fully compatible with applications running on any standard Kubernetes environment, whether running in on-premises data centers or public clouds. This means that you can easily migrate any standard Kubernetes application to Amazon EKS without any code modification required.
 public struct EKS: AWSService {
     // MARK: Member variables
 
@@ -86,6 +86,7 @@ public struct EKS: AWSService {
             "ap-southeast-3": "fips.eks.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "fips.eks.ap-southeast-4.amazonaws.com",
             "ca-central-1": "fips.eks.ca-central-1.amazonaws.com",
+            "ca-west-1": "fips.eks.ca-west-1.amazonaws.com",
             "eu-central-1": "fips.eks.eu-central-1.amazonaws.com",
             "eu-central-2": "fips.eks.eu-central-2.amazonaws.com",
             "eu-north-1": "fips.eks.eu-north-1.amazonaws.com",
@@ -109,7 +110,20 @@ public struct EKS: AWSService {
 
     // MARK: API Calls
 
-    /// Associate encryption configuration to an existing cluster. You can use this API to enable encryption on existing clusters which do not have encryption already enabled. This allows you to implement a defense-in-depth security strategy without migrating applications to new Amazon EKS clusters.
+    /// Associates an access policy and its scope to an access entry. For more information about associating access policies, see Associating and disassociating access policies to and from access entries in the Amazon EKS User Guide.
+    @Sendable
+    public func associateAccessPolicy(_ input: AssociateAccessPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateAccessPolicyResponse {
+        return try await self.client.execute(
+            operation: "AssociateAccessPolicy", 
+            path: "/clusters/{clusterName}/access-entries/{principalArn}/access-policies", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Associates an encryption configuration to an existing cluster. Use this API to enable encryption on existing clusters that don't already have encryption enabled. This allows you to implement a defense-in-depth security strategy without migrating applications to new Amazon EKS clusters.
     @Sendable
     public func associateEncryptionConfig(_ input: AssociateEncryptionConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateEncryptionConfigResponse {
         return try await self.client.execute(
@@ -122,12 +136,25 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Associate an identity provider configuration to a cluster. If you want to authenticate identities using an identity provider, you can create an identity provider configuration and associate it to your cluster. After configuring authentication to your cluster you can create Kubernetes roles and clusterroles to assign permissions to the roles, and then bind the roles to the identities using Kubernetes rolebindings and clusterrolebindings. For more information see Using RBAC Authorization in the Kubernetes documentation.
+    /// Associates an identity provider configuration to a cluster. If you want to authenticate identities using an identity provider, you can create an identity provider configuration and associate it to your cluster. After configuring authentication to your cluster you can create Kubernetes Role and ClusterRole objects, assign permissions to them, and then bind them to the identities using Kubernetes RoleBinding and ClusterRoleBinding objects. For more information see Using RBAC Authorization in the Kubernetes documentation.
     @Sendable
     public func associateIdentityProviderConfig(_ input: AssociateIdentityProviderConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateIdentityProviderConfigResponse {
         return try await self.client.execute(
             operation: "AssociateIdentityProviderConfig", 
             path: "/clusters/{clusterName}/identity-provider-configs/associate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates an access entry. An access entry allows an IAM principal to access your cluster. Access entries can replace the need to maintain entries in the aws-auth ConfigMap for authentication. You have the following options for authorizing an IAM principal to access Kubernetes objects on your cluster: Kubernetes role-based access control (RBAC), Amazon EKS, or both. Kubernetes RBAC authorization requires you to create and manage Kubernetes Role, ClusterRole, RoleBinding, and ClusterRoleBinding objects, in addition to managing access entries. If you use Amazon EKS authorization exclusively, you don't need to create and manage Kubernetes Role, ClusterRole, RoleBinding, and ClusterRoleBinding objects. For more information about access entries, see Access entries in the Amazon EKS User Guide.
+    @Sendable
+    public func createAccessEntry(_ input: CreateAccessEntryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccessEntryResponse {
+        return try await self.client.execute(
+            operation: "CreateAccessEntry", 
+            path: "/clusters/{clusterName}/access-entries", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -148,7 +175,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Creates an Amazon EKS control plane.  The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, such as etcd and the API server. The control plane runs in an account managed by Amazon Web Services, and the Kubernetes API is exposed by the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single tenant and unique. It runs on its own set of Amazon EC2 instances. The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in your Amazon Web Services account and connect to your cluster's control plane over the Kubernetes API server endpoint and a certificate file that is created for your cluster. You can use the endpointPublicAccess and endpointPrivateAccess parameters to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .  You can use the logging parameter to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.  In most cases, it takes several minutes to create a cluster. After you create an Amazon EKS cluster, you must configure your Kubernetes tooling to communicate with the API server and launch nodes into your cluster. For more information, see Managing Cluster Authentication and Launching Amazon EKS nodes in the Amazon EKS User Guide.
+    /// Creates an Amazon EKS control plane. The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, such as etcd and the API server. The control plane runs in an account managed by Amazon Web Services, and the Kubernetes API is exposed by the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single tenant and unique. It runs on its own set of Amazon EC2 instances. The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in your Amazon Web Services account and connect to your cluster's control plane over the Kubernetes API server endpoint and a certificate file that is created for your cluster. You can use the endpointPublicAccess and endpointPrivateAccess parameters to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .  You can use the logging parameter to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.  In most cases, it takes several minutes to create a cluster. After you create an Amazon EKS cluster, you must configure your Kubernetes tooling to communicate with the API server and launch nodes into your cluster. For more information, see Managing Cluster Authentication and Launching Amazon EKS nodes in the Amazon EKS User Guide.
     @Sendable
     public func createCluster(_ input: CreateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterResponse {
         return try await self.client.execute(
@@ -174,7 +201,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile’s selectors. Each profile can have up to five selectors that contain a namespace and labels. A namespace is required for every selector. The label field consists of multiple optional key-value pairs. Pods that match the selectors are scheduled on Fargate. If a to-be-scheduled pod matches any of the selectors in the Fargate profile, then that pod is run on Fargate. When you create a Fargate profile, you must specify a pod execution role to use with the pods that are scheduled with the profile. This role is added to the cluster's Kubernetes Role Based Access Control (RBAC) for authorization so that the kubelet that is running on the Fargate infrastructure can register with your Amazon EKS cluster so that it can appear in your cluster as a node. The pod execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories. For more information, see Pod Execution Role in the Amazon EKS User Guide. Fargate profiles are immutable. However, you can create a new updated profile to replace an existing profile and then delete the original after the updated profile has finished creating. If any Fargate profiles in a cluster are in the DELETING status, you must wait for that Fargate profile to finish deleting before you can create any other profiles in that cluster. For more information, see Fargate Profile in the Amazon EKS User Guide.
+    /// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile’s selectors. Each profile can have up to five selectors that contain a namespace and labels. A namespace is required for every selector. The label field consists of multiple optional key-value pairs. Pods that match the selectors are scheduled on Fargate. If a to-be-scheduled pod matches any of the selectors in the Fargate profile, then that pod is run on Fargate. When you create a Fargate profile, you must specify a pod execution role to use with the pods that are scheduled with the profile. This role is added to the cluster's Kubernetes Role Based Access Control (RBAC) for authorization so that the kubelet that is running on the Fargate infrastructure can register with your Amazon EKS cluster so that it can appear in your cluster as a node. The pod execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories. For more information, see Pod Execution Role in the Amazon EKS User Guide. Fargate profiles are immutable. However, you can create a new updated profile to replace an existing profile and then delete the original after the updated profile has finished creating. If any Fargate profiles in a cluster are in the DELETING status, you must wait for that Fargate profile to finish deleting before you can create any other profiles in that cluster. For more information, see Fargate profile in the Amazon EKS User Guide.
     @Sendable
     public func createFargateProfile(_ input: CreateFargateProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFargateProfileResponse {
         return try await self.client.execute(
@@ -187,7 +214,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see Managed node groups in the Amazon EKS User Guide.  Windows AMI types are only supported for commercial Regions that support Windows Amazon EKS.
+    /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For more information about using launch templates, see Launch template support. An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see Managed node groups in the Amazon EKS User Guide.  Windows AMI types are only supported for commercial Amazon Web Services Regions that support Windows on Amazon EKS.
     @Sendable
     public func createNodegroup(_ input: CreateNodegroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNodegroupResponse {
         return try await self.client.execute(
@@ -200,7 +227,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role with EKS Pod Identity. Use EKS Pod Identity to give temporary IAM credentials to pods and the credentials are rotated automatically. Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that 7EC2l instance profiles provide credentials to Amazon EC2 instances. If a pod uses a service account that has an association, Amazon EKS sets environment variables in the containers of the pod. The environment variables configure the Amazon Web Services SDKs, including the Command Line Interface, to use the EKS Pod Identity credentials. Pod Identity is a simpler method than IAM roles for service accounts, as this method doesn't use OIDC identity providers. Additionally, you can configure a role for Pod Identity once, and reuse it across clusters.
+    /// Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role with EKS Pod Identity. Use EKS Pod Identity to give temporary IAM credentials to pods and the credentials are rotated automatically. Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances. If a pod uses a service account that has an association, Amazon EKS sets environment variables in the containers of the pod. The environment variables configure the Amazon Web Services SDKs, including the Command Line Interface, to use the EKS Pod Identity credentials. Pod Identity is a simpler method than IAM roles for service accounts, as this method doesn't use OIDC identity providers. Additionally, you can configure a role for Pod Identity once, and reuse it across clusters.
     @Sendable
     public func createPodIdentityAssociation(_ input: CreatePodIdentityAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePodIdentityAssociationResponse {
         return try await self.client.execute(
@@ -213,7 +240,20 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Delete an Amazon EKS add-on. When you remove the add-on, it will also be deleted from the cluster. You can always manually start an add-on on the cluster using the Kubernetes API.
+    /// Deletes an access entry. Deleting an access entry of a type other than Standard can cause your cluster to function improperly. If you delete an access entry in error, you can recreate it.
+    @Sendable
+    public func deleteAccessEntry(_ input: DeleteAccessEntryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccessEntryResponse {
+        return try await self.client.execute(
+            operation: "DeleteAccessEntry", 
+            path: "/clusters/{clusterName}/access-entries/{principalArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an Amazon EKS add-on. When you remove an add-on, it's deleted from the cluster. You can always manually start an add-on on the cluster using the Kubernetes API.
     @Sendable
     public func deleteAddon(_ input: DeleteAddonRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAddonResponse {
         return try await self.client.execute(
@@ -226,7 +266,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Deletes the Amazon EKS cluster control plane. If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see Deleting a Cluster in the Amazon EKS User Guide. If you have managed node groups or Fargate profiles attached to the cluster, you must delete them first. For more information, see DeleteNodegroup and DeleteFargateProfile.
+    /// Deletes an Amazon EKS cluster control plane. If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see Deleting a cluster in the Amazon EKS User Guide. If you have managed node groups or Fargate profiles attached to the cluster, you must delete them first. For more information, see DeleteNodgroup and DeleteFargateProfile.
     @Sendable
     public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterResponse {
         return try await self.client.execute(
@@ -252,7 +292,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Deletes an Fargate profile. When you delete a Fargate profile, any pods running on Fargate that were created with the profile are deleted. If those pods match another Fargate profile, then they are scheduled on Fargate with that profile. If they no longer match any Fargate profiles, then they are not scheduled on Fargate and they may remain in a pending state. Only one Fargate profile in a cluster can be in the DELETING status at a time. You must wait for a Fargate profile to finish deleting before you can delete any other profiles in that cluster.
+    /// Deletes an Fargate profile. When you delete a Fargate profile, any Pod running on Fargate that was created with the profile is deleted. If the Pod matches another Fargate profile, then it is scheduled on Fargate with that profile. If it no longer matches any Fargate profiles, then it's not scheduled on Fargate and may remain in a pending state. Only one Fargate profile in a cluster can be in the DELETING status at a time. You must wait for a Fargate profile to finish deleting before you can delete any other profiles in that cluster.
     @Sendable
     public func deleteFargateProfile(_ input: DeleteFargateProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFargateProfileResponse {
         return try await self.client.execute(
@@ -265,7 +305,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Deletes an Amazon EKS node group for a cluster.
+    /// Deletes a managed node group.
     @Sendable
     public func deleteNodegroup(_ input: DeleteNodegroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNodegroupResponse {
         return try await self.client.execute(
@@ -291,13 +331,26 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Deregisters a connected cluster to remove it from the Amazon EKS control plane.
+    /// Deregisters a connected cluster to remove it from the Amazon EKS control plane. A connected cluster is a Kubernetes cluster that you've connected to your control plane using the Amazon EKS Connector.
     @Sendable
     public func deregisterCluster(_ input: DeregisterClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterClusterResponse {
         return try await self.client.execute(
             operation: "DeregisterCluster", 
             path: "/cluster-registrations/{name}", 
             httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describes an access entry.
+    @Sendable
+    public func describeAccessEntry(_ input: DescribeAccessEntryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccessEntryResponse {
+        return try await self.client.execute(
+            operation: "DescribeAccessEntry", 
+            path: "/clusters/{clusterName}/access-entries/{principalArn}", 
+            httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -343,7 +396,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Returns descriptive information about an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see Create a kubeconfig for Amazon EKS.  The API server endpoint and certificate authority data aren't available until the cluster reaches the ACTIVE state.
+    /// Describes an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see Creating or updating a kubeconfig file for an Amazon EKS cluster.  The API server endpoint and certificate authority data aren't available until the cluster reaches the ACTIVE state.
     @Sendable
     public func describeCluster(_ input: DescribeClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClusterResponse {
         return try await self.client.execute(
@@ -369,7 +422,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Returns descriptive information about an Fargate profile.
+    /// Describes an Fargate profile.
     @Sendable
     public func describeFargateProfile(_ input: DescribeFargateProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFargateProfileResponse {
         return try await self.client.execute(
@@ -382,7 +435,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Returns descriptive information about an identity provider configuration.
+    /// Describes an identity provider configuration.
     @Sendable
     public func describeIdentityProviderConfig(_ input: DescribeIdentityProviderConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIdentityProviderConfigResponse {
         return try await self.client.execute(
@@ -395,7 +448,20 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Returns descriptive information about an Amazon EKS node group.
+    /// Returns details about an insight that you specify using its ID.
+    @Sendable
+    public func describeInsight(_ input: DescribeInsightRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInsightResponse {
+        return try await self.client.execute(
+            operation: "DescribeInsight", 
+            path: "/clusters/{clusterName}/insights/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describes a managed node group.
     @Sendable
     public func describeNodegroup(_ input: DescribeNodegroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNodegroupResponse {
         return try await self.client.execute(
@@ -421,13 +487,26 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Returns descriptive information about an update against your Amazon EKS cluster or associated managed node group or Amazon EKS add-on. When the status of the update is Succeeded, the update is complete. If an update fails, the status is Failed, and an error detail explains the reason for the failure.
+    /// Describes an update to an Amazon EKS resource. When the status of the update is Succeeded, the update is complete. If an update fails, the status is Failed, and an error detail explains the reason for the failure.
     @Sendable
     public func describeUpdate(_ input: DescribeUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUpdateResponse {
         return try await self.client.execute(
             operation: "DescribeUpdate", 
             path: "/clusters/{name}/updates/{updateId}", 
             httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Disassociates an access policy from an access entry.
+    @Sendable
+    public func disassociateAccessPolicy(_ input: DisassociateAccessPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateAccessPolicyResponse {
+        return try await self.client.execute(
+            operation: "DisassociateAccessPolicy", 
+            path: "/clusters/{clusterName}/access-entries/{principalArn}/access-policies/{policyArn}", 
+            httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -447,6 +526,32 @@ public struct EKS: AWSService {
         )
     }
 
+    /// Lists the access entries for your cluster.
+    @Sendable
+    public func listAccessEntries(_ input: ListAccessEntriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessEntriesResponse {
+        return try await self.client.execute(
+            operation: "ListAccessEntries", 
+            path: "/clusters/{clusterName}/access-entries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the available access policies.
+    @Sendable
+    public func listAccessPolicies(_ input: ListAccessPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessPoliciesResponse {
+        return try await self.client.execute(
+            operation: "ListAccessPolicies", 
+            path: "/access-policies", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists the installed add-ons.
     @Sendable
     public func listAddons(_ input: ListAddonsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAddonsResponse {
@@ -460,7 +565,20 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Region.
+    /// Lists the access policies associated with an access entry.
+    @Sendable
+    public func listAssociatedAccessPolicies(_ input: ListAssociatedAccessPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssociatedAccessPoliciesResponse {
+        return try await self.client.execute(
+            operation: "ListAssociatedAccessPolicies", 
+            path: "/clusters/{clusterName}/access-entries/{principalArn}/access-policies", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Amazon Web Services Region.
     @Sendable
     public func listClusters(_ input: ListClustersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClustersResponse {
         return try await self.client.execute(
@@ -486,7 +604,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services account in the specified Region.
+    /// Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services account in the specified Amazon Web Services Region.
     @Sendable
     public func listFargateProfiles(_ input: ListFargateProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFargateProfilesResponse {
         return try await self.client.execute(
@@ -499,7 +617,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// A list of identity provider configurations.
+    /// Lists the identity provider configurations for your cluster.
     @Sendable
     public func listIdentityProviderConfigs(_ input: ListIdentityProviderConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIdentityProviderConfigsResponse {
         return try await self.client.execute(
@@ -512,7 +630,20 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Lists the Amazon EKS managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Region. Self-managed node groups are not listed.
+    /// Returns a list of all insights checked for against the specified cluster. You can filter which insights are returned by category, associated Kubernetes version, and status.
+    @Sendable
+    public func listInsights(_ input: ListInsightsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInsightsResponse {
+        return try await self.client.execute(
+            operation: "ListInsights", 
+            path: "/clusters/{clusterName}/insights", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Amazon Web Services Region. Self-managed node groups aren't listed.
     @Sendable
     public func listNodegroups(_ input: ListNodegroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNodegroupsResponse {
         return try await self.client.execute(
@@ -551,7 +682,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Lists the updates associated with an Amazon EKS cluster or managed node group in your Amazon Web Services account, in the specified Region.
+    /// Lists the updates associated with an Amazon EKS resource in your Amazon Web Services account, in the specified Amazon Web Services Region.
     @Sendable
     public func listUpdates(_ input: ListUpdatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUpdatesResponse {
         return try await self.client.execute(
@@ -564,7 +695,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Connects a Kubernetes cluster to the Amazon EKS control plane.  Any Kubernetes cluster can be connected to the Amazon EKS control plane to view current information about the cluster and its nodes.  Cluster connection requires two steps. First, send a  RegisterClusterRequest to add it to the Amazon EKS control plane. Second, a Manifest containing the activationID and activationCode must be applied to the Kubernetes cluster through it's native provider to provide visibility. After the Manifest is updated and applied, then the connected cluster is visible to the Amazon EKS control plane. If the Manifest is not applied within three days, then the connected cluster will no longer be visible and must be deregistered. See DeregisterCluster.
+    /// Connects a Kubernetes cluster to the Amazon EKS control plane.  Any Kubernetes cluster can be connected to the Amazon EKS control plane to view current information about the cluster and its nodes.  Cluster connection requires two steps. First, send a  RegisterClusterRequest to add it to the Amazon EKS control plane. Second, a Manifest containing the activationID and activationCode must be applied to the Kubernetes cluster through it's native provider to provide visibility. After the manifest is updated and applied, the connected cluster is visible to the Amazon EKS control plane. If the manifest isn't applied within three days, the connected cluster will no longer be visible and must be deregistered using DeregisterCluster.
     @Sendable
     public func registerCluster(_ input: RegisterClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterClusterResponse {
         return try await self.client.execute(
@@ -577,7 +708,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well. Tags that you create for Amazon EKS resources do not propagate to any other resources associated with the cluster. For example, if you tag a cluster with this operation, that tag does not automatically propagate to the subnets and nodes associated with the cluster.
+    /// Associates the specified tags to an Amazon EKS resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EKS resources don't propagate to any other resources associated with the cluster. For example, if you tag a cluster with this operation, that tag doesn't automatically propagate to the subnets and nodes associated with the cluster.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
         return try await self.client.execute(
@@ -590,13 +721,26 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Deletes specified tags from a resource.
+    /// Deletes specified tags from an Amazon EKS resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         return try await self.client.execute(
             operation: "UntagResource", 
             path: "/tags/{resourceArn}", 
             httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates an access entry.
+    @Sendable
+    public func updateAccessEntry(_ input: UpdateAccessEntryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccessEntryResponse {
+        return try await self.client.execute(
+            operation: "UpdateAccessEntry", 
+            path: "/clusters/{clusterName}/access-entries/{principalArn}", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -616,7 +760,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Updates an Amazon EKS cluster configuration. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with the DescribeUpdate API operation. You can use this API operation to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.  You can also use this API operation to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide . You can also use this API operation to choose different subnets and security groups for the cluster. You must specify at least two subnets that are in different Availability Zones. You can't change which VPC the subnets are from, the subnets must be in the same VPC as the subnets that the cluster was created with. For more information about the VPC requirements, see https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html in the  Amazon EKS User Guide . Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active.
+    /// Updates an Amazon EKS cluster configuration. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with DescribeUpdate"/>. You can use this API operation to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.  You can also use this API operation to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide . You can also use this API operation to choose different subnets and security groups for the cluster. You must specify at least two subnets that are in different Availability Zones. You can't change which VPC the subnets are from, the subnets must be in the same VPC as the subnets that the cluster was created with. For more information about the VPC requirements, see https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html in the  Amazon EKS User Guide . Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active.
     @Sendable
     public func updateClusterConfig(_ input: UpdateClusterConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterConfigResponse {
         return try await self.client.execute(
@@ -668,7 +812,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update a node group using a launch template only if the node group was originally deployed with a launch template. If you need to update a custom AMI in a node group that was deployed with a launch template, then update your custom AMI, specify the new ID in a new version of the launch template, and then update the node group to the new version of the launch template. If you update without a launch template, then you can update to the latest available AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in the request. You can update to the latest AMI version of your cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the request. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide. For information about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide.  You cannot roll back a node group to an earlier Kubernetes version or AMI version. When a node in a managed node group is terminated due to a scaling action or update, the pods in that node are drained first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a pod disruption budget issue.
+    /// Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update a node group using a launch template only if the node group was originally deployed with a launch template. If you need to update a custom AMI in a node group that was deployed with a launch template, then update your custom AMI, specify the new ID in a new version of the launch template, and then update the node group to the new version of the launch template. If you update without a launch template, then you can update to the latest available AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in the request. You can update to the latest AMI version of your cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the request. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide. For information about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide.  You cannot roll back a node group to an earlier Kubernetes version or AMI version. When a node in a managed node group is terminated due to a scaling action or update, every Pod on that node is drained first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a Pod disruption budget issue.
     @Sendable
     public func updateNodegroupVersion(_ input: UpdateNodegroupVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNodegroupVersionResponse {
         return try await self.client.execute(
@@ -681,7 +825,7 @@ public struct EKS: AWSService {
         )
     }
 
-    /// Updates a EKS Pod Identity association. Only the IAM role can be changed; an association can't be moved between clusters, namespaces, or service accounts. If you need to edit the namespace or service account, you need to remove the association and then create a new association with your desired settings.
+    /// Updates a EKS Pod Identity association. Only the IAM role can be changed; an association can't be moved between clusters, namespaces, or service accounts. If you need to edit the namespace or service account, you need to delete the association and then create a new association with your desired settings.
     @Sendable
     public func updatePodIdentityAssociation(_ input: UpdatePodIdentityAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePodIdentityAssociationResponse {
         return try await self.client.execute(
@@ -727,6 +871,44 @@ extension EKS {
         )
     }
 
+    /// Lists the access entries for your cluster.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAccessEntriesPaginator(
+        _ input: ListAccessEntriesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAccessEntriesRequest, ListAccessEntriesResponse> {
+        return .init(
+            input: input,
+            command: self.listAccessEntries,
+            inputKey: \ListAccessEntriesRequest.nextToken,
+            outputKey: \ListAccessEntriesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists the available access policies.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAccessPoliciesPaginator(
+        _ input: ListAccessPoliciesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAccessPoliciesRequest, ListAccessPoliciesResponse> {
+        return .init(
+            input: input,
+            command: self.listAccessPolicies,
+            inputKey: \ListAccessPoliciesRequest.nextToken,
+            outputKey: \ListAccessPoliciesResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists the installed add-ons.
     /// Return PaginatorSequence for operation.
     ///
@@ -746,7 +928,26 @@ extension EKS {
         )
     }
 
-    /// Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Region.
+    /// Lists the access policies associated with an access entry.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAssociatedAccessPoliciesPaginator(
+        _ input: ListAssociatedAccessPoliciesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAssociatedAccessPoliciesRequest, ListAssociatedAccessPoliciesResponse> {
+        return .init(
+            input: input,
+            command: self.listAssociatedAccessPolicies,
+            inputKey: \ListAssociatedAccessPoliciesRequest.nextToken,
+            outputKey: \ListAssociatedAccessPoliciesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Amazon Web Services Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -784,7 +985,7 @@ extension EKS {
         )
     }
 
-    /// Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services account in the specified Region.
+    /// Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services account in the specified Amazon Web Services Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -803,7 +1004,7 @@ extension EKS {
         )
     }
 
-    /// A list of identity provider configurations.
+    /// Lists the identity provider configurations for your cluster.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -822,7 +1023,26 @@ extension EKS {
         )
     }
 
-    /// Lists the Amazon EKS managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Region. Self-managed node groups are not listed.
+    /// Returns a list of all insights checked for against the specified cluster. You can filter which insights are returned by category, associated Kubernetes version, and status.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listInsightsPaginator(
+        _ input: ListInsightsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInsightsRequest, ListInsightsResponse> {
+        return .init(
+            input: input,
+            command: self.listInsights,
+            inputKey: \ListInsightsRequest.nextToken,
+            outputKey: \ListInsightsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists the managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Amazon Web Services Region. Self-managed node groups aren't listed.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -860,7 +1080,7 @@ extension EKS {
         )
     }
 
-    /// Lists the updates associated with an Amazon EKS cluster or managed node group in your Amazon Web Services account, in the specified Region.
+    /// Lists the updates associated with an Amazon EKS resource in your Amazon Web Services account, in the specified Amazon Web Services Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -894,12 +1114,43 @@ extension EKS.DescribeAddonVersionsRequest: AWSPaginateToken {
     }
 }
 
+extension EKS.ListAccessEntriesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EKS.ListAccessEntriesRequest {
+        return .init(
+            associatedPolicyArn: self.associatedPolicyArn,
+            clusterName: self.clusterName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EKS.ListAccessPoliciesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EKS.ListAccessPoliciesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension EKS.ListAddonsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EKS.ListAddonsRequest {
         return .init(
             clusterName: self.clusterName,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension EKS.ListAssociatedAccessPoliciesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EKS.ListAssociatedAccessPoliciesRequest {
+        return .init(
+            clusterName: self.clusterName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            principalArn: self.principalArn
         )
     }
 }
@@ -938,6 +1189,17 @@ extension EKS.ListIdentityProviderConfigsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EKS.ListIdentityProviderConfigsRequest {
         return .init(
             clusterName: self.clusterName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EKS.ListInsightsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EKS.ListInsightsRequest {
+        return .init(
+            clusterName: self.clusterName,
+            filter: self.filter,
             maxResults: self.maxResults,
             nextToken: token
         )

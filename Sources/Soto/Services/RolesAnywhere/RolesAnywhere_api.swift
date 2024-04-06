@@ -59,6 +59,7 @@ public struct RolesAnywhere: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-05-10",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: RolesAnywhereErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -70,6 +71,17 @@ public struct RolesAnywhere: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-east-1": "rolesanywhere-fips.us-east-1.amazonaws.com",
+            "us-east-2": "rolesanywhere-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "rolesanywhere-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "rolesanywhere-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "rolesanywhere-fips.us-west-1.amazonaws.com",
+            "us-west-2": "rolesanywhere-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -268,7 +280,7 @@ public struct RolesAnywhere: AWSService {
         )
     }
 
-    /// Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA). IAM Roles Anywhere validates against the CRL before issuing credentials.   Required permissions:  rolesanywhere:ImportCrl.
+    /// Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA).In order to be properly imported, a CRL must be in PEM  format. IAM Roles Anywhere validates against the CRL before issuing credentials.   Required permissions:  rolesanywhere:ImportCrl.
     @Sendable
     public func importCrl(_ input: ImportCrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CrlDetailResponse {
         return try await self.client.execute(

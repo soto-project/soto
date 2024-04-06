@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS EC2 service.
 ///
-/// Amazon Elastic Compute Cloud Amazon Elastic Compute Cloud (Amazon EC2) provides secure and resizable computing capacity in the Amazon Web Services Cloud.  Using Amazon EC2 eliminates the need to invest in hardware up front, so you can develop and deploy applications  faster. Amazon Virtual Private Cloud (Amazon VPC) enables you to provision a logically isolated section of the  Amazon Web Services Cloud where you can launch Amazon Web Services resources in a virtual network that you've defined. Amazon Elastic Block Store  (Amazon EBS) provides block level storage volumes for use with EC2 instances. EBS volumes are highly available   and reliable storage volumes that can be attached to any running instance and used like a hard drive. To learn more, see the following resources:   Amazon EC2: Amazon EC2 product page, Amazon EC2 documentation    Amazon EBS: Amazon EBS product page, Amazon EBS documentation    Amazon VPC: Amazon VPC product page, Amazon VPC documentation    VPN: VPN product page, VPN documentation
+/// Amazon Elastic Compute Cloud You can access the features of Amazon Elastic Compute Cloud (Amazon EC2) programmatically. For more information, see the Amazon EC2 Developer Guide.
 public struct EC2: AWSService {
     // MARK: Member variables
 
@@ -91,6 +91,7 @@ public struct EC2: AWSService {
         ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "ec2-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "ec2-fips.ca-west-1.amazonaws.com",
             "us-east-1": "ec2-fips.us-east-1.amazonaws.com",
             "us-east-2": "ec2-fips.us-east-2.amazonaws.com",
             "us-west-1": "ec2-fips.us-west-1.amazonaws.com",
@@ -572,7 +573,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Attaches an EBS volume to a running or stopped instance and exposes it to the instance with the specified device name. Encrypted EBS volumes must be attached to instances that support Amazon EBS encryption. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide. After you attach an EBS volume, you must make it available. For more information, see  Make an EBS volume available for use. If a volume has an Amazon Web Services Marketplace product code:   The volume can be attached only to a stopped instance.   Amazon Web Services Marketplace product codes are copied from the volume to the instance.   You must be subscribed to the product.   The instance type and operating system of the instance must support the product. For example, you can't detach a volume from a Windows instance and attach it to a Linux instance.   For more information, see Attach an Amazon EBS volume to an instance in the Amazon Elastic Compute Cloud User Guide.
+    /// Attaches an EBS volume to a running or stopped instance and exposes it to the instance with the specified device name. Encrypted EBS volumes must be attached to instances that support Amazon EBS encryption. For more information, see Amazon EBS encryption in the Amazon EBS User Guide. After you attach an EBS volume, you must make it available. For more information, see  Make an EBS volume available for use. If a volume has an Amazon Web Services Marketplace product code:   The volume can be attached only to a stopped instance.   Amazon Web Services Marketplace product codes are copied from the volume to the instance.   You must be subscribed to the product.   The instance type and operating system of the instance must support the product. For example, you can't detach a volume from a Windows instance and attach it to a Linux instance.   For more information, see Attach an Amazon EBS volume to an instance in the Amazon EBS User Guide.
     @Sendable
     public func attachVolume(_ input: AttachVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VolumeAttachment {
         return try await self.client.execute(
@@ -613,7 +614,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Adds the specified outbound (egress) rules to a security group for use with a VPC. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 CIDR address ranges, or to the instances that are associated with the specified source security groups. When specifying an outbound rule for your security group in a VPC, the IpPermissions must include a destination for the traffic. You specify a protocol for each rule (for example, TCP).  For the TCP and UDP protocols, you must also specify the destination port or port range.  For the ICMP protocol, you must also specify the ICMP type and code.  You can use -1 for the type or code to mean all types or all codes. Rule changes are propagated to affected instances as quickly as possible. However, a small delay might occur. For information about VPC security group quotas, see Amazon VPC quotas.  If you want to reference a security group across VPCs attached to a transit gateway using the security group referencing feature, note that you can only reference security groups for ingress rules. You cannot reference a security group for egress rules.
+    /// Adds the specified outbound (egress) rules to a security group. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6  address ranges, the IP address ranges specified by a prefix list, or the instances  that are associated with a source security group. For more information, see Security group rules. You must specify exactly one of the following destinations: an IPv4 or IPv6 address range,  a prefix list, or a security group. You must specify a protocol for each rule (for example, TCP).  If the protocol is TCP or UDP, you must also specify a port or port range. If the protocol is  ICMP or ICMPv6, you must also specify the ICMP type and code. Rule changes are propagated to instances associated with the security group as quickly  as possible. However, a small delay might occur. For examples of rules that you can add to security groups for specific access scenarios,  see Security group rules for different use cases in the Amazon EC2 User Guide. For information about security group quotas, see Amazon VPC quotas in the Amazon VPC User Guide.
     @Sendable
     public func authorizeSecurityGroupEgress(_ input: AuthorizeSecurityGroupEgressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AuthorizeSecurityGroupEgressResult {
         return try await self.client.execute(
@@ -626,7 +627,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Adds the specified inbound (ingress) rules to a security group. An inbound rule permits instances to receive traffic from the specified IPv4 or IPv6 CIDR address range, or from the instances that are associated with the specified destination security  groups. When specifying an inbound rule for your security group in a VPC, the IpPermissions must include a source for the traffic. You specify a protocol for each rule (for example, TCP).  For TCP and UDP, you must also specify the destination port or port range.  For ICMP/ICMPv6, you must also specify the ICMP/ICMPv6 type and code.  You can use -1 to mean all types or all codes. Rule changes are propagated to instances within the security group as quickly as possible.  However, a small delay might occur. For more information about VPC security group quotas, see Amazon VPC quotas.
+    /// Adds the specified inbound (ingress) rules to a security group. An inbound rule permits instances to receive traffic from the specified IPv4 or IPv6  address range, the IP address ranges that are specified by a prefix list, or the instances  that are associated with a destination security group. For more information, see Security group rules. You must specify exactly one of the following sources: an IPv4 or IPv6 address range, a prefix list, or a security group. You must specify a protocol for each rule (for example, TCP).  If the protocol is TCP or UDP, you must also specify a port or port range. If the protocol is  ICMP or ICMPv6, you must also specify the ICMP/ICMPv6 type and code. Rule changes are propagated to instances associated with the security group as quickly  as possible. However, a small delay might occur. For examples of rules that you can add to security groups for specific access scenarios,  see Security group rules for different use cases in the Amazon EC2 User Guide. For more information about security group quotas, see Amazon VPC quotas in the Amazon VPC User Guide.
     @Sendable
     public func authorizeSecurityGroupIngress(_ input: AuthorizeSecurityGroupIngressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AuthorizeSecurityGroupIngressResult {
         return try await self.client.execute(
@@ -815,7 +816,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Initiates the copy of an AMI. You can copy an AMI from one Region to another, or from a Region to an Outpost. You can't copy an AMI from an Outpost to a Region, from one Outpost to another, or within the same Outpost. To copy an AMI to another partition, see CreateStoreImageTask. To copy an AMI from one Region to another, specify the source Region using the   		SourceRegion parameter, and specify the  		destination Region using its endpoint. Copies of encrypted backing snapshots for 		the AMI are encrypted. Copies of unencrypted backing snapshots remain unencrypted,  		unless you set Encrypted during the copy operation. You cannot  		create an unencrypted copy of an encrypted backing snapshot. To copy an AMI from a Region to an Outpost, specify the source Region using the   		SourceRegion parameter, and specify the  		ARN of the destination Outpost using DestinationOutpostArn.  		Backing snapshots copied to an Outpost are encrypted by default using the default 		encryption key for the Region, or a different key that you specify in the request using  		KmsKeyId. Outposts do not support unencrypted  		snapshots. For more information,  			Amazon EBS local snapshots on Outposts in the Amazon EC2 User Guide. For more information about the prerequisites and limits when copying an AMI, see Copy an AMI in the Amazon EC2 User Guide.
+    /// Initiates the copy of an AMI. You can copy an AMI from one Region to another, or from a Region to an Outpost. You can't copy an AMI from an Outpost to a Region, from one Outpost to another, or within the same Outpost. To copy an AMI to another partition, see CreateStoreImageTask. To copy an AMI from one Region to another, specify the source Region using the   		SourceRegion parameter, and specify the  		destination Region using its endpoint. Copies of encrypted backing snapshots for 		the AMI are encrypted. Copies of unencrypted backing snapshots remain unencrypted,  		unless you set Encrypted during the copy operation. You cannot  		create an unencrypted copy of an encrypted backing snapshot. To copy an AMI from a Region to an Outpost, specify the source Region using the   		SourceRegion parameter, and specify the  		ARN of the destination Outpost using DestinationOutpostArn.  		Backing snapshots copied to an Outpost are encrypted by default using the default 		encryption key for the Region, or a different key that you specify in the request using  		KmsKeyId. Outposts do not support unencrypted  	  snapshots. For more information,  			Amazon EBS local snapshots on Outposts in the Amazon EBS User Guide. For more information about the prerequisites and limits when copying an AMI, see Copy an AMI in the Amazon EC2 User Guide.
     @Sendable
     public func copyImage(_ input: CopyImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyImageResult {
         return try await self.client.execute(
@@ -828,7 +829,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy a snapshot within the same Region, from one Region to another, or from a Region to an Outpost.  You can't copy a snapshot from an Outpost to a Region, from one Outpost to another, or within  the same Outpost. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted.  	Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the  	snapshot copy operation. By default, encrypted snapshot copies use the default Key Management Service (KMS)  	KMS key; however, you can specify a different KMS key. To copy an encrypted  	snapshot that has been shared from another account, you must have permissions for the KMS key  	used to encrypt the snapshot. Snapshots copied to an Outpost are encrypted by default using the default 		encryption key for the Region, or a different key that you specify in the request using  		KmsKeyId. Outposts do not support unencrypted  		snapshots. For more information,  			Amazon EBS local snapshots on Outposts in the Amazon Elastic Compute Cloud User Guide. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see Copy an Amazon EBS snapshot in the Amazon Elastic Compute Cloud User Guide.
+    /// Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy a snapshot within the same Region, from one Region to another, or from a Region to an Outpost.  You can't copy a snapshot from an Outpost to a Region, from one Outpost to another, or within  the same Outpost. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted.  	Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the  	snapshot copy operation. By default, encrypted snapshot copies use the default Key Management Service (KMS)  	KMS key; however, you can specify a different KMS key. To copy an encrypted  	snapshot that has been shared from another account, you must have permissions for the KMS key  	used to encrypt the snapshot. Snapshots copied to an Outpost are encrypted by default using the default 		encryption key for the Region, or a different key that you specify in the request using  		KmsKeyId. Outposts do not support unencrypted  	  snapshots. For more information,  			Amazon EBS local snapshots on Outposts in the Amazon EBS User Guide. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see Copy an Amazon EBS snapshot in the Amazon EBS User Guide.
     @Sendable
     public func copySnapshot(_ input: CopySnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopySnapshotResult {
         return try await self.client.execute(
@@ -991,15 +992,9 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a set of DHCP options for your VPC. After creating the set, you must
-    /// 				associate it with the VPC, causing all existing and new instances that you launch in
-    /// 				the VPC to use this set of DHCP options. The following are the individual DHCP
-    /// 				options you can specify. For more information about the options, see RFC 2132.    domain-name-servers - The IP addresses of up to four domain name servers, or AmazonProvidedDNS. The default DHCP option set specifies AmazonProvidedDNS. If specifying more than one domain name server, specify the IP addresses in a single parameter, separated by commas. To have your instance receive a custom DNS hostname as specified in domain-name, you must set domain-name-servers to a custom DNS server.    domain-name - If you're using AmazonProvidedDNS in us-east-1, specify ec2.internal. If you're using AmazonProvidedDNS in another Region, specify region.compute.internal (for example, ap-northeast-1.compute.internal). Otherwise, specify a domain name (for example, ExampleCompany.com). This value is used to complete unqualified DNS hostnames. Important: Some Linux operating systems accept multiple domain names separated by spaces. However, Windows and other Linux operating systems treat the value as a single domain, which results in unexpected behavior. If your DHCP options set is associated with a VPC that has instances with multiple operating systems, specify only one domain name.    ntp-servers - The IP addresses of up to four Network Time Protocol (NTP) servers.    netbios-name-servers - The IP addresses of up to four NetBIOS name servers.    netbios-node-type - The NetBIOS node type (1, 2, 4, or 8). We recommend that you specify 2 (broadcast and multicast are not currently supported). For more information about these node types, see RFC 2132.   Your VPC automatically starts out with a set of DHCP options that includes only a DNS
-    /// 			server that we provide (AmazonProvidedDNS). If you create a set of options, and if your
-    /// 			VPC has an internet gateway, make sure to set the domain-name-servers
-    /// 			option either to AmazonProvidedDNS or to a domain name server of your
-    /// 			choice. For more information, see DHCP options sets in the
-    /// 			Amazon VPC User Guide.
+    /// Creates a custom set of DHCP options. After you create a DHCP option set, you associate
+    /// 	       it with a VPC. After you associate a DHCP option set with a VPC, all existing and newly
+    /// 	       launched instances in the VPC use this set of DHCP options. The following are the individual DHCP options you can specify. For more information, see  DHCP options sets  in the Amazon VPC User Guide.    domain-name - If you're using AmazonProvidedDNS in us-east-1,  specify ec2.internal. If you're using AmazonProvidedDNS in any other Region,  specify region.compute.internal. Otherwise, specify a custom domain name. This value is used to complete unqualified DNS hostnames. Some Linux operating systems accept multiple domain names separated by spaces. However, Windows and other Linux operating systems treat the value as a single domain, which results in unexpected behavior. If your DHCP option set is associated with a VPC that has instances running operating systems that treat the value as a single domain, specify only one domain name.    domain-name-servers - The IP addresses of up to four DNS servers, or AmazonProvidedDNS. To specify multiple domain name servers in a single parameter,  separate the IP addresses using commas. To have your instances receive custom DNS  hostnames as specified in domain-name, you must specify a custom DNS server.    ntp-servers - The IP addresses of up to eight Network Time Protocol (NTP) servers (four IPv4 addresses and four IPv6 addresses).    netbios-name-servers - The IP addresses of up to four NetBIOS name servers.    netbios-node-type - The NetBIOS node type (1, 2, 4, or 8). We recommend that you specify 2. Broadcast and multicast are not supported. For more information about  NetBIOS node types, see RFC 2132.    ipv6-preferred-lease-time - A value (in seconds, minutes, hours, or years) for how frequently a running instance with an IPv6 assigned to it goes through DHCPv6 lease renewal.  Acceptable values are between 140 and 2147483647 seconds (approximately 68 years). If no value is entered, the default lease time is 140 seconds. If you use long-term addressing for EC2 instances, you can increase the lease time and avoid frequent  lease renewal requests. Lease renewal typically occurs when half of the lease time has elapsed.
     @Sendable
     public func createDhcpOptions(_ input: CreateDhcpOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDhcpOptionsResult {
         return try await self.client.execute(
@@ -1503,7 +1498,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for 	backups, to make copies of EBS volumes, and to save data before shutting down an 	instance. You can create snapshots of volumes in a Region and volumes on an Outpost. If you  	create a snapshot of a volume in a Region, the snapshot must be stored in the same  	Region as the volume. If you create a snapshot of a volume on an Outpost, the snapshot  	can be stored on the same Outpost as the volume, or in the Region for that Outpost. When a snapshot is created, any Amazon Web Services Marketplace product codes that are associated with the source volume are propagated to the snapshot. You can take a snapshot of an attached volume that is in use. However, snapshots only capture data that has been written to your Amazon EBS volume at the time the snapshot command is issued; this might exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the volume long enough to take a snapshot, your snapshot should be complete. However, if you cannot pause all file writes to the volume, you should unmount the volume from within the instance, issue the snapshot command, and then remount the volume to ensure a consistent and complete snapshot. You may remount and use your volume while the snapshot status is pending. When you create a snapshot for an EBS volume that serves as a root device, we recommend  that you stop the instance before taking the snapshot. Snapshots that are taken from encrypted volumes are automatically encrypted. Volumes that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and any associated snapshots always remain protected. You can tag your snapshots during creation. For more information, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Amazon Elastic Block Store and Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for 	backups, to make copies of EBS volumes, and to save data before shutting down an 	instance. You can create snapshots of volumes in a Region and volumes on an Outpost. If you  	create a snapshot of a volume in a Region, the snapshot must be stored in the same  	Region as the volume. If you create a snapshot of a volume on an Outpost, the snapshot  	can be stored on the same Outpost as the volume, or in the Region for that Outpost. When a snapshot is created, any Amazon Web Services Marketplace product codes that are associated with the source volume are propagated to the snapshot. You can take a snapshot of an attached volume that is in use. However, snapshots only capture data that has been written to your Amazon EBS volume at the time the snapshot command is issued; this might exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the volume long enough to take a snapshot, your snapshot should be complete. However, if you cannot pause all file writes to the volume, you should unmount the volume from within the instance, issue the snapshot command, and then remount the volume to ensure a consistent and complete snapshot. You may remount and use your volume while the snapshot status is pending. When you create a snapshot for an EBS volume that serves as a root device, we recommend  that you stop the instance before taking the snapshot. Snapshots that are taken from encrypted volumes are automatically encrypted. Volumes that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and any associated snapshots always remain protected. You can tag your snapshots during creation. For more information, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Amazon Elastic Block Store and Amazon EBS encryption in the Amazon EBS User Guide.
     @Sendable
     public func createSnapshot(_ input: CreateSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Snapshot {
         return try await self.client.execute(
@@ -1841,7 +1836,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates an EBS volume that can be attached to an instance in the same Availability Zone. You can create a new empty volume or restore a volume from an EBS snapshot. Any Amazon Web Services Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes. Encrypted volumes must be attached to instances that  support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically  encrypted. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide. You can tag your volumes during creation. For more information, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Create an Amazon EBS volume in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates an EBS volume that can be attached to an instance in the same Availability Zone. You can create a new empty volume or restore a volume from an EBS snapshot. Any Amazon Web Services Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes. Encrypted volumes must be attached to instances that  support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically  encrypted. For more information, see Amazon EBS encryption in the Amazon EBS User Guide. You can tag your volumes during creation. For more information, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Create an Amazon EBS volume in the Amazon EBS User Guide.
     @Sendable
     public func createVolume(_ input: CreateVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Volume {
         return try await self.client.execute(
@@ -2506,7 +2501,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Deletes the specified snapshot. When you make periodic snapshots of a volume, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the volume. You cannot delete a snapshot of the root device of an EBS volume used by a registered AMI. You must first de-register the AMI before you can delete the snapshot. For more information, see Delete an Amazon EBS snapshot in the Amazon Elastic Compute Cloud User Guide.
+    /// Deletes the specified snapshot. When you make periodic snapshots of a volume, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the volume. You cannot delete a snapshot of the root device of an EBS volume used by a registered AMI. You must first de-register the AMI before you can delete the snapshot. For more information, see Delete an Amazon EBS snapshot in the Amazon EBS User Guide.
     @Sendable
     public func deleteSnapshot(_ input: DeleteSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -2818,7 +2813,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Deletes the specified EBS volume. The volume must be in the available state (not attached to an instance). The volume can remain in the deleting state for several minutes. For more information, see Delete an Amazon EBS volume in the Amazon Elastic Compute Cloud User Guide.
+    /// Deletes the specified EBS volume. The volume must be in the available state (not attached to an instance). The volume can remain in the deleting state for several minutes. For more information, see Delete an Amazon EBS volume in the Amazon EBS User Guide.
     @Sendable
     public func deleteVolume(_ input: DeleteVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -3043,7 +3038,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes attributes of your Amazon Web Services account. The following are the supported account attributes:    default-vpc: The ID of the default VPC for your account, or none.    max-instances: This attribute is no longer supported. The returned value does not reflect your actual vCPU limit for running On-Demand Instances. For more information, see On-Demand Instance Limits in the Amazon Elastic Compute Cloud User Guide.    max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate.    supported-platforms: This attribute is deprecated.    vpc-max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate.    vpc-max-security-groups-per-interface: The maximum number of security groups that you can assign to a network interface.
+    /// Describes attributes of your Amazon Web Services account. The following are the supported account attributes:    default-vpc: The ID of the default VPC for your account, or none.    max-instances: This attribute is no longer supported. The returned value does not reflect your actual vCPU limit for running On-Demand Instances. For more information, see On-Demand Instance Limits in the Amazon Elastic Compute Cloud User Guide.    max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate.    supported-platforms: This attribute is deprecated.    vpc-max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate.    vpc-max-security-groups-per-interface: The maximum number of security groups that you can assign to a network interface.    The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeAccountAttributes(_ input: DescribeAccountAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountAttributesResult {
         return try await self.client.execute(
@@ -3108,7 +3103,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to you. If there is an event impacting a zone, you can use this request to view the state and any provided messages for that zone. For more information about Availability Zones, Local Zones, and Wavelength Zones, see Regions and zones  in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to you. If there is an event impacting a zone, you can use this request to view the state and any provided messages for that zone. For more information about Availability Zones, Local Zones, and Wavelength Zones, see Regions and zones  in the Amazon Elastic Compute Cloud User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeAvailabilityZones(_ input: DescribeAvailabilityZonesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAvailabilityZonesResult {
         return try await self.client.execute(
@@ -3134,7 +3129,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the specified bundle tasks or all of your bundle tasks.  Completed bundle tasks are listed for only a limited time. If your bundle task is no longer in the list, you can still register an AMI from it. Just use RegisterImage with the Amazon S3 bucket name and image manifest name you provided to the bundle task.
+    /// Describes the specified bundle tasks or all of your bundle tasks.  Completed bundle tasks are listed for only a limited time. If your bundle task is no longer in the list, you can still register an AMI from it. Just use RegisterImage with the Amazon S3 bucket name and image manifest name you provided to the bundle task.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeBundleTasks(_ input: DescribeBundleTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBundleTasksResult {
         return try await self.client.execute(
@@ -3160,7 +3155,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes Capacity Block offerings available for purchase. With Capacity Blocks, you purchase a specific instance type for a period of time.
+    /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a specific instance type for a period of time.
     @Sendable
     public func describeCapacityBlockOfferings(_ input: DescribeCapacityBlockOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCapacityBlockOfferingsResult {
         return try await self.client.execute(
@@ -3360,7 +3355,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the Elastic Graphics accelerator associated with your instances. For more information about Elastic Graphics, see Amazon Elastic Graphics.
+    ///  Amazon Elastic Graphics reached end of life on January 8, 2024. For  workloads that require graphics acceleration, we recommend that you use Amazon EC2 G4ad,  G4dn, or G5 instances.  Describes the Elastic Graphics accelerator associated with your instances. For more information about Elastic Graphics, see Amazon Elastic Graphics.
     @Sendable
     public func describeElasticGpus(_ input: DescribeElasticGpusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeElasticGpusResult {
         return try await self.client.execute(
@@ -3438,7 +3433,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the running instances for the specified EC2 Fleet. For more information, see Monitor your EC2 Fleet in the Amazon EC2 User Guide.
+    /// Describes the running instances for the specified EC2 Fleet.  Currently, DescribeFleetInstances does not support fleets of type instant. Instead, use DescribeFleets, specifying the instant fleet ID in the request.  For more information, see Describe your EC2 Fleet in the Amazon EC2 User Guide.
     @Sendable
     public func describeFleetInstances(_ input: DescribeFleetInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFleetInstancesResult {
         return try await self.client.execute(
@@ -3451,7 +3446,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the specified EC2 Fleets or all of your EC2 Fleets. For more information, see Monitor your EC2 Fleet in the Amazon EC2 User Guide.
+    /// Describes the specified EC2 Fleet or all of your EC2 Fleets.  If a fleet is of type instant, you must specify the fleet ID in the request, otherwise the fleet does not appear in the response.  For more information, see Describe your EC2 Fleet in the Amazon EC2 User Guide.
     @Sendable
     public func describeFleets(_ input: DescribeFleetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFleetsResult {
         return try await self.client.execute(
@@ -3583,7 +3578,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the specified attribute of the specified AMI. You can specify only one attribute at a time.
+    /// Describes the specified attribute of the specified AMI. You can specify only one attribute at a time.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeImageAttribute(_ input: DescribeImageAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImageAttribute {
         return try await self.client.execute(
@@ -3596,7 +3591,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other  Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found.
+    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other  Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeImages(_ input: DescribeImagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeImagesResult {
         return try await self.client.execute(
@@ -3700,7 +3695,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.
+    /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.    The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeInstanceStatus(_ input: DescribeInstanceStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceStatusResult {
         return try await self.client.execute(
@@ -3752,7 +3747,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.
+    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeInstances(_ input: DescribeInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstancesResult {
         return try await self.client.execute(
@@ -4000,6 +3995,19 @@ public struct EC2: AWSService {
         )
     }
 
+    /// Describes the specified EC2 Mac Dedicated Host or all of your EC2 Mac Dedicated Hosts.
+    @Sendable
+    public func describeMacHosts(_ input: DescribeMacHostsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMacHostsResult {
+        return try await self.client.execute(
+            operation: "DescribeMacHosts", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Describes your managed prefix lists and any Amazon Web Services-managed prefix lists. To view the entries for your prefix list, use GetManagedPrefixListEntries.
     @Sendable
     public func describeManagedPrefixLists(_ input: DescribeManagedPrefixListsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeManagedPrefixListsResult {
@@ -4196,7 +4204,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the Regions that are enabled for your account, or all Regions. For a list of the Regions supported by Amazon EC2, see  Amazon Elastic Compute Cloud endpoints and quotas. For information about enabling and disabling Regions for your account, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference.
+    /// Describes the Regions that are enabled for your account, or all Regions. For a list of the Regions supported by Amazon EC2, see  Amazon Elastic Compute Cloud endpoints and quotas. For information about enabling and disabling Regions for your account, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeRegions(_ input: DescribeRegionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRegionsResult {
         return try await self.client.execute(
@@ -4223,7 +4231,7 @@ public struct EC2: AWSService {
     }
 
     /// Describes one or more of the Reserved Instances that you purchased. For more information about Reserved Instances, see Reserved
-    /// 				Instances in the Amazon EC2 User Guide.
+    /// 				Instances in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeReservedInstances(_ input: DescribeReservedInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservedInstancesResult {
         return try await self.client.execute(
@@ -4236,7 +4244,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes your account's Reserved Instance listings in the Reserved Instance Marketplace. The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to receive for them. Your Reserved Instances are then listed in the Reserved Instance Marketplace and are available for purchase. As a buyer, you specify the configuration of the Reserved Instance to purchase, and the Marketplace matches what you're searching for with what's available. The Marketplace first sells the lowest priced Reserved Instances to you, and continues to sell available Reserved Instance listings to you until your demand is met. You are charged based on the total price of all of the listings that you purchase. For more information, see Reserved Instance Marketplace  in the Amazon EC2 User Guide.
+    /// Describes your account's Reserved Instance listings in the Reserved Instance Marketplace. The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to receive for them. Your Reserved Instances are then listed in the Reserved Instance Marketplace and are available for purchase. As a buyer, you specify the configuration of the Reserved Instance to purchase, and the Marketplace matches what you're searching for with what's available. The Marketplace first sells the lowest priced Reserved Instances to you, and continues to sell available Reserved Instance listings to you until your demand is met. You are charged based on the total price of all of the listings that you purchase. For more information, see Reserved Instance Marketplace  in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeReservedInstancesListings(_ input: DescribeReservedInstancesListingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservedInstancesListingsResult {
         return try await self.client.execute(
@@ -4249,7 +4257,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.
+    /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeReservedInstancesModifications(_ input: DescribeReservedInstancesModificationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservedInstancesModificationsResult {
         return try await self.client.execute(
@@ -4263,7 +4271,7 @@ public struct EC2: AWSService {
     }
 
     /// Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see Reserved Instance Marketplace
-    /// 				in the Amazon EC2 User Guide.
+    /// 				in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeReservedInstancesOfferings(_ input: DescribeReservedInstancesOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservedInstancesOfferingsResult {
         return try await self.client.execute(
@@ -4316,7 +4324,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the VPCs on the other side of a VPC peering connection or the VPCs attached to a transit gateway that are referencing the security groups you've specified in this request.
+    /// Describes the VPCs on the other side of a VPC peering connection that are referencing the security groups you've specified in this request.
     @Sendable
     public func describeSecurityGroupReferences(_ input: DescribeSecurityGroupReferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSecurityGroupReferencesResult {
         return try await self.client.execute(
@@ -4355,7 +4363,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the specified attribute of the specified snapshot. You can specify only one attribute at a time. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the specified attribute of the specified snapshot. You can specify only one attribute at a time. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon EBS User Guide.
     @Sendable
     public func describeSnapshotAttribute(_ input: DescribeSnapshotAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSnapshotAttributeResult {
         return try await self.client.execute(
@@ -4381,7 +4389,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All Amazon Web Services accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific Amazon Web Services account.    implicit: An Amazon Web Services account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or Amazon Web Services accounts with create volume permissions. If no options are specified,  Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the Amazon Web Services account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify Amazon Web Services account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination. To get the state of fast snapshot restores for a snapshot, use DescribeFastSnapshotRestores. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All Amazon Web Services accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific Amazon Web Services account.    implicit: An Amazon Web Services account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or Amazon Web Services accounts with create volume permissions. If no options are specified,  Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the Amazon Web Services account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify Amazon Web Services account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination. To get the state of fast snapshot restores for a snapshot, use DescribeFastSnapshotRestores. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon EBS User Guide.
     @Sendable
     public func describeSnapshots(_ input: DescribeSnapshotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSnapshotsResult {
         return try await self.client.execute(
@@ -4472,7 +4480,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in the same VPC, peered VPC, or in separate VPCs attached to a transit gateway (with security group referencing support enabled). Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted or if they reference a security group in a VPC that has been detached from a transit gateway.
+    /// Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in the same VPC or peered VPC. Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted.
     @Sendable
     public func describeStaleSecurityGroups(_ input: DescribeStaleSecurityGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStaleSecurityGroupsResult {
         return try await self.client.execute(
@@ -4512,7 +4520,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the specified tags for your EC2 resources. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the specified tags for your EC2 resources. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeTags(_ input: DescribeTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTagsResult {
         return try await self.client.execute(
@@ -4772,7 +4780,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the specified attribute of the specified volume. You can specify only one attribute at a time. For more information about EBS volumes, see Amazon EBS volumes in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the specified attribute of the specified volume. You can specify only one attribute at a time. For more information about EBS volumes, see Amazon EBS volumes in the Amazon EBS User Guide.
     @Sendable
     public func describeVolumeAttribute(_ input: DescribeVolumeAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVolumeAttributeResult {
         return try await self.client.execute(
@@ -4785,7 +4793,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes:  Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks might still be taking place on your volume at the time. We recommend that you retry the request. For more information about volume status, see Monitor the status of your volumes in the Amazon Elastic Compute Cloud User Guide.  Events: Reflect the cause of a volume status and might require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and might have inconsistent data.  Actions: Reflect the actions you might have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume by calling the EnableVolumeIO action and then check the volume for data consistency. Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.)
+    /// Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes:  Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks might still be taking place on your volume at the time. We recommend that you retry the request. For more information about volume status, see Monitor the status of your volumes in the Amazon EBS User Guide.  Events: Reflect the cause of a volume status and might require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and might have inconsistent data.  Actions: Reflect the actions you might have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume by calling the EnableVolumeIO action and then check the volume for data consistency. Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.)  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeVolumeStatus(_ input: DescribeVolumeStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVolumeStatusResult {
         return try await self.client.execute(
@@ -4798,7 +4806,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination. For more information about EBS volumes, see Amazon EBS volumes in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination. For more information about EBS volumes, see Amazon EBS volumes in the Amazon EBS User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeVolumes(_ input: DescribeVolumesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVolumesResult {
         return try await self.client.execute(
@@ -4811,7 +4819,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most  recent modification request. You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. For more information, see Monitor the progress of volume modifications in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most  recent modification request. You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. For more information, see Monitor the progress of volume modifications in the Amazon EBS User Guide.
     @Sendable
     public func describeVolumesModifications(_ input: DescribeVolumesModificationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVolumesModificationsResult {
         return try await self.client.execute(
@@ -5049,7 +5057,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an Amazon Web Services Marketplace product code is detached from an instance, the product code is no longer associated with the instance. For more information, see Detach an Amazon EBS volume in the Amazon Elastic Compute Cloud User Guide.
+    /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an Amazon Web Services Marketplace product code is detached from an instance, the product code is no longer associated with the instance. You can't detach or force detach volumes that are attached to Amazon ECS or  Fargate tasks. Attempting to do this results in the UnsupportedOperationException  exception with the Unable to detach volume attached to ECS tasks error message. For more information, see Detach an Amazon EBS volume in the Amazon EBS User Guide.
     @Sendable
     public func detachVolume(_ input: DetachVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VolumeAttachment {
         return try await self.client.execute(
@@ -5101,7 +5109,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Disables EBS encryption by default for your account in the current Region. After you disable encryption by default, you can still create encrypted volumes by  enabling encryption when you create each volume. Disabling encryption by default does not change the encryption status of your existing volumes. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
+    /// Disables EBS encryption by default for your account in the current Region. After you disable encryption by default, you can still create encrypted volumes by  enabling encryption when you create each volume. Disabling encryption by default does not change the encryption status of your existing volumes. For more information, see Amazon EBS encryption in the Amazon EBS User Guide.
     @Sendable
     public func disableEbsEncryptionByDefault(_ input: DisableEbsEncryptionByDefaultRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableEbsEncryptionByDefaultResult {
         return try await self.client.execute(
@@ -5210,7 +5218,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Disables the block public access for snapshots setting at  the account level for the specified Amazon Web Services Region. After you disable block public  access for snapshots in a Region, users can publicly share snapshots in that Region. If block public access is enabled in block-all-sharing mode, and  you disable block public access, all snapshots that were previously publicly shared  are no longer treated as private and they become publicly accessible again. For more information, see  Block public access for snapshots in the Amazon Elastic Compute Cloud User Guide .
+    /// Disables the block public access for snapshots setting at  the account level for the specified Amazon Web Services Region. After you disable block public  access for snapshots in a Region, users can publicly share snapshots in that Region. If block public access is enabled in block-all-sharing mode, and  you disable block public access, all snapshots that were previously publicly shared  are no longer treated as private and they become publicly accessible again. For more information, see  Block public access for snapshots in the Amazon EBS User Guide .
     @Sendable
     public func disableSnapshotBlockPublicAccess(_ input: DisableSnapshotBlockPublicAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableSnapshotBlockPublicAccessResult {
         return try await self.client.execute(
@@ -5507,7 +5515,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Enables EBS encryption by default for your account in the current Region. After you enable encryption by default, the EBS volumes that you create are 	always encrypted, either using the default KMS key or the KMS key that you specified when you created each volume. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide. You can specify the default KMS key for encryption by default using ModifyEbsDefaultKmsKeyId or ResetEbsDefaultKmsKeyId. Enabling encryption by default has no effect on the encryption status of your  existing volumes. After you enable encryption by default, you can no longer launch instances using instance types that do not support encryption. For more information, see Supported instance types.
+    /// Enables EBS encryption by default for your account in the current Region. After you enable encryption by default, the EBS volumes that you create are 	always encrypted, either using the default KMS key or the KMS key that you specified when you created each volume. For more information, see Amazon EBS encryption in the Amazon EBS User Guide. You can specify the default KMS key for encryption by default using ModifyEbsDefaultKmsKeyId or ResetEbsDefaultKmsKeyId. Enabling encryption by default has no effect on the encryption status of your  existing volumes. After you enable encryption by default, you can no longer launch instances using instance types that do not support encryption. For more information, see Supported instance types.
     @Sendable
     public func enableEbsEncryptionByDefault(_ input: EnableEbsEncryptionByDefaultRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableEbsEncryptionByDefaultResult {
         return try await self.client.execute(
@@ -5538,7 +5546,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Enables fast snapshot restores for the specified snapshots in the specified Availability Zones. You get the full benefit of fast snapshot restores after they enter the enabled state. To get the current state of fast snapshot restores, use DescribeFastSnapshotRestores. To disable fast snapshot restores, use DisableFastSnapshotRestores. For more information, see Amazon EBS fast snapshot restore in the Amazon Elastic Compute Cloud User Guide.
+    /// Enables fast snapshot restores for the specified snapshots in the specified Availability Zones. You get the full benefit of fast snapshot restores after they enter the enabled state. To get the current state of fast snapshot restores, use DescribeFastSnapshotRestores. To disable fast snapshot restores, use DisableFastSnapshotRestores. For more information, see Amazon EBS fast snapshot restore in the Amazon EBS User Guide.
     @Sendable
     public func enableFastSnapshotRestores(_ input: EnableFastSnapshotRestoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableFastSnapshotRestoresResult {
         return try await self.client.execute(
@@ -5631,7 +5639,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Enables or modifies the block public access for snapshots  setting at the account level for the specified Amazon Web Services Region. After you enable block  public access for snapshots in a Region, users can no longer request public sharing  for snapshots in that Region. Snapshots that are already publicly shared are either  treated as private or they remain publicly shared, depending on the  State that you specify. If block public access is enabled in block-all-sharing mode, and  you change the mode to block-new-sharing, all snapshots that were  previously publicly shared are no longer treated as private and they become publicly  accessible again. For more information, see  Block public access for snapshots in the Amazon Elastic Compute Cloud User Guide.
+    /// Enables or modifies the block public access for snapshots  setting at the account level for the specified Amazon Web Services Region. After you enable block  public access for snapshots in a Region, users can no longer request public sharing  for snapshots in that Region. Snapshots that are already publicly shared are either  treated as private or they remain publicly shared, depending on the  State that you specify. If block public access is enabled in block-all-sharing mode, and  you change the mode to block-new-sharing, all snapshots that were  previously publicly shared are no longer treated as private and they become publicly  accessible again. For more information, see  Block public access for snapshots in the Amazon EBS User Guide.
     @Sendable
     public func enableSnapshotBlockPublicAccess(_ input: EnableSnapshotBlockPublicAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableSnapshotBlockPublicAccessResult {
         return try await self.client.execute(
@@ -5881,7 +5889,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the default KMS key for EBS encryption by default for your account in this Region.  		You can change the default KMS key for encryption by default using ModifyEbsDefaultKmsKeyId or ResetEbsDefaultKmsKeyId. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the default KMS key for EBS encryption by default for your account in this Region.  		You can change the default KMS key for encryption by default using ModifyEbsDefaultKmsKeyId or ResetEbsDefaultKmsKeyId. For more information, see Amazon EBS encryption in the Amazon EBS User Guide.
     @Sendable
     public func getEbsDefaultKmsKeyId(_ input: GetEbsDefaultKmsKeyIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEbsDefaultKmsKeyIdResult {
         return try await self.client.execute(
@@ -5894,7 +5902,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes whether EBS encryption by default is enabled for your account in the current Region. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes whether EBS encryption by default is enabled for your account in the current Region. For more information, see Amazon EBS encryption in the Amazon EBS User Guide.
     @Sendable
     public func getEbsEncryptionByDefault(_ input: GetEbsEncryptionByDefaultRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEbsEncryptionByDefaultResult {
         return try await self.client.execute(
@@ -5951,6 +5959,19 @@ public struct EC2: AWSService {
     public func getImageBlockPublicAccessState(_ input: GetImageBlockPublicAccessStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImageBlockPublicAccessStateResult {
         return try await self.client.execute(
             operation: "GetImageBlockPublicAccessState", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets the default instance metadata service (IMDS) settings that are set at the account level in the specified Amazon Web Services  Region. For more information, see Order of precedence for instance metadata options in the Amazon EC2 User Guide.
+    @Sendable
+    public func getInstanceMetadataDefaults(_ input: GetInstanceMetadataDefaultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInstanceMetadataDefaultsResult {
+        return try await self.client.execute(
+            operation: "GetInstanceMetadataDefaults", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -6076,7 +6097,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Retrieves the configuration data of the specified instance. You can use this data to create a launch template.  This action calls on other describe actions to get instance information. Depending on your instance configuration, you may need to allow the following actions in your IAM policy: DescribeSpotInstanceRequests, DescribeInstanceCreditSpecifications, DescribeVolumes, DescribeInstanceAttribute, and DescribeElasticGpus. Or, you can allow describe* depending on your instance requirements.
+    /// Retrieves the configuration data of the specified instance. You can use this data to create a launch template.  This action calls on other describe actions to get instance information. Depending on your instance configuration, you may need to allow the following actions in your IAM policy: DescribeSpotInstanceRequests, DescribeInstanceCreditSpecifications,  DescribeVolumes, and DescribeInstanceAttribute. Or, you can allow describe* depending on your instance requirements.
     @Sendable
     public func getLaunchTemplateData(_ input: GetLaunchTemplateDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLaunchTemplateDataResult {
         return try await self.client.execute(
@@ -6196,7 +6217,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Gets the current state of block public access for snapshots setting  for the account and Region. For more information, see  Block public access for snapshots in the Amazon Elastic Compute Cloud User Guide.
+    /// Gets the current state of block public access for snapshots setting  for the account and Region. For more information, see  Block public access for snapshots in the Amazon EBS User Guide.
     @Sendable
     public func getSnapshotBlockPublicAccessState(_ input: GetSnapshotBlockPublicAccessStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSnapshotBlockPublicAccessStateResult {
         return try await self.client.execute(
@@ -6594,7 +6615,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Changes the default KMS key for EBS encryption by default for your account in this Region. Amazon Web Services creates a unique Amazon Web Services managed KMS key in each Region for use with encryption by default. If you change the default KMS key to a symmetric customer managed KMS key, it is used instead of the Amazon Web Services managed KMS key. To reset the default KMS key to the Amazon Web Services managed KMS key for EBS, use ResetEbsDefaultKmsKeyId. Amazon EBS does not support asymmetric KMS keys. If you delete or disable the customer managed KMS key that you specified for use with encryption by default, your instances will fail to launch. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
+    /// Changes the default KMS key for EBS encryption by default for your account in this Region. Amazon Web Services creates a unique Amazon Web Services managed KMS key in each Region for use with encryption by default. If you change the default KMS key to a symmetric customer managed KMS key, it is used instead of the Amazon Web Services managed KMS key. To reset the default KMS key to the Amazon Web Services managed KMS key for EBS, use ResetEbsDefaultKmsKeyId. Amazon EBS does not support asymmetric KMS keys. If you delete or disable the customer managed KMS key that you specified for use with encryption by default, your instances will fail to launch. For more information, see Amazon EBS encryption in the Amazon EBS User Guide.
     @Sendable
     public func modifyEbsDefaultKmsKeyId(_ input: ModifyEbsDefaultKmsKeyIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyEbsDefaultKmsKeyIdResult {
         return try await self.client.execute(
@@ -6765,6 +6786,19 @@ public struct EC2: AWSService {
         )
     }
 
+    /// Modifies the default instance metadata service (IMDS) settings at the account level in the specified Amazon Web Services  Region.  To remove a parameter's account-level default setting, specify no-preference. At instance launch, the value will come from the AMI, or from the launch parameter if specified. For more information, see Order of precedence for instance metadata options in the Amazon EC2 User Guide.
+    @Sendable
+    public func modifyInstanceMetadataDefaults(_ input: ModifyInstanceMetadataDefaultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyInstanceMetadataDefaultsResult {
+        return try await self.client.execute(
+            operation: "ModifyInstanceMetadataDefaults", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Modify the instance metadata parameters on a running or stopped instance. When you modify the parameters on a stopped instance, they are applied when the instance is started. When you modify the parameters on a running instance, the API responds with a state of “pending”. After the parameter modifications are successfully applied to the instance, the state of the modifications changes from “pending” to “applied” in subsequent describe-instances API calls. For more information, see Instance metadata and user data in the Amazon EC2 User Guide.
     @Sendable
     public func modifyInstanceMetadataOptions(_ input: ModifyInstanceMetadataOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyInstanceMetadataOptionsResult {
@@ -6778,7 +6812,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Modifies the placement attributes for a specified instance. You can do the following:   Modify the affinity between an instance and a Dedicated Host. When affinity is set to host and the instance is not associated with a specific Dedicated Host, the next time the instance is launched, it is automatically associated with the host on which it lands. If the instance is restarted or rebooted, this relationship persists.   Change the Dedicated Host with which an instance is associated.   Change the instance tenancy of an instance.   Move an instance to or from a placement group.   At least one attribute for affinity, host ID, tenancy, or placement group name must be specified in the request. Affinity and tenancy can be modified in the same request. To modify the host ID, tenancy, placement group, or partition for an instance, the instance must be in the stopped state.
+    /// Modifies the placement attributes for a specified instance. You can do the following:   Modify the affinity between an instance and a Dedicated Host. When affinity is set to host and the instance is not associated with a specific Dedicated Host, the next time the instance is started, it is automatically associated with the host on which it lands. If the instance is restarted or rebooted, this relationship persists.   Change the Dedicated Host with which an instance is associated.   Change the instance tenancy of an instance.   Move an instance to or from a placement group.   At least one attribute for affinity, host ID, tenancy, or placement group name must be specified in the request. Affinity and tenancy can be modified in the same request. To modify the host ID, tenancy, placement group, or partition for an instance, the instance must be in the stopped state.
     @Sendable
     public func modifyInstancePlacement(_ input: ModifyInstancePlacementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyInstancePlacementResult {
         return try await self.client.execute(
@@ -6948,7 +6982,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Adds or removes permission settings for the specified snapshot. You may add or remove specified Amazon Web Services account IDs from a snapshot's list of create volume permissions, but you cannot do both in a single operation. If you need to both add and remove account IDs for a snapshot, you must use multiple operations. You can make up to 500 modifications to a snapshot in a single operation. Encrypted snapshots and snapshots with Amazon Web Services Marketplace product codes cannot be made public. Snapshots encrypted with your default KMS key cannot be shared with other accounts. For more information about modifying snapshot permissions, see Share a snapshot in the Amazon Elastic Compute Cloud User Guide.
+    /// Adds or removes permission settings for the specified snapshot. You may add or remove specified Amazon Web Services account IDs from a snapshot's list of create volume permissions, but you cannot do both in a single operation. If you need to both add and remove account IDs for a snapshot, you must use multiple operations. You can make up to 500 modifications to a snapshot in a single operation. Encrypted snapshots and snapshots with Amazon Web Services Marketplace product codes cannot be made public. Snapshots encrypted with your default KMS key cannot be shared with other accounts. For more information about modifying snapshot permissions, see Share a snapshot in the Amazon EBS User Guide.
     @Sendable
     public func modifySnapshotAttribute(_ input: ModifySnapshotAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -6961,7 +6995,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Archives an Amazon EBS snapshot. When you archive a snapshot, it is converted to a full  snapshot that includes all of the blocks of data that were written to the volume at the  time the snapshot was created, and moved from the standard tier to the archive  tier. For more information, see Archive Amazon EBS snapshots  in the Amazon Elastic Compute Cloud User Guide.
+    /// Archives an Amazon EBS snapshot. When you archive a snapshot, it is converted to a full  snapshot that includes all of the blocks of data that were written to the volume at the  time the snapshot was created, and moved from the standard tier to the archive  tier. For more information, see Archive Amazon EBS snapshots  in the Amazon EBS User Guide.
     @Sendable
     public func modifySnapshotTier(_ input: ModifySnapshotTierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifySnapshotTierResult {
         return try await self.client.execute(
@@ -7169,7 +7203,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you might be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying EBS volumes, see Amazon EBS Elastic Volumes (Linux instances)  or Amazon EBS Elastic Volumes (Windows instances). When you complete a resize operation on your volume, you need to extend the volume's file-system size to take advantage of the new storage capacity. For more information, see Extend a Linux file system or  Extend a Windows file system. You can use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. You can also track the status of a modification using DescribeVolumesModifications. For information about tracking status changes using either method, see Monitor the progress of volume modifications. With previous-generation instance types, resizing an EBS volume might require detaching and reattaching the volume or stopping and restarting the instance. After modifying a volume, you must wait at least six hours and ensure that the volume  is in the in-use or available state before you can modify the same  volume. This is sometimes referred to as a cooldown period.
+    /// You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you might be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying EBS volumes, see Amazon EBS Elastic Volumes  in the Amazon EBS User Guide. When you complete a resize operation on your volume, you need to extend the volume's file-system size to take advantage of the new storage capacity. For more information, see Extend the file system. You can use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. You can also track the status of a modification using DescribeVolumesModifications. For information about tracking status changes using either method, see Monitor the progress of volume modifications. With previous-generation instance types, resizing an EBS volume might require detaching and reattaching the volume or stopping and restarting the instance. After modifying a volume, you must wait at least six hours and ensure that the volume  is in the in-use or available state before you can modify the same  volume. This is sometimes referred to as a cooldown period.
     @Sendable
     public func modifyVolume(_ input: ModifyVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyVolumeResult {
         return try await self.client.execute(
@@ -7513,7 +7547,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Registers an AMI. When you're creating an AMI, this is the final step you must complete before you can launch an instance from the AMI. For more information about creating AMIs, see Create your own AMI in the Amazon Elastic Compute Cloud User Guide.  For Amazon EBS-backed instances, CreateImage creates and registers the AMI in a single request, so you don't have to register the AMI yourself. We recommend that you always use CreateImage unless you have a specific reason to use RegisterImage.  If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration.  If you make changes to an image, deregister the previous image and register the new image.  Register a snapshot of a root device volume  You can use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using a block device mapping. You can't set the encryption state of the volume using the block device mapping. If the  snapshot is encrypted, or encryption by default is enabled, the root volume of an instance  launched from the AMI is encrypted. For more information, see Create a Linux AMI from a snapshot and Use encryption with Amazon EBS-backed AMIs in the Amazon Elastic Compute Cloud User Guide.  Amazon Web Services Marketplace product codes  If any snapshots have Amazon Web Services Marketplace product codes, they are copied to the new AMI. Windows and some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise Server (SLES), use the Amazon EC2 billing product code associated with an AMI to verify the subscription status for package updates. To create a new AMI for operating systems that require a billing product code, instead of registering the AMI, do the following to preserve the billing product code association:   Launch an instance from an existing AMI with that billing product code.   Customize the instance.   Create an AMI from the instance using CreateImage.   If you purchase a Reserved Instance to apply to an On-Demand Instance that was launched from an AMI with a billing product code, make sure that the Reserved Instance has the matching billing product code. If you purchase a Reserved Instance without the matching billing product code, the Reserved Instance will not be applied to the On-Demand Instance. For information about how to obtain the platform details and billing information of an AMI, see Understand AMI billing information in the Amazon EC2 User Guide.
+    /// Registers an AMI. When you're creating an instance-store backed AMI, registering the AMI is the final step in the creation process. For more information about creating AMIs, see Create your own AMI in the Amazon Elastic Compute Cloud User Guide.  For Amazon EBS-backed instances, CreateImage creates and registers the AMI in a single request, so you don't have to register the AMI yourself. We recommend that you always use CreateImage unless you have a specific reason to use RegisterImage.  If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration.  If you make changes to an image, deregister the previous image and register the new image.  Register a snapshot of a root device volume  You can use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using a block device mapping. You can't set the encryption state of the volume using the block device mapping. If the  snapshot is encrypted, or encryption by default is enabled, the root volume of an instance  launched from the AMI is encrypted. For more information, see Create a Linux AMI from a snapshot and Use encryption with Amazon EBS-backed AMIs in the Amazon Elastic Compute Cloud User Guide.  Amazon Web Services Marketplace product codes  If any snapshots have Amazon Web Services Marketplace product codes, they are copied to the new AMI. Windows and some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise Server (SLES), use the Amazon EC2 billing product code associated with an AMI to verify the subscription status for package updates. To create a new AMI for operating systems that require a billing product code, instead of registering the AMI, do the following to preserve the billing product code association:   Launch an instance from an existing AMI with that billing product code.   Customize the instance.   Create an AMI from the instance using CreateImage.   If you purchase a Reserved Instance to apply to an On-Demand Instance that was launched from an AMI with a billing product code, make sure that the Reserved Instance has the matching billing product code. If you purchase a Reserved Instance without the matching billing product code, the Reserved Instance will not be applied to the On-Demand Instance. For information about how to obtain the platform details and billing information of an AMI, see Understand AMI billing information in the Amazon EC2 User Guide.
     @Sendable
     public func registerImage(_ input: RegisterImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterImageResult {
         return try await self.client.execute(
@@ -7821,7 +7855,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Resets the default KMS key for EBS encryption for your account in this Region  to the Amazon Web Services managed KMS key for EBS. After resetting the default KMS key to the Amazon Web Services managed KMS key, you can continue to encrypt by a  customer managed KMS key by specifying it when you create the volume. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
+    /// Resets the default KMS key for EBS encryption for your account in this Region  to the Amazon Web Services managed KMS key for EBS. After resetting the default KMS key to the Amazon Web Services managed KMS key, you can continue to encrypt by a  customer managed KMS key by specifying it when you create the volume. For more information, see Amazon EBS encryption in the Amazon EBS User Guide.
     @Sendable
     public func resetEbsDefaultKmsKeyId(_ input: ResetEbsDefaultKmsKeyIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetEbsDefaultKmsKeyIdResult {
         return try await self.client.execute(
@@ -7887,7 +7921,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Resets permission settings for the specified snapshot. For more information about modifying snapshot permissions, see Share a snapshot in the Amazon Elastic Compute Cloud User Guide.
+    /// Resets permission settings for the specified snapshot. For more information about modifying snapshot permissions, see Share a snapshot in the Amazon EBS User Guide.
     @Sendable
     public func resetSnapshotAttribute(_ input: ResetSnapshotAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -7939,7 +7973,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Restores a snapshot from the Recycle Bin. For more information, see Restore  snapshots from the Recycle Bin in the Amazon Elastic Compute Cloud User Guide.
+    /// Restores a snapshot from the Recycle Bin. For more information, see Restore  snapshots from the Recycle Bin in the Amazon EBS User Guide.
     @Sendable
     public func restoreSnapshotFromRecycleBin(_ input: RestoreSnapshotFromRecycleBinRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreSnapshotFromRecycleBinResult {
         return try await self.client.execute(
@@ -7952,7 +7986,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Restores an archived Amazon EBS snapshot for use temporarily or permanently, or modifies the restore  period or restore type for a snapshot that was previously temporarily restored. For more information see  Restore an archived snapshot and  modify the restore period or restore type for a temporarily restored snapshot in the Amazon Elastic Compute Cloud User Guide.
+    /// Restores an archived Amazon EBS snapshot for use temporarily or permanently, or modifies the restore  period or restore type for a snapshot that was previously temporarily restored. For more information see  Restore an archived snapshot and  modify the restore period or restore type for a temporarily restored snapshot in the Amazon EBS User Guide.
     @Sendable
     public func restoreSnapshotTier(_ input: RestoreSnapshotTierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreSnapshotTierResult {
         return try await self.client.execute(
@@ -8082,7 +8116,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. However, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Performing this operation on an instance that uses an instance store as its root device returns an error. If you attempt to start a T3 instance with host tenancy and the unlimted CPU credit option, the request fails. The unlimited CPU credit option is not supported on Dedicated Hosts. Before you start the instance, either change its CPU credit option to standard, or change its tenancy to default or dedicated. For more information, see Stop and start your instance in the Amazon EC2 User Guide.
+    /// Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. However, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Performing this operation on an instance that uses an instance store as its root device returns an error. If you attempt to start a T3 instance with host tenancy and the unlimited CPU credit option, the request fails. The unlimited CPU credit option is not supported on Dedicated Hosts. Before you start the instance, either change its CPU credit option to standard, or change its tenancy to default or dedicated. For more information, see Stop and start your instance in the Amazon EC2 User Guide.
     @Sendable
     public func startInstances(_ input: StartInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartInstancesResult {
         return try await self.client.execute(
@@ -8373,7 +8407,7 @@ extension EC2 {
         )
     }
 
-    /// Describes Capacity Block offerings available for purchase. With Capacity Blocks, you purchase a specific instance type for a period of time.
+    /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a specific instance type for a period of time.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -8682,7 +8716,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the specified EC2 Fleets or all of your EC2 Fleets. For more information, see Monitor your EC2 Fleet in the Amazon EC2 User Guide.
+    /// Describes the specified EC2 Fleet or all of your EC2 Fleets.  If a fleet is of type instant, you must specify the fleet ID in the request, otherwise the fleet does not appear in the response.  For more information, see Describe your EC2 Fleet in the Amazon EC2 User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -8817,7 +8851,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other  Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found.
+    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other  Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -8931,7 +8965,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.
+    /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.    The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9007,7 +9041,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.
+    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9311,6 +9345,25 @@ extension EC2 {
         )
     }
 
+    /// Describes the specified EC2 Mac Dedicated Host or all of your EC2 Mac Dedicated Hosts.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeMacHostsPaginator(
+        _ input: DescribeMacHostsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeMacHostsRequest, DescribeMacHostsResult> {
+        return .init(
+            input: input,
+            command: self.describeMacHosts,
+            inputKey: \DescribeMacHostsRequest.nextToken,
+            outputKey: \DescribeMacHostsResult.nextToken,
+            logger: logger
+        )
+    }
+
     /// Describes your managed prefix lists and any Amazon Web Services-managed prefix lists. To view the entries for your prefix list, use GetManagedPrefixListEntries.
     /// Return PaginatorSequence for operation.
     ///
@@ -9578,7 +9631,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.
+    /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9598,7 +9651,7 @@ extension EC2 {
     }
 
     /// Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see Reserved Instance Marketplace
-    /// 				in the Amazon EC2 User Guide.
+    /// 				in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9732,7 +9785,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All Amazon Web Services accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific Amazon Web Services account.    implicit: An Amazon Web Services account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or Amazon Web Services accounts with create volume permissions. If no options are specified,  Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the Amazon Web Services account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify Amazon Web Services account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination. To get the state of fast snapshot restores for a snapshot, use DescribeFastSnapshotRestores. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All Amazon Web Services accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific Amazon Web Services account.    implicit: An Amazon Web Services account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or Amazon Web Services accounts with create volume permissions. If no options are specified,  Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the Amazon Web Services account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify Amazon Web Services account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination. To get the state of fast snapshot restores for a snapshot, use DescribeFastSnapshotRestores. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon EBS User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9808,7 +9861,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in the same VPC, peered VPC, or in separate VPCs attached to a transit gateway (with security group referencing support enabled). Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted or if they reference a security group in a VPC that has been detached from a transit gateway.
+    /// Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in the same VPC or peered VPC. Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9866,7 +9919,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the specified tags for your EC2 resources. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the specified tags for your EC2 resources. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -10246,7 +10299,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes:  Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks might still be taking place on your volume at the time. We recommend that you retry the request. For more information about volume status, see Monitor the status of your volumes in the Amazon Elastic Compute Cloud User Guide.  Events: Reflect the cause of a volume status and might require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and might have inconsistent data.  Actions: Reflect the actions you might have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume by calling the EnableVolumeIO action and then check the volume for data consistency. Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.)
+    /// Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes:  Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks might still be taking place on your volume at the time. We recommend that you retry the request. For more information about volume status, see Monitor the status of your volumes in the Amazon EBS User Guide.  Events: Reflect the cause of a volume status and might require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and might have inconsistent data.  Actions: Reflect the actions you might have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume by calling the EnableVolumeIO action and then check the volume for data consistency. Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.)  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -10265,7 +10318,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination. For more information about EBS volumes, see Amazon EBS volumes in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination. For more information about EBS volumes, see Amazon EBS volumes in the Amazon EBS User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -10284,7 +10337,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most  recent modification request. You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. For more information, see Monitor the progress of volume modifications in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most  recent modification request. You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. For more information, see Monitor the progress of volume modifications in the Amazon EBS User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -11590,6 +11643,17 @@ extension EC2.DescribeLocalGatewaysRequest: AWSPaginateToken {
             dryRun: self.dryRun,
             filters: self.filters,
             localGatewayIds: self.localGatewayIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.DescribeMacHostsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeMacHostsRequest {
+        return .init(
+            filters: self.filters,
+            hostIds: self.hostIds,
             maxResults: self.maxResults,
             nextToken: token
         )

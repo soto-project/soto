@@ -87,6 +87,7 @@ public struct ServiceDiscovery: AWSService {
             "ap-southeast-3": "servicediscovery.ap-southeast-3.api.aws",
             "ap-southeast-4": "servicediscovery.ap-southeast-4.api.aws",
             "ca-central-1": "servicediscovery.ca-central-1.api.aws",
+            "ca-west-1": "servicediscovery.ca-west-1.api.aws",
             "cn-north-1": "servicediscovery.cn-north-1.api.amazonwebservices.com.cn",
             "cn-northwest-1": "servicediscovery.cn-northwest-1.api.amazonwebservices.com.cn",
             "eu-central-1": "servicediscovery.eu-central-1.api.aws",
@@ -110,6 +111,7 @@ public struct ServiceDiscovery: AWSService {
         ]),
         [.dualstack, .fips]: .init(endpoints: [
             "ca-central-1": "servicediscovery-fips.ca-central-1.api.aws",
+            "ca-west-1": "servicediscovery-fips.ca-west-1.api.aws",
             "us-east-1": "servicediscovery-fips.us-east-1.api.aws",
             "us-east-2": "servicediscovery-fips.us-east-2.api.aws",
             "us-gov-east-1": "servicediscovery-fips.us-gov-east-1.api.aws",
@@ -119,6 +121,7 @@ public struct ServiceDiscovery: AWSService {
         ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "servicediscovery-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "servicediscovery-fips.ca-west-1.amazonaws.com",
             "us-east-1": "servicediscovery-fips.us-east-1.amazonaws.com",
             "us-east-2": "servicediscovery-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "servicediscovery-fips.us-gov-east-1.amazonaws.com",

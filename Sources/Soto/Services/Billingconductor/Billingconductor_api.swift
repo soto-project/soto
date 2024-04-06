@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Billingconductor service.
 ///
-/// Amazon Web Services Billing Conductor is a fully managed service that you can use to customize a pro forma version of your billing data each month, to accurately show or chargeback your end customers. Amazon Web Services Billing Conductor doesn't change the way you're billed by Amazon Web Services each month by design. Instead, it provides you with a mechanism to configure, generate, and display rates to certain customers over a given billing period. You can also analyze the difference between the rates you apply to your accounting groupings relative to your actual rates from Amazon Web Services. As a result of your Amazon Web Services Billing Conductor configuration, the payer account can also see the custom rate applied on the billing details page of the Amazon Web Services Billing console, or configure a cost and usage report per billing group. This documentation shows how you can configure Amazon Web Services Billing Conductor using its API. For more information about using the Amazon Web Services Billing Conductor user interface, see the  Amazon Web Services Billing Conductor User Guide.
+/// Amazon Web Services Billing Conductor is a fully managed service that you can use to customize a proforma version of your billing data each month, to accurately show or chargeback your end customers. Amazon Web Services Billing Conductor doesn't change the way you're billed by Amazon Web Services each month by design. Instead, it provides you with a mechanism to configure, generate, and display rates to certain customers over a given billing period. You can also analyze the difference between the rates you apply to your accounting groupings relative to your actual rates from Amazon Web Services. As a result of your Amazon Web Services Billing Conductor configuration, the payer account can also see the custom rate applied on the billing details page of the Amazon Web Services Billing console, or configure a cost and usage report per billing group. This documentation shows how you can configure Amazon Web Services Billing Conductor using its API. For more information about using the Amazon Web Services Billing Conductor user interface, see the  Amazon Web Services Billing Conductor User Guide.
 public struct Billingconductor: AWSService {
     // MARK: Member variables
 
@@ -146,7 +146,7 @@ public struct Billingconductor: AWSService {
         )
     }
 
-    ///  Creates a custom line item that can be used to create a one-time fixed charge that can be applied to a single billing group for the current or previous billing period. The one-time fixed charge is either a fee or discount.
+    /// Creates a custom line item that can be used to create a one-time fixed charge that can be applied to a single billing group for the current or previous billing period. The one-time fixed charge is either a fee or discount.
     @Sendable
     public func createCustomLineItem(_ input: CreateCustomLineItemInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomLineItemOutput {
         return try await self.client.execute(
@@ -257,6 +257,19 @@ public struct Billingconductor: AWSService {
             operation: "DisassociatePricingRules", 
             path: "/disassociate-pricing-rules", 
             httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the margin summary report, which includes the Amazon Web Services cost and charged  amount (pro forma cost) by Amazon Web Service for a specific billing group.
+    @Sendable
+    public func getBillingGroupCostReport(_ input: GetBillingGroupCostReportInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBillingGroupCostReportOutput {
+        return try await self.client.execute(
+            operation: "GetBillingGroupCostReport", 
+            path: "/get-billing-group-cost-report", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -498,6 +511,25 @@ extension Billingconductor {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Billingconductor {
+    /// Retrieves the margin summary report, which includes the Amazon Web Services cost and charged  amount (pro forma cost) by Amazon Web Service for a specific billing group.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func getBillingGroupCostReportPaginator(
+        _ input: GetBillingGroupCostReportInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetBillingGroupCostReportInput, GetBillingGroupCostReportOutput> {
+        return .init(
+            input: input,
+            command: self.getBillingGroupCostReport,
+            inputKey: \GetBillingGroupCostReportInput.nextToken,
+            outputKey: \GetBillingGroupCostReportOutput.nextToken,
+            logger: logger
+        )
+    }
+
     ///  This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
     /// Return PaginatorSequence for operation.
     ///
@@ -685,6 +717,18 @@ extension Billingconductor {
             inputKey: \ListResourcesAssociatedToCustomLineItemInput.nextToken,
             outputKey: \ListResourcesAssociatedToCustomLineItemOutput.nextToken,
             logger: logger
+        )
+    }
+}
+
+extension Billingconductor.GetBillingGroupCostReportInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Billingconductor.GetBillingGroupCostReportInput {
+        return .init(
+            arn: self.arn,
+            billingPeriodRange: self.billingPeriodRange,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

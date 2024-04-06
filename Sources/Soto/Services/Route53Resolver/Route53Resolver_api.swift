@@ -199,7 +199,7 @@ public struct Route53Resolver: AWSService {
         )
     }
 
-    /// Creates an Route 53 Resolver on an Outpost.
+    /// Creates a Route 53 Resolver on an Outpost.
     @Sendable
     public func createOutpostResolver(_ input: CreateOutpostResolverRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOutpostResolverResponse {
         return try await self.client.execute(
@@ -1009,7 +1009,7 @@ public struct Route53Resolver: AWSService {
         )
     }
 
-    /// Updates the name, or enpoint type for an inbound or an outbound Resolver endpoint.
+    /// Updates the name, or endpoint type for an inbound or an outbound Resolver endpoint.
     /// 			You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
     @Sendable
     public func updateResolverEndpoint(_ input: UpdateResolverEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResolverEndpointResponse {

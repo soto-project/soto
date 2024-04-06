@@ -87,6 +87,7 @@ public struct Athena: AWSService {
             "ap-southeast-3": "athena.ap-southeast-3.api.aws",
             "ap-southeast-4": "athena.ap-southeast-4.api.aws",
             "ca-central-1": "athena.ca-central-1.api.aws",
+            "ca-west-1": "athena.ca-west-1.api.aws",
             "cn-north-1": "athena.cn-north-1.api.amazonwebservices.com.cn",
             "cn-northwest-1": "athena.cn-northwest-1.api.amazonwebservices.com.cn",
             "eu-central-1": "athena.eu-central-1.api.aws",
@@ -583,7 +584,7 @@ public struct Athena: AWSService {
         )
     }
 
-    /// Imports a single ipynb file to a Spark enabled workgroup. The maximum file size that can be imported is 10 megabytes. If an ipynb file with the same name already exists in the workgroup, throws an error.
+    /// Imports a single ipynb file to a Spark enabled workgroup. To import the notebook, the request must specify a value for either Payload or NoteBookS3LocationUri. If neither is specified or both are specified, an InvalidRequestException occurs. The maximum file size that can be imported is 10 megabytes. If an ipynb file with the same name already exists in the workgroup, throws an error.
     @Sendable
     public func importNotebook(_ input: ImportNotebookInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportNotebookOutput {
         return try await self.client.execute(
@@ -817,7 +818,7 @@ public struct Athena: AWSService {
         )
     }
 
-    /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request.  The request syntax requires the StartCalculationExecutionRequest$CodeBlock parameter or the CalculationConfiguration$CodeBlock parameter, but not both. Because  CalculationConfiguration$CodeBlock is deprecated, use the StartCalculationExecutionRequest$CodeBlock parameter instead.
+    /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request.  The request syntax requires the StartCalculationExecutionRequest$CodeBlock parameter or the CalculationConfiguration$CodeBlock parameter, but not both. Because CalculationConfiguration$CodeBlock is deprecated, use the StartCalculationExecutionRequest$CodeBlock parameter instead.
     @Sendable
     public func startCalculationExecution(_ input: StartCalculationExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCalculationExecutionResponse {
         return try await self.client.execute(
@@ -1355,7 +1356,8 @@ extension Athena.ListDataCatalogsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Athena.ListDataCatalogsInput {
         return .init(
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            workGroup: self.workGroup
         )
     }
 }
@@ -1365,7 +1367,8 @@ extension Athena.ListDatabasesInput: AWSPaginateToken {
         return .init(
             catalogName: self.catalogName,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            workGroup: self.workGroup
         )
     }
 }
@@ -1438,7 +1441,8 @@ extension Athena.ListTableMetadataInput: AWSPaginateToken {
             databaseName: self.databaseName,
             expression: self.expression,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            workGroup: self.workGroup
         )
     }
 }

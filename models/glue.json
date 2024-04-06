@@ -1729,6 +1729,15 @@
                 "target": "com.amazonaws.glue#Action"
             }
         },
+        "com.amazonaws.glue#AdditionalContextMap": {
+            "type": "map",
+            "key": {
+                "target": "com.amazonaws.glue#ContextKey"
+            },
+            "value": {
+                "target": "com.amazonaws.glue#ContextValue"
+            }
+        },
         "com.amazonaws.glue#AdditionalOptionKeys": {
             "type": "enum",
             "members": {
@@ -4584,6 +4593,12 @@
                     "traits": {
                         "smithy.api#enumValue": "SSE-KMS"
                     }
+                },
+                "SSEKMSWITHSERVICEROLE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SSE-KMS-WITH-SERVICE-ROLE"
+                    }
                 }
             }
         },
@@ -6469,7 +6484,7 @@
                 "ConnectionProperties": {
                     "target": "com.amazonaws.glue#ConnectionProperties",
                     "traits": {
-                        "smithy.api#documentation": "<p>These key-value pairs define parameters for the connection:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>HOST</code> - The host URI: either the\n        fully qualified domain name (FQDN) or the IPv4 address of\n        the database host.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PORT</code> - The port number, between\n        1024 and 65535, of the port on which the database host is\n        listening for database connections.</p>\n            </li>\n            <li>\n               <p>\n                  <code>USER_NAME</code> -  The name under which\n        to log in to the database. The value string for <code>USER_NAME</code> is \"<code>USERNAME</code>\".</p>\n            </li>\n            <li>\n               <p>\n                  <code>PASSWORD</code> - A password,\n        if one is used, for the user name.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ENCRYPTED_PASSWORD</code> - When you enable connection password protection by setting <code>ConnectionPasswordEncryption</code> in the Data Catalog encryption settings, this field stores the encrypted password.</p>\n            </li>\n            <li>\n               <p>\n                  <code>JDBC_DRIVER_JAR_URI</code> - The Amazon Simple Storage Service (Amazon S3) path of the\n          JAR file that contains the JDBC driver to use.</p>\n            </li>\n            <li>\n               <p>\n                  <code>JDBC_DRIVER_CLASS_NAME</code> - The class name of the JDBC driver to use.</p>\n            </li>\n            <li>\n               <p>\n                  <code>JDBC_ENGINE</code> - The name of the JDBC engine to use.</p>\n            </li>\n            <li>\n               <p>\n                  <code>JDBC_ENGINE_VERSION</code> - The version of the JDBC engine to use.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CONFIG_FILES</code> - (Reserved for future use.)</p>\n            </li>\n            <li>\n               <p>\n                  <code>INSTANCE_ID</code> - The instance ID to use.</p>\n            </li>\n            <li>\n               <p>\n                  <code>JDBC_CONNECTION_URL</code> - The URL for connecting to a JDBC data source.</p>\n            </li>\n            <li>\n               <p>\n                  <code>JDBC_ENFORCE_SSL</code> - A Boolean string (true, false) specifying whether Secure\n          Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the\n          client. The default is false.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CUSTOM_JDBC_CERT</code> - An Amazon S3 location specifying the customer's root certificate. Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SKIP_CUSTOM_JDBC_CERT_VALIDATION</code> - By default, this is <code>false</code>. Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to <code>true</code> to skip Glue’s validation of the customer certificate.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CUSTOM_JDBC_CERT_STRING</code> - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the <code>SSL_SERVER_CERT_DN</code>; in Microsoft SQL Server, this is used as the <code>hostNameInCertificate</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CONNECTION_URL</code> - The URL for connecting to a general (non-JDBC) data source.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SECRET_ID</code> - The secret ID used for the secret manager of credentials.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CONNECTOR_URL</code> - The connector URL for a MARKETPLACE or CUSTOM connection.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CONNECTOR_TYPE</code> - The connector type for a MARKETPLACE or CUSTOM connection.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CONNECTOR_CLASS_NAME</code> - The connector class name for a MARKETPLACE or CUSTOM connection.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_BOOTSTRAP_SERVERS</code> - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SSL_ENABLED</code> - Whether to enable or disable SSL on an Apache Kafka connection. Default value is \"true\".</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_CUSTOM_CERT</code> - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SKIP_CUSTOM_CERT_VALIDATION</code> - Whether to skip the validation of the CA cert file or not. Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is \"false\".</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_CLIENT_KEYSTORE</code> - The Amazon S3 location of the client keystore file for Kafka client side authentication (Optional).</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_CLIENT_KEYSTORE_PASSWORD</code> - The password to access the provided keystore (Optional).</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_CLIENT_KEY_PASSWORD</code> - A keystore can consist of multiple keys, so this is the password to access the client key to be used with the Kafka server side key (Optional).</p>\n            </li>\n            <li>\n               <p>\n                  <code>ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD</code> - The encrypted version of the Kafka client keystore password (if the user has the Glue encrypt passwords setting selected).</p>\n            </li>\n            <li>\n               <p>\n                  <code>ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD</code> - The encrypted version of the Kafka client key password (if the user has the Glue encrypt passwords setting selected).</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_MECHANISM</code> - <code>\"SCRAM-SHA-512\"</code>, <code>\"GSSAPI\"</code>, or <code>\"AWS_MSK_IAM\"</code>. These are the supported <a href=\"https://www.iana.org/assignments/sasl-mechanisms/sasl-mechanisms.xhtml\">SASL Mechanisms</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_SCRAM_USERNAME</code> - A plaintext username used to authenticate with the \"SCRAM-SHA-512\" mechanism.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_SCRAM_PASSWORD</code> - A plaintext password used to authenticate with the \"SCRAM-SHA-512\" mechanism.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD</code> - The encrypted version of the Kafka SASL SCRAM password (if the user has the Glue encrypt passwords setting selected).</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_SCRAM_SECRETS_ARN</code> - The Amazon Resource Name of a secret in Amazon Web Services Secrets Manager.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_GSSAPI_KEYTAB</code> - The S3 location of a Kerberos <code>keytab</code> file. A keytab stores long-term keys for one or more principals. For more information, see <a href=\"https://web.mit.edu/kerberos/krb5-latest/doc/basic/keytab_def.html\">MIT Kerberos Documentation: Keytab</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_GSSAPI_KRB5_CONF</code> - The S3 location of a Kerberos <code>krb5.conf</code> file. A krb5.conf stores Kerberos configuration information, such as the location of the KDC server. For more information, see <a href=\"https://web.mit.edu/kerberos/krb5-1.12/doc/admin/conf_files/krb5_conf.html\">MIT Kerberos Documentation: krb5.conf</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_GSSAPI_SERVICE</code> - The Kerberos service name, as set with <code>sasl.kerberos.service.name</code> in your <a href=\"https://kafka.apache.org/documentation/#brokerconfigs_sasl.kerberos.service.name\">Kafka Configuration</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_GSSAPI_PRINCIPAL</code> - The name of the Kerberos princial used by Glue. For more information, see <a href=\"https://kafka.apache.org/documentation/#security_sasl_kerberos_clientconfig\">Kafka Documentation: Configuring Kafka Brokers</a>.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>These key-value pairs define parameters for the connection:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>HOST</code> - The host URI: either the\n        fully qualified domain name (FQDN) or the IPv4 address of\n        the database host.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PORT</code> - The port number, between\n        1024 and 65535, of the port on which the database host is\n        listening for database connections.</p>\n            </li>\n            <li>\n               <p>\n                  <code>USER_NAME</code> -  The name under which\n        to log in to the database. The value string for <code>USER_NAME</code> is \"<code>USERNAME</code>\".</p>\n            </li>\n            <li>\n               <p>\n                  <code>PASSWORD</code> - A password,\n        if one is used, for the user name.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ENCRYPTED_PASSWORD</code> - When you enable connection password protection by setting <code>ConnectionPasswordEncryption</code> in the Data Catalog encryption settings, this field stores the encrypted password.</p>\n            </li>\n            <li>\n               <p>\n                  <code>JDBC_DRIVER_JAR_URI</code> - The Amazon Simple Storage Service (Amazon S3) path of the\n          JAR file that contains the JDBC driver to use.</p>\n            </li>\n            <li>\n               <p>\n                  <code>JDBC_DRIVER_CLASS_NAME</code> - The class name of the JDBC driver to use.</p>\n            </li>\n            <li>\n               <p>\n                  <code>JDBC_ENGINE</code> - The name of the JDBC engine to use.</p>\n            </li>\n            <li>\n               <p>\n                  <code>JDBC_ENGINE_VERSION</code> - The version of the JDBC engine to use.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CONFIG_FILES</code> - (Reserved for future use.)</p>\n            </li>\n            <li>\n               <p>\n                  <code>INSTANCE_ID</code> - The instance ID to use.</p>\n            </li>\n            <li>\n               <p>\n                  <code>JDBC_CONNECTION_URL</code> - The URL for connecting to a JDBC data source.</p>\n            </li>\n            <li>\n               <p>\n                  <code>JDBC_ENFORCE_SSL</code> - A Boolean string (true, false) specifying whether Secure\n          Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the\n          client. The default is false.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CUSTOM_JDBC_CERT</code> - An Amazon S3 location specifying the customer's root certificate. Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SKIP_CUSTOM_JDBC_CERT_VALIDATION</code> - By default, this is <code>false</code>. Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to <code>true</code> to skip Glue’s validation of the customer certificate.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CUSTOM_JDBC_CERT_STRING</code> - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the <code>SSL_SERVER_CERT_DN</code>; in Microsoft SQL Server, this is used as the <code>hostNameInCertificate</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CONNECTION_URL</code> - The URL for connecting to a general (non-JDBC) data source.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SECRET_ID</code> - The secret ID used for the secret manager of credentials.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CONNECTOR_URL</code> - The connector URL for a MARKETPLACE or CUSTOM connection.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CONNECTOR_TYPE</code> - The connector type for a MARKETPLACE or CUSTOM connection.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CONNECTOR_CLASS_NAME</code> - The connector class name for a MARKETPLACE or CUSTOM connection.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_BOOTSTRAP_SERVERS</code> - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SSL_ENABLED</code> - Whether to enable or disable SSL on an Apache Kafka connection. Default value is \"true\".</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_CUSTOM_CERT</code> - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SKIP_CUSTOM_CERT_VALIDATION</code> - Whether to skip the validation of the CA cert file or not. Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is \"false\".</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_CLIENT_KEYSTORE</code> - The Amazon S3 location of the client keystore file for Kafka client side authentication (Optional).</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_CLIENT_KEYSTORE_PASSWORD</code> - The password to access the provided keystore (Optional).</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_CLIENT_KEY_PASSWORD</code> - A keystore can consist of multiple keys, so this is the password to access the client key to be used with the Kafka server side key (Optional).</p>\n            </li>\n            <li>\n               <p>\n                  <code>ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD</code> - The encrypted version of the Kafka client keystore password (if the user has the Glue encrypt passwords setting selected).</p>\n            </li>\n            <li>\n               <p>\n                  <code>ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD</code> - The encrypted version of the Kafka client key password (if the user has the Glue encrypt passwords setting selected).</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_MECHANISM</code> - <code>\"SCRAM-SHA-512\"</code>, <code>\"GSSAPI\"</code>, <code>\"AWS_MSK_IAM\"</code>, or <code>\"PLAIN\"</code>. These are the supported <a href=\"https://www.iana.org/assignments/sasl-mechanisms/sasl-mechanisms.xhtml\">SASL Mechanisms</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_PLAIN_USERNAME</code> - A plaintext username used to authenticate with the \"PLAIN\" mechanism.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_PLAIN_PASSWORD</code> - A plaintext password used to authenticate with the \"PLAIN\" mechanism.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD</code> - The encrypted version of the Kafka SASL PLAIN password (if the user has the Glue encrypt passwords setting selected).</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_SCRAM_USERNAME</code> - A plaintext username used to authenticate with the \"SCRAM-SHA-512\" mechanism.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_SCRAM_PASSWORD</code> - A plaintext password used to authenticate with the \"SCRAM-SHA-512\" mechanism.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD</code> - The encrypted version of the Kafka SASL SCRAM password (if the user has the Glue encrypt passwords setting selected).</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_SCRAM_SECRETS_ARN</code> - The Amazon Resource Name of a secret in Amazon Web Services Secrets Manager.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_GSSAPI_KEYTAB</code> - The S3 location of a Kerberos <code>keytab</code> file. A keytab stores long-term keys for one or more principals. For more information, see <a href=\"https://web.mit.edu/kerberos/krb5-latest/doc/basic/keytab_def.html\">MIT Kerberos Documentation: Keytab</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_GSSAPI_KRB5_CONF</code> - The S3 location of a Kerberos <code>krb5.conf</code> file. A krb5.conf stores Kerberos configuration information, such as the location of the KDC server. For more information, see <a href=\"https://web.mit.edu/kerberos/krb5-1.12/doc/admin/conf_files/krb5_conf.html\">MIT Kerberos Documentation: krb5.conf</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_GSSAPI_SERVICE</code> - The Kerberos service name, as set with <code>sasl.kerberos.service.name</code> in your <a href=\"https://kafka.apache.org/documentation/#brokerconfigs_sasl.kerberos.service.name\">Kafka Configuration</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>KAFKA_SASL_GSSAPI_PRINCIPAL</code> - The name of the Kerberos princial used by Glue. For more information, see <a href=\"https://kafka.apache.org/documentation/#security_sasl_kerberos_clientconfig\">Kafka Documentation: Configuring Kafka Brokers</a>.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "PhysicalConnectionRequirements": {
@@ -6783,6 +6798,24 @@
                         "smithy.api#enumValue": "KAFKA_SASL_MECHANISM"
                     }
                 },
+                "KAFKA_SASL_PLAIN_USERNAME": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "KAFKA_SASL_PLAIN_USERNAME"
+                    }
+                },
+                "KAFKA_SASL_PLAIN_PASSWORD": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "KAFKA_SASL_PLAIN_PASSWORD"
+                    }
+                },
+                "ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD"
+                    }
+                },
                 "KAFKA_SASL_SCRAM_USERNAME": {
                     "target": "smithy.api#Unit",
                     "traits": {
@@ -6971,6 +7004,24 @@
             },
             "value": {
                 "target": "com.amazonaws.glue#GenericString"
+            }
+        },
+        "com.amazonaws.glue#ContextKey": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 128
+                }
+            }
+        },
+        "com.amazonaws.glue#ContextValue": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 256
+                }
             }
         },
         "com.amazonaws.glue#ContextWords": {
@@ -7764,7 +7815,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Creates a connection definition in the Data Catalog.</p>"
+                "smithy.api#documentation": "<p>Creates a connection definition in the Data Catalog.</p>\n         <p>Connections used for creating federated resources require the IAM <code>glue:PassConnection</code> permission.</p>"
             }
         },
         "com.amazonaws.glue#CreateConnectionRequest": {
@@ -13912,6 +13963,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The ID of the KMS key to use for encryption at rest.</p>"
                     }
+                },
+                "CatalogEncryptionServiceRole": {
+                    "target": "com.amazonaws.glue#IAMRoleArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The role that Glue assumes to encrypt and decrypt the Data Catalog objects on the caller's behalf.</p>"
+                    }
                 }
             },
             "traits": {
@@ -14401,10 +14458,14 @@
             "type": "structure",
             "members": {
                 "Message": {
-                    "target": "com.amazonaws.glue#MessageString"
+                    "target": "com.amazonaws.glue#MessageString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A message describing the problem.</p>"
+                    }
                 }
             },
             "traits": {
+                "smithy.api#documentation": "<p>A federation source failed, but the operation may be retried.</p>",
                 "smithy.api#error": "client"
             }
         },
@@ -17071,7 +17132,7 @@
                     }
                 },
                 "MaxResults": {
-                    "target": "com.amazonaws.glue#PageSize",
+                    "target": "com.amazonaws.glue#OrchestrationPageSize200",
                     "traits": {
                         "smithy.api#documentation": "<p>The maximum size of the response.</p>"
                     }
@@ -19615,7 +19676,7 @@
                     }
                 },
                 "MaxResults": {
-                    "target": "com.amazonaws.glue#PageSize",
+                    "target": "com.amazonaws.glue#OrchestrationPageSize200",
                     "traits": {
                         "smithy.api#documentation": "<p>The maximum size of the response.</p>"
                     }
@@ -19686,6 +19747,12 @@
         "com.amazonaws.glue#GetUnfilteredPartitionMetadataRequest": {
             "type": "structure",
             "members": {
+                "Region": {
+                    "target": "com.amazonaws.glue#ValueString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specified only if the base tables belong to a different Amazon Web Services Region.</p>"
+                    }
+                },
                 "CatalogId": {
                     "target": "com.amazonaws.glue#CatalogIdString",
                     "traits": {
@@ -19725,6 +19792,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>(Required) A list of supported permission types. </p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "QuerySessionContext": {
+                    "target": "com.amazonaws.glue#QuerySessionContext",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.</p>"
                     }
                 }
             },
@@ -19805,6 +19878,12 @@
         "com.amazonaws.glue#GetUnfilteredPartitionsMetadataRequest": {
             "type": "structure",
             "members": {
+                "Region": {
+                    "target": "com.amazonaws.glue#ValueString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specified only if the base tables belong to a different Amazon Web Services Region.</p>"
+                    }
+                },
                 "CatalogId": {
                     "target": "com.amazonaws.glue#CatalogIdString",
                     "traits": {
@@ -19861,6 +19940,12 @@
                     "target": "com.amazonaws.glue#PageSize",
                     "traits": {
                         "smithy.api#documentation": "<p>The maximum number of partitions to return in a single response.</p>"
+                    }
+                },
+                "QuerySessionContext": {
+                    "target": "com.amazonaws.glue#QuerySessionContext",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.</p>"
                     }
                 }
             },
@@ -19929,6 +20014,12 @@
         "com.amazonaws.glue#GetUnfilteredTableMetadataRequest": {
             "type": "structure",
             "members": {
+                "Region": {
+                    "target": "com.amazonaws.glue#ValueString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specified only if the base tables belong to a different Amazon Web Services Region.</p>"
+                    }
+                },
                 "CatalogId": {
                     "target": "com.amazonaws.glue#CatalogIdString",
                     "traits": {
@@ -19962,6 +20053,24 @@
                         "smithy.api#documentation": "<p>(Required) A list of supported permission types. </p>",
                         "smithy.api#required": {}
                     }
+                },
+                "SupportedDialect": {
+                    "target": "com.amazonaws.glue#SupportedDialect",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A structure specifying the dialect and dialect version used by the query engine.</p>"
+                    }
+                },
+                "Permissions": {
+                    "target": "com.amazonaws.glue#PermissionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Lake Formation data permissions of the caller on the table. Used to authorize the call when no view context is found.</p>"
+                    }
+                },
+                "QuerySessionContext": {
+                    "target": "com.amazonaws.glue#QuerySessionContext",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.</p>"
+                    }
                 }
             },
             "traits": {
@@ -19994,6 +20103,38 @@
                     "target": "com.amazonaws.glue#ColumnRowFilterList",
                     "traits": {
                         "smithy.api#documentation": "<p>A list of column row filters.</p>"
+                    }
+                },
+                "QueryAuthorizationId": {
+                    "target": "com.amazonaws.glue#HashString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A cryptographically generated query identifier generated by Glue or Lake Formation.</p>"
+                    }
+                },
+                "IsMultiDialectView": {
+                    "target": "com.amazonaws.glue#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>Specifies whether the view supports the SQL dialects of one or more different query engines and can therefore be read by those engines.</p>"
+                    }
+                },
+                "ResourceArn": {
+                    "target": "com.amazonaws.glue#ArnString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The resource ARN of the parent resource extracted from the request.</p>"
+                    }
+                },
+                "IsProtected": {
+                    "target": "com.amazonaws.glue#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>A flag that instructs the engine not to push user-provided operations into the logical plan of the view during query planning. However, if set this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.</p>"
+                    }
+                },
+                "Permissions": {
+                    "target": "com.amazonaws.glue#PermissionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Lake Formation data permissions of the caller on the table. Used to authorize the call when no view context is found.</p>"
                     }
                 }
             },
@@ -20930,6 +21071,12 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.glue#HudiTarget"
+            }
+        },
+        "com.amazonaws.glue#IAMRoleArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^arn:aws(-(cn|us-gov|iso(-[bef])?))?:iam::[0-9]{12}:role/.+$"
             }
         },
         "com.amazonaws.glue#IcebergInput": {
@@ -21992,7 +22139,7 @@
                 "Runtime": {
                     "target": "com.amazonaws.glue#RuntimeNameString",
                     "traits": {
-                        "smithy.api#documentation": "<p>In Ray jobs, Runtime is used to specify the versions of Ray, Python and additional\n      libraries available in your environment. This field is not used in other job types. For\n      supported runtime environment values, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/author-job-ray-runtimes.html\">Working with Ray jobs</a>\n      in the Glue Developer Guide.</p>"
+                        "smithy.api#documentation": "<p>In Ray jobs, Runtime is used to specify the versions of Ray, Python and additional\n      libraries available in your environment. This field is not used in other job types. For\n      supported runtime environment values, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/ray-jobs-section.html\">Supported Ray runtime environments</a>\n      in the Glue Developer Guide.</p>"
                     }
                 }
             },
@@ -23091,7 +23238,7 @@
                     }
                 },
                 "MaxResults": {
-                    "target": "com.amazonaws.glue#PageSize",
+                    "target": "com.amazonaws.glue#OrchestrationPageSize25",
                     "traits": {
                         "smithy.api#documentation": "<p>The maximum size of a list to return.</p>"
                     }
@@ -24519,7 +24666,7 @@
                     }
                 },
                 "MaxResults": {
-                    "target": "com.amazonaws.glue#PageSize",
+                    "target": "com.amazonaws.glue#OrchestrationPageSize200",
                     "traits": {
                         "smithy.api#documentation": "<p>The maximum size of a list to return.</p>"
                     }
@@ -24593,7 +24740,7 @@
                     }
                 },
                 "MaxResults": {
-                    "target": "com.amazonaws.glue#PageSize",
+                    "target": "com.amazonaws.glue#OrchestrationPageSize25",
                     "traits": {
                         "smithy.api#documentation": "<p>The maximum size of a list to return.</p>"
                     }
@@ -25713,6 +25860,9 @@
         "com.amazonaws.glue#NullableInteger": {
             "type": "integer"
         },
+        "com.amazonaws.glue#NullableString": {
+            "type": "string"
+        },
         "com.amazonaws.glue#OneInput": {
             "type": "list",
             "member": {
@@ -25894,6 +26044,24 @@
                     "max": 128
                 },
                 "smithy.api#pattern": "^[\\.\\-_A-Za-z0-9]+$"
+            }
+        },
+        "com.amazonaws.glue#OrchestrationPageSize200": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 1,
+                    "max": 200
+                }
+            }
+        },
+        "com.amazonaws.glue#OrchestrationPageSize25": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 1,
+                    "max": 25
+                }
             }
         },
         "com.amazonaws.glue#OrchestrationRoleArn": {
@@ -27297,6 +27465,44 @@
             },
             "traits": {
                 "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.glue#QuerySessionContext": {
+            "type": "structure",
+            "members": {
+                "QueryId": {
+                    "target": "com.amazonaws.glue#HashString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A unique identifier generated by the query engine for the query.</p>"
+                    }
+                },
+                "QueryStartTime": {
+                    "target": "com.amazonaws.glue#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A timestamp provided by the query engine for when the query started.</p>"
+                    }
+                },
+                "ClusterId": {
+                    "target": "com.amazonaws.glue#NullableString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An identifier string for the consumer cluster.</p>"
+                    }
+                },
+                "QueryAuthorizationId": {
+                    "target": "com.amazonaws.glue#HashString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A cryptographically generated query identifier generated by Glue or Lake Formation.</p>"
+                    }
+                },
+                "AdditionalContext": {
+                    "target": "com.amazonaws.glue#AdditionalContextMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An opaque string-string map passed by the query engine.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.</p>"
             }
         },
         "com.amazonaws.glue#QuoteChar": {
@@ -32578,6 +32784,26 @@
                 "target": "com.amazonaws.glue#GenericString"
             }
         },
+        "com.amazonaws.glue#SupportedDialect": {
+            "type": "structure",
+            "members": {
+                "Dialect": {
+                    "target": "com.amazonaws.glue#ViewDialect",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The dialect of the query engine.</p>"
+                    }
+                },
+                "DialectVersion": {
+                    "target": "com.amazonaws.glue#ViewDialectVersionString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The version of the dialect of the query engine. For example, 3.0.0.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A structure specifying the dialect and dialect version used by the query engine.</p>"
+            }
+        },
         "com.amazonaws.glue#Table": {
             "type": "structure",
             "members": {
@@ -32708,6 +32934,18 @@
                     "target": "com.amazonaws.glue#FederatedTable",
                     "traits": {
                         "smithy.api#documentation": "<p>A <code>FederatedTable</code> structure that references an entity outside the Glue Data Catalog.</p>"
+                    }
+                },
+                "ViewDefinition": {
+                    "target": "com.amazonaws.glue#ViewDefinition",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A structure that contains all the information that defines the view, including the dialect or dialects for the view, and the query.</p>"
+                    }
+                },
+                "IsMultiDialectView": {
+                    "target": "com.amazonaws.glue#NullableBoolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies whether the view supports the SQL dialects of one or more different query engines and can therefore be read by those engines.</p>"
                     }
                 }
             },
@@ -36424,6 +36662,132 @@
                     "max": 100000
                 },
                 "smithy.api#pattern": "^[1-9][0-9]*|[1-9][0-9]*-[1-9][0-9]*$"
+            }
+        },
+        "com.amazonaws.glue#ViewDefinition": {
+            "type": "structure",
+            "members": {
+                "IsProtected": {
+                    "target": "com.amazonaws.glue#NullableBoolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>You can set this flag as true to instruct the engine not to push user-provided operations into the logical plan of the view during query planning. However, setting this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.</p>"
+                    }
+                },
+                "Definer": {
+                    "target": "com.amazonaws.glue#ArnString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The definer of a view in SQL.</p>"
+                    }
+                },
+                "SubObjects": {
+                    "target": "com.amazonaws.glue#ViewSubObjectsList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of table Amazon Resource Names (ARNs).</p>"
+                    }
+                },
+                "Representations": {
+                    "target": "com.amazonaws.glue#ViewRepresentationList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of representations.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A structure containing details for representations.</p>"
+            }
+        },
+        "com.amazonaws.glue#ViewDialect": {
+            "type": "enum",
+            "members": {
+                "REDSHIFT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "REDSHIFT"
+                    }
+                },
+                "ATHENA": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ATHENA"
+                    }
+                },
+                "SPARK": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SPARK"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.glue#ViewDialectVersionString": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 255
+                }
+            }
+        },
+        "com.amazonaws.glue#ViewRepresentation": {
+            "type": "structure",
+            "members": {
+                "Dialect": {
+                    "target": "com.amazonaws.glue#ViewDialect",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The dialect of the query engine.</p>"
+                    }
+                },
+                "DialectVersion": {
+                    "target": "com.amazonaws.glue#ViewDialectVersionString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The version of the dialect of the query engine. For example, 3.0.0.</p>"
+                    }
+                },
+                "ViewOriginalText": {
+                    "target": "com.amazonaws.glue#ViewTextString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The <code>SELECT</code> query provided by the customer during <code>CREATE VIEW DDL</code>. This SQL is not used during a query on a view (<code>ViewExpandedText</code> is used instead). <code>ViewOriginalText</code> is used for cases like <code>SHOW CREATE VIEW</code> where users want to see the original DDL command that created the view.</p>"
+                    }
+                },
+                "ViewExpandedText": {
+                    "target": "com.amazonaws.glue#ViewTextString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The expanded SQL for the view. This SQL is used by engines while processing a query on a view. Engines may perform operations during view creation to transform <code>ViewOriginalText</code> to <code>ViewExpandedText</code>. For example:</p>\n         <ul>\n            <li>\n               <p>Fully qualify identifiers: <code>SELECT * from table1 → SELECT * from db1.table1</code>\n               </p>\n            </li>\n         </ul>"
+                    }
+                },
+                "IsStale": {
+                    "target": "com.amazonaws.glue#NullableBoolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Dialects marked as stale are no longer valid and must be updated before they can be queried in their respective query engines.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A structure that contains the dialect of the view, and the query that defines the view.</p>"
+            }
+        },
+        "com.amazonaws.glue#ViewRepresentationList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.glue#ViewRepresentation"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1000
+                }
+            }
+        },
+        "com.amazonaws.glue#ViewSubObjectsList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.glue#ArnString"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 10
+                }
             }
         },
         "com.amazonaws.glue#ViewTextString": {

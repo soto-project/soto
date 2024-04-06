@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS IoTWireless service.
 ///
-/// AWS IoT Wireless provides bi-directional communication between internet-connected wireless devices and the AWS Cloud. To onboard both LoRaWAN and Sidewalk devices to AWS IoT, use the IoT Wireless API. These wireless devices use the Low Power Wide Area Networking (LPWAN) communication protocol to communicate with AWS IoT. Using the API, you can perform create, read, update, and delete operations for your wireless devices, gateways, destinations, and profiles. After onboarding your devices, you can use the API operations to set log levels and monitor your devices with CloudWatch. You can also use the API operations to create multicast groups and schedule a multicast session for sending a downlink message to devices in the group. By using Firmware Updates Over-The-Air (FUOTA) API operations, you can create a FUOTA task and schedule a session to update the firmware of individual devices or an entire group of devices in a multicast group.
+/// AWS IoT Wireless provides bi-directional communication between internet-connected wireless devices and the AWS Cloud. To onboard both LoRaWAN and Sidewalk devices to AWS IoT, use the IoT Wireless API. These wireless devices use the Low Power Wide Area Networking (LPWAN) communication protocol to communicate with AWS IoT. Using the API, you can perform create, read, update, and delete operations for your wireless devices, gateways, destinations, and profiles. After onboarding your devices, you can use the API operations to set log levels and monitor your devices with CloudWatch. You can also use the API operations to create multicast groups and schedule a multicast session for sending a downlink message to devices in the group. By using Firmware Updates Over-The-Air (FUOTA) API operations, you can create a FUOTA task and schedule a session to update the firmware of individual devices or an entire group of devices in a multicast group. To connect to the AWS IoT Wireless Service, use the Service endpoints as described in IoT Wireless Service endpoints in the AWS General Reference.
 public struct IoTWireless: AWSService {
     // MARK: Member variables
 
@@ -638,6 +638,32 @@ public struct IoTWireless: AWSService {
             operation: "GetLogLevelsByResourceTypes", 
             path: "/log-levels", 
             httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Get the metric configuration status for this account.
+    @Sendable
+    public func getMetricConfiguration(_ input: GetMetricConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricConfigurationResponse {
+        return try await self.client.execute(
+            operation: "GetMetricConfiguration", 
+            path: "/metric-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Get metrics.
+    @Sendable
+    public func getMetrics(_ input: GetMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricsResponse {
+        return try await self.client.execute(
+            operation: "GetMetrics", 
+            path: "/metrics", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -1383,6 +1409,19 @@ public struct IoTWireless: AWSService {
             operation: "UpdateLogLevelsByResourceTypes", 
             path: "/log-levels", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Update the metric configuration.
+    @Sendable
+    public func updateMetricConfiguration(_ input: UpdateMetricConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMetricConfigurationResponse {
+        return try await self.client.execute(
+            operation: "UpdateMetricConfiguration", 
+            path: "/metric-configuration", 
+            httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger

@@ -170,6 +170,19 @@ public struct CloudFormation: AWSService {
         )
     }
 
+    /// Creates a template from existing resources that are not already managed with CloudFormation. You can check the status of the template generation using the DescribeGeneratedTemplate API action.
+    @Sendable
+    public func createGeneratedTemplate(_ input: CreateGeneratedTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGeneratedTemplateOutput {
+        return try await self.client.execute(
+            operation: "CreateGeneratedTemplate", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a stack as specified in the template. After the call completes successfully, the stack creation starts. You can check the status of the stack through the DescribeStacks operation.
     @Sendable
     public func createStack(_ input: CreateStackInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStackOutput {
@@ -240,6 +253,19 @@ public struct CloudFormation: AWSService {
     public func deleteChangeSet(_ input: DeleteChangeSetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteChangeSetOutput {
         return try await self.client.execute(
             operation: "DeleteChangeSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deleted a generated template.
+    @Sendable
+    public func deleteGeneratedTemplate(_ input: DeleteGeneratedTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteGeneratedTemplate", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -339,6 +365,19 @@ public struct CloudFormation: AWSService {
         )
     }
 
+    /// Describes a generated template. The output includes details about the progress of the creation of a generated template started by a CreateGeneratedTemplate API action or the update of a generated template started with an UpdateGeneratedTemplate API action.
+    @Sendable
+    public func describeGeneratedTemplate(_ input: DescribeGeneratedTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGeneratedTemplateOutput {
+        return try await self.client.execute(
+            operation: "DescribeGeneratedTemplate", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves information about the account's OrganizationAccess status. This API can be called either by the management account or the delegated administrator by using the CallAs parameter. This API can also be called without the CallAs parameter by the management account.
     @Sendable
     public func describeOrganizationsAccess(_ input: DescribeOrganizationsAccessInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationsAccessOutput {
@@ -365,6 +404,19 @@ public struct CloudFormation: AWSService {
         )
     }
 
+    /// Describes details of a resource scan.
+    @Sendable
+    public func describeResourceScan(_ input: DescribeResourceScanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeResourceScanOutput {
+        return try await self.client.execute(
+            operation: "DescribeResourceScan", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns information about a stack drift detection operation. A stack drift detection operation detects whether a stack's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. A stack is considered to have drifted if one or more of its resources have drifted. For more information about stack and resource drift, see Detecting Unregulated Configuration Changes to Stacks and Resources. Use DetectStackDrift to initiate a stack drift detection operation. DetectStackDrift returns a StackDriftDetectionId you can use to monitor the progress of the operation using DescribeStackDriftDetectionStatus. Once the drift detection operation has completed, use DescribeStackResourceDrifts to return drift information about the stack and its resources.
     @Sendable
     public func describeStackDriftDetectionStatus(_ input: DescribeStackDriftDetectionStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStackDriftDetectionStatusOutput {
@@ -378,7 +430,7 @@ public struct CloudFormation: AWSService {
         )
     }
 
-    /// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, go to Stacks in the CloudFormation User Guide.  You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID).
+    /// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, see CloudFormation stack creation events in the CloudFormation User Guide.  You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID).
     @Sendable
     public func describeStackEvents(_ input: DescribeStackEventsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStackEventsOutput {
         return try await self.client.execute(
@@ -469,7 +521,7 @@ public struct CloudFormation: AWSService {
         )
     }
 
-    /// Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created.  If the stack doesn't exist, a ValidationError is returned.
+    /// Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created. For more information about a stack's event history, see CloudFormation stack creation events in the CloudFormation User Guide.  If the stack doesn't exist, a ValidationError is returned.
     @Sendable
     public func describeStacks(_ input: DescribeStacksInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStacksOutput {
         return try await self.client.execute(
@@ -573,6 +625,19 @@ public struct CloudFormation: AWSService {
         )
     }
 
+    /// Retrieves a generated template. If the template is in an InProgress or Pending status then the template returned will be the template when the template was last in a Complete status. If the template has not yet been in a Complete status then an empty template will be returned.
+    @Sendable
+    public func getGeneratedTemplate(_ input: GetGeneratedTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGeneratedTemplateOutput {
+        return try await self.client.execute(
+            operation: "GetGeneratedTemplate", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns the stack policy for a specified stack. If a stack doesn't have a policy, a null value is returned.
     @Sendable
     public func getStackPolicy(_ input: GetStackPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStackPolicyOutput {
@@ -651,11 +716,63 @@ public struct CloudFormation: AWSService {
         )
     }
 
+    /// Lists your generated templates in this Region.
+    @Sendable
+    public func listGeneratedTemplates(_ input: ListGeneratedTemplatesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGeneratedTemplatesOutput {
+        return try await self.client.execute(
+            operation: "ListGeneratedTemplates", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists all stacks that are importing an exported output value. To modify or remove an exported output value, first use this action to see which stacks are using it. To see the exported output values in your account, see ListExports. For more information about importing an exported output value, see the Fn::ImportValue function.
     @Sendable
     public func listImports(_ input: ListImportsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImportsOutput {
         return try await self.client.execute(
             operation: "ListImports", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the related resources for a list of resources from a resource scan. The response indicates whether each returned resource is already managed by CloudFormation.
+    @Sendable
+    public func listResourceScanRelatedResources(_ input: ListResourceScanRelatedResourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceScanRelatedResourcesOutput {
+        return try await self.client.execute(
+            operation: "ListResourceScanRelatedResources", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the resources from a resource scan. The results can be filtered by resource identifier, resource type prefix, tag key, and tag value. Only resources that match all specified filters are returned. The response indicates whether each returned resource is already managed by CloudFormation.
+    @Sendable
+    public func listResourceScanResources(_ input: ListResourceScanResourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceScanResourcesOutput {
+        return try await self.client.execute(
+            operation: "ListResourceScanResources", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// List the resource scans from newest to oldest. By default it will return up to 10 resource scans.
+    @Sendable
+    public func listResourceScans(_ input: ListResourceScansInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceScansOutput {
+        return try await self.client.execute(
+            operation: "ListResourceScans", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -695,6 +812,19 @@ public struct CloudFormation: AWSService {
     public func listStackResources(_ input: ListStackResourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStackResourcesOutput {
         return try await self.client.execute(
             operation: "ListStackResources", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns summary information about deployment targets for a stack set.
+    @Sendable
+    public func listStackSetAutoDeploymentTargets(_ input: ListStackSetAutoDeploymentTargetsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStackSetAutoDeploymentTargetsOutput {
+        return try await self.client.execute(
+            operation: "ListStackSetAutoDeploymentTargets", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -911,6 +1041,19 @@ public struct CloudFormation: AWSService {
         )
     }
 
+    /// Starts a scan of the resources in this account in this Region. You can the status of a scan using the ListResourceScans API action.
+    @Sendable
+    public func startResourceScan(_ input: StartResourceScanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartResourceScanOutput {
+        return try await self.client.execute(
+            operation: "StartResourceScan", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Stops an in-progress operation on a stack set and its associated stack instances. StackSets will cancel all the unstarted stack instance deployments and wait for those are in-progress to complete.
     @Sendable
     public func stopStackSetOperation(_ input: StopStackSetOperationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopStackSetOperationOutput {
@@ -929,6 +1072,19 @@ public struct CloudFormation: AWSService {
     public func testType(_ input: TestTypeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TestTypeOutput {
         return try await self.client.execute(
             operation: "TestType", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates a generated template. This can be used to change the name, add and remove resources, refresh resources, and change the DeletionPolicy and UpdateReplacePolicy settings. You can check the status of the update to the generated template using the DescribeGeneratedTemplate API action.
+    @Sendable
+    public func updateGeneratedTemplate(_ input: UpdateGeneratedTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGeneratedTemplateOutput {
+        return try await self.client.execute(
+            operation: "UpdateGeneratedTemplate", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1035,7 +1191,7 @@ extension CloudFormation {
         )
     }
 
-    /// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, go to Stacks in the CloudFormation User Guide.  You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID).
+    /// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, see CloudFormation stack creation events in the CloudFormation User Guide.  You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1073,7 +1229,7 @@ extension CloudFormation {
         )
     }
 
-    /// Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created.  If the stack doesn't exist, a ValidationError is returned.
+    /// Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created. For more information about a stack's event history, see CloudFormation stack creation events in the CloudFormation User Guide.  If the stack doesn't exist, a ValidationError is returned.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1130,6 +1286,25 @@ extension CloudFormation {
         )
     }
 
+    /// Lists your generated templates in this Region.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listGeneratedTemplatesPaginator(
+        _ input: ListGeneratedTemplatesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListGeneratedTemplatesInput, ListGeneratedTemplatesOutput> {
+        return .init(
+            input: input,
+            command: self.listGeneratedTemplates,
+            inputKey: \ListGeneratedTemplatesInput.nextToken,
+            outputKey: \ListGeneratedTemplatesOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists all stacks that are importing an exported output value. To modify or remove an exported output value, first use this action to see which stacks are using it. To see the exported output values in your account, see ListExports. For more information about importing an exported output value, see the Fn::ImportValue function.
     /// Return PaginatorSequence for operation.
     ///
@@ -1145,6 +1320,63 @@ extension CloudFormation {
             command: self.listImports,
             inputKey: \ListImportsInput.nextToken,
             outputKey: \ListImportsOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists the related resources for a list of resources from a resource scan. The response indicates whether each returned resource is already managed by CloudFormation.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listResourceScanRelatedResourcesPaginator(
+        _ input: ListResourceScanRelatedResourcesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourceScanRelatedResourcesInput, ListResourceScanRelatedResourcesOutput> {
+        return .init(
+            input: input,
+            command: self.listResourceScanRelatedResources,
+            inputKey: \ListResourceScanRelatedResourcesInput.nextToken,
+            outputKey: \ListResourceScanRelatedResourcesOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists the resources from a resource scan. The results can be filtered by resource identifier, resource type prefix, tag key, and tag value. Only resources that match all specified filters are returned. The response indicates whether each returned resource is already managed by CloudFormation.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listResourceScanResourcesPaginator(
+        _ input: ListResourceScanResourcesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourceScanResourcesInput, ListResourceScanResourcesOutput> {
+        return .init(
+            input: input,
+            command: self.listResourceScanResources,
+            inputKey: \ListResourceScanResourcesInput.nextToken,
+            outputKey: \ListResourceScanResourcesOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// List the resource scans from newest to oldest. By default it will return up to 10 resource scans.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listResourceScansPaginator(
+        _ input: ListResourceScansInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourceScansInput, ListResourceScansOutput> {
+        return .init(
+            input: input,
+            command: self.listResourceScans,
+            inputKey: \ListResourceScansInput.nextToken,
+            outputKey: \ListResourceScansOutput.nextToken,
             logger: logger
         )
     }
@@ -1375,10 +1607,53 @@ extension CloudFormation.ListExportsInput: AWSPaginateToken {
     }
 }
 
+extension CloudFormation.ListGeneratedTemplatesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudFormation.ListGeneratedTemplatesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension CloudFormation.ListImportsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListImportsInput {
         return .init(
             exportName: self.exportName,
+            nextToken: token
+        )
+    }
+}
+
+extension CloudFormation.ListResourceScanRelatedResourcesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudFormation.ListResourceScanRelatedResourcesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resources: self.resources,
+            resourceScanId: self.resourceScanId
+        )
+    }
+}
+
+extension CloudFormation.ListResourceScanResourcesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudFormation.ListResourceScanResourcesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceIdentifier: self.resourceIdentifier,
+            resourceScanId: self.resourceScanId,
+            resourceTypePrefix: self.resourceTypePrefix,
+            tagKey: self.tagKey,
+            tagValue: self.tagValue
+        )
+    }
+}
+
+extension CloudFormation.ListResourceScansInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudFormation.ListResourceScansInput {
+        return .init(
+            maxResults: self.maxResults,
             nextToken: token
         )
     }
@@ -1521,6 +1796,14 @@ extension CloudFormation {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESAllPathMatcher("stacks[].stackStatus", expected: "CREATE_COMPLETE")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("stacks[].stackStatus", expected: "UPDATE_COMPLETE")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("stacks[].stackStatus", expected: "UPDATE_IN_PROGRESS")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("stacks[].stackStatus", expected: "UPDATE_COMPLETE_CLEANUP_IN_PROGRESS")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("stacks[].stackStatus", expected: "UPDATE_FAILED")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_IN_PROGRESS")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_FAILED")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_COMPLETE")),
                 .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "CREATE_FAILED")),
                 .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "DELETE_COMPLETE")),
                 .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "DELETE_FAILED")),

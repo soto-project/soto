@@ -406,7 +406,7 @@ public struct Glue: AWSService {
         )
     }
 
-    /// Creates a connection definition in the Data Catalog.
+    /// Creates a connection definition in the Data Catalog. Connections used for creating federated resources require the IAM glue:PassConnection permission.
     @Sendable
     public func createConnection(_ input: CreateConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectionResponse {
         return try await self.client.execute(
@@ -3871,6 +3871,8 @@ extension Glue.GetUnfilteredPartitionsMetadataRequest: AWSPaginateToken {
             expression: self.expression,
             maxResults: self.maxResults,
             nextToken: token,
+            querySessionContext: self.querySessionContext,
+            region: self.region,
             segment: self.segment,
             supportedPermissionTypes: self.supportedPermissionTypes,
             tableName: self.tableName

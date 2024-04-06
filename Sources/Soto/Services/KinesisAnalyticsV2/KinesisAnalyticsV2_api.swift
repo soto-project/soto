@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS KinesisAnalyticsV2 service.
 ///
-/// Amazon Kinesis Data Analytics is a fully managed service that you can use to process and analyze streaming data using Java, SQL, or Scala. The service enables you to quickly author and run Java, SQL, or Scala code against streaming sources to perform time series analytics, feed real-time dashboards, and create real-time metrics.
+///  Amazon Managed Service for Apache Flink was previously known as Amazon Kinesis Data Analytics for Apache Flink.  Amazon Managed Service for Apache Flink is a fully managed service that you can use to process and analyze streaming data using Java, Python, SQL, or Scala. The service enables you to quickly author and run Java, SQL, or Scala code against streaming sources to perform time series analytics, feed real-time dashboards, and create real-time metrics.
 public struct KinesisAnalyticsV2: AWSService {
     // MARK: Member variables
 
@@ -140,7 +140,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Adds a Virtual Private Cloud (VPC) configuration to the application. Applications can use VPCs to store  and access resources securely. Note the following about VPC configurations for Kinesis Data Analytics applications:   VPC configurations are not supported for SQL applications.   When a VPC is added to a Kinesis Data Analytics application, the application can no longer be accessed from the  Internet directly. To enable Internet access to the application, add an Internet gateway to your VPC.
+    /// Adds a Virtual Private Cloud (VPC) configuration to the application. Applications can use VPCs to store  and access resources securely. Note the following about VPC configurations for Managed Service for Apache Flink applications:   VPC configurations are not supported for SQL applications.   When a VPC is added to a Managed Service for Apache Flink application, the application can no longer be accessed from the  Internet directly. To enable Internet access to the application, add an Internet gateway to your VPC.
     @Sendable
     public func addApplicationVpcConfiguration(_ input: AddApplicationVpcConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddApplicationVpcConfigurationResponse {
         return try await self.client.execute(
@@ -153,7 +153,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Creates a Kinesis Data Analytics application. For information about creating a Kinesis Data Analytics application, see Creating an Application.
+    /// Creates a Managed Service for Apache Flink application. For information about creating a Managed Service for Apache Flink application, see Creating an Application.
     @Sendable
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationResponse {
         return try await self.client.execute(
@@ -192,7 +192,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Deletes the specified application. Kinesis Data Analytics halts application execution and deletes the application.
+    /// Deletes the specified application. Managed Service for Apache Flink halts application execution and deletes the application.
     @Sendable
     public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationResponse {
         return try await self.client.execute(
@@ -205,7 +205,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Deletes an Amazon CloudWatch log stream from an Kinesis Data Analytics application.
+    /// Deletes an Amazon CloudWatch log stream from an SQL-based Kinesis Data Analytics application.
     @Sendable
     public func deleteApplicationCloudWatchLoggingOption(_ input: DeleteApplicationCloudWatchLoggingOptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationCloudWatchLoggingOptionResponse {
         return try await self.client.execute(
@@ -244,7 +244,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Deletes a reference data source configuration from the specified SQL-based Kinesis Data Analytics application's configuration. If the application is running, Kinesis Data Analytics immediately removes the in-application table  that you created using the AddApplicationReferenceDataSource operation.
+    /// Deletes a reference data source configuration from the specified SQL-based Kinesis Data Analytics application's configuration. If the application is running, Kinesis Data Analytics immediately removes the in-application table that you created using the AddApplicationReferenceDataSource operation.
     @Sendable
     public func deleteApplicationReferenceDataSource(_ input: DeleteApplicationReferenceDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationReferenceDataSourceResponse {
         return try await self.client.execute(
@@ -270,7 +270,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Removes a VPC configuration from a Kinesis Data Analytics application.
+    /// Removes a VPC configuration from a Managed Service for Apache Flink application.
     @Sendable
     public func deleteApplicationVpcConfiguration(_ input: DeleteApplicationVpcConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationVpcConfigurationResponse {
         return try await self.client.execute(
@@ -283,7 +283,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Returns information about a specific Kinesis Data Analytics application. If you want to retrieve a list of all applications in your account, use the ListApplications operation.
+    /// Returns information about a specific Managed Service for Apache Flink application. If you want to retrieve a list of all applications in your account, use the ListApplications operation.
     @Sendable
     public func describeApplication(_ input: DescribeApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationResponse {
         return try await self.client.execute(
@@ -309,7 +309,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Provides a detailed description of a specified version of the application. To see a list of all the versions of an application, invoke the ListApplicationVersions operation.  This operation is supported only for Amazon Kinesis Data Analytics for Apache Flink.
+    /// Provides a detailed description of a specified version of the application. To see a list of all the versions of an application, invoke the ListApplicationVersions operation.  This operation is supported only for Managed Service for Apache Flink.
     @Sendable
     public func describeApplicationVersion(_ input: DescribeApplicationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationVersionResponse {
         return try await self.client.execute(
@@ -348,7 +348,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Lists all the versions for the specified application, including versions that were rolled back. The response also includes a summary of the configuration  associated with each version.  To get the complete description of a specific application version, invoke the DescribeApplicationVersion operation.  This operation is supported only for Amazon Kinesis Data Analytics for Apache Flink.
+    /// Lists all the versions for the specified application, including versions that were rolled back. The response also includes a summary of the configuration  associated with each version.  To get the complete description of a specific application version, invoke the DescribeApplicationVersion operation.  This operation is supported only for Managed Service for Apache Flink.
     @Sendable
     public func listApplicationVersions(_ input: ListApplicationVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationVersionsResponse {
         return try await self.client.execute(
@@ -361,7 +361,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Returns a list of Kinesis Data Analytics applications in your account. For each application, the response includes the application name, Amazon Resource Name (ARN), and status.  If you want detailed information about a specific application, use  DescribeApplication.
+    /// Returns a list of Managed Service for Apache Flink applications in your account. For each application, the response includes the application name, Amazon Resource Name (ARN), and status.  If you want detailed information about a specific application, use  DescribeApplication.
     @Sendable
     public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationsResponse {
         return try await self.client.execute(
@@ -387,7 +387,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Reverts the application to the previous running version. You can roll back an application if you suspect it is stuck in a transient status.  You can roll back an application only if it is in the UPDATING  or AUTOSCALING status. When you rollback an application, it loads state data from the last successful snapshot. If the application has no snapshots, Kinesis Data Analytics rejects the rollback request. This action is not supported for Kinesis Data Analytics for SQL applications.
+    /// Reverts the application to the previous running version. You can roll back an application if you suspect it is stuck in a transient status.  You can roll back an application only if it is in the UPDATING  or AUTOSCALING status. When you rollback an application, it loads state data from the last successful snapshot. If the application has no snapshots, Managed Service for Apache Flink rejects the rollback request. This action is not supported for Managed Service for Apache Flink for SQL applications.
     @Sendable
     public func rollbackApplication(_ input: RollbackApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RollbackApplicationResponse {
         return try await self.client.execute(
@@ -400,7 +400,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Starts the specified Kinesis Data Analytics application. After creating an application, you must exclusively call this operation to  start your application.
+    /// Starts the specified Managed Service for Apache Flink application. After creating an application, you must exclusively call this operation to  start your application.
     @Sendable
     public func startApplication(_ input: StartApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartApplicationResponse {
         return try await self.client.execute(
@@ -413,7 +413,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Stops the application from processing data. You can stop an application only if it is in the running status, unless you set the Force  parameter to true.  You can use the DescribeApplication operation to find the application status.  Kinesis Data Analytics takes a snapshot when the application is stopped, unless Force is set  to true.
+    /// Stops the application from processing data. You can stop an application only if it is in the running status, unless you set the Force  parameter to true.  You can use the DescribeApplication operation to find the application status.  Managed Service for Apache Flink takes a snapshot when the application is stopped, unless Force is set  to true.
     @Sendable
     public func stopApplication(_ input: StopApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopApplicationResponse {
         return try await self.client.execute(
@@ -426,7 +426,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Adds one or more key-value tags to a Kinesis Data Analytics application. Note that the maximum number of application  tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Tagging.
+    /// Adds one or more key-value tags to a Managed Service for Apache Flink application. Note that the maximum number of application  tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Tagging.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
         return try await self.client.execute(
@@ -439,7 +439,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Removes one or more tags from a Kinesis Data Analytics application. For more information, see  Using Tagging.
+    /// Removes one or more tags from a Managed Service for Apache Flink application. For more information, see  Using Tagging.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         return try await self.client.execute(
@@ -452,7 +452,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Updates an existing Kinesis Data Analytics application. Using this operation, you can update application code, input configuration, and output configuration.  Kinesis Data Analytics updates the ApplicationVersionId each time you update your application.   You cannot update the RuntimeEnvironment of an existing application. If you need to update an application's RuntimeEnvironment, you must delete the application and create it again.
+    /// Updates an existing Managed Service for Apache Flink application. Using this operation, you can update application code, input configuration, and output configuration.  Managed Service for Apache Flink updates the ApplicationVersionId each time you update your application.
     @Sendable
     public func updateApplication(_ input: UpdateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationResponse {
         return try await self.client.execute(
@@ -465,7 +465,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Updates the maintenance configuration of the Kinesis Data Analytics application.  You can invoke this operation on an application that is in one of the two following states: READY or RUNNING. If you invoke it when the application is in a state other than these two states, it throws a ResourceInUseException. The service makes use of the updated configuration the next time it schedules maintenance for the application. If you invoke this operation after the service schedules maintenance, the service will apply the configuration update the next time it schedules maintenance for the application. This means that you might not see the maintenance configuration update applied to the maintenance process that follows a successful invocation of this operation, but to the following maintenance process instead. To see the current maintenance configuration of your application, invoke the DescribeApplication operation. For information about application maintenance, see Kinesis Data Analytics for Apache Flink Maintenance.  This operation is supported only for Amazon Kinesis Data Analytics for Apache Flink.
+    /// Updates the maintenance configuration of the Managed Service for Apache Flink application.  You can invoke this operation on an application that is in one of the two following states: READY or RUNNING. If you invoke it when the application is in a state other than these two states, it throws a ResourceInUseException. The service makes use of the updated configuration the next time it schedules maintenance for the application. If you invoke this operation after the service schedules maintenance, the service will apply the configuration update the next time it schedules maintenance for the application. This means that you might not see the maintenance configuration update applied to the maintenance process that follows a successful invocation of this operation, but to the following maintenance process instead. To see the current maintenance configuration of your application, invoke the DescribeApplication operation. For information about application maintenance, see Managed Service for Apache Flink for Apache Flink Maintenance.  This operation is supported only for Managed Service for Apache Flink.
     @Sendable
     public func updateApplicationMaintenanceConfiguration(_ input: UpdateApplicationMaintenanceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationMaintenanceConfigurationResponse {
         return try await self.client.execute(

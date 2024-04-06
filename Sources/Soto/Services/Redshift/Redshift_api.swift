@@ -82,8 +82,12 @@ public struct Redshift: AWSService {
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
             "ca-central-1": "redshift-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "redshift-fips.ca-west-1.amazonaws.com",
             "us-east-1": "redshift-fips.us-east-1.amazonaws.com",
             "us-east-2": "redshift-fips.us-east-2.amazonaws.com",
+            "us-iso-east-1": "redshift-fips.us-iso-east-1.c2s.ic.gov",
+            "us-iso-west-1": "redshift-fips.us-iso-west-1.c2s.ic.gov",
+            "us-isob-east-1": "redshift-fips.us-isob-east-1.sc2s.sgov.gov",
             "us-west-1": "redshift-fips.us-west-1.amazonaws.com",
             "us-west-2": "redshift-fips.us-west-2.amazonaws.com"
         ])
@@ -1437,6 +1441,19 @@ public struct Redshift: AWSService {
         )
     }
 
+    /// List the Amazon Redshift Advisor recommendations for one or multiple Amazon Redshift clusters in an Amazon Web Services account.
+    @Sendable
+    public func listRecommendations(_ input: ListRecommendationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecommendationsResult {
+        return try await self.client.execute(
+            operation: "ListRecommendations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// This operation is retired. Calling this operation does not change AQUA configuration. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
     @Sendable
     public func modifyAquaConfiguration(_ input: ModifyAquaInputMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyAquaOutputMessage {
@@ -2592,6 +2609,25 @@ extension Redshift {
             logger: logger
         )
     }
+
+    /// List the Amazon Redshift Advisor recommendations for one or multiple Amazon Redshift clusters in an Amazon Web Services account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listRecommendationsPaginator(
+        _ input: ListRecommendationsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecommendationsMessage, ListRecommendationsResult> {
+        return .init(
+            input: input,
+            command: self.listRecommendations,
+            inputKey: \ListRecommendationsMessage.marker,
+            outputKey: \ListRecommendationsResult.marker,
+            logger: logger
+        )
+    }
 }
 
 extension Redshift.DescribeClusterDbRevisionsMessage: AWSPaginateToken {
@@ -3006,6 +3042,17 @@ extension Redshift.GetReservedNodeExchangeOfferingsInputMessage: AWSPaginateToke
             marker: token,
             maxRecords: self.maxRecords,
             reservedNodeId: self.reservedNodeId
+        )
+    }
+}
+
+extension Redshift.ListRecommendationsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.ListRecommendationsMessage {
+        return .init(
+            clusterIdentifier: self.clusterIdentifier,
+            marker: token,
+            maxRecords: self.maxRecords,
+            namespaceArn: self.namespaceArn
         )
     }
 }

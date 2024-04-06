@@ -74,8 +74,12 @@ public struct Drs: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "us-east-1": "drs-fips.us-east-1.amazonaws.com",
+            "us-east-2": "drs-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "drs-fips.us-gov-east-1.amazonaws.com",
-            "us-gov-west-1": "drs-fips.us-gov-west-1.amazonaws.com"
+            "us-gov-west-1": "drs-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "drs-fips.us-west-1.amazonaws.com",
+            "us-west-2": "drs-fips.us-west-2.amazonaws.com"
         ])
     ]}
 

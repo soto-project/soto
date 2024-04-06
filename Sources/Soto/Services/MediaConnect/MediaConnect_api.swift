@@ -268,6 +268,19 @@ public struct MediaConnect: AWSService {
         )
     }
 
+    /// Displays details of the flow's source stream. The response contains information about the contents of the stream and its programs.
+    @Sendable
+    public func describeFlowSourceMetadata(_ input: DescribeFlowSourceMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFlowSourceMetadataResponse {
+        return try await self.client.execute(
+            operation: "DescribeFlowSourceMetadata", 
+            path: "/v1/flows/{FlowArn}/source-metadata", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Displays the details of a gateway. The response includes the gateway ARN, name, and CIDR blocks, as well as details about the networks.
     @Sendable
     public func describeGateway(_ input: DescribeGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGatewayResponse {

@@ -243,7 +243,7 @@ public struct CloudTrail: AWSService {
         )
     }
 
-    ///  Disables Lake query federation on the specified event data store. When you disable federation, CloudTrail  removes the metadata associated with the federated event data store in the Glue Data Catalog and removes registration for the federation role ARN and event data store in Lake Formation. No CloudTrail Lake data is deleted  when you disable federation.
+    ///  Disables Lake query federation on the specified event data store. When you disable federation, CloudTrail disables  the integration with Glue, Lake Formation, and Amazon Athena.  After disabling Lake query federation, you can no longer query your event data in Amazon Athena. No CloudTrail Lake data is deleted when you disable federation and you can continue to run queries in CloudTrail Lake.
     @Sendable
     public func disableFederation(_ input: DisableFederationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableFederationResponse {
         return try await self.client.execute(
@@ -256,7 +256,7 @@ public struct CloudTrail: AWSService {
         )
     }
 
-    ///  Enables Lake query federation on the specified event data store. Federating an event data store lets you view the metadata associated with the event data store in the Glue  Data Catalog and run  SQL queries against your event data using Amazon Athena. The table metadata stored in the Glue Data Catalog  lets the Athena query engine know how to find, read, and process the data that you want to query. When you enable Lake query federation, CloudTrail creates a federated database named aws:cloudtrail (if the database doesn't already exist) and a federated table in the Glue Data Catalog. The event data store ID is used for the table name. CloudTrail registers the role ARN and event data store in Lake Formation, the service responsible for revoking or granting permissions to the federated resources in the Glue Data Catalog.  For more information about Lake query federation, see Federate an event data store.
+    ///  Enables Lake query federation on the specified event data store. Federating an event data store lets you view the metadata associated with the event data store in the Glue  Data Catalog and run  SQL queries against your event data using Amazon Athena. The table metadata stored in the Glue Data Catalog  lets the Athena query engine know how to find, read, and process the data that you want to query. When you enable Lake query federation, CloudTrail creates a managed database named aws:cloudtrail (if the database doesn't already exist) and a managed federated table in the Glue Data Catalog. The event data store ID is used for the table name. CloudTrail registers the role ARN and event data store in Lake Formation, the service responsible for allowing fine-grained access control  of the federated resources in the Glue Data Catalog. For more information about Lake query federation, see Federate an event data store.
     @Sendable
     public func enableFederation(_ input: EnableFederationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableFederationResponse {
         return try await self.client.execute(
@@ -430,6 +430,19 @@ public struct CloudTrail: AWSService {
     public func listImports(_ input: ListImportsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImportsResponse {
         return try await self.client.execute(
             operation: "ListImports", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns Insights metrics data for trails that have enabled Insights. The request must include the EventSource,  EventName, and InsightType parameters. If the InsightType is set to ApiErrorRateInsight, the request must also include the ErrorCode parameter. The following are the available time periods for ListInsightsMetricData. Each cutoff is inclusive.   Data points with a period of 60 seconds (1-minute) are available for 15 days.   Data points with a period of 300 seconds (5-minute) are available for 63 days.   Data points with a period of 3600 seconds (1 hour) are available for 90 days.   Access to the ListInsightsMetricData API operation is linked to the cloudtrail:LookupEvents action. To use this operation,  you must have permissions to perform the cloudtrail:LookupEvents action.
+    @Sendable
+    public func listInsightsMetricData(_ input: ListInsightsMetricDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInsightsMetricDataResponse {
+        return try await self.client.execute(
+            operation: "ListInsightsMetricData", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -685,7 +698,7 @@ public struct CloudTrail: AWSService {
         )
     }
 
-    /// Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are integers between 7 and 3653 if the BillingMode is set to EXTENDABLE_RETENTION_PRICING, or between 7 and 2557 if BillingMode is set to FIXED_RETENTION_PRICING. By default, TerminationProtection is enabled. For event data stores for CloudTrail events, AdvancedEventSelectors includes or excludes management, data, or Insights events in your event data store. For more information about AdvancedEventSelectors, see AdvancedEventSelectors. For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, AdvancedEventSelectors includes events of that type in your event data store.
+    /// Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are integers between 7 and 3653 if the BillingMode is set to EXTENDABLE_RETENTION_PRICING, or between 7 and 2557 if BillingMode is set to FIXED_RETENTION_PRICING. By default, TerminationProtection is enabled. For event data stores for CloudTrail events, AdvancedEventSelectors includes or excludes management or data events in your event data store. For more information about AdvancedEventSelectors, see AdvancedEventSelectors. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, AdvancedEventSelectors includes events of that type in your event data store.
     @Sendable
     public func updateEventDataStore(_ input: UpdateEventDataStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEventDataStoreResponse {
         return try await self.client.execute(
@@ -816,6 +829,25 @@ extension CloudTrail {
             command: self.listImports,
             inputKey: \ListImportsRequest.nextToken,
             outputKey: \ListImportsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns Insights metrics data for trails that have enabled Insights. The request must include the EventSource,  EventName, and InsightType parameters. If the InsightType is set to ApiErrorRateInsight, the request must also include the ErrorCode parameter. The following are the available time periods for ListInsightsMetricData. Each cutoff is inclusive.   Data points with a period of 60 seconds (1-minute) are available for 15 days.   Data points with a period of 300 seconds (5-minute) are available for 63 days.   Data points with a period of 3600 seconds (1 hour) are available for 90 days.   Access to the ListInsightsMetricData API operation is linked to the cloudtrail:LookupEvents action. To use this operation,  you must have permissions to perform the cloudtrail:LookupEvents action.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listInsightsMetricDataPaginator(
+        _ input: ListInsightsMetricDataRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInsightsMetricDataRequest, ListInsightsMetricDataResponse> {
+        return .init(
+            input: input,
+            command: self.listInsightsMetricData,
+            inputKey: \ListInsightsMetricDataRequest.nextToken,
+            outputKey: \ListInsightsMetricDataResponse.nextToken,
             logger: logger
         )
     }
@@ -961,6 +993,23 @@ extension CloudTrail.ListImportsRequest: AWSPaginateToken {
             importStatus: self.importStatus,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension CloudTrail.ListInsightsMetricDataRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudTrail.ListInsightsMetricDataRequest {
+        return .init(
+            dataType: self.dataType,
+            endTime: self.endTime,
+            errorCode: self.errorCode,
+            eventName: self.eventName,
+            eventSource: self.eventSource,
+            insightType: self.insightType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            period: self.period,
+            startTime: self.startTime
         )
     }
 }

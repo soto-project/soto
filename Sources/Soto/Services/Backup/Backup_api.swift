@@ -1112,7 +1112,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: Amazon FSx for Windows File Server, Amazon FSx for Lustre, FSx for ONTAP , Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora,  and Amazon Neptune.
+    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: Amazon FSx for Windows File Server, Amazon FSx for Lustre, Amazon FSx for NetApp ONTAP , Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora,  and Amazon Neptune.
     @Sendable
     public func stopBackupJob(_ input: StopBackupJobInput, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1203,7 +1203,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// Updates the current service opt-in settings for the Region. If service-opt-in is enabled for a service, Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup does not try to protect that service's resources in this Region. Use the DescribeRegionSettings API to determine the resource types that are supported.
+    /// Updates the current service opt-in settings for the Region. Use the DescribeRegionSettings API to determine the resource types that are supported.
     @Sendable
     public func updateRegionSettings(_ input: UpdateRegionSettingsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1912,6 +1912,7 @@ extension Backup.ListRecoveryPointsByLegalHoldInput: AWSPaginateToken {
 extension Backup.ListRecoveryPointsByResourceInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListRecoveryPointsByResourceInput {
         return .init(
+            managedByAWSBackupOnly: self.managedByAWSBackupOnly,
             maxResults: self.maxResults,
             nextToken: token,
             resourceArn: self.resourceArn
@@ -1975,6 +1976,7 @@ extension Backup.ListRestoreJobsInput: AWSPaginateToken {
             byCompleteBefore: self.byCompleteBefore,
             byCreatedAfter: self.byCreatedAfter,
             byCreatedBefore: self.byCreatedBefore,
+            byResourceType: self.byResourceType,
             byRestoreTestingPlanArn: self.byRestoreTestingPlanArn,
             byStatus: self.byStatus,
             maxResults: self.maxResults,

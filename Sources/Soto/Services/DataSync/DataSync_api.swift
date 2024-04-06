@@ -76,10 +76,12 @@ public struct DataSync: AWSService {
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
             "ca-central-1": "datasync-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "datasync-fips.ca-west-1.amazonaws.com",
             "us-east-1": "datasync-fips.us-east-1.amazonaws.com",
             "us-east-2": "datasync-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "datasync-fips.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "datasync-fips.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "datasync-fips.us-iso-east-1.c2s.ic.gov",
             "us-iso-west-1": "datasync-fips.us-iso-west-1.c2s.ic.gov",
             "us-west-1": "datasync-fips.us-west-1.amazonaws.com",
             "us-west-2": "datasync-fips.us-west-2.amazonaws.com"
@@ -128,7 +130,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Creates an endpoint for a Microsoft Azure Blob Storage container that DataSync can use as a transfer source or destination. Before you begin, make sure you know how DataSync accesses Azure Blob Storage and works with access tiers and blob types. You also need a DataSync agent that can connect to your container.
+    /// Creates a transfer location for a Microsoft Azure Blob Storage container. DataSync can use this location as a transfer source or destination. Before you begin, make sure you know how DataSync accesses Azure Blob Storage and works with access tiers and blob types. You also need a DataSync agent that can connect to your container.
     @Sendable
     public func createLocationAzureBlob(_ input: CreateLocationAzureBlobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationAzureBlobResponse {
         return try await self.client.execute(
@@ -141,7 +143,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Creates an endpoint for an Amazon EFS file system that DataSync can access for a transfer. For more information, see Creating a location for Amazon EFS.
+    /// Creates a transfer location for an Amazon EFS file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses Amazon EFS file systems.
     @Sendable
     public func createLocationEfs(_ input: CreateLocationEfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationEfsResponse {
         return try await self.client.execute(
@@ -154,7 +156,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Creates an endpoint for an Amazon FSx for Lustre file system.
+    /// Creates a transfer location for an Amazon FSx for Lustre file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses FSx for Lustre file systems.
     @Sendable
     public func createLocationFsxLustre(_ input: CreateLocationFsxLustreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationFsxLustreResponse {
         return try await self.client.execute(
@@ -167,7 +169,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Creates an endpoint for an Amazon FSx for NetApp ONTAP file system that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync accesses an FSx for ONTAP file system.
+    /// Creates a transfer location for an Amazon FSx for NetApp ONTAP file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses FSx for ONTAP file systems.
     @Sendable
     public func createLocationFsxOntap(_ input: CreateLocationFsxOntapRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationFsxOntapResponse {
         return try await self.client.execute(
@@ -180,7 +182,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Creates an endpoint for an Amazon FSx for OpenZFS file system that DataSync can access for a transfer. For more information, see Creating a location for FSx for OpenZFS.  Request parameters related to SMB aren't supported with the CreateLocationFsxOpenZfs operation.
+    /// Creates a transfer location for an Amazon FSx for OpenZFS file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses FSx for OpenZFS file systems.  Request parameters related to SMB aren't supported with the CreateLocationFsxOpenZfs operation.
     @Sendable
     public func createLocationFsxOpenZfs(_ input: CreateLocationFsxOpenZfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationFsxOpenZfsResponse {
         return try await self.client.execute(
@@ -193,7 +195,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Creates an endpoint for an Amazon FSx for Windows File Server file system that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync accesses an FSx for Windows File Server.
+    /// Creates a transfer location for an Amazon FSx for Windows File Server file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses FSx for Windows File Server file systems.
     @Sendable
     public func createLocationFsxWindows(_ input: CreateLocationFsxWindowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationFsxWindowsResponse {
         return try await self.client.execute(
@@ -206,7 +208,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Creates an endpoint for a Hadoop Distributed File System (HDFS).
+    /// Creates a transfer location for a Hadoop Distributed File System (HDFS). DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses HDFS clusters.
     @Sendable
     public func createLocationHdfs(_ input: CreateLocationHdfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationHdfsResponse {
         return try await self.client.execute(
@@ -219,7 +221,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Creates an endpoint for a Network File System (NFS) file server that DataSync can use for a data transfer. For more information, see Configuring transfers to or from an NFS file server.  If you're copying data to or from an Snowcone device, you can also use CreateLocationNfs to create your transfer location. For more information, see Configuring transfers with Snowcone.
+    /// Creates a transfer location for a Network File System (NFS) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses NFS file servers.  If you're copying data to or from an Snowcone device, you can also use CreateLocationNfs to create your transfer location. For more information, see Configuring transfers with Snowcone.
     @Sendable
     public func createLocationNfs(_ input: CreateLocationNfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationNfsResponse {
         return try await self.client.execute(
@@ -232,7 +234,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Creates an endpoint for an object storage system that DataSync can access for a transfer. For more information, see Creating a location for object storage.
+    /// Creates a transfer location for an object storage system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand the prerequisites for DataSync to work with object storage systems.
     @Sendable
     public func createLocationObjectStorage(_ input: CreateLocationObjectStorageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationObjectStorageResponse {
         return try await self.client.execute(
@@ -245,7 +247,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// A location is an endpoint for an Amazon S3 bucket. DataSync can use the location as a source or destination for copying data.  Before you create your location, make sure that you read the following sections:    Storage class considerations with Amazon S3 locations     Evaluating S3 request costs when using DataSync     For more information, see Creating an Amazon S3 location.
+    /// Creates a transfer location for an Amazon S3 bucket. DataSync can use this location as a source or destination for transferring data.  Before you begin, make sure that you read the following topics:    Storage class considerations with Amazon S3 locations     Evaluating S3 request costs when using DataSync     For more information, see Configuring transfers with Amazon S3.
     @Sendable
     public func createLocationS3(_ input: CreateLocationS3Request, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationS3Response {
         return try await self.client.execute(
@@ -258,7 +260,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Creates an endpoint for a Server Message Block (SMB) file server that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync accesses an SMB file server.
+    /// Creates a transfer location for a Server Message Block (SMB) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses SMB file servers.
     @Sendable
     public func createLocationSmb(_ input: CreateLocationSmbRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationSmbResponse {
         return try await self.client.execute(
@@ -297,7 +299,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Deletes the configuration of a location used by DataSync.
+    /// Deletes a transfer location resource from DataSync.
     @Sendable
     public func deleteLocation(_ input: DeleteLocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLocationResponse {
         return try await self.client.execute(
@@ -310,7 +312,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Deletes an DataSync transfer task.
+    /// Deletes a transfer task resource from DataSync.
     @Sendable
     public func deleteTask(_ input: DeleteTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTaskResponse {
         return try await self.client.execute(
@@ -363,7 +365,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Returns metadata about your DataSync location for an Amazon EFS file system.
+    /// Provides details about how an DataSync transfer location for an Amazon EFS file system is configured.
     @Sendable
     public func describeLocationEfs(_ input: DescribeLocationEfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationEfsResponse {
         return try await self.client.execute(
@@ -376,7 +378,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Provides details about how an DataSync location for an Amazon FSx for Lustre file system is configured.
+    /// Provides details about how an DataSync transfer location for an Amazon FSx for Lustre file system is configured.
     @Sendable
     public func describeLocationFsxLustre(_ input: DescribeLocationFsxLustreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationFsxLustreResponse {
         return try await self.client.execute(
@@ -389,7 +391,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Provides details about how an DataSync location for an Amazon FSx for NetApp ONTAP file system is configured.  If your location uses SMB, the DescribeLocationFsxOntap operation doesn't actually return a Password.
+    /// Provides details about how an DataSync transfer location for an Amazon FSx for NetApp ONTAP file system is configured.  If your location uses SMB, the DescribeLocationFsxOntap operation doesn't actually return a Password.
     @Sendable
     public func describeLocationFsxOntap(_ input: DescribeLocationFsxOntapRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationFsxOntapResponse {
         return try await self.client.execute(
@@ -402,7 +404,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Provides details about how an DataSync location for an Amazon FSx for OpenZFS file system is configured.  Response elements related to SMB aren't supported with the DescribeLocationFsxOpenZfs operation.
+    /// Provides details about how an DataSync transfer location for an Amazon FSx for OpenZFS file system is configured.  Response elements related to SMB aren't supported with the DescribeLocationFsxOpenZfs operation.
     @Sendable
     public func describeLocationFsxOpenZfs(_ input: DescribeLocationFsxOpenZfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationFsxOpenZfsResponse {
         return try await self.client.execute(
@@ -415,7 +417,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Returns metadata about an Amazon FSx for Windows File Server location, such as information about its path.
+    /// Provides details about how an DataSync transfer location for an Amazon FSx for Windows File Server file system is configured.
     @Sendable
     public func describeLocationFsxWindows(_ input: DescribeLocationFsxWindowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationFsxWindowsResponse {
         return try await self.client.execute(
@@ -428,7 +430,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Returns metadata, such as the authentication information about the Hadoop Distributed File System (HDFS) location.
+    /// Provides details about how an DataSync transfer location for a Hadoop Distributed File System (HDFS) is configured.
     @Sendable
     public func describeLocationHdfs(_ input: DescribeLocationHdfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationHdfsResponse {
         return try await self.client.execute(
@@ -454,7 +456,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Returns metadata about your DataSync location for an object storage system.
+    /// Provides details about how an DataSync transfer location for an object storage system is configured.
     @Sendable
     public func describeLocationObjectStorage(_ input: DescribeLocationObjectStorageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationObjectStorageResponse {
         return try await self.client.execute(
@@ -467,7 +469,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Returns metadata, such as bucket name, about an Amazon S3 bucket location.
+    /// Provides details about how an DataSync transfer location for an S3 bucket is configured.
     @Sendable
     public func describeLocationS3(_ input: DescribeLocationS3Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationS3Response {
         return try await self.client.execute(
@@ -480,7 +482,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Returns metadata, such as the path and user information about an SMB location.
+    /// Provides details about how an DataSync transfer location for a Server Message Block (SMB) file server is configured.
     @Sendable
     public func describeLocationSmb(_ input: DescribeLocationSmbRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationSmbResponse {
         return try await self.client.execute(
@@ -642,7 +644,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Returns a list of executed tasks.
+    /// Returns a list of executions for an DataSync transfer task.
     @Sendable
     public func listTaskExecutions(_ input: ListTaskExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTaskExecutionsResponse {
         return try await self.client.execute(
@@ -855,7 +857,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Updates the configuration of a DataSync transfer task.
+    /// Updates the configuration of an DataSync transfer task.
     @Sendable
     public func updateTask(_ input: UpdateTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTaskResponse {
         return try await self.client.execute(
@@ -1028,7 +1030,7 @@ extension DataSync {
         )
     }
 
-    /// Returns a list of executed tasks.
+    /// Returns a list of executions for an DataSync transfer task.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

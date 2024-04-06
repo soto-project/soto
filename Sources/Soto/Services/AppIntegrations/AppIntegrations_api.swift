@@ -112,6 +112,19 @@ public struct AppIntegrations: AWSService {
         )
     }
 
+    /// Deletes the Application. Only Applications that don't have any Application Associations can be deleted.
+    @Sendable
+    public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationResponse {
+        return try await self.client.execute(
+            operation: "DeleteApplication", 
+            path: "/applications/{Arn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes the DataIntegration. Only DataIntegrations that don't have any DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the underlying Amazon AppFlow flow and service linked role.   You cannot create a DataIntegration association for a DataIntegration that has been previously associated.
     /// Use a different DataIntegration, or recreate the DataIntegration using the
     /// CreateDataIntegration API.
@@ -174,6 +187,19 @@ public struct AppIntegrations: AWSService {
         return try await self.client.execute(
             operation: "GetEventIntegration", 
             path: "/eventIntegrations/{Name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of application associations for an application.
+    @Sendable
+    public func listApplicationAssociations(_ input: ListApplicationAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationAssociationsResponse {
+        return try await self.client.execute(
+            operation: "ListApplicationAssociations", 
+            path: "/applications/{ApplicationId}/associations", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -344,6 +370,25 @@ extension AppIntegrations {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension AppIntegrations {
+    /// Returns a paginated list of application associations for an application.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listApplicationAssociationsPaginator(
+        _ input: ListApplicationAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApplicationAssociationsRequest, ListApplicationAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listApplicationAssociations,
+            inputKey: \ListApplicationAssociationsRequest.nextToken,
+            outputKey: \ListApplicationAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// This API is in preview release and subject to change. Lists applications in the account.
     /// Return PaginatorSequence for operation.
     ///
@@ -440,6 +485,16 @@ extension AppIntegrations {
             inputKey: \ListEventIntegrationsRequest.nextToken,
             outputKey: \ListEventIntegrationsResponse.nextToken,
             logger: logger
+        )
+    }
+}
+
+extension AppIntegrations.ListApplicationAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppIntegrations.ListApplicationAssociationsRequest {
+        return .init(
+            applicationId: self.applicationId,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

@@ -19,8 +19,7 @@
 
 /// Service object for interacting with AWS BedrockAgent service.
 ///
-/// An example service, deployed with the Octane Service creator,
-/// which will echo the string
+/// Describes the API operations for creating and managing Amazon Bedrock agents.
 public struct BedrockAgent: AWSService {
     // MARK: Member variables
 
@@ -75,7 +74,7 @@ public struct BedrockAgent: AWSService {
 
     // MARK: API Calls
 
-    /// Associate a Knowledge Base to an existing Amazon Bedrock Agent
+    /// Associates a knowledge base with an agent. If a knowledge base is associated and its indexState is set to Enabled, the agent queries the knowledge base for information to augment its response to the user.
     @Sendable
     public func associateAgentKnowledgeBase(_ input: AssociateAgentKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateAgentKnowledgeBaseResponse {
         return try await self.client.execute(
@@ -88,7 +87,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Creates an Amazon Bedrock Agent
+    /// Creates an agent that orchestrates interactions between foundation models, data sources, software applications, user conversations, and APIs to carry out tasks to help customers.   Specify the following fields for security purposes.    agentResourceRoleArn – The ARN of the role with permissions to create an agent.   (Optional) customerEncryptionKeyArn – The ARN of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object. For more information, see Advanced prompts.   If you agent fails to be created, the response returns a list of failureReasons alongside a list of recommendedActions for you to troubleshoot.
     @Sendable
     public func createAgent(_ input: CreateAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentResponse {
         return try await self.client.execute(
@@ -101,7 +100,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Creates an Action Group for existing Amazon Bedrock Agent
+    /// Creates an action group for an agent. An action group represents the actions that an agent can carry out for the customer by defining the APIs that an agent can call and the logic for calling them. To allow your agent to request the user for additional information when trying to complete a task, add an action group with the parentActionGroupSignature field set to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
     @Sendable
     public func createAgentActionGroup(_ input: CreateAgentActionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentActionGroupResponse {
         return try await self.client.execute(
@@ -114,7 +113,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Creates an Alias for an existing Amazon Bedrock Agent
+    /// Creates an alias of an agent that can be used to deploy the agent.
     @Sendable
     public func createAgentAlias(_ input: CreateAgentAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentAliasResponse {
         return try await self.client.execute(
@@ -127,7 +126,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Create a new data source
+    /// Sets up a data source to be added to a knowledge base.  You can't change the chunkingConfiguration after you create the data source.
     @Sendable
     public func createDataSource(_ input: CreateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataSourceResponse {
         return try await self.client.execute(
@@ -140,7 +139,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Create a new knowledge base
+    /// Creates a knowledge base that contains data sources from which information can be queried and used by LLMs. To create a knowledge base, you must first set up your data sources and configure a supported vector store. For more information, see Set up your data for ingestion.  If you prefer to let Amazon Bedrock create and manage a vector store for you in Amazon OpenSearch Service, use the console. For more information, see Create a knowledge base.    Provide the name and an optional description.   Provide the ARN with permissions to create a knowledge base in the roleArn field.   Provide the embedding model to use in the embeddingModelArn field in the knowledgeBaseConfiguration object.   Provide the configuration for your vector store in the storageConfiguration object.   For an Amazon OpenSearch Service database, use the opensearchServerlessConfiguration object. For more information, see Create a vector store in Amazon OpenSearch Service.   For an Amazon Aurora database, use the RdsConfiguration object. For more information, see Create a vector store in Amazon Aurora.   For a Pinecone database, use the pineconeConfiguration object. For more information, see Create a vector store in Pinecone.   For a Redis Enterprise Cloud database, use the redisEnterpriseCloudConfiguration object. For more information, see Create a vector store in Redis Enterprise Cloud.
     @Sendable
     public func createKnowledgeBase(_ input: CreateKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKnowledgeBaseResponse {
         return try await self.client.execute(
@@ -153,7 +152,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Deletes an Agent for existing Amazon Bedrock Agent
+    /// Deletes an agent.
     @Sendable
     public func deleteAgent(_ input: DeleteAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAgentResponse {
         return try await self.client.execute(
@@ -166,7 +165,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Deletes an Action Group for existing Amazon Bedrock Agent.
+    /// Deletes an action group in an agent.
     @Sendable
     public func deleteAgentActionGroup(_ input: DeleteAgentActionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAgentActionGroupResponse {
         return try await self.client.execute(
@@ -179,7 +178,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Deletes an Alias for a Amazon Bedrock Agent
+    /// Deletes an alias of an agent.
     @Sendable
     public func deleteAgentAlias(_ input: DeleteAgentAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAgentAliasResponse {
         return try await self.client.execute(
@@ -192,7 +191,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Deletes an Agent version for existing Amazon Bedrock Agent
+    /// Deletes a version of an agent.
     @Sendable
     public func deleteAgentVersion(_ input: DeleteAgentVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAgentVersionResponse {
         return try await self.client.execute(
@@ -205,7 +204,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Delete an existing data source
+    /// Deletes a data source from a knowledge base.
     @Sendable
     public func deleteDataSource(_ input: DeleteDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataSourceResponse {
         return try await self.client.execute(
@@ -218,7 +217,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Delete an existing knowledge base
+    /// Deletes a knowledge base. Before deleting a knowledge base, you should disassociate the knowledge base from any agents that it is associated with by making a DisassociateAgentKnowledgeBase request.
     @Sendable
     public func deleteKnowledgeBase(_ input: DeleteKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKnowledgeBaseResponse {
         return try await self.client.execute(
@@ -231,7 +230,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Disassociate an existing Knowledge Base from an Amazon Bedrock Agent
+    /// Disassociates a knowledge base from an agent.
     @Sendable
     public func disassociateAgentKnowledgeBase(_ input: DisassociateAgentKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateAgentKnowledgeBaseResponse {
         return try await self.client.execute(
@@ -244,7 +243,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Gets an Agent for existing Amazon Bedrock Agent
+    /// Gets information about an agent.
     @Sendable
     public func getAgent(_ input: GetAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentResponse {
         return try await self.client.execute(
@@ -257,7 +256,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Gets an Action Group for existing Amazon Bedrock Agent Version
+    /// Gets information about an action group for an agent.
     @Sendable
     public func getAgentActionGroup(_ input: GetAgentActionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentActionGroupResponse {
         return try await self.client.execute(
@@ -270,7 +269,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Describes an Alias for a Amazon Bedrock Agent
+    /// Gets information about an alias of an agent.
     @Sendable
     public func getAgentAlias(_ input: GetAgentAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentAliasResponse {
         return try await self.client.execute(
@@ -283,7 +282,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Gets a knowledge base associated to an existing Amazon Bedrock Agent Version
+    /// Gets information about a knowledge base associated with an agent.
     @Sendable
     public func getAgentKnowledgeBase(_ input: GetAgentKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentKnowledgeBaseResponse {
         return try await self.client.execute(
@@ -296,7 +295,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Gets an Agent version for existing Amazon Bedrock Agent
+    /// Gets details about a version of an agent.
     @Sendable
     public func getAgentVersion(_ input: GetAgentVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentVersionResponse {
         return try await self.client.execute(
@@ -309,7 +308,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Get an existing data source
+    /// Gets information about a data source.
     @Sendable
     public func getDataSource(_ input: GetDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataSourceResponse {
         return try await self.client.execute(
@@ -322,7 +321,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Get an ingestion job
+    /// Gets information about a ingestion job, in which a data source is added to a knowledge base.
     @Sendable
     public func getIngestionJob(_ input: GetIngestionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIngestionJobResponse {
         return try await self.client.execute(
@@ -335,7 +334,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Get an existing knowledge base
+    /// Gets information about a knoweldge base.
     @Sendable
     public func getKnowledgeBase(_ input: GetKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKnowledgeBaseResponse {
         return try await self.client.execute(
@@ -348,7 +347,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Lists an Action Group for existing Amazon Bedrock Agent Version
+    /// Lists the action groups for an agent and information about each one.
     @Sendable
     public func listAgentActionGroups(_ input: ListAgentActionGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentActionGroupsResponse {
         return try await self.client.execute(
@@ -361,7 +360,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Lists all the Aliases for an Amazon Bedrock Agent
+    /// Lists the aliases of an agent and information about each one.
     @Sendable
     public func listAgentAliases(_ input: ListAgentAliasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentAliasesResponse {
         return try await self.client.execute(
@@ -374,7 +373,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// List of Knowledge Bases associated to an existing Amazon Bedrock Agent Version
+    /// Lists knowledge bases associated with an agent and information about each one.
     @Sendable
     public func listAgentKnowledgeBases(_ input: ListAgentKnowledgeBasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentKnowledgeBasesResponse {
         return try await self.client.execute(
@@ -387,7 +386,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Lists Agent Versions
+    /// Lists the versions of an agent and information about each version.
     @Sendable
     public func listAgentVersions(_ input: ListAgentVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentVersionsResponse {
         return try await self.client.execute(
@@ -400,7 +399,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Lists Agents
+    /// Lists the agents belonging to an account and information about each agent.
     @Sendable
     public func listAgents(_ input: ListAgentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentsResponse {
         return try await self.client.execute(
@@ -413,7 +412,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// List data sources
+    /// Lists the data sources in a knowledge base and information about each one.
     @Sendable
     public func listDataSources(_ input: ListDataSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSourcesResponse {
         return try await self.client.execute(
@@ -426,7 +425,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// List ingestion jobs
+    /// Lists the ingestion jobs for a data source and information about each of them.
     @Sendable
     public func listIngestionJobs(_ input: ListIngestionJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIngestionJobsResponse {
         return try await self.client.execute(
@@ -439,7 +438,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// List Knowledge Bases
+    /// Lists the knowledge bases in an account and information about each of them.
     @Sendable
     public func listKnowledgeBases(_ input: ListKnowledgeBasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKnowledgeBasesResponse {
         return try await self.client.execute(
@@ -452,7 +451,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// List tags for a resource
+    /// List all the tags for the resource you specify.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(
@@ -465,7 +464,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Prepares an existing Amazon Bedrock Agent to receive runtime requests
+    /// Creates a DRAFT version of the agent that can be used for internal testing.
     @Sendable
     public func prepareAgent(_ input: PrepareAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PrepareAgentResponse {
         return try await self.client.execute(
@@ -478,7 +477,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Start a new ingestion job
+    /// Begins an ingestion job, in which a data source is added to a knowledge base.
     @Sendable
     public func startIngestionJob(_ input: StartIngestionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartIngestionJobResponse {
         return try await self.client.execute(
@@ -491,7 +490,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Tag a resource
+    /// Associate tags with a resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
         return try await self.client.execute(
@@ -504,7 +503,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Untag a resource
+    /// Remove tags from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         return try await self.client.execute(
@@ -517,7 +516,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Updates an existing Amazon Bedrock Agent
+    /// Updates the configuration of an agent.
     @Sendable
     public func updateAgent(_ input: UpdateAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgentResponse {
         return try await self.client.execute(
@@ -530,7 +529,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Updates an existing Action Group for Amazon Bedrock Agent
+    /// Updates the configuration for an action group for an agent.
     @Sendable
     public func updateAgentActionGroup(_ input: UpdateAgentActionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgentActionGroupResponse {
         return try await self.client.execute(
@@ -543,7 +542,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Updates an existing Alias for an Amazon Bedrock Agent
+    /// Updates configurations for an alias of an agent.
     @Sendable
     public func updateAgentAlias(_ input: UpdateAgentAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgentAliasResponse {
         return try await self.client.execute(
@@ -556,7 +555,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Updates an existing Knowledge Base associated to an Amazon Bedrock Agent
+    /// Updates the configuration for a knowledge base that has been associated with an agent.
     @Sendable
     public func updateAgentKnowledgeBase(_ input: UpdateAgentKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgentKnowledgeBaseResponse {
         return try await self.client.execute(
@@ -569,7 +568,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Update an existing data source
+    /// Updates configurations for a data source.  You can't change the chunkingConfiguration after you create the data source. Specify the existing chunkingConfiguration.
     @Sendable
     public func updateDataSource(_ input: UpdateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSourceResponse {
         return try await self.client.execute(
@@ -582,7 +581,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Update an existing knowledge base
+    /// Updates the configuration of a knowledge base with the fields that you specify. Because all fields will be overwritten, you must include the same values for fields that you want to keep the same. You can change the following fields:    name     description     roleArn    You can't change the knowledgeBaseConfiguration or storageConfiguration fields, so you must specify the same configurations as when you created the knowledge base. You can send a GetKnowledgeBase request and copy the same configurations.
     @Sendable
     public func updateKnowledgeBase(_ input: UpdateKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKnowledgeBaseResponse {
         return try await self.client.execute(
@@ -609,7 +608,7 @@ extension BedrockAgent {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension BedrockAgent {
-    /// Lists an Action Group for existing Amazon Bedrock Agent Version
+    /// Lists the action groups for an agent and information about each one.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -628,7 +627,7 @@ extension BedrockAgent {
         )
     }
 
-    /// Lists all the Aliases for an Amazon Bedrock Agent
+    /// Lists the aliases of an agent and information about each one.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -647,7 +646,7 @@ extension BedrockAgent {
         )
     }
 
-    /// List of Knowledge Bases associated to an existing Amazon Bedrock Agent Version
+    /// Lists knowledge bases associated with an agent and information about each one.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -666,7 +665,7 @@ extension BedrockAgent {
         )
     }
 
-    /// Lists Agent Versions
+    /// Lists the versions of an agent and information about each version.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -685,7 +684,7 @@ extension BedrockAgent {
         )
     }
 
-    /// Lists Agents
+    /// Lists the agents belonging to an account and information about each agent.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -704,7 +703,7 @@ extension BedrockAgent {
         )
     }
 
-    /// List data sources
+    /// Lists the data sources in a knowledge base and information about each one.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -723,7 +722,7 @@ extension BedrockAgent {
         )
     }
 
-    /// List ingestion jobs
+    /// Lists the ingestion jobs for a data source and information about each of them.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -742,7 +741,7 @@ extension BedrockAgent {
         )
     }
 
-    /// List Knowledge Bases
+    /// Lists the knowledge bases in an account and information about each of them.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

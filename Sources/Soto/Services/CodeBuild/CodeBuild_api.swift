@@ -125,6 +125,19 @@ public struct CodeBuild: AWSService {
         )
     }
 
+    /// Gets information about one or more compute fleets.
+    @Sendable
+    public func batchGetFleets(_ input: BatchGetFleetsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetFleetsOutput {
+        return try await self.client.execute(
+            operation: "BatchGetFleets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets information about one or more build projects.
     @Sendable
     public func batchGetProjects(_ input: BatchGetProjectsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetProjectsOutput {
@@ -156,6 +169,19 @@ public struct CodeBuild: AWSService {
     public func batchGetReports(_ input: BatchGetReportsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetReportsOutput {
         return try await self.client.execute(
             operation: "BatchGetReports", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a compute fleet.
+    @Sendable
+    public func createFleet(_ input: CreateFleetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFleetOutput {
+        return try await self.client.execute(
+            operation: "CreateFleet", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -208,6 +234,19 @@ public struct CodeBuild: AWSService {
     public func deleteBuildBatch(_ input: DeleteBuildBatchInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBuildBatchOutput {
         return try await self.client.execute(
             operation: "DeleteBuildBatch", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a compute fleet. When you delete a compute fleet, its builds are not deleted.
+    @Sendable
+    public func deleteFleet(_ input: DeleteFleetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFleetOutput {
+        return try await self.client.execute(
+            operation: "DeleteFleet", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -437,6 +476,19 @@ public struct CodeBuild: AWSService {
         )
     }
 
+    /// Gets a list of compute fleet names with each compute fleet name representing a single compute fleet.
+    @Sendable
+    public func listFleets(_ input: ListFleetsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFleetsOutput {
+        return try await self.client.execute(
+            operation: "ListFleets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets a list of build project names, with each build project name representing a single build project.
     @Sendable
     public func listProjects(_ input: ListProjectsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProjectsOutput {
@@ -567,7 +619,7 @@ public struct CodeBuild: AWSService {
         )
     }
 
-    /// Starts running a build.
+    /// Starts running a build with the settings defined in the project. These setting include: how to run a build,  where to get the source code, which build environment to use, which build commands to run, and where to store the build output. You can also start a build run by overriding some of the build settings in the project. The overrides only apply for that  specific start build request. The settings in the project are unaltered.
     @Sendable
     public func startBuild(_ input: StartBuildInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartBuildOutput {
         return try await self.client.execute(
@@ -611,6 +663,19 @@ public struct CodeBuild: AWSService {
     public func stopBuildBatch(_ input: StopBuildBatchInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopBuildBatchOutput {
         return try await self.client.execute(
             operation: "StopBuildBatch", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates a compute fleet.
+    @Sendable
+    public func updateFleet(_ input: UpdateFleetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFleetOutput {
+        return try await self.client.execute(
+            operation: "UpdateFleet", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -799,6 +864,25 @@ extension CodeBuild {
         )
     }
 
+    /// Gets a list of compute fleet names with each compute fleet name representing a single compute fleet.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listFleetsPaginator(
+        _ input: ListFleetsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFleetsInput, ListFleetsOutput> {
+        return .init(
+            input: input,
+            command: self.listFleets,
+            inputKey: \ListFleetsInput.nextToken,
+            outputKey: \ListFleetsOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Gets a list of build project names, with each build project name representing a single build project.
     /// Return PaginatorSequence for operation.
     ///
@@ -976,6 +1060,17 @@ extension CodeBuild.ListBuildsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeBuild.ListBuildsInput {
         return .init(
             nextToken: token,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension CodeBuild.ListFleetsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeBuild.ListFleetsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
             sortOrder: self.sortOrder
         )
     }

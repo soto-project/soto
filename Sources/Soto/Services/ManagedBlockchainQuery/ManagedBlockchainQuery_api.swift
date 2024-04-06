@@ -73,7 +73,7 @@ public struct ManagedBlockchainQuery: AWSService {
 
     // MARK: API Calls
 
-    /// Gets the token balance for a batch of tokens by using the BatchGetTokenBalance  action for every token in the request.  Only the native tokens BTC,ETH, and the ERC-20,  ERC-721, and ERC 1155 token standards are supported.
+    /// Gets the token balance for a batch of tokens by using the BatchGetTokenBalance  action for every token in the request.  Only the native tokens BTC and ETH, and the ERC-20,  ERC-721, and ERC 1155 token standards are supported.
     @Sendable
     public func batchGetTokenBalance(_ input: BatchGetTokenBalanceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetTokenBalanceOutput {
         return try await self.client.execute(
@@ -99,7 +99,7 @@ public struct ManagedBlockchainQuery: AWSService {
         )
     }
 
-    /// Gets the balance of a specific token, including native tokens, for a given address (wallet or contract) on the blockchain.  Only the native tokens BTC,ETH, and the ERC-20,  ERC-721, and ERC 1155 token standards are supported.
+    /// Gets the balance of a specific token, including native tokens, for a given address (wallet or contract) on the blockchain.  Only the native tokens BTC and ETH, and the ERC-20,  ERC-721, and ERC 1155 token standards are supported.
     @Sendable
     public func getTokenBalance(_ input: GetTokenBalanceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTokenBalanceOutput {
         return try await self.client.execute(
@@ -112,7 +112,7 @@ public struct ManagedBlockchainQuery: AWSService {
         )
     }
 
-    /// Get the details of a transaction.
+    /// Gets the details of a transaction.  This action will return transaction details for all transactions  that are confirmed on the blockchain, even if they have not reached  finality.
     @Sendable
     public func getTransaction(_ input: GetTransactionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTransactionOutput {
         return try await self.client.execute(
@@ -138,6 +138,19 @@ public struct ManagedBlockchainQuery: AWSService {
         )
     }
 
+    /// Lists all the transaction events for an address on the blockchain.  This operation is only supported on the Bitcoin networks.
+    @Sendable
+    public func listFilteredTransactionEvents(_ input: ListFilteredTransactionEventsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFilteredTransactionEventsOutput {
+        return try await self.client.execute(
+            operation: "ListFilteredTransactionEvents", 
+            path: "/list-filtered-transaction-events", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// This action returns the following for a given blockchain network:   Lists all token balances owned by an address (either a contract  address or a wallet address).   Lists all token balances for all tokens created by a contract.   Lists all token balances for a given token.    You must always specify the network property of  the tokenFilter when using this operation.
     @Sendable
     public func listTokenBalances(_ input: ListTokenBalancesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTokenBalancesOutput {
@@ -151,7 +164,7 @@ public struct ManagedBlockchainQuery: AWSService {
         )
     }
 
-    /// An array of TransactionEvent objects. Each object contains details  about the transaction event.
+    /// Lists all the transaction events for a transaction   This action will return transaction details for all transactions  that are confirmed on the blockchain, even if they have not reached  finality.
     @Sendable
     public func listTransactionEvents(_ input: ListTransactionEventsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTransactionEventsOutput {
         return try await self.client.execute(
@@ -164,7 +177,7 @@ public struct ManagedBlockchainQuery: AWSService {
         )
     }
 
-    /// Lists all of the transactions on a given wallet address or to a specific contract.
+    /// Lists all the transaction events for a transaction.
     @Sendable
     public func listTransactions(_ input: ListTransactionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTransactionsOutput {
         return try await self.client.execute(
@@ -210,6 +223,25 @@ extension ManagedBlockchainQuery {
         )
     }
 
+    /// Lists all the transaction events for an address on the blockchain.  This operation is only supported on the Bitcoin networks.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listFilteredTransactionEventsPaginator(
+        _ input: ListFilteredTransactionEventsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFilteredTransactionEventsInput, ListFilteredTransactionEventsOutput> {
+        return .init(
+            input: input,
+            command: self.listFilteredTransactionEvents,
+            inputKey: \ListFilteredTransactionEventsInput.nextToken,
+            outputKey: \ListFilteredTransactionEventsOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// This action returns the following for a given blockchain network:   Lists all token balances owned by an address (either a contract  address or a wallet address).   Lists all token balances for all tokens created by a contract.   Lists all token balances for a given token.    You must always specify the network property of  the tokenFilter when using this operation.
     /// Return PaginatorSequence for operation.
     ///
@@ -229,7 +261,7 @@ extension ManagedBlockchainQuery {
         )
     }
 
-    /// An array of TransactionEvent objects. Each object contains details  about the transaction event.
+    /// Lists all the transaction events for a transaction   This action will return transaction details for all transactions  that are confirmed on the blockchain, even if they have not reached  finality.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -248,7 +280,7 @@ extension ManagedBlockchainQuery {
         )
     }
 
-    /// Lists all of the transactions on a given wallet address or to a specific contract.
+    /// Lists all the transaction events for a transaction.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -278,6 +310,21 @@ extension ManagedBlockchainQuery.ListAssetContractsInput: AWSPaginateToken {
     }
 }
 
+extension ManagedBlockchainQuery.ListFilteredTransactionEventsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ManagedBlockchainQuery.ListFilteredTransactionEventsInput {
+        return .init(
+            addressIdentifierFilter: self.addressIdentifierFilter,
+            confirmationStatusFilter: self.confirmationStatusFilter,
+            maxResults: self.maxResults,
+            network: self.network,
+            nextToken: token,
+            sort: self.sort,
+            timeFilter: self.timeFilter,
+            voutFilter: self.voutFilter
+        )
+    }
+}
+
 extension ManagedBlockchainQuery.ListTokenBalancesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ManagedBlockchainQuery.ListTokenBalancesInput {
         return .init(
@@ -295,7 +342,8 @@ extension ManagedBlockchainQuery.ListTransactionEventsInput: AWSPaginateToken {
             maxResults: self.maxResults,
             network: self.network,
             nextToken: token,
-            transactionHash: self.transactionHash
+            transactionHash: self.transactionHash,
+            transactionId: self.transactionId
         )
     }
 }
@@ -304,6 +352,7 @@ extension ManagedBlockchainQuery.ListTransactionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ManagedBlockchainQuery.ListTransactionsInput {
         return .init(
             address: self.address,
+            confirmationStatusFilter: self.confirmationStatusFilter,
             fromBlockchainInstant: self.fromBlockchainInstant,
             maxResults: self.maxResults,
             network: self.network,
