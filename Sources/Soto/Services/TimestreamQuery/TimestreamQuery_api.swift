@@ -196,7 +196,7 @@ public struct TimestreamQuery: AWSService {
         )
     }
 
-    /// A synchronous operation that allows you to submit a query with parameters to be stored by Timestream for later running. Timestream only supports using this operation with the PrepareQueryRequest$ValidateOnly set to true.
+    /// A synchronous operation that allows you to submit a query with parameters to be stored by Timestream for later running. Timestream only supports using this operation with ValidateOnly set to true.
     @Sendable
     public func prepareQuery(_ input: PrepareQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PrepareQueryResponse {
         return try await self.client.execute(

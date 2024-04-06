@@ -96,6 +96,7 @@ public struct InternetMonitor: AWSService {
         "ap-southeast-3": "internetmonitor.ap-southeast-3.api.aws",
         "ap-southeast-4": "internetmonitor.ap-southeast-4.api.aws",
         "ca-central-1": "internetmonitor.ca-central-1.api.aws",
+        "ca-west-1": "internetmonitor.ca-west-1.api.aws",
         "cn-north-1": "internetmonitor.cn-north-1.api.amazonwebservices.com.cn",
         "cn-northwest-1": "internetmonitor.cn-northwest-1.api.amazonwebservices.com.cn",
         "eu-central-1": "internetmonitor.eu-central-1.api.aws",
@@ -134,6 +135,7 @@ public struct InternetMonitor: AWSService {
             "ap-southeast-3": "internetmonitor-fips.ap-southeast-3.api.aws",
             "ap-southeast-4": "internetmonitor-fips.ap-southeast-4.api.aws",
             "ca-central-1": "internetmonitor-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "internetmonitor-fips.ca-west-1.api.aws",
             "cn-north-1": "internetmonitor-fips.cn-north-1.api.amazonwebservices.com.cn",
             "cn-northwest-1": "internetmonitor-fips.cn-northwest-1.api.amazonwebservices.com.cn",
             "eu-central-1": "internetmonitor-fips.eu-central-1.api.aws",
@@ -454,6 +456,7 @@ extension InternetMonitor.ListHealthEventsInput: AWSPaginateToken {
         return .init(
             endTime: self.endTime,
             eventStatus: self.eventStatus,
+            linkedAccountId: self.linkedAccountId,
             maxResults: self.maxResults,
             monitorName: self.monitorName,
             nextToken: token,
@@ -465,6 +468,7 @@ extension InternetMonitor.ListHealthEventsInput: AWSPaginateToken {
 extension InternetMonitor.ListMonitorsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> InternetMonitor.ListMonitorsInput {
         return .init(
+            includeLinkedAccounts: self.includeLinkedAccounts,
             maxResults: self.maxResults,
             monitorStatus: self.monitorStatus,
             nextToken: token

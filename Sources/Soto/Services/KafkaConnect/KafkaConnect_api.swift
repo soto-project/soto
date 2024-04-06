@@ -136,6 +136,19 @@ public struct KafkaConnect: AWSService {
         )
     }
 
+    /// Deletes the specified worker configuration.
+    @Sendable
+    public func deleteWorkerConfiguration(_ input: DeleteWorkerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkerConfigurationResponse {
+        return try await self.client.execute(
+            operation: "DeleteWorkerConfiguration", 
+            path: "/v1/worker-configurations/{workerConfigurationArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns summary information about the connector.
     @Sendable
     public func describeConnector(_ input: DescribeConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConnectorResponse {
@@ -201,6 +214,19 @@ public struct KafkaConnect: AWSService {
         )
     }
 
+    /// Lists all the tags attached to the specified resource.
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/v1/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a list of all of the worker configurations in this account and Region.
     @Sendable
     public func listWorkerConfigurations(_ input: ListWorkerConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkerConfigurationsResponse {
@@ -208,6 +234,32 @@ public struct KafkaConnect: AWSService {
             operation: "ListWorkerConfigurations", 
             path: "/v1/worker-configurations", 
             httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Attaches tags to the specified resource.
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/v1/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Removes tags from the specified resource.
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/v1/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -313,6 +365,7 @@ extension KafkaConnect.ListCustomPluginsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> KafkaConnect.ListCustomPluginsRequest {
         return .init(
             maxResults: self.maxResults,
+            namePrefix: self.namePrefix,
             nextToken: token
         )
     }
@@ -322,6 +375,7 @@ extension KafkaConnect.ListWorkerConfigurationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> KafkaConnect.ListWorkerConfigurationsRequest {
         return .init(
             maxResults: self.maxResults,
+            namePrefix: self.namePrefix,
             nextToken: token
         )
     }

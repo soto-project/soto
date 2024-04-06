@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS QBusiness service.
 ///
-///
+///  Amazon Q is in preview release and is subject to change.  This is the Amazon Q (for business use) API Reference. Amazon Q is a fully managed, generative-AI powered enterprise chat assistant that you can deploy within your organization. Amazon Q enhances employee productivity by supporting key tasks such as question-answering, knowledge discovery, writing email messages, summarizing text, drafting document outlines, and brainstorming ideas. Users ask questions of Amazon Q and get answers that are presented in a conversational manner. For an introduction to the service, see the  Amazon Q (for business use) Developer Guide . For an overview of the Amazon Q APIs, see Overview of Amazon Q API operations. For information about the IAM access control permissions you need to use this API, see IAM roles for Amazon Q in the Amazon Q (for business use) Developer Guide. You can use the following AWS SDKs to access Amazon Q APIs:    AWS SDK for C++     AWS SDK for Go     AWS SDK for Java     AWS SDK for JavaScript     AWS SDK for .NET     AWS SDK for Python (Boto3)     AWS SDK for Ruby    The following resources provide additional information about using the Amazon Q API:     Setting up for Amazon Q       Amazon Q CLI Reference       Amazon Web Services General Reference
 public struct QBusiness: AWSService {
     // MARK: Member variables
 
@@ -84,6 +84,7 @@ public struct QBusiness: AWSService {
         "ap-southeast-3": "qbusiness.ap-southeast-3.api.aws",
         "ap-southeast-4": "qbusiness.ap-southeast-4.api.aws",
         "ca-central-1": "qbusiness.ca-central-1.api.aws",
+        "ca-west-1": "qbusiness.ca-west-1.api.aws",
         "cn-north-1": "qbusiness.cn-north-1.api.amazonwebservices.com.cn",
         "cn-northwest-1": "qbusiness.cn-northwest-1.api.amazonwebservices.com.cn",
         "eu-central-1": "qbusiness.eu-central-1.api.aws",
@@ -122,6 +123,7 @@ public struct QBusiness: AWSService {
             "ap-southeast-3": "qbusiness-fips.ap-southeast-3.api.aws",
             "ap-southeast-4": "qbusiness-fips.ap-southeast-4.api.aws",
             "ca-central-1": "qbusiness-fips.ca-central-1.api.aws",
+            "ca-west-1": "qbusiness-fips.ca-west-1.api.aws",
             "cn-north-1": "qbusiness-fips.cn-north-1.api.amazonwebservices.com.cn",
             "cn-northwest-1": "qbusiness-fips.cn-northwest-1.api.amazonwebservices.com.cn",
             "eu-central-1": "qbusiness-fips.eu-central-1.api.aws",

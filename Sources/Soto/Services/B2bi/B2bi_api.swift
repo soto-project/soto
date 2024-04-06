@@ -74,7 +74,7 @@ public struct B2bi: AWSService {
 
     // MARK: API Calls
 
-    /// Instantiates a capability based on the specified parameters. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
+    /// Instantiates a capability based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     @Sendable
     public func createCapability(_ input: CreateCapabilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCapabilityResponse {
         return try await self.client.execute(
@@ -87,7 +87,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Creates a partnership between a customer and a trading partner, based on the supplied parameters. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
+    /// Creates a partnership between a customer and a trading partner, based on the supplied parameters. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     @Sendable
     public func createPartnership(_ input: CreatePartnershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePartnershipResponse {
         return try await self.client.execute(
@@ -100,7 +100,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. Profiles contain basic information about you and your business.
+    /// Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mechanism used to create the concept of a private network.
     @Sendable
     public func createProfile(_ input: CreateProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProfileResponse {
         return try await self.client.execute(
@@ -113,7 +113,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Creates a transformer. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
+    /// Creates a transformer. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
     @Sendable
     public func createTransformer(_ input: CreateTransformerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTransformerResponse {
         return try await self.client.execute(
@@ -126,7 +126,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Deletes the specified capability. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
+    /// Deletes the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     @Sendable
     public func deleteCapability(_ input: DeleteCapabilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -139,7 +139,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Deletes the specified partnership. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
+    /// Deletes the specified partnership. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     @Sendable
     public func deletePartnership(_ input: DeletePartnershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -152,7 +152,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Deletes the specified profile. Profiles contain basic information about you and your business.
+    /// Deletes the specified profile. A profile is the mechanism used to create the concept of a private network.
     @Sendable
     public func deleteProfile(_ input: DeleteProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -165,7 +165,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Deletes the specified transformer. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
+    /// Deletes the specified transformer. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
     @Sendable
     public func deleteTransformer(_ input: DeleteTransformerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -178,7 +178,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Retrieves the details for the specified capability. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
+    /// Retrieves the details for the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     @Sendable
     public func getCapability(_ input: GetCapabilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCapabilityResponse {
         return try await self.client.execute(
@@ -191,7 +191,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Retrieves the details for a partnership, based on the partner and profile IDs specified. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
+    /// Retrieves the details for a partnership, based on the partner and profile IDs specified. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     @Sendable
     public func getPartnership(_ input: GetPartnershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPartnershipResponse {
         return try await self.client.execute(
@@ -204,7 +204,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Retrieves the details for the profile specified by the profile ID. Profiles contain basic information about you and your business.
+    /// Retrieves the details for the profile specified by the profile ID. A profile is the mechanism used to create the concept of a private network.
     @Sendable
     public func getProfile(_ input: GetProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProfileResponse {
         return try await self.client.execute(
@@ -217,7 +217,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Retrieves the details for the transformer specified by the transformer ID. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
+    /// Retrieves the details for the transformer specified by the transformer ID. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
     @Sendable
     public func getTransformer(_ input: GetTransformerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTransformerResponse {
         return try await self.client.execute(
@@ -243,7 +243,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Lists the capabilities associated with your Amazon Web Services account for your current or specified region. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
+    /// Lists the capabilities associated with your Amazon Web Services account for your current or specified region. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     @Sendable
     public func listCapabilities(_ input: ListCapabilitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCapabilitiesResponse {
         return try await self.client.execute(
@@ -256,7 +256,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Lists the partnerships associated with your Amazon Web Services account for your current or specified region. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
+    /// Lists the partnerships associated with your Amazon Web Services account for your current or specified region. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     @Sendable
     public func listPartnerships(_ input: ListPartnershipsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPartnershipsResponse {
         return try await self.client.execute(
@@ -269,7 +269,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Lists the profiles associated with your Amazon Web Services account for your current or specified region. Profiles contain basic information about you and your business.
+    /// Lists the profiles associated with your Amazon Web Services account for your current or specified region. A profile is the mechanism used to create the concept of a private network.
     @Sendable
     public func listProfiles(_ input: ListProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProfilesResponse {
         return try await self.client.execute(
@@ -295,7 +295,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Lists the available transformers. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
+    /// Lists the available transformers. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
     @Sendable
     public func listTransformers(_ input: ListTransformersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTransformersResponse {
         return try await self.client.execute(
@@ -308,7 +308,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2BI Data Interchange.
+    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2BI Data Interchange. If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTransformerJob API to process your files.
     @Sendable
     public func startTransformerJob(_ input: StartTransformerJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTransformerJobResponse {
         return try await self.client.execute(
@@ -334,7 +334,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Maps the input file according to the provided template file.
+    /// Maps the input file according to the provided template file. The API call downloads the file contents from the Amazon S3 location, and passes the contents in as a string, to the inputFileContent parameter.
     @Sendable
     public func testMapping(_ input: TestMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestMappingResponse {
         return try await self.client.execute(
@@ -347,7 +347,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Parses the input EDI (electronic data interchange) file.
+    /// Parses the input EDI (electronic data interchange) file. The input file has a file size limit of 250 KB.
     @Sendable
     public func testParsing(_ input: TestParsingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestParsingResponse {
         return try await self.client.execute(
@@ -373,7 +373,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Updates some of the parameters for a capability, based on the specified parameters. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
+    /// Updates some of the parameters for a capability, based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     @Sendable
     public func updateCapability(_ input: UpdateCapabilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCapabilityResponse {
         return try await self.client.execute(
@@ -386,7 +386,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Updates some of the parameters for a partnership between a customer and trading partner. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
+    /// Updates some of the parameters for a partnership between a customer and trading partner. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     @Sendable
     public func updatePartnership(_ input: UpdatePartnershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePartnershipResponse {
         return try await self.client.execute(
@@ -399,7 +399,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Updates the specified parameters for a profile. Profiles contain basic information about you and your business.
+    /// Updates the specified parameters for a profile. A profile is the mechanism used to create the concept of a private network.
     @Sendable
     public func updateProfile(_ input: UpdateProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProfileResponse {
         return try await self.client.execute(
@@ -412,7 +412,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Updates the specified parameters for a transformer. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
+    /// Updates the specified parameters for a transformer. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
     @Sendable
     public func updateTransformer(_ input: UpdateTransformerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTransformerResponse {
         return try await self.client.execute(
@@ -439,7 +439,7 @@ extension B2bi {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension B2bi {
-    /// Lists the capabilities associated with your Amazon Web Services account for your current or specified region. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
+    /// Lists the capabilities associated with your Amazon Web Services account for your current or specified region. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -458,7 +458,7 @@ extension B2bi {
         )
     }
 
-    /// Lists the partnerships associated with your Amazon Web Services account for your current or specified region. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
+    /// Lists the partnerships associated with your Amazon Web Services account for your current or specified region. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -477,7 +477,7 @@ extension B2bi {
         )
     }
 
-    /// Lists the profiles associated with your Amazon Web Services account for your current or specified region. Profiles contain basic information about you and your business.
+    /// Lists the profiles associated with your Amazon Web Services account for your current or specified region. A profile is the mechanism used to create the concept of a private network.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -496,7 +496,7 @@ extension B2bi {
         )
     }
 
-    /// Lists the available transformers. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
+    /// Lists the available transformers. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -75,6 +75,7 @@ public struct ApiGatewayV2: AWSService {
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
             "ca-central-1": "apigateway-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "apigateway-fips.ca-west-1.amazonaws.com",
             "us-east-1": "apigateway-fips.us-east-1.amazonaws.com",
             "us-east-2": "apigateway-fips.us-east-2.amazonaws.com",
             "us-west-1": "apigateway-fips.us-west-1.amazonaws.com",

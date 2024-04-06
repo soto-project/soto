@@ -307,6 +307,19 @@ public struct AmplifyUIBuilder: AWSService {
         )
     }
 
+    /// Returns a list of tags for a specified Amazon Resource Name (ARN).
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves a list of themes for a specified Amplify app and backend environment.
     @Sendable
     public func listThemes(_ input: ListThemesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThemesResponse {
@@ -353,6 +366,32 @@ public struct AmplifyUIBuilder: AWSService {
             operation: "StartCodegenJob", 
             path: "/app/{appId}/environment/{environmentName}/codegen-jobs", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Tags the resource with a tag key and value.
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Untags a resource with a specified Amazon Resource Name (ARN).
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger

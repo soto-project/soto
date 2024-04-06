@@ -168,6 +168,19 @@ public struct Keyspaces: AWSService {
         )
     }
 
+    /// Returns auto scaling related settings of the specified table in JSON format. If the table is a multi-Region table, the  Amazon Web Services Region specific auto scaling settings of the table are included. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing  your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide.   GetTableAutoScalingSettings can't be used as an action in an IAM policy.  To define permissions for GetTableAutoScalingSettings, you must allow the following two actions in the IAM policy statement's  Action element:    application-autoscaling:DescribeScalableTargets     application-autoscaling:DescribeScalingPolicies
+    @Sendable
+    public func getTableAutoScalingSettings(_ input: GetTableAutoScalingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableAutoScalingSettingsResponse {
+        return try await self.client.execute(
+            operation: "GetTableAutoScalingSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a list of keyspaces.
     @Sendable
     public func listKeyspaces(_ input: ListKeyspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKeyspacesResponse {
@@ -207,7 +220,7 @@ public struct Keyspaces: AWSService {
         )
     }
 
-    /// Restores the specified table to the specified point in time within the earliest_restorable_timestamp and the current time. For more information about restore points, see   Time window for PITR continuous backups in the Amazon Keyspaces Developer Guide. Any number of users can execute up to 4 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, Amazon Keyspaces restores your source table's schema and data to the state  based on the selected timestamp (day:hour:minute:second) to a new table. The Time to Live (TTL) settings are also restored to the state based on the selected timestamp. In addition to the table's schema, data, and TTL settings, RestoreTable restores the capacity mode, encryption, and point-in-time recovery settings from the source table.  Unlike the table's schema data and TTL settings, which are restored based on the selected timestamp,  these settings are always restored based on the table's settings as of the current time or when the table was deleted. You can also overwrite these settings during restore:   Read/write capacity mode   Provisioned throughput capacity settings   Point-in-time (PITR) settings   Tags   For more  information, see PITR restore settings in the Amazon Keyspaces Developer Guide. Note that the following settings are not restored, and you must configure them manually for the new table:   Automatic scaling policies (for tables that use provisioned capacity mode)   Identity and Access Management (IAM) policies   Amazon CloudWatch metrics and alarms
+    /// Restores the table to the specified point in time within the earliest_restorable_timestamp and the current time. For more information about restore points, see   Time window for PITR continuous backups in the Amazon Keyspaces Developer Guide. Any number of users can execute up to 4 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, Amazon Keyspaces restores your source table's schema and data to the state  based on the selected timestamp (day:hour:minute:second) to a new table. The Time to Live (TTL) settings are also restored to the state based on the selected timestamp. In addition to the table's schema, data, and TTL settings, RestoreTable restores the capacity mode, auto scaling settings, encryption settings, and point-in-time recovery settings from the source table.  Unlike the table's schema data and TTL settings, which are restored based on the selected timestamp,  these settings are always restored based on the table's settings as of the current time or when the table was deleted. You can also overwrite these settings during restore:   Read/write capacity mode   Provisioned throughput capacity units   Auto scaling settings   Point-in-time (PITR) settings   Tags   For more  information, see PITR restore settings in the Amazon Keyspaces Developer Guide. Note that the following settings are not restored, and you must configure them manually for the new table:   Identity and Access Management (IAM) policies   Amazon CloudWatch metrics and alarms
     @Sendable
     public func restoreTable(_ input: RestoreTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreTableResponse {
         return try await self.client.execute(
@@ -246,7 +259,7 @@ public struct Keyspaces: AWSService {
         )
     }
 
-    /// Adds new columns to the table or updates one of the table's settings, for example capacity mode, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
+    /// Adds new columns to the table or updates one of the table's settings, for example capacity mode, auto scaling, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
     @Sendable
     public func updateTable(_ input: UpdateTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTableResponse {
         return try await self.client.execute(

@@ -202,6 +202,19 @@ public struct Inspector2: AWSService {
         )
     }
 
+    /// Creates a CIS scan configuration.
+    @Sendable
+    public func createCisScanConfiguration(_ input: CreateCisScanConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCisScanConfigurationResponse {
+        return try await self.client.execute(
+            operation: "CreateCisScanConfiguration", 
+            path: "/cis/scan-configuration/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a filter resource using specified filter criteria. When the filter action is set to SUPPRESS this action creates a suppression rule.
     @Sendable
     public func createFilter(_ input: CreateFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFilterResponse {
@@ -234,6 +247,19 @@ public struct Inspector2: AWSService {
         return try await self.client.execute(
             operation: "CreateSbomExport", 
             path: "/sbomexport/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a CIS scan configuration.
+    @Sendable
+    public func deleteCisScanConfiguration(_ input: DeleteCisScanConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCisScanConfigurationResponse {
+        return try await self.client.execute(
+            operation: "DeleteCisScanConfiguration", 
+            path: "/cis/scan-configuration/delete", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -325,6 +351,32 @@ public struct Inspector2: AWSService {
         return try await self.client.execute(
             operation: "EnableDelegatedAdminAccount", 
             path: "/delegatedadminaccounts/enable", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves a CIS scan report.
+    @Sendable
+    public func getCisScanReport(_ input: GetCisScanReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCisScanReportResponse {
+        return try await self.client.execute(
+            operation: "GetCisScanReport", 
+            path: "/cis/scan/report/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves CIS scan result details.
+    @Sendable
+    public func getCisScanResultDetails(_ input: GetCisScanResultDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCisScanResultDetailsResponse {
+        return try await self.client.execute(
+            operation: "GetCisScanResultDetails", 
+            path: "/cis/scan-result/details/get", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -429,6 +481,58 @@ public struct Inspector2: AWSService {
         return try await self.client.execute(
             operation: "ListAccountPermissions", 
             path: "/accountpermissions/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists CIS scan configurations.
+    @Sendable
+    public func listCisScanConfigurations(_ input: ListCisScanConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCisScanConfigurationsResponse {
+        return try await self.client.execute(
+            operation: "ListCisScanConfigurations", 
+            path: "/cis/scan-configuration/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists scan results aggregated by checks.
+    @Sendable
+    public func listCisScanResultsAggregatedByChecks(_ input: ListCisScanResultsAggregatedByChecksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCisScanResultsAggregatedByChecksResponse {
+        return try await self.client.execute(
+            operation: "ListCisScanResultsAggregatedByChecks", 
+            path: "/cis/scan-result/check/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists scan results aggregated by a target resource.
+    @Sendable
+    public func listCisScanResultsAggregatedByTargetResource(_ input: ListCisScanResultsAggregatedByTargetResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCisScanResultsAggregatedByTargetResourceResponse {
+        return try await self.client.execute(
+            operation: "ListCisScanResultsAggregatedByTargetResource", 
+            path: "/cis/scan-result/resource/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a CIS scan list.
+    @Sendable
+    public func listCisScans(_ input: ListCisScansRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCisScansResponse {
+        return try await self.client.execute(
+            operation: "ListCisScans", 
+            path: "/cis/scan/list", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -579,6 +683,58 @@ public struct Inspector2: AWSService {
         )
     }
 
+    ///  Sends a CIS session health.  This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service.  The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
+    @Sendable
+    public func sendCisSessionHealth(_ input: SendCisSessionHealthRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendCisSessionHealthResponse {
+        return try await self.client.execute(
+            operation: "SendCisSessionHealth", 
+            path: "/cissession/health/send", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Sends a CIS session telemetry.  This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service.  The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
+    @Sendable
+    public func sendCisSessionTelemetry(_ input: SendCisSessionTelemetryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendCisSessionTelemetryResponse {
+        return try await self.client.execute(
+            operation: "SendCisSessionTelemetry", 
+            path: "/cissession/telemetry/send", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Starts a CIS session.  This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service.  The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
+    @Sendable
+    public func startCisSession(_ input: StartCisSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCisSessionResponse {
+        return try await self.client.execute(
+            operation: "StartCisSession", 
+            path: "/cissession/start", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Stops a CIS session.  This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service.  The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
+    @Sendable
+    public func stopCisSession(_ input: StopCisSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopCisSessionResponse {
+        return try await self.client.execute(
+            operation: "StopCisSession", 
+            path: "/cissession/stop", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Adds tags to a resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -599,6 +755,19 @@ public struct Inspector2: AWSService {
             operation: "UntagResource", 
             path: "/tags/{resourceArn}", 
             httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates a CIS scan configuration.
+    @Sendable
+    public func updateCisScanConfiguration(_ input: UpdateCisScanConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCisScanConfigurationResponse {
+        return try await self.client.execute(
+            operation: "UpdateCisScanConfiguration", 
+            path: "/cis/scan-configuration/update", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -631,7 +800,7 @@ public struct Inspector2: AWSService {
         )
     }
 
-    /// Updates an encryption key. A ResourceNotFoundException means that an AWS owned key is being used for encryption.
+    /// Updates an encryption key. A ResourceNotFoundException means that an Amazon Web Services owned key is being used for encryption.
     @Sendable
     public func updateEncryptionKey(_ input: UpdateEncryptionKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEncryptionKeyResponse {
         return try await self.client.execute(
@@ -697,6 +866,25 @@ extension Inspector2 {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Inspector2 {
+    /// Retrieves CIS scan result details.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func getCisScanResultDetailsPaginator(
+        _ input: GetCisScanResultDetailsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetCisScanResultDetailsRequest, GetCisScanResultDetailsResponse> {
+        return .init(
+            input: input,
+            command: self.getCisScanResultDetails,
+            inputKey: \GetCisScanResultDetailsRequest.nextToken,
+            outputKey: \GetCisScanResultDetailsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists the permissions an account has to configure Amazon Inspector.
     /// Return PaginatorSequence for operation.
     ///
@@ -712,6 +900,82 @@ extension Inspector2 {
             command: self.listAccountPermissions,
             inputKey: \ListAccountPermissionsRequest.nextToken,
             outputKey: \ListAccountPermissionsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists CIS scan configurations.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listCisScanConfigurationsPaginator(
+        _ input: ListCisScanConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCisScanConfigurationsRequest, ListCisScanConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listCisScanConfigurations,
+            inputKey: \ListCisScanConfigurationsRequest.nextToken,
+            outputKey: \ListCisScanConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists scan results aggregated by checks.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listCisScanResultsAggregatedByChecksPaginator(
+        _ input: ListCisScanResultsAggregatedByChecksRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCisScanResultsAggregatedByChecksRequest, ListCisScanResultsAggregatedByChecksResponse> {
+        return .init(
+            input: input,
+            command: self.listCisScanResultsAggregatedByChecks,
+            inputKey: \ListCisScanResultsAggregatedByChecksRequest.nextToken,
+            outputKey: \ListCisScanResultsAggregatedByChecksResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists scan results aggregated by a target resource.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listCisScanResultsAggregatedByTargetResourcePaginator(
+        _ input: ListCisScanResultsAggregatedByTargetResourceRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCisScanResultsAggregatedByTargetResourceRequest, ListCisScanResultsAggregatedByTargetResourceResponse> {
+        return .init(
+            input: input,
+            command: self.listCisScanResultsAggregatedByTargetResource,
+            inputKey: \ListCisScanResultsAggregatedByTargetResourceRequest.nextToken,
+            outputKey: \ListCisScanResultsAggregatedByTargetResourceResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a CIS scan list.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listCisScansPaginator(
+        _ input: ListCisScansRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCisScansRequest, ListCisScansResponse> {
+        return .init(
+            input: input,
+            command: self.listCisScans,
+            inputKey: \ListCisScansRequest.nextToken,
+            outputKey: \ListCisScansResponse.nextToken,
             logger: logger
         )
     }
@@ -888,12 +1152,78 @@ extension Inspector2 {
     }
 }
 
+extension Inspector2.GetCisScanResultDetailsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Inspector2.GetCisScanResultDetailsRequest {
+        return .init(
+            accountId: self.accountId,
+            filterCriteria: self.filterCriteria,
+            maxResults: self.maxResults,
+            nextToken: token,
+            scanArn: self.scanArn,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            targetResourceId: self.targetResourceId
+        )
+    }
+}
+
 extension Inspector2.ListAccountPermissionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Inspector2.ListAccountPermissionsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,
             service: self.service
+        )
+    }
+}
+
+extension Inspector2.ListCisScanConfigurationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Inspector2.ListCisScanConfigurationsRequest {
+        return .init(
+            filterCriteria: self.filterCriteria,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension Inspector2.ListCisScanResultsAggregatedByChecksRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Inspector2.ListCisScanResultsAggregatedByChecksRequest {
+        return .init(
+            filterCriteria: self.filterCriteria,
+            maxResults: self.maxResults,
+            nextToken: token,
+            scanArn: self.scanArn,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension Inspector2.ListCisScanResultsAggregatedByTargetResourceRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Inspector2.ListCisScanResultsAggregatedByTargetResourceRequest {
+        return .init(
+            filterCriteria: self.filterCriteria,
+            maxResults: self.maxResults,
+            nextToken: token,
+            scanArn: self.scanArn,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension Inspector2.ListCisScansRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Inspector2.ListCisScansRequest {
+        return .init(
+            detailLevel: self.detailLevel,
+            filterCriteria: self.filterCriteria,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
         )
     }
 }

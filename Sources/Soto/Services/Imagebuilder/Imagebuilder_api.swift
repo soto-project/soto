@@ -218,6 +218,19 @@ public struct Imagebuilder: AWSService {
         )
     }
 
+    /// Create a new workflow or a new version of an existing workflow.
+    @Sendable
+    public func createWorkflow(_ input: CreateWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkflowResponse {
+        return try await self.client.execute(
+            operation: "CreateWorkflow", 
+            path: "/CreateWorkflow", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes a component build version.
     @Sendable
     public func deleteComponent(_ input: DeleteComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteComponentResponse {
@@ -321,6 +334,19 @@ public struct Imagebuilder: AWSService {
         return try await self.client.execute(
             operation: "DeleteLifecyclePolicy", 
             path: "/DeleteLifecyclePolicy", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a specific workflow resource.
+    @Sendable
+    public func deleteWorkflow(_ input: DeleteWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkflowResponse {
+        return try await self.client.execute(
+            operation: "DeleteWorkflow", 
+            path: "/DeleteWorkflow", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -490,6 +516,19 @@ public struct Imagebuilder: AWSService {
         return try await self.client.execute(
             operation: "GetLifecyclePolicy", 
             path: "/GetLifecyclePolicy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Get a workflow resource object.
+    @Sendable
+    public func getWorkflow(_ input: GetWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkflowResponse {
+        return try await self.client.execute(
+            operation: "GetWorkflow", 
+            path: "/GetWorkflow", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -794,6 +833,33 @@ public struct Imagebuilder: AWSService {
         )
     }
 
+    /// Get a list of workflow steps that are waiting for action for workflows
+    /// 			in your Amazon Web Services account.
+    @Sendable
+    public func listWaitingWorkflowSteps(_ input: ListWaitingWorkflowStepsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWaitingWorkflowStepsResponse {
+        return try await self.client.execute(
+            operation: "ListWaitingWorkflowSteps", 
+            path: "/ListWaitingWorkflowSteps", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of build versions for a specific workflow resource.
+    @Sendable
+    public func listWorkflowBuildVersions(_ input: ListWorkflowBuildVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkflowBuildVersionsResponse {
+        return try await self.client.execute(
+            operation: "ListWorkflowBuildVersions", 
+            path: "/ListWorkflowBuildVersions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a list of workflow runtime instance metadata objects for a specific image build
     /// 			version.
     @Sendable
@@ -808,13 +874,26 @@ public struct Imagebuilder: AWSService {
         )
     }
 
-    /// Shows runtime data for each step in a runtime instance of the workflow
+    /// Returns runtime data for each step in a runtime instance of the workflow
     /// 			that you specify in the request.
     @Sendable
     public func listWorkflowStepExecutions(_ input: ListWorkflowStepExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkflowStepExecutionsResponse {
         return try await self.client.execute(
             operation: "ListWorkflowStepExecutions", 
             path: "/ListWorkflowStepExecutions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists workflow build versions based on filtering parameters.
+    @Sendable
+    public func listWorkflows(_ input: ListWorkflowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkflowsResponse {
+        return try await self.client.execute(
+            operation: "ListWorkflows", 
+            path: "/ListWorkflows", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -880,6 +959,20 @@ public struct Imagebuilder: AWSService {
         return try await self.client.execute(
             operation: "PutImageRecipePolicy", 
             path: "/PutImageRecipePolicy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Pauses or resumes image creation when the associated workflow runs a
+    /// 			WaitForAction step.
+    @Sendable
+    public func sendWorkflowStepAction(_ input: SendWorkflowStepActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendWorkflowStepActionResponse {
+        return try await self.client.execute(
+            operation: "SendWorkflowStepAction", 
+            path: "/SendWorkflowStepAction", 
             httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
@@ -955,7 +1048,8 @@ public struct Imagebuilder: AWSService {
     }
 
     /// Updates an image pipeline. Image pipelines enable you to automate the creation and
-    /// 			distribution of images.  UpdateImagePipeline does not support selective updates for the pipeline. You must
+    /// 			distribution of images. You must specify exactly one recipe for your image, using either
+    /// 			a containerRecipeArn or an imageRecipeArn.  UpdateImagePipeline does not support selective updates for the pipeline. You must
     /// 				specify all of the required properties in the update request, not just the
     /// 				properties that have changed.
     @Sendable
@@ -1332,6 +1426,45 @@ extension Imagebuilder {
         )
     }
 
+    /// Get a list of workflow steps that are waiting for action for workflows
+    /// 			in your Amazon Web Services account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listWaitingWorkflowStepsPaginator(
+        _ input: ListWaitingWorkflowStepsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListWaitingWorkflowStepsRequest, ListWaitingWorkflowStepsResponse> {
+        return .init(
+            input: input,
+            command: self.listWaitingWorkflowSteps,
+            inputKey: \ListWaitingWorkflowStepsRequest.nextToken,
+            outputKey: \ListWaitingWorkflowStepsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of build versions for a specific workflow resource.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listWorkflowBuildVersionsPaginator(
+        _ input: ListWorkflowBuildVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListWorkflowBuildVersionsRequest, ListWorkflowBuildVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listWorkflowBuildVersions,
+            inputKey: \ListWorkflowBuildVersionsRequest.nextToken,
+            outputKey: \ListWorkflowBuildVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns a list of workflow runtime instance metadata objects for a specific image build
     /// 			version.
     /// Return PaginatorSequence for operation.
@@ -1352,7 +1485,7 @@ extension Imagebuilder {
         )
     }
 
-    /// Shows runtime data for each step in a runtime instance of the workflow
+    /// Returns runtime data for each step in a runtime instance of the workflow
     /// 			that you specify in the request.
     /// Return PaginatorSequence for operation.
     ///
@@ -1368,6 +1501,25 @@ extension Imagebuilder {
             command: self.listWorkflowStepExecutions,
             inputKey: \ListWorkflowStepExecutionsRequest.nextToken,
             outputKey: \ListWorkflowStepExecutionsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists workflow build versions based on filtering parameters.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listWorkflowsPaginator(
+        _ input: ListWorkflowsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListWorkflowsRequest, ListWorkflowsResponse> {
+        return .init(
+            input: input,
+            command: self.listWorkflows,
+            inputKey: \ListWorkflowsRequest.nextToken,
+            outputKey: \ListWorkflowsResponse.nextToken,
             logger: logger
         )
     }
@@ -1542,6 +1694,25 @@ extension Imagebuilder.ListLifecyclePoliciesRequest: AWSPaginateToken {
     }
 }
 
+extension Imagebuilder.ListWaitingWorkflowStepsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Imagebuilder.ListWaitingWorkflowStepsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Imagebuilder.ListWorkflowBuildVersionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Imagebuilder.ListWorkflowBuildVersionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            workflowVersionArn: self.workflowVersionArn
+        )
+    }
+}
+
 extension Imagebuilder.ListWorkflowExecutionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Imagebuilder.ListWorkflowExecutionsRequest {
         return .init(
@@ -1558,6 +1729,18 @@ extension Imagebuilder.ListWorkflowStepExecutionsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             workflowExecutionId: self.workflowExecutionId
+        )
+    }
+}
+
+extension Imagebuilder.ListWorkflowsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Imagebuilder.ListWorkflowsRequest {
+        return .init(
+            byName: self.byName,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            owner: self.owner
         )
     }
 }

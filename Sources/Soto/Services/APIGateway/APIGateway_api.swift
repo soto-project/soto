@@ -113,6 +113,7 @@ public struct APIGateway: AWSService {
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
             "ca-central-1": "apigateway-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "apigateway-fips.ca-west-1.amazonaws.com",
             "us-east-1": "apigateway-fips.us-east-1.amazonaws.com",
             "us-east-2": "apigateway-fips.us-east-2.amazonaws.com",
             "us-west-1": "apigateway-fips.us-west-1.amazonaws.com",
@@ -1578,7 +1579,7 @@ public struct APIGateway: AWSService {
         )
     }
 
-    /// Changes information about a model.
+    /// Changes information about a model. The maximum size of the model is 400 KB.
     @Sendable
     public func updateModel(_ input: UpdateModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Model {
         return try await self.client.execute(

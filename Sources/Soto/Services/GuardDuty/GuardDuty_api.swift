@@ -125,7 +125,7 @@ public struct GuardDuty: AWSService {
         )
     }
 
-    /// Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
+    /// Creates a single GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default.   When you don't specify any features, with an  exception to RUNTIME_MONITORING, all the optional features are  enabled by default.   When you specify some of the features, any feature that is not specified in the  API call gets enabled by default, with an exception to RUNTIME_MONITORING.    Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error.  You can add only one of these two features because Runtime Monitoring already includes the  threat detection for Amazon EKS resources. For more information, see Runtime Monitoring. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     @Sendable
     public func createDetector(_ input: CreateDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDetectorResponse {
         return try await self.client.execute(
@@ -164,7 +164,7 @@ public struct GuardDuty: AWSService {
         )
     }
 
-    /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. As a delegated administrator, using CreateMembers will enable GuardDuty in  the added member accounts, with the exception of the organization delegated administrator account. A delegated administrator must enable GuardDuty  prior to being added as a member. If you are adding accounts by invitation, before using InviteMembers, use  CreateMembers after GuardDuty has been enabled in potential member accounts. If you disassociate a member from a GuardDuty  delegated administrator, the member account details  obtained from this API, including the associated email addresses, will be retained.  This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To  remove the details associated with a member account, the delegated administrator must invoke the  DeleteMembers API.
+    /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. As a delegated administrator, using CreateMembers will enable GuardDuty in  the added member accounts, with the exception of the organization delegated administrator account. A delegated administrator must enable GuardDuty  prior to being added as a member. When you use CreateMembers as an Organizations delegated  administrator, GuardDuty applies your organization's auto-enable settings to the member accounts in this request, irrespective of the accounts being new or existing members. For  more information about the existing auto-enable settings for your organization, see DescribeOrganizationConfiguration. If you disassociate a member account that was added by invitation, the member account details  obtained from this API, including the associated email addresses, will be retained.  This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To  remove the details associated with a member account, the delegated administrator must invoke the  DeleteMembers API.  When the member accounts added through Organizations are later disassociated, you (administrator) can't invite them by calling the InviteMembers API. You can create an association with these member accounts again only by calling the CreateMembers API.
     @Sendable
     public func createMembers(_ input: CreateMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMembersResponse {
         return try await self.client.execute(
@@ -399,7 +399,7 @@ public struct GuardDuty: AWSService {
         )
     }
 
-    /// Disassociates GuardDuty member accounts (from the current administrator account) specified by the account IDs. When you  disassociate an invited member from a GuardDuty delegated administrator, the member account details  obtained from the CreateMembers API, including the associated email addresses, are retained. This is  done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To  remove the details associated with a member account, the delegated administrator must invoke the  DeleteMembers API.  With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disassociate a member account before removing them from your organization.
+    /// Disassociates GuardDuty member accounts (from the current administrator account) specified by the account IDs. When you  disassociate an invited member from a GuardDuty delegated administrator, the member account details  obtained from the CreateMembers API, including the associated email addresses, are retained. This is  done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To  remove the details associated with a member account, the delegated administrator must invoke the  DeleteMembers API.  With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disassociate a member account before removing them from your organization. If you disassociate a member account that was added by invitation, the member account details  obtained from this API, including the associated email addresses, will be retained.  This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To  remove the details associated with a member account, the delegated administrator must invoke the  DeleteMembers API.  When the member accounts added through Organizations are later disassociated, you (administrator) can't invite them by calling the InviteMembers API. You can create an association with these member accounts again only by calling the CreateMembers API.
     @Sendable
     public func disassociateMembers(_ input: DisassociateMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateMembersResponse {
         return try await self.client.execute(
@@ -438,7 +438,7 @@ public struct GuardDuty: AWSService {
         )
     }
 
-    /// Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled EKS Runtime Monitoring and have the GuardDuty agent running on their EKS nodes.
+    /// Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled Runtime Monitoring and have the GuardDuty security agent running on their resources.
     @Sendable
     public func getCoverageStatistics(_ input: GetCoverageStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCoverageStatisticsResponse {
         return try await self.client.execute(
@@ -490,7 +490,7 @@ public struct GuardDuty: AWSService {
         )
     }
 
-    /// Lists Amazon GuardDuty findings statistics for the specified detector ID.
+    /// Lists Amazon GuardDuty findings statistics for the specified detector ID. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see Regions and endpoints.
     @Sendable
     public func getFindingsStatistics(_ input: GetFindingsStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingsStatisticsResponse {
         return try await self.client.execute(
@@ -582,6 +582,18 @@ public struct GuardDuty: AWSService {
         )
     }
 
+    /// Retrieves how many active member accounts have each feature enabled within GuardDuty. Only a delegated GuardDuty administrator of an organization can run this API. When you create a new organization, it might take up to 24  hours to generate the statistics for the entire organization.
+    @Sendable
+    public func getOrganizationStatistics(logger: Logger = AWSClient.loggingDisabled) async throws -> GetOrganizationStatisticsResponse {
+        return try await self.client.execute(
+            operation: "GetOrganizationStatistics", 
+            path: "/organization/statistics", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
+    }
+
     /// Provides the number of days left for each data source used in the free trial period.
     @Sendable
     public func getRemainingFreeTrialDays(_ input: GetRemainingFreeTrialDaysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRemainingFreeTrialDaysResponse {
@@ -621,7 +633,7 @@ public struct GuardDuty: AWSService {
         )
     }
 
-    /// Invites Amazon Web Services accounts to become members of an organization administered by the Amazon Web Services account  that invokes this API. If you are using Amazon Web Services Organizations to manage your GuardDuty environment, this step is not needed. For more information, see Managing accounts with organizations. To invite Amazon Web Services accounts, the first step is  to ensure that GuardDuty has been enabled in the potential member accounts. You can now invoke this API to add accounts by invitation. The  invited accounts can either accept or decline the invitation from their GuardDuty accounts. Each invited Amazon Web Services account can  choose to accept the invitation from only one Amazon Web Services account. For more information, see  Managing GuardDuty accounts  by invitation. After the invite has been accepted and you choose to disassociate a member account  (by using DisassociateMembers) from your account,  the details of the member account obtained by invoking CreateMembers, including the  associated email addresses, will be retained.  This is done so that you can invoke InviteMembers without the need to invoke  CreateMembers again. To  remove the details associated with a member account, you must also invoke  DeleteMembers.
+    /// Invites Amazon Web Services accounts to become members of an organization administered by the Amazon Web Services account  that invokes this API. If you are using Amazon Web Services Organizations to manage your GuardDuty environment, this step is not needed. For more information, see Managing accounts with organizations. To invite Amazon Web Services accounts, the first step is  to ensure that GuardDuty has been enabled in the potential member accounts. You can now invoke this API to add accounts by invitation. The  invited accounts can either accept or decline the invitation from their GuardDuty accounts. Each invited Amazon Web Services account can  choose to accept the invitation from only one Amazon Web Services account. For more information, see  Managing GuardDuty accounts  by invitation. After the invite has been accepted and you choose to disassociate a member account  (by using DisassociateMembers) from your account,  the details of the member account obtained by invoking CreateMembers, including the  associated email addresses, will be retained.  This is done so that you can invoke InviteMembers without the need to invoke  CreateMembers again. To  remove the details associated with a member account, you must also invoke  DeleteMembers.  If you disassociate a member account that was added by invitation, the member account details  obtained from this API, including the associated email addresses, will be retained.  This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To  remove the details associated with a member account, the delegated administrator must invoke the  DeleteMembers API.  When the member accounts added through Organizations are later disassociated, you (administrator) can't invite them by calling the InviteMembers API. You can create an association with these member accounts again only by calling the CreateMembers API.
     @Sendable
     public func inviteMembers(_ input: InviteMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InviteMembersResponse {
         return try await self.client.execute(
@@ -634,7 +646,7 @@ public struct GuardDuty: AWSService {
         )
     }
 
-    /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have EKS Runtime Monitoring enabled and GuardDuty agent running on their EKS nodes.
+    /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on their resources.
     @Sendable
     public func listCoverage(_ input: ListCoverageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCoverageResponse {
         return try await self.client.execute(
@@ -673,7 +685,7 @@ public struct GuardDuty: AWSService {
         )
     }
 
-    /// Lists Amazon GuardDuty findings for the specified detector ID.
+    /// Lists GuardDuty findings for the specified detector ID. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see Regions and endpoints.
     @Sendable
     public func listFindings(_ input: ListFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFindingsResponse {
         return try await self.client.execute(
@@ -777,7 +789,7 @@ public struct GuardDuty: AWSService {
         )
     }
 
-    /// Initiates the malware scan. Invoking this API will automatically create the Service-linked role  in  the corresponding account.
+    /// Initiates the malware scan. Invoking this API will automatically create the Service-linked role in  the corresponding account. When the malware scan starts, you can use the associated scan ID to track the status of the scan. For more information, see DescribeMalwareScans.
     @Sendable
     public func startMalwareScan(_ input: StartMalwareScanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMalwareScanResponse {
         return try await self.client.execute(
@@ -855,7 +867,7 @@ public struct GuardDuty: AWSService {
         )
     }
 
-    /// Updates the Amazon GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
+    /// Updates the GuardDuty detector specified by the detector ID. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error.  You can add only one of these two features because Runtime Monitoring already includes the  threat detection for Amazon EKS resources. For more information, see Runtime Monitoring. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     @Sendable
     public func updateDetector(_ input: UpdateDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDetectorResponse {
         return try await self.client.execute(
@@ -920,7 +932,7 @@ public struct GuardDuty: AWSService {
         )
     }
 
-    /// Contains information on member accounts to be updated. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
+    /// Contains information on member accounts to be updated. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error.  You can add only one of these two features because Runtime Monitoring already includes the  threat detection for Amazon EKS resources. For more information, see Runtime Monitoring. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     @Sendable
     public func updateMemberDetectors(_ input: UpdateMemberDetectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMemberDetectorsResponse {
         return try await self.client.execute(
@@ -933,7 +945,7 @@ public struct GuardDuty: AWSService {
         )
     }
 
-    /// Configures the delegated administrator account with the provided values. You must provide a value for either autoEnableOrganizationMembers or autoEnable, but not both.  There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
+    /// Configures the delegated administrator account with the provided values. You must provide a value for either autoEnableOrganizationMembers or autoEnable, but not both.  Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error.  You can add only one of these two features because Runtime Monitoring already includes the  threat detection for Amazon EKS resources. For more information, see Runtime Monitoring. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     @Sendable
     public func updateOrganizationConfiguration(_ input: UpdateOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOrganizationConfigurationResponse {
         return try await self.client.execute(
@@ -1043,7 +1055,7 @@ extension GuardDuty {
         )
     }
 
-    /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have EKS Runtime Monitoring enabled and GuardDuty agent running on their EKS nodes.
+    /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on their resources.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1100,7 +1112,7 @@ extension GuardDuty {
         )
     }
 
-    /// Lists Amazon GuardDuty findings for the specified detector ID.
+    /// Lists GuardDuty findings for the specified detector ID. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see Regions and endpoints.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

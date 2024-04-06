@@ -99,7 +99,7 @@ public struct QuickSight: AWSService {
         )
     }
 
-    /// Creates an Amazon QuickSight account, or subscribes to Amazon QuickSight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. This operation isn't supported in the US East (Ohio) Region, South America (Sao Paulo) Region, or Asia Pacific (Singapore) Region.   Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon QuickSight User Guide. The person who signs up for Amazon QuickSight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see IAM Policy Examples for Amazon QuickSight in the Amazon QuickSight User Guide. If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails. You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to Amazon QuickSight, see Passing IAM roles to Amazon QuickSight in the Amazon QuickSight User Guide. You can't set default resource access on the new account from the Amazon QuickSight API. Instead, add default resource access from the Amazon QuickSight console. For more information about setting default resource access to Amazon Web Services services, see Setting default resource access to Amazon Web Services services in the Amazon QuickSight User Guide.
+    /// Creates an Amazon QuickSight account, or subscribes to Amazon QuickSight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon QuickSight User Guide. The person who signs up for Amazon QuickSight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see IAM Policy Examples for Amazon QuickSight in the Amazon QuickSight User Guide. If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails. You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to Amazon QuickSight, see Passing IAM roles to Amazon QuickSight in the Amazon QuickSight User Guide. You can't set default resource access on the new account from the Amazon QuickSight API. Instead, add default resource access from the Amazon QuickSight console. For more information about setting default resource access to Amazon Web Services services, see Setting default resource access to Amazon Web Services services in the Amazon QuickSight User Guide.
     @Sendable
     public func createAccountSubscription(_ input: CreateAccountSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccountSubscriptionResponse {
         return try await self.client.execute(
@@ -190,7 +190,7 @@ public struct QuickSight: AWSService {
         )
     }
 
-    /// Use the CreateGroup operation to create a group in   Amazon QuickSight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact AWS Support. The permissions resource is
+    /// Use the CreateGroup operation to create a group in   Amazon QuickSight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is
     /// 					arn:aws:quicksight:::group/default/ . The response is a group object.
     @Sendable
     public func createGroup(_ input: CreateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGroupResponse {
@@ -1992,6 +1992,19 @@ public struct QuickSight: AWSService {
         )
     }
 
+    /// Updates the linked analyses on a dashboard.
+    @Sendable
+    public func updateDashboardLinks(_ input: UpdateDashboardLinksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDashboardLinksResponse {
+        return try await self.client.execute(
+            operation: "UpdateDashboardLinks", 
+            path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/linked-entities", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates read and write permissions on a dashboard.
     @Sendable
     public func updateDashboardPermissions(_ input: UpdateDashboardPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDashboardPermissionsResponse {
@@ -2137,10 +2150,7 @@ public struct QuickSight: AWSService {
         )
     }
 
-    /// Updates the content and status of IP rules. To use this operation, you
-    /// 			must
-    /// 			provide the entire map of rules. You can use the DescribeIpRestriction
-    /// 			operation to get the current rule map.
+    /// Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the IpRestrictionRule, VpcIdRestrictionRule, or VpcEndpointIdRestrictionRule. To use this operation, you must provide the entire map of rules. You can use the DescribeIpRestriction operation to get the current rule map.
     @Sendable
     public func updateIpRestriction(_ input: UpdateIpRestrictionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIpRestrictionResponse {
         return try await self.client.execute(

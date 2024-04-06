@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS DocDBElastic service.
 ///
-/// The new Amazon Elastic DocumentDB service endpoint.
+/// Amazon DocumentDB elastic clusters Amazon DocumentDB elastic-clusters support workloads with millions of reads/writes per second and petabytes of storage capacity.  Amazon DocumentDB elastic clusters also simplify how developers interact with Amazon DocumentDB elastic-clusters by eliminating the need to choose, manage or upgrade instances. Amazon DocumentDB elastic-clusters were created to:   provide a solution for customers looking for a database that provides virtually limitless scale with rich query capabilities and MongoDB API compatibility.   give customers higher connection limits, and to reduce downtime from patching.   continue investing in a cloud-native, elastic, and class leading architecture for JSON workloads.
 public struct DocDBElastic: AWSService {
     // MARK: Member variables
 
@@ -73,7 +73,20 @@ public struct DocDBElastic: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a new Elastic DocumentDB cluster and returns its Cluster structure.
+    /// Copies a snapshot of an elastic cluster.
+    @Sendable
+    public func copyClusterSnapshot(_ input: CopyClusterSnapshotInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyClusterSnapshotOutput {
+        return try await self.client.execute(
+            operation: "CopyClusterSnapshot", 
+            path: "/cluster-snapshot/{snapshotArn}/copy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a new Amazon DocumentDB elastic cluster and returns its cluster structure.
     @Sendable
     public func createCluster(_ input: CreateClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterOutput {
         return try await self.client.execute(
@@ -86,7 +99,7 @@ public struct DocDBElastic: AWSService {
         )
     }
 
-    /// Creates a snapshot of a cluster.
+    /// Creates a snapshot of an elastic cluster.
     @Sendable
     public func createClusterSnapshot(_ input: CreateClusterSnapshotInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterSnapshotOutput {
         return try await self.client.execute(
@@ -99,7 +112,7 @@ public struct DocDBElastic: AWSService {
         )
     }
 
-    /// Delete a Elastic DocumentDB cluster.
+    /// Delete an elastic cluster.
     @Sendable
     public func deleteCluster(_ input: DeleteClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterOutput {
         return try await self.client.execute(
@@ -112,7 +125,7 @@ public struct DocDBElastic: AWSService {
         )
     }
 
-    /// Delete a Elastic DocumentDB snapshot.
+    /// Delete an elastic cluster snapshot.
     @Sendable
     public func deleteClusterSnapshot(_ input: DeleteClusterSnapshotInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterSnapshotOutput {
         return try await self.client.execute(
@@ -125,7 +138,7 @@ public struct DocDBElastic: AWSService {
         )
     }
 
-    /// Returns information about a specific Elastic DocumentDB cluster.
+    /// Returns information about a specific elastic cluster.
     @Sendable
     public func getCluster(_ input: GetClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetClusterOutput {
         return try await self.client.execute(
@@ -138,7 +151,7 @@ public struct DocDBElastic: AWSService {
         )
     }
 
-    /// Returns information about a specific Elastic DocumentDB snapshot
+    /// Returns information about a specific elastic cluster snapshot
     @Sendable
     public func getClusterSnapshot(_ input: GetClusterSnapshotInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetClusterSnapshotOutput {
         return try await self.client.execute(
@@ -151,7 +164,7 @@ public struct DocDBElastic: AWSService {
         )
     }
 
-    /// Returns information about Elastic DocumentDB snapshots for a specified cluster.
+    /// Returns information about snapshots for a specified elastic cluster.
     @Sendable
     public func listClusterSnapshots(_ input: ListClusterSnapshotsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClusterSnapshotsOutput {
         return try await self.client.execute(
@@ -164,7 +177,7 @@ public struct DocDBElastic: AWSService {
         )
     }
 
-    /// Returns information about provisioned Elastic DocumentDB clusters.
+    /// Returns information about provisioned Amazon DocumentDB elastic clusters.
     @Sendable
     public func listClusters(_ input: ListClustersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClustersOutput {
         return try await self.client.execute(
@@ -177,7 +190,7 @@ public struct DocDBElastic: AWSService {
         )
     }
 
-    /// Lists all tags on a Elastic DocumentDB resource
+    /// Lists all tags on a elastic cluster resource
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(
@@ -190,7 +203,7 @@ public struct DocDBElastic: AWSService {
         )
     }
 
-    /// Restores a Elastic DocumentDB cluster from a snapshot.
+    /// Restores an elastic cluster from a snapshot.
     @Sendable
     public func restoreClusterFromSnapshot(_ input: RestoreClusterFromSnapshotInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreClusterFromSnapshotOutput {
         return try await self.client.execute(
@@ -203,7 +216,33 @@ public struct DocDBElastic: AWSService {
         )
     }
 
-    /// Adds metadata tags to a Elastic DocumentDB resource
+    /// Restarts the stopped elastic cluster that is specified by clusterARN.
+    @Sendable
+    public func startCluster(_ input: StartClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartClusterOutput {
+        return try await self.client.execute(
+            operation: "StartCluster", 
+            path: "/cluster/{clusterArn}/start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Stops the running elastic cluster that is specified by clusterArn.  The elastic cluster must be in the available state.
+    @Sendable
+    public func stopCluster(_ input: StopClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopClusterOutput {
+        return try await self.client.execute(
+            operation: "StopCluster", 
+            path: "/cluster/{clusterArn}/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Adds metadata tags to an elastic cluster resource
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
         return try await self.client.execute(
@@ -216,7 +255,7 @@ public struct DocDBElastic: AWSService {
         )
     }
 
-    /// Removes metadata tags to a Elastic DocumentDB resource
+    /// Removes metadata tags from an elastic cluster resource
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         return try await self.client.execute(
@@ -229,7 +268,7 @@ public struct DocDBElastic: AWSService {
         )
     }
 
-    /// Modifies a Elastic DocumentDB cluster. This includes updating admin-username/password,  upgrading API version setting up a backup window and maintenance window
+    /// Modifies an elastic cluster. This includes updating admin-username/password,  upgrading the API version, and setting up a backup window and maintenance window
     @Sendable
     public func updateCluster(_ input: UpdateClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterOutput {
         return try await self.client.execute(
@@ -256,7 +295,7 @@ extension DocDBElastic {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DocDBElastic {
-    /// Returns information about Elastic DocumentDB snapshots for a specified cluster.
+    /// Returns information about snapshots for a specified elastic cluster.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -275,7 +314,7 @@ extension DocDBElastic {
         )
     }
 
-    /// Returns information about provisioned Elastic DocumentDB clusters.
+    /// Returns information about provisioned Amazon DocumentDB elastic clusters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -300,7 +339,8 @@ extension DocDBElastic.ListClusterSnapshotsInput: AWSPaginateToken {
         return .init(
             clusterArn: self.clusterArn,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            snapshotType: self.snapshotType
         )
     }
 }

@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS SavingsPlans service.
 ///
-/// Savings Plans are a pricing model that offer significant savings on AWS usage (for example, on Amazon EC2 instances). You commit to a consistent amount of usage, in USD per hour, for a term of 1 or 3 years, and receive a lower price for that usage. For more information, see the AWS Savings Plans User Guide.
+/// Savings Plans are a pricing model that offer significant savings on Amazon Web Services usage (for example, on Amazon EC2 instances). You commit to a consistent amount of usage per hour, in the specified currency, for a term of one or three years, and receive a lower price for that usage. For more information, see the Amazon Web Services Savings Plans User Guide.
 public struct SavingsPlans: AWSService {
     // MARK: Member variables
 
@@ -106,7 +106,7 @@ public struct SavingsPlans: AWSService {
         )
     }
 
-    /// Describes the specified Savings Plans rates.
+    /// Describes the rates for the specified Savings Plan.
     @Sendable
     public func describeSavingsPlanRates(_ input: DescribeSavingsPlanRatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSavingsPlanRatesResponse {
         return try await self.client.execute(
@@ -132,7 +132,7 @@ public struct SavingsPlans: AWSService {
         )
     }
 
-    /// Describes the specified Savings Plans offering rates.
+    /// Describes the offering rates for the specified Savings Plans.
     @Sendable
     public func describeSavingsPlansOfferingRates(_ input: DescribeSavingsPlansOfferingRatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSavingsPlansOfferingRatesResponse {
         return try await self.client.execute(
@@ -145,7 +145,7 @@ public struct SavingsPlans: AWSService {
         )
     }
 
-    /// Describes the specified Savings Plans offerings.
+    /// Describes the offerings for the specified Savings Plans.
     @Sendable
     public func describeSavingsPlansOfferings(_ input: DescribeSavingsPlansOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSavingsPlansOfferingsResponse {
         return try await self.client.execute(
@@ -164,6 +164,19 @@ public struct SavingsPlans: AWSService {
         return try await self.client.execute(
             operation: "ListTagsForResource", 
             path: "/ListTagsForResource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns the specified Savings Plan.
+    @Sendable
+    public func returnSavingsPlan(_ input: ReturnSavingsPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReturnSavingsPlanResponse {
+        return try await self.client.execute(
+            operation: "ReturnSavingsPlan", 
+            path: "/ReturnSavingsPlan", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 

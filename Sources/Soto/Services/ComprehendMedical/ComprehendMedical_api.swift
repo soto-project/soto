@@ -75,6 +75,7 @@ public struct ComprehendMedical: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "ca-central-1": "comprehendmedical-fips.ca-central-1.amazonaws.com",
             "us-east-1": "comprehendmedical-fips.us-east-1.amazonaws.com",
             "us-east-2": "comprehendmedical-fips.us-east-2.amazonaws.com",
             "us-gov-west-1": "comprehendmedical-fips.us-gov-west-1.amazonaws.com",

@@ -953,6 +953,20 @@
                         "smithy.api#documentation": "Used for MS Smooth and Apple HLS outputs. Indicates the name displayed by the player (eg. English, or Director Commentary).",
                         "smithy.api#jsonName": "streamName"
                     }
+                },
+                "AudioDashRoles": {
+                    "target": "com.amazonaws.medialive#__listOfDashRoleAudio",
+                    "traits": {
+                        "smithy.api#documentation": "Identifies the DASH roles to assign to this audio output. Applies only when the audio output is configured for DVB DASH accessibility signaling.",
+                        "smithy.api#jsonName": "audioDashRoles"
+                    }
+                },
+                "DvbDashAccessibility": {
+                    "target": "com.amazonaws.medialive#DvbDashAccessibility",
+                    "traits": {
+                        "smithy.api#documentation": "Identifies DVB DASH accessibility signaling in this audio output. Used in Microsoft Smooth Streaming outputs to signal accessibility information to packagers.",
+                        "smithy.api#jsonName": "dvbDashAccessibility"
+                    }
                 }
             },
             "traits": {
@@ -2579,7 +2593,7 @@
                 "Accessibility": {
                     "target": "com.amazonaws.medialive#AccessibilityType",
                     "traits": {
-                        "smithy.api#documentation": "Indicates whether the caption track implements accessibility features such as written descriptions of spoken dialog, music, and sounds.",
+                        "smithy.api#documentation": "Indicates whether the caption track implements accessibility features such as written descriptions of spoken dialog, music, and sounds. This signaling is added to HLS output group and MediaPackage output group.",
                         "smithy.api#jsonName": "accessibility"
                     }
                 },
@@ -2620,6 +2634,20 @@
                         "smithy.api#documentation": "Name of the caption description.  Used to associate a caption description with an output.  Names must be unique within an event.",
                         "smithy.api#jsonName": "name",
                         "smithy.api#required": {}
+                    }
+                },
+                "CaptionDashRoles": {
+                    "target": "com.amazonaws.medialive#__listOfDashRoleCaption",
+                    "traits": {
+                        "smithy.api#documentation": "Identifies the DASH roles to assign to this captions output. Applies only when the captions output is configured for DVB DASH accessibility signaling.",
+                        "smithy.api#jsonName": "captionDashRoles"
+                    }
+                },
+                "DvbDashAccessibility": {
+                    "target": "com.amazonaws.medialive#DvbDashAccessibility",
+                    "traits": {
+                        "smithy.api#documentation": "Identifies DVB DASH accessibility signaling in this captions output. Used in Microsoft Smooth Streaming outputs to signal accessibility information to packagers.",
+                        "smithy.api#jsonName": "dvbDashAccessibility"
                     }
                 }
             },
@@ -3087,6 +3115,26 @@
                 "smithy.api#documentation": "Placeholder documentation for ChannelEgressEndpoint"
             }
         },
+        "com.amazonaws.medialive#ChannelPipelineIdToRestart": {
+            "type": "enum",
+            "members": {
+                "PIPELINE_0": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "PIPELINE_0"
+                    }
+                },
+                "PIPELINE_1": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "PIPELINE_1"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Property of RestartChannelPipelinesRequest"
+            }
+        },
         "com.amazonaws.medialive#ChannelState": {
             "type": "enum",
             "members": {
@@ -3345,6 +3393,197 @@
             "traits": {
                 "smithy.api#documentation": "Placeholder documentation for ClaimDeviceResponse",
                 "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.medialive#CmafIngestGroupSettings": {
+            "type": "structure",
+            "members": {
+                "Destination": {
+                    "target": "com.amazonaws.medialive#OutputLocationRef",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "A HTTP destination for the tracks",
+                        "smithy.api#jsonName": "destination",
+                        "smithy.api#required": {}
+                    }
+                },
+                "NielsenId3Behavior": {
+                    "target": "com.amazonaws.medialive#CmafNielsenId3Behavior",
+                    "traits": {
+                        "smithy.api#documentation": "If set to passthrough, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.",
+                        "smithy.api#jsonName": "nielsenId3Behavior"
+                    }
+                },
+                "Scte35Type": {
+                    "target": "com.amazonaws.medialive#Scte35Type",
+                    "traits": {
+                        "smithy.api#documentation": "Type of scte35 track to add. none or scte35WithoutSegmentation",
+                        "smithy.api#jsonName": "scte35Type"
+                    }
+                },
+                "SegmentLength": {
+                    "target": "com.amazonaws.medialive#__integerMin1",
+                    "traits": {
+                        "smithy.api#documentation": "The nominal duration of segments. The units are specified in SegmentLengthUnits. The segments will end on the next keyframe after the specified duration, so the actual segment length might be longer, and it might be a fraction of the units.",
+                        "smithy.api#jsonName": "segmentLength"
+                    }
+                },
+                "SegmentLengthUnits": {
+                    "target": "com.amazonaws.medialive#CmafIngestSegmentLengthUnits",
+                    "traits": {
+                        "smithy.api#documentation": "Time unit for segment length parameter.",
+                        "smithy.api#jsonName": "segmentLengthUnits"
+                    }
+                },
+                "SendDelayMs": {
+                    "target": "com.amazonaws.medialive#__integerMin0Max2000",
+                    "traits": {
+                        "smithy.api#documentation": "Number of milliseconds to delay the output from the second pipeline.",
+                        "smithy.api#jsonName": "sendDelayMs"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Cmaf Ingest Group Settings"
+            }
+        },
+        "com.amazonaws.medialive#CmafIngestOutputSettings": {
+            "type": "structure",
+            "members": {
+                "NameModifier": {
+                    "target": "com.amazonaws.medialive#__string",
+                    "traits": {
+                        "smithy.api#documentation": "String concatenated to the end of the destination filename.  Required for multiple outputs of the same type.",
+                        "smithy.api#jsonName": "nameModifier"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Cmaf Ingest Output Settings"
+            }
+        },
+        "com.amazonaws.medialive#CmafIngestSegmentLengthUnits": {
+            "type": "enum",
+            "members": {
+                "MILLISECONDS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "MILLISECONDS"
+                    }
+                },
+                "SECONDS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SECONDS"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Cmaf Ingest Segment Length Units"
+            }
+        },
+        "com.amazonaws.medialive#CmafNielsenId3Behavior": {
+            "type": "enum",
+            "members": {
+                "NO_PASSTHROUGH": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "NO_PASSTHROUGH"
+                    }
+                },
+                "PASSTHROUGH": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "PASSTHROUGH"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Cmaf Nielsen Id3 Behavior"
+            }
+        },
+        "com.amazonaws.medialive#ColorCorrection": {
+            "type": "structure",
+            "members": {
+                "InputColorSpace": {
+                    "target": "com.amazonaws.medialive#ColorSpace",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "The color space of the input.",
+                        "smithy.api#jsonName": "inputColorSpace",
+                        "smithy.api#required": {}
+                    }
+                },
+                "OutputColorSpace": {
+                    "target": "com.amazonaws.medialive#ColorSpace",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "The color space of the output.",
+                        "smithy.api#jsonName": "outputColorSpace",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Uri": {
+                    "target": "com.amazonaws.medialive#__string",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "The URI of the 3D LUT file. The protocol must be 's3:' or 's3ssl:':.",
+                        "smithy.api#jsonName": "uri",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Property of ColorCorrectionSettings. Used for custom color space conversion. The object identifies one 3D LUT file and specifies the input/output color space combination that the file will be used for."
+            }
+        },
+        "com.amazonaws.medialive#ColorCorrectionSettings": {
+            "type": "structure",
+            "members": {
+                "GlobalColorCorrections": {
+                    "target": "com.amazonaws.medialive#__listOfColorCorrection",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "An array of colorCorrections that applies when you are using 3D LUT files to perform color conversion on video. Each colorCorrection contains one 3D LUT file (that defines the color mapping for converting an input color space to an output color space), and the input/output combination that this 3D LUT file applies to. MediaLive reads the color space in the input metadata, determines the color space that you have specified for the output, and finds and uses the LUT file that applies to this combination.",
+                        "smithy.api#jsonName": "globalColorCorrections",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Property of encoderSettings. Controls color conversion when you are using 3D LUT files to perform color conversion on video."
+            }
+        },
+        "com.amazonaws.medialive#ColorSpace": {
+            "type": "enum",
+            "members": {
+                "HDR10": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "HDR10"
+                    }
+                },
+                "HLG_2020": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "HLG_2020"
+                    }
+                },
+                "REC_601": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "REC_601"
+                    }
+                },
+                "REC_709": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "REC_709"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Property of colorCorrections. When you are using 3D LUT files to perform color conversion on video, these are the supported color spaces."
             }
         },
         "com.amazonaws.medialive#ColorSpacePassthroughSettings": {
@@ -4112,6 +4351,154 @@
             "traits": {
                 "smithy.api#documentation": "Placeholder documentation for CreateTagsRequest",
                 "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.medialive#DashRoleAudio": {
+            "type": "enum",
+            "members": {
+                "ALTERNATE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ALTERNATE"
+                    }
+                },
+                "COMMENTARY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "COMMENTARY"
+                    }
+                },
+                "DESCRIPTION": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DESCRIPTION"
+                    }
+                },
+                "DUB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DUB"
+                    }
+                },
+                "EMERGENCY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EMERGENCY"
+                    }
+                },
+                "ENHANCED_AUDIO_INTELLIGIBILITY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ENHANCED-AUDIO-INTELLIGIBILITY"
+                    }
+                },
+                "KARAOKE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "KARAOKE"
+                    }
+                },
+                "MAIN": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "MAIN"
+                    }
+                },
+                "SUPPLEMENTARY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SUPPLEMENTARY"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Dash Role Audio"
+            }
+        },
+        "com.amazonaws.medialive#DashRoleCaption": {
+            "type": "enum",
+            "members": {
+                "ALTERNATE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ALTERNATE"
+                    }
+                },
+                "CAPTION": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CAPTION"
+                    }
+                },
+                "COMMENTARY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "COMMENTARY"
+                    }
+                },
+                "DESCRIPTION": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DESCRIPTION"
+                    }
+                },
+                "DUB": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DUB"
+                    }
+                },
+                "EASYREADER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EASYREADER"
+                    }
+                },
+                "EMERGENCY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EMERGENCY"
+                    }
+                },
+                "FORCED_SUBTITLE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "FORCED-SUBTITLE"
+                    }
+                },
+                "KARAOKE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "KARAOKE"
+                    }
+                },
+                "MAIN": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "MAIN"
+                    }
+                },
+                "METADATA": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "METADATA"
+                    }
+                },
+                "SUBTITLE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SUBTITLE"
+                    }
+                },
+                "SUPPLEMENTARY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SUPPLEMENTARY"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Dash Role Caption"
             }
         },
         "com.amazonaws.medialive#DeleteChannel": {
@@ -7119,6 +7506,56 @@
                 "smithy.api#documentation": "Dolby Vision81 Settings"
             }
         },
+        "com.amazonaws.medialive#DvbDashAccessibility": {
+            "type": "enum",
+            "members": {
+                "DVBDASH_1_VISUALLY_IMPAIRED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DVBDASH_1_VISUALLY_IMPAIRED"
+                    }
+                },
+                "DVBDASH_2_HARD_OF_HEARING": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DVBDASH_2_HARD_OF_HEARING"
+                    }
+                },
+                "DVBDASH_3_SUPPLEMENTAL_COMMENTARY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DVBDASH_3_SUPPLEMENTAL_COMMENTARY"
+                    }
+                },
+                "DVBDASH_4_DIRECTORS_COMMENTARY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DVBDASH_4_DIRECTORS_COMMENTARY"
+                    }
+                },
+                "DVBDASH_5_EDUCATIONAL_NOTES": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DVBDASH_5_EDUCATIONAL_NOTES"
+                    }
+                },
+                "DVBDASH_6_MAIN_PROGRAM": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DVBDASH_6_MAIN_PROGRAM"
+                    }
+                },
+                "DVBDASH_7_CLEAN_FEED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DVBDASH_7_CLEAN_FEED"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Dvb Dash Accessibility"
+            }
+        },
         "com.amazonaws.medialive#DvbNitSettings": {
             "type": "structure",
             "members": {
@@ -8572,6 +9009,13 @@
                     "traits": {
                         "smithy.api#documentation": "Thumbnail configuration settings.",
                         "smithy.api#jsonName": "thumbnailConfiguration"
+                    }
+                },
+                "ColorCorrectionSettings": {
+                    "target": "com.amazonaws.medialive#ColorCorrectionSettings",
+                    "traits": {
+                        "smithy.api#documentation": "Color Correction Settings",
+                        "smithy.api#jsonName": "colorCorrectionSettings"
                     }
                 }
             },
@@ -10533,6 +10977,46 @@
                 "smithy.api#documentation": "H265 Look Ahead Rate Control"
             }
         },
+        "com.amazonaws.medialive#H265MvOverPictureBoundaries": {
+            "type": "enum",
+            "members": {
+                "DISABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DISABLED"
+                    }
+                },
+                "ENABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ENABLED"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "H265 Mv Over Picture Boundaries"
+            }
+        },
+        "com.amazonaws.medialive#H265MvTemporalPredictor": {
+            "type": "enum",
+            "members": {
+                "DISABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DISABLED"
+                    }
+                },
+                "ENABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ENABLED"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "H265 Mv Temporal Predictor"
+            }
+        },
         "com.amazonaws.medialive#H265Profile": {
             "type": "enum",
             "members": {
@@ -10835,6 +11319,48 @@
                         "smithy.api#documentation": "Timecode burn-in settings",
                         "smithy.api#jsonName": "timecodeBurninSettings"
                     }
+                },
+                "MvOverPictureBoundaries": {
+                    "target": "com.amazonaws.medialive#H265MvOverPictureBoundaries",
+                    "traits": {
+                        "smithy.api#documentation": "If you are setting up the picture as a tile, you must set this to \"disabled\". In all other configurations, you typically enter \"enabled\".",
+                        "smithy.api#jsonName": "mvOverPictureBoundaries"
+                    }
+                },
+                "MvTemporalPredictor": {
+                    "target": "com.amazonaws.medialive#H265MvTemporalPredictor",
+                    "traits": {
+                        "smithy.api#documentation": "If you are setting up the picture as a tile, you must set this to \"disabled\". In other configurations, you typically enter \"enabled\".",
+                        "smithy.api#jsonName": "mvTemporalPredictor"
+                    }
+                },
+                "TileHeight": {
+                    "target": "com.amazonaws.medialive#__integerMin64Max2160",
+                    "traits": {
+                        "smithy.api#documentation": "Set this field to set up the picture as a tile. You must also set tileWidth.\nThe tile height must result in 22 or fewer rows in the frame. The tile width\nmust result in 20 or fewer columns in the frame. And finally, the product of the\ncolumn count and row count must be 64 of less.\nIf the tile width and height are specified, MediaLive will override the video\ncodec slices field with a value that MediaLive calculates",
+                        "smithy.api#jsonName": "tileHeight"
+                    }
+                },
+                "TilePadding": {
+                    "target": "com.amazonaws.medialive#H265TilePadding",
+                    "traits": {
+                        "smithy.api#documentation": "Set to \"padded\" to force MediaLive to add padding to the frame, to obtain a frame that is a whole multiple of the tile size.\nIf you are setting up the picture as a tile, you must enter \"padded\".\nIn all other configurations, you typically enter \"none\".",
+                        "smithy.api#jsonName": "tilePadding"
+                    }
+                },
+                "TileWidth": {
+                    "target": "com.amazonaws.medialive#__integerMin256Max3840",
+                    "traits": {
+                        "smithy.api#documentation": "Set this field to set up the picture as a tile. See tileHeight for more information.",
+                        "smithy.api#jsonName": "tileWidth"
+                    }
+                },
+                "TreeblockSize": {
+                    "target": "com.amazonaws.medialive#H265TreeblockSize",
+                    "traits": {
+                        "smithy.api#documentation": "Select the tree block size used for encoding. If you enter \"auto\", the encoder will pick the best size. If you are setting up the picture as a tile, you must set this to 32x32. In all other configurations, you typically enter \"auto\".",
+                        "smithy.api#jsonName": "treeblockSize"
+                    }
                 }
             },
             "traits": {
@@ -10861,6 +11387,26 @@
                 "smithy.api#documentation": "H265 Tier"
             }
         },
+        "com.amazonaws.medialive#H265TilePadding": {
+            "type": "enum",
+            "members": {
+                "NONE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "NONE"
+                    }
+                },
+                "PADDED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "PADDED"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "H265 Tile Padding"
+            }
+        },
         "com.amazonaws.medialive#H265TimecodeInsertionBehavior": {
             "type": "enum",
             "members": {
@@ -10879,6 +11425,26 @@
             },
             "traits": {
                 "smithy.api#documentation": "H265 Timecode Insertion Behavior"
+            }
+        },
+        "com.amazonaws.medialive#H265TreeblockSize": {
+            "type": "enum",
+            "members": {
+                "AUTO": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AUTO"
+                    }
+                },
+                "TREE_SIZE_32X32": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "TREE_SIZE_32X32"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "H265 Treeblock Size"
             }
         },
         "com.amazonaws.medialive#Hdr10Settings": {
@@ -12625,6 +13191,84 @@
                 "smithy.api#documentation": "The codec to use on the video that the device produces."
             }
         },
+        "com.amazonaws.medialive#InputDeviceConfigurableAudioChannelPairConfig": {
+            "type": "structure",
+            "members": {
+                "Id": {
+                    "target": "com.amazonaws.medialive#__integer",
+                    "traits": {
+                        "smithy.api#documentation": "The ID for one audio pair configuration, a value from 1 to 8.",
+                        "smithy.api#jsonName": "id"
+                    }
+                },
+                "Profile": {
+                    "target": "com.amazonaws.medialive#InputDeviceConfigurableAudioChannelPairProfile",
+                    "traits": {
+                        "smithy.api#documentation": "The profile to set for one audio pair configuration. Choose an enumeration value. Each value describes one audio configuration using the format (rate control algorithm)-(codec)_(quality)-(bitrate in bytes). For example, CBR-AAC_HQ-192000. Or choose DISABLED, in which case the device won't produce audio for this pair.",
+                        "smithy.api#jsonName": "profile"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "One audio configuration that specifies the format for one audio pair that the device produces as output."
+            }
+        },
+        "com.amazonaws.medialive#InputDeviceConfigurableAudioChannelPairProfile": {
+            "type": "enum",
+            "members": {
+                "DISABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DISABLED"
+                    }
+                },
+                "VBR_AAC_HHE_16000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VBR-AAC_HHE-16000"
+                    }
+                },
+                "VBR_AAC_HE_64000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VBR-AAC_HE-64000"
+                    }
+                },
+                "VBR_AAC_LC_128000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VBR-AAC_LC-128000"
+                    }
+                },
+                "CBR_AAC_HQ_192000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CBR-AAC_HQ-192000"
+                    }
+                },
+                "CBR_AAC_HQ_256000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CBR-AAC_HQ-256000"
+                    }
+                },
+                "CBR_AAC_HQ_384000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CBR-AAC_HQ-384000"
+                    }
+                },
+                "CBR_AAC_HQ_512000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CBR-AAC_HQ-512000"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Property of InputDeviceConfigurableAudioChannelPairConfig, which configures one audio channel that the device produces."
+            }
+        },
         "com.amazonaws.medialive#InputDeviceConfigurableSettings": {
             "type": "structure",
             "members": {
@@ -12661,6 +13305,13 @@
                     "traits": {
                         "smithy.api#documentation": "To attach this device to a MediaConnect flow, specify these parameters. To detach an existing flow, enter {} for the value of mediaconnectSettings. Only UHD devices can specify this parameter.",
                         "smithy.api#jsonName": "mediaconnectSettings"
+                    }
+                },
+                "AudioChannelPairs": {
+                    "target": "com.amazonaws.medialive#__listOfInputDeviceConfigurableAudioChannelPairConfig",
+                    "traits": {
+                        "smithy.api#documentation": "An array of eight audio configurations, one for each audio pair in the source. Set up each audio configuration either to exclude the pair, or to format it and include it in the output from the device. This parameter applies only to UHD devices, and only when the device is configured as the source for a MediaConnect flow. For an HD device, you configure the audio by setting up audio selectors in the channel configuration.",
+                        "smithy.api#jsonName": "audioChannelPairs"
                     }
                 }
             },
@@ -13183,6 +13834,84 @@
                 "smithy.api#documentation": "The type of the input device. For an AWS Elemental Link device that outputs resolutions up to 1080, choose \"HD\"."
             }
         },
+        "com.amazonaws.medialive#InputDeviceUhdAudioChannelPairConfig": {
+            "type": "structure",
+            "members": {
+                "Id": {
+                    "target": "com.amazonaws.medialive#__integer",
+                    "traits": {
+                        "smithy.api#documentation": "The ID for one audio pair configuration, a value from 1 to 8.",
+                        "smithy.api#jsonName": "id"
+                    }
+                },
+                "Profile": {
+                    "target": "com.amazonaws.medialive#InputDeviceUhdAudioChannelPairProfile",
+                    "traits": {
+                        "smithy.api#documentation": "The profile for one audio pair configuration. This property describes one audio configuration in the format (rate control algorithm)-(codec)_(quality)-(bitrate in bytes). For example, CBR-AAC_HQ-192000. Or DISABLED, in which case the device won't produce audio for this pair.",
+                        "smithy.api#jsonName": "profile"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "One audio configuration that specifies the format for one audio pair that the device produces as output."
+            }
+        },
+        "com.amazonaws.medialive#InputDeviceUhdAudioChannelPairProfile": {
+            "type": "enum",
+            "members": {
+                "DISABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DISABLED"
+                    }
+                },
+                "VBR_AAC_HHE_16000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VBR-AAC_HHE-16000"
+                    }
+                },
+                "VBR_AAC_HE_64000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VBR-AAC_HE-64000"
+                    }
+                },
+                "VBR_AAC_LC_128000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VBR-AAC_LC-128000"
+                    }
+                },
+                "CBR_AAC_HQ_192000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CBR-AAC_HQ-192000"
+                    }
+                },
+                "CBR_AAC_HQ_256000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CBR-AAC_HQ-256000"
+                    }
+                },
+                "CBR_AAC_HQ_384000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CBR-AAC_HQ-384000"
+                    }
+                },
+                "CBR_AAC_HQ_512000": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CBR-AAC_HQ-512000"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Property of InputDeviceUhdAudioChannelPairConfig, which describes one audio channel that the device is configured to produce."
+            }
+        },
         "com.amazonaws.medialive#InputDeviceUhdSettings": {
             "type": "structure",
             "members": {
@@ -13261,6 +13990,13 @@
                     "traits": {
                         "smithy.api#documentation": "Information about the MediaConnect flow attached to the device. Returned only if the outputType is MEDIACONNECT_FLOW.",
                         "smithy.api#jsonName": "mediaconnectSettings"
+                    }
+                },
+                "AudioChannelPairs": {
+                    "target": "com.amazonaws.medialive#__listOfInputDeviceUhdAudioChannelPairConfig",
+                    "traits": {
+                        "smithy.api#documentation": "An array of eight audio configurations, one for each audio pair in the source. Each audio configuration specifies either to exclude the pair, or to format it and include it in the output from the UHD device. Applies only when the device is configured as the source for a MediaConnect flow.",
+                        "smithy.api#jsonName": "audioChannelPairs"
                     }
                 }
             },
@@ -16487,6 +17223,9 @@
                     "target": "com.amazonaws.medialive#RejectInputDeviceTransfer"
                 },
                 {
+                    "target": "com.amazonaws.medialive#RestartChannelPipelines"
+                },
+                {
                     "target": "com.amazonaws.medialive#StartChannel"
                 },
                 {
@@ -19320,6 +20059,12 @@
                     "traits": {
                         "smithy.api#jsonName": "udpGroupSettings"
                     }
+                },
+                "CmafIngestGroupSettings": {
+                    "target": "com.amazonaws.medialive#CmafIngestGroupSettings",
+                    "traits": {
+                        "smithy.api#jsonName": "cmafIngestGroupSettings"
+                    }
                 }
             },
             "traits": {
@@ -19409,6 +20154,12 @@
                     "target": "com.amazonaws.medialive#UdpOutputSettings",
                     "traits": {
                         "smithy.api#jsonName": "udpOutputSettings"
+                    }
+                },
+                "CmafIngestOutputSettings": {
+                    "target": "com.amazonaws.medialive#CmafIngestOutputSettings",
+                    "traits": {
+                        "smithy.api#jsonName": "cmafIngestOutputSettings"
                     }
                 }
             },
@@ -20377,6 +21128,213 @@
             },
             "traits": {
                 "smithy.api#documentation": "Video quality, e.g. 'STANDARD' (Outputs only)"
+            }
+        },
+        "com.amazonaws.medialive#RestartChannelPipelines": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.medialive#RestartChannelPipelinesRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.medialive#RestartChannelPipelinesResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.medialive#BadGatewayException"
+                },
+                {
+                    "target": "com.amazonaws.medialive#BadRequestException"
+                },
+                {
+                    "target": "com.amazonaws.medialive#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.medialive#ForbiddenException"
+                },
+                {
+                    "target": "com.amazonaws.medialive#GatewayTimeoutException"
+                },
+                {
+                    "target": "com.amazonaws.medialive#InternalServerErrorException"
+                },
+                {
+                    "target": "com.amazonaws.medialive#NotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.medialive#TooManyRequestsException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "Restart pipelines in one channel that is currently running.",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/prod/channels/{ChannelId}/restartChannelPipelines",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.medialive#RestartChannelPipelinesRequest": {
+            "type": "structure",
+            "members": {
+                "ChannelId": {
+                    "target": "com.amazonaws.medialive#__string",
+                    "traits": {
+                        "smithy.api#documentation": "ID of channel",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "PipelineIds": {
+                    "target": "com.amazonaws.medialive#__listOfChannelPipelineIdToRestart",
+                    "traits": {
+                        "smithy.api#documentation": "An array of pipelines to restart in this channel. Format PIPELINE_0 or PIPELINE_1.",
+                        "smithy.api#jsonName": "pipelineIds"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Pipelines to restart.",
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.medialive#RestartChannelPipelinesResponse": {
+            "type": "structure",
+            "members": {
+                "Arn": {
+                    "target": "com.amazonaws.medialive#__string",
+                    "traits": {
+                        "smithy.api#documentation": "The unique arn of the channel.",
+                        "smithy.api#jsonName": "arn"
+                    }
+                },
+                "CdiInputSpecification": {
+                    "target": "com.amazonaws.medialive#CdiInputSpecification",
+                    "traits": {
+                        "smithy.api#documentation": "Specification of CDI inputs for this channel",
+                        "smithy.api#jsonName": "cdiInputSpecification"
+                    }
+                },
+                "ChannelClass": {
+                    "target": "com.amazonaws.medialive#ChannelClass",
+                    "traits": {
+                        "smithy.api#documentation": "The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.",
+                        "smithy.api#jsonName": "channelClass"
+                    }
+                },
+                "Destinations": {
+                    "target": "com.amazonaws.medialive#__listOfOutputDestination",
+                    "traits": {
+                        "smithy.api#documentation": "A list of destinations of the channel. For UDP outputs, there is one\ndestination per output. For other types (HLS, for example), there is\none destination per packager.",
+                        "smithy.api#jsonName": "destinations"
+                    }
+                },
+                "EgressEndpoints": {
+                    "target": "com.amazonaws.medialive#__listOfChannelEgressEndpoint",
+                    "traits": {
+                        "smithy.api#documentation": "The endpoints where outgoing connections initiate from",
+                        "smithy.api#jsonName": "egressEndpoints"
+                    }
+                },
+                "EncoderSettings": {
+                    "target": "com.amazonaws.medialive#EncoderSettings",
+                    "traits": {
+                        "smithy.api#jsonName": "encoderSettings"
+                    }
+                },
+                "Id": {
+                    "target": "com.amazonaws.medialive#__string",
+                    "traits": {
+                        "smithy.api#documentation": "The unique id of the channel.",
+                        "smithy.api#jsonName": "id"
+                    }
+                },
+                "InputAttachments": {
+                    "target": "com.amazonaws.medialive#__listOfInputAttachment",
+                    "traits": {
+                        "smithy.api#documentation": "List of input attachments for channel.",
+                        "smithy.api#jsonName": "inputAttachments"
+                    }
+                },
+                "InputSpecification": {
+                    "target": "com.amazonaws.medialive#InputSpecification",
+                    "traits": {
+                        "smithy.api#documentation": "Specification of network and file inputs for this channel",
+                        "smithy.api#jsonName": "inputSpecification"
+                    }
+                },
+                "LogLevel": {
+                    "target": "com.amazonaws.medialive#LogLevel",
+                    "traits": {
+                        "smithy.api#documentation": "The log level being written to CloudWatch Logs.",
+                        "smithy.api#jsonName": "logLevel"
+                    }
+                },
+                "Maintenance": {
+                    "target": "com.amazonaws.medialive#MaintenanceStatus",
+                    "traits": {
+                        "smithy.api#documentation": "Maintenance settings for this channel.",
+                        "smithy.api#jsonName": "maintenance"
+                    }
+                },
+                "MaintenanceStatus": {
+                    "target": "com.amazonaws.medialive#__string",
+                    "traits": {
+                        "smithy.api#documentation": "The time in milliseconds by when the PVRE restart must occur.",
+                        "smithy.api#jsonName": "maintenanceStatus"
+                    }
+                },
+                "Name": {
+                    "target": "com.amazonaws.medialive#__string",
+                    "traits": {
+                        "smithy.api#documentation": "The name of the channel. (user-mutable)",
+                        "smithy.api#jsonName": "name"
+                    }
+                },
+                "PipelineDetails": {
+                    "target": "com.amazonaws.medialive#__listOfPipelineDetail",
+                    "traits": {
+                        "smithy.api#documentation": "Runtime details for the pipelines of a running channel.",
+                        "smithy.api#jsonName": "pipelineDetails"
+                    }
+                },
+                "PipelinesRunningCount": {
+                    "target": "com.amazonaws.medialive#__integer",
+                    "traits": {
+                        "smithy.api#documentation": "The number of currently healthy pipelines.",
+                        "smithy.api#jsonName": "pipelinesRunningCount"
+                    }
+                },
+                "RoleArn": {
+                    "target": "com.amazonaws.medialive#__string",
+                    "traits": {
+                        "smithy.api#documentation": "The Amazon Resource Name (ARN) of the role assumed when running the Channel.",
+                        "smithy.api#jsonName": "roleArn"
+                    }
+                },
+                "State": {
+                    "target": "com.amazonaws.medialive#ChannelState",
+                    "traits": {
+                        "smithy.api#jsonName": "state"
+                    }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.medialive#Tags",
+                    "traits": {
+                        "smithy.api#documentation": "A collection of key-value pairs.",
+                        "smithy.api#jsonName": "tags"
+                    }
+                },
+                "Vpc": {
+                    "target": "com.amazonaws.medialive#VpcOutputSettingsDescription",
+                    "traits": {
+                        "smithy.api#documentation": "Settings for VPC output",
+                        "smithy.api#jsonName": "vpc"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for RestartChannelPipelinesResponse",
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.medialive#RtmpAdMarkers": {
@@ -21396,6 +22354,26 @@
             },
             "traits": {
                 "smithy.api#documentation": "Settings for a SCTE-35 time_signal."
+            }
+        },
+        "com.amazonaws.medialive#Scte35Type": {
+            "type": "enum",
+            "members": {
+                "NONE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "NONE"
+                    }
+                },
+                "SCTE_35_WITHOUT_SEGMENTATION": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SCTE_35_WITHOUT_SEGMENTATION"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Scte35 Type"
             }
         },
         "com.amazonaws.medialive#Scte35WebDeliveryAllowedFlag": {
@@ -25222,6 +26200,16 @@
                 }
             }
         },
+        "com.amazonaws.medialive#__integerMin0Max2000": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for __integerMin0Max2000",
+                "smithy.api#range": {
+                    "min": 0,
+                    "max": 2000
+                }
+            }
+        },
         "com.amazonaws.medialive#__integerMin0Max255": {
             "type": "integer",
             "traits": {
@@ -25519,6 +26507,16 @@
                 }
             }
         },
+        "com.amazonaws.medialive#__integerMin256Max3840": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for __integerMin256Max3840",
+                "smithy.api#range": {
+                    "min": 256,
+                    "max": 3840
+                }
+            }
+        },
         "com.amazonaws.medialive#__integerMin25Max10000": {
             "type": "integer",
             "traits": {
@@ -25574,6 +26572,16 @@
                 "smithy.api#range": {
                     "min": 4,
                     "max": 20
+                }
+            }
+        },
+        "com.amazonaws.medialive#__integerMin64Max2160": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for __integerMin64Max2160",
+                "smithy.api#range": {
+                    "min": 64,
+                    "max": 2160
                 }
             }
         },
@@ -25727,6 +26735,15 @@
                 "smithy.api#documentation": "Placeholder documentation for __listOfChannelEgressEndpoint"
             }
         },
+        "com.amazonaws.medialive#__listOfChannelPipelineIdToRestart": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.medialive#ChannelPipelineIdToRestart"
+            },
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for __listOfChannelPipelineIdToRestart"
+            }
+        },
         "com.amazonaws.medialive#__listOfChannelSummary": {
             "type": "list",
             "member": {
@@ -25734,6 +26751,33 @@
             },
             "traits": {
                 "smithy.api#documentation": "Placeholder documentation for __listOfChannelSummary"
+            }
+        },
+        "com.amazonaws.medialive#__listOfColorCorrection": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.medialive#ColorCorrection"
+            },
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for __listOfColorCorrection"
+            }
+        },
+        "com.amazonaws.medialive#__listOfDashRoleAudio": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.medialive#DashRoleAudio"
+            },
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for __listOfDashRoleAudio"
+            }
+        },
+        "com.amazonaws.medialive#__listOfDashRoleCaption": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.medialive#DashRoleCaption"
+            },
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for __listOfDashRoleCaption"
             }
         },
         "com.amazonaws.medialive#__listOfFailoverCondition": {
@@ -25799,6 +26843,15 @@
                 "smithy.api#documentation": "Placeholder documentation for __listOfInputDestinationRequest"
             }
         },
+        "com.amazonaws.medialive#__listOfInputDeviceConfigurableAudioChannelPairConfig": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.medialive#InputDeviceConfigurableAudioChannelPairConfig"
+            },
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for __listOfInputDeviceConfigurableAudioChannelPairConfig"
+            }
+        },
         "com.amazonaws.medialive#__listOfInputDeviceRequest": {
             "type": "list",
             "member": {
@@ -25824,6 +26877,15 @@
             },
             "traits": {
                 "smithy.api#documentation": "Placeholder documentation for __listOfInputDeviceSummary"
+            }
+        },
+        "com.amazonaws.medialive#__listOfInputDeviceUhdAudioChannelPairConfig": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.medialive#InputDeviceUhdAudioChannelPairConfig"
+            },
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for __listOfInputDeviceUhdAudioChannelPairConfig"
             }
         },
         "com.amazonaws.medialive#__listOfInputSecurityGroup": {

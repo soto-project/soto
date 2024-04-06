@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS BedrockAgentRuntime service.
 ///
-/// Amazon Bedrock Agent
+/// Contains APIs related to model invocation and querying of knowledge bases.
 public struct BedrockAgentRuntime: AWSService {
     // MARK: Member variables
 
@@ -74,7 +74,7 @@ public struct BedrockAgentRuntime: AWSService {
 
     // MARK: API Calls
 
-    /// Invokes the specified Bedrock model to run inference using the input provided in the request body.
+    /// Sends a prompt for the agent to process and respond to.  The CLI doesn't support InvokeAgent.    To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   End a conversation by setting endSession to true.   Include attributes for the session or prompt in the sessionState object.   The response is returned in the bytes field of the chunk object.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   Errors are also surfaced in the response.
     @Sendable
     public func invokeAgent(_ input: InvokeAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeAgentResponse {
         return try await self.client.execute(
@@ -87,7 +87,7 @@ public struct BedrockAgentRuntime: AWSService {
         )
     }
 
-    /// Retrieve from knowledge base.
+    /// Queries a knowledge base and retrieves information from it.
     @Sendable
     public func retrieve(_ input: RetrieveRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetrieveResponse {
         return try await self.client.execute(
@@ -100,7 +100,7 @@ public struct BedrockAgentRuntime: AWSService {
         )
     }
 
-    /// RetrieveAndGenerate API
+    /// Queries a knowledge base and generates responses based on the retrieved results. The response only cites sources that are relevant to the query.
     @Sendable
     public func retrieveAndGenerate(_ input: RetrieveAndGenerateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetrieveAndGenerateResponse {
         return try await self.client.execute(
@@ -127,7 +127,7 @@ extension BedrockAgentRuntime {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension BedrockAgentRuntime {
-    /// Retrieve from knowledge base.
+    /// Queries a knowledge base and retrieves information from it.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

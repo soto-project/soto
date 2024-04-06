@@ -778,7 +778,7 @@ public struct Omics: AWSService {
         )
     }
 
-    ///  Lists all multipart read set uploads and their statuses.
+    ///  Lists multipart read set uploads and for in progress uploads. Once the upload is completed, a read set is created and the upload will no longer be returned in the respone.
     @Sendable
     public func listMultipartReadSetUploads(_ input: ListMultipartReadSetUploadsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMultipartReadSetUploadsResponse {
         return try await self.client.execute(
@@ -1311,7 +1311,7 @@ extension Omics {
         )
     }
 
-    ///  Lists all multipart read set uploads and their statuses.
+    ///  Lists multipart read set uploads and for in progress uploads. Once the upload is completed, a read set is created and the upload will no longer be returned in the respone.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -84,6 +84,7 @@ public struct EMR: AWSService {
         ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "elasticmapreduce-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "elasticmapreduce-fips.ca-west-1.amazonaws.com",
             "us-east-1": "elasticmapreduce-fips.us-east-1.amazonaws.com",
             "us-east-2": "elasticmapreduce-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "elasticmapreduce.us-gov-east-1.amazonaws.com",
@@ -709,11 +710,37 @@ public struct EMR: AWSService {
         )
     }
 
-    /// SetTerminationProtection locks a cluster (job flow) so the Amazon EC2 instances in the cluster cannot be terminated by user intervention, an API call, or in the event of a job-flow error. The cluster still terminates upon successful completion of the job flow. Calling SetTerminationProtection on a cluster is similar to calling the Amazon EC2 DisableAPITermination API on all Amazon EC2 instances in a cluster.  SetTerminationProtection is used to prevent accidental termination of a cluster and to ensure that in the event of an error, the instances persist so that you can recover any data stored in their ephemeral instance storage. To terminate a cluster that has been locked by setting SetTerminationProtection to true, you must first unlock the job flow by a subsequent call to SetTerminationProtection in which you set the value to false.  For more information, seeManaging Cluster Termination in the Amazon EMR Management Guide.
+    /// You can use the SetKeepJobFlowAliveWhenNoSteps to configure a cluster (job flow) to terminate after the step execution, i.e., all your  steps are executed. If you want a transient cluster that shuts down after the last of the current executing steps are completed,  you can configure SetKeepJobFlowAliveWhenNoSteps to false. If you want a long running cluster, configure SetKeepJobFlowAliveWhenNoSteps to true. For more information, see Managing Cluster Termination in the Amazon EMR Management Guide.
+    @Sendable
+    public func setKeepJobFlowAliveWhenNoSteps(_ input: SetKeepJobFlowAliveWhenNoStepsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "SetKeepJobFlowAliveWhenNoSteps", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// SetTerminationProtection locks a cluster (job flow) so the Amazon EC2 instances in the cluster cannot be terminated by user intervention, an API call, or in the event of a job-flow error. The cluster still terminates upon successful completion of the job flow. Calling SetTerminationProtection on a cluster is similar to calling the Amazon EC2 DisableAPITermination API on all Amazon EC2 instances in a cluster.  SetTerminationProtection is used to prevent accidental termination of a cluster and to ensure that in the event of an error, the instances persist so that you can recover any data stored in their ephemeral instance storage. To terminate a cluster that has been locked by setting SetTerminationProtection to true, you must first unlock the job flow by a subsequent call to SetTerminationProtection in which you set the value to false.  For more information, see Managing Cluster Termination in the Amazon EMR Management Guide.
     @Sendable
     public func setTerminationProtection(_ input: SetTerminationProtectionInput, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
             operation: "SetTerminationProtection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Specify whether to enable unhealthy node replacement, which lets Amazon EMR gracefully  replace core nodes on a cluster if any nodes become unhealthy. For example, a node becomes  unhealthy if disk usage is above 90%. If unhealthy node replacement is on and TerminationProtected are off,  Amazon EMR immediately terminates the unhealthy core nodes. To use unhealthy node replacement  and retain unhealthy core nodes, use  to turn on termination protection. In such cases, Amazon EMR adds  the unhealthy nodes to a denylist, reducing job interruptions and failures. If unhealthy node replacement is on, Amazon EMR  notifies YARN and other applications on the cluster to stop scheduling tasks  with these nodes, moves the data, and then terminates the nodes. For more information, see graceful  node replacement in the Amazon EMR Management Guide.
+    @Sendable
+    public func setUnhealthyNodeReplacement(_ input: SetUnhealthyNodeReplacementInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "SetUnhealthyNodeReplacement", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 

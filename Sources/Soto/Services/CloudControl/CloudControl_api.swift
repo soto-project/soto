@@ -76,6 +76,7 @@ public struct CloudControl: AWSService {
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
             "ca-central-1": "cloudcontrolapi-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "cloudcontrolapi-fips.ca-west-1.amazonaws.com",
             "us-east-1": "cloudcontrolapi-fips.us-east-1.amazonaws.com",
             "us-east-2": "cloudcontrolapi-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "cloudcontrolapi-fips.us-gov-east-1.amazonaws.com",

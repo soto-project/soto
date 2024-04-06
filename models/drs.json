@@ -86,6 +86,12 @@
                 }
             }
         },
+        "com.amazonaws.drs#AgentVersion": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^[0-9]{1,5}.[0-9]{1,5}.[0-9]{1,5}(.[0-9]{4}.[0-9]{3}.[0-9]{4})?$"
+            }
+        },
         "com.amazonaws.drs#AssociateSourceNetworkStack": {
             "type": "operation",
             "input": {
@@ -303,6 +309,12 @@
                     "target": "com.amazonaws.drs#VolumeToSizeMap",
                     "traits": {
                         "smithy.api#documentation": "<p>A mapping between the volumes and their sizes</p>"
+                    }
+                },
+                "volumeToProductCodes": {
+                    "target": "com.amazonaws.drs#VolumeToProductCodes",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A mapping between the volumes being converted and the product codes associated with them</p>"
                     }
                 }
             },
@@ -904,6 +916,12 @@
                     "traits": {
                         "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The size of the replication backlog in bytes.</p>"
+                    }
+                },
+                "volumeStatus": {
+                    "target": "com.amazonaws.drs#VolumeStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status of the volume.</p>"
                     }
                 }
             },
@@ -1519,7 +1537,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.drs#StrictlyPositiveInteger",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Maximum number of Job log items to retrieve.</p>"
                     }
                 },
@@ -1598,7 +1615,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.drs#StrictlyPositiveInteger",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Maximum number of Jobs to retrieve.</p>"
                     }
                 },
@@ -1718,7 +1734,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.drs#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Maximum results to be returned in DescribeLaunchConfigurationTemplates.</p>"
                     }
                 },
@@ -1807,7 +1822,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.drs#StrictlyPositiveInteger",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Maximum number of Recovery Instances to retrieve.</p>"
                     }
                 },
@@ -1922,7 +1936,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.drs#StrictlyPositiveInteger",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Maximum number of Recovery Snapshots to retrieve.</p>"
                     }
                 },
@@ -2024,7 +2037,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.drs#StrictlyPositiveInteger",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Maximum number of Replication Configuration Templates to retrieve.</p>"
                     }
                 },
@@ -2103,7 +2115,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.drs#StrictlyPositiveInteger",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Maximum number of Source Networks to retrieve.</p>"
                     }
                 },
@@ -2226,7 +2237,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.drs#StrictlyPositiveInteger",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Maximum number of Source Servers to retrieve.</p>"
                     }
                 },
@@ -2630,7 +2640,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -2673,7 +2682,8 @@
                                     },
                                     "type": "endpoint"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         },
                         {
                             "conditions": [
@@ -2686,7 +2696,6 @@
                                     ]
                                 }
                             ],
-                            "type": "tree",
                             "rules": [
                                 {
                                     "conditions": [
@@ -2700,7 +2709,6 @@
                                             "assign": "PartitionResult"
                                         }
                                     ],
-                                    "type": "tree",
                                     "rules": [
                                         {
                                             "conditions": [
@@ -2723,7 +2731,6 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -2758,7 +2765,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -2769,14 +2775,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "FIPS and DualStack are enabled, but this partition does not support one or both",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [
@@ -2790,14 +2798,12 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
                                                         {
                                                             "fn": "booleanEquals",
                                                             "argv": [
-                                                                true,
                                                                 {
                                                                     "fn": "getAttr",
                                                                     "argv": [
@@ -2806,11 +2812,11 @@
                                                                         },
                                                                         "supportsFIPS"
                                                                     ]
-                                                                }
+                                                                },
+                                                                true
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -2821,14 +2827,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "FIPS is enabled but this partition does not support FIPS",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [
@@ -2842,7 +2850,6 @@
                                                     ]
                                                 }
                                             ],
-                                            "type": "tree",
                                             "rules": [
                                                 {
                                                     "conditions": [
@@ -2862,7 +2869,6 @@
                                                             ]
                                                         }
                                                     ],
-                                                    "type": "tree",
                                                     "rules": [
                                                         {
                                                             "conditions": [],
@@ -2873,14 +2879,16 @@
                                                             },
                                                             "type": "endpoint"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "type": "tree"
                                                 },
                                                 {
                                                     "conditions": [],
                                                     "error": "DualStack is enabled but this partition does not support DualStack",
                                                     "type": "error"
                                                 }
-                                            ]
+                                            ],
+                                            "type": "tree"
                                         },
                                         {
                                             "conditions": [],
@@ -2891,9 +2899,11 @@
                                             },
                                             "type": "endpoint"
                                         }
-                                    ]
+                                    ],
+                                    "type": "tree"
                                 }
-                            ]
+                            ],
+                            "type": "tree"
                         },
                         {
                             "conditions": [],
@@ -4485,10 +4495,7 @@
                     }
                 },
                 "order": {
-                    "target": "com.amazonaws.drs#LaunchActionOrder",
-                    "traits": {
-                        "smithy.api#default": 0
-                    }
+                    "target": "com.amazonaws.drs#LaunchActionOrder"
                 },
                 "actionVersion": {
                     "target": "com.amazonaws.drs#LaunchActionVersion"
@@ -4589,7 +4596,6 @@
         "com.amazonaws.drs#LaunchActionOrder": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#documentation": "<p>Launch action order.</p>",
                 "smithy.api#range": {
                     "min": 2,
@@ -5220,7 +5226,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.drs#MaxResultsReplicatingSourceServers",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The maximum number of extensible source servers to retrieve.</p>"
                     }
                 },
@@ -5308,7 +5313,6 @@
                 "maxResults": {
                     "target": "com.amazonaws.drs#MaxResultsType",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>Maximum amount of items to return when listing resource launch actions.</p>"
                     }
                 },
@@ -5390,6 +5394,7 @@
                 "maxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
+                        "smithy.api#default": null,
                         "smithy.api#documentation": "<p>The maximum number of staging Accounts to retrieve.</p>",
                         "smithy.api#httpQuery": "maxResults",
                         "smithy.api#range": {
@@ -5485,7 +5490,6 @@
         "com.amazonaws.drs#MaxResultsReplicatingSourceServers": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1,
                     "max": 300
@@ -5495,7 +5499,6 @@
         "com.amazonaws.drs#MaxResultsType": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1,
                     "max": 1000
@@ -5601,7 +5604,6 @@
                 "interval": {
                     "target": "com.amazonaws.drs#StrictlyPositiveInteger",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>How often, in the chosen units, a snapshot should be taken.</p>",
                         "smithy.api#required": {}
                     }
@@ -5609,7 +5611,6 @@
                 "retentionDuration": {
                     "target": "com.amazonaws.drs#StrictlyPositiveInteger",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The duration to retain a snapshot for, in the chosen units.</p>",
                         "smithy.api#required": {}
                     }
@@ -5740,6 +5741,57 @@
                 }
             }
         },
+        "com.amazonaws.drs#ProductCode": {
+            "type": "structure",
+            "members": {
+                "productCodeId": {
+                    "target": "com.amazonaws.drs#ProductCodeId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Id of a product code associated with a volume.</p>"
+                    }
+                },
+                "productCodeMode": {
+                    "target": "com.amazonaws.drs#ProductCodeMode",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Mode of a product code associated with a volume.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Properties of a product code associated with a volume.</p>"
+            }
+        },
+        "com.amazonaws.drs#ProductCodeId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 25,
+                    "max": 25
+                },
+                "smithy.api#pattern": "^([A-Za-z0-9])+$"
+            }
+        },
+        "com.amazonaws.drs#ProductCodeMode": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "name": "ENABLED",
+                        "value": "ENABLED"
+                    },
+                    {
+                        "name": "DISABLED",
+                        "value": "DISABLED"
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.drs#ProductCodes": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.drs#ProductCode"
+            }
+        },
         "com.amazonaws.drs#PutLaunchAction": {
             "type": "operation",
             "input": {
@@ -5796,7 +5848,6 @@
                 "order": {
                     "target": "com.amazonaws.drs#LaunchActionOrder",
                     "traits": {
-                        "smithy.api#default": 0,
                         "smithy.api#required": {}
                     }
                 },
@@ -5883,10 +5934,7 @@
                     }
                 },
                 "order": {
-                    "target": "com.amazonaws.drs#LaunchActionOrder",
-                    "traits": {
-                        "smithy.api#default": 0
-                    }
+                    "target": "com.amazonaws.drs#LaunchActionOrder"
                 },
                 "actionVersion": {
                     "target": "com.amazonaws.drs#LaunchActionVersion"
@@ -5996,6 +6044,12 @@
                     "target": "com.amazonaws.drs#AwsAvailabilityZone",
                     "traits": {
                         "smithy.api#documentation": "<p>AWS availability zone associated with the recovery instance.</p>"
+                    }
+                },
+                "agentVersion": {
+                    "target": "com.amazonaws.drs#AgentVersion",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The version of the DRS agent installed on the recovery instance</p>"
                     }
                 }
             },
@@ -7744,6 +7798,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>ID of the Source Network which is protecting this Source Server's network.</p>"
                     }
+                },
+                "agentVersion": {
+                    "target": "com.amazonaws.drs#AgentVersion",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The version of the DRS agent installed on the source server</p>"
+                    }
                 }
             },
             "traits": {
@@ -8555,7 +8615,6 @@
         "com.amazonaws.drs#StrictlyPositiveInteger": {
             "type": "integer",
             "traits": {
-                "smithy.api#default": 0,
                 "smithy.api#range": {
                     "min": 1
                 }
@@ -9491,6 +9550,29 @@
                 ]
             }
         },
+        "com.amazonaws.drs#VolumeStatus": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "REGULAR",
+                        "name": "REGULAR"
+                    },
+                    {
+                        "value": "CONTAINS_MARKETPLACE_PRODUCT_CODES",
+                        "name": "CONTAINS_MARKETPLACE_PRODUCT_CODES"
+                    },
+                    {
+                        "value": "MISSING_VOLUME_ATTRIBUTES",
+                        "name": "MISSING_VOLUME_ATTRIBUTES"
+                    },
+                    {
+                        "value": "MISSING_VOLUME_ATTRIBUTES_AND_PRECHECK_UNAVAILABLE",
+                        "name": "MISSING_VOLUME_ATTRIBUTES_AND_PRECHECK_UNAVAILABLE"
+                    }
+                ]
+            }
+        },
         "com.amazonaws.drs#VolumeToConversionMap": {
             "type": "map",
             "key": {
@@ -9498,6 +9580,15 @@
             },
             "value": {
                 "target": "com.amazonaws.drs#ConversionMap"
+            }
+        },
+        "com.amazonaws.drs#VolumeToProductCodes": {
+            "type": "map",
+            "key": {
+                "target": "com.amazonaws.drs#LargeBoundedString"
+            },
+            "value": {
+                "target": "com.amazonaws.drs#ProductCodes"
             }
         },
         "com.amazonaws.drs#VolumeToSizeMap": {

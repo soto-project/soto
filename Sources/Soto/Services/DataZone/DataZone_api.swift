@@ -84,6 +84,7 @@ public struct DataZone: AWSService {
         "ap-southeast-3": "datazone.ap-southeast-3.api.aws",
         "ap-southeast-4": "datazone.ap-southeast-4.api.aws",
         "ca-central-1": "datazone.ca-central-1.api.aws",
+        "ca-west-1": "datazone.ca-west-1.api.aws",
         "cn-north-1": "datazone.cn-north-1.api.amazonwebservices.com.cn",
         "cn-northwest-1": "datazone.cn-northwest-1.api.amazonwebservices.com.cn",
         "eu-central-1": "datazone.eu-central-1.api.aws",
@@ -122,6 +123,7 @@ public struct DataZone: AWSService {
             "ap-southeast-3": "datazone-fips.ap-southeast-3.api.aws",
             "ap-southeast-4": "datazone-fips.ap-southeast-4.api.aws",
             "ca-central-1": "datazone-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "datazone-fips.ca-west-1.api.aws",
             "cn-north-1": "datazone-fips.cn-north-1.api.amazonwebservices.com.cn",
             "cn-northwest-1": "datazone-fips.cn-northwest-1.api.amazonwebservices.com.cn",
             "eu-central-1": "datazone-fips.eu-central-1.api.aws",
@@ -167,6 +169,19 @@ public struct DataZone: AWSService {
             operation: "AcceptSubscriptionRequest", 
             path: "/v2/domains/{domainIdentifier}/subscription-requests/{identifier}/accept", 
             httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Cancels the metadata generation run.
+    @Sendable
+    public func cancelMetadataGenerationRun(_ input: CancelMetadataGenerationRunInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelMetadataGenerationRunOutput {
+        return try await self.client.execute(
+            operation: "CancelMetadataGenerationRun", 
+            path: "/v2/domains/{domainIdentifier}/metadata-generation-runs/{identifier}/cancel", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -329,6 +344,7 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Publishes a listing (a record of an asset at a given time) or removes a listing from the catalog.
     @Sendable
     public func createListingChangeSet(_ input: CreateListingChangeSetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateListingChangeSetOutput {
         return try await self.client.execute(
@@ -549,6 +565,7 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Deletes a listing (a record of an asset at a given time).
     @Sendable
     public func deleteListing(_ input: DeleteListingInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteListingOutput {
         return try await self.client.execute(
@@ -619,6 +636,19 @@ public struct DataZone: AWSService {
         return try await self.client.execute(
             operation: "DeleteSubscriptionTarget", 
             path: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/subscription-targets/{identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the specified time series form for the specified asset.
+    @Sendable
+    public func deleteTimeSeriesDataPoints(_ input: DeleteTimeSeriesDataPointsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTimeSeriesDataPointsOutput {
+        return try await self.client.execute(
+            operation: "DeleteTimeSeriesDataPoints", 
+            path: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/time-series-data-points", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -808,11 +838,25 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Gets a listing (a record of an asset at a given time).
     @Sendable
     public func getListing(_ input: GetListingInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetListingOutput {
         return try await self.client.execute(
             operation: "GetListing", 
             path: "/v2/domains/{domainIdentifier}/listings/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets a metadata generation run in Amazon DataZone.
+    @Sendable
+    public func getMetadataGenerationRun(_ input: GetMetadataGenerationRunInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetadataGenerationRunOutput {
+        return try await self.client.execute(
+            operation: "GetMetadataGenerationRun", 
+            path: "/v2/domains/{domainIdentifier}/metadata-generation-runs/{identifier}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -878,6 +922,19 @@ public struct DataZone: AWSService {
         return try await self.client.execute(
             operation: "GetSubscriptionTarget", 
             path: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/subscription-targets/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets the existing data point for the asset.
+    @Sendable
+    public func getTimeSeriesDataPoint(_ input: GetTimeSeriesDataPointInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTimeSeriesDataPointOutput {
+        return try await self.client.execute(
+            operation: "GetTimeSeriesDataPoint", 
+            path: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/time-series-data-points/{identifier}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -1015,6 +1072,19 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Lists all metadata generation runs.
+    @Sendable
+    public func listMetadataGenerationRuns(_ input: ListMetadataGenerationRunsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMetadataGenerationRunsOutput {
+        return try await self.client.execute(
+            operation: "ListMetadataGenerationRuns", 
+            path: "/v2/domains/{domainIdentifier}/metadata-generation-runs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists all Amazon DataZone notifications.
     @Sendable
     public func listNotifications(_ input: ListNotificationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNotificationsOutput {
@@ -1119,6 +1189,32 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Lists time series data points.
+    @Sendable
+    public func listTimeSeriesDataPoints(_ input: ListTimeSeriesDataPointsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTimeSeriesDataPointsOutput {
+        return try await self.client.execute(
+            operation: "ListTimeSeriesDataPoints", 
+            path: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/time-series-data-points", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Posts time series data points to Amazon DataZone for the specified asset.
+    @Sendable
+    public func postTimeSeriesDataPoints(_ input: PostTimeSeriesDataPointsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PostTimeSeriesDataPointsOutput {
+        return try await self.client.execute(
+            operation: "PostTimeSeriesDataPoints", 
+            path: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/time-series-data-points", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Writes the configuration for the specified environment blueprint in Amazon DataZone.
     @Sendable
     public func putEnvironmentBlueprintConfiguration(_ input: PutEnvironmentBlueprintConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEnvironmentBlueprintConfigurationOutput {
@@ -1197,7 +1293,7 @@ public struct DataZone: AWSService {
         )
     }
 
-    /// Searches listings in Amazon DataZone.
+    /// Searches listings (records of an asset at a given time) in Amazon DataZone.
     @Sendable
     public func searchListings(_ input: SearchListingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchListingsOutput {
         return try await self.client.execute(
@@ -1242,6 +1338,19 @@ public struct DataZone: AWSService {
         return try await self.client.execute(
             operation: "StartDataSourceRun", 
             path: "/v2/domains/{domainIdentifier}/data-sources/{dataSourceIdentifier}/runs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Starts the metadata generation run.
+    @Sendable
+    public func startMetadataGenerationRun(_ input: StartMetadataGenerationRunInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetadataGenerationRunOutput {
+        return try await self.client.execute(
+            operation: "StartMetadataGenerationRun", 
+            path: "/v2/domains/{domainIdentifier}/metadata-generation-runs", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -1597,6 +1706,25 @@ extension DataZone {
         )
     }
 
+    /// Lists all metadata generation runs.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listMetadataGenerationRunsPaginator(
+        _ input: ListMetadataGenerationRunsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMetadataGenerationRunsInput, ListMetadataGenerationRunsOutput> {
+        return .init(
+            input: input,
+            command: self.listMetadataGenerationRuns,
+            inputKey: \ListMetadataGenerationRunsInput.nextToken,
+            outputKey: \ListMetadataGenerationRunsOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists all Amazon DataZone notifications.
     /// Return PaginatorSequence for operation.
     ///
@@ -1730,6 +1858,25 @@ extension DataZone {
         )
     }
 
+    /// Lists time series data points.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listTimeSeriesDataPointsPaginator(
+        _ input: ListTimeSeriesDataPointsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTimeSeriesDataPointsInput, ListTimeSeriesDataPointsOutput> {
+        return .init(
+            input: input,
+            command: self.listTimeSeriesDataPoints,
+            inputKey: \ListTimeSeriesDataPointsInput.nextToken,
+            outputKey: \ListTimeSeriesDataPointsOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Searches for assets in Amazon DataZone.
     /// Return PaginatorSequence for operation.
     ///
@@ -1768,7 +1915,7 @@ extension DataZone {
         )
     }
 
-    /// Searches listings in Amazon DataZone.
+    /// Searches listings (records of an asset at a given time) in Amazon DataZone.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1930,6 +2077,18 @@ extension DataZone.ListEnvironmentsInput: AWSPaginateToken {
     }
 }
 
+extension DataZone.ListMetadataGenerationRunsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DataZone.ListMetadataGenerationRunsInput {
+        return .init(
+            domainIdentifier: self.domainIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status,
+            type: self.type
+        )
+    }
+}
+
 extension DataZone.ListNotificationsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataZone.ListNotificationsInput {
         return .init(
@@ -2029,6 +2188,21 @@ extension DataZone.ListSubscriptionsInput: AWSPaginateToken {
             status: self.status,
             subscribedListingId: self.subscribedListingId,
             subscriptionRequestIdentifier: self.subscriptionRequestIdentifier
+        )
+    }
+}
+
+extension DataZone.ListTimeSeriesDataPointsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DataZone.ListTimeSeriesDataPointsInput {
+        return .init(
+            domainIdentifier: self.domainIdentifier,
+            endedAt: self.endedAt,
+            entityIdentifier: self.entityIdentifier,
+            entityType: self.entityType,
+            formName: self.formName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startedAt: self.startedAt
         )
     }
 }

@@ -80,6 +80,7 @@ public struct FSx: AWSService {
             "us-east-2": "fsx-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "fsx-fips.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "fsx-fips.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "fsx-fips.us-iso-east-1.c2s.ic.gov",
             "us-west-1": "fsx-fips.us-west-1.amazonaws.com",
             "us-west-2": "fsx-fips.us-west-2.amazonaws.com"
         ])
@@ -438,7 +439,7 @@ public struct FSx: AWSService {
         )
     }
 
-    /// Indicates whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual private cloud (VPC) owner. For more information, see the Amazon FSx for NetApp ONTAP User Guide.
+    /// Indicates whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual private cloud (VPC) owner. For more information, see Creating FSx for ONTAP file systems in shared subnets.
     @Sendable
     public func describeSharedVpcConfiguration(_ input: DescribeSharedVpcConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSharedVpcConfigurationResponse {
         return try await self.client.execute(
@@ -945,6 +946,7 @@ extension FSx.DescribeSnapshotsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FSx.DescribeSnapshotsRequest {
         return .init(
             filters: self.filters,
+            includeShared: self.includeShared,
             maxResults: self.maxResults,
             nextToken: token,
             snapshotIds: self.snapshotIds

@@ -264,6 +264,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// >Associates a set of proficiencies with a user.
+    @Sendable
+    public func associateUserProficiencies(_ input: AssociateUserProficienciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "AssociateUserProficiencies", 
+            path: "/users/{InstanceId}/{UserId}/associate-proficiencies", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a list of analytics datasets for a given Amazon Connect instance to a target account. You can associate multiple datasets in a single call.
     @Sendable
     public func batchAssociateAnalyticsDataSet(_ input: BatchAssociateAnalyticsDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAssociateAnalyticsDataSetResponse {
@@ -442,6 +455,19 @@ public struct Connect: AWSService {
             operation: "CreatePersistentContactAssociation", 
             path: "/contact/persistent-contact-association/{InstanceId}/{InitialContactId}", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a new predefined attribute for the specified Amazon Connect instance.
+    @Sendable
+    public func createPredefinedAttribute(_ input: CreatePredefinedAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "CreatePredefinedAttribute", 
+            path: "/predefined-attributes/{InstanceId}", 
+            httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -738,6 +764,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Deletes a predefined attribute from the specified Amazon Connect instance.
+    @Sendable
+    public func deletePredefinedAttribute(_ input: DeletePredefinedAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeletePredefinedAttribute", 
+            path: "/predefined-attributes/{InstanceId}/{Name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes a prompt.
     @Sendable
     public func deletePrompt(_ input: DeletePromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -764,7 +803,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Deletes a quick connect.
+    /// Deletes a quick connect.   After calling DeleteUser, it's important to call DeleteQuickConnect to delete any records related to the deleted users. This will help you:   Avoid dangling resources that impact your service quotas.   Remove deleted users so they don't appear to agents as transfer options.   Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if you're using Amazon Connect Global Resiliency.
     @Sendable
     public func deleteQuickConnect(_ input: DeleteQuickConnectRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -855,7 +894,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Deletes a user account from the specified Amazon Connect instance. For information about what happens to a user's data when their account is deleted, see Delete Users from Your Amazon Connect Instance in the Amazon Connect Administrator Guide.
+    /// Deletes a user account from the specified Amazon Connect instance. For information about what happens to a user's data when their account is deleted, see Delete Users from Your Amazon Connect Instance in the Amazon Connect Administrator Guide.  After calling DeleteUser, call DeleteQuickConnect to delete any records related to the deleted users. This will help you:   Avoid dangling resources that impact your service quotas.   Remove deleted users so they don't appear to agents as transfer options.   Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if you're using Amazon Connect Global Resiliency.
     @Sendable
     public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1056,6 +1095,19 @@ public struct Connect: AWSService {
         return try await self.client.execute(
             operation: "DescribePhoneNumber", 
             path: "/phone-number/{PhoneNumberId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describes a predefined attribute for the specified Amazon Connect instance.
+    @Sendable
+    public func describePredefinedAttribute(_ input: DescribePredefinedAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePredefinedAttributeResponse {
+        return try await self.client.execute(
+            operation: "DescribePredefinedAttribute", 
+            path: "/predefined-attributes/{InstanceId}/{Name}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -1375,6 +1427,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Disassociates a set of proficiencies from a user.
+    @Sendable
+    public func disassociateUserProficiencies(_ input: DisassociateUserProficienciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DisassociateUserProficiencies", 
+            path: "/users/{InstanceId}/{UserId}/disassociate-proficiencies", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Dismisses contacts from an agent’s CCP and returns the agent to an available state, which allows the agent to receive a new routed contact. Contacts can only be dismissed if they are in a MISSED, ERROR, ENDED, or REJECTED state in the Agent Event Stream.
     @Sendable
     public func dismissUserContact(_ input: DismissUserContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DismissUserContactResponse {
@@ -1622,7 +1687,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact.
+    /// This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact. References are links to documents that are related to a contact, such as emails, attachments, or URLs.
     @Sendable
     public func listContactReferences(_ input: ListContactReferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactReferencesResponse {
         return try await self.client.execute(
@@ -1798,6 +1863,19 @@ public struct Connect: AWSService {
             operation: "ListPhoneNumbersV2", 
             path: "/phone-number/list", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists predefined attributes for the specified Amazon Connect instance.
+    @Sendable
+    public func listPredefinedAttributes(_ input: ListPredefinedAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPredefinedAttributesResponse {
+        return try await self.client.execute(
+            operation: "ListPredefinedAttributes", 
+            path: "/predefined-attributes/{InstanceId}", 
+            httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -2038,6 +2116,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Lists proficiencies associated with a user.
+    @Sendable
+    public func listUserProficiencies(_ input: ListUserProficienciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUserProficienciesResponse {
+        return try await self.client.execute(
+            operation: "ListUserProficiencies", 
+            path: "/users/{InstanceId}/{UserId}/proficiencies", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Provides summary information about the users for the specified Amazon Connect instance.
     @Sendable
     public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsersResponse {
@@ -2090,6 +2181,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Allows pausing an ongoing task contact.
+    @Sendable
+    public func pauseContact(_ input: PauseContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PauseContactResponse {
+        return try await self.client.execute(
+            operation: "PauseContact", 
+            path: "/contact/pause", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Changes the current status of a user or agent in Amazon Connect. If the agent is currently handling a contact, this sets the agent's next status. For more information, see Agent status and Set your next status in the Amazon Connect Administrator Guide.
     @Sendable
     public func putUserStatus(_ input: PutUserStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutUserStatusResponse {
@@ -2129,6 +2233,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Allows resuming a task contact in a paused state.
+    @Sendable
+    public func resumeContact(_ input: ResumeContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResumeContactResponse {
+        return try await self.client.execute(
+            operation: "ResumeContact", 
+            path: "/contact/resume", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// When a contact is being recorded, and the recording has been suspended using SuspendContactRecording, this API resumes recording whatever recording is selected in the flow configuration: call, screen, or both. If only call recording or only screen recording is enabled, then it would resume. Voice and screen recordings are supported.
     @Sendable
     public func resumeContactRecording(_ input: ResumeContactRecordingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResumeContactRecordingResponse {
@@ -2155,12 +2272,38 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Searches contacts in an Amazon Connect instance.
+    @Sendable
+    public func searchContacts(_ input: SearchContactsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchContactsResponse {
+        return try await self.client.execute(
+            operation: "SearchContacts", 
+            path: "/search-contacts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Searches the hours of operation in an Amazon Connect instance, with optional filtering.
     @Sendable
     public func searchHoursOfOperations(_ input: SearchHoursOfOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchHoursOfOperationsResponse {
         return try await self.client.execute(
             operation: "SearchHoursOfOperations", 
             path: "/search-hours-of-operations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Predefined attributes that meet certain criteria.
+    @Sendable
+    public func searchPredefinedAttributes(_ input: SearchPredefinedAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchPredefinedAttributesResponse {
+        return try await self.client.execute(
+            operation: "SearchPredefinedAttributes", 
+            path: "/search-predefined-attributes", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -2376,7 +2519,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Ends the specified contact. This call does not work for voice contacts that use the following initiation methods:   DISCONNECT   TRANSFER   QUEUE_TRANSFER   Chat and task contacts, however, can be terminated in any state, regardless of initiation method.
+    /// Ends the specified contact. Use this API to stop queued callbacks. It does not work for voice contacts that use the following initiation methods:   DISCONNECT   TRANSFER   QUEUE_TRANSFER   Chat and task contacts can be terminated in any state, regardless of initiation method.
     @Sendable
     public func stopContact(_ input: StopContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopContactResponse {
         return try await self.client.execute(
@@ -2441,6 +2584,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Adds the specified tags to the contact resource. For more information about this API is used, see Set up granular billing for a detailed view of your Amazon Connect usage.
+    @Sendable
+    public func tagContact(_ input: TagContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagContactResponse {
+        return try await self.client.execute(
+            operation: "TagContact", 
+            path: "/contact/tags", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, contact flows, agent statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see Tagging resources in Amazon Connect. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2461,6 +2617,19 @@ public struct Connect: AWSService {
             operation: "TransferContact", 
             path: "/contact/transfer", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Removes the specified tags from the contact resource. For more information about this API is used, see Set up granular billing for a detailed view of your Amazon Connect usage.
+    @Sendable
+    public func untagContact(_ input: UntagContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagContactResponse {
+        return try await self.client.execute(
+            operation: "UntagContact", 
+            path: "/contact/tags/{InstanceId}/{ContactId}", 
+            httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -2597,6 +2766,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// This API is in preview release for Amazon Connect and is subject to change. Updates routing priority and age on the contact (QueuePriority and QueueTimeAdjustmentInSeconds). These properties can be used to change a customer's position in the queue. For example, you can move a contact to the back of the queue by setting a lower routing priority relative to other contacts in queue; or you can move a contact to the front of the queue by increasing the routing age which will make the contact look artificially older and therefore higher up in the first-in-first-out routing order. Note that adjusting the routing age of a contact affects only its position in queue, and not its actual queue wait time as reported through metrics. These properties can also be updated by using the Set routing priority / age flow block.
+    @Sendable
+    public func updateContactRoutingData(_ input: UpdateContactRoutingDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactRoutingDataResponse {
+        return try await self.client.execute(
+            operation: "UpdateContactRoutingData", 
+            path: "/contacts/{InstanceId}/{ContactId}/routing-data", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates the scheduled time of a task contact that is already scheduled.
     @Sendable
     public func updateContactSchedule(_ input: UpdateContactScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactScheduleResponse {
@@ -2695,6 +2877,19 @@ public struct Connect: AWSService {
             operation: "UpdatePhoneNumberMetadata", 
             path: "/phone-number/{PhoneNumberId}/metadata", 
             httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates a predefined attribute for the specified Amazon Connect instance.
+    @Sendable
+    public func updatePredefinedAttribute(_ input: UpdatePredefinedAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "UpdatePredefinedAttribute", 
+            path: "/predefined-attributes/{InstanceId}/{Name}", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -2989,6 +3184,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Updates the properties associated with the proficiencies of a user.
+    @Sendable
+    public func updateUserProficiencies(_ input: UpdateUserProficienciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "UpdateUserProficiencies", 
+            path: "/users/{InstanceId}/{UserId}/proficiencies", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Assigns the specified routing profile to the specified user.
     @Sendable
     public func updateUserRoutingProfile(_ input: UpdateUserRoutingProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3245,7 +3453,7 @@ extension Connect {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact.
+    /// This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact. References are links to documents that are related to a contact, such as emails, attachments, or URLs.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -3507,6 +3715,25 @@ extension Connect {
             command: self.listPhoneNumbersV2,
             inputKey: \ListPhoneNumbersV2Request.nextToken,
             outputKey: \ListPhoneNumbersV2Response.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists predefined attributes for the specified Amazon Connect instance.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listPredefinedAttributesPaginator(
+        _ input: ListPredefinedAttributesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPredefinedAttributesRequest, ListPredefinedAttributesResponse> {
+        return .init(
+            input: input,
+            command: self.listPredefinedAttributes,
+            inputKey: \ListPredefinedAttributesRequest.nextToken,
+            outputKey: \ListPredefinedAttributesResponse.nextToken,
             logger: logger
         )
     }
@@ -3834,6 +4061,25 @@ extension Connect {
         )
     }
 
+    /// Lists proficiencies associated with a user.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listUserProficienciesPaginator(
+        _ input: ListUserProficienciesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListUserProficienciesRequest, ListUserProficienciesResponse> {
+        return .init(
+            input: input,
+            command: self.listUserProficiencies,
+            inputKey: \ListUserProficienciesRequest.nextToken,
+            outputKey: \ListUserProficienciesResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Provides summary information about the users for the specified Amazon Connect instance.
     /// Return PaginatorSequence for operation.
     ///
@@ -3910,6 +4156,25 @@ extension Connect {
         )
     }
 
+    /// Searches contacts in an Amazon Connect instance.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func searchContactsPaginator(
+        _ input: SearchContactsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchContactsRequest, SearchContactsResponse> {
+        return .init(
+            input: input,
+            command: self.searchContacts,
+            inputKey: \SearchContactsRequest.nextToken,
+            outputKey: \SearchContactsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Searches the hours of operation in an Amazon Connect instance, with optional filtering.
     /// Return PaginatorSequence for operation.
     ///
@@ -3925,6 +4190,25 @@ extension Connect {
             command: self.searchHoursOfOperations,
             inputKey: \SearchHoursOfOperationsRequest.nextToken,
             outputKey: \SearchHoursOfOperationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Predefined attributes that meet certain criteria.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func searchPredefinedAttributesPaginator(
+        _ input: SearchPredefinedAttributesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchPredefinedAttributesRequest, SearchPredefinedAttributesResponse> {
+        return .init(
+            input: input,
+            command: self.searchPredefinedAttributes,
+            inputKey: \SearchPredefinedAttributesRequest.nextToken,
+            outputKey: \SearchPredefinedAttributesResponse.nextToken,
             logger: logger
         )
     }
@@ -4354,6 +4638,16 @@ extension Connect.ListPhoneNumbersV2Request: AWSPaginateToken {
     }
 }
 
+extension Connect.ListPredefinedAttributesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListPredefinedAttributesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Connect.ListPromptsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListPromptsRequest {
         return .init(
@@ -4538,6 +4832,17 @@ extension Connect.ListUserHierarchyGroupsRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.ListUserProficienciesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListUserProficienciesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            userId: self.userId
+        )
+    }
+}
+
 extension Connect.ListUsersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListUsersRequest {
         return .init(
@@ -4584,6 +4889,19 @@ extension Connect.SearchAvailablePhoneNumbersRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.SearchContactsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.SearchContactsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            sort: self.sort,
+            timeRange: self.timeRange
+        )
+    }
+}
+
 extension Connect.SearchHoursOfOperationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.SearchHoursOfOperationsRequest {
         return .init(
@@ -4592,6 +4910,17 @@ extension Connect.SearchHoursOfOperationsRequest: AWSPaginateToken {
             nextToken: token,
             searchCriteria: self.searchCriteria,
             searchFilter: self.searchFilter
+        )
+    }
+}
+
+extension Connect.SearchPredefinedAttributesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.SearchPredefinedAttributesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria
         )
     }
 }

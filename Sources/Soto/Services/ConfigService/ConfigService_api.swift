@@ -672,7 +672,7 @@ public struct ConfigService: AWSService {
     }
 
     /// Returns a list of organization Config rules.   When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization Config rule names.
-    /// 			It is only applicable, when you request all the organization Config rules.  For accounts within an organzation  If you deploy an organizational rule or conformance pack in an organization
+    /// 			It is only applicable, when you request all the organization Config rules.  For accounts within an organization  If you deploy an organizational rule or conformance pack in an organization
     /// 				administrator account, and then establish a delegated administrator and deploy an
     /// 				organizational rule or conformance pack in the delegated administrator account, you
     /// 				won't be able to see the organizational rule or conformance pack in the organization
@@ -711,7 +711,7 @@ public struct ConfigService: AWSService {
     }
 
     /// Returns a list of organization conformance packs.   When you specify the limit and the next token, you receive a paginated response.  Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable,
-    /// 			when you request all the organization conformance packs.   For accounts within an organzation  If you deploy an organizational rule or conformance pack in an organization
+    /// 			when you request all the organization conformance packs.   For accounts within an organization  If you deploy an organizational rule or conformance pack in an organization
     /// 				administrator account, and then establish a delegated administrator and deploy an
     /// 				organizational rule or conformance pack in the delegated administrator account, you
     /// 				won't be able to see the organizational rule or conformance pack in the organization
@@ -1428,9 +1428,12 @@ public struct ConfigService: AWSService {
     /// 			selected target or action.
     /// 			The API creates the RemediationConfiguration object for the Config rule.
     /// 		The Config rule must already exist for you to add a remediation configuration.
-    /// 		The target (SSM document) must exist and have permissions to use the target.   If you make backward incompatible changes to the SSM document,
+    /// 		The target (SSM document) must exist and have permissions to use the target.    Be aware of backward incompatible changes  If you make backward incompatible changes to the SSM document,
     /// 			you must call this again to ensure the remediations can run. This API does not support adding remediation configurations for service-linked Config Rules such as Organization Config rules,
-    /// 				the rules deployed by conformance packs, and rules deployed by Amazon Web Services Security Hub.   For manual remediation configuration, you need to provide a value for automationAssumeRole or use a value in the assumeRolefield  to remediate your resources. The SSM automation document can use either as long as it maps to a valid parameter. However, for automatic remediation configuration, the only valid assumeRole field value is AutomationAssumeRole and you need to provide a value for AutomationAssumeRole to remediate your resources.
+    /// 				the rules deployed by conformance packs, and rules deployed by Amazon Web Services Security Hub.    Required fields  For manual remediation configuration, you need to provide a value for automationAssumeRole or use a value in the assumeRolefield  to remediate your resources. The SSM automation document can use either as long as it maps to a valid parameter. However, for automatic remediation configuration, the only valid assumeRole field value is AutomationAssumeRole and you need to provide a value for AutomationAssumeRole to remediate your resources.    Auto remediation can be initiated even for compliant resources  If you enable auto remediation for a specific Config rule using the PutRemediationConfigurations API or the Config console,
+    /// 				it initiates the remediation process for all non-compliant resources for that specific rule.
+    /// 				The auto remediation process relies on the compliance data snapshot which is captured on a periodic basis.
+    /// 				Any non-compliant resource that is updated between the snapshot schedule will continue to be remediated based on the last known compliance data snapshot. This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
     @Sendable
     public func putRemediationConfigurations(_ input: PutRemediationConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRemediationConfigurationsResponse {
         return try await self.client.execute(
@@ -1444,14 +1447,17 @@ public struct ConfigService: AWSService {
     }
 
     /// A remediation exception is when a specified resource is no longer considered for auto-remediation.
-    /// 			This API adds a new exception or updates an existing exception for a specified resource with a specified Config rule.   Config generates a remediation exception when a problem occurs running a remediation action for a specified resource.
-    /// 			Remediation exceptions blocks auto-remediation until the exception is cleared.   When placing an exception on an Amazon Web Services resource, it is recommended that remediation is set as manual remediation until
+    /// 			This API adds a new exception or updates an existing exception for a specified resource with a specified Config rule.    Exceptions block auto remediation  Config generates a remediation exception when a problem occurs running a remediation action for a specified resource.
+    /// 			Remediation exceptions blocks auto-remediation until the exception is cleared.    Manual remediation is recommended when placing an exception  When placing an exception on an Amazon Web Services resource, it is recommended that remediation is set as manual remediation until
     /// 			the given Config rule for the specified resource evaluates the resource as NON_COMPLIANT.
     /// 			Once the resource has been evaluated as NON_COMPLIANT, you can add remediation exceptions and change the remediation type back from Manual to Auto if you want to use auto-remediation.
-    /// 			Otherwise, using auto-remediation before a NON_COMPLIANT evaluation result can delete resources before the exception is applied.   Placing an exception can only be performed on resources that are NON_COMPLIANT.
+    /// 			Otherwise, using auto-remediation before a NON_COMPLIANT evaluation result can delete resources before the exception is applied.    Exceptions can only be performed on non-compliant resources  Placing an exception can only be performed on resources that are NON_COMPLIANT.
     /// 			If you use this API for COMPLIANT resources or resources that are NOT_APPLICABLE, a remediation exception will not be generated.
     /// 			For more information on the conditions that initiate the possible Config evaluation results,
-    /// 			see Concepts | Config  Rules in the Config Developer Guide.
+    /// 			see Concepts | Config  Rules in the Config Developer Guide.    Auto remediation can be initiated even for compliant resources  If you enable auto remediation for a specific Config rule using the PutRemediationConfigurations API or the Config console,
+    /// 				it initiates the remediation process for all non-compliant resources for that specific rule.
+    /// 				The auto remediation process relies on the compliance data snapshot which is captured on a periodic basis.
+    /// 				Any non-compliant resource that is updated between the snapshot schedule will continue to be remediated based on the last known compliance data snapshot. This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
     @Sendable
     public func putRemediationExceptions(_ input: PutRemediationExceptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRemediationExceptionsResponse {
         return try await self.client.execute(
@@ -1982,7 +1988,7 @@ extension ConfigService {
     }
 
     /// Returns a list of organization Config rules.   When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization Config rule names.
-    /// 			It is only applicable, when you request all the organization Config rules.  For accounts within an organzation  If you deploy an organizational rule or conformance pack in an organization
+    /// 			It is only applicable, when you request all the organization Config rules.  For accounts within an organization  If you deploy an organizational rule or conformance pack in an organization
     /// 				administrator account, and then establish a delegated administrator and deploy an
     /// 				organizational rule or conformance pack in the delegated administrator account, you
     /// 				won't be able to see the organizational rule or conformance pack in the organization
@@ -2033,7 +2039,7 @@ extension ConfigService {
     }
 
     /// Returns a list of organization conformance packs.   When you specify the limit and the next token, you receive a paginated response.  Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable,
-    /// 			when you request all the organization conformance packs.   For accounts within an organzation  If you deploy an organizational rule or conformance pack in an organization
+    /// 			when you request all the organization conformance packs.   For accounts within an organization  If you deploy an organizational rule or conformance pack in an organization
     /// 				administrator account, and then establish a delegated administrator and deploy an
     /// 				organizational rule or conformance pack in the delegated administrator account, you
     /// 				won't be able to see the organizational rule or conformance pack in the organization

@@ -87,6 +87,7 @@ public struct ElasticsearchService: AWSService {
             "ap-southeast-3": "aos.ap-southeast-3.api.aws",
             "ap-southeast-4": "aos.ap-southeast-4.api.aws",
             "ca-central-1": "aos.ca-central-1.api.aws",
+            "ca-west-1": "aos.ca-west-1.api.aws",
             "cn-north-1": "aos.cn-north-1.api.amazonwebservices.com.cn",
             "cn-northwest-1": "aos.cn-northwest-1.api.amazonwebservices.com.cn",
             "eu-central-1": "aos.eu-central-1.api.aws",
@@ -165,6 +166,19 @@ public struct ElasticsearchService: AWSService {
         return try await self.client.execute(
             operation: "AuthorizeVpcEndpointAccess", 
             path: "/2015-01-01/es/domain/{DomainName}/authorizeVpcEndpointAccess", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Cancels a pending configuration change on an Amazon OpenSearch Service domain.
+    @Sendable
+    public func cancelDomainConfigChange(_ input: CancelDomainConfigChangeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelDomainConfigChangeResponse {
+        return try await self.client.execute(
+            operation: "CancelDomainConfigChange", 
+            path: "/2015-01-01/es/domain/{DomainName}/config/cancel", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 

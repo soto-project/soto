@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS MigrationHubOrchestrator service.
 ///
-/// This API reference provides descriptions, syntax, and other details about each of the actions and data types for AWS Migration Hub Orchestrator. he topic for each action shows the API request parameters and the response. Alternatively, you can use one of the AWS SDKs to access an API that is tailored to the programming language or platform that you're using.
+/// This API reference provides descriptions, syntax, and other details about each of the actions and data types for AWS Migration Hub Orchestrator. The topic for each action shows the API request parameters and responses. Alternatively, you can use one of the AWS SDKs to access an API that is tailored to the programming language or platform that you're using.
 public struct MigrationHubOrchestrator: AWSService {
     // MARK: Member variables
 
@@ -73,6 +73,19 @@ public struct MigrationHubOrchestrator: AWSService {
 
     // MARK: API Calls
 
+    /// Creates a migration workflow template.
+    @Sendable
+    public func createTemplate(_ input: CreateTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTemplateResponse {
+        return try await self.client.execute(
+            operation: "CreateTemplate", 
+            path: "/template", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Create a workflow to orchestrate your migrations.
     @Sendable
     public func createWorkflow(_ input: CreateMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMigrationWorkflowResponse {
@@ -106,6 +119,19 @@ public struct MigrationHubOrchestrator: AWSService {
             operation: "CreateWorkflowStepGroup", 
             path: "/workflowstepgroups", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a migration workflow template.
+    @Sendable
+    public func deleteTemplate(_ input: DeleteTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTemplateResponse {
+        return try await self.client.execute(
+            operation: "DeleteTemplate", 
+            path: "/template/{id}", 
+            httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -392,6 +418,19 @@ public struct MigrationHubOrchestrator: AWSService {
             operation: "UntagResource", 
             path: "/tags/{resourceArn}", 
             httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates a migration workflow template.
+    @Sendable
+    public func updateTemplate(_ input: UpdateTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTemplateResponse {
+        return try await self.client.execute(
+            operation: "UpdateTemplate", 
+            path: "/template/{id}", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger

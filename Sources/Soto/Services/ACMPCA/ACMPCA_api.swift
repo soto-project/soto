@@ -88,6 +88,7 @@ public struct ACMPCA: AWSService {
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
             "ca-central-1": "acm-pca-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "acm-pca-fips.ca-west-1.amazonaws.com",
             "us-east-1": "acm-pca-fips.us-east-1.amazonaws.com",
             "us-east-2": "acm-pca-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "acm-pca.us-gov-east-1.amazonaws.com",
@@ -744,7 +745,7 @@ extension ACMPCA {
                 .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("RequestInProgressException")),
             ],
-            minDelayTime: .seconds(3),
+            minDelayTime: .seconds(1),
             command: self.getCertificate
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)

@@ -327,7 +327,7 @@
             "type": "structure",
             "members": {},
             "traits": {
-                "smithy.api#documentation": "<p>The configuration for applying a filter to all sheets. You can apply this filter to all visuals on every sheet.</p>\n         <p>This is a union type structure. For this structure to be valid, only one of the attributes can be defined.</p>"
+                "smithy.api#documentation": "<p>An empty object that represents that the <code>AllSheets</code> option is the chosen value for the <code>FilterScopeConfiguration</code> parameter. This structure applies the filter to all visuals on all sheets of an Analysis, Dashboard, or Template.</p>\n         <p>This is a union type structure. For this structure to be valid, only one of the attributes can be defined.</p>"
             }
         },
         "com.amazonaws.quicksight#AmazonElasticsearchParameters": {
@@ -3656,6 +3656,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The contribution analysis (anomaly configuration) setup of the visual.</p>"
                     }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
+                    }
                 }
             },
             "traits": {
@@ -4098,6 +4104,12 @@
                     "target": "com.amazonaws.quicksight#VisualPalette",
                     "traits": {
                         "smithy.api#documentation": "<p>The palette (chart color) display setup of the visual.</p>"
+                    }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
                     }
                 }
             },
@@ -5079,7 +5091,7 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 0,
-                    "max": 200
+                    "max": 2000
                 }
             }
         },
@@ -5581,6 +5593,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The aggregation function of the column tooltip item.</p>"
                     }
+                },
+                "TooltipTarget": {
+                    "target": "com.amazonaws.quicksight#TooltipTarget",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Determines the target of the column tooltip item in a combo chart visual.</p>"
+                    }
                 }
             },
             "traits": {
@@ -5676,6 +5694,9 @@
                         "smithy.api#documentation": "<p>The label options (label text, label visibility, and sort icon visibility) of a combo chart's secondary y-axis(line) field well.</p>"
                     }
                 },
+                "SingleAxisOptions": {
+                    "target": "com.amazonaws.quicksight#SingleAxisOptions"
+                },
                 "ColorLabelOptions": {
                     "target": "com.amazonaws.quicksight#ChartAxisLabelOptions",
                     "traits": {
@@ -5716,6 +5737,12 @@
                     "target": "com.amazonaws.quicksight#VisualPalette",
                     "traits": {
                         "smithy.api#documentation": "<p>The palette (chart color) display setup of the visual.</p>"
+                    }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
                     }
                 }
             },
@@ -6295,6 +6322,20 @@
                 }
             }
         },
+        "com.amazonaws.quicksight#ContextMenuOption": {
+            "type": "structure",
+            "members": {
+                "AvailabilityStatus": {
+                    "target": "com.amazonaws.quicksight#DashboardBehavior",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The availability status of the context menu options. If the value of this property is set to <code>ENABLED</code>, dashboard readers can interact with the context menu.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The context menu options for a visual's interactions.</p>"
+            }
+        },
         "com.amazonaws.quicksight#ContributionAnalysisDefault": {
             "type": "structure",
             "members": {
@@ -6510,7 +6551,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Creates an Amazon QuickSight account, or subscribes to Amazon QuickSight Q.</p>\n         <p>The Amazon Web Services Region for the account is derived from what is configured in the\n          CLI or SDK. This operation isn't supported in the US East (Ohio) Region, South America (Sao Paulo) Region, or Asia\n            Pacific (Singapore) Region.  </p>\n         <p>Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see <a href=\"https://docs.aws.amazon.com/quicksight/latest/user/setting-up-aws-sign-up.html\">Sign\n                up for Amazon Web Services</a> in the <i>Amazon QuickSight User\n                Guide</i>. The person who signs up for Amazon QuickSight needs to have the\n            correct Identity and Access Management (IAM) permissions. For more information,\n            see <a href=\"https://docs.aws.amazon.com/quicksight/latest/user/iam-policy-examples.html\">IAM Policy Examples for Amazon QuickSight</a> in the\n                    <i>Amazon QuickSight User Guide</i>.</p>\n         <p>If your IAM policy includes both the <code>Subscribe</code> and\n                <code>CreateAccountSubscription</code> actions, make sure that both actions are set\n            to <code>Allow</code>. If either action is set to <code>Deny</code>, the\n                <code>Deny</code> action prevails and your API call fails.</p>\n         <p>You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to\n                Amazon QuickSight, see <a href=\"https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html#security-create-iam-role\">Passing IAM roles to Amazon QuickSight</a> in the\n                    <i>Amazon QuickSight User Guide</i>.</p>\n         <p>You can't set default resource access on the new account from the Amazon QuickSight\n            API. Instead, add default resource access from the Amazon QuickSight console. For more\n            information about setting default resource access to Amazon Web Services services, see\n                <a href=\"https://docs.aws.amazon.com/quicksight/latest/user/scoping-policies-defaults.html\">Setting default resource\n                access to Amazon Web Services services</a> in the <i>Amazon QuickSight\n                User Guide</i>.</p>",
+                "smithy.api#documentation": "<p>Creates an Amazon QuickSight account, or subscribes to Amazon QuickSight Q.</p>\n         <p>The Amazon Web Services Region for the account is derived from what is configured in the\n          CLI or SDK.</p>\n         <p>Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see <a href=\"https://docs.aws.amazon.com/quicksight/latest/user/setting-up-aws-sign-up.html\">Sign\n                up for Amazon Web Services</a> in the <i>Amazon QuickSight User\n                Guide</i>. The person who signs up for Amazon QuickSight needs to have the\n            correct Identity and Access Management (IAM) permissions. For more information,\n            see <a href=\"https://docs.aws.amazon.com/quicksight/latest/user/iam-policy-examples.html\">IAM Policy Examples for Amazon QuickSight</a> in the\n                    <i>Amazon QuickSight User Guide</i>.</p>\n         <p>If your IAM policy includes both the <code>Subscribe</code> and\n                <code>CreateAccountSubscription</code> actions, make sure that both actions are set\n            to <code>Allow</code>. If either action is set to <code>Deny</code>, the\n                <code>Deny</code> action prevails and your API call fails.</p>\n         <p>You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to\n                Amazon QuickSight, see <a href=\"https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html#security-create-iam-role\">Passing IAM roles to Amazon QuickSight</a> in the\n                    <i>Amazon QuickSight User Guide</i>.</p>\n         <p>You can't set default resource access on the new account from the Amazon QuickSight\n            API. Instead, add default resource access from the Amazon QuickSight console. For more\n            information about setting default resource access to Amazon Web Services services, see\n                <a href=\"https://docs.aws.amazon.com/quicksight/latest/user/scoping-policies-defaults.html\">Setting default resource\n                access to Amazon Web Services services</a> in the <i>Amazon QuickSight\n                User Guide</i>.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/account/{AwsAccountId}",
@@ -6615,6 +6656,12 @@
                     "target": "com.amazonaws.quicksight#String",
                     "traits": {
                         "smithy.api#documentation": "<p>A 10-digit phone number for the author of the Amazon QuickSight account to use for\n            future communications. This field is required if <code>ENTERPPRISE_AND_Q</code> is the\n            selected edition of the new Amazon QuickSight account.</p>"
+                    }
+                },
+                "IAMIdentityCenterInstanceArn": {
+                    "target": "com.amazonaws.quicksight#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) for the IAM Identity Center instance.</p>"
                     }
                 }
             },
@@ -6960,6 +7007,12 @@
                     "target": "com.amazonaws.quicksight#LinkSharingConfiguration",
                     "traits": {
                         "smithy.api#documentation": "<p>A structure that contains the permissions of a shareable link to the dashboard.</p>"
+                    }
+                },
+                "LinkEntities": {
+                    "target": "com.amazonaws.quicksight#LinkEntityArnList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard.</p>"
                     }
                 }
             },
@@ -7662,7 +7715,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Use the <code>CreateGroup</code> operation to create a group in   Amazon QuickSight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact AWS Support.</p>\n         <p>The permissions resource is\n\t\t\t\t\t<code>arn:aws:quicksight:<your-region>:<i><relevant-aws-account-id></i>:group/default/<i><group-name></i>\n            </code>.</p>\n         <p>The response is a group object.</p>",
+                "smithy.api#documentation": "<p>Use the <code>CreateGroup</code> operation to create a group in   Amazon QuickSight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support.</p>\n         <p>The permissions resource is\n\t\t\t\t\t<code>arn:aws:quicksight:<your-region>:<i><relevant-aws-account-id></i>:group/default/<i><group-name></i>\n            </code>.</p>\n         <p>The response is a group object.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups",
@@ -9628,6 +9681,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The sizing options for the size of the custom content visual. This structure is required when the <code>ContentType</code> of the visual is <code>'IMAGE'</code>.</p>"
                     }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
+                    }
                 }
             },
             "traits": {
@@ -9963,6 +10022,12 @@
                     "target": "com.amazonaws.quicksight#Timestamp",
                     "traits": {
                         "smithy.api#documentation": "<p>The last time that this dashboard was updated.</p>"
+                    }
+                },
+                "LinkEntities": {
+                    "target": "com.amazonaws.quicksight#LinkEntityArnList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard.</p>"
                     }
                 }
             },
@@ -12402,7 +12467,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A dataset parameter.</p>"
+                "smithy.api#documentation": "<p>A parameter that is created in a dataset. The parameter can be a string, integer, decimal, or datetime data type.</p>"
             }
         },
         "com.amazonaws.quicksight#DatasetParameterId": {
@@ -12452,6 +12517,9 @@
                         "smithy.api#enumValue": "SINGLE_VALUED"
                     }
                 }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The value type of the parameter. The value type is used to validate the parameter before it is evaluated.</p>"
             }
         },
         "com.amazonaws.quicksight#Datasets": {
@@ -18761,6 +18829,18 @@
                         "smithy.api#documentation": "<p>A map that describes the IP rules with CIDR range and description.</p>"
                     }
                 },
+                "VpcIdRestrictionRuleMap": {
+                    "target": "com.amazonaws.quicksight#VpcIdRestrictionRuleMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A map of allowed VPC IDs and their rule descriptions.</p>"
+                    }
+                },
+                "VpcEndpointIdRestrictionRuleMap": {
+                    "target": "com.amazonaws.quicksight#VpcEndpointIdRestrictionRuleMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A map of allowed VPC endpoint IDs and their rule descriptions.</p>"
+                    }
+                },
                 "Enabled": {
                     "target": "com.amazonaws.quicksight#NullableBoolean",
                     "traits": {
@@ -21351,6 +21431,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The visibility of the tooltip item.</p>"
                     }
+                },
+                "TooltipTarget": {
+                    "target": "com.amazonaws.quicksight#TooltipTarget",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Determines the target of the field tooltip item in a combo chart visual.</p>"
+                    }
                 }
             },
             "traits": {
@@ -21507,6 +21593,12 @@
                     "target": "com.amazonaws.quicksight#GeospatialMapStyleOptions",
                     "traits": {
                         "smithy.api#documentation": "<p>The map style options of the filled map visual.</p>"
+                    }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
                     }
                 }
             },
@@ -22161,7 +22253,7 @@
                 "AllSheets": {
                     "target": "com.amazonaws.quicksight#AllSheetsFilterScopeConfiguration",
                     "traits": {
-                        "smithy.api#documentation": "<p>The configuration for applying a filter to all sheets.</p>"
+                        "smithy.api#documentation": "<p>The configuration that applies a filter to all sheets. When you choose <code>AllSheets</code> as the value for a <code>FilterScopeConfiguration</code>, this filter is applied to all visuals of all sheets in an Analysis, Dashboard, or Template. The <code>AllSheetsFilterScopeConfiguration</code> is chosen.</p>"
                     }
                 }
             },
@@ -23226,6 +23318,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The visual palette configuration of a <code>FunnelChartVisual</code>.</p>"
                     }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
+                    }
                 }
             },
             "traits": {
@@ -23512,6 +23610,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The visual palette configuration of a <code>GaugeChartVisual</code>.</p>"
                     }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
+                    }
                 }
             },
             "traits": {
@@ -23717,7 +23821,7 @@
                 "AuthorizedResourceArns": {
                     "target": "com.amazonaws.quicksight#ArnList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Names (ARNs) for the Amazon QuickSight resources that the user\n            is authorized to access during the lifetime of the session. If you choose\n                <code>Dashboard</code> embedding experience, pass the list of dashboard ARNs in the\n            account that you want the user to be able to view. Currently, you can pass up to 25\n            dashboard ARNs in each API call.</p>",
+                        "smithy.api#documentation": "<p>The Amazon Resource Names (ARNs) for the Amazon QuickSight resources that the user\n            is authorized to access during the lifetime of the session.</p>\n         <p>If you choose <code>Dashboard</code> embedding experience, pass the list of dashboard ARNs in the\n            account that you want the user to be able to view.</p>\n         <p>If you want to make changes to the theme of your embedded content, pass a list of theme ARNs that the anonymous users need access to.</p>\n         <p>Currently, you can pass up to 25 theme ARNs in each API call.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -24140,6 +24244,12 @@
                 },
                 "VisualPalette": {
                     "target": "com.amazonaws.quicksight#VisualPalette"
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
+                    }
                 }
             },
             "traits": {
@@ -25131,6 +25241,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The tooltip display setup of the visual.</p>"
                     }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
+                    }
                 }
             },
             "traits": {
@@ -25386,6 +25502,12 @@
                     "target": "com.amazonaws.quicksight#VisualPalette",
                     "traits": {
                         "smithy.api#documentation": "<p>The visual palette configuration of a histogram.</p>"
+                    }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
                     }
                 }
             },
@@ -26436,6 +26558,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The custom narrative of the insight visual.</p>"
                     }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
+                    }
                 }
             },
             "traits": {
@@ -27034,6 +27162,12 @@
                     "target": "com.amazonaws.quicksight#KPIOptions",
                     "traits": {
                         "smithy.api#documentation": "<p>The options that determine the presentation of a KPI visual.</p>"
+                    }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
                     }
                 }
             },
@@ -27649,6 +27783,9 @@
                         "smithy.api#documentation": "<p>The options that determine the presentation of the secondary y-axis label.</p>"
                     }
                 },
+                "SingleAxisOptions": {
+                    "target": "com.amazonaws.quicksight#SingleAxisOptions"
+                },
                 "DefaultSeriesSettings": {
                     "target": "com.amazonaws.quicksight#LineChartDefaultSeriesSettings",
                     "traits": {
@@ -27695,6 +27832,12 @@
                     "target": "com.amazonaws.quicksight#VisualPalette",
                     "traits": {
                         "smithy.api#documentation": "<p>The visual palette configuration of a line chart.</p>"
+                    }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
                     }
                 }
             },
@@ -28031,6 +28174,28 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The series axis configuration of a line chart.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#LinkEntityArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1024
+                },
+                "smithy.api#pattern": "^arn:aws[\\w\\-]*:quicksight:[\\w\\-]+:\\d+:analysis/[\\w\\-]{1,512}$"
+            }
+        },
+        "com.amazonaws.quicksight#LinkEntityArnList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.quicksight#LinkEntityArn"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 5
+                }
             }
         },
         "com.amazonaws.quicksight#LinkSharingConfiguration": {
@@ -34398,6 +34563,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The contribution analysis (anomaly configuration) setup of the visual.</p>"
                     }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
+                    }
                 }
             },
             "traits": {
@@ -34726,6 +34897,12 @@
                     "target": "com.amazonaws.quicksight#PivotTablePaginatedReportOptions",
                     "traits": {
                         "smithy.api#documentation": "<p>The paginated report options for a pivot table visual.</p>"
+                    }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
                     }
                 }
             },
@@ -36225,6 +36402,9 @@
                     "target": "com.amazonaws.quicksight#UpdateDashboard"
                 },
                 {
+                    "target": "com.amazonaws.quicksight#UpdateDashboardLinks"
+                },
+                {
                     "target": "com.amazonaws.quicksight#UpdateDashboardPermissions"
                 },
                 {
@@ -37320,6 +37500,12 @@
                     "target": "com.amazonaws.quicksight#RadarChartAxesRangeScale",
                     "traits": {
                         "smithy.api#documentation": "<p>The axis behavior options of a radar chart.</p>"
+                    }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
                     }
                 }
             },
@@ -39432,6 +39618,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The data label configuration of a sankey diagram.</p>"
                     }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
+                    }
                 }
             },
             "traits": {
@@ -39564,6 +39756,12 @@
                         "smithy.api#documentation": "<p>The field wells of the visual.</p>"
                     }
                 },
+                "SortConfiguration": {
+                    "target": "com.amazonaws.quicksight#ScatterPlotSortConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The sort configuration of a scatter plot.</p>"
+                    }
+                },
                 "XAxisLabelOptions": {
                     "target": "com.amazonaws.quicksight#ChartAxisLabelOptions",
                     "traits": {
@@ -39611,6 +39809,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The palette (chart color) display setup of the visual.</p>"
                     }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
+                    }
                 }
             },
             "traits": {
@@ -39635,6 +39839,17 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The field well configuration of a scatter plot.</p>\n         <p>This is a union type structure. For this structure to be valid, only one of the attributes can be defined.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#ScatterPlotSortConfiguration": {
+            "type": "structure",
+            "members": {
+                "ScatterPlotLimitConfiguration": {
+                    "target": "com.amazonaws.quicksight#ItemsLimitConfiguration"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The sort configuration of a scatter plot.</p>"
             }
         },
         "com.amazonaws.quicksight#ScatterPlotUnaggregatedFieldWells": {
@@ -41786,6 +42001,31 @@
                 }
             }
         },
+        "com.amazonaws.quicksight#SingleAxisOptions": {
+            "type": "structure",
+            "members": {
+                "YAxisOptions": {
+                    "target": "com.amazonaws.quicksight#YAxisOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Y axis options of a single axis configuration.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The settings of a chart's single axis configuration.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#SingleYAxisOption": {
+            "type": "enum",
+            "members": {
+                "PRIMARY_Y_AXIS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "PRIMARY_Y_AXIS"
+                    }
+                }
+            }
+        },
         "com.amazonaws.quicksight#SiteBaseUrl": {
             "type": "string",
             "traits": {
@@ -42314,7 +42554,8 @@
                 "BucketConfiguration": {
                     "target": "com.amazonaws.quicksight#S3BucketConfiguration",
                     "traits": {
-                        "smithy.api#documentation": "<p>A structure that contains details about the Amazon S3 bucket that the generated dashboard snapshot is saved in.</p>"
+                        "smithy.api#documentation": "<p>A structure that contains details about the Amazon S3 bucket that the generated dashboard snapshot is saved in.</p>",
+                        "smithy.api#required": {}
                     }
                 }
             },
@@ -42499,7 +42740,7 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 1,
-                    "max": 65536
+                    "max": 168000
                 }
             }
         },
@@ -43656,6 +43897,12 @@
                     "target": "com.amazonaws.quicksight#TableInlineVisualizationList",
                     "traits": {
                         "smithy.api#documentation": "<p>A collection of inline visualizations to display within a chart.</p>"
+                    }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
                     }
                 }
             },
@@ -45778,6 +46025,29 @@
                 "smithy.api#documentation": "<p>The display options for the visual tooltip.</p>"
             }
         },
+        "com.amazonaws.quicksight#TooltipTarget": {
+            "type": "enum",
+            "members": {
+                "BOTH": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "BOTH"
+                    }
+                },
+                "BAR": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "BAR"
+                    }
+                },
+                "LINE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "LINE"
+                    }
+                }
+            }
+        },
         "com.amazonaws.quicksight#TooltipTitleType": {
             "type": "enum",
             "members": {
@@ -46332,6 +46602,12 @@
                     "target": "com.amazonaws.quicksight#LimitedString",
                     "traits": {
                         "smithy.api#documentation": "<p>The description of the topic.</p>"
+                    }
+                },
+                "UserExperienceVersion": {
+                    "target": "com.amazonaws.quicksight#TopicUserExperienceVersion",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The user experience version of a topic.</p>"
                     }
                 },
                 "DataSets": {
@@ -46909,6 +47185,23 @@
                 }
             }
         },
+        "com.amazonaws.quicksight#TopicUserExperienceVersion": {
+            "type": "enum",
+            "members": {
+                "LEGACY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "LEGACY"
+                    }
+                },
+                "NEW_READER_EXPERIENCE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "NEW_READER_EXPERIENCE"
+                    }
+                }
+            }
+        },
         "com.amazonaws.quicksight#TotalAggregationComputation": {
             "type": "structure",
             "members": {
@@ -47171,6 +47464,12 @@
                     "target": "com.amazonaws.quicksight#TooltipOptions",
                     "traits": {
                         "smithy.api#documentation": "<p>The tooltip display setup of the visual.</p>"
+                    }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
                     }
                 }
             },
@@ -48258,6 +48557,111 @@
                 }
             }
         },
+        "com.amazonaws.quicksight#UpdateDashboardLinks": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.quicksight#UpdateDashboardLinksRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.quicksight#UpdateDashboardLinksResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.quicksight#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#InternalFailureException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#InvalidParameterValueException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.quicksight#UnsupportedUserEditionException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Updates the linked analyses on a dashboard.</p>",
+                "smithy.api#http": {
+                    "method": "PUT",
+                    "uri": "/accounts/{AwsAccountId}/dashboards/{DashboardId}/linked-entities",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.quicksight#UpdateDashboardLinksRequest": {
+            "type": "structure",
+            "members": {
+                "AwsAccountId": {
+                    "target": "com.amazonaws.quicksight#AwsAccountId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the Amazon Web Services account that contains the dashboard whose links you want to update.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "DashboardId": {
+                    "target": "com.amazonaws.quicksight#ShortRestrictiveResourceId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID for the dashboard.</p>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "LinkEntities": {
+                    "target": "com.amazonaws.quicksight#LinkEntityArnList",
+                    "traits": {
+                        "smithy.api#documentation": "<p> list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.quicksight#UpdateDashboardLinksResponse": {
+            "type": "structure",
+            "members": {
+                "RequestId": {
+                    "target": "com.amazonaws.quicksight#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Web Services request ID for this operation.</p>"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.quicksight#StatusCode",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>The HTTP status of the request.</p>",
+                        "smithy.api#httpResponseCode": {}
+                    }
+                },
+                "DashboardArn": {
+                    "target": "com.amazonaws.quicksight#Arn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the dashboard.</p>"
+                    }
+                },
+                "LinkEntities": {
+                    "target": "com.amazonaws.quicksight#LinkEntityArnList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.quicksight#UpdateDashboardPermissions": {
             "type": "operation",
             "input": {
@@ -49243,13 +49647,13 @@
                 "GrantPermissions": {
                     "target": "com.amazonaws.quicksight#ResourcePermissionList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The permissions that you want to grant on a resource.</p>"
+                        "smithy.api#documentation": "<p>The permissions that you want to grant on a resource. Namespace ARNs are not supported <code>Principal</code> values for folder permissions.</p>"
                     }
                 },
                 "RevokePermissions": {
                     "target": "com.amazonaws.quicksight#ResourcePermissionList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The permissions that you want to revoke from a resource.</p>"
+                        "smithy.api#documentation": "<p>The permissions that you want to revoke from a resource.  Namespace ARNs are not supported <code>Principal</code> values for folder permissions.</p>"
                     }
                 }
             },
@@ -49724,7 +50128,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Updates the content and status of IP rules. To use this operation, you\n\t\t\tmust\n\t\t\tprovide the entire map of rules. You can use the <code>DescribeIpRestriction</code>\n\t\t\toperation to get the current rule map.</p>",
+                "smithy.api#documentation": "<p>Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the <code>IpRestrictionRule</code>, <code>VpcIdRestrictionRule</code>, or <code>VpcEndpointIdRestrictionRule</code>. To use this operation, you must provide the entire map of rules. You can use the <code>DescribeIpRestriction</code> operation to get the current rule map.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/accounts/{AwsAccountId}/ip-restriction",
@@ -49747,6 +50151,18 @@
                     "target": "com.amazonaws.quicksight#IpRestrictionRuleMap",
                     "traits": {
                         "smithy.api#documentation": "<p>A map that describes the updated IP rules with CIDR ranges and descriptions.</p>"
+                    }
+                },
+                "VpcIdRestrictionRuleMap": {
+                    "target": "com.amazonaws.quicksight#VpcIdRestrictionRuleMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A map of VPC IDs and their corresponding rules. When you configure this parameter, traffic from all VPC endpoints that are present in the specified VPC is allowed.</p>"
+                    }
+                },
+                "VpcEndpointIdRestrictionRuleMap": {
+                    "target": "com.amazonaws.quicksight#VpcEndpointIdRestrictionRuleMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A map of allowed VPC endpoint IDs and their corresponding rule descriptions.</p>"
                     }
                 },
                 "Enabled": {
@@ -52326,6 +52742,26 @@
                 }
             }
         },
+        "com.amazonaws.quicksight#VisualInteractionOptions": {
+            "type": "structure",
+            "members": {
+                "VisualMenuOption": {
+                    "target": "com.amazonaws.quicksight#VisualMenuOption",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The on-visual menu options for a visual.</p>"
+                    }
+                },
+                "ContextMenuOption": {
+                    "target": "com.amazonaws.quicksight#ContextMenuOption",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The context menu options for a visual.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The general visual interactions setup for visual publish options</p>"
+            }
+        },
         "com.amazonaws.quicksight#VisualList": {
             "type": "list",
             "member": {
@@ -52427,6 +52863,62 @@
                 "smithy.api#documentation": "<p>VPC connection properties.</p>"
             }
         },
+        "com.amazonaws.quicksight#VpcEndpointId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 255
+                },
+                "smithy.api#pattern": "^vpce-[0-9a-z]*$"
+            }
+        },
+        "com.amazonaws.quicksight#VpcEndpointIdRestrictionRuleDescription": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 150
+                }
+            }
+        },
+        "com.amazonaws.quicksight#VpcEndpointIdRestrictionRuleMap": {
+            "type": "map",
+            "key": {
+                "target": "com.amazonaws.quicksight#VpcEndpointId"
+            },
+            "value": {
+                "target": "com.amazonaws.quicksight#VpcEndpointIdRestrictionRuleDescription"
+            }
+        },
+        "com.amazonaws.quicksight#VpcId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 255
+                },
+                "smithy.api#pattern": "^vpc-[0-9a-z]*$"
+            }
+        },
+        "com.amazonaws.quicksight#VpcIdRestrictionRuleDescription": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 150
+                }
+            }
+        },
+        "com.amazonaws.quicksight#VpcIdRestrictionRuleMap": {
+            "type": "map",
+            "key": {
+                "target": "com.amazonaws.quicksight#VpcId"
+            },
+            "value": {
+                "target": "com.amazonaws.quicksight#VpcIdRestrictionRuleDescription"
+            }
+        },
         "com.amazonaws.quicksight#Warehouse": {
             "type": "string",
             "traits": {
@@ -52460,6 +52952,20 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The field well configuration of a waterfall visual.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#WaterfallChartColorConfiguration": {
+            "type": "structure",
+            "members": {
+                "GroupColorConfiguration": {
+                    "target": "com.amazonaws.quicksight#WaterfallChartGroupColorConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The color configuration for individual groups within a waterfall visual.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The color configuration of a waterfall visual.</p>"
             }
         },
         "com.amazonaws.quicksight#WaterfallChartConfiguration": {
@@ -52524,6 +53030,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The visual palette configuration of a waterfall visual.</p>"
                     }
+                },
+                "ColorConfiguration": {
+                    "target": "com.amazonaws.quicksight#WaterfallChartColorConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The color configuration of a waterfall visual.</p>"
+                    }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
+                    }
                 }
             },
             "traits": {
@@ -52542,6 +53060,32 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The field well configuration of a waterfall visual.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#WaterfallChartGroupColorConfiguration": {
+            "type": "structure",
+            "members": {
+                "PositiveBarColor": {
+                    "target": "com.amazonaws.quicksight#HexColor",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines the color for the positive bars of a waterfall chart.</p>"
+                    }
+                },
+                "NegativeBarColor": {
+                    "target": "com.amazonaws.quicksight#HexColor",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines the color for the negative bars of a waterfall chart.</p>"
+                    }
+                },
+                "TotalBarColor": {
+                    "target": "com.amazonaws.quicksight#HexColor",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Defines the color for the total bars of a waterfall chart.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The color configuration for individual groups within a waterfall visual.</p>"
             }
         },
         "com.amazonaws.quicksight#WaterfallChartOptions": {
@@ -52738,6 +53282,12 @@
                     "target": "com.amazonaws.quicksight#WordCloudOptions",
                     "traits": {
                         "smithy.api#documentation": "<p>The options for a word cloud visual.</p>"
+                    }
+                },
+                "Interactions": {
+                    "target": "com.amazonaws.quicksight#VisualInteractionOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The general visual interactions setup for a visual.</p>"
                     }
                 }
             },
@@ -53005,6 +53555,21 @@
                     "min": 1,
                     "max": 128
                 }
+            }
+        },
+        "com.amazonaws.quicksight#YAxisOptions": {
+            "type": "structure",
+            "members": {
+                "YAxis": {
+                    "target": "com.amazonaws.quicksight#SingleYAxisOption",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Y axis type to be used in the chart.</p>\n         <p>If you choose <code>PRIMARY_Y_AXIS</code>, the primary Y Axis is located on the leftmost vertical axis of the chart.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The options that are available for a single Y axis in a chart.</p>"
             }
         }
     }

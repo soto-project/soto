@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS CodeArtifact service.
 ///
-///  CodeArtifact is a fully managed artifact repository compatible with language-native package managers and build tools such as npm, Apache Maven, pip, and dotnet. You can use CodeArtifact to share packages with development teams and pull packages. Packages can be pulled from both public and CodeArtifact repositories. You can also create an upstream relationship between a CodeArtifact repository and another repository, which effectively merges their contents from the point of view of a package manager client.   CodeArtifact Components  Use the information in this guide to help you work with the following CodeArtifact components:    Repository: A CodeArtifact repository contains a set of package versions, each of which maps to a set of assets, or files. Repositories are polyglot, so a single repository can contain packages of any supported type. Each repository exposes endpoints for fetching and publishing packages using tools like the  npm CLI, the Maven CLI ( mvn ), Python CLIs ( pip and twine), and NuGet CLIs (nuget and dotnet).    Domain: Repositories are aggregated into a higher-level entity known as a domain. All package assets and metadata are stored in the domain, but are consumed through repositories. A given package asset, such as a Maven JAR file, is stored once per domain, no matter how many repositories it's present in. All of the assets and metadata in a domain are encrypted with the same customer master key (CMK) stored in Key Management Service (KMS). Each repository is a member of a single domain and can't be moved to a different domain. The domain allows organizational policy to be applied across multiple repositories, such as which accounts can access repositories in the domain, and which public repositories can be used as sources of packages. Although an organization can have multiple domains, we recommend a single production domain that contains all published artifacts so that teams can find and share packages across their organization.    Package: A package is a bundle of software and the metadata required to resolve dependencies and install the software. CodeArtifact supports npm, PyPI, Maven, and NuGet package formats. In CodeArtifact, a package consists of:   A name (for example, webpack is the name of a popular npm package)   An optional namespace (for example, @types in @types/node)   A set of versions (for example, 1.0.0, 1.0.1, 1.0.2, etc.)   Package-level metadata (for example, npm tags)      Package version: A version of a package, such as @types/node 12.6.9. The version number format and semantics vary for different package formats. For example, npm package versions must conform to the Semantic Versioning specification. In CodeArtifact, a package version consists of the version identifier, metadata at the package version level, and a set of assets.    Upstream repository: One repository is upstream of another when the package versions in it can be accessed from the repository endpoint of the downstream repository, effectively merging the contents of the two repositories from the point of view of a client. CodeArtifact allows creating an upstream relationship between two repositories.    Asset: An individual file stored in CodeArtifact associated with a package version, such as an npm .tgz file or Maven POM and JAR files.   CodeArtifact supports these operations:    AssociateExternalConnection: Adds an existing external  connection to a repository.     CopyPackageVersions: Copies package versions from one  repository to another repository in the same domain.    CreateDomain: Creates a domain    CreateRepository: Creates a CodeArtifact repository in a domain.     DeleteDomain: Deletes a domain. You cannot delete a domain that contains repositories.     DeleteDomainPermissionsPolicy: Deletes the resource policy that is set on a domain.    DeletePackage: Deletes a package and all associated package versions.    DeletePackageVersions: Deletes versions of a package. After a package has been deleted, it can be republished, but its assets and metadata cannot be restored because they have been permanently removed from storage.    DeleteRepository: Deletes a repository.               DeleteRepositoryPermissionsPolicy: Deletes the resource policy that is set on a repository.    DescribeDomain: Returns a DomainDescription object that contains information about the requested domain.    DescribePackage: Returns a PackageDescription object that contains details about a package.     DescribePackageVersion: Returns a PackageVersionDescription object that contains details about a package version.     DescribeRepository: Returns a RepositoryDescription object that contains detailed information about the requested repository.     DisposePackageVersions: Disposes versions of a package. A package version with the status Disposed cannot be restored because they have been permanently removed from storage.    DisassociateExternalConnection: Removes an existing external connection from a repository.               GetAuthorizationToken: Generates a temporary authorization token for accessing repositories in the domain. The token expires the authorization period has passed.  The default authorization period is 12 hours and can be customized to any length with a maximum of 12 hours.    GetDomainPermissionsPolicy: Returns the policy of a resource that is attached to the specified domain.     GetPackageVersionAsset: Returns the contents of an asset that is in a package version.     GetPackageVersionReadme: Gets the readme file or descriptive text for a package version.    GetRepositoryEndpoint: Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each  package format:     maven     npm     nuget     pypi       GetRepositoryPermissionsPolicy: Returns the resource policy that is set on a repository.               ListDomains: Returns a list of DomainSummary objects. Each returned DomainSummary object contains information about a domain.    ListPackages: Lists the packages in a repository.    ListPackageVersionAssets: Lists the assets for a given package version.    ListPackageVersionDependencies: Returns a list of the direct dependencies for a package version.     ListPackageVersions: Returns a list of package versions for a specified package in a repository.    ListRepositories: Returns a list of repositories owned by the Amazon Web Services account that called this method.    ListRepositoriesInDomain: Returns a list of the repositories in a domain.    PublishPackageVersion: Creates a new package version containing one or more assets.    PutDomainPermissionsPolicy: Attaches a resource policy to a domain.    PutPackageOriginConfiguration: Sets the package origin configuration for a package, which determine  how new versions of the package can be added to a specific repository.    PutRepositoryPermissionsPolicy: Sets the resource policy on a repository that specifies permissions to access it.     UpdatePackageVersionsStatus: Updates the status of one or more versions of a package.    UpdateRepository: Updates the properties of a repository.
+///  CodeArtifact is a fully managed artifact repository compatible with language-native package managers and build tools such as npm, Apache Maven, pip, and dotnet. You can use CodeArtifact to share packages with development teams and pull packages. Packages can be pulled from both public and CodeArtifact repositories. You can also create an upstream relationship between a CodeArtifact repository and another repository, which effectively merges their contents from the point of view of a package manager client.   CodeArtifact concepts     Repository: A CodeArtifact repository contains a set of package versions, each of which maps to a set of assets, or files. Repositories are polyglot, so a single repository can contain packages of any supported type. Each repository exposes endpoints for fetching and publishing packages using tools like the  npm CLI, the Maven CLI ( mvn ), Python CLIs ( pip and twine), NuGet CLIs (nuget and dotnet), and  the Swift package manager ( swift ).    Domain: Repositories are aggregated into a higher-level entity known as a domain. All package assets and metadata are stored in the domain, but are consumed through repositories. A given package asset, such as a Maven JAR file, is stored once per domain, no matter how many repositories it's present in. All of the assets and metadata in a domain are encrypted with the same customer master key (CMK) stored in Key Management Service (KMS). Each repository is a member of a single domain and can't be moved to a different domain. The domain allows organizational policy to be applied across multiple repositories, such as which accounts can access repositories in the domain, and which public repositories can be used as sources of packages. Although an organization can have multiple domains, we recommend a single production domain that contains all published artifacts so that teams can find and share packages across their organization.    Package: A package is a bundle of software and the metadata required to resolve dependencies and install the software. CodeArtifact supports npm, PyPI, Maven, NuGet, Swift, and generic package formats. In CodeArtifact, a package consists of:   A name (for example, webpack is the name of a popular npm package)   An optional namespace (for example, @types in @types/node)   A set of versions (for example, 1.0.0, 1.0.1, 1.0.2, etc.)   Package-level metadata (for example, npm tags)      Package group: A group of packages that match a specified definition. Package  groups can be used to apply configuration to multiple packages that match a defined pattern using  package format, package namespace, and package name. You can use package groups to more conveniently  configure package origin controls for multiple packages. Package origin controls are used to block or allow ingestion or publishing  of new package versions, which protects users from malicious actions known as dependency substitution attacks.    Package version: A version of a package, such as @types/node 12.6.9. The version number format and semantics vary for different package formats. For example, npm package versions must conform to the Semantic Versioning specification. In CodeArtifact, a package version consists of the version identifier, metadata at the package version level, and a set of assets.    Upstream repository: One repository is upstream of another when the package versions in it can be accessed from the repository endpoint of the downstream repository, effectively merging the contents of the two repositories from the point of view of a client. CodeArtifact allows creating an upstream relationship between two repositories.    Asset: An individual file stored in CodeArtifact associated with a package version, such as an npm .tgz file or Maven POM and JAR files.    CodeArtifact supported API operations     AssociateExternalConnection: Adds an existing external  connection to a repository.     CopyPackageVersions: Copies package versions from one  repository to another repository in the same domain.    CreateDomain: Creates a domain.    CreatePackageGroup: Creates a package group.    CreateRepository: Creates a CodeArtifact repository in a domain.     DeleteDomain: Deletes a domain. You cannot delete a domain that contains repositories.     DeleteDomainPermissionsPolicy: Deletes the resource policy that is set on a domain.    DeletePackage: Deletes a package and all associated package versions.    DeletePackageGroup: Deletes a package group. Does not delete packages or package versions that are associated with a package group.    DeletePackageVersions: Deletes versions of a package. After a package has been deleted, it can be republished, but its assets and metadata cannot be restored because they have been permanently removed from storage.    DeleteRepository: Deletes a repository.               DeleteRepositoryPermissionsPolicy: Deletes the resource policy that is set on a repository.    DescribeDomain: Returns a DomainDescription object that contains information about the requested domain.    DescribePackage: Returns a PackageDescription object that contains details about a package.     DescribePackageGroup: Returns a PackageGroup object that contains details about a package group.     DescribePackageVersion: Returns a PackageVersionDescription object that contains details about a package version.     DescribeRepository: Returns a RepositoryDescription object that contains detailed information about the requested repository.     DisposePackageVersions: Disposes versions of a package. A package version with the status Disposed cannot be restored because they have been permanently removed from storage.    DisassociateExternalConnection: Removes an existing external connection from a repository.               GetAssociatedPackageGroup: Returns the most closely associated package group to the specified package.    GetAuthorizationToken: Generates a temporary authorization token for accessing repositories in the domain. The token expires the authorization period has passed.  The default authorization period is 12 hours and can be customized to any length with a maximum of 12 hours.    GetDomainPermissionsPolicy: Returns the policy of a resource that is attached to the specified domain.     GetPackageVersionAsset: Returns the contents of an asset that is in a package version.     GetPackageVersionReadme: Gets the readme file or descriptive text for a package version.    GetRepositoryEndpoint: Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each  package format:     generic     maven     npm     nuget     pypi     swift       GetRepositoryPermissionsPolicy: Returns the resource policy that is set on a repository.               ListAllowedRepositoriesForGroup: Lists the allowed repositories for a package group that has origin configuration set to ALLOW_SPECIFIC_REPOSITORIES.    ListAssociatedPackages: Returns a list of packages associated with the requested package group.    ListDomains: Returns a list of DomainSummary objects. Each returned DomainSummary object contains information about a domain.    ListPackages: Lists the packages in a repository.    ListPackageGroups: Returns a list of package groups in the requested domain.    ListPackageVersionAssets: Lists the assets for a given package version.    ListPackageVersionDependencies: Returns a list of the direct dependencies for a package version.     ListPackageVersions: Returns a list of package versions for a specified package in a repository.    ListRepositories: Returns a list of repositories owned by the Amazon Web Services account that called this method.    ListRepositoriesInDomain: Returns a list of the repositories in a domain.    ListSubPackageGroups: Returns a list of direct children of the specified package group.    PublishPackageVersion: Creates a new package version containing one or more assets.    PutDomainPermissionsPolicy: Attaches a resource policy to a domain.    PutPackageOriginConfiguration: Sets the package origin configuration for a package, which determine  how new versions of the package can be added to a specific repository.    PutRepositoryPermissionsPolicy: Sets the resource policy on a repository that specifies permissions to access it.     UpdatePackageGroup: Updates a package group. This API cannot be used to update a package group's origin configuration or pattern.    UpdatePackageGroupOriginConfiguration: Updates the package origin configuration for a package group.    UpdatePackageVersionsStatus: Updates the status of one or more versions of a package.    UpdateRepository: Updates the properties of a repository.
 public struct CodeArtifact: AWSService {
     // MARK: Member variables
 
@@ -112,6 +112,19 @@ public struct CodeArtifact: AWSService {
         )
     }
 
+    ///  Creates a package group. For more information about creating package groups, including example CLI commands, see Create a package group in the CodeArtifact User Guide.
+    @Sendable
+    public func createPackageGroup(_ input: CreatePackageGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePackageGroupResult {
+        return try await self.client.execute(
+            operation: "CreatePackageGroup", 
+            path: "/v1/package-group", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     ///  Creates a repository.
     @Sendable
     public func createRepository(_ input: CreateRepositoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRepositoryResult {
@@ -157,6 +170,19 @@ public struct CodeArtifact: AWSService {
         return try await self.client.execute(
             operation: "DeletePackage", 
             path: "/v1/package", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a package group.  Deleting a package group does not delete packages or package versions associated with the package group.  When a package group is deleted, the direct child package groups will become children of the package  group's direct parent package group. Therefore, if any of the child groups are inheriting any settings  from the parent, those settings could change.
+    @Sendable
+    public func deletePackageGroup(_ input: DeletePackageGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePackageGroupResult {
+        return try await self.client.execute(
+            operation: "DeletePackageGroup", 
+            path: "/v1/package-group", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -229,6 +255,19 @@ public struct CodeArtifact: AWSService {
         )
     }
 
+    /// Returns a PackageGroupDescription object that  contains information about the requested package group.
+    @Sendable
+    public func describePackageGroup(_ input: DescribePackageGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePackageGroupResult {
+        return try await self.client.execute(
+            operation: "DescribePackageGroup", 
+            path: "/v1/package-group", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     ///  Returns a  PackageVersionDescription  object that contains information about the requested package version.
     @Sendable
     public func describePackageVersion(_ input: DescribePackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePackageVersionResult {
@@ -275,6 +314,19 @@ public struct CodeArtifact: AWSService {
             operation: "DisposePackageVersions", 
             path: "/v1/package/versions/dispose", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns the most closely associated package group to the specified package. This API does not require that the package exist  in any repository in the domain. As such, GetAssociatedPackageGroup can be used to see which package group's origin configuration  applies to a package before that package is in a repository. This can be helpful to check if public packages are blocked without ingesting them. For information package group association and matching, see  Package group  definition syntax and matching behavior in the CodeArtifact User Guide.
+    @Sendable
+    public func getAssociatedPackageGroup(_ input: GetAssociatedPackageGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssociatedPackageGroupResult {
+        return try await self.client.execute(
+            operation: "GetAssociatedPackageGroup", 
+            path: "/v1/get-associated-package-group", 
+            httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -333,7 +385,7 @@ public struct CodeArtifact: AWSService {
         )
     }
 
-    ///  Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each  package format:     maven     npm     nuget     pypi
+    ///  Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each  package format:     generic     maven     npm     nuget     pypi     swift
     @Sendable
     public func getRepositoryEndpoint(_ input: GetRepositoryEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRepositoryEndpointResult {
         return try await self.client.execute(
@@ -359,12 +411,51 @@ public struct CodeArtifact: AWSService {
         )
     }
 
+    /// Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about restriction types  and added repository lists, see Package group origin controls in the CodeArtifact User Guide.
+    @Sendable
+    public func listAllowedRepositoriesForGroup(_ input: ListAllowedRepositoriesForGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAllowedRepositoriesForGroupResult {
+        return try await self.client.execute(
+            operation: "ListAllowedRepositoriesForGroup", 
+            path: "/v1/package-group-allowed-repositories", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of packages associated with the requested package group. For information package group association and matching, see  Package group  definition syntax and matching behavior in the CodeArtifact User Guide.
+    @Sendable
+    public func listAssociatedPackages(_ input: ListAssociatedPackagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssociatedPackagesResult {
+        return try await self.client.execute(
+            operation: "ListAssociatedPackages", 
+            path: "/v1/list-associated-packages", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     ///  Returns a list of DomainSummary objects for all domains owned by the Amazon Web Services account that makes this call. Each returned DomainSummary object contains information about a domain.
     @Sendable
     public func listDomains(_ input: ListDomainsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainsResult {
         return try await self.client.execute(
             operation: "ListDomains", 
             path: "/v1/domains", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of package groups in the requested domain.
+    @Sendable
+    public func listPackageGroups(_ input: ListPackageGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPackageGroupsResult {
+        return try await self.client.execute(
+            operation: "ListPackageGroups", 
+            path: "/v1/package-groups", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -443,6 +534,19 @@ public struct CodeArtifact: AWSService {
         return try await self.client.execute(
             operation: "ListRepositoriesInDomain", 
             path: "/v1/domain/repositories", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of direct children of the specified package group. For information package group hierarchy, see  Package group  definition syntax and matching behavior in the CodeArtifact User Guide.
+    @Sendable
+    public func listSubPackageGroups(_ input: ListSubPackageGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSubPackageGroupsResult {
+        return try await self.client.execute(
+            operation: "ListSubPackageGroups", 
+            path: "/v1/package-groups/sub-groups", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -541,6 +645,32 @@ public struct CodeArtifact: AWSService {
         )
     }
 
+    /// Updates a package group. This API cannot be used to update a package group's origin configuration or pattern. To update a  package group's origin configuration, use UpdatePackageGroupOriginConfiguration.
+    @Sendable
+    public func updatePackageGroup(_ input: UpdatePackageGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePackageGroupResult {
+        return try await self.client.execute(
+            operation: "UpdatePackageGroup", 
+            path: "/v1/package-group", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the package origin configuration for a package group. The package origin configuration determines how new versions of a package can be added to a repository. You can allow or block direct  publishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source.  For more information about package group origin controls and configuration, see  Package group origin controls  in the CodeArtifact User Guide.
+    @Sendable
+    public func updatePackageGroupOriginConfiguration(_ input: UpdatePackageGroupOriginConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePackageGroupOriginConfigurationResult {
+        return try await self.client.execute(
+            operation: "UpdatePackageGroupOriginConfiguration", 
+            path: "/v1/package-group-origin-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     ///  Updates the status of one or more versions of a package. Using UpdatePackageVersionsStatus,  you can update the status of package versions to Archived, Published, or Unlisted.  To set the status of a package version to Disposed, use  DisposePackageVersions.
     @Sendable
     public func updatePackageVersionsStatus(_ input: UpdatePackageVersionsStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePackageVersionsStatusResult {
@@ -581,6 +711,44 @@ extension CodeArtifact {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CodeArtifact {
+    /// Lists the repositories in the added repositories list of the specified restriction type for a package group. For more information about restriction types  and added repository lists, see Package group origin controls in the CodeArtifact User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAllowedRepositoriesForGroupPaginator(
+        _ input: ListAllowedRepositoriesForGroupRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAllowedRepositoriesForGroupRequest, ListAllowedRepositoriesForGroupResult> {
+        return .init(
+            input: input,
+            command: self.listAllowedRepositoriesForGroup,
+            inputKey: \ListAllowedRepositoriesForGroupRequest.nextToken,
+            outputKey: \ListAllowedRepositoriesForGroupResult.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of packages associated with the requested package group. For information package group association and matching, see  Package group  definition syntax and matching behavior in the CodeArtifact User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAssociatedPackagesPaginator(
+        _ input: ListAssociatedPackagesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAssociatedPackagesRequest, ListAssociatedPackagesResult> {
+        return .init(
+            input: input,
+            command: self.listAssociatedPackages,
+            inputKey: \ListAssociatedPackagesRequest.nextToken,
+            outputKey: \ListAssociatedPackagesResult.nextToken,
+            logger: logger
+        )
+    }
+
     ///  Returns a list of DomainSummary objects for all domains owned by the Amazon Web Services account that makes this call. Each returned DomainSummary object contains information about a domain.
     /// Return PaginatorSequence for operation.
     ///
@@ -596,6 +764,25 @@ extension CodeArtifact {
             command: self.listDomains,
             inputKey: \ListDomainsRequest.nextToken,
             outputKey: \ListDomainsResult.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of package groups in the requested domain.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listPackageGroupsPaginator(
+        _ input: ListPackageGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPackageGroupsRequest, ListPackageGroupsResult> {
+        return .init(
+            input: input,
+            command: self.listPackageGroups,
+            inputKey: \ListPackageGroupsRequest.nextToken,
+            outputKey: \ListPackageGroupsResult.nextToken,
             logger: logger
         )
     }
@@ -694,6 +881,51 @@ extension CodeArtifact {
             logger: logger
         )
     }
+
+    /// Returns a list of direct children of the specified package group. For information package group hierarchy, see  Package group  definition syntax and matching behavior in the CodeArtifact User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listSubPackageGroupsPaginator(
+        _ input: ListSubPackageGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSubPackageGroupsRequest, ListSubPackageGroupsResult> {
+        return .init(
+            input: input,
+            command: self.listSubPackageGroups,
+            inputKey: \ListSubPackageGroupsRequest.nextToken,
+            outputKey: \ListSubPackageGroupsResult.nextToken,
+            logger: logger
+        )
+    }
+}
+
+extension CodeArtifact.ListAllowedRepositoriesForGroupRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeArtifact.ListAllowedRepositoriesForGroupRequest {
+        return .init(
+            domain: self.domain,
+            domainOwner: self.domainOwner,
+            maxResults: self.maxResults,
+            nextToken: token,
+            originRestrictionType: self.originRestrictionType,
+            packageGroup: self.packageGroup
+        )
+    }
+}
+
+extension CodeArtifact.ListAssociatedPackagesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeArtifact.ListAssociatedPackagesRequest {
+        return .init(
+            domain: self.domain,
+            domainOwner: self.domainOwner,
+            maxResults: self.maxResults,
+            nextToken: token,
+            packageGroup: self.packageGroup,
+            preview: self.preview
+        )
+    }
 }
 
 extension CodeArtifact.ListDomainsRequest: AWSPaginateToken {
@@ -701,6 +933,18 @@ extension CodeArtifact.ListDomainsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension CodeArtifact.ListPackageGroupsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeArtifact.ListPackageGroupsRequest {
+        return .init(
+            domain: self.domain,
+            domainOwner: self.domainOwner,
+            maxResults: self.maxResults,
+            nextToken: token,
+            prefix: self.prefix
         )
     }
 }
@@ -775,6 +1019,18 @@ extension CodeArtifact.ListRepositoriesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             repositoryPrefix: self.repositoryPrefix
+        )
+    }
+}
+
+extension CodeArtifact.ListSubPackageGroupsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodeArtifact.ListSubPackageGroupsRequest {
+        return .init(
+            domain: self.domain,
+            domainOwner: self.domainOwner,
+            maxResults: self.maxResults,
+            nextToken: token,
+            packageGroup: self.packageGroup
         )
     }
 }

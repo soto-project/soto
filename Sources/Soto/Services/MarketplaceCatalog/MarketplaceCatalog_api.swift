@@ -74,6 +74,19 @@ public struct MarketplaceCatalog: AWSService {
 
     // MARK: API Calls
 
+    /// Returns metadata and content for multiple entities. This is the Batch version of the DescribeEntity API and uses the same IAM permission action as DescribeEntity API.
+    @Sendable
+    public func batchDescribeEntities(_ input: BatchDescribeEntitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDescribeEntitiesResponse {
+        return try await self.client.execute(
+            operation: "BatchDescribeEntities", 
+            path: "/BatchDescribeEntities", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Used to cancel an open change request. Must be sent before the status of the request changes to APPLYING, the final stage of completing your change request. You can describe a change during the 60-day request history retention period for API calls.
     @Sendable
     public func cancelChangeSet(_ input: CancelChangeSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelChangeSetResponse {

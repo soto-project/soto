@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS FIS service.
 ///
-/// Fault Injection Simulator is a managed service that enables you to perform fault injection  experiments on your Amazon Web Services workloads. For more information, see the Fault Injection Simulator User Guide.
+/// Fault Injection Service is a managed service that enables you to perform fault injection  experiments on your Amazon Web Services workloads. For more information, see the Fault Injection Service User Guide.
 public struct FIS: AWSService {
     // MARK: Member variables
 
@@ -73,7 +73,7 @@ public struct FIS: AWSService {
 
     // MARK: API Calls
 
-    /// Creates an experiment template.  An experiment template includes the following components:    Targets: A target can be a specific resource in  your Amazon Web Services environment, or one or more resources that match criteria that you specify, for example, resources that have specific tags.    Actions: The actions to carry out on the target. You can specify multiple actions, the duration of each action, and when to start each action during an experiment.    Stop conditions: If a stop condition is triggered while an experiment is running, the experiment is automatically stopped. You can define a stop condition as a CloudWatch alarm.   For more information, see experiment templates in the Fault Injection Simulator User Guide.
+    /// Creates an experiment template.  An experiment template includes the following components:    Targets: A target can be a specific resource in  your Amazon Web Services environment, or one or more resources that match criteria that you specify, for example, resources that have specific tags.    Actions: The actions to carry out on the target. You can specify multiple actions, the duration of each action, and when to start each action during an experiment.    Stop conditions: If a stop condition is triggered while an experiment is running, the experiment is automatically stopped. You can define a stop condition as a CloudWatch alarm.   For more information, see experiment templates in the Fault Injection Service User Guide.
     @Sendable
     public func createExperimentTemplate(_ input: CreateExperimentTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateExperimentTemplateResponse {
         return try await self.client.execute(
@@ -86,7 +86,7 @@ public struct FIS: AWSService {
         )
     }
 
-    /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of experimentOptions is set to multi-account. For more information, see experiment options in the Fault Injection Simulator User Guide.
+    /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of experimentOptions is set to multi-account. For more information, see experiment options in the Fault Injection Service User Guide.
     @Sendable
     public func createTargetAccountConfiguration(_ input: CreateTargetAccountConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTargetAccountConfigurationResponse {
         return try await self.client.execute(
@@ -546,6 +546,7 @@ extension FIS.ListExperimentTemplatesRequest: AWSPaginateToken {
 extension FIS.ListExperimentsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> FIS.ListExperimentsRequest {
         return .init(
+            experimentTemplateId: self.experimentTemplateId,
             maxResults: self.maxResults,
             nextToken: token
         )

@@ -76,6 +76,7 @@ public struct Signer: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-08-25",
             endpoint: endpoint,
+            serviceEndpoints: Self.serviceEndpoints,
             variantEndpoints: Self.variantEndpoints,
             errorType: SignerErrorType.self,
             middleware: middleware,
@@ -86,6 +87,39 @@ public struct Signer: AWSService {
     }
 
 
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "fips-verification-us-east-1": "verification.signer-fips.us-east-1.amazonaws.com",
+        "fips-verification-us-east-2": "verification.signer-fips.us-east-2.amazonaws.com",
+        "fips-verification-us-gov-east-1": "verification.signer-fips.us-gov-east-1.amazonaws.com",
+        "fips-verification-us-gov-west-1": "verification.signer-fips.us-gov-west-1.amazonaws.com",
+        "fips-verification-us-west-1": "verification.signer-fips.us-west-1.amazonaws.com",
+        "fips-verification-us-west-2": "verification.signer-fips.us-west-2.amazonaws.com",
+        "verification-af-south-1": "verification.signer.af-south-1.amazonaws.com",
+        "verification-ap-east-1": "verification.signer.ap-east-1.amazonaws.com",
+        "verification-ap-northeast-1": "verification.signer.ap-northeast-1.amazonaws.com",
+        "verification-ap-northeast-2": "verification.signer.ap-northeast-2.amazonaws.com",
+        "verification-ap-south-1": "verification.signer.ap-south-1.amazonaws.com",
+        "verification-ap-southeast-1": "verification.signer.ap-southeast-1.amazonaws.com",
+        "verification-ap-southeast-2": "verification.signer.ap-southeast-2.amazonaws.com",
+        "verification-ca-central-1": "verification.signer.ca-central-1.amazonaws.com",
+        "verification-cn-north-1": "verification.signer.cn-north-1.amazonaws.com.cn",
+        "verification-cn-northwest-1": "verification.signer.cn-northwest-1.amazonaws.com.cn",
+        "verification-eu-central-1": "verification.signer.eu-central-1.amazonaws.com",
+        "verification-eu-north-1": "verification.signer.eu-north-1.amazonaws.com",
+        "verification-eu-south-1": "verification.signer.eu-south-1.amazonaws.com",
+        "verification-eu-west-1": "verification.signer.eu-west-1.amazonaws.com",
+        "verification-eu-west-2": "verification.signer.eu-west-2.amazonaws.com",
+        "verification-eu-west-3": "verification.signer.eu-west-3.amazonaws.com",
+        "verification-me-south-1": "verification.signer.me-south-1.amazonaws.com",
+        "verification-sa-east-1": "verification.signer.sa-east-1.amazonaws.com",
+        "verification-us-east-1": "verification.signer.us-east-1.amazonaws.com",
+        "verification-us-east-2": "verification.signer.us-east-2.amazonaws.com",
+        "verification-us-gov-east-1": "verification.signer.us-gov-east-1.amazonaws.com",
+        "verification-us-gov-west-1": "verification.signer.us-gov-west-1.amazonaws.com",
+        "verification-us-west-1": "verification.signer.us-west-1.amazonaws.com",
+        "verification-us-west-2": "verification.signer.us-west-2.amazonaws.com"
+    ]}
 
 
     /// FIPS and dualstack endpoints
@@ -93,6 +127,8 @@ public struct Signer: AWSService {
         [.fips]: .init(endpoints: [
             "us-east-1": "signer-fips.us-east-1.amazonaws.com",
             "us-east-2": "signer-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "signer-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "signer-fips.us-gov-west-1.amazonaws.com",
             "us-west-1": "signer-fips.us-west-1.amazonaws.com",
             "us-west-2": "signer-fips.us-west-2.amazonaws.com"
         ])

@@ -74,16 +74,20 @@ public struct Bedrock: AWSService {
         "bedrock-ap-northeast-1": "bedrock.ap-northeast-1.amazonaws.com",
         "bedrock-ap-southeast-1": "bedrock.ap-southeast-1.amazonaws.com",
         "bedrock-eu-central-1": "bedrock.eu-central-1.amazonaws.com",
+        "bedrock-eu-west-3": "bedrock.eu-west-3.amazonaws.com",
         "bedrock-fips-us-east-1": "bedrock-fips.us-east-1.amazonaws.com",
         "bedrock-fips-us-west-2": "bedrock-fips.us-west-2.amazonaws.com",
         "bedrock-runtime-ap-northeast-1": "bedrock-runtime.ap-northeast-1.amazonaws.com",
         "bedrock-runtime-ap-southeast-1": "bedrock-runtime.ap-southeast-1.amazonaws.com",
         "bedrock-runtime-eu-central-1": "bedrock-runtime.eu-central-1.amazonaws.com",
+        "bedrock-runtime-eu-west-3": "bedrock-runtime.eu-west-3.amazonaws.com",
         "bedrock-runtime-fips-us-east-1": "bedrock-runtime-fips.us-east-1.amazonaws.com",
         "bedrock-runtime-fips-us-west-2": "bedrock-runtime-fips.us-west-2.amazonaws.com",
         "bedrock-runtime-us-east-1": "bedrock-runtime.us-east-1.amazonaws.com",
+        "bedrock-runtime-us-gov-west-1": "bedrock-runtime.us-gov-west-1.amazonaws.com",
         "bedrock-runtime-us-west-2": "bedrock-runtime.us-west-2.amazonaws.com",
         "bedrock-us-east-1": "bedrock.us-east-1.amazonaws.com",
+        "bedrock-us-gov-west-1": "bedrock.us-gov-west-1.amazonaws.com",
         "bedrock-us-west-2": "bedrock.us-west-2.amazonaws.com"
     ]}
 

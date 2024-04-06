@@ -1216,7 +1216,7 @@ public struct SESv2: AWSService {
         )
     }
 
-    /// Updates a contact's preferences for a list. It is not necessary to specify all existing topic preferences in the TopicPreferences object, just the ones that need updating.
+    /// Updates a contact's preferences for a list.  You must specify all existing topic preferences in the TopicPreferences object, not just the ones that need updating; otherwise, all your existing preferences will be removed.
     @Sendable
     public func updateContact(_ input: UpdateContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactResponse {
         return try await self.client.execute(

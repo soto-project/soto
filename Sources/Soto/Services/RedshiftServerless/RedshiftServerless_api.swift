@@ -60,6 +60,7 @@ public struct RedshiftServerless: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2021-04-21",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: RedshiftServerlessErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -71,6 +72,16 @@ public struct RedshiftServerless: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "redshift-serverless-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "redshift-serverless-fips.us-east-1.amazonaws.com",
+            "us-east-2": "redshift-serverless-fips.us-east-2.amazonaws.com",
+            "us-west-1": "redshift-serverless-fips.us-west-1.amazonaws.com",
+            "us-west-2": "redshift-serverless-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

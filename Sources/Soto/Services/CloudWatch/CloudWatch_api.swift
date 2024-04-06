@@ -531,7 +531,9 @@ public struct CloudWatch: AWSService {
     }
 
     /// Creates an anomaly detection model for a CloudWatch metric. You can use the model
-    /// 			to display a band of expected normal values when the metric is graphed. For more information, see CloudWatch Anomaly Detection.
+    /// 			to display a band of expected normal values when the metric is graphed. If you have enabled unified cross-account observability, and this account is a monitoring
+    /// 			account, the metric can be in the same account or a source account. You can specify the account ID
+    /// 			in the object you specify in the SingleMetricAnomalyDetector parameter. For more information, see CloudWatch Anomaly Detection.
     @Sendable
     public func putAnomalyDetector(_ input: PutAnomalyDetectorInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAnomalyDetectorOutput {
         return try await self.client.execute(
@@ -555,8 +557,7 @@ public struct CloudWatch: AWSService {
     /// 			set up alerts only
     /// 			for the composite alarm. For example, you could create a composite
     /// 			alarm that goes into ALARM state only when more than one of the underlying metric alarms
-    /// 			are in ALARM state. Currently, the only alarm actions that can be taken by composite alarms are notifying
-    /// 			SNS topics.  It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and
+    /// 			are in ALARM state. Composite alarms can take the following actions:   Notify Amazon SNS topics.   Invoke Lambda functions.   Create OpsItems in Systems Manager Ops Center.   Create incidents in Systems Manager Incident Manager.    It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and
     /// 			composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle
     /// 			because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must
     /// 			break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest
@@ -694,7 +695,7 @@ public struct CloudWatch: AWSService {
     /// 			CloudWatch creates the metric. When CloudWatch creates a metric, it can
     /// 			take up to fifteen minutes for the metric to appear in calls to ListMetrics. You can publish either individual data points in the Value field, or
     /// 		arrays of values and the number of times each value occurred during the period by using the
-    /// 		Values and Counts fields in the MetricDatum structure. Using
+    /// 		Values and Counts fields in the MetricData structure. Using
     /// 		the Values and Counts method enables you to publish up to 150 values per metric
     /// 			with one PutMetricData request, and
     /// 		supports retrieving percentile statistics on this data. Each PutMetricData request is limited to 1 MB in size for HTTP POST requests. You can

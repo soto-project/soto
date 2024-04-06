@@ -5451,6 +5451,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>This is the non-unique name of the resource that \n         belongs to the specified backup.</p>"
                     }
+                },
+                "VaultType": {
+                    "target": "com.amazonaws.backup#VaultType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>This is the type of vault in which the described recovery point is stored.</p>"
+                    }
                 }
             },
             "traits": {
@@ -6048,7 +6054,7 @@
                 "ControlScope": {
                     "target": "com.amazonaws.backup#ControlScope",
                     "traits": {
-                        "smithy.api#documentation": "<p>The scope of a control. The control scope defines what the control will evaluate. Three\n         examples of control scopes are: a specific backup plan, all backup plans with a specific\n         tag, or all backup plans.</p>"
+                        "smithy.api#documentation": "<p>The scope of a control. The control scope defines what the control will evaluate. Three\n         examples of control scopes are: a specific backup plan, all backup plans with a specific\n         tag, or all backup plans.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/aws-backup/latest/devguide/API_ControlScope.html\">\n               <code>ControlScope</code>.</a>\n         </p>"
                     }
                 }
             },
@@ -7405,7 +7411,7 @@
                 "State": {
                     "target": "com.amazonaws.backup#BackupJobStatus",
                     "traits": {
-                        "smithy.api#documentation": "<p>This parameter returns the job count for jobs \n         with the specified state.</p>\n         <p>The the value ANY returns count of all states.</p>\n         <p>\n            <code>AGGREGATE_ALL</code> aggregates job counts \n         for all states and returns the sum.</p>",
+                        "smithy.api#documentation": "<p>This parameter returns the job count for jobs with the specified state.</p>\n         <p>The the value ANY returns count of all states.</p>\n         <p>\n            <code>AGGREGATE_ALL</code> aggregates job counts for all states and returns the\n         sum.</p>\n         <p>\n            <code>Completed with issues</code> is a status found only in the Backup\n         console. For API, this status refers to jobs with a state of <code>COMPLETED</code> and a\n            <code>MessageCategory</code> with a value other than <code>SUCCESS</code>; that is, the\n         status is completed but comes with a status message. To obtain the job count for\n            <code>Completed with issues</code>, run two GET requests, and subtract the second,\n         smaller number:</p>\n         <p>GET\n         /audit/backup-job-summaries?AggregationPeriod=FOURTEEN_DAYS&State=COMPLETED</p>\n         <p>GET\n         /audit/backup-job-summaries?AggregationPeriod=FOURTEEN_DAYS&MessageCategory=SUCCESS&State=COMPLETED</p>",
                         "smithy.api#httpQuery": "State"
                     }
                 },
@@ -7534,7 +7540,7 @@
                 "ByState": {
                     "target": "com.amazonaws.backup#BackupJobState",
                     "traits": {
-                        "smithy.api#documentation": "<p>Returns only backup jobs that are in the specified state.</p>",
+                        "smithy.api#documentation": "<p>Returns only backup jobs that are in the specified state.</p>\n         <p>\n            <code>Completed with issues</code> is a status found only in the Backup\n         console. For API, this status refers to jobs with a state of <code>COMPLETED</code> and a\n         <code>MessageCategory</code> with a value other than <code>SUCCESS</code>; that is, the\n         status is completed but comes with a status message.</p>\n         <p>To obtain the job count for\n         <code>Completed with issues</code>, run two GET requests, and subtract the second,\n         smaller number:</p>\n         <p>GET /backup-jobs/?state=COMPLETED</p>\n         <p>GET /backup-jobs/?messageCategory=SUCCESS&state=COMPLETED</p>",
                         "smithy.api#httpQuery": "state"
                     }
                 },
@@ -7562,7 +7568,7 @@
                 "ByResourceType": {
                     "target": "com.amazonaws.backup#ResourceType",
                     "traits": {
-                        "smithy.api#documentation": "<p>Returns only backup jobs for the specified resources:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>Aurora</code> for Amazon Aurora</p>\n            </li>\n            <li>\n               <p>\n                  <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)</p>\n            </li>\n            <li>\n               <p>\n                  <code>DynamoDB</code> for Amazon DynamoDB</p>\n            </li>\n            <li>\n               <p>\n                  <code>EBS</code> for Amazon Elastic Block Store</p>\n            </li>\n            <li>\n               <p>\n                  <code>EC2</code> for Amazon Elastic Compute Cloud</p>\n            </li>\n            <li>\n               <p>\n                  <code>EFS</code> for Amazon Elastic File System</p>\n            </li>\n            <li>\n               <p>\n                  <code>FSx</code> for Amazon FSx</p>\n            </li>\n            <li>\n               <p>\n                  <code>Neptune</code> for Amazon Neptune</p>\n            </li>\n            <li>\n               <p>\n                  <code>RDS</code> for Amazon Relational Database Service</p>\n            </li>\n            <li>\n               <p>\n                  <code>Storage Gateway</code> for Storage Gateway</p>\n            </li>\n            <li>\n               <p>\n                  <code>S3</code> for Amazon S3</p>\n            </li>\n            <li>\n               <p>\n                  <code>VirtualMachine</code> for virtual machines</p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>Returns only backup jobs for the specified resources:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>Aurora</code> for Amazon Aurora</p>\n            </li>\n            <li>\n               <p>\n                  <code>CloudFormation</code> for CloudFormation</p>\n            </li>\n            <li>\n               <p>\n                  <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)</p>\n            </li>\n            <li>\n               <p>\n                  <code>DynamoDB</code> for Amazon DynamoDB</p>\n            </li>\n            <li>\n               <p>\n                  <code>EBS</code> for Amazon Elastic Block Store</p>\n            </li>\n            <li>\n               <p>\n                  <code>EC2</code> for Amazon Elastic Compute Cloud</p>\n            </li>\n            <li>\n               <p>\n                  <code>EFS</code> for Amazon Elastic File System</p>\n            </li>\n            <li>\n               <p>\n                  <code>FSx</code> for Amazon FSx</p>\n            </li>\n            <li>\n               <p>\n                  <code>Neptune</code> for Amazon Neptune</p>\n            </li>\n            <li>\n               <p>\n                  <code>Redshift</code> for Amazon Redshift</p>\n            </li>\n            <li>\n               <p>\n                  <code>RDS</code> for Amazon Relational Database Service</p>\n            </li>\n            <li>\n               <p>\n                  <code>SAP HANA on Amazon EC2</code> for SAP HANA databases</p>\n            </li>\n            <li>\n               <p>\n                  <code>Storage Gateway</code> for Storage Gateway</p>\n            </li>\n            <li>\n               <p>\n                  <code>S3</code> for Amazon S3</p>\n            </li>\n            <li>\n               <p>\n                  <code>Timestream</code> for Amazon Timestream</p>\n            </li>\n            <li>\n               <p>\n                  <code>VirtualMachine</code> for virtual machines</p>\n            </li>\n         </ul>",
                         "smithy.api#httpQuery": "resourceType"
                     }
                 },
@@ -8255,7 +8261,7 @@
                 "ByResourceType": {
                     "target": "com.amazonaws.backup#ResourceType",
                     "traits": {
-                        "smithy.api#documentation": "<p>Returns only backup jobs for the specified resources:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>Aurora</code> for Amazon Aurora</p>\n            </li>\n            <li>\n               <p>\n                  <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)</p>\n            </li>\n            <li>\n               <p>\n                  <code>DynamoDB</code> for Amazon DynamoDB</p>\n            </li>\n            <li>\n               <p>\n                  <code>EBS</code> for Amazon Elastic Block Store</p>\n            </li>\n            <li>\n               <p>\n                  <code>EC2</code> for Amazon Elastic Compute Cloud</p>\n            </li>\n            <li>\n               <p>\n                  <code>EFS</code> for Amazon Elastic File System</p>\n            </li>\n            <li>\n               <p>\n                  <code>FSx</code> for Amazon FSx</p>\n            </li>\n            <li>\n               <p>\n                  <code>Neptune</code> for Amazon Neptune</p>\n            </li>\n            <li>\n               <p>\n                  <code>RDS</code> for Amazon Relational Database Service</p>\n            </li>\n            <li>\n               <p>\n                  <code>Storage Gateway</code> for Storage Gateway</p>\n            </li>\n            <li>\n               <p>\n                  <code>S3</code> for Amazon S3</p>\n            </li>\n            <li>\n               <p>\n                  <code>VirtualMachine</code> for virtual machines</p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>Returns only backup jobs for the specified resources:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>Aurora</code> for Amazon Aurora</p>\n            </li>\n            <li>\n               <p>\n                  <code>CloudFormation</code> for CloudFormation</p>\n            </li>\n            <li>\n               <p>\n                  <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)</p>\n            </li>\n            <li>\n               <p>\n                  <code>DynamoDB</code> for Amazon DynamoDB</p>\n            </li>\n            <li>\n               <p>\n                  <code>EBS</code> for Amazon Elastic Block Store</p>\n            </li>\n            <li>\n               <p>\n                  <code>EC2</code> for Amazon Elastic Compute Cloud</p>\n            </li>\n            <li>\n               <p>\n                  <code>EFS</code> for Amazon Elastic File System</p>\n            </li>\n            <li>\n               <p>\n                  <code>FSx</code> for Amazon FSx</p>\n            </li>\n            <li>\n               <p>\n                  <code>Neptune</code> for Amazon Neptune</p>\n            </li>\n            <li>\n               <p>\n                  <code>Redshift</code> for Amazon Redshift</p>\n            </li>\n            <li>\n               <p>\n                  <code>RDS</code> for Amazon Relational Database Service</p>\n            </li>\n            <li>\n               <p>\n                  <code>SAP HANA on Amazon EC2</code> for SAP HANA databases</p>\n            </li>\n            <li>\n               <p>\n                  <code>Storage Gateway</code> for Storage Gateway</p>\n            </li>\n            <li>\n               <p>\n                  <code>S3</code> for Amazon S3</p>\n            </li>\n            <li>\n               <p>\n                  <code>Timestream</code> for Amazon Timestream</p>\n            </li>\n            <li>\n               <p>\n                  <code>VirtualMachine</code> for virtual machines</p>\n            </li>\n         </ul>",
                         "smithy.api#httpQuery": "resourceType"
                     }
                 },
@@ -8723,7 +8729,7 @@
                 "ByResourceType": {
                     "target": "com.amazonaws.backup#ResourceType",
                     "traits": {
-                        "smithy.api#documentation": "<p>Returns only recovery points that match the specified resource type.</p>",
+                        "smithy.api#documentation": "<p>Returns only recovery points that match the specified resource type(s):</p>\n         <ul>\n            <li>\n               <p>\n                  <code>Aurora</code> for Amazon Aurora</p>\n            </li>\n            <li>\n               <p>\n                  <code>CloudFormation</code> for CloudFormation</p>\n            </li>\n            <li>\n               <p>\n                  <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)</p>\n            </li>\n            <li>\n               <p>\n                  <code>DynamoDB</code> for Amazon DynamoDB</p>\n            </li>\n            <li>\n               <p>\n                  <code>EBS</code> for Amazon Elastic Block Store</p>\n            </li>\n            <li>\n               <p>\n                  <code>EC2</code> for Amazon Elastic Compute Cloud</p>\n            </li>\n            <li>\n               <p>\n                  <code>EFS</code> for Amazon Elastic File System</p>\n            </li>\n            <li>\n               <p>\n                  <code>FSx</code> for Amazon FSx</p>\n            </li>\n            <li>\n               <p>\n                  <code>Neptune</code> for Amazon Neptune</p>\n            </li>\n            <li>\n               <p>\n                  <code>Redshift</code> for Amazon Redshift</p>\n            </li>\n            <li>\n               <p>\n                  <code>RDS</code> for Amazon Relational Database Service</p>\n            </li>\n            <li>\n               <p>\n                  <code>SAP HANA on Amazon EC2</code> for SAP HANA databases</p>\n            </li>\n            <li>\n               <p>\n                  <code>Storage Gateway</code> for Storage Gateway</p>\n            </li>\n            <li>\n               <p>\n                  <code>S3</code> for Amazon S3</p>\n            </li>\n            <li>\n               <p>\n                  <code>Timestream</code> for Amazon Timestream</p>\n            </li>\n            <li>\n               <p>\n                  <code>VirtualMachine</code> for virtual machines</p>\n            </li>\n         </ul>",
                         "smithy.api#httpQuery": "resourceType"
                     }
                 },
@@ -8926,6 +8932,14 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The maximum number of items to be returned.</p>\n         <note>\n            <p>Amazon RDS requires a value of at least 20.</p>\n         </note>",
                         "smithy.api#httpQuery": "maxResults"
+                    }
+                },
+                "ManagedByAWSBackupOnly": {
+                    "target": "com.amazonaws.backup#Boolean2",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>This attribute filters recovery points based on ownership.</p>\n         <p>If this is \n         set to <code>TRUE</code>, the response will contain recovery points associated \n         with the selected resources that are managed by Backup.</p>\n         <p>If this is set to <code>FALSE</code>, the response will contain all \n         recovery points associated with the selected resource.</p>\n         <p>Type: Boolean</p>",
+                        "smithy.api#httpQuery": "managedByAWSBackupOnly"
                     }
                 }
             },
@@ -9402,6 +9416,13 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The account ID to list the jobs from. Returns only restore jobs associated with the\n         specified account ID.</p>",
                         "smithy.api#httpQuery": "accountId"
+                    }
+                },
+                "ByResourceType": {
+                    "target": "com.amazonaws.backup#ResourceType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Include this parameter to return only restore jobs for the \n            specified resources:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>Aurora</code> for Amazon Aurora</p>\n            </li>\n            <li>\n               <p>\n                  <code>CloudFormation</code> for CloudFormation</p>\n            </li>\n            <li>\n               <p>\n                  <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)</p>\n            </li>\n            <li>\n               <p>\n                  <code>DynamoDB</code> for Amazon DynamoDB</p>\n            </li>\n            <li>\n               <p>\n                  <code>EBS</code> for Amazon Elastic Block Store</p>\n            </li>\n            <li>\n               <p>\n                  <code>EC2</code> for Amazon Elastic Compute Cloud</p>\n            </li>\n            <li>\n               <p>\n                  <code>EFS</code> for Amazon Elastic File System</p>\n            </li>\n            <li>\n               <p>\n                  <code>FSx</code> for Amazon FSx</p>\n            </li>\n            <li>\n               <p>\n                  <code>Neptune</code> for Amazon Neptune</p>\n            </li>\n            <li>\n               <p>\n                  <code>Redshift</code> for Amazon Redshift</p>\n            </li>\n            <li>\n               <p>\n                  <code>RDS</code> for Amazon Relational Database Service</p>\n            </li>\n            <li>\n               <p>\n                  <code>SAP HANA on Amazon EC2</code> for SAP HANA databases</p>\n            </li>\n            <li>\n               <p>\n                  <code>Storage Gateway</code> for Storage Gateway</p>\n            </li>\n            <li>\n               <p>\n                  <code>S3</code> for Amazon S3</p>\n            </li>\n            <li>\n               <p>\n                  <code>Timestream</code> for Amazon Timestream</p>\n            </li>\n            <li>\n               <p>\n                  <code>VirtualMachine</code> for virtual machines</p>\n            </li>\n         </ul>",
+                        "smithy.api#httpQuery": "resourceType"
                     }
                 },
                 "ByCreatedBefore": {
@@ -10271,6 +10292,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>This is the non-unique name of the resource that \n         belongs to the specified backup.</p>"
                     }
+                },
+                "VaultType": {
+                    "target": "com.amazonaws.backup#VaultType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>This is the type of vault in which the described recovery point is stored.</p>"
+                    }
                 }
             },
             "traits": {
@@ -10345,6 +10372,12 @@
                     "target": "com.amazonaws.backup#string",
                     "traits": {
                         "smithy.api#documentation": "<p>This is the non-unique name of the resource that \n         belongs to the specified backup.</p>"
+                    }
+                },
+                "VaultType": {
+                    "target": "com.amazonaws.backup#VaultType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>This is the type of vault in which the described recovery point is \n         stored.</p>"
                     }
                 }
             },
@@ -12140,7 +12173,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Attempts to cancel a job to create a one-time backup of a resource.</p>\n         <p>This action is not supported for the following services:\n         Amazon FSx for Windows File Server, Amazon FSx for Lustre, FSx for ONTAP\n         , Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora, \n         and Amazon Neptune.</p>",
+                "smithy.api#documentation": "<p>Attempts to cancel a job to create a one-time backup of a resource.</p>\n         <p>This action is not supported for the following services:\n         Amazon FSx for Windows File Server, Amazon FSx for Lustre, Amazon FSx for NetApp ONTAP\n         , Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora, \n         and Amazon Neptune.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/backup-jobs/{BackupJobId}",
@@ -12687,7 +12720,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Updates the current service opt-in settings for the Region. If service-opt-in is enabled\n         for a service, Backup tries to protect that service's resources in this Region,\n         when the resource is included in an on-demand backup or scheduled backup plan. Otherwise,\n            Backup does not try to protect that service's resources in this Region. Use\n         the <code>DescribeRegionSettings</code> API to determine the resource types that are\n         supported.</p>",
+                "smithy.api#documentation": "<p>Updates the current service opt-in settings for the Region.</p>\n         <p>Use\n         the <code>DescribeRegionSettings</code> API to determine the resource types that are\n         supported.</p>",
                 "smithy.api#http": {
                     "method": "PUT",
                     "uri": "/account-settings",
@@ -12701,7 +12734,7 @@
                 "ResourceTypeOptInPreference": {
                     "target": "com.amazonaws.backup#ResourceTypeOptInPreference",
                     "traits": {
-                        "smithy.api#documentation": "<p>Updates the list of services along with the opt-in preferences for the Region.</p>"
+                        "smithy.api#documentation": "<p>Updates the list of services along with the opt-in preferences for the Region.</p>\n         <p>If resource assignments are only based on tags, then service opt-in settings are applied. \n         If a resource type is explicitly assigned to a backup plan, such as Amazon S3, \n         Amazon EC2, or Amazon RDS, it will be included in the \n         backup even if the opt-in is not enabled for that particular service. \n         If both a resource type and tags are specified in a resource assignment, \n         the resource type specified in the backup plan takes priority over the \n         tag condition. Service opt-in settings are disregarded in this situation.</p>"
                     }
                 },
                 "ResourceTypeManagementPreference": {

@@ -163,6 +163,19 @@ public struct LexModelsV2: AWSService {
         )
     }
 
+    /// Action to create a replication of the source bot in the secondary region.
+    @Sendable
+    public func createBotReplica(_ input: CreateBotReplicaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBotReplicaResponse {
+        return try await self.client.execute(
+            operation: "CreateBotReplica", 
+            path: "/bots/{botId}/replicas", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates an immutable version of the bot. When you create the first  version of a bot, Amazon Lex sets the version number to 1. Subsequent bot versions increase  in an increment of 1. The version number will always represent the total number  of versions created of the bot, not the current number of versions. If a bot version is deleted, that bot version number will not be reused.
     @Sendable
     public func createBotVersion(_ input: CreateBotVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBotVersionResponse {
@@ -312,6 +325,19 @@ public struct LexModelsV2: AWSService {
         return try await self.client.execute(
             operation: "DeleteBotLocale", 
             path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// The action to delete the replicated bot in the secondary region.
+    @Sendable
+    public func deleteBotReplica(_ input: DeleteBotReplicaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBotReplicaResponse {
+        return try await self.client.execute(
+            operation: "DeleteBotReplica", 
+            path: "/bots/{botId}/replicas/{replicaRegion}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -507,6 +533,19 @@ public struct LexModelsV2: AWSService {
         return try await self.client.execute(
             operation: "DescribeBotRecommendation", 
             path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/botrecommendations/{botRecommendationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Monitors the bot replication status through the UI console.
+    @Sendable
+    public func describeBotReplica(_ input: DescribeBotReplicaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBotReplicaResponse {
+        return try await self.client.execute(
+            operation: "DescribeBotReplica", 
+            path: "/bots/{botId}/replicas/{replicaRegion}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -722,6 +761,19 @@ public struct LexModelsV2: AWSService {
         )
     }
 
+    /// The action to list the replicated bots created from the source bot alias.
+    @Sendable
+    public func listBotAliasReplicas(_ input: ListBotAliasReplicasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBotAliasReplicasResponse {
+        return try await self.client.execute(
+            operation: "ListBotAliasReplicas", 
+            path: "/bots/{botId}/replicas/{replicaRegion}/botaliases", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets a list of aliases for the specified bot.
     @Sendable
     public func listBotAliases(_ input: ListBotAliasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBotAliasesResponse {
@@ -761,12 +813,38 @@ public struct LexModelsV2: AWSService {
         )
     }
 
+    /// The action to list the replicated bots.
+    @Sendable
+    public func listBotReplicas(_ input: ListBotReplicasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBotReplicasResponse {
+        return try await self.client.execute(
+            operation: "ListBotReplicas", 
+            path: "/bots/{botId}/replicas", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists the generation requests made for a bot locale.
     @Sendable
     public func listBotResourceGenerations(_ input: ListBotResourceGenerationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBotResourceGenerationsResponse {
         return try await self.client.execute(
             operation: "ListBotResourceGenerations", 
             path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/generations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Contains information about all the versions replication statuses applicable for Global Resiliency.
+    @Sendable
+    public func listBotVersionReplicas(_ input: ListBotVersionReplicasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBotVersionReplicasResponse {
+        return try await self.client.execute(
+            operation: "ListBotVersionReplicas", 
+            path: "/bots/{botId}/replicas/{replicaRegion}/botversions", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -1353,6 +1431,25 @@ extension LexModelsV2 {
         )
     }
 
+    /// The action to list the replicated bots created from the source bot alias.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listBotAliasReplicasPaginator(
+        _ input: ListBotAliasReplicasRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBotAliasReplicasRequest, ListBotAliasReplicasResponse> {
+        return .init(
+            input: input,
+            command: self.listBotAliasReplicas,
+            inputKey: \ListBotAliasReplicasRequest.nextToken,
+            outputKey: \ListBotAliasReplicasResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Gets a list of aliases for the specified bot.
     /// Return PaginatorSequence for operation.
     ///
@@ -1425,6 +1522,25 @@ extension LexModelsV2 {
             command: self.listBotResourceGenerations,
             inputKey: \ListBotResourceGenerationsRequest.nextToken,
             outputKey: \ListBotResourceGenerationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Contains information about all the versions replication statuses applicable for Global Resiliency.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listBotVersionReplicasPaginator(
+        _ input: ListBotVersionReplicasRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBotVersionReplicasRequest, ListBotVersionReplicasResponse> {
+        return .init(
+            input: input,
+            command: self.listBotVersionReplicas,
+            inputKey: \ListBotVersionReplicasRequest.nextToken,
+            outputKey: \ListBotVersionReplicasResponse.nextToken,
             logger: logger
         )
     }
@@ -1845,6 +1961,17 @@ extension LexModelsV2.ListAggregatedUtterancesRequest: AWSPaginateToken {
     }
 }
 
+extension LexModelsV2.ListBotAliasReplicasRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListBotAliasReplicasRequest {
+        return .init(
+            botId: self.botId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            replicaRegion: self.replicaRegion
+        )
+    }
+}
+
 extension LexModelsV2.ListBotAliasesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LexModelsV2.ListBotAliasesRequest {
         return .init(
@@ -1888,6 +2015,18 @@ extension LexModelsV2.ListBotResourceGenerationsRequest: AWSPaginateToken {
             localeId: self.localeId,
             maxResults: self.maxResults,
             nextToken: token,
+            sortBy: self.sortBy
+        )
+    }
+}
+
+extension LexModelsV2.ListBotVersionReplicasRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListBotVersionReplicasRequest {
+        return .init(
+            botId: self.botId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            replicaRegion: self.replicaRegion,
             sortBy: self.sortBy
         )
     }
