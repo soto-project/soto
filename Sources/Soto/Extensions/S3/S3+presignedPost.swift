@@ -67,8 +67,8 @@ extension S3 {
     /// An encodable struct that represents the URL and form fields to use in a
     /// presigned POST request to S3
     public struct PresignedPostResponse: Encodable {
-        let url: URL
-        let fields: [String: String]
+        public let url: URL
+        public let fields: [String: String]
     }
 
     ///  Builds the url and the form fields used for a presigned s3 post
