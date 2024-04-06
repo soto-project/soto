@@ -53,7 +53,9 @@ class EC2Tests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
-    func testDescribeInstanceTypes() {
+    func testDescribeInstanceTypes() throws {
+        // doesnt work with LocalStack
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
         let response = Self.ec2.describeInstanceTypesPaginator(.init(), [EC2.InstanceTypeInfo]()) { result, response, eventLoop in
             let newResult = result + (response.instanceTypes ?? [])
             return eventLoop.makeSucceededFuture((true, newResult))
