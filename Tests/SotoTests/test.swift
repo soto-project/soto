@@ -82,7 +82,11 @@ enum TestEnvironment {
 
     /// current list of middleware
     public static var middlewares: AWSMiddlewareProtocol {
-        return (Environment["AWS_ENABLE_LOGGING"] == "true") ? AWSLoggingMiddleware(logger: TestEnvironment.logger, logLevel: .info) : PassThruMiddleware()
+        return (Environment["AWS_ENABLE_LOGGING"] == "true")
+            ? AWSLoggingMiddleware(logger: TestEnvironment.logger, logLevel: .info)
+            : AWSMiddleware { request, context, next in
+                try await next(request, context)
+            }
     }
 
     /// return endpoint
