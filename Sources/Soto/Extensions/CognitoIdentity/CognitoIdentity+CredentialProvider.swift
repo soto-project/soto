@@ -31,7 +31,7 @@ extension CognitoIdentity {
             httpClient: any AWSHTTPClient,
             logger: Logger = AWSClient.loggingDisabled
         ) {
-            self.client = AWSClient(credentialProvider: .empty, httpClientProvider: .shared(httpClient), logger: logger)
+            self.client = AWSClient(credentialProvider: .empty, httpClient: httpClient, logger: logger)
             self.cognitoIdentity = CognitoIdentity(client: self.client, region: region)
             self.identityPoolId = identityPoolId
             let context = IdentityProviderFactory.Context(cognitoIdentity: self.cognitoIdentity, identityPoolId: identityPoolId, logger: logger)
