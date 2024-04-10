@@ -23,7 +23,6 @@ import XCTest
 @testable import SotoS3Control
 
 class S3Tests: XCTestCase {
-    static var eventLoopGroup: EventLoopGroup!
     static var client: AWSClient!
     static var s3: S3!
     static var randomBytes: ByteBuffer!
@@ -35,11 +34,9 @@ class S3Tests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount)
         Self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
-            middleware: TestEnvironment.middlewares,
-            httpClientProvider: .createNewWithEventLoopGroup(Self.eventLoopGroup)
+            middleware: TestEnvironment.middlewares
         )
         Self.s3 = S3(
             client: Self.client,
@@ -51,7 +48,6 @@ class S3Tests: XCTestCase {
 
     override class func tearDown() {
         XCTAssertNoThrow(try Self.client.syncShutdown())
-        XCTAssertNoThrow(try Self.eventLoopGroup.syncShutdownGracefully())
     }
 
     static func createRandomBuffer(size: Int) -> ByteBuffer {
@@ -407,8 +403,6 @@ class S3Tests: XCTestCase {
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let name = TestEnvironment.generateResourceName()
-        let httpClient = HTTPClient(eventLoopGroupProvider: .singleton)
-        defer { XCTAssertNoThrow(try httpClient.syncShutdown()) }
         let s3Url = URL(string: "https://\(name).s3.us-east-1.amazonaws.com/\(name)!=%25+/(*)_.txt")!
 
         try await testBucket(name) { _ in
@@ -417,14 +411,14 @@ class S3Tests: XCTestCase {
             var request = HTTPClientRequest(url: putURL.absoluteString)
             request.method = .PUT
             request.body = .bytes(byteBuffer)
-            let response = try await httpClient.execute(request, timeout: .minutes(1))
+            let response = try await HTTPClient.shared.execute(request, timeout: .minutes(1))
             XCTAssertEqual(response.status, .ok)
 
             let listResponse = try await Self.s3.listObjectsV2(.init(bucket: name))
             XCTAssertEqual(listResponse.contents?.first?.key, "\(name)!=%+/(*)_.txt")
 
             let getURL = try await Self.s3.signURL(url: s3Url, httpMethod: .GET, expires: .minutes(5))
-            let getResponse = try await httpClient.execute(.init(url: getURL.absoluteString), timeout: .minutes(1))
+            let getResponse = try await HTTPClient.shared.execute(.init(url: getURL.absoluteString), timeout: .minutes(1))
 
             let getBuffer = try await getResponse.body.collect(upTo: .max)
             XCTAssertEqual(response.status, .ok)

@@ -28,7 +28,7 @@ class SQSTests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
         Self.sqs = SQS(
             client: SQSTests.client,
             region: .useast1,

@@ -28,7 +28,7 @@ class SNSTests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
         Self.sns = SNS(
             client: SNSTests.client,
             region: .useast1,

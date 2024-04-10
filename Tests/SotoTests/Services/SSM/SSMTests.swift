@@ -28,7 +28,7 @@ class SSMTests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
         Self.ssm = SSM(
             client: SSMTests.client,
             region: .useast1,

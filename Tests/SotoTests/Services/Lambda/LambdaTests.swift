@@ -105,8 +105,7 @@ class LambdaTests: XCTestCase {
 
         Self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
-            middleware: TestEnvironment.middlewares,
-            httpClientProvider: .createNew
+            middleware: TestEnvironment.middlewares
         )
         Self.lambda = Lambda(
             client: LambdaTests.client,

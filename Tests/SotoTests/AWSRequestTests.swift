@@ -40,7 +40,7 @@ extension AWSHTTPBody {
 
 /// Tests to check the formatting of various AWSHTTPRequest bodies
 class AWSHTTPRequestTests: XCTestCase {
-    static let client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares, httpClientProvider: .createNew)
+    static let client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
 
     /// test AWSHTTPRequest body is expected string
     func testRequestedBody(expected: String, result: AWSHTTPRequest) throws {

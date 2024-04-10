@@ -29,7 +29,7 @@ class IAMTests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
         Self.iam = IAM(
             client: IAMTests.client,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")

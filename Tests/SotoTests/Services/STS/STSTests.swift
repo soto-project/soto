@@ -34,7 +34,6 @@ class STSTests: XCTestCase {
         Self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
             middleware: TestEnvironment.middlewares,
-            httpClientProvider: .createNew,
             logger: Logger(label: "Soto")
         )
         Self.sts = STS(
@@ -55,7 +54,7 @@ class STSTests: XCTestCase {
     func testSTSCredentialProviderShutdown() async throws {
         let request = STS.AssumeRoleRequest(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "test-session")
         let credentialProvider = CredentialProviderFactory.stsAssumeRole(request: request, region: .euwest2)
-        let client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .createNew, logger: TestEnvironment.logger)
+        let client = AWSClient(credentialProvider: credentialProvider, logger: TestEnvironment.logger)
         try await client.shutdown()
     }
 
@@ -69,7 +68,7 @@ class STSTests: XCTestCase {
             }
             return request
         }
-        let client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .createNew, logger: TestEnvironment.logger)
+        let client = AWSClient(credentialProvider: credentialProvider, logger: TestEnvironment.logger)
         _ = try? await client.credentialProvider.getCredential(logger: TestEnvironment.logger)
         try await client.shutdown()
         returnedRequest.withLockedValue { value in
@@ -104,7 +103,6 @@ class STSTests: XCTestCase {
                 credentialProvider: TestEnvironment.credentialProvider,
                 region: .useast1
             ),
-            httpClientProvider: .createNew,
             logger: Logger(label: "Soto")
         )
         do {

@@ -32,7 +32,6 @@ class TimestreamWriteTests: XCTestCase {
         self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
             middleware: TestEnvironment.middlewares,
-            httpClientProvider: .createNew,
             logger: Logger(label: "Soto")
         )
         self.ts = TimestreamWrite(

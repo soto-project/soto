@@ -392,8 +392,7 @@ extension S3Tests {
             credentialProvider: .static(
                 accessKeyId: "AKIAIOSFODNN7EXAMPLE",
                 secretAccessKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-            ),
-            httpClientProvider: .createNew
+            )
         )
         let s3 = S3(client: client, region: .useast1)
 
@@ -455,8 +454,7 @@ extension S3Tests {
             credentialProvider: .static(
                 accessKeyId: "AKIAIOSFODNN7EXAMPLE",
                 secretAccessKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-            ),
-            httpClientProvider: .createNew
+            )
         )
         let s3 = S3(client: client, region: .useast1)
 
@@ -485,8 +483,7 @@ extension S3Tests {
             credentialProvider: .static(
                 accessKeyId: "AKIAIOSFODNN7EXAMPLE",
                 secretAccessKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-            ),
-            httpClientProvider: .createNew
+            )
         )
         let s3 = S3(client: client, region: .useast1)
 

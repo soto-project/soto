@@ -31,7 +31,6 @@ class APIGatewayV2Tests: XCTestCase {
         Self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
             middleware: TestEnvironment.middlewares,
-            httpClientProvider: .createNew,
             logger: TestEnvironment.logger
         )
         Self.apiGatewayV2 = ApiGatewayV2(

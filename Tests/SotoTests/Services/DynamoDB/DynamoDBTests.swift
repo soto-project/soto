@@ -31,7 +31,7 @@ class DynamoDBTests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
         Self.dynamoDB = DynamoDB(
             client: DynamoDBTests.client,
             region: .useast1,
