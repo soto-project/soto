@@ -297,7 +297,7 @@ class S3Tests: XCTestCase {
     func testMultipleUpload() async throws {
         let name = TestEnvironment.generateResourceName()
         try await self.testBucket(name, s3: Self.s3.with(timeout: .minutes(2))) { name in
-            _ = try await(0..<32).concurrentMap(maxConcurrentTasks: 8) {
+            _ = try await (0..<32).concurrentMap(maxConcurrentTasks: 8) {
                 let body = "testMultipleUpload - " + $0.description
                 let filename = "file" + $0.description
                 _ = try await Self.s3.putObject(

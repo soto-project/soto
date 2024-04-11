@@ -145,7 +145,7 @@ extension S3 {
             }
 
             // save the remaining parts
-            for try await(index, buffer) in group {
+            for try await (index, buffer) in group {
                 // save the buffer
                 try await downloadBuffers.saveBuffer(index: index, buffer: buffer)
             }
@@ -665,7 +665,7 @@ extension S3 {
         progress: (@Sendable (Int) async throws -> Void)?
     ) async throws -> [S3.CompletedPart] where PartSequence.Element == (Int, ByteBuffer) {
         var newProgress: (@Sendable (Int) async throws -> Void)?
-        if let progress = progress {
+        if let progress {
             let size = ManagedAtomic(initialProgress)
             @Sendable func accumulatingProgress(_ amount: Int) async throws {
                 let totalSize = size.wrappingIncrementThenLoad(by: amount, ordering: .relaxed)
@@ -678,7 +678,7 @@ extension S3 {
             var results = ContiguousArray<(Int, S3.CompletedPart)>()
 
             var count = 0
-            for try await(index, buffer) in partSequence {
+            for try await (index, buffer) in partSequence {
                 count += 1
                 // once we have kicked off `concurrentUploads` tasks we can start waiting for a task to finish before
                 // starting another
@@ -738,10 +738,10 @@ extension S3 {
                     results.append(element)
                 }
             } catch {
-                throw MultipartUploadError(error: error, completedParts: results.sorted { $0.0 < $1.0 }.map { $0.1 })
+                throw MultipartUploadError(error: error, completedParts: results.sorted { $0.0 < $1.0 }.map(\.1))
             }
             // construct final array and fill in elements
-            return results.sorted { $0.0 < $1.0 }.map { $0.1 }
+            return results.sorted { $0.0 < $1.0 }.map(\.1)
         }
     }
 

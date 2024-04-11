@@ -50,12 +50,12 @@ class AWSHTTPRequestTests: XCTestCase {
     }
 
     /// test
-    func testAWSShapeRequest<Input: AWSEncodableShape>(
+    func testAWSShapeRequest(
         config: AWSServiceConfig,
         operation: String,
         path: String = "/",
         method: HTTPMethod = .POST,
-        input: Input,
+        input: some AWSEncodableShape,
         expected: String
     ) {
         do {
@@ -75,12 +75,12 @@ class AWSHTTPRequestTests: XCTestCase {
     }
 
     /// test validation
-    func testAWSValidationFail<Input: AWSEncodableShape>(
+    func testAWSValidationFail(
         config: AWSServiceConfig,
         operation: String,
         path: String = "/",
         method: HTTPMethod = .POST,
-        input: Input
+        input: some AWSEncodableShape
     ) {
         do {
             _ = try AWSHTTPRequest(operation: operation, path: path, method: method, input: input, configuration: config)
@@ -92,12 +92,12 @@ class AWSHTTPRequestTests: XCTestCase {
         }
     }
 
-    func testAWSValidationSuccess<Input: AWSEncodableShape>(
+    func testAWSValidationSuccess(
         config: AWSServiceConfig,
         operation: String,
         path: String = "/",
         method: HTTPMethod = .POST,
-        input: Input
+        input: some AWSEncodableShape
     ) {
         do {
             _ = try AWSHTTPRequest(operation: operation, path: path, method: method, input: input, configuration: config)

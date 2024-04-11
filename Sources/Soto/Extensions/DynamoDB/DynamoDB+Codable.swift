@@ -24,8 +24,8 @@ extension DynamoDB {
     /// Empty String and Binary attribute values are allowed. Attribute values of type String and Binary must have a length greater than zero if the attribute is used as a key attribute for a table or index. Set type attributes cannot be empty.
     ///
     /// Invalid Requests with empty values will be rejected with a `ValidationException` exception.</p> <note> <p>To prevent a new item from replacing an existing item, use a conditional expression that contains the `attribute_not_exists` function with the name of the attribute being used as the partition key for the table. Since every record must contain that attribute, the `attribute_not_exists` function will only succeed if no matching item exists.</p> </note> <p>For more information about `PutItem`, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html">Working with Items</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-    public func putItem<T: Encodable>(
-        _ input: PutItemCodableInput<T>,
+    public func putItem(
+        _ input: PutItemCodableInput<some Encodable>,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws -> PutItemOutput {
         do {
@@ -63,8 +63,8 @@ extension DynamoDB {
     /// Edits an existing item's attributes, or adds a new item to the table if it does not already exist. You can put, delete, or add attribute values. You can also perform a conditional update on an existing item (insert a new attribute name-value pair if it doesn't exist, or replace an existing name-value pair if it has certain expected attribute values).
     ///
     /// You can also return the item's attribute values in the same `UpdateItem` operation using the `ReturnValues` parameter.
-    public func updateItem<T: Encodable>(
-        _ input: UpdateItemCodableInput<T>,
+    public func updateItem(
+        _ input: UpdateItemCodableInput<some Encodable>,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws -> UpdateItemOutput {
         return try await self.updateItem(input.createUpdateItemInput(), logger: logger)
@@ -249,7 +249,7 @@ extension DynamoDB {
             self.updateItem = updateItem
         }
 
-        public init<AdditionalAttributes: Encodable>(additionalAttributes: AdditionalAttributes, conditionExpression: String? = nil, key: [String], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String, updateItem: T) throws {
+        public init(additionalAttributes: some Encodable, conditionExpression: String? = nil, key: [String], returnConsumedCapacity: ReturnConsumedCapacity? = nil, returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil, returnValues: ReturnValue? = nil, tableName: String, updateItem: T) throws {
             let attributes = try DynamoDBEncoder().encode(additionalAttributes)
             self.additionalAttributeNames = .init(key.map { ("#\($0)", $0) }) { first, _ in return first }
             self.additionalAttributeValues = .init(attributes.map { (":\($0.key)", $0.value) }) { first, _ in return first }
@@ -278,7 +278,7 @@ extension DynamoDB {
             let expressionAttributeNames: [String: String]
             if let names = self.expressionAttributeNames, self.updateExpression != nil {
                 expressionAttributeNames = names
-            } else if let additionalAttributeNames = additionalAttributeNames {
+            } else if let additionalAttributeNames {
                 let tmpAttributeNames: [String: String] = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in return first }
                 expressionAttributeNames = tmpAttributeNames.merging(additionalAttributeNames, uniquingKeysWith: { _, new in new })
             } else {
@@ -286,7 +286,7 @@ extension DynamoDB {
             }
 
             let expressionAttributeValues: [String: AttributeValue]
-            if let additionalAttributeValues = additionalAttributeValues {
+            if let additionalAttributeValues {
                 let tmpExpressionAttributeValues: [String: AttributeValue] = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in return first }
                 expressionAttributeValues = tmpExpressionAttributeValues.merging(additionalAttributeValues, uniquingKeysWith: { _, new in new })
             } else {

@@ -19,7 +19,7 @@ public class DynamoDBEncoder {
 
     public init() {}
 
-    public func encode<T: Encodable>(_ value: T) throws -> [String: DynamoDB.AttributeValue] {
+    public func encode(_ value: some Encodable) throws -> [String: DynamoDB.AttributeValue] {
         let encoder = _DynamoDBEncoder(userInfo: userInfo)
         try value.encode(to: encoder)
         return try encoder.storage.collapse()
@@ -72,7 +72,7 @@ private class _EncoderUnkeyedContainer: _EncoderContainer {
 
     var attribute: DynamoDB.AttributeValue {
         // merge child values, plus nested containers
-        let values = self.values + self.nestedContainers.map { $0.attribute }
+        let values = self.values + self.nestedContainers.map(\.attribute)
         return .l(values)
     }
 }
@@ -221,7 +221,7 @@ class _DynamoDBEncoder: Encoder {
             self.encode(.n(value.description), forKey: key)
         }
 
-        mutating func encode<T>(_ value: T, forKey key: Key) throws where T: Encodable {
+        mutating func encode(_ value: some Encodable, forKey key: Key) throws {
             self.encoder.codingPath.append(key)
             defer { self.encoder.codingPath.removeLast() }
 
@@ -346,7 +346,7 @@ class _DynamoDBEncoder: Encoder {
             self.encode(.n(value.description))
         }
 
-        mutating func encode<T>(_ value: T) throws where T: Encodable {
+        mutating func encode(_ value: some Encodable) throws {
             let attribute = try encoder.box(value)
             self.encode(attribute)
         }
@@ -446,7 +446,7 @@ extension _DynamoDBEncoder: SingleValueEncodingContainer {
         self.encode(.n(value.description))
     }
 
-    func encode<T>(_ value: T) throws where T: Encodable {
+    func encode(_ value: some Encodable) throws {
         let attribute = try box(value)
         self.encode(attribute)
     }
