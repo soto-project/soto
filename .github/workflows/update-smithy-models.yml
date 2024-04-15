@@ -1,4 +1,4 @@
-name: Update AWS service files (Smithy)
+name: Update AWS service files
 
 on:
   workflow_dispatch:
@@ -31,7 +31,7 @@ jobs:
         ./scripts/update_models.sh | grep AWS_MODELS_VERSION >> $GITHUB_ENV
     - name: Create Pull Request
       id: cpr
-      uses: peter-evans/create-pull-request@v3
+      uses: peter-evans/create-pull-request@v6
       with:
         token: ${{ steps.generate-token.outputs.token }}
         commit-message: 'Update models from aws-sdk-go-v2 ${{ env.AWS_MODELS_VERSION }}'
