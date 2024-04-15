@@ -1,15 +1,15 @@
 # Minimum swiftformat version
---minversion 0.47.4
+--minversion 0.51.0
 
 # Swift version
---swiftversion 5.1
+--swiftversion 5.8
 
 # file options
 --exclude .build
 --exclude Sources/Soto/Services
 
 # rules
---disable redundantReturn, redundantBackticks, trailingCommas, extensionAccessControl
+--disable redundantReturn, redundantBackticks, trailingCommas, extensionAccessControl, typeSugar
 
 # format options
 --ifdef no-indent
