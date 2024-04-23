@@ -189,6 +189,11 @@ extension S3 {
         fields["x-amz-date"] = longDate
         fields["x-amz-credential"] = presignedPostCredential
 
+        if let sessionToken = clientCredentials.sessionToken {
+            conditions.append(.match("x-amz-security-token", sessionToken))
+            fields["x-amz-security-token"] = sessionToken
+        }
+
         // Create the policy and add to fields
         let policy = PostPolicy(expiration: date.addingTimeInterval(expiresIn), conditions: conditions)
         let stringToSign = try policy.stringToSign()
