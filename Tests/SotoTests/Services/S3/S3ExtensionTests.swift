@@ -499,8 +499,8 @@ extension S3Tests {
         XCTAssertEqual(credential, expectedCredential)
     }
 
-    func testSessionToken() {
-        let clent = AWSClient(
+    func testGeneratePresignedPostWithSessionToken() async throws {
+        let client = AWSClient(
             credentialProvider: .static(
                 accessKeyId: "AKIAIOSFODNN7EXAMPLE",
                 secretAccessKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
@@ -546,6 +546,6 @@ extension S3Tests {
             date: date
         )
 
-        XCTAssertEqual(presignedPost.fields["x-amz-session-token"], "EXAMPLESESSIONTOKEN")
+        XCTAssertEqual(presignedPost.fields["x-amz-security-token"], "EXAMPLESESSIONTOKEN")
     }
 }
