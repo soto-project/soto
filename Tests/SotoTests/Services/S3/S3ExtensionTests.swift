@@ -509,7 +509,7 @@ extension S3Tests {
         )
 
         let s3 = S3(client: client, region: .useast1)
-        
+
         defer { try? client.syncShutdown() }
 
         let fields = [
