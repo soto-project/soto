@@ -561,6 +561,19 @@ public struct SFN: AWSService {
             logger: logger
         )
     }
+
+    /// Validates the syntax of a state machine definition. You can validate that a state machine definition is correct without  creating a state machine resource. Step Functions will implicitly perform the same syntax check when you invoke CreateStateMachine and UpdateStateMachine. State machine definitions are specified using a JSON-based, structured language. For more information on Amazon States Language see Amazon States Language (ASL).  Suggested uses for ValidateStateMachineDefinition:   Integrate automated checks into your code review or Continuous Integration (CI) process to validate state machine definitions before starting deployments.   Run the validation from a Git pre-commit hook to check your state machine definitions before committing them to your source repository.    Errors found in the state machine definition will be returned in the response as a list of diagnostic elements, rather than raise an exception.
+    @Sendable
+    public func validateStateMachineDefinition(_ input: ValidateStateMachineDefinitionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ValidateStateMachineDefinitionOutput {
+        return try await self.client.execute(
+            operation: "ValidateStateMachineDefinition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
 }
 
 extension SFN {

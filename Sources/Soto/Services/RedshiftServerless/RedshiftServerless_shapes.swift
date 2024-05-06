@@ -85,9 +85,9 @@ extension RedshiftServerless {
     }
 
     public enum Schedule: AWSEncodableShape & AWSDecodableShape, Sendable {
-        /// The timestamp of when Amazon Redshift Serverless should run the scheduled action. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)".
+        /// The timestamp of when Amazon Redshift Serverless should run the scheduled action. Timestamp is in UTC. Format of at expression is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.
         case at(Date)
-        /// The cron expression to use to schedule a recurring scheduled action. Schedule invocations must be separated by at least one hour. Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
+        /// The cron expression to use to schedule a recurring scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC. Format of cron expressions is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
         case cron(String)
 
         public init(from decoder: Decoder) throws {
@@ -153,7 +153,7 @@ extension RedshiftServerless {
     }
 
     public struct ConfigParameter: AWSEncodableShape & AWSDecodableShape {
-        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, and query monitoring metrics that let  you define performance boundaries. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
+        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let  you define performance boundaries. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
         public let parameterKey: String?
         /// The value of the parameter to set.
         public let parameterValue: String?
@@ -412,7 +412,7 @@ extension RedshiftServerless {
         public let namespaceName: String
         /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Cluster Management Guide
         public let roleArn: String
-        /// The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)". Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
+        /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
         public let schedule: Schedule
         /// The description of the scheduled action.
         public let scheduledActionDescription: String?
@@ -641,7 +641,7 @@ extension RedshiftServerless {
     public struct CreateWorkgroupRequest: AWSEncodableShape {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public let baseCapacity: Int?
-        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see   Query monitoring metrics for Amazon Redshift Serverless.
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see   Query monitoring metrics for Amazon Redshift Serverless.
         public let configParameters: [ConfigParameter]?
         /// The value that specifies whether to turn on enhanced virtual  private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
         public let enhancedVpcRouting: Bool?
@@ -1673,10 +1673,10 @@ extension RedshiftServerless {
     public struct ListScheduledActionsResponse: AWSDecodableShape {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
-        /// All of the returned scheduled action objects.
-        public let scheduledActions: [String]?
+        /// All of the returned scheduled action association objects.
+        public let scheduledActions: [ScheduledActionAssociation]?
 
-        public init(nextToken: String? = nil, scheduledActions: [String]? = nil) {
+        public init(nextToken: String? = nil, scheduledActions: [ScheduledActionAssociation]? = nil) {
             self.nextToken = nextToken
             self.scheduledActions = scheduledActions
         }
@@ -2394,6 +2394,23 @@ extension RedshiftServerless {
         }
     }
 
+    public struct ScheduledActionAssociation: AWSDecodableShape {
+        /// Name of associated Amazon Redshift Serverless namespace.
+        public let namespaceName: String?
+        /// Name of associated scheduled action.
+        public let scheduledActionName: String?
+
+        public init(namespaceName: String? = nil, scheduledActionName: String? = nil) {
+            self.namespaceName = namespaceName
+            self.scheduledActionName = scheduledActionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespaceName = "namespaceName"
+            case scheduledActionName = "scheduledActionName"
+        }
+    }
+
     public struct ScheduledActionResponse: AWSDecodableShape {
         /// The end time of
         public let endTime: Date?
@@ -2403,7 +2420,7 @@ extension RedshiftServerless {
         public let nextInvocations: [Date]?
         /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Cluster Management Guide
         public let roleArn: String?
-        /// The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)". Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
+        /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
         public let schedule: Schedule?
         /// The description of the scheduled action.
         public let scheduledActionDescription: String?
@@ -2893,7 +2910,7 @@ extension RedshiftServerless {
         public let endTime: Date?
         /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Cluster Management Guide
         public let roleArn: String?
-        /// The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)". Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
+        /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
         public let schedule: Schedule?
         /// The descripion of the scheduled action to update to.
         public let scheduledActionDescription: String?
@@ -3043,7 +3060,7 @@ extension RedshiftServerless {
     public struct UpdateWorkgroupRequest: AWSEncodableShape {
         /// The new base data warehouse capacity in Redshift Processing Units (RPUs).
         public let baseCapacity: Int?
-        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, and query monitoring metrics that let you  define performance boundaries. For more information about query monitoring rules and available metrics, see   Query monitoring metrics for Amazon Redshift Serverless.
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you  define performance boundaries. For more information about query monitoring rules and available metrics, see   Query monitoring metrics for Amazon Redshift Serverless.
         public let configParameters: [ConfigParameter]?
         /// The value that specifies whether to turn on enhanced virtual  private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
         public let enhancedVpcRouting: Bool?
@@ -3182,7 +3199,7 @@ extension RedshiftServerless {
     public struct Workgroup: AWSDecodableShape {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public let baseCapacity: Int?
-        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, and query monitoring metrics that let you define performance boundaries.  For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries.  For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
         public let configParameters: [ConfigParameter]?
         /// The creation date of the workgroup.
         public let creationDate: Date?
@@ -3206,7 +3223,7 @@ extension RedshiftServerless {
         public let patchVersion: String?
         /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
         public let port: Int?
-        /// A value that specifies whether the workgroup  can be accessible from a public network
+        /// A value that specifies whether the workgroup can be accessible from a public network.
         public let publiclyAccessible: Bool?
         /// An array of security group IDs to associate with the workgroup.
         public let securityGroupIds: [String]?

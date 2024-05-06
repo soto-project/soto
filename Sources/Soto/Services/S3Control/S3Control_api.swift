@@ -74,25 +74,39 @@ public struct S3Control: AWSService {
 
     /// custom endpoints for regions
     static var serviceEndpoints: [String: String] {[
+        "af-south-1": "s3-control.af-south-1.amazonaws.com",
+        "ap-east-1": "s3-control.ap-east-1.amazonaws.com",
         "ap-northeast-1": "s3-control.ap-northeast-1.amazonaws.com",
         "ap-northeast-2": "s3-control.ap-northeast-2.amazonaws.com",
         "ap-northeast-3": "s3-control.ap-northeast-3.amazonaws.com",
         "ap-south-1": "s3-control.ap-south-1.amazonaws.com",
+        "ap-south-2": "s3-control.ap-south-2.amazonaws.com",
         "ap-southeast-1": "s3-control.ap-southeast-1.amazonaws.com",
         "ap-southeast-2": "s3-control.ap-southeast-2.amazonaws.com",
+        "ap-southeast-3": "s3-control.ap-southeast-3.amazonaws.com",
+        "ap-southeast-4": "s3-control.ap-southeast-4.amazonaws.com",
         "ca-central-1": "s3-control.ca-central-1.amazonaws.com",
         "cn-north-1": "s3-control.cn-north-1.amazonaws.com.cn",
         "cn-northwest-1": "s3-control.cn-northwest-1.amazonaws.com.cn",
         "eu-central-1": "s3-control.eu-central-1.amazonaws.com",
+        "eu-central-2": "s3-control.eu-central-2.amazonaws.com",
         "eu-north-1": "s3-control.eu-north-1.amazonaws.com",
+        "eu-south-1": "s3-control.eu-south-1.amazonaws.com",
+        "eu-south-2": "s3-control.eu-south-2.amazonaws.com",
         "eu-west-1": "s3-control.eu-west-1.amazonaws.com",
         "eu-west-2": "s3-control.eu-west-2.amazonaws.com",
         "eu-west-3": "s3-control.eu-west-3.amazonaws.com",
+        "il-central-1": "s3-control.il-central-1.amazonaws.com",
+        "me-central-1": "s3-control.me-central-1.amazonaws.com",
+        "me-south-1": "s3-control.me-south-1.amazonaws.com",
         "sa-east-1": "s3-control.sa-east-1.amazonaws.com",
         "us-east-1": "s3-control.us-east-1.amazonaws.com",
         "us-east-2": "s3-control.us-east-2.amazonaws.com",
         "us-gov-east-1": "s3-control.us-gov-east-1.amazonaws.com",
         "us-gov-west-1": "s3-control.us-gov-west-1.amazonaws.com",
+        "us-iso-east-1": "s3-control.us-iso-east-1.c2s.ic.gov",
+        "us-iso-west-1": "s3-control.us-iso-west-1.c2s.ic.gov",
+        "us-isob-east-1": "s3-control.us-isob-east-1.sc2s.sgov.gov",
         "us-west-1": "s3-control.us-west-1.amazonaws.com",
         "us-west-2": "s3-control.us-west-2.amazonaws.com"
     ]}
@@ -101,20 +115,31 @@ public struct S3Control: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.dualstack]: .init(endpoints: [
+            "af-south-1": "s3-control.dualstack.af-south-1.amazonaws.com",
+            "ap-east-1": "s3-control.dualstack.ap-east-1.amazonaws.com",
             "ap-northeast-1": "s3-control.dualstack.ap-northeast-1.amazonaws.com",
             "ap-northeast-2": "s3-control.dualstack.ap-northeast-2.amazonaws.com",
             "ap-northeast-3": "s3-control.dualstack.ap-northeast-3.amazonaws.com",
             "ap-south-1": "s3-control.dualstack.ap-south-1.amazonaws.com",
+            "ap-south-2": "s3-control.dualstack.ap-south-2.amazonaws.com",
             "ap-southeast-1": "s3-control.dualstack.ap-southeast-1.amazonaws.com",
             "ap-southeast-2": "s3-control.dualstack.ap-southeast-2.amazonaws.com",
+            "ap-southeast-3": "s3-control.dualstack.ap-southeast-3.amazonaws.com",
+            "ap-southeast-4": "s3-control.dualstack.ap-southeast-4.amazonaws.com",
             "ca-central-1": "s3-control.dualstack.ca-central-1.amazonaws.com",
             "cn-north-1": "s3-control.dualstack.cn-north-1.amazonaws.com.cn",
             "cn-northwest-1": "s3-control.dualstack.cn-northwest-1.amazonaws.com.cn",
             "eu-central-1": "s3-control.dualstack.eu-central-1.amazonaws.com",
+            "eu-central-2": "s3-control.dualstack.eu-central-2.amazonaws.com",
             "eu-north-1": "s3-control.dualstack.eu-north-1.amazonaws.com",
+            "eu-south-1": "s3-control.dualstack.eu-south-1.amazonaws.com",
+            "eu-south-2": "s3-control.dualstack.eu-south-2.amazonaws.com",
             "eu-west-1": "s3-control.dualstack.eu-west-1.amazonaws.com",
             "eu-west-2": "s3-control.dualstack.eu-west-2.amazonaws.com",
             "eu-west-3": "s3-control.dualstack.eu-west-3.amazonaws.com",
+            "il-central-1": "s3-control.dualstack.il-central-1.amazonaws.com",
+            "me-central-1": "s3-control.dualstack.me-central-1.amazonaws.com",
+            "me-south-1": "s3-control.dualstack.me-south-1.amazonaws.com",
             "sa-east-1": "s3-control.dualstack.sa-east-1.amazonaws.com",
             "us-east-1": "s3-control.dualstack.us-east-1.amazonaws.com",
             "us-east-2": "s3-control.dualstack.us-east-2.amazonaws.com",
@@ -138,6 +163,9 @@ public struct S3Control: AWSService {
             "us-east-2": "s3-control-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "s3-control-fips.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "s3-control-fips.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "s3-control-fips.us-iso-east-1.c2s.ic.gov",
+            "us-iso-west-1": "s3-control-fips.us-iso-west-1.c2s.ic.gov",
+            "us-isob-east-1": "s3-control-fips.us-isob-east-1.sc2s.sgov.gov",
             "us-west-1": "s3-control-fips.us-west-1.amazonaws.com",
             "us-west-2": "s3-control-fips.us-west-2.amazonaws.com"
         ])
@@ -256,7 +284,7 @@ public struct S3Control: AWSService {
         )
     }
 
-    ///  This operation is not supported by directory buckets.  Creates a Multi-Region Access Point and associates it with the specified buckets. For more information about creating Multi-Region Access Points, see Creating Multi-Region Access Points in the Amazon S3 User Guide. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see Managing Multi-Region Access Points in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to CreateMultiRegionAccessPoint:    DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
+    ///  This operation is not supported by directory buckets.  Creates a Multi-Region Access Point and associates it with the specified buckets. For more information about creating Multi-Region Access Points, see Creating Multi-Region Access Points in the Amazon S3 User Guide. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to CreateMultiRegionAccessPoint:    DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
     @Sendable
     public func createMultiRegionAccessPoint(_ input: CreateMultiRegionAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMultiRegionAccessPointResult {
         return try await self.client.execute(
@@ -480,7 +508,7 @@ public struct S3Control: AWSService {
         )
     }
 
-    ///  This operation is not supported by directory buckets.  Deletes a Multi-Region Access Point. This action does not delete the buckets associated with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see Managing Multi-Region Access Points in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to DeleteMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
+    ///  This operation is not supported by directory buckets.  Deletes a Multi-Region Access Point. This action does not delete the buckets associated with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to DeleteMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
     @Sendable
     public func deleteMultiRegionAccessPoint(_ input: DeleteMultiRegionAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMultiRegionAccessPointResult {
         return try await self.client.execute(
@@ -564,7 +592,7 @@ public struct S3Control: AWSService {
         )
     }
 
-    ///  This operation is not supported by directory buckets.  Retrieves the status of an asynchronous request to manage a Multi-Region Access Point. For more information about managing Multi-Region Access Points and how asynchronous requests work, see Managing Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
+    ///  This operation is not supported by directory buckets.  Retrieves the status of an asynchronous request to manage a Multi-Region Access Point. For more information about managing Multi-Region Access Points and how asynchronous requests work, see Using Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
     @Sendable
     public func describeMultiRegionAccessPointOperation(_ input: DescribeMultiRegionAccessPointOperationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMultiRegionAccessPointOperationResult {
         return try await self.client.execute(
@@ -760,7 +788,7 @@ public struct S3Control: AWSService {
         )
     }
 
-    ///  Gets an Amazon S3 on Outposts bucket. For more information, see  Using Amazon S3 on Outposts in the Amazon S3 User Guide.  If you are using an identity other than the root user of the Amazon Web Services account that owns the Outposts bucket, the calling identity must have the s3-outposts:GetBucket permissions on the specified Outposts bucket and belong to the Outposts bucket owner's account in order to use this action. Only users from Outposts bucket owner account with the right permissions can perform actions on an Outposts bucket.  If you don't have s3-outposts:GetBucket permissions or you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error. The following actions are related to GetBucket for Amazon S3 on Outposts: All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.    PutObject     CreateBucket     DeleteBucket
+    /// Gets an Amazon S3 on Outposts bucket. For more information, see  Using Amazon S3 on Outposts in the Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon Web Services account that owns the Outposts bucket, the calling identity must have the s3-outposts:GetBucket permissions on the specified Outposts bucket and belong to the Outposts bucket owner's account in order to use this action. Only users from Outposts bucket owner account with the right permissions can perform actions on an Outposts bucket.  If you don't have s3-outposts:GetBucket permissions or you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error. The following actions are related to GetBucket for Amazon S3 on Outposts: All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.    PutObject     CreateBucket     DeleteBucket
     @Sendable
     public func getBucket(_ input: GetBucketRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketResult {
         return try await self.client.execute(
@@ -844,7 +872,7 @@ public struct S3Control: AWSService {
         )
     }
 
-    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The temporary credential is an Amazon Web Services STS token that grants them access to the S3 data.   Permissions  You must have the s3:GetDataAccess permission to use this operation.   Additional Permissions  The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SourceIdentity.
+    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The temporary credential is an Amazon Web Services STS token that grants them access to the S3 data.   Permissions  You must have the s3:GetDataAccess permission to use this operation.   Additional Permissions  The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SetSourceIdentity.
     @Sendable
     public func getDataAccess(_ input: GetDataAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataAccessResult {
         return try await self.client.execute(
@@ -872,7 +900,7 @@ public struct S3Control: AWSService {
         )
     }
 
-    ///  This operation is not supported by directory buckets.  Returns configuration information about the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see Managing Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     ListMultiRegionAccessPoints
+    ///  This operation is not supported by directory buckets.  Returns configuration information about the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     ListMultiRegionAccessPoints
     @Sendable
     public func getMultiRegionAccessPoint(_ input: GetMultiRegionAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMultiRegionAccessPointResult {
         return try await self.client.execute(
@@ -886,7 +914,7 @@ public struct S3Control: AWSService {
         )
     }
 
-    ///  This operation is not supported by directory buckets.  Returns the access control policy of the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see Managing Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicy:    GetMultiRegionAccessPointPolicyStatus     PutMultiRegionAccessPointPolicy
+    ///  This operation is not supported by directory buckets.  Returns the access control policy of the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicy:    GetMultiRegionAccessPointPolicyStatus     PutMultiRegionAccessPointPolicy
     @Sendable
     public func getMultiRegionAccessPointPolicy(_ input: GetMultiRegionAccessPointPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMultiRegionAccessPointPolicyResult {
         return try await self.client.execute(
@@ -900,7 +928,7 @@ public struct S3Control: AWSService {
         )
     }
 
-    ///  This operation is not supported by directory buckets.  Indicates whether the specified Multi-Region Access Point has an access control policy that allows public access. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see Managing Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicyStatus:    GetMultiRegionAccessPointPolicy     PutMultiRegionAccessPointPolicy
+    ///  This operation is not supported by directory buckets.  Indicates whether the specified Multi-Region Access Point has an access control policy that allows public access. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicyStatus:    GetMultiRegionAccessPointPolicy     PutMultiRegionAccessPointPolicy
     @Sendable
     public func getMultiRegionAccessPointPolicyStatus(_ input: GetMultiRegionAccessPointPolicyStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMultiRegionAccessPointPolicyStatusResult {
         return try await self.client.execute(
@@ -914,7 +942,7 @@ public struct S3Control: AWSService {
         )
     }
 
-    ///  This operation is not supported by directory buckets.  Returns the routing configuration for a Multi-Region Access Point, indicating which Regions are active or passive. To obtain routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions:    us-east-1     us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1     Your Amazon S3 bucket does not need to be in these five Regions.
+    ///  This operation is not supported by directory buckets.  Returns the routing configuration for a Multi-Region Access Point, indicating which Regions are active or passive. To obtain routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions:    us-east-1     us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1
     @Sendable
     public func getMultiRegionAccessPointRoutes(_ input: GetMultiRegionAccessPointRoutesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMultiRegionAccessPointRoutesResult {
         return try await self.client.execute(
@@ -1054,7 +1082,7 @@ public struct S3Control: AWSService {
         )
     }
 
-    /// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 30 days for the Amazon Web Services account making the request. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the ListJobs operation, you must have permission to perform the s3:ListJobs action.   Related actions include:     CreateJob     DescribeJob     UpdateJobPriority     UpdateJobStatus
+    /// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 90 days for the Amazon Web Services account making the request. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the ListJobs operation, you must have permission to perform the s3:ListJobs action.   Related actions include:     CreateJob     DescribeJob     UpdateJobPriority     UpdateJobStatus
     @Sendable
     public func listJobs(_ input: ListJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobsResult {
         return try await self.client.execute(
@@ -1068,7 +1096,7 @@ public struct S3Control: AWSService {
         )
     }
 
-    ///  This operation is not supported by directory buckets.  Returns a list of the Multi-Region Access Points currently associated with the specified Amazon Web Services account. Each call can return up to 100 Multi-Region Access Points, the maximum number of Multi-Region Access Points that can be associated with a single account. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see Managing Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related to ListMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint
+    ///  This operation is not supported by directory buckets.  Returns a list of the Multi-Region Access Points currently associated with the specified Amazon Web Services account. Each call can return up to 100 Multi-Region Access Points, the maximum number of Multi-Region Access Points that can be associated with a single account. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to ListMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint
     @Sendable
     public func listMultiRegionAccessPoints(_ input: ListMultiRegionAccessPointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMultiRegionAccessPointsResult {
         return try await self.client.execute(
@@ -1279,7 +1307,7 @@ public struct S3Control: AWSService {
         )
     }
 
-    ///  This operation is not supported by directory buckets.  Associates an access control policy with the specified Multi-Region Access Point. Each Multi-Region Access Point can have only one policy, so a request made to this action replaces any existing policy that is associated with the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see Managing Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related to PutMultiRegionAccessPointPolicy:    GetMultiRegionAccessPointPolicy     GetMultiRegionAccessPointPolicyStatus
+    ///  This operation is not supported by directory buckets.  Associates an access control policy with the specified Multi-Region Access Point. Each Multi-Region Access Point can have only one policy, so a request made to this action replaces any existing policy that is associated with the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to PutMultiRegionAccessPointPolicy:    GetMultiRegionAccessPointPolicy     GetMultiRegionAccessPointPolicyStatus
     @Sendable
     public func putMultiRegionAccessPointPolicy(_ input: PutMultiRegionAccessPointPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutMultiRegionAccessPointPolicyResult {
         return try await self.client.execute(
@@ -1335,7 +1363,7 @@ public struct S3Control: AWSService {
         )
     }
 
-    ///  This operation is not supported by directory buckets.  Submits an updated route configuration for a Multi-Region Access Point. This API operation updates the routing status for the specified Regions from active to passive, or from passive to active. A value of 0 indicates a passive status, which means that traffic won't be routed to the specified Region. A value of 100 indicates an active status, which means that traffic will be routed to the specified Region. At least one Region must be active at all times. When the routing configuration is changed, any in-progress operations (uploads, copies, deletes, and so on) to formerly active Regions will continue to run to their final completion state (success or failure). The routing configurations of any Regions that aren’t specified remain unchanged.  Updated routing configurations might not be immediately applied. It can take up to 2 minutes for your changes to take effect.  To submit routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions:    us-east-1     us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1     Your Amazon S3 bucket does not need to be in these five Regions.
+    ///  This operation is not supported by directory buckets.  Submits an updated route configuration for a Multi-Region Access Point. This API operation updates the routing status for the specified Regions from active to passive, or from passive to active. A value of 0 indicates a passive status, which means that traffic won't be routed to the specified Region. A value of 100 indicates an active status, which means that traffic will be routed to the specified Region. At least one Region must be active at all times. When the routing configuration is changed, any in-progress operations (uploads, copies, deletes, and so on) to formerly active Regions will continue to run to their final completion state (success or failure). The routing configurations of any Regions that aren’t specified remain unchanged.  Updated routing configurations might not be immediately applied. It can take up to 2 minutes for your changes to take effect.  To submit routing control changes and failover requests, use the Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services Regions:    us-east-1     us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1
     @Sendable
     public func submitMultiRegionAccessPointRoutes(_ input: SubmitMultiRegionAccessPointRoutesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SubmitMultiRegionAccessPointRoutesResult {
         return try await self.client.execute(
@@ -1542,7 +1570,7 @@ extension S3Control {
         )
     }
 
-    /// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 30 days for the Amazon Web Services account making the request. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the ListJobs operation, you must have permission to perform the s3:ListJobs action.   Related actions include:     CreateJob     DescribeJob     UpdateJobPriority     UpdateJobStatus
+    /// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 90 days for the Amazon Web Services account making the request. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the ListJobs operation, you must have permission to perform the s3:ListJobs action.   Related actions include:     CreateJob     DescribeJob     UpdateJobPriority     UpdateJobStatus
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1561,7 +1589,7 @@ extension S3Control {
         )
     }
 
-    ///  This operation is not supported by directory buckets.  Returns a list of the Multi-Region Access Points currently associated with the specified Amazon Web Services account. Each call can return up to 100 Multi-Region Access Points, the maximum number of Multi-Region Access Points that can be associated with a single account. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see Managing Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related to ListMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint
+    ///  This operation is not supported by directory buckets.  Returns a list of the Multi-Region Access Points currently associated with the specified Amazon Web Services account. Each call can return up to 100 Multi-Region Access Points, the maximum number of Multi-Region Access Points that can be associated with a single account. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see Multi-Region Access Point restrictions and limitations in the Amazon S3 User Guide. The following actions are related to ListMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

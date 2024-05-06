@@ -385,6 +385,18 @@ public struct WellArchitected: AWSService {
         )
     }
 
+    /// Global settings for all workloads.
+    @Sendable
+    public func getGlobalSettings(logger: Logger = AWSClient.loggingDisabled) async throws -> GetGlobalSettingsOutput {
+        return try await self.client.execute(
+            operation: "GetGlobalSettings", 
+            path: "/global-settings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
+    }
+
     /// Get an existing lens.
     @Sendable
     public func getLens(_ input: GetLensInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLensOutput {
@@ -580,7 +592,7 @@ public struct WellArchitected: AWSService {
         )
     }
 
-    /// List lens review improvements.
+    /// List the improvements of a particular lens review.
     @Sendable
     public func listLensReviewImprovements(_ input: ListLensReviewImprovementsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLensReviewImprovementsOutput {
         return try await self.client.execute(
@@ -827,13 +839,26 @@ public struct WellArchitected: AWSService {
         )
     }
 
-    /// Updates whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
+    /// Update whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
     @Sendable
     public func updateGlobalSettings(_ input: UpdateGlobalSettingsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
             operation: "UpdateGlobalSettings", 
             path: "/global-settings", 
             httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Update integration features.
+    @Sendable
+    public func updateIntegration(_ input: UpdateIntegrationInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "UpdateIntegration", 
+            path: "/workloads/{WorkloadId}/updateIntegration", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -1073,7 +1098,7 @@ extension WellArchitected {
         )
     }
 
-    /// List lens review improvements.
+    /// List the improvements of a particular lens review.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

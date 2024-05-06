@@ -164,6 +164,17 @@ extension SFN {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidateStateMachineDefinitionResultCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fail = "FAIL"
+        case ok = "OK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidateStateMachineDefinitionSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct ActivityFailedEventDetails: AWSDecodableShape {
@@ -3228,6 +3239,70 @@ extension SFN {
             case revisionId = "revisionId"
             case stateMachineVersionArn = "stateMachineVersionArn"
             case updateDate = "updateDate"
+        }
+    }
+
+    public struct ValidateStateMachineDefinitionDiagnostic: AWSDecodableShape {
+        /// Identifying code for the diagnostic.
+        public let code: String
+        /// Location of the issue in the state machine, if available. For errors specific to a field, the location could be in the format: /States//, for example: /States/FailState/ErrorPath.
+        public let location: String?
+        /// Message describing the diagnostic condition.
+        public let message: String
+        /// A value of ERROR means that you cannot create or update a state machine with this definition.
+        public let severity: ValidateStateMachineDefinitionSeverity
+
+        public init(code: String, location: String? = nil, message: String, severity: ValidateStateMachineDefinitionSeverity) {
+            self.code = code
+            self.location = location
+            self.message = message
+            self.severity = severity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case location = "location"
+            case message = "message"
+            case severity = "severity"
+        }
+    }
+
+    public struct ValidateStateMachineDefinitionInput: AWSEncodableShape {
+        /// The Amazon States Language definition of the state machine. For more information, see Amazon States Language (ASL).
+        public let definition: String
+        /// The target type of state machine for this definition. The default is STANDARD.
+        public let type: StateMachineType?
+
+        public init(definition: String, type: StateMachineType? = nil) {
+            self.definition = definition
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.definition, name: "definition", parent: name, max: 1048576)
+            try self.validate(self.definition, name: "definition", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definition = "definition"
+            case type = "type"
+        }
+    }
+
+    public struct ValidateStateMachineDefinitionOutput: AWSDecodableShape {
+        /// If the result is OK, this field will be empty. When there are errors, this field will contain an array of Diagnostic objects to help you troubleshoot.
+        public let diagnostics: [ValidateStateMachineDefinitionDiagnostic]
+        /// The result value will be OK when no syntax errors are found, or FAIL if the workflow definition does not pass verification.
+        public let result: ValidateStateMachineDefinitionResultCode
+
+        public init(diagnostics: [ValidateStateMachineDefinitionDiagnostic], result: ValidateStateMachineDefinitionResultCode) {
+            self.diagnostics = diagnostics
+            self.result = result
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diagnostics = "diagnostics"
+            case result = "result"
         }
     }
 }

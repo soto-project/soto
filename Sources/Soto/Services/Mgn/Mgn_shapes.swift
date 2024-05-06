@@ -35,6 +35,7 @@ extension Mgn {
         case observability = "OBSERVABILITY"
         case operatingSystem = "OPERATING_SYSTEM"
         case other = "OTHER"
+        case refactoring = "REFACTORING"
         case security = "SECURITY"
         case validation = "VALIDATION"
         public var description: String { return self.rawValue }
@@ -57,6 +58,7 @@ extension Mgn {
     public enum BootMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case legacyBios = "LEGACY_BIOS"
         case uefi = "UEFI"
+        case useSource = "USE_SOURCE"
         public var description: String { return self.rawValue }
     }
 

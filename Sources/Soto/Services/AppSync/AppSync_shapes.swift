@@ -3437,7 +3437,7 @@ extension AppSync {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[a-z-]*:rds:[a-z0-9-]*:\\d{12}:cluster:[0-9A-Za-z_/-]*$")
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 2048)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 20)
-            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:[a-z-]*:secretsmanager:[a-z0-9-]*:\\d{12}:secret:[0-9A-Za-z_/-]*$")
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:[a-z-]*:secretsmanager:[a-z0-9-]*:\\d{12}:secret:[0-9A-Za-z_/+=.@!-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4245,7 +4245,7 @@ extension AppSync {
         /// The API ID.
         public let apiId: String
         /// The new authentication type for the GraphqlApi object.
-        public let authenticationType: AuthenticationType?
+        public let authenticationType: AuthenticationType
         /// The enhancedMetricsConfig object.
         public let enhancedMetricsConfig: EnhancedMetricsConfig?
         /// Sets the value of the GraphQL API to enable (ENABLED) or disable (DISABLED) introspection. If no value is provided, the introspection configuration will be set to ENABLED by default. This field will produce an error if the operation attempts to use the introspection feature while this field is disabled. For more information about introspection, see GraphQL introspection.
@@ -4271,7 +4271,7 @@ extension AppSync {
         /// A flag indicating whether to use X-Ray tracing for the GraphqlApi.
         public let xrayEnabled: Bool?
 
-        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String, authenticationType: AuthenticationType? = nil, enhancedMetricsConfig: EnhancedMetricsConfig? = nil, introspectionConfig: GraphQLApiIntrospectionConfig? = nil, lambdaAuthorizerConfig: LambdaAuthorizerConfig? = nil, logConfig: LogConfig? = nil, mergedApiExecutionRoleArn: String? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, ownerContact: String? = nil, queryDepthLimit: Int? = nil, resolverCountLimit: Int? = nil, userPoolConfig: UserPoolConfig? = nil, xrayEnabled: Bool? = nil) {
+        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String, authenticationType: AuthenticationType, enhancedMetricsConfig: EnhancedMetricsConfig? = nil, introspectionConfig: GraphQLApiIntrospectionConfig? = nil, lambdaAuthorizerConfig: LambdaAuthorizerConfig? = nil, logConfig: LogConfig? = nil, mergedApiExecutionRoleArn: String? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, ownerContact: String? = nil, queryDepthLimit: Int? = nil, resolverCountLimit: Int? = nil, userPoolConfig: UserPoolConfig? = nil, xrayEnabled: Bool? = nil) {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.apiId = apiId
             self.authenticationType = authenticationType
@@ -4294,7 +4294,7 @@ extension AppSync {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.additionalAuthenticationProviders, forKey: .additionalAuthenticationProviders)
             request.encodePath(self.apiId, key: "apiId")
-            try container.encodeIfPresent(self.authenticationType, forKey: .authenticationType)
+            try container.encode(self.authenticationType, forKey: .authenticationType)
             try container.encodeIfPresent(self.enhancedMetricsConfig, forKey: .enhancedMetricsConfig)
             try container.encodeIfPresent(self.introspectionConfig, forKey: .introspectionConfig)
             try container.encodeIfPresent(self.lambdaAuthorizerConfig, forKey: .lambdaAuthorizerConfig)

@@ -201,6 +201,45 @@ public struct ConnectCases: AWSService {
         )
     }
 
+    /// Deletes a field from a cases template. You can delete up to 100 fields per domain. After a field is deleted:   You can still retrieve the field by calling BatchGetField.   You cannot update a deleted field by calling UpdateField; it throws a ValidationException.   Deleted fields are not included in the ListFields response.   Calling CreateCase with a deleted field throws a ValidationException denoting which field IDs in the request have been deleted.   Calling GetCase with a deleted field ID returns the deleted field's value if one exists.   Calling UpdateCase with a deleted field ID throws a ValidationException if the case does not already contain a value for the deleted field. Otherwise it succeeds, allowing you to update or remove (using emptyValue: {}) the field's value from the case.    GetTemplate does not return field IDs for deleted fields.    GetLayout does not return field IDs for deleted fields.   Calling SearchCases with the deleted field ID as a filter returns any cases that have a value for the deleted field that matches the filter criteria.   Calling SearchCases with a searchTerm value that matches a deleted field's value on a case returns the case in the response.   Calling BatchPutFieldOptions with a deleted field ID throw a ValidationException.   Calling GetCaseEventConfiguration does not return field IDs for deleted fields.
+    @Sendable
+    public func deleteField(_ input: DeleteFieldRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFieldResponse {
+        return try await self.client.execute(
+            operation: "DeleteField", 
+            path: "/domains/{domainId}/fields/{fieldId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a layout from a cases template. You can delete up to 100 layouts per domain.  After a layout is deleted:   You can still retrieve the layout by calling GetLayout.   You cannot update a deleted layout by calling UpdateLayout; it throws a ValidationException.   Deleted layouts are not included in the ListLayouts response.
+    @Sendable
+    public func deleteLayout(_ input: DeleteLayoutRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLayoutResponse {
+        return try await self.client.execute(
+            operation: "DeleteLayout", 
+            path: "/domains/{domainId}/layouts/{layoutId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a cases template. You can delete up to 100 templates per domain.  After a cases template is deleted:   You can still retrieve the template by calling GetTemplate.   You cannot update the template.    You cannot create a case by using the deleted template.   Deleted templates are not included in the ListTemplates response.
+    @Sendable
+    public func deleteTemplate(_ input: DeleteTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTemplateResponse {
+        return try await self.client.execute(
+            operation: "DeleteTemplate", 
+            path: "/domains/{domainId}/templates/{templateId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns information about a specific case if it exists.
     @Sendable
     public func getCase(_ input: GetCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCaseResponse {

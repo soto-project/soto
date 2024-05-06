@@ -43,11 +43,22 @@ extension Transcribe {
         public var description: String { return self.rawValue }
     }
 
+    public enum CallAnalyticsFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case generativeSummarization = "GENERATIVE_SUMMARIZATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CallAnalyticsJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case queued = "QUEUED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CallAnalyticsSkippedReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failedSafetyGuidelines = "FAILED_SAFETY_GUIDELINES"
+        case insufficientConversationContent = "INSUFFICIENT_CONVERSATION_CONTENT"
         public var description: String { return self.rawValue }
     }
 
@@ -412,6 +423,8 @@ extension Transcribe {
     }
 
     public struct CallAnalyticsJob: AWSDecodableShape {
+        /// Provides detailed information about a call analytics job, including information about skipped analytics features.
+        public let callAnalyticsJobDetails: CallAnalyticsJobDetails?
         /// The name of the Call Analytics job. Job names are case sensitive and must be unique within an Amazon Web Services account.
         public let callAnalyticsJobName: String?
         /// Provides the status of the specified Call Analytics job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri (or RedactedTranscriptFileUri, if you requested transcript redaction). If the status is FAILED, FailureReason provides details on why your transcription job failed.
@@ -442,7 +455,8 @@ extension Transcribe {
         public let startTime: Date?
         public let transcript: Transcript?
 
-        public init(callAnalyticsJobName: String? = nil, callAnalyticsJobStatus: CallAnalyticsJobStatus? = nil, channelDefinitions: [ChannelDefinition]? = nil, completionTime: Date? = nil, creationTime: Date? = nil, dataAccessRoleArn: String? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, settings: CallAnalyticsJobSettings? = nil, startTime: Date? = nil, transcript: Transcript? = nil) {
+        public init(callAnalyticsJobDetails: CallAnalyticsJobDetails? = nil, callAnalyticsJobName: String? = nil, callAnalyticsJobStatus: CallAnalyticsJobStatus? = nil, channelDefinitions: [ChannelDefinition]? = nil, completionTime: Date? = nil, creationTime: Date? = nil, dataAccessRoleArn: String? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, settings: CallAnalyticsJobSettings? = nil, startTime: Date? = nil, transcript: Transcript? = nil) {
+            self.callAnalyticsJobDetails = callAnalyticsJobDetails
             self.callAnalyticsJobName = callAnalyticsJobName
             self.callAnalyticsJobStatus = callAnalyticsJobStatus
             self.channelDefinitions = channelDefinitions
@@ -461,6 +475,7 @@ extension Transcribe {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callAnalyticsJobDetails = "CallAnalyticsJobDetails"
             case callAnalyticsJobName = "CallAnalyticsJobName"
             case callAnalyticsJobStatus = "CallAnalyticsJobStatus"
             case channelDefinitions = "ChannelDefinitions"
@@ -476,6 +491,19 @@ extension Transcribe {
             case settings = "Settings"
             case startTime = "StartTime"
             case transcript = "Transcript"
+        }
+    }
+
+    public struct CallAnalyticsJobDetails: AWSDecodableShape {
+        /// Contains information about any skipped analytics features during the analysis of a call analytics job. This array lists all the analytics features that were skipped, along with their corresponding reason code and message.
+        public let skipped: [CallAnalyticsSkippedFeature]?
+
+        public init(skipped: [CallAnalyticsSkippedFeature]? = nil) {
+            self.skipped = skipped
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case skipped = "Skipped"
         }
     }
 
@@ -540,6 +568,8 @@ extension Transcribe {
     }
 
     public struct CallAnalyticsJobSummary: AWSDecodableShape {
+        /// Provides detailed information about a call analytics job, including information about skipped analytics features.
+        public let callAnalyticsJobDetails: CallAnalyticsJobDetails?
         /// The name of the Call Analytics job. Job names are case sensitive and must be unique within an Amazon Web Services account.
         public let callAnalyticsJobName: String?
         /// Provides the status of your Call Analytics job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri (or RedactedTranscriptFileUri, if you requested transcript redaction). If the status is FAILED, FailureReason provides details on why your transcription job failed.
@@ -555,7 +585,8 @@ extension Transcribe {
         /// The date and time your Call Analytics job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let startTime: Date?
 
-        public init(callAnalyticsJobName: String? = nil, callAnalyticsJobStatus: CallAnalyticsJobStatus? = nil, completionTime: Date? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, startTime: Date? = nil) {
+        public init(callAnalyticsJobDetails: CallAnalyticsJobDetails? = nil, callAnalyticsJobName: String? = nil, callAnalyticsJobStatus: CallAnalyticsJobStatus? = nil, completionTime: Date? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, startTime: Date? = nil) {
+            self.callAnalyticsJobDetails = callAnalyticsJobDetails
             self.callAnalyticsJobName = callAnalyticsJobName
             self.callAnalyticsJobStatus = callAnalyticsJobStatus
             self.completionTime = completionTime
@@ -566,6 +597,7 @@ extension Transcribe {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callAnalyticsJobDetails = "CallAnalyticsJobDetails"
             case callAnalyticsJobName = "CallAnalyticsJobName"
             case callAnalyticsJobStatus = "CallAnalyticsJobStatus"
             case completionTime = "CompletionTime"
@@ -573,6 +605,27 @@ extension Transcribe {
             case failureReason = "FailureReason"
             case languageCode = "LanguageCode"
             case startTime = "StartTime"
+        }
+    }
+
+    public struct CallAnalyticsSkippedFeature: AWSDecodableShape {
+        /// Indicates the type of analytics feature that was skipped during the analysis of a call analytics job.
+        public let feature: CallAnalyticsFeature?
+        /// Contains additional information or a message explaining why a specific analytics feature was skipped during the analysis of a call analytics job.
+        public let message: String?
+        /// Provides a code indicating the reason why a specific analytics feature was skipped during the analysis of a call analytics job.
+        public let reasonCode: CallAnalyticsSkippedReasonCode?
+
+        public init(feature: CallAnalyticsFeature? = nil, message: String? = nil, reasonCode: CallAnalyticsSkippedReasonCode? = nil) {
+            self.feature = feature
+            self.message = message
+            self.reasonCode = reasonCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case feature = "Feature"
+            case message = "Message"
+            case reasonCode = "ReasonCode"
         }
     }
 
@@ -2555,7 +2608,7 @@ extension Transcribe {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxSpeakerLabels, name: "maxSpeakerLabels", parent: name, max: 10)
+            try self.validate(self.maxSpeakerLabels, name: "maxSpeakerLabels", parent: name, max: 30)
             try self.validate(self.maxSpeakerLabels, name: "maxSpeakerLabels", parent: name, min: 2)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, max: 200)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, min: 1)
@@ -2739,7 +2792,7 @@ extension Transcribe {
         public func validate(name: String) throws {
             try self.validate(self.maxAlternatives, name: "maxAlternatives", parent: name, max: 10)
             try self.validate(self.maxAlternatives, name: "maxAlternatives", parent: name, min: 2)
-            try self.validate(self.maxSpeakerLabels, name: "maxSpeakerLabels", parent: name, max: 10)
+            try self.validate(self.maxSpeakerLabels, name: "maxSpeakerLabels", parent: name, max: 30)
             try self.validate(self.maxSpeakerLabels, name: "maxSpeakerLabels", parent: name, min: 2)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
@@ -2911,7 +2964,7 @@ extension Transcribe {
         public func validate(name: String) throws {
             try self.validate(self.maxAlternatives, name: "maxAlternatives", parent: name, max: 10)
             try self.validate(self.maxAlternatives, name: "maxAlternatives", parent: name, min: 2)
-            try self.validate(self.maxSpeakerLabels, name: "maxSpeakerLabels", parent: name, max: 10)
+            try self.validate(self.maxSpeakerLabels, name: "maxSpeakerLabels", parent: name, max: 30)
             try self.validate(self.maxSpeakerLabels, name: "maxSpeakerLabels", parent: name, min: 2)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, max: 200)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, min: 1)

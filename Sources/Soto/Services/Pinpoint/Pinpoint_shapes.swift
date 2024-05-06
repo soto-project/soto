@@ -3455,14 +3455,17 @@ extension Pinpoint {
         public let fromAddress: String?
         /// The Amazon Resource Name (ARN) of the identity, verified with Amazon Simple Email Service (Amazon SES), that you want to use when you send email through the channel.
         public let identity: String?
+        /// The ARN of an IAM role for Amazon Pinpoint to use to send email from your campaigns or journeys through Amazon SES.
+        public let orchestrationSendingRoleArn: String?
         /// The ARN of the AWS Identity and Access Management (IAM) role that you want Amazon Pinpoint to use when it submits email-related event data for the channel.
         public let roleArn: String?
 
-        public init(configurationSet: String? = nil, enabled: Bool? = nil, fromAddress: String? = nil, identity: String? = nil, roleArn: String? = nil) {
+        public init(configurationSet: String? = nil, enabled: Bool? = nil, fromAddress: String? = nil, identity: String? = nil, orchestrationSendingRoleArn: String? = nil, roleArn: String? = nil) {
             self.configurationSet = configurationSet
             self.enabled = enabled
             self.fromAddress = fromAddress
             self.identity = identity
+            self.orchestrationSendingRoleArn = orchestrationSendingRoleArn
             self.roleArn = roleArn
         }
 
@@ -3471,6 +3474,7 @@ extension Pinpoint {
             case enabled = "Enabled"
             case fromAddress = "FromAddress"
             case identity = "Identity"
+            case orchestrationSendingRoleArn = "OrchestrationSendingRoleArn"
             case roleArn = "RoleArn"
         }
     }
@@ -3500,6 +3504,8 @@ extension Pinpoint {
         public let lastModifiedDate: String?
         /// The maximum number of emails that can be sent through the channel each second.
         public let messagesPerSecond: Int?
+        /// The ARN of an IAM role for Amazon Pinpoint to use to send email from your campaigns or journeys through Amazon SES.
+        public let orchestrationSendingRoleArn: String?
         /// The type of messaging or notification platform for the channel. For the email channel, this value is EMAIL.
         public let platform: String?
         /// The ARN of the AWS Identity and Access Management (IAM) role that Amazon Pinpoint uses to submit email-related event data for the channel.
@@ -3507,7 +3513,7 @@ extension Pinpoint {
         /// The current version of the email channel.
         public let version: Int?
 
-        public init(applicationId: String? = nil, configurationSet: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, fromAddress: String? = nil, hasCredential: Bool? = nil, id: String? = nil, identity: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, messagesPerSecond: Int? = nil, platform: String? = nil, roleArn: String? = nil, version: Int? = nil) {
+        public init(applicationId: String? = nil, configurationSet: String? = nil, creationDate: String? = nil, enabled: Bool? = nil, fromAddress: String? = nil, hasCredential: Bool? = nil, id: String? = nil, identity: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil, lastModifiedDate: String? = nil, messagesPerSecond: Int? = nil, orchestrationSendingRoleArn: String? = nil, platform: String? = nil, roleArn: String? = nil, version: Int? = nil) {
             self.applicationId = applicationId
             self.configurationSet = configurationSet
             self.creationDate = creationDate
@@ -3520,6 +3526,7 @@ extension Pinpoint {
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedDate = lastModifiedDate
             self.messagesPerSecond = messagesPerSecond
+            self.orchestrationSendingRoleArn = orchestrationSendingRoleArn
             self.platform = platform
             self.roleArn = roleArn
             self.version = version
@@ -3538,6 +3545,7 @@ extension Pinpoint {
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedDate = "LastModifiedDate"
             case messagesPerSecond = "MessagesPerSecond"
+            case orchestrationSendingRoleArn = "OrchestrationSendingRoleArn"
             case platform = "Platform"
             case roleArn = "RoleArn"
             case version = "Version"
@@ -3868,7 +3876,7 @@ extension Pinpoint {
     public struct EndpointMessageResult: AWSDecodableShape {
         /// The endpoint address that the message was delivered to.
         public let address: String?
-        /// The delivery status of the message. Possible values are:  DUPLICATE - The endpoint address is a duplicate of another endpoint address. Amazon Pinpoint won't attempt to send the message again. OPT_OUT - The user who's associated with the endpoint has opted out of receiving messages from you. Amazon Pinpoint won't attempt to send the message again. PERMANENT_FAILURE - An error occurred when delivering the message to the endpoint. Amazon Pinpoint won't attempt to send the message again.    SUCCESSFUL - The message was successfully delivered to the endpoint. TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint won't attempt to send the message again. THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint. TIMEOUT - The message couldn't be sent within the timeout period. UNKNOWN_FAILURE - An unknown error occurred.
+        /// The delivery status of the message. Possible values are:  DUPLICATE - The endpoint address is a duplicate of another endpoint address. Amazon Pinpoint won't attempt to send the message again. OPT_OUT - The user who's associated with the endpoint has opted out of receiving messages from you. Amazon Pinpoint won't attempt to send the message again. PERMANENT_FAILURE - An error occurred when delivering the message to the endpoint. Amazon Pinpoint won't attempt to send the message again.    SUCCESSFUL - The message was successfully delivered to the endpoint. TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint won't attempt to send the message again. THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint. UNKNOWN_FAILURE - An unknown error occurred.
         public let deliveryStatus: DeliveryStatus?
         /// The unique identifier for the message that was sent.
         public let messageId: String?
@@ -7823,7 +7831,7 @@ extension Pinpoint {
     }
 
     public struct MessageResult: AWSDecodableShape {
-        /// The delivery status of the message. Possible values are:  DUPLICATE - The endpoint address is a duplicate of another endpoint address. Amazon Pinpoint won't attempt to send the message again.   OPT_OUT - The user who's associated with the endpoint address has opted out of receiving messages from you. Amazon Pinpoint won't attempt to send the message again. PERMANENT_FAILURE - An error occurred when delivering the message to the endpoint address. Amazon Pinpoint won't attempt to send the message again.   SUCCESSFUL - The message was successfully delivered to the endpoint address. TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint won't attempt to send the message again. THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint address. TIMEOUT - The message couldn't be sent within the timeout period. UNKNOWN_FAILURE - An unknown error occurred.
+        /// The delivery status of the message. Possible values are:  DUPLICATE - The endpoint address is a duplicate of another endpoint address. Amazon Pinpoint won't attempt to send the message again.   OPT_OUT - The user who's associated with the endpoint address has opted out of receiving messages from you. Amazon Pinpoint won't attempt to send the message again. PERMANENT_FAILURE - An error occurred when delivering the message to the endpoint address. Amazon Pinpoint won't attempt to send the message again.   SUCCESSFUL - The message was successfully delivered to the endpoint address. TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint won't attempt to send the message again. THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint address. UNKNOWN_FAILURE - An unknown error occurred.
         public let deliveryStatus: DeliveryStatus?
         /// The unique identifier for the message that was sent.
         public let messageId: String?

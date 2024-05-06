@@ -86,6 +86,19 @@ public struct Outposts: AWSService {
 
     // MARK: API Calls
 
+    /// Cancels the capacity task.
+    @Sendable
+    public func cancelCapacityTask(_ input: CancelCapacityTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelCapacityTaskOutput {
+        return try await self.client.execute(
+            operation: "CancelCapacityTask", 
+            path: "/outposts/{OutpostIdentifier}/capacity/{CapacityTaskId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Cancels the specified order for an Outpost.
     @Sendable
     public func cancelOrder(_ input: CancelOrderInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelOrderOutput {
@@ -164,6 +177,19 @@ public struct Outposts: AWSService {
         )
     }
 
+    /// Gets details of the specified capacity task.
+    @Sendable
+    public func getCapacityTask(_ input: GetCapacityTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCapacityTaskOutput {
+        return try await self.client.execute(
+            operation: "GetCapacityTask", 
+            path: "/outposts/{OutpostIdentifier}/capacity/{CapacityTaskId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets information about the specified catalog item.
     @Sendable
     public func getCatalogItem(_ input: GetCatalogItemInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCatalogItemOutput {
@@ -229,6 +255,19 @@ public struct Outposts: AWSService {
         )
     }
 
+    /// Gets the instance types that an Outpost can support in InstanceTypeCapacity. This will generally include instance types that are not currently configured and therefore cannot be launched with the current Outpost capacity configuration.
+    @Sendable
+    public func getOutpostSupportedInstanceTypes(_ input: GetOutpostSupportedInstanceTypesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOutpostSupportedInstanceTypesOutput {
+        return try await self.client.execute(
+            operation: "GetOutpostSupportedInstanceTypes", 
+            path: "/outposts/{OutpostIdentifier}/supportedInstanceTypes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets information about the specified Outpost site.
     @Sendable
     public func getSite(_ input: GetSiteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSiteOutput {
@@ -261,6 +300,19 @@ public struct Outposts: AWSService {
         return try await self.client.execute(
             operation: "ListAssets", 
             path: "/outposts/{OutpostIdentifier}/assets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the capacity tasks for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
+    @Sendable
+    public func listCapacityTasks(_ input: ListCapacityTasksInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCapacityTasksOutput {
+        return try await self.client.execute(
+            operation: "ListCapacityTasks", 
+            path: "/capacity/tasks", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -327,6 +379,19 @@ public struct Outposts: AWSService {
             operation: "ListTagsForResource", 
             path: "/tags/{ResourceArn}", 
             httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Starts the specified capacity task. You can have one active capacity task for an order.
+    @Sendable
+    public func startCapacityTask(_ input: StartCapacityTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCapacityTaskOutput {
+        return try await self.client.execute(
+            operation: "StartCapacityTask", 
+            path: "/outposts/{OutpostIdentifier}/capacity", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -457,6 +522,25 @@ extension Outposts {
         )
     }
 
+    /// Gets the instance types that an Outpost can support in InstanceTypeCapacity. This will generally include instance types that are not currently configured and therefore cannot be launched with the current Outpost capacity configuration.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func getOutpostSupportedInstanceTypesPaginator(
+        _ input: GetOutpostSupportedInstanceTypesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetOutpostSupportedInstanceTypesInput, GetOutpostSupportedInstanceTypesOutput> {
+        return .init(
+            input: input,
+            command: self.getOutpostSupportedInstanceTypes,
+            inputKey: \GetOutpostSupportedInstanceTypesInput.nextToken,
+            outputKey: \GetOutpostSupportedInstanceTypesOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     /// Return PaginatorSequence for operation.
     ///
@@ -472,6 +556,25 @@ extension Outposts {
             command: self.listAssets,
             inputKey: \ListAssetsInput.nextToken,
             outputKey: \ListAssetsOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists the capacity tasks for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listCapacityTasksPaginator(
+        _ input: ListCapacityTasksInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCapacityTasksInput, ListCapacityTasksOutput> {
+        return .init(
+            input: input,
+            command: self.listCapacityTasks,
+            inputKey: \ListCapacityTasksInput.nextToken,
+            outputKey: \ListCapacityTasksOutput.nextToken,
             logger: logger
         )
     }
@@ -563,6 +666,17 @@ extension Outposts.GetOutpostInstanceTypesInput: AWSPaginateToken {
     }
 }
 
+extension Outposts.GetOutpostSupportedInstanceTypesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Outposts.GetOutpostSupportedInstanceTypesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            orderId: self.orderId,
+            outpostIdentifier: self.outpostIdentifier
+        )
+    }
+}
+
 extension Outposts.ListAssetsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Outposts.ListAssetsInput {
         return .init(
@@ -571,6 +685,17 @@ extension Outposts.ListAssetsInput: AWSPaginateToken {
             nextToken: token,
             outpostIdentifier: self.outpostIdentifier,
             statusFilter: self.statusFilter
+        )
+    }
+}
+
+extension Outposts.ListCapacityTasksInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Outposts.ListCapacityTasksInput {
+        return .init(
+            capacityTaskStatusFilter: self.capacityTaskStatusFilter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            outpostIdentifierFilter: self.outpostIdentifierFilter
         )
     }
 }

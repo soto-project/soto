@@ -273,7 +273,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Configures a transfer task, which defines where and how DataSync moves your data. A task includes a source location, destination location, and the options for how and when you want to transfer your data (such as bandwidth limits, scheduling, among other options).  If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
+    /// Configures a task, which defines where and how DataSync transfers your data. A task includes a source location, destination location, and transfer options (such as bandwidth limits, scheduling, and more).  If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
     @Sendable
     public func createTask(_ input: CreateTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTaskResponse {
         return try await self.client.execute(
@@ -537,7 +537,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Provides information about an DataSync transfer task.
+    /// Provides information about a task, which defines where and how DataSync transfers your data.
     @Sendable
     public func describeTask(_ input: DescribeTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTaskResponse {
         return try await self.client.execute(
@@ -817,7 +817,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Updates some parameters of an existing object storage location that DataSync accesses for a transfer. For information about creating a self-managed object storage location, see Creating a location for object storage.
+    /// Updates some parameters of an existing DataSync location for an object storage system.
     @Sendable
     public func updateLocationObjectStorage(_ input: UpdateLocationObjectStorageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationObjectStorageResponse {
         return try await self.client.execute(
@@ -857,7 +857,7 @@ public struct DataSync: AWSService {
         )
     }
 
-    /// Updates the configuration of an DataSync transfer task.
+    /// Updates the configuration of a task, which defines where and how DataSync transfers your data.
     @Sendable
     public func updateTask(_ input: UpdateTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTaskResponse {
         return try await self.client.execute(

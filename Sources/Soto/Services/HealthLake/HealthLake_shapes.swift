@@ -40,9 +40,16 @@ extension HealthLake {
 
     public enum DatastoreStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
         case deleted = "DELETED"
         case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ErrorCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case nonRetryableError = "NON_RETRYABLE_ERROR"
+        case retryableError = "RETRYABLE_ERROR"
         public var description: String { return self.rawValue }
     }
 
@@ -194,6 +201,8 @@ extension HealthLake {
         public let datastoreStatus: DatastoreStatus
         /// The FHIR version. Only R4 version data is supported.
         public let datastoreTypeVersion: FHIRVersion
+        /// The error cause for the current data store operation.
+        public let errorCause: ErrorCause?
         /// The identity provider that you selected when you created the data store.
         public let identityProviderConfiguration: IdentityProviderConfiguration?
         /// The preloaded data configuration for the data store. Only data preloaded from Synthea is supported.
@@ -201,7 +210,7 @@ extension HealthLake {
         ///  The server-side encryption key configuration for a customer provided encryption key (CMK).
         public let sseConfiguration: SseConfiguration?
 
-        public init(createdAt: Date? = nil, datastoreArn: String, datastoreEndpoint: String, datastoreId: String, datastoreName: String? = nil, datastoreStatus: DatastoreStatus, datastoreTypeVersion: FHIRVersion, identityProviderConfiguration: IdentityProviderConfiguration? = nil, preloadDataConfig: PreloadDataConfig? = nil, sseConfiguration: SseConfiguration? = nil) {
+        public init(createdAt: Date? = nil, datastoreArn: String, datastoreEndpoint: String, datastoreId: String, datastoreName: String? = nil, datastoreStatus: DatastoreStatus, datastoreTypeVersion: FHIRVersion, errorCause: ErrorCause? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, preloadDataConfig: PreloadDataConfig? = nil, sseConfiguration: SseConfiguration? = nil) {
             self.createdAt = createdAt
             self.datastoreArn = datastoreArn
             self.datastoreEndpoint = datastoreEndpoint
@@ -209,6 +218,7 @@ extension HealthLake {
             self.datastoreName = datastoreName
             self.datastoreStatus = datastoreStatus
             self.datastoreTypeVersion = datastoreTypeVersion
+            self.errorCause = errorCause
             self.identityProviderConfiguration = identityProviderConfiguration
             self.preloadDataConfig = preloadDataConfig
             self.sseConfiguration = sseConfiguration
@@ -222,6 +232,7 @@ extension HealthLake {
             case datastoreName = "DatastoreName"
             case datastoreStatus = "DatastoreStatus"
             case datastoreTypeVersion = "DatastoreTypeVersion"
+            case errorCause = "ErrorCause"
             case identityProviderConfiguration = "IdentityProviderConfiguration"
             case preloadDataConfig = "PreloadDataConfig"
             case sseConfiguration = "SseConfiguration"
@@ -379,6 +390,23 @@ extension HealthLake {
 
         private enum CodingKeys: String, CodingKey {
             case importJobProperties = "ImportJobProperties"
+        }
+    }
+
+    public struct ErrorCause: AWSDecodableShape {
+        /// The error category of the create/delete data store operation. Possible statuses are RETRYABLE_ERROR or NON_RETRYABLE_ERROR.
+        public let errorCategory: ErrorCategory?
+        /// The text of the error message.
+        public let errorMessage: String?
+
+        public init(errorCategory: ErrorCategory? = nil, errorMessage: String? = nil) {
+            self.errorCategory = errorCategory
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCategory = "ErrorCategory"
+            case errorMessage = "ErrorMessage"
         }
     }
 

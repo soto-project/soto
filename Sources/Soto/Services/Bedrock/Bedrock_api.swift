@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Bedrock service.
 ///
-/// Describes the API operations for creating and managing Amazon Bedrock models.
+/// Describes the API operations for creating, managing, fine-turning, and evaluating Amazon Bedrock models.
 public struct Bedrock: AWSService {
     // MARK: Member variables
 
@@ -72,14 +72,20 @@ public struct Bedrock: AWSService {
     /// custom endpoints for regions
     static var serviceEndpoints: [String: String] {[
         "bedrock-ap-northeast-1": "bedrock.ap-northeast-1.amazonaws.com",
+        "bedrock-ap-south-1": "bedrock.ap-south-1.amazonaws.com",
         "bedrock-ap-southeast-1": "bedrock.ap-southeast-1.amazonaws.com",
+        "bedrock-ap-southeast-2": "bedrock.ap-southeast-2.amazonaws.com",
         "bedrock-eu-central-1": "bedrock.eu-central-1.amazonaws.com",
+        "bedrock-eu-west-1": "bedrock.eu-west-1.amazonaws.com",
         "bedrock-eu-west-3": "bedrock.eu-west-3.amazonaws.com",
         "bedrock-fips-us-east-1": "bedrock-fips.us-east-1.amazonaws.com",
         "bedrock-fips-us-west-2": "bedrock-fips.us-west-2.amazonaws.com",
         "bedrock-runtime-ap-northeast-1": "bedrock-runtime.ap-northeast-1.amazonaws.com",
+        "bedrock-runtime-ap-south-1": "bedrock-runtime.ap-south-1.amazonaws.com",
         "bedrock-runtime-ap-southeast-1": "bedrock-runtime.ap-southeast-1.amazonaws.com",
+        "bedrock-runtime-ap-southeast-2": "bedrock-runtime.ap-southeast-2.amazonaws.com",
         "bedrock-runtime-eu-central-1": "bedrock-runtime.eu-central-1.amazonaws.com",
+        "bedrock-runtime-eu-west-1": "bedrock-runtime.eu-west-1.amazonaws.com",
         "bedrock-runtime-eu-west-3": "bedrock-runtime.eu-west-3.amazonaws.com",
         "bedrock-runtime-fips-us-east-1": "bedrock-runtime-fips.us-east-1.amazonaws.com",
         "bedrock-runtime-fips-us-west-2": "bedrock-runtime-fips.us-west-2.amazonaws.com",
@@ -95,7 +101,46 @@ public struct Bedrock: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a fine-tuning job to customize a base model. You specify the base foundation model and the location of the training data. After the  model-customization job completes successfully, your custom model resource will be ready to use. Training data contains input and output text for each record in a JSONL format. Optionally, you can specify validation data in the same format as the training data. Amazon Bedrock returns validation loss metrics and output generations  after the job completes.   Model-customization jobs are asynchronous and the completion time depends on the base model and the training/validation data size. To monitor a job, use the GetModelCustomizationJob operation to retrieve the job status. For more information, see Custom models in the Bedrock User Guide.
+    /// API operation for creating and managing Amazon Bedrock automatic model evaluation jobs and model evaluation jobs that use human workers. To learn more about the requirements for creating a model evaluation job see, Model evaluations.
+    @Sendable
+    public func createEvaluationJob(_ input: CreateEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEvaluationJobResponse {
+        return try await self.client.execute(
+            operation: "CreateEvaluationJob", 
+            path: "/evaluation-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a guardrail to block topics and to filter out harmful content.   Specify a name and optional description.   Specify messages for when the guardrail successfully blocks a prompt or a model response in the blockedInputMessaging and blockedOutputsMessaging fields.   Specify topics for the guardrail to deny in the topicPolicyConfig object. Each GuardrailTopicConfig object in the topicsConfig list pertains to one topic.   Give a name and description so that the guardrail can properly identify the topic.   Specify DENY in the type field.   (Optional) Provide up to five prompts that you would categorize as belonging to the topic in the examples list.     Specify filter strengths for the harmful categories defined in Amazon Bedrock in the contentPolicyConfig object. Each GuardrailContentFilterConfig object in the filtersConfig list pertains to a harmful category. For more information, see Content filters. For more information about the fields in a content filter, see GuardrailContentFilterConfig.   Specify the category in the type field.   Specify the strength of the filter for prompts in the inputStrength field and for model responses in the strength field of the GuardrailContentFilterConfig.     (Optional) For security, include the ARN of a KMS key in the kmsKeyId field.   (Optional) Attach any tags to the guardrail in the tags object. For more information, see Tag resources.
+    @Sendable
+    public func createGuardrail(_ input: CreateGuardrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGuardrailResponse {
+        return try await self.client.execute(
+            operation: "CreateGuardrail", 
+            path: "/guardrails", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a version of the guardrail. Use this API to create a snapshot of the  guardrail when you are satisfied with a configuration, or to compare the configuration with another version.
+    @Sendable
+    public func createGuardrailVersion(_ input: CreateGuardrailVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGuardrailVersionResponse {
+        return try await self.client.execute(
+            operation: "CreateGuardrailVersion", 
+            path: "/guardrails/{guardrailIdentifier}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a fine-tuning job to customize a base model. You specify the base foundation model and the location of the training data. After the  model-customization job completes successfully, your custom model resource will be ready to use. Amazon Bedrock returns validation loss metrics and output generations after the job completes.  For information on the format of training and validation data, see Prepare the datasets.  Model-customization jobs are asynchronous and the completion time depends on the base model and the training/validation data size. To monitor a job, use the GetModelCustomizationJob operation to retrieve the job status. For more information, see Custom models in the Amazon Bedrock User Guide.
     @Sendable
     public func createModelCustomizationJob(_ input: CreateModelCustomizationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateModelCustomizationJobResponse {
         return try await self.client.execute(
@@ -108,7 +153,7 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// Creates a provisioned throughput with dedicated capacity for a foundation model or a fine-tuned model. For more information, see Provisioned throughput in the Bedrock User Guide.
+    /// Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see Amazon Bedrock Pricing. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
     @Sendable
     public func createProvisionedModelThroughput(_ input: CreateProvisionedModelThroughputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProvisionedModelThroughputResponse {
         return try await self.client.execute(
@@ -121,12 +166,25 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// Deletes a custom model that you created earlier. For more information, see Custom models in the Bedrock User Guide.
+    /// Deletes a custom model that you created earlier. For more information, see Custom models in the Amazon Bedrock User Guide.
     @Sendable
     public func deleteCustomModel(_ input: DeleteCustomModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCustomModelResponse {
         return try await self.client.execute(
             operation: "DeleteCustomModel", 
             path: "/custom-models/{modelIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a guardrail.   To delete a guardrail, only specify the ARN of the guardrail in the guardrailIdentifier field. If you delete a guardrail, all of its versions will be deleted.   To delete a version of a guardrail, specify the ARN of the guardrail in the guardrailIdentifier field and the version in the guardrailVersion field.
+    @Sendable
+    public func deleteGuardrail(_ input: DeleteGuardrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGuardrailResponse {
+        return try await self.client.execute(
+            operation: "DeleteGuardrail", 
+            path: "/guardrails/{guardrailIdentifier}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -147,7 +205,7 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// Deletes a provisioned throughput. For more information, see Provisioned throughput in the Bedrock User Guide.
+    /// Deletes a Provisioned Throughput. You can't delete a Provisioned Throughput before the commitment term is over. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
     @Sendable
     public func deleteProvisionedModelThroughput(_ input: DeleteProvisionedModelThroughputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProvisionedModelThroughputResponse {
         return try await self.client.execute(
@@ -160,12 +218,25 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// Get the properties associated with a Amazon Bedrock custom model that you have created.For more information, see Custom models in the Bedrock User Guide.
+    /// Get the properties associated with a Amazon Bedrock custom model that you have created.For more information, see Custom models in the Amazon Bedrock User Guide.
     @Sendable
     public func getCustomModel(_ input: GetCustomModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCustomModelResponse {
         return try await self.client.execute(
             operation: "GetCustomModel", 
             path: "/custom-models/{modelIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the properties associated with a model evaluation job, including the status of the job. For more information, see Model evaluations.
+    @Sendable
+    public func getEvaluationJob(_ input: GetEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEvaluationJobResponse {
+        return try await self.client.execute(
+            operation: "GetEvaluationJob", 
+            path: "/evaluation-jobs/{jobIdentifier}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -186,7 +257,20 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// Retrieves the properties associated with a model-customization job, including the status of the job. For more information, see Custom models in the Bedrock User Guide.
+    /// Gets details about a guardrail. If you don't specify a version, the response returns details for the DRAFT version.
+    @Sendable
+    public func getGuardrail(_ input: GetGuardrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGuardrailResponse {
+        return try await self.client.execute(
+            operation: "GetGuardrail", 
+            path: "/guardrails/{guardrailIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the properties associated with a model-customization job, including the status of the job. For more information, see Custom models in the Amazon Bedrock User Guide.
     @Sendable
     public func getModelCustomizationJob(_ input: GetModelCustomizationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetModelCustomizationJobResponse {
         return try await self.client.execute(
@@ -212,7 +296,7 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// Get details for a provisioned throughput. For more information, see Provisioned throughput in the Bedrock User Guide.
+    /// Returns details for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
     @Sendable
     public func getProvisionedModelThroughput(_ input: GetProvisionedModelThroughputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProvisionedModelThroughputResponse {
         return try await self.client.execute(
@@ -225,7 +309,7 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// Returns a list of the custom models that you have created with the CreateModelCustomizationJob operation. For more information, see Custom models in the Bedrock User Guide.
+    /// Returns a list of the custom models that you have created with the CreateModelCustomizationJob operation. For more information, see Custom models in the Amazon Bedrock User Guide.
     @Sendable
     public func listCustomModels(_ input: ListCustomModelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomModelsResponse {
         return try await self.client.execute(
@@ -238,7 +322,20 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// List of Amazon Bedrock foundation models that you can use. For more information, see Foundation models in the Bedrock User Guide.
+    /// Lists model evaluation jobs.
+    @Sendable
+    public func listEvaluationJobs(_ input: ListEvaluationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEvaluationJobsResponse {
+        return try await self.client.execute(
+            operation: "ListEvaluationJobs", 
+            path: "/evaluation-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists Amazon Bedrock foundation models that you can use. You can filter the results with the request parameters. For more information, see Foundation models in the Amazon Bedrock User Guide.
     @Sendable
     public func listFoundationModels(_ input: ListFoundationModelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFoundationModelsResponse {
         return try await self.client.execute(
@@ -251,7 +348,20 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// Returns a list of model customization jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Custom models in the Bedrock User Guide.
+    /// Lists details about all the guardrails in an account. To list the DRAFT version of all your guardrails, don't specify the guardrailIdentifier field. To list all versions of a guardrail, specify the ARN of the guardrail in the guardrailIdentifier field. You can set the maximum number of results to return in a response in the maxResults field. If there are more results than the number you set, the response returns a nextToken that you can send in another ListGuardrails request to see the next batch of results.
+    @Sendable
+    public func listGuardrails(_ input: ListGuardrailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGuardrailsResponse {
+        return try await self.client.execute(
+            operation: "ListGuardrails", 
+            path: "/guardrails", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of model customization jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Custom models in the Amazon Bedrock User Guide.
     @Sendable
     public func listModelCustomizationJobs(_ input: ListModelCustomizationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListModelCustomizationJobsResponse {
         return try await self.client.execute(
@@ -264,7 +374,7 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// List the provisioned capacities. For more information, see Provisioned throughput in the Bedrock User Guide.
+    /// Lists the Provisioned Throughputs in the account. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
     @Sendable
     public func listProvisionedModelThroughputs(_ input: ListProvisionedModelThroughputsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProvisionedModelThroughputsResponse {
         return try await self.client.execute(
@@ -277,7 +387,7 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// List the tags associated with the specified resource. For more information, see  Tagging resources in the Bedrock User Guide.
+    /// List the tags associated with the specified resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(
@@ -303,7 +413,20 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// Stops an active model customization job. For more information, see Custom models in the Bedrock User Guide.
+    /// Stops an in progress model evaluation job.
+    @Sendable
+    public func stopEvaluationJob(_ input: StopEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopEvaluationJobResponse {
+        return try await self.client.execute(
+            operation: "StopEvaluationJob", 
+            path: "/evaluation-job/{jobIdentifier}/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Stops an active model customization job. For more information, see Custom models in the Amazon Bedrock User Guide.
     @Sendable
     public func stopModelCustomizationJob(_ input: StopModelCustomizationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopModelCustomizationJobResponse {
         return try await self.client.execute(
@@ -316,7 +439,7 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// Associate tags with a resource. For more information, see  Tagging resources in the Bedrock User Guide.
+    /// Associate tags with a resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
         return try await self.client.execute(
@@ -329,7 +452,7 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// Remove one or more tags from a resource. For more information, see  Tagging resources in the Bedrock User Guide.
+    /// Remove one or more tags from a resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         return try await self.client.execute(
@@ -342,7 +465,20 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// Update a provisioned throughput. For more information, see Provisioned throughput in the Bedrock User Guide.
+    /// Updates a guardrail with the values you specify.   Specify a name and optional description.   Specify messages for when the guardrail successfully blocks a prompt or a model response in the blockedInputMessaging and blockedOutputsMessaging fields.   Specify topics for the guardrail to deny in the topicPolicyConfig object. Each GuardrailTopicConfig object in the topicsConfig list pertains to one topic.   Give a name and description so that the guardrail can properly identify the topic.   Specify DENY in the type field.   (Optional) Provide up to five prompts that you would categorize as belonging to the topic in the examples list.     Specify filter strengths for the harmful categories defined in Amazon Bedrock in the contentPolicyConfig object. Each GuardrailContentFilterConfig object in the filtersConfig list pertains to a harmful category. For more information, see Content filters. For more information about the fields in a content filter, see GuardrailContentFilterConfig.   Specify the category in the type field.   Specify the strength of the filter for prompts in the inputStrength field and for model responses in the strength field of the GuardrailContentFilterConfig.     (Optional) For security, include the ARN of a KMS key in the kmsKeyId field.   (Optional) Attach any tags to the guardrail in the tags object. For more information, see Tag resources.
+    @Sendable
+    public func updateGuardrail(_ input: UpdateGuardrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGuardrailResponse {
+        return try await self.client.execute(
+            operation: "UpdateGuardrail", 
+            path: "/guardrails/{guardrailIdentifier}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the name or associated model for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
     @Sendable
     public func updateProvisionedModelThroughput(_ input: UpdateProvisionedModelThroughputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProvisionedModelThroughputResponse {
         return try await self.client.execute(
@@ -369,7 +505,7 @@ extension Bedrock {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Bedrock {
-    /// Returns a list of the custom models that you have created with the CreateModelCustomizationJob operation. For more information, see Custom models in the Bedrock User Guide.
+    /// Returns a list of the custom models that you have created with the CreateModelCustomizationJob operation. For more information, see Custom models in the Amazon Bedrock User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -388,7 +524,45 @@ extension Bedrock {
         )
     }
 
-    /// Returns a list of model customization jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Custom models in the Bedrock User Guide.
+    /// Lists model evaluation jobs.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listEvaluationJobsPaginator(
+        _ input: ListEvaluationJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEvaluationJobsRequest, ListEvaluationJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listEvaluationJobs,
+            inputKey: \ListEvaluationJobsRequest.nextToken,
+            outputKey: \ListEvaluationJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists details about all the guardrails in an account. To list the DRAFT version of all your guardrails, don't specify the guardrailIdentifier field. To list all versions of a guardrail, specify the ARN of the guardrail in the guardrailIdentifier field. You can set the maximum number of results to return in a response in the maxResults field. If there are more results than the number you set, the response returns a nextToken that you can send in another ListGuardrails request to see the next batch of results.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listGuardrailsPaginator(
+        _ input: ListGuardrailsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListGuardrailsRequest, ListGuardrailsResponse> {
+        return .init(
+            input: input,
+            command: self.listGuardrails,
+            inputKey: \ListGuardrailsRequest.nextToken,
+            outputKey: \ListGuardrailsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of model customization jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Custom models in the Amazon Bedrock User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -407,7 +581,7 @@ extension Bedrock {
         )
     }
 
-    /// List the provisioned capacities. For more information, see Provisioned throughput in the Bedrock User Guide.
+    /// Lists the Provisioned Throughputs in the account. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -439,6 +613,31 @@ extension Bedrock.ListCustomModelsRequest: AWSPaginateToken {
             nextToken: token,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension Bedrock.ListEvaluationJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListEvaluationJobsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            statusEquals: self.statusEquals
+        )
+    }
+}
+
+extension Bedrock.ListGuardrailsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListGuardrailsRequest {
+        return .init(
+            guardrailIdentifier: self.guardrailIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

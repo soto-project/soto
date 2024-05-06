@@ -155,6 +155,8 @@ extension CloudFront {
     }
 
     public enum OriginAccessControlOriginTypes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lambda = "lambda"
+        case mediapackagev2 = "mediapackagev2"
         case mediastore = "mediastore"
         case s3 = "s3"
         public var description: String { return self.rawValue }
@@ -546,7 +548,7 @@ extension CloudFront {
         /// 				PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront
         /// 					returns an HTTP status code of 301 (Moved Permanently) to the viewer along with
         /// 					the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an
-        /// 					HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the
+        /// 					HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and  CloudFront in the
         /// 				Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from
         /// 				the origin using HTTPS is never to use any other protocol to fetch the object. If
         /// 				you have recently changed from HTTP to HTTPS, we recommend that you clear your
@@ -1228,7 +1230,7 @@ extension CloudFront {
     public struct ContinuousDeploymentSingleWeightConfig: AWSEncodableShape & AWSDecodableShape {
         public let sessionStickinessConfig: SessionStickinessConfig?
         /// The percentage of traffic to send to a staging distribution, expressed as a decimal
-        /// 			number between 0 and .15.
+        /// 			number between 0 and 0.15. For example, a value of 0.10 means 10% of traffic is sent to the staging distribution.
         public let weight: Float
 
         public init(sessionStickinessConfig: SessionStickinessConfig? = nil, weight: Float) {
@@ -1820,11 +1822,12 @@ extension CloudFront {
     }
 
     public struct CreateKeyValueStoreRequest: AWSEncodableShape {
-        /// The comment of the Key Value Store.
+        /// The comment of the key value store.
         public let comment: String?
         /// The S3 bucket that provides the source for the import. The source must be in a valid JSON format.
         public let importSource: ImportSource?
-        /// The name of the Key Value Store. The maximum length of the name is 32 characters.
+        /// The name of the key value store. The minimum length is 1 character and the maximum length is
+        /// 			64 characters.
         public let name: String
 
         public init(comment: String? = nil, importSource: ImportSource? = nil, name: String) {
@@ -1848,11 +1851,11 @@ extension CloudFront {
     }
 
     public struct CreateKeyValueStoreResult: AWSDecodableShape {
-        /// The ETag in the resulting Key Value Store.
+        /// The ETag in the resulting key value store.
         public let eTag: String?
-        /// The resulting Key Value Store.
+        /// The resulting key value store.
         public let keyValueStore: KeyValueStore
-        /// The location of the resulting Key Value Store.
+        /// The location of the resulting key value store.
         public let location: String?
 
         public init(eTag: String? = nil, keyValueStore: KeyValueStore, location: String? = nil) {
@@ -2051,9 +2054,7 @@ extension CloudFront {
         public var fields: [String]
         /// A unique name to identify this real-time log configuration.
         public let name: String
-        /// The sampling rate for this real-time log configuration. The sampling rate determines
-        /// 			the percentage of viewer requests that are represented in the real-time log data. You
-        /// 			must provide an integer between 1 and 100, inclusive.
+        /// The sampling rate for this real-time log configuration. You can specify a whole number between 1 and 100 (inclusive) to determine the percentage of viewer requests that are represented in the real-time log data.
         public let samplingRate: Int64
 
         public init(endPoints: [EndPoint], fields: [String], name: String, samplingRate: Int64) {
@@ -2408,7 +2409,7 @@ extension CloudFront {
         /// 			CachePolicyId. A complex type that specifies how CloudFront handles query strings, cookies, and HTTP
         /// 			headers.
         public let forwardedValues: ForwardedValues?
-        /// A list of CloudFront functions that are associated with this cache behavior. CloudFront functions
+        /// A list of CloudFront functions that are associated with this cache behavior. Your functions
         /// 			must be published to the LIVE stage to associate them with a cache
         /// 			behavior.
         public let functionAssociations: FunctionAssociations?
@@ -2477,7 +2478,7 @@ extension CloudFront {
         /// 				PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront
         /// 					returns an HTTP status code of 301 (Moved Permanently) to the viewer along with
         /// 					the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an
-        /// 					HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the
+        /// 					HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and  CloudFront in the
         /// 				Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from
         /// 				the origin using HTTPS is never to use any other protocol to fetch the object. If
         /// 				you have recently changed from HTTP to HTTPS, we recommend that you clear your
@@ -2740,9 +2741,9 @@ extension CloudFront {
     }
 
     public struct DeleteKeyValueStoreRequest: AWSEncodableShape {
-        /// The Key Value Store to delete, if a match occurs.
+        /// The key value store to delete, if a match occurs.
         public let ifMatch: String
-        /// The name of the Key Value Store.
+        /// The name of the key value store.
         public let name: String
 
         public init(ifMatch: String, name: String) {
@@ -2962,7 +2963,7 @@ extension CloudFront {
     }
 
     public struct DescribeKeyValueStoreRequest: AWSEncodableShape {
-        /// The name of the Key Value Store.
+        /// The name of the key value store.
         public let name: String
 
         public init(name: String) {
@@ -2985,9 +2986,9 @@ extension CloudFront {
     }
 
     public struct DescribeKeyValueStoreResult: AWSDecodableShape {
-        /// The ETag of the resulting Key Value Store.
+        /// The ETag of the resulting key value store.
         public let eTag: String?
-        /// The resulting Key Value Store.
+        /// The resulting key value store.
         public let keyValueStore: KeyValueStore
 
         public init(eTag: String? = nil, keyValueStore: KeyValueStore) {
@@ -3108,10 +3109,9 @@ extension CloudFront {
         public let defaultRootObject: String?
         /// From this field, you can enable or disable the selected distribution.
         public let enabled: Bool
-        /// (Optional) Specify the maximum HTTP version(s) that you want viewers to use to
-        /// 			communicate with CloudFront. The default value for new web distributions is
-        /// 			http2. Viewers that don't support HTTP/2 automatically use an earlier HTTP
-        /// 			version. For viewers and CloudFront to use HTTP/2, viewers must support TLSv1.2 or later, and must
+        /// (Optional) Specify the HTTP version(s) that you want viewers to use to communicate with
+        /// 			CloudFront. The default value for new web distributions is http2. Viewers that
+        /// 			don't support HTTP/2 automatically use an earlier HTTP version. For viewers and CloudFront to use HTTP/2, viewers must support TLSv1.2 or later, and must
         /// 			support Server Name Indication (SNI). For viewers and CloudFront to use HTTP/3, viewers must support TLSv1.3 and Server Name
         /// 			Indication (SNI). CloudFront supports HTTP/3 connection migration to allow the viewer to
         /// 			switch networks without losing connection. For more information about connection
@@ -3170,9 +3170,9 @@ extension CloudFront {
         /// A unique identifier that specifies the WAF web ACL, if any, to associate with this
         /// 			distribution. To specify a web ACL created using the latest version of WAF, use the
         /// 			ACL ARN, for example
-        /// 				arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a.
+        /// 			arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
         /// 			To specify a web ACL created using WAF Classic, use the ACL ID, for example
-        /// 				473e64fd-f30b-4765-81a0-62ad96dd167a. WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests
+        /// 			a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests
         /// 			that are forwarded to CloudFront, and lets you control access to your content. Based on
         /// 			conditions that you specify, such as the IP addresses that requests originate from or
         /// 			the values of query strings, CloudFront responds to requests either with the requested content
@@ -3392,7 +3392,9 @@ extension CloudFront {
         /// A complex type that identifies ways in which you want to restrict distribution of your
         /// 			content.
         public let restrictions: Restrictions
-        /// Whether the primary distribution has a staging distribution enabled.
+        /// A Boolean that indicates whether this is a staging distribution. When this value is
+        /// 				true, this is a staging distribution. When this value is
+        /// 				false, this is not a staging distribution.
         public let staging: Bool
         /// The current status of the distribution. When the status is Deployed, the
         /// 			distribution's information is propagated to all CloudFront edge locations.
@@ -3859,7 +3861,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "FunctionAssociation" }
 
         /// The CloudFront functions that are associated with a cache behavior in a CloudFront distribution.
-        /// 			CloudFront functions must be published to the LIVE stage to associate them with a
+        /// 			Your functions must be published to the LIVE stage to associate them with a
         /// 			cache behavior.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, FunctionAssociation>>
         public var items: [FunctionAssociation]?
@@ -3886,7 +3888,7 @@ extension CloudFront {
     public struct FunctionConfig: AWSEncodableShape & AWSDecodableShape {
         /// A comment to describe the function.
         public let comment: String
-        /// The configuration for the Key Value Store associations.
+        /// The configuration for the key value store associations.
         public let keyValueStoreAssociations: KeyValueStoreAssociations?
         /// The function's runtime environment version.
         public let runtime: FunctionRuntime
@@ -5154,9 +5156,9 @@ extension CloudFront {
     }
 
     public struct ImportSource: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the import source for the Key Value Store.
+        /// The Amazon Resource Name (ARN) of the import source for the key value store.
         public let sourceARN: String
-        /// The source type of the import source for the Key Value Store.
+        /// The source type of the import source for the key value store.
         public let sourceType: ImportSourceType
 
         public init(sourceARN: String, sourceType: ImportSourceType) {
@@ -5417,17 +5419,17 @@ extension CloudFront {
     }
 
     public struct KeyValueStore: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Key Value Store.
+        /// The Amazon Resource Name (ARN) of the key value store.
         public let arn: String
-        /// A comment for the Key Value Store.
+        /// A comment for the key value store.
         public let comment: String
-        /// The unique Id for the Key Value Store.
+        /// The unique Id for the key value store.
         public let id: String
-        /// The last-modified time of the Key Value Store.
+        /// The last-modified time of the key value store.
         public let lastModifiedTime: Date
-        /// The name of the Key Value Store.
+        /// The name of the key value store.
         public let name: String
-        /// The status of the Key Value Store.
+        /// The status of the key value store.
         public let status: String?
 
         public init(arn: String, comment: String, id: String, lastModifiedTime: Date, name: String, status: String? = nil) {
@@ -5450,7 +5452,7 @@ extension CloudFront {
     }
 
     public struct KeyValueStoreAssociation: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Key Value Store association.
+        /// The Amazon Resource Name (ARN) of the key value store association.
         public let keyValueStoreARN: String
 
         public init(keyValueStoreARN: String) {
@@ -5470,10 +5472,10 @@ extension CloudFront {
     public struct KeyValueStoreAssociations: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "KeyValueStoreAssociation" }
 
-        /// The items of the Key Value Store association.
+        /// The items of the key value store association.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, KeyValueStoreAssociation>>
         public var items: [KeyValueStoreAssociation]?
-        /// The quantity of Key Value Store associations.
+        /// The quantity of key value store associations.
         public let quantity: Int
 
         public init(items: [KeyValueStoreAssociation]? = nil, quantity: Int) {
@@ -5496,14 +5498,14 @@ extension CloudFront {
     public struct KeyValueStoreList: AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "KeyValueStore" }
 
-        /// The items of the Key Value Store list.
+        /// The items of the key value store list.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, KeyValueStore>>
         public var items: [KeyValueStore]?
-        /// The maximum number of items in the Key Value Store list.
+        /// The maximum number of items in the key value store list.
         public let maxItems: Int
-        /// The next marker associated with the Key Value Store list.
+        /// The next marker associated with the key value store list.
         public let nextMarker: String?
-        /// The quantity of the Key Value Store list.
+        /// The quantity of the key value store list.
         public let quantity: Int
 
         public init(items: [KeyValueStore]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
@@ -6015,7 +6017,8 @@ extension CloudFront {
         public let maxItems: Int?
         /// The ID of the WAF web ACL that you want to list the associated distributions. If you
         /// 			specify "null" for the ID, the request returns a list of the distributions that aren't
-        /// 			associated with a web ACL.
+        /// 			associated with a web ACL.  For WAFV2, this is the ARN of the web ACL, such as
+        /// 				arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. For WAF Classic, this is the ID of the web ACL, such as a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
         public let webACLId: String
 
         public init(marker: String? = nil, maxItems: Int? = nil, webACLId: String) {
@@ -6311,11 +6314,11 @@ extension CloudFront {
     }
 
     public struct ListKeyValueStoresRequest: AWSEncodableShape {
-        /// The marker associated with the Key Value Stores list.
+        /// The marker associated with the key value stores list.
         public let marker: String?
-        /// The maximum number of items in the Key Value Stores list.
+        /// The maximum number of items in the key value stores list.
         public let maxItems: Int?
-        /// The status of the request for the Key Value Stores list.
+        /// The status of the request for the key value stores list.
         public let status: String?
 
         public init(marker: String? = nil, maxItems: Int? = nil, status: String? = nil) {
@@ -6336,7 +6339,7 @@ extension CloudFront {
     }
 
     public struct ListKeyValueStoresResult: AWSDecodableShape {
-        /// The resulting Key Value Stores list.
+        /// The resulting key value stores list.
         public let keyValueStoreList: KeyValueStoreList
 
         public init(keyValueStoreList: KeyValueStoreList) {
@@ -6789,7 +6792,7 @@ extension CloudFront {
     public struct OriginAccessControlConfig: AWSEncodableShape & AWSDecodableShape {
         /// A description of the origin access control.
         public let description: String?
-        /// A name to identify the origin access control.
+        /// A name to identify the origin access control. You can specify up to 64 characters.
         public let name: String
         /// The type of origin that this origin access control is for.
         public let originAccessControlOriginType: OriginAccessControlOriginTypes
@@ -6958,8 +6961,7 @@ extension CloudFront {
     }
 
     public struct OriginGroupFailoverCriteria: AWSEncodableShape & AWSDecodableShape {
-        /// The status codes that, when returned from the primary origin, will trigger CloudFront
-        /// 			to failover to the second origin.
+        /// The status codes that, when returned from the primary origin, will trigger CloudFront to failover to the second origin.
         public let statusCodes: StatusCodes
 
         public init(statusCodes: StatusCodes) {
@@ -8115,7 +8117,7 @@ extension CloudFront {
         public let referrerPolicy: ResponseHeadersPolicyReferrerPolicy?
         /// Determines whether CloudFront includes the Strict-Transport-Security HTTP
         /// 			response header and the header's value. For more information about the Strict-Transport-Security HTTP response
-        /// 			header, see Strict-Transport-Security in the MDN Web Docs.
+        /// 			header, see Security headers in the Amazon CloudFront Developer Guide and Strict-Transport-Security in the MDN Web Docs.
         public let strictTransportSecurity: ResponseHeadersPolicyStrictTransportSecurity?
         /// Determines whether CloudFront includes the X-XSS-Protection HTTP response
         /// 			header and the header's value. For more information about the X-XSS-Protection HTTP response header, see
@@ -8292,10 +8294,13 @@ extension CloudFront {
     }
 
     public struct S3OriginConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The CloudFront origin access identity to associate with the origin. Use an origin access
+        ///  If you're using origin access control (OAC) instead of origin access identity,
+        /// 				specify an empty OriginAccessIdentity element. For more information,
+        /// 				see Restricting access to an Amazon Web Services in the
+        /// 					Amazon CloudFront Developer Guide.  The CloudFront origin access identity to associate with the origin. Use an origin access
         /// 			identity to configure the origin so that viewers can only access
-        /// 			objects in an Amazon S3 bucket through CloudFront. The format of the value is: origin-access-identity/cloudfront/ID-of-origin-access-identity  where  ID-of-origin-access-identity is the value that
-        /// 			CloudFront returned in the ID element when you created the origin access
+        /// 			objects in an Amazon S3 bucket through CloudFront. The format of the value is:  origin-access-identity/cloudfront/ID-of-origin-access-identity  The  ID-of-origin-access-identity is the value that CloudFront
+        /// 			returned in the ID element when you created the origin access
         /// 			identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3
         /// 			URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the
         /// 			distribution configuration and include an empty OriginAccessIdentity
@@ -8318,7 +8323,7 @@ extension CloudFront {
         /// 			received. Allowed values are 300–3600 seconds (5–60 minutes). The value must be less than or equal to MaximumTTL.
         public let idleTTL: Int
         /// The maximum amount of time to consider requests from the viewer as being part of the
-        /// 			same session. Allowed values are 300–3600 seconds (5–60 minutes). The value must be less than or equal to IdleTTL.
+        /// 			same session. Allowed values are 300–3600 seconds (5–60 minutes). The value must be greater than or equal to IdleTTL.
         public let maximumTTL: Int
 
         public init(idleTTL: Int, maximumTTL: Int) {
@@ -9418,11 +9423,11 @@ extension CloudFront {
     }
 
     public struct UpdateKeyValueStoreRequest: AWSEncodableShape {
-        /// The comment of the Key Value Store to update.
+        /// The comment of the key value store to update.
         public let comment: String
-        /// The Key Value Store to update, if a match occurs.
+        /// The key value store to update, if a match occurs.
         public let ifMatch: String
-        /// The name of the Key Value Store to update.
+        /// The name of the key value store to update.
         public let name: String
 
         public init(comment: String, ifMatch: String, name: String) {
@@ -9452,9 +9457,9 @@ extension CloudFront {
     }
 
     public struct UpdateKeyValueStoreResult: AWSDecodableShape {
-        /// The ETag of the resulting Key Value Store.
+        /// The ETag of the resulting key value store.
         public let eTag: String?
-        /// The resulting Key Value Store to update.
+        /// The resulting key value store to update.
         public let keyValueStore: KeyValueStore
 
         public init(eTag: String? = nil, keyValueStore: KeyValueStore) {
@@ -10036,7 +10041,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var cachePolicyInUse: Self { .init(.cachePolicyInUse) }
     /// You can't change the value of a public key.
     public static var cannotChangeImmutablePublicKeyFields: Self { .init(.cannotChangeImmutablePublicKeyFields) }
-    /// The Key Value Store entity cannot be deleted while it is in use.
+    /// The key value store entity cannot be deleted while it is in use.
     public static var cannotDeleteEntityWhileInUse: Self { .init(.cannotDeleteEntityWhileInUse) }
     /// If the CallerReference is a value you already sent in a previous request
     /// 			to create an identity but the content of the
@@ -10059,14 +10064,14 @@ public struct CloudFrontErrorType: AWSErrorType {
     /// The specified CloudFront distribution is not disabled. You must disable the distribution
     /// 			before you can delete it.
     public static var distributionNotDisabled: Self { .init(.distributionNotDisabled) }
-    /// The Key Value Store entity already exists. You must provide a unique Key Value Store
+    /// The key value store entity already exists. You must provide a unique key value store
     /// 			entity.
     public static var entityAlreadyExists: Self { .init(.entityAlreadyExists) }
-    /// The Key Value Store entity limit has been exceeded.
+    /// The key value store entity limit has been exceeded.
     public static var entityLimitExceeded: Self { .init(.entityLimitExceeded) }
-    /// The Key Value Store entity was not found.
+    /// The key value store entity was not found.
     public static var entityNotFound: Self { .init(.entityNotFound) }
-    /// The Key Value Store entity size limit was exceeded.
+    /// The key value store entity size limit was exceeded.
     public static var entitySizeLimitExceeded: Self { .init(.entitySizeLimitExceeded) }
     /// The specified configuration for field-level encryption already exists.
     public static var fieldLevelEncryptionConfigAlreadyExists: Self { .init(.fieldLevelEncryptionConfigAlreadyExists) }

@@ -206,7 +206,7 @@ extension NeptuneGraph {
         public let provisionedMemory: Int
         /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
         public let publicConnectivity: Bool?
-        /// The number of replicas in other AZs. Min =0, Max = 2, Default = 1.
+        /// The number of replicas in other AZs. Min =0, Max = 2, Default = 1.   Additional charges equivalent to the m-NCUs selected for the graph apply for each replica.
         public let replicaCount: Int?
         /// Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy.
         public let tags: [String: String]?
@@ -417,7 +417,7 @@ extension NeptuneGraph {
         public let minProvisionedMemory: Int?
         /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
         public let publicConnectivity: Bool?
-        /// The number of replicas in other AZs to provision on the new graph after import. Default = 0, Min = 0, Max = 2.
+        /// The number of replicas in other AZs to provision on the new graph after import. Default = 0, Min = 0, Max = 2.   Additional charges equivalent to the m-NCUs selected for the graph apply for each replica.
         public let replicaCount: Int?
         /// The ARN of the IAM role that will allow access to the data that is to be imported.
         public let roleArn: String
@@ -1954,7 +1954,7 @@ extension NeptuneGraph {
         public let provisionedMemory: Int?
         /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
         public let publicConnectivity: Bool?
-        /// The number of replicas in other AZs. Min =0, Max = 2, Default =1
+        /// The number of replicas in other AZs. Min =0, Max = 2, Default =1   Additional charges equivalent to the m-NCUs selected for the graph apply for each replica.
         public let replicaCount: Int?
         /// The ID of the snapshot in question.
         public let snapshotIdentifier: String

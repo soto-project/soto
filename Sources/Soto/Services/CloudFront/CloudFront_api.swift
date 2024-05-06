@@ -259,7 +259,7 @@ public struct CloudFront: AWSService {
         )
     }
 
-    /// Create a new invalidation.
+    /// Create a new invalidation. For more information, see Invalidating files in the Amazon CloudFront Developer Guide.
     @Sendable
     public func createInvalidation(_ input: CreateInvalidationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInvalidationResult {
         return try await self.client.execute(
@@ -292,7 +292,7 @@ public struct CloudFront: AWSService {
         )
     }
 
-    /// Specifies the Key Value Store resource to add to your account. In your account, the Key Value Store names must be unique. You can also import Key Value Store data in JSON format from an S3 bucket by providing a valid ImportSource that you own.
+    /// Specifies the key value store resource to add to your account. In your account, the key value store names must be unique. You can also import key value store data in JSON format from an S3 bucket by providing a valid ImportSource that you own.
     @Sendable
     public func createKeyValueStore(_ input: CreateKeyValueStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKeyValueStoreResult {
         return try await self.client.execute(
@@ -558,7 +558,7 @@ public struct CloudFront: AWSService {
         )
     }
 
-    /// Specifies the Key Value Store to delete.
+    /// Specifies the key value store to delete.
     @Sendable
     public func deleteKeyValueStore(_ input: DeleteKeyValueStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -571,8 +571,7 @@ public struct CloudFront: AWSService {
         )
     }
 
-    /// Disables additional CloudWatch metrics for the specified CloudFront
-    /// 			distribution.
+    /// Disables additional CloudWatch metrics for the specified CloudFront distribution.
     @Sendable
     public func deleteMonitoringSubscription(_ input: DeleteMonitoringSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMonitoringSubscriptionResult {
         return try await self.client.execute(
@@ -712,7 +711,7 @@ public struct CloudFront: AWSService {
         )
     }
 
-    /// Specifies the Key Value Store and its configuration.
+    /// Specifies the key value store and its configuration.
     @Sendable
     public func describeKeyValueStore(_ input: DescribeKeyValueStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeKeyValueStoreResult {
         return try await self.client.execute(
@@ -1408,7 +1407,7 @@ public struct CloudFront: AWSService {
         )
     }
 
-    /// Specifies the Key Value Stores to list.
+    /// Specifies the key value stores to list.
     @Sendable
     public func listKeyValueStores(_ input: ListKeyValueStoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKeyValueStoresResult {
         return try await self.client.execute(
@@ -1755,7 +1754,7 @@ public struct CloudFront: AWSService {
         )
     }
 
-    /// Specifies the Key Value Store to update.
+    /// Specifies the key value store to update.
     @Sendable
     public func updateKeyValueStore(_ input: UpdateKeyValueStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKeyValueStoreResult {
         return try await self.client.execute(
@@ -1937,7 +1936,7 @@ extension CloudFront {
         )
     }
 
-    /// Specifies the Key Value Stores to list.
+    /// Specifies the key value stores to list.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

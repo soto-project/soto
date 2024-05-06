@@ -111,6 +111,19 @@ public struct RolesAnywhere: AWSService {
         )
     }
 
+    /// Delete an entry from the attribute mapping rules enforced by a given profile.
+    @Sendable
+    public func deleteAttributeMapping(_ input: DeleteAttributeMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAttributeMappingResponse {
+        return try await self.client.execute(
+            operation: "DeleteAttributeMapping", 
+            path: "/profiles/{profileId}/mappings", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes a certificate revocation list (CRL).  Required permissions:  rolesanywhere:DeleteCrl.
     @Sendable
     public func deleteCrl(_ input: ScalarCrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CrlDetailResponse {
@@ -352,6 +365,19 @@ public struct RolesAnywhere: AWSService {
             operation: "ListTrustAnchors", 
             path: "/trustanchors", 
             httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Put an entry in the attribute mapping rules that will be enforced by a given profile.  A mapping specifies a certificate field and one or more specifiers that have contextual meanings.
+    @Sendable
+    public func putAttributeMapping(_ input: PutAttributeMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAttributeMappingResponse {
+        return try await self.client.execute(
+            operation: "PutAttributeMapping", 
+            path: "/profiles/{profileId}/mappings", 
+            httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger

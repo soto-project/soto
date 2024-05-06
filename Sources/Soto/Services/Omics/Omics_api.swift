@@ -92,7 +92,7 @@ public struct Omics: AWSService {
 
     // MARK: API Calls
 
-    ///  Stops a multipart upload.
+    /// Stops a multipart upload.
     @Sendable
     public func abortMultipartReadSetUpload(_ input: AbortMultipartReadSetUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AbortMultipartReadSetUploadResponse {
         return try await self.client.execute(
@@ -106,7 +106,7 @@ public struct Omics: AWSService {
         )
     }
 
-    /// Accepts a share for an analytics store.
+    /// Accept a resource share request.
     @Sendable
     public func acceptShare(_ input: AcceptShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptShareResponse {
         return try await self.client.execute(
@@ -176,7 +176,7 @@ public struct Omics: AWSService {
         )
     }
 
-    ///  Concludes a multipart upload once you have uploaded all the components.
+    /// Concludes a multipart upload once you have uploaded all the components.
     @Sendable
     public func completeMultipartReadSetUpload(_ input: CompleteMultipartReadSetUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CompleteMultipartReadSetUploadResponse {
         return try await self.client.execute(
@@ -218,7 +218,7 @@ public struct Omics: AWSService {
         )
     }
 
-    ///  Begins a multipart read set upload.
+    /// Begins a multipart read set upload.
     @Sendable
     public func createMultipartReadSetUpload(_ input: CreateMultipartReadSetUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMultipartReadSetUploadResponse {
         return try await self.client.execute(
@@ -274,7 +274,7 @@ public struct Omics: AWSService {
         )
     }
 
-    ///  Creates a share offer that can be accepted outside the account by a subscriber. The share is created by the owner and accepted by the principal subscriber.
+    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource  with the principal subscriber (an AWS user with a different account than the resource owner). The following resources support cross-account sharing:   Healthomics variant stores   Healthomics annotation stores   Private workflows
     @Sendable
     public func createShare(_ input: CreateShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateShareResponse {
         return try await self.client.execute(
@@ -414,7 +414,7 @@ public struct Omics: AWSService {
         )
     }
 
-    ///  Deletes a share of an analytics store.
+    /// Deletes a resource share. If you are the resource owner, the subscriber will no longer have  access to the shared resource. If you are the subscriber, this operation deletes your access to the share.
     @Sendable
     public func deleteShare(_ input: DeleteShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteShareResponse {
         return try await self.client.execute(
@@ -624,7 +624,7 @@ public struct Omics: AWSService {
         )
     }
 
-    /// Gets information about a workflow run.
+    /// Gets information about a workflow run. If a workflow is shared with you, you cannot export information about the run.
     @Sendable
     public func getRun(_ input: GetRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRunResponse {
         return try await self.client.execute(
@@ -680,7 +680,7 @@ public struct Omics: AWSService {
         )
     }
 
-    ///  Retrieves the metadata for a share.
+    /// Retrieves the metadata for the specified resource share.
     @Sendable
     public func getShare(_ input: GetShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetShareResponse {
         return try await self.client.execute(
@@ -722,7 +722,7 @@ public struct Omics: AWSService {
         )
     }
 
-    /// Gets information about a workflow.
+    /// Gets information about a workflow. If a workflow is shared with you, you cannot export the workflow.
     @Sendable
     public func getWorkflow(_ input: GetWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkflowResponse {
         return try await self.client.execute(
@@ -778,7 +778,7 @@ public struct Omics: AWSService {
         )
     }
 
-    ///  Lists multipart read set uploads and for in progress uploads. Once the upload is completed, a read set is created and the upload will no longer be returned in the respone.
+    /// Lists multipart read set uploads and for in progress uploads.  Once the upload is completed, a read set is created and the upload will no longer be returned in the response.
     @Sendable
     public func listMultipartReadSetUploads(_ input: ListMultipartReadSetUploadsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMultipartReadSetUploadsResponse {
         return try await self.client.execute(
@@ -834,7 +834,7 @@ public struct Omics: AWSService {
         )
     }
 
-    ///  This operation will list all parts in a requested multipart upload for a sequence store.
+    /// This operation will list all parts in a requested multipart upload for a sequence store.
     @Sendable
     public func listReadSetUploadParts(_ input: ListReadSetUploadPartsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReadSetUploadPartsResponse {
         return try await self.client.execute(
@@ -960,7 +960,7 @@ public struct Omics: AWSService {
         )
     }
 
-    ///  Lists all shares associated with an account.
+    /// Retrieves the resource shares associated with an account. Use the filter parameter to  retrieve a specific subset of the shares.
     @Sendable
     public func listShares(_ input: ListSharesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSharesResponse {
         return try await self.client.execute(
@@ -1100,7 +1100,7 @@ public struct Omics: AWSService {
         )
     }
 
-    /// Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The remaining parameters are copied from the previous run. The total number of runs in your account is subject to a quota per Region. To avoid needing to delete runs manually, you can set the retention mode to REMOVE. Runs with this setting are deleted automatically when the run quoata is exceeded.
+    /// Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The remaining parameters are copied from the previous run. StartRun will not support re-run for a workflow that is shared with you. The total number of runs in your account is subject to a quota per Region. To avoid needing to delete runs manually, you can set the retention mode to REMOVE. Runs with this setting are deleted automatically when the run quoata is exceeded. By default, the run uses STATIC storage. For STATIC storage, set the storageCapacity field.  You can set the storage type to DYNAMIC. You do not set storageCapacity, because HealthOmics dynamically scales the storage up or down as required. For more information about static and dynamic storage, see Running workflows  in the AWS HealthOmics User Guide.
     @Sendable
     public func startRun(_ input: StartRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRunResponse {
         return try await self.client.execute(
@@ -1226,7 +1226,7 @@ public struct Omics: AWSService {
         )
     }
 
-    ///  This operation uploads a specific part of a read set. If you upload a new part using a previously used part number, the previously uploaded part will be overwritten.
+    /// This operation uploads a specific part of a read set. If you upload a new part using a previously used part number,  the previously uploaded part will be overwritten.
     @Sendable
     public func uploadReadSetPart(_ input: UploadReadSetPartRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UploadReadSetPartResponse {
         return try await self.client.execute(
@@ -1311,7 +1311,7 @@ extension Omics {
         )
     }
 
-    ///  Lists multipart read set uploads and for in progress uploads. Once the upload is completed, a read set is created and the upload will no longer be returned in the respone.
+    /// Lists multipart read set uploads and for in progress uploads.  Once the upload is completed, a read set is created and the upload will no longer be returned in the response.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1387,7 +1387,7 @@ extension Omics {
         )
     }
 
-    ///  This operation will list all parts in a requested multipart upload for a sequence store.
+    /// This operation will list all parts in a requested multipart upload for a sequence store.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1558,7 +1558,7 @@ extension Omics {
         )
     }
 
-    ///  Lists all shares associated with an account.
+    /// Retrieves the resource shares associated with an account. Use the filter parameter to  retrieve a specific subset of the shares.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

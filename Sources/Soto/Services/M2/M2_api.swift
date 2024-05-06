@@ -345,6 +345,19 @@ public struct M2: AWSService {
         )
     }
 
+    /// Lists all the job steps for JCL files to restart a batch job. This is only applicable for Micro Focus engine with versions 8.0.6 and above.
+    @Sendable
+    public func listBatchJobRestartPoints(_ input: ListBatchJobRestartPointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBatchJobRestartPointsResponse {
+        return try await self.client.execute(
+            operation: "ListBatchJobRestartPoints", 
+            path: "/applications/{applicationId}/batch-job-executions/{executionId}/steps", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists the data set imports for the specified application.
     @Sendable
     public func listDataSetImportHistory(_ input: ListDataSetImportHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSetImportHistoryResponse {

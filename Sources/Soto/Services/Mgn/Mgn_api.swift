@@ -904,7 +904,7 @@ public struct Mgn: AWSService {
         )
     }
 
-    /// Updates multiple LaunchConfigurations by Source Server ID.
+    /// Updates multiple LaunchConfigurations by Source Server ID.  bootMode valid values are LEGACY_BIOS | UEFI
     @Sendable
     public func updateLaunchConfiguration(_ input: UpdateLaunchConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> LaunchConfiguration {
         return try await self.client.execute(

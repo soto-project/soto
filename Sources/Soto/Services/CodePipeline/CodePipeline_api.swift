@@ -517,6 +517,19 @@ public struct CodePipeline: AWSService {
         )
     }
 
+    /// Rolls back a stage execution.
+    @Sendable
+    public func rollbackStage(_ input: RollbackStageInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RollbackStageOutput {
+        return try await self.client.execute(
+            operation: "RollbackStage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Starts the specified pipeline. Specifically, it begins processing the latest commit to the source location specified as part of the pipeline.
     @Sendable
     public func startPipelineExecution(_ input: StartPipelineExecutionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartPipelineExecutionOutput {
@@ -748,6 +761,7 @@ extension CodePipeline.ListActionTypesInput: AWSPaginateToken {
 extension CodePipeline.ListPipelineExecutionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodePipeline.ListPipelineExecutionsInput {
         return .init(
+            filter: self.filter,
             maxResults: self.maxResults,
             nextToken: token,
             pipelineName: self.pipelineName

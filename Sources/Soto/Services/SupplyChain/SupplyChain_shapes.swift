@@ -35,6 +35,25 @@ extension SupplyChain {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataIntegrationEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case forecast = "scn.data.forecast"
+        case inboundOrder = "scn.data.inboundorder"
+        case inboundOrderLine = "scn.data.inboundorderline"
+        case inboundOrderLineSchedule = "scn.data.inboundorderlineschedule"
+        case inventoryLevel = "scn.data.inventorylevel"
+        case outboundOrderLine = "scn.data.outboundorderline"
+        case outboundShipment = "scn.data.outboundshipment"
+        case processHeader = "scn.data.processheader"
+        case processOperation = "scn.data.processoperation"
+        case processProduct = "scn.data.processproduct"
+        case reservation = "scn.data.reservation"
+        case shipment = "scn.data.shipment"
+        case shipmentStop = "scn.data.shipmentstop"
+        case shipmentStopOrder = "scn.data.shipmentstoporder"
+        case supplyPlan = "scn.data.supplyplan"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct BillOfMaterialsImportJob: AWSDecodableShape {
@@ -157,6 +176,74 @@ extension SupplyChain {
 
         private enum CodingKeys: String, CodingKey {
             case job = "job"
+        }
+    }
+
+    public struct SendDataIntegrationEventRequest: AWSEncodableShape {
+        /// The idempotent client token.
+        public let clientToken: String?
+        /// The data payload of the event.
+        public let data: String
+        /// Event identifier (for example, orderId for InboundOrder) used for data sharing or partitioning.
+        public let eventGroupId: String
+        /// The event timestamp (in epoch seconds).
+        public let eventTimestamp: Date?
+        /// The data event type.
+        public let eventType: DataIntegrationEventType
+        /// The AWS Supply Chain instance identifier.
+        public let instanceId: String
+
+        public init(clientToken: String? = SendDataIntegrationEventRequest.idempotencyToken(), data: String, eventGroupId: String, eventTimestamp: Date? = nil, eventType: DataIntegrationEventType, instanceId: String) {
+            self.clientToken = clientToken
+            self.data = data
+            self.eventGroupId = eventGroupId
+            self.eventTimestamp = eventTimestamp
+            self.eventType = eventType
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.data, forKey: .data)
+            try container.encode(self.eventGroupId, forKey: .eventGroupId)
+            try container.encodeIfPresent(self.eventTimestamp, forKey: .eventTimestamp)
+            try container.encode(self.eventType, forKey: .eventType)
+            request.encodePath(self.instanceId, key: "instanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 126)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.data, name: "data", parent: name, max: 1048576)
+            try self.validate(self.data, name: "data", parent: name, min: 1)
+            try self.validate(self.eventGroupId, name: "eventGroupId", parent: name, max: 255)
+            try self.validate(self.eventGroupId, name: "eventGroupId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 36)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case data = "data"
+            case eventGroupId = "eventGroupId"
+            case eventTimestamp = "eventTimestamp"
+            case eventType = "eventType"
+        }
+    }
+
+    public struct SendDataIntegrationEventResponse: AWSDecodableShape {
+        /// The unique event identifier.
+        public let eventId: String
+
+        public init(eventId: String) {
+            self.eventId = eventId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventId = "eventId"
         }
     }
 }

@@ -612,28 +612,36 @@ extension LakeFormation {
         public let externalFiltering: ExternalFilteringConfiguration?
         /// The ARN of the IAM Identity Center instance for which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String?
+        /// A list of Amazon Web Services account IDs and/or Amazon Web Services organization/organizational unit ARNs that are allowed to access data managed by Lake Formation.  If the ShareRecipients list includes valid values, a resource share is created with the principals you want to have access to the resources. If the ShareRecipients value is null or the list is empty, no resource share is created.
+        public let shareRecipients: [DataLakePrincipal]?
 
-        public init(catalogId: String? = nil, externalFiltering: ExternalFilteringConfiguration? = nil, instanceArn: String? = nil) {
+        public init(catalogId: String? = nil, externalFiltering: ExternalFilteringConfiguration? = nil, instanceArn: String? = nil, shareRecipients: [DataLakePrincipal]? = nil) {
             self.catalogId = catalogId
             self.externalFiltering = externalFiltering
             self.instanceArn = instanceArn
+            self.shareRecipients = shareRecipients
         }
 
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.shareRecipients?.forEach {
+                try $0.validate(name: "\(name).shareRecipients[]")
+            }
+            try self.validate(self.shareRecipients, name: "shareRecipients", parent: name, max: 30)
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case externalFiltering = "ExternalFiltering"
             case instanceArn = "InstanceArn"
+            case shareRecipients = "ShareRecipients"
         }
     }
 
     public struct CreateLakeFormationIdentityCenterConfigurationResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the integrated application.
+        /// The Amazon Resource Name (ARN) of the Lake Formation application integrated with IAM Identity Center.
         public let applicationArn: String?
 
         public init(applicationArn: String? = nil) {
@@ -1174,7 +1182,7 @@ extension LakeFormation {
     }
 
     public struct DescribeLakeFormationIdentityCenterConfigurationResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the integrated application.
+        /// The Amazon Resource Name (ARN) of the Lake Formation application integrated with IAM Identity Center.
         public let applicationArn: String?
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
@@ -1182,12 +1190,18 @@ extension LakeFormation {
         public let externalFiltering: ExternalFilteringConfiguration?
         /// The Amazon Resource Name (ARN) of the connection.
         public let instanceArn: String?
+        /// The Amazon Resource Name (ARN) of the RAM share.
+        public let resourceShare: String?
+        /// A list of Amazon Web Services account IDs or Amazon Web Services organization/organizational unit ARNs that are allowed to access data managed by Lake Formation.  If the ShareRecipients list includes valid values, a resource share is created with the principals you want to have access to the resources as the ShareRecipients. If the ShareRecipients value is null or the list is empty, no resource share is created.
+        public let shareRecipients: [DataLakePrincipal]?
 
-        public init(applicationArn: String? = nil, catalogId: String? = nil, externalFiltering: ExternalFilteringConfiguration? = nil, instanceArn: String? = nil) {
+        public init(applicationArn: String? = nil, catalogId: String? = nil, externalFiltering: ExternalFilteringConfiguration? = nil, instanceArn: String? = nil, resourceShare: String? = nil, shareRecipients: [DataLakePrincipal]? = nil) {
             self.applicationArn = applicationArn
             self.catalogId = catalogId
             self.externalFiltering = externalFiltering
             self.instanceArn = instanceArn
+            self.resourceShare = resourceShare
+            self.shareRecipients = shareRecipients
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1195,6 +1209,8 @@ extension LakeFormation {
             case catalogId = "CatalogId"
             case externalFiltering = "ExternalFiltering"
             case instanceArn = "InstanceArn"
+            case resourceShare = "ResourceShare"
+            case shareRecipients = "ShareRecipients"
         }
     }
 
@@ -3471,23 +3487,31 @@ extension LakeFormation {
         public let catalogId: String?
         /// A list of the account IDs of Amazon Web Services accounts of third-party applications that are allowed to access data managed by Lake Formation.
         public let externalFiltering: ExternalFilteringConfiguration?
+        /// A list of Amazon Web Services account IDs or Amazon Web Services organization/organizational unit ARNs that are allowed to access to access data managed by Lake Formation.  If the ShareRecipients list includes valid values, then the resource share is updated with the principals you want to have access to the resources. If the ShareRecipients value is null, both the list of share recipients and the resource share remain unchanged. If the ShareRecipients value is an empty list, then the existing share recipients list will be cleared, and the resource share will be deleted.
+        public let shareRecipients: [DataLakePrincipal]?
 
-        public init(applicationStatus: ApplicationStatus? = nil, catalogId: String? = nil, externalFiltering: ExternalFilteringConfiguration? = nil) {
+        public init(applicationStatus: ApplicationStatus? = nil, catalogId: String? = nil, externalFiltering: ExternalFilteringConfiguration? = nil, shareRecipients: [DataLakePrincipal]? = nil) {
             self.applicationStatus = applicationStatus
             self.catalogId = catalogId
             self.externalFiltering = externalFiltering
+            self.shareRecipients = shareRecipients
         }
 
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.shareRecipients?.forEach {
+                try $0.validate(name: "\(name).shareRecipients[]")
+            }
+            try self.validate(self.shareRecipients, name: "shareRecipients", parent: name, max: 30)
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationStatus = "ApplicationStatus"
             case catalogId = "CatalogId"
             case externalFiltering = "ExternalFiltering"
+            case shareRecipients = "ShareRecipients"
         }
     }
 

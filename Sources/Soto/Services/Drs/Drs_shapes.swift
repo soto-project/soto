@@ -397,6 +397,7 @@ extension Drs {
         case containsMarketplaceProductCodes = "CONTAINS_MARKETPLACE_PRODUCT_CODES"
         case missingVolumeAttributes = "MISSING_VOLUME_ATTRIBUTES"
         case missingVolumeAttributesAndPrecheckUnavailable = "MISSING_VOLUME_ATTRIBUTES_AND_PRECHECK_UNAVAILABLE"
+        case pending = "PENDING"
         case regular = "REGULAR"
         public var description: String { return self.rawValue }
     }
@@ -795,8 +796,10 @@ extension Drs {
         public let replicatedDisks: [DataReplicationInfoReplicatedDisk]?
         /// AWS Availability zone into which data is being replicated.
         public let stagingAvailabilityZone: String?
+        /// The ARN of the staging Outpost
+        public let stagingOutpostArn: String?
 
-        public init(dataReplicationError: DataReplicationError? = nil, dataReplicationInitiation: DataReplicationInitiation? = nil, dataReplicationState: DataReplicationState? = nil, etaDateTime: String? = nil, lagDuration: String? = nil, replicatedDisks: [DataReplicationInfoReplicatedDisk]? = nil, stagingAvailabilityZone: String? = nil) {
+        public init(dataReplicationError: DataReplicationError? = nil, dataReplicationInitiation: DataReplicationInitiation? = nil, dataReplicationState: DataReplicationState? = nil, etaDateTime: String? = nil, lagDuration: String? = nil, replicatedDisks: [DataReplicationInfoReplicatedDisk]? = nil, stagingAvailabilityZone: String? = nil, stagingOutpostArn: String? = nil) {
             self.dataReplicationError = dataReplicationError
             self.dataReplicationInitiation = dataReplicationInitiation
             self.dataReplicationState = dataReplicationState
@@ -804,6 +807,7 @@ extension Drs {
             self.lagDuration = lagDuration
             self.replicatedDisks = replicatedDisks
             self.stagingAvailabilityZone = stagingAvailabilityZone
+            self.stagingOutpostArn = stagingOutpostArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -814,6 +818,7 @@ extension Drs {
             case lagDuration = "lagDuration"
             case replicatedDisks = "replicatedDisks"
             case stagingAvailabilityZone = "stagingAvailabilityZone"
+            case stagingOutpostArn = "stagingOutpostArn"
         }
     }
 
@@ -2677,12 +2682,14 @@ extension Drs {
         public let recoveryInstanceID: String?
         /// Properties of the Recovery Instance machine.
         public let recoveryInstanceProperties: RecoveryInstanceProperties?
+        /// The ARN of the source Outpost
+        public let sourceOutpostArn: String?
         /// The Source Server ID that this Recovery Instance is associated with.
         public let sourceServerID: String?
         /// An array of tags that are associated with the Recovery Instance.
         public let tags: [String: String]?
 
-        public init(agentVersion: String? = nil, arn: String? = nil, dataReplicationInfo: RecoveryInstanceDataReplicationInfo? = nil, ec2InstanceID: String? = nil, ec2InstanceState: EC2InstanceState? = nil, failback: RecoveryInstanceFailback? = nil, isDrill: Bool? = nil, jobID: String? = nil, originAvailabilityZone: String? = nil, originEnvironment: OriginEnvironment? = nil, pointInTimeSnapshotDateTime: String? = nil, recoveryInstanceID: String? = nil, recoveryInstanceProperties: RecoveryInstanceProperties? = nil, sourceServerID: String? = nil, tags: [String: String]? = nil) {
+        public init(agentVersion: String? = nil, arn: String? = nil, dataReplicationInfo: RecoveryInstanceDataReplicationInfo? = nil, ec2InstanceID: String? = nil, ec2InstanceState: EC2InstanceState? = nil, failback: RecoveryInstanceFailback? = nil, isDrill: Bool? = nil, jobID: String? = nil, originAvailabilityZone: String? = nil, originEnvironment: OriginEnvironment? = nil, pointInTimeSnapshotDateTime: String? = nil, recoveryInstanceID: String? = nil, recoveryInstanceProperties: RecoveryInstanceProperties? = nil, sourceOutpostArn: String? = nil, sourceServerID: String? = nil, tags: [String: String]? = nil) {
             self.agentVersion = agentVersion
             self.arn = arn
             self.dataReplicationInfo = dataReplicationInfo
@@ -2696,6 +2703,7 @@ extension Drs {
             self.pointInTimeSnapshotDateTime = pointInTimeSnapshotDateTime
             self.recoveryInstanceID = recoveryInstanceID
             self.recoveryInstanceProperties = recoveryInstanceProperties
+            self.sourceOutpostArn = sourceOutpostArn
             self.sourceServerID = sourceServerID
             self.tags = tags
         }
@@ -2714,6 +2722,7 @@ extension Drs {
             case pointInTimeSnapshotDateTime = "pointInTimeSnapshotDateTime"
             case recoveryInstanceID = "recoveryInstanceID"
             case recoveryInstanceProperties = "recoveryInstanceProperties"
+            case sourceOutpostArn = "sourceOutpostArn"
             case sourceServerID = "sourceServerID"
             case tags = "tags"
         }
@@ -2751,8 +2760,10 @@ extension Drs {
         public let replicatedDisks: [RecoveryInstanceDataReplicationInfoReplicatedDisk]?
         /// AWS Availability zone into which data is being replicated.
         public let stagingAvailabilityZone: String?
+        /// The ARN of the staging Outpost
+        public let stagingOutpostArn: String?
 
-        public init(dataReplicationError: RecoveryInstanceDataReplicationError? = nil, dataReplicationInitiation: RecoveryInstanceDataReplicationInitiation? = nil, dataReplicationState: RecoveryInstanceDataReplicationState? = nil, etaDateTime: String? = nil, lagDuration: String? = nil, replicatedDisks: [RecoveryInstanceDataReplicationInfoReplicatedDisk]? = nil, stagingAvailabilityZone: String? = nil) {
+        public init(dataReplicationError: RecoveryInstanceDataReplicationError? = nil, dataReplicationInitiation: RecoveryInstanceDataReplicationInitiation? = nil, dataReplicationState: RecoveryInstanceDataReplicationState? = nil, etaDateTime: String? = nil, lagDuration: String? = nil, replicatedDisks: [RecoveryInstanceDataReplicationInfoReplicatedDisk]? = nil, stagingAvailabilityZone: String? = nil, stagingOutpostArn: String? = nil) {
             self.dataReplicationError = dataReplicationError
             self.dataReplicationInitiation = dataReplicationInitiation
             self.dataReplicationState = dataReplicationState
@@ -2760,6 +2771,7 @@ extension Drs {
             self.lagDuration = lagDuration
             self.replicatedDisks = replicatedDisks
             self.stagingAvailabilityZone = stagingAvailabilityZone
+            self.stagingOutpostArn = stagingOutpostArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2770,6 +2782,7 @@ extension Drs {
             case lagDuration = "lagDuration"
             case replicatedDisks = "replicatedDisks"
             case stagingAvailabilityZone = "stagingAvailabilityZone"
+            case stagingOutpostArn = "stagingOutpostArn"
         }
     }
 
@@ -3244,17 +3257,21 @@ extension Drs {
         public let originAvailabilityZone: String?
         /// AWS Region for an EC2-originated Source Server.
         public let originRegion: String?
+        /// The ARN of the source Outpost
+        public let sourceOutpostArn: String?
 
-        public init(originAccountID: String? = nil, originAvailabilityZone: String? = nil, originRegion: String? = nil) {
+        public init(originAccountID: String? = nil, originAvailabilityZone: String? = nil, originRegion: String? = nil, sourceOutpostArn: String? = nil) {
             self.originAccountID = originAccountID
             self.originAvailabilityZone = originAvailabilityZone
             self.originRegion = originRegion
+            self.sourceOutpostArn = sourceOutpostArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case originAccountID = "originAccountID"
             case originAvailabilityZone = "originAvailabilityZone"
             case originRegion = "originRegion"
+            case sourceOutpostArn = "sourceOutpostArn"
         }
     }
 

@@ -3118,6 +3118,8 @@ extension OpenSearch {
         public let deleted: Bool?
         /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
         public let domainEndpointOptions: DomainEndpointOptions?
+        /// The DualStack Hosted Zone Id for the domain.
+        public let domainEndpointV2HostedZoneId: String?
         /// Unique identifier for the domain.
         public let domainId: String
         /// Name of the domain. Domain names are unique across all domains owned by the same account within an Amazon Web Services Region.
@@ -3130,7 +3132,7 @@ extension OpenSearch {
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
         /// Domain-specific endpoint used to submit index, search, and data upload requests to the domain.
         public let endpoint: String?
-        /// The key-value pair that exists if the OpenSearch Service domain uses VPC endpoints. Example key, value: 'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'.
+        /// The key-value pair that exists if the OpenSearch Service domain uses VPC endpoints. For example:    IPv4 IP addresses - 'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'     Dual stack IP addresses - 'vpcv2':'vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.aos.us-east-1.on.aws'
         public let endpoints: [String: String]?
         /// If IPAddressType to set to dualstack, a version 2 domain endpoint is provisioned. This endpoint functions like a normal endpoint, except that it works with both IPv4 and IPv6 IP addresses. Normal endpoints work only with IPv4 IP addresses.
         public let endpointV2: String?
@@ -3159,7 +3161,7 @@ extension OpenSearch {
         /// The VPC configuration for the domain.
         public let vpcOptions: VPCDerivedInfo?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, domainProcessingStatus: DomainProcessingStatusType? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, endpointV2: String? = nil, engineVersion: String? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainEndpointV2HostedZoneId: String? = nil, domainId: String, domainName: String, domainProcessingStatus: DomainProcessingStatusType? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, endpointV2: String? = nil, engineVersion: String? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -3171,6 +3173,7 @@ extension OpenSearch {
             self.created = created
             self.deleted = deleted
             self.domainEndpointOptions = domainEndpointOptions
+            self.domainEndpointV2HostedZoneId = domainEndpointV2HostedZoneId
             self.domainId = domainId
             self.domainName = domainName
             self.domainProcessingStatus = domainProcessingStatus
@@ -3205,6 +3208,7 @@ extension OpenSearch {
             case created = "Created"
             case deleted = "Deleted"
             case domainEndpointOptions = "DomainEndpointOptions"
+            case domainEndpointV2HostedZoneId = "DomainEndpointV2HostedZoneId"
             case domainId = "DomainId"
             case domainName = "DomainName"
             case domainProcessingStatus = "DomainProcessingStatus"

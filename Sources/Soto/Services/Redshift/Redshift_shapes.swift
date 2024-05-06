@@ -8565,6 +8565,8 @@ extension Redshift {
         /// The list of node types that this cluster snapshot is able to restore into.
         @OptionalCustomCoding<ArrayCoder<_RestorableNodeTypesEncoding, String>>
         public var restorableNodeTypes: [String]?
+        /// The Amazon Resource Name (ARN) of the snapshot.
+        public let snapshotArn: String?
         /// The time (in UTC format) when Amazon Redshift began the snapshot. A snapshot contains a copy of the cluster data as of this exact time.
         public let snapshotCreateTime: Date?
         /// The snapshot identifier that is provided in the request.
@@ -8585,7 +8587,7 @@ extension Redshift {
         /// The VPC identifier of the cluster if the snapshot is from a cluster in a VPC. Otherwise, this field is not in the output.
         public let vpcId: String?
 
-        public init(accountsWithRestoreAccess: [AccountWithRestoreAccess]? = nil, actualIncrementalBackupSizeInMegaBytes: Double? = nil, availabilityZone: String? = nil, backupProgressInMegaBytes: Double? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterVersion: String? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, dbName: String? = nil, elapsedTimeInSeconds: Int64? = nil, encrypted: Bool? = nil, encryptedWithHSM: Bool? = nil, engineFullVersion: String? = nil, enhancedVpcRouting: Bool? = nil, estimatedSecondsToCompletion: Int64? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRemainingDays: Int? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretArn: String? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUsername: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, restorableNodeTypes: [String]? = nil, snapshotCreateTime: Date? = nil, snapshotIdentifier: String? = nil, snapshotRetentionStartTime: Date? = nil, snapshotType: String? = nil, sourceRegion: String? = nil, status: String? = nil, tags: [Tag]? = nil, totalBackupSizeInMegaBytes: Double? = nil, vpcId: String? = nil) {
+        public init(accountsWithRestoreAccess: [AccountWithRestoreAccess]? = nil, actualIncrementalBackupSizeInMegaBytes: Double? = nil, availabilityZone: String? = nil, backupProgressInMegaBytes: Double? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterVersion: String? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, dbName: String? = nil, elapsedTimeInSeconds: Int64? = nil, encrypted: Bool? = nil, encryptedWithHSM: Bool? = nil, engineFullVersion: String? = nil, enhancedVpcRouting: Bool? = nil, estimatedSecondsToCompletion: Int64? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRemainingDays: Int? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretArn: String? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUsername: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, restorableNodeTypes: [String]? = nil, snapshotArn: String? = nil, snapshotCreateTime: Date? = nil, snapshotIdentifier: String? = nil, snapshotRetentionStartTime: Date? = nil, snapshotType: String? = nil, sourceRegion: String? = nil, status: String? = nil, tags: [Tag]? = nil, totalBackupSizeInMegaBytes: Double? = nil, vpcId: String? = nil) {
             self.accountsWithRestoreAccess = accountsWithRestoreAccess
             self.actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytes
             self.availabilityZone = availabilityZone
@@ -8613,6 +8615,7 @@ extension Redshift {
             self.ownerAccount = ownerAccount
             self.port = port
             self.restorableNodeTypes = restorableNodeTypes
+            self.snapshotArn = snapshotArn
             self.snapshotCreateTime = snapshotCreateTime
             self.snapshotIdentifier = snapshotIdentifier
             self.snapshotRetentionStartTime = snapshotRetentionStartTime
@@ -8652,6 +8655,7 @@ extension Redshift {
             case ownerAccount = "OwnerAccount"
             case port = "Port"
             case restorableNodeTypes = "RestorableNodeTypes"
+            case snapshotArn = "SnapshotArn"
             case snapshotCreateTime = "SnapshotCreateTime"
             case snapshotIdentifier = "SnapshotIdentifier"
             case snapshotRetentionStartTime = "SnapshotRetentionStartTime"

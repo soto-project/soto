@@ -38,6 +38,30 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum EvaluationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "Completed"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationJobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automated = "Automated"
+        case human = "Human"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationTaskType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case classification = "Classification"
+        case custom = "Custom"
+        case generation = "Generation"
+        case questionAndAnswer = "QuestionAndAnswer"
+        case summarization = "Summarization"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FineTuningJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "Completed"
         case failed = "Failed"
@@ -50,6 +74,85 @@ extension Bedrock {
     public enum FoundationModelLifecycleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case legacy = "LEGACY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailContentFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hate = "HATE"
+        case insults = "INSULTS"
+        case misconduct = "MISCONDUCT"
+        case promptAttack = "PROMPT_ATTACK"
+        case sexual = "SEXUAL"
+        case violence = "VIOLENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailFilterStrength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailManagedWordsType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case profanity = "PROFANITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailPiiEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case address = "ADDRESS"
+        case age = "AGE"
+        case awsAccessKey = "AWS_ACCESS_KEY"
+        case awsSecretKey = "AWS_SECRET_KEY"
+        case caHealthNumber = "CA_HEALTH_NUMBER"
+        case caSocialInsuranceNumber = "CA_SOCIAL_INSURANCE_NUMBER"
+        case creditDebitCardCvv = "CREDIT_DEBIT_CARD_CVV"
+        case creditDebitCardExpiry = "CREDIT_DEBIT_CARD_EXPIRY"
+        case creditDebitCardNumber = "CREDIT_DEBIT_CARD_NUMBER"
+        case driverId = "DRIVER_ID"
+        case email = "EMAIL"
+        case internationalBankAccountNumber = "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+        case ipAddress = "IP_ADDRESS"
+        case licensePlate = "LICENSE_PLATE"
+        case macAddress = "MAC_ADDRESS"
+        case name = "NAME"
+        case password = "PASSWORD"
+        case phone = "PHONE"
+        case pin = "PIN"
+        case swiftCode = "SWIFT_CODE"
+        case ukNationalHealthServiceNumber = "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+        case ukNationalInsuranceNumber = "UK_NATIONAL_INSURANCE_NUMBER"
+        case ukUniqueTaxpayerReferenceNumber = "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
+        case url = "URL"
+        case usBankAccountNumber = "US_BANK_ACCOUNT_NUMBER"
+        case usBankRoutingNumber = "US_BANK_ROUTING_NUMBER"
+        case usIndividualTaxIdentificationNumber = "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+        case usPassportNumber = "US_PASSPORT_NUMBER"
+        case usSocialSecurityNumber = "US_SOCIAL_SECURITY_NUMBER"
+        case username = "USERNAME"
+        case vehicleIdentificationNumber = "VEHICLE_IDENTIFICATION_NUMBER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailSensitiveInformationAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case anonymize = "ANONYMIZE"
+        case block = "BLOCK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case ready = "READY"
+        case updating = "UPDATING"
+        case versioning = "VERSIONING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailTopicType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
@@ -110,14 +213,85 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum EvaluationConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Used to specify an automated model evaluation job. See AutomatedEvaluationConfig to view the required parameters.
+        case automated(AutomatedEvaluationConfig)
+        /// Used to specify a model evaluation job that uses human workers.See HumanEvaluationConfig to view the required parameters.
+        case human(HumanEvaluationConfig)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .automated:
+                let value = try container.decode(AutomatedEvaluationConfig.self, forKey: .automated)
+                self = .automated(value)
+            case .human:
+                let value = try container.decode(HumanEvaluationConfig.self, forKey: .human)
+                self = .human(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .automated(let value):
+                try container.encode(value, forKey: .automated)
+            case .human(let value):
+                try container.encode(value, forKey: .human)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .automated(let value):
+                try value.validate(name: "\(name).automated")
+            case .human(let value):
+                try value.validate(name: "\(name).human")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automated = "automated"
+            case human = "human"
+        }
+    }
+
     // MARK: Shapes
+
+    public struct AutomatedEvaluationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the required elements for an automatic model evaluation job.
+        public let datasetMetricConfigs: [EvaluationDatasetMetricConfig]
+
+        public init(datasetMetricConfigs: [EvaluationDatasetMetricConfig]) {
+            self.datasetMetricConfigs = datasetMetricConfigs
+        }
+
+        public func validate(name: String) throws {
+            try self.datasetMetricConfigs.forEach {
+                try $0.validate(name: "\(name).datasetMetricConfigs[]")
+            }
+            try self.validate(self.datasetMetricConfigs, name: "datasetMetricConfigs", parent: name, max: 5)
+            try self.validate(self.datasetMetricConfigs, name: "datasetMetricConfigs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetMetricConfigs = "datasetMetricConfigs"
+        }
+    }
 
     public struct CloudWatchConfig: AWSEncodableShape & AWSDecodableShape {
         /// S3 configuration for delivering a large amount of data.
         public let largeDataDeliveryS3Config: S3Config?
         /// The log group name.
         public let logGroupName: String
-        /// The role ARN.
+        /// The role Amazon Resource Name (ARN).
         public let roleArn: String
 
         public init(largeDataDeliveryS3Config: S3Config? = nil, logGroupName: String, roleArn: String) {
@@ -141,28 +315,270 @@ extension Bedrock {
         }
     }
 
+    public struct CreateEvaluationJobRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+        public let clientRequestToken: String?
+        /// Specify your customer managed key ARN that will be used to encrypt your model evaluation job.
+        public let customerEncryptionKeyId: String?
+        /// Specifies whether the model evaluation job is automatic or uses human worker.
+        public let evaluationConfig: EvaluationConfig
+        /// Specify the models you want to use in your model evaluation job. Automatic model evaluation jobs support a single model, and model evaluation job that use human workers support two models.
+        public let inferenceConfig: EvaluationInferenceConfig
+        /// A description of the model evaluation job.
+        public let jobDescription: String?
+        /// The name of the model evaluation job. Model evaluation job names must unique with your AWS account, and your account's AWS region.
+        public let jobName: String
+        /// Tags to attach to the model evaluation job.
+        public let jobTags: [Tag]?
+        /// An object that defines where the results of model evaluation job will be saved in Amazon S3.
+        public let outputDataConfig: EvaluationOutputDataConfig
+        /// The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can assume to perform tasks on your behalf. The service role must have Amazon Bedrock as the service principal, and provide access to any Amazon S3 buckets specified in the EvaluationConfig object. To pass this role to Amazon Bedrock, the caller of this API must have the iam:PassRole permission. To learn more about the required permissions, see Required permissions.
+        public let roleArn: String
+
+        public init(clientRequestToken: String? = CreateEvaluationJobRequest.idempotencyToken(), customerEncryptionKeyId: String? = nil, evaluationConfig: EvaluationConfig, inferenceConfig: EvaluationInferenceConfig, jobDescription: String? = nil, jobName: String, jobTags: [Tag]? = nil, outputDataConfig: EvaluationOutputDataConfig, roleArn: String) {
+            self.clientRequestToken = clientRequestToken
+            self.customerEncryptionKeyId = customerEncryptionKeyId
+            self.evaluationConfig = evaluationConfig
+            self.inferenceConfig = inferenceConfig
+            self.jobDescription = jobDescription
+            self.jobName = jobName
+            self.jobTags = jobTags
+            self.outputDataConfig = outputDataConfig
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.customerEncryptionKeyId, name: "customerEncryptionKeyId", parent: name, max: 2048)
+            try self.validate(self.customerEncryptionKeyId, name: "customerEncryptionKeyId", parent: name, min: 1)
+            try self.validate(self.customerEncryptionKeyId, name: "customerEncryptionKeyId", parent: name, pattern: "^arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+))$")
+            try self.evaluationConfig.validate(name: "\(name).evaluationConfig")
+            try self.inferenceConfig.validate(name: "\(name).inferenceConfig")
+            try self.validate(self.jobDescription, name: "jobDescription", parent: name, max: 200)
+            try self.validate(self.jobDescription, name: "jobDescription", parent: name, min: 1)
+            try self.validate(self.jobDescription, name: "jobDescription", parent: name, pattern: "^.+$")
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 63)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9]){0,62}$")
+            try self.jobTags?.forEach {
+                try $0.validate(name: "\(name).jobTags[]")
+            }
+            try self.validate(self.jobTags, name: "jobTags", parent: name, max: 200)
+            try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case customerEncryptionKeyId = "customerEncryptionKeyId"
+            case evaluationConfig = "evaluationConfig"
+            case inferenceConfig = "inferenceConfig"
+            case jobDescription = "jobDescription"
+            case jobName = "jobName"
+            case jobTags = "jobTags"
+            case outputDataConfig = "outputDataConfig"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct CreateEvaluationJobResponse: AWSDecodableShape {
+        /// The ARN of the model evaluation job.
+        public let jobArn: String
+
+        public init(jobArn: String) {
+            self.jobArn = jobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobArn = "jobArn"
+        }
+    }
+
+    public struct CreateGuardrailRequest: AWSEncodableShape {
+        /// The message to return when the guardrail blocks a prompt.
+        public let blockedInputMessaging: String
+        /// The message to return when the guardrail blocks a model response.
+        public let blockedOutputsMessaging: String
+        /// A unique, case-sensitive identifier to ensure that the API request  completes no more than once. If this token matches a previous request,  Amazon Bedrock ignores the request, but does not return an error.  For more information, see Ensuring  idempotency in the Amazon S3 User Guide.
+        public let clientRequestToken: String?
+        /// The content filter policies to configure for the guardrail.
+        public let contentPolicyConfig: GuardrailContentPolicyConfig?
+        /// A description of the guardrail.
+        public let description: String?
+        /// The ARN of the KMS key that you use to encrypt the guardrail.
+        public let kmsKeyId: String?
+        /// The name to give the guardrail.
+        public let name: String
+        /// The sensitive information policy to configure for the guardrail.
+        public let sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig?
+        /// The tags that you want to attach to the guardrail.
+        public let tags: [Tag]?
+        /// The topic policies to configure for the guardrail.
+        public let topicPolicyConfig: GuardrailTopicPolicyConfig?
+        /// The word policy you configure for the guardrail.
+        public let wordPolicyConfig: GuardrailWordPolicyConfig?
+
+        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, clientRequestToken: String? = CreateGuardrailRequest.idempotencyToken(), contentPolicyConfig: GuardrailContentPolicyConfig? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig? = nil, tags: [Tag]? = nil, topicPolicyConfig: GuardrailTopicPolicyConfig? = nil, wordPolicyConfig: GuardrailWordPolicyConfig? = nil) {
+            self.blockedInputMessaging = blockedInputMessaging
+            self.blockedOutputsMessaging = blockedOutputsMessaging
+            self.clientRequestToken = clientRequestToken
+            self.contentPolicyConfig = contentPolicyConfig
+            self.description = description
+            self.kmsKeyId = kmsKeyId
+            self.name = name
+            self.sensitiveInformationPolicyConfig = sensitiveInformationPolicyConfig
+            self.tags = tags
+            self.topicPolicyConfig = topicPolicyConfig
+            self.wordPolicyConfig = wordPolicyConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.blockedInputMessaging, name: "blockedInputMessaging", parent: name, max: 500)
+            try self.validate(self.blockedInputMessaging, name: "blockedInputMessaging", parent: name, min: 1)
+            try self.validate(self.blockedOutputsMessaging, name: "blockedOutputsMessaging", parent: name, max: 500)
+            try self.validate(self.blockedOutputsMessaging, name: "blockedOutputsMessaging", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.contentPolicyConfig?.validate(name: "\(name).contentPolicyConfig")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+))$")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-zA-Z-_]+$")
+            try self.sensitiveInformationPolicyConfig?.validate(name: "\(name).sensitiveInformationPolicyConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.topicPolicyConfig?.validate(name: "\(name).topicPolicyConfig")
+            try self.wordPolicyConfig?.validate(name: "\(name).wordPolicyConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockedInputMessaging = "blockedInputMessaging"
+            case blockedOutputsMessaging = "blockedOutputsMessaging"
+            case clientRequestToken = "clientRequestToken"
+            case contentPolicyConfig = "contentPolicyConfig"
+            case description = "description"
+            case kmsKeyId = "kmsKeyId"
+            case name = "name"
+            case sensitiveInformationPolicyConfig = "sensitiveInformationPolicyConfig"
+            case tags = "tags"
+            case topicPolicyConfig = "topicPolicyConfig"
+            case wordPolicyConfig = "wordPolicyConfig"
+        }
+    }
+
+    public struct CreateGuardrailResponse: AWSDecodableShape {
+        /// The time at which the guardrail was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The ARN of the guardrail that was created.
+        public let guardrailArn: String
+        /// The unique identifier of the guardrail that was created.
+        public let guardrailId: String
+        /// The version of the guardrail that was created. This value should be 1.
+        public let version: String
+
+        public init(createdAt: Date, guardrailArn: String, guardrailId: String, version: String) {
+            self.createdAt = createdAt
+            self.guardrailArn = guardrailArn
+            self.guardrailId = guardrailId
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case guardrailArn = "guardrailArn"
+            case guardrailId = "guardrailId"
+            case version = "version"
+        }
+    }
+
+    public struct CreateGuardrailVersionRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request  completes no more than once. If this token matches a previous request,  Amazon Bedrock ignores the request, but does not return an error.  For more information, see Ensuring  idempotency in the Amazon S3 User Guide.
+        public let clientRequestToken: String?
+        /// A description of the guardrail version.
+        public let description: String?
+        /// The unique identifier of the guardrail.
+        public let guardrailIdentifier: String
+
+        public init(clientRequestToken: String? = CreateGuardrailVersionRequest.idempotencyToken(), description: String? = nil, guardrailIdentifier: String) {
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.guardrailIdentifier = guardrailIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.guardrailIdentifier, key: "guardrailIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case description = "description"
+        }
+    }
+
+    public struct CreateGuardrailVersionResponse: AWSDecodableShape {
+        /// The unique identifier of the guardrail.
+        public let guardrailId: String
+        /// The number of the version of the guardrail.
+        public let version: String
+
+        public init(guardrailId: String, version: String) {
+            self.guardrailId = guardrailId
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardrailId = "guardrailId"
+            case version = "version"
+        }
+    }
+
     public struct CreateModelCustomizationJobRequest: AWSEncodableShape {
         /// Name of the base model.
         public let baseModelIdentifier: String
-        /// Unique token value that you can provide. The GetModelCustomizationJob response includes the same token value.
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
         public let clientRequestToken: String?
         /// The customization type.
         public let customizationType: CustomizationType?
         /// The custom model is encrypted at rest using this key.
         public let customModelKmsKeyId: String?
-        /// Enter a name for the custom model.
+        /// A name for the resulting custom model.
         public let customModelName: String
-        /// Assign tags to the custom model.
+        /// Tags to attach to the resulting custom model.
         public let customModelTags: [Tag]?
-        /// Parameters related to tuning the model.
+        /// Parameters related to tuning the model. For details on the format for different models, see Custom model hyperparameters.
         public let hyperParameters: [String: String]
-        /// Enter a unique name for the fine-tuning job.
+        /// A name for the fine-tuning job.
         public let jobName: String
-        /// Assign tags to the job.
+        /// Tags to attach to the job.
         public let jobTags: [Tag]?
         /// S3 location for the output data.
         public let outputDataConfig: OutputDataConfig
-        /// The Amazon Resource Name (ARN) of an IAM role that Amazon Bedrock can assume to perform tasks on your behalf. For example, during model training, Amazon Bedrock needs your permission to read input data from an S3 bucket, write model artifacts to an S3 bucket. To pass this role to Amazon Bedrock, the caller of this API must have the iam:PassRole permission.
+        /// The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can assume to perform tasks on your behalf. For example, during model training, Amazon Bedrock needs your permission to read input data from an S3 bucket, write model artifacts to an S3 bucket. To pass this role to Amazon Bedrock, the caller of this API must have the iam:PassRole permission.
         public let roleArn: String
         /// Information about the training dataset.
         public let trainingDataConfig: TrainingDataConfig
@@ -239,7 +655,7 @@ extension Bedrock {
     }
 
     public struct CreateModelCustomizationJobResponse: AWSDecodableShape {
-        /// ARN of the fine tuning job
+        /// Amazon Resource Name (ARN) of the fine tuning job
         public let jobArn: String
 
         public init(jobArn: String) {
@@ -252,17 +668,17 @@ extension Bedrock {
     }
 
     public struct CreateProvisionedModelThroughputRequest: AWSEncodableShape {
-        /// Unique token value that you can provide. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency in the Amazon S3 User Guide.
         public let clientRequestToken: String?
-        /// Commitment duration requested for the provisioned throughput.
+        /// The commitment duration requested for the Provisioned Throughput. Billing occurs hourly and is discounted for longer commitment terms. To request a no-commit Provisioned Throughput, omit this field. Custom models support all levels of commitment. To see which base models support no commitment, see Supported regions and models for Provisioned Throughput in the Amazon Bedrock User Guide
         public let commitmentDuration: CommitmentDuration?
-        /// Name or ARN of the model to associate with this provisioned throughput.
+        /// The Amazon Resource Name (ARN) or name of the model to associate with this Provisioned Throughput. For a list of models for which you can purchase Provisioned Throughput, see Amazon Bedrock model IDs for purchasing Provisioned Throughput in the Amazon Bedrock User Guide.
         public let modelId: String
-        /// Number of model units to allocate.
+        /// Number of model units to allocate. A model unit delivers a specific throughput level for the specified model. The throughput level of a model unit specifies the total number of input and output tokens that it can process and generate within a span of one minute. By default, your account has no model units for purchasing Provisioned Throughputs with commitment. You must first visit the Amazon Web Services support center to request MUs. For model unit quotas, see Provisioned Throughput quotas in the Amazon Bedrock User Guide. For more information about what an MU specifies, contact your Amazon Web Services account manager.
         public let modelUnits: Int
-        /// Unique name for this provisioned throughput.
+        /// The name for this Provisioned Throughput.
         public let provisionedModelName: String
-        /// Tags to associate with this provisioned throughput.
+        /// Tags to associate with this Provisioned Throughput.
         public let tags: [Tag]?
 
         public init(clientRequestToken: String? = CreateProvisionedModelThroughputRequest.idempotencyToken(), commitmentDuration: CommitmentDuration? = nil, modelId: String, modelUnits: Int, provisionedModelName: String, tags: [Tag]? = nil) {
@@ -302,7 +718,7 @@ extension Bedrock {
     }
 
     public struct CreateProvisionedModelThroughputResponse: AWSDecodableShape {
-        /// The ARN for this provisioned throughput.
+        /// The Amazon Resource Name (ARN) for this Provisioned Throughput.
         public let provisionedModelArn: String
 
         public init(provisionedModelArn: String) {
@@ -315,7 +731,7 @@ extension Bedrock {
     }
 
     public struct CustomModelSummary: AWSDecodableShape {
-        /// The base model ARN.
+        /// The base model Amazon Resource Name (ARN).
         public let baseModelArn: String
         /// The base model name.
         public let baseModelName: String
@@ -324,7 +740,7 @@ extension Bedrock {
         public var creationTime: Date
         /// Specifies whether to carry out continued pre-training of a model or whether to fine-tune it. For more information, see Custom models.
         public let customizationType: CustomizationType?
-        /// The ARN of the custom model.
+        /// The Amazon Resource Name (ARN) of the custom model.
         public let modelArn: String
         /// The name of the custom model.
         public let modelName: String
@@ -375,6 +791,37 @@ extension Bedrock {
         public init() {}
     }
 
+    public struct DeleteGuardrailRequest: AWSEncodableShape {
+        /// The unique identifier of the guardrail.
+        public let guardrailIdentifier: String
+        /// The version of the guardrail.
+        public let guardrailVersion: String?
+
+        public init(guardrailIdentifier: String, guardrailVersion: String? = nil) {
+            self.guardrailIdentifier = guardrailIdentifier
+            self.guardrailVersion = guardrailVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.guardrailIdentifier, key: "guardrailIdentifier")
+            request.encodeQuery(self.guardrailVersion, key: "guardrailVersion")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^[1-9][0-9]{0,7}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteGuardrailResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteModelInvocationLoggingConfigurationRequest: AWSEncodableShape {
         public init() {}
     }
@@ -384,7 +831,7 @@ extension Bedrock {
     }
 
     public struct DeleteProvisionedModelThroughputRequest: AWSEncodableShape {
-        /// The ARN or name of the provisioned throughput.
+        /// The Amazon Resource Name (ARN) or name of the Provisioned Throughput.
         public let provisionedModelId: String
 
         public init(provisionedModelId: String) {
@@ -408,6 +855,144 @@ extension Bedrock {
         public init() {}
     }
 
+    public struct EvaluationBedrockModel: AWSEncodableShape & AWSDecodableShape {
+        /// Each Amazon Bedrock support different inference parameters that change how the model behaves during inference.
+        public let inferenceParams: String
+        /// The ARN of the Amazon Bedrock model specified.
+        public let modelIdentifier: String
+
+        public init(inferenceParams: String, modelIdentifier: String) {
+            self.inferenceParams = inferenceParams
+            self.modelIdentifier = modelIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inferenceParams, name: "inferenceParams", parent: name, max: 1023)
+            try self.validate(self.inferenceParams, name: "inferenceParams", parent: name, min: 1)
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, max: 2048)
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, min: 1)
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inferenceParams = "inferenceParams"
+            case modelIdentifier = "modelIdentifier"
+        }
+    }
+
+    public struct EvaluationDataset: AWSEncodableShape & AWSDecodableShape {
+        /// For custom prompt datasets, you must specify the location in Amazon S3 where the prompt dataset is saved.
+        public let datasetLocation: EvaluationDatasetLocation?
+        /// Used to specify supported built-in prompt datasets. Valid values are Builtin.Bold, Builtin.BoolQ, Builtin.NaturalQuestions, Builtin.Gigaword, Builtin.RealToxicityPrompts, Builtin.TriviaQa, Builtin.T-Rex, Builtin.WomensEcommerceClothingReviews and Builtin.Wikitext2.
+        public let name: String
+
+        public init(datasetLocation: EvaluationDatasetLocation? = nil, name: String) {
+            self.datasetLocation = datasetLocation
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.datasetLocation?.validate(name: "\(name).datasetLocation")
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-zA-Z-_.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetLocation = "datasetLocation"
+            case name = "name"
+        }
+    }
+
+    public struct EvaluationDatasetMetricConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the prompt dataset.
+        public let dataset: EvaluationDataset
+        /// The names of the metrics used. For automated model evaluation jobs valid values are "Builtin.Accuracy", "Builtin.Robustness", and "Builtin.Toxicity". In human-based model evaluation jobs the array of strings must match the name parameter specified in HumanEvaluationCustomMetric.
+        public let metricNames: [String]
+        /// The task type you want the model to carry out.
+        public let taskType: EvaluationTaskType
+
+        public init(dataset: EvaluationDataset, metricNames: [String], taskType: EvaluationTaskType) {
+            self.dataset = dataset
+            self.metricNames = metricNames
+            self.taskType = taskType
+        }
+
+        public func validate(name: String) throws {
+            try self.dataset.validate(name: "\(name).dataset")
+            try self.metricNames.forEach {
+                try validate($0, name: "metricNames[]", parent: name, max: 63)
+                try validate($0, name: "metricNames[]", parent: name, min: 1)
+                try validate($0, name: "metricNames[]", parent: name, pattern: "^[0-9a-zA-Z-_.]+$")
+            }
+            try self.validate(self.metricNames, name: "metricNames", parent: name, max: 10)
+            try self.validate(self.metricNames, name: "metricNames", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataset = "dataset"
+            case metricNames = "metricNames"
+            case taskType = "taskType"
+        }
+    }
+
+    public struct EvaluationOutputDataConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 URI where the results of model evaluation job are saved.
+        public let s3Uri: String
+
+        public init(s3Uri: String) {
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "s3Uri"
+        }
+    }
+
+    public struct EvaluationSummary: AWSDecodableShape {
+        /// When the model evaluation job was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        /// What task type was used in the model evaluation job.
+        public let evaluationTaskTypes: [EvaluationTaskType]
+        /// The Amazon Resource Name (ARN) of the model evaluation job.
+        public let jobArn: String
+        /// The name of the model evaluation job.
+        public let jobName: String
+        /// The type, either human or automatic, of model evaluation job.
+        public let jobType: EvaluationJobType
+        /// The Amazon Resource Names (ARNs) of the model(s) used in the model evaluation job.
+        public let modelIdentifiers: [String]
+        /// The current status of the model evaluation job.
+        public let status: EvaluationJobStatus
+
+        public init(creationTime: Date, evaluationTaskTypes: [EvaluationTaskType], jobArn: String, jobName: String, jobType: EvaluationJobType, modelIdentifiers: [String], status: EvaluationJobStatus) {
+            self.creationTime = creationTime
+            self.evaluationTaskTypes = evaluationTaskTypes
+            self.jobArn = jobArn
+            self.jobName = jobName
+            self.jobType = jobType
+            self.modelIdentifiers = modelIdentifiers
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case evaluationTaskTypes = "evaluationTaskTypes"
+            case jobArn = "jobArn"
+            case jobName = "jobName"
+            case jobType = "jobType"
+            case modelIdentifiers = "modelIdentifiers"
+            case status = "status"
+        }
+    }
+
     public struct FoundationModelDetails: AWSDecodableShape {
         /// The customization that the model supports.
         public let customizationsSupported: [ModelCustomization]?
@@ -415,7 +1000,7 @@ extension Bedrock {
         public let inferenceTypesSupported: [InferenceType]?
         /// The input modalities that the model supports.
         public let inputModalities: [ModelModality]?
-        /// The model ARN.
+        /// The model Amazon Resource Name (ARN).
         public let modelArn: String
         /// The model identifier.
         public let modelId: String
@@ -425,7 +1010,7 @@ extension Bedrock {
         public let modelName: String?
         /// The output modalities that the model supports.
         public let outputModalities: [ModelModality]?
-        /// he model's provider name.
+        /// The model's provider name.
         public let providerName: String?
         /// Indicates whether the model supports streaming.
         public let responseStreamingSupported: Bool?
@@ -477,9 +1062,9 @@ extension Bedrock {
         public let inferenceTypesSupported: [InferenceType]?
         /// The input modalities that the model supports.
         public let inputModalities: [ModelModality]?
-        /// The ARN of the foundation model.
+        /// The Amazon Resource Name (ARN) of the foundation model.
         public let modelArn: String
-        /// The model Id of the foundation model.
+        /// The model ID of the foundation model.
         public let modelId: String
         /// Contains details about whether a model version is available or deprecated.
         public let modelLifecycle: FoundationModelLifecycle?
@@ -520,7 +1105,7 @@ extension Bedrock {
     }
 
     public struct GetCustomModelRequest: AWSEncodableShape {
-        /// Name or ARN of the custom model.
+        /// Name or Amazon Resource Name (ARN) of the custom model.
         public let modelIdentifier: String
 
         public init(modelIdentifier: String) {
@@ -543,20 +1128,20 @@ extension Bedrock {
     }
 
     public struct GetCustomModelResponse: AWSDecodableShape {
-        /// ARN of the base model.
+        /// Amazon Resource Name (ARN) of the base model.
         public let baseModelArn: String
         /// Creation time of the model.
         @CustomCoding<ISO8601DateCoder>
         public var creationTime: Date
         /// The type of model customization.
         public let customizationType: CustomizationType?
-        /// Hyperparameter values associated with this model.
+        /// Hyperparameter values associated with this model. For details on the format for different models, see Custom model hyperparameters.
         public let hyperParameters: [String: String]?
-        /// Job ARN associated with this model.
+        /// Job Amazon Resource Name (ARN) associated with this model.
         public let jobArn: String
         /// Job name associated with this model.
         public let jobName: String?
-        /// ARN associated with this model.
+        /// Amazon Resource Name (ARN) associated with this model.
         public let modelArn: String
         /// The custom model is encrypted at rest using this key.
         public let modelKmsKeyArn: String?
@@ -564,10 +1149,11 @@ extension Bedrock {
         public let modelName: String
         /// Output data configuration associated with this custom model.
         public let outputDataConfig: OutputDataConfig
-        /// Information about the training dataset.
+        /// Contains information about the training dataset.
         public let trainingDataConfig: TrainingDataConfig
-        /// The training metrics from the job creation.
+        /// Contains training metrics from the job creation.
         public let trainingMetrics: TrainingMetrics?
+        /// Contains information about the validation dataset.
         public let validationDataConfig: ValidationDataConfig?
         /// The validation metrics from the job creation.
         public let validationMetrics: [ValidatorMetric]?
@@ -607,6 +1193,91 @@ extension Bedrock {
         }
     }
 
+    public struct GetEvaluationJobRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the model evaluation job.
+        public let jobIdentifier: String
+
+        public init(jobIdentifier: String) {
+            self.jobIdentifier = jobIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobIdentifier, key: "jobIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobIdentifier, name: "jobIdentifier", parent: name, max: 1011)
+            try self.validate(self.jobIdentifier, name: "jobIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:evaluation-job/[a-z0-9]{12})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetEvaluationJobResponse: AWSDecodableShape {
+        /// When the model evaluation job was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        /// The Amazon Resource Name (ARN) of the customer managed key specified when the model evaluation job was created.
+        public let customerEncryptionKeyId: String?
+        /// Contains details about the type of model evaluation job, the metrics used, the task type selected, the datasets used, and any custom metrics you defined.
+        public let evaluationConfig: EvaluationConfig
+        /// An array of strings the specify why the model evaluation job has failed.
+        public let failureMessages: [String]?
+        /// Details about the models you specified in your model evaluation job.
+        public let inferenceConfig: EvaluationInferenceConfig
+        /// The Amazon Resource Name (ARN) of the model evaluation job.
+        public let jobArn: String
+        /// The description of the model evaluation job.
+        public let jobDescription: String?
+        /// The name of the model evaluation job.
+        public let jobName: String
+        /// The type of model evaluation job.
+        public let jobType: EvaluationJobType
+        /// When the model evaluation job was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
+        /// Amazon S3 location for where output data is saved.
+        public let outputDataConfig: EvaluationOutputDataConfig
+        /// The Amazon Resource Name (ARN) of the IAM service role used in the model evaluation job.
+        public let roleArn: String
+        /// The status of the model evaluation job.
+        public let status: EvaluationJobStatus
+
+        public init(creationTime: Date, customerEncryptionKeyId: String? = nil, evaluationConfig: EvaluationConfig, failureMessages: [String]? = nil, inferenceConfig: EvaluationInferenceConfig, jobArn: String, jobDescription: String? = nil, jobName: String, jobType: EvaluationJobType, lastModifiedTime: Date? = nil, outputDataConfig: EvaluationOutputDataConfig, roleArn: String, status: EvaluationJobStatus) {
+            self.creationTime = creationTime
+            self.customerEncryptionKeyId = customerEncryptionKeyId
+            self.evaluationConfig = evaluationConfig
+            self.failureMessages = failureMessages
+            self.inferenceConfig = inferenceConfig
+            self.jobArn = jobArn
+            self.jobDescription = jobDescription
+            self.jobName = jobName
+            self.jobType = jobType
+            self.lastModifiedTime = lastModifiedTime
+            self.outputDataConfig = outputDataConfig
+            self.roleArn = roleArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case customerEncryptionKeyId = "customerEncryptionKeyId"
+            case evaluationConfig = "evaluationConfig"
+            case failureMessages = "failureMessages"
+            case inferenceConfig = "inferenceConfig"
+            case jobArn = "jobArn"
+            case jobDescription = "jobDescription"
+            case jobName = "jobName"
+            case jobType = "jobType"
+            case lastModifiedTime = "lastModifiedTime"
+            case outputDataConfig = "outputDataConfig"
+            case roleArn = "roleArn"
+            case status = "status"
+        }
+    }
+
     public struct GetFoundationModelRequest: AWSEncodableShape {
         /// The model identifier.
         public let modelIdentifier: String
@@ -643,6 +1314,112 @@ extension Bedrock {
         }
     }
 
+    public struct GetGuardrailRequest: AWSEncodableShape {
+        /// The unique identifier of the guardrail for which to get details.
+        public let guardrailIdentifier: String
+        /// The version of the guardrail for which to get details. If you don't specify a version, the response returns details for the DRAFT version.
+        public let guardrailVersion: String?
+
+        public init(guardrailIdentifier: String, guardrailVersion: String? = nil) {
+            self.guardrailIdentifier = guardrailIdentifier
+            self.guardrailVersion = guardrailVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.guardrailIdentifier, key: "guardrailIdentifier")
+            request.encodeQuery(self.guardrailVersion, key: "guardrailVersion")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetGuardrailResponse: AWSDecodableShape {
+        /// The message that the guardrail returns when it blocks a prompt.
+        public let blockedInputMessaging: String
+        /// The message that the guardrail returns when it blocks a model response.
+        public let blockedOutputsMessaging: String
+        /// The content policy that was configured for the guardrail.
+        public let contentPolicy: GuardrailContentPolicy?
+        /// The date and time at which the guardrail was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The description of the guardrail.
+        public let description: String?
+        /// Appears if the status of the guardrail is FAILED. A list of recommendations to carry out before retrying the request.
+        public let failureRecommendations: [String]?
+        /// The ARN of the guardrail that was created.
+        public let guardrailArn: String
+        /// The unique identifier of the guardrail.
+        public let guardrailId: String
+        /// The ARN of the KMS key that encrypts the guardrail.
+        public let kmsKeyArn: String?
+        /// The name of the guardrail.
+        public let name: String
+        /// The sensitive information policy that was configured for the guardrail.
+        public let sensitiveInformationPolicy: GuardrailSensitiveInformationPolicy?
+        /// The status of the guardrail.
+        public let status: GuardrailStatus
+        /// Appears if the status is FAILED. A list of reasons for why the guardrail failed to be created, updated, versioned, or deleted.
+        public let statusReasons: [String]?
+        /// The topic policy that was configured for the guardrail.
+        public let topicPolicy: GuardrailTopicPolicy?
+        /// The date and time at which the guardrail was updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+        /// The version of the guardrail.
+        public let version: String
+        /// The word policy that was configured for the guardrail.
+        public let wordPolicy: GuardrailWordPolicy?
+
+        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicy: GuardrailContentPolicy? = nil, createdAt: Date, description: String? = nil, failureRecommendations: [String]? = nil, guardrailArn: String, guardrailId: String, kmsKeyArn: String? = nil, name: String, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicy? = nil, status: GuardrailStatus, statusReasons: [String]? = nil, topicPolicy: GuardrailTopicPolicy? = nil, updatedAt: Date, version: String, wordPolicy: GuardrailWordPolicy? = nil) {
+            self.blockedInputMessaging = blockedInputMessaging
+            self.blockedOutputsMessaging = blockedOutputsMessaging
+            self.contentPolicy = contentPolicy
+            self.createdAt = createdAt
+            self.description = description
+            self.failureRecommendations = failureRecommendations
+            self.guardrailArn = guardrailArn
+            self.guardrailId = guardrailId
+            self.kmsKeyArn = kmsKeyArn
+            self.name = name
+            self.sensitiveInformationPolicy = sensitiveInformationPolicy
+            self.status = status
+            self.statusReasons = statusReasons
+            self.topicPolicy = topicPolicy
+            self.updatedAt = updatedAt
+            self.version = version
+            self.wordPolicy = wordPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockedInputMessaging = "blockedInputMessaging"
+            case blockedOutputsMessaging = "blockedOutputsMessaging"
+            case contentPolicy = "contentPolicy"
+            case createdAt = "createdAt"
+            case description = "description"
+            case failureRecommendations = "failureRecommendations"
+            case guardrailArn = "guardrailArn"
+            case guardrailId = "guardrailId"
+            case kmsKeyArn = "kmsKeyArn"
+            case name = "name"
+            case sensitiveInformationPolicy = "sensitiveInformationPolicy"
+            case status = "status"
+            case statusReasons = "statusReasons"
+            case topicPolicy = "topicPolicy"
+            case updatedAt = "updatedAt"
+            case version = "version"
+            case wordPolicy = "wordPolicy"
+        }
+    }
+
     public struct GetModelCustomizationJobRequest: AWSEncodableShape {
         /// Identifier for the customization job.
         public let jobIdentifier: String
@@ -666,7 +1443,7 @@ extension Bedrock {
     }
 
     public struct GetModelCustomizationJobResponse: AWSDecodableShape {
-        /// ARN of the base model.
+        /// Amazon Resource Name (ARN) of the base model.
         public let baseModelArn: String
         /// The token that you specified in the CreateCustomizationJob request.
         public let clientRequestToken: String?
@@ -680,9 +1457,9 @@ extension Bedrock {
         public var endTime: Date?
         /// Information about why the job failed.
         public let failureMessage: String?
-        /// The hyperparameter values for the job. For information about hyperparameters for specific models, see Guidelines for model customization.
+        /// The hyperparameter values for the job. For details on the format for different models, see Custom model hyperparameters.
         public let hyperParameters: [String: String]
-        /// The ARN of the customization job.
+        /// The Amazon Resource Name (ARN) of the customization job.
         public let jobArn: String
         /// The name of the customization job.
         public let jobName: String
@@ -691,18 +1468,21 @@ extension Bedrock {
         public var lastModifiedTime: Date?
         /// Output data configuration
         public let outputDataConfig: OutputDataConfig
-        /// The ARN of the output model.
+        /// The Amazon Resource Name (ARN) of the output model.
         public let outputModelArn: String?
         /// The custom model is encrypted at rest using this key.
         public let outputModelKmsKeyArn: String?
         /// The name of the output model.
         public let outputModelName: String
-        /// The ARN of the IAM role.
+        /// The Amazon Resource Name (ARN) of the IAM role.
         public let roleArn: String
         /// The status of the job. A successful job transitions from in-progress to completed when the output model is ready to use. If the job failed, the failure message contains information about why the job failed.
         public let status: ModelCustomizationJobStatus?
+        /// Contains information about the training dataset.
         public let trainingDataConfig: TrainingDataConfig
+        /// Contains training metrics from the job creation.
         public let trainingMetrics: TrainingMetrics?
+        /// Contains information about the validation dataset.
         public let validationDataConfig: ValidationDataConfig
         /// The loss metric for each validator that you provided in the createjob request.
         public let validationMetrics: [ValidatorMetric]?
@@ -776,7 +1556,7 @@ extension Bedrock {
     }
 
     public struct GetProvisionedModelThroughputRequest: AWSEncodableShape {
-        /// The ARN or name of the provisioned throughput.
+        /// The Amazon Resource Name (ARN) or name of the Provisioned Throughput.
         public let provisionedModelId: String
 
         public init(provisionedModelId: String) {
@@ -797,34 +1577,34 @@ extension Bedrock {
     }
 
     public struct GetProvisionedModelThroughputResponse: AWSDecodableShape {
-        /// Commitment duration of the provisioned throughput.
+        /// Commitment duration of the Provisioned Throughput.
         public let commitmentDuration: CommitmentDuration?
-        /// Commitment expiration time for the provisioned throughput.
+        /// The timestamp for when the commitment term for the Provisioned Throughput expires.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var commitmentExpirationTime: Date?
-        /// The timestamp of the creation time for this provisioned throughput.
+        /// The timestamp of the creation time for this Provisioned Throughput.
         @CustomCoding<ISO8601DateCoder>
         public var creationTime: Date
-        /// The ARN of the new model to asssociate with this provisioned throughput.
+        /// The Amazon Resource Name (ARN) of the model requested to be associated to this Provisioned Throughput. This value differs from the modelArn if updating hasn't completed.
         public let desiredModelArn: String
-        /// The desired number of model units that was requested to be available for this provisioned throughput.
+        /// The number of model units that was requested for this Provisioned Throughput.
         public let desiredModelUnits: Int
-        /// Failure message for any issues that the create operation encounters.
+        /// A failure message for any issues that occurred during creation, updating, or deletion of the Provisioned Throughput.
         public let failureMessage: String?
-        /// ARN of the foundation model.
+        /// The Amazon Resource Name (ARN) of the base model for which the Provisioned Throughput was created, or of the base model that the custom model for which the Provisioned Throughput was created was customized.
         public let foundationModelArn: String
-        /// The timestamp of the last modified time of this provisioned throughput.
+        /// The timestamp of the last time that this Provisioned Throughput was modified.
         @CustomCoding<ISO8601DateCoder>
         public var lastModifiedTime: Date
-        /// The ARN or name of the model associated with this provisioned throughput.
+        /// The Amazon Resource Name (ARN) of the model associated with this Provisioned Throughput.
         public let modelArn: String
-        /// The current number of model units requested to be available for this provisioned throughput.
+        /// The number of model units allocated to this Provisioned Throughput.
         public let modelUnits: Int
-        /// The ARN of the provisioned throughput.
+        /// The Amazon Resource Name (ARN) of the Provisioned Throughput.
         public let provisionedModelArn: String
-        /// The name of the provisioned throughput.
+        /// The name of the Provisioned Throughput.
         public let provisionedModelName: String
-        /// Status of the provisioned throughput.
+        /// The status of the Provisioned Throughput.
         public let status: ProvisionedModelStatus
 
         public init(commitmentDuration: CommitmentDuration? = nil, commitmentExpirationTime: Date? = nil, creationTime: Date, desiredModelArn: String, desiredModelUnits: Int, failureMessage: String? = nil, foundationModelArn: String, lastModifiedTime: Date, modelArn: String, modelUnits: Int, provisionedModelArn: String, provisionedModelName: String, status: ProvisionedModelStatus) {
@@ -860,8 +1640,529 @@ extension Bedrock {
         }
     }
 
+    public struct GuardrailContentFilter: AWSDecodableShape {
+        /// The strength of the content filter to apply to prompts. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
+        public let inputStrength: GuardrailFilterStrength
+        /// The strength of the content filter to apply to model responses. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
+        public let outputStrength: GuardrailFilterStrength
+        /// The harmful category that the content filter is applied to.
+        public let type: GuardrailContentFilterType
+
+        public init(inputStrength: GuardrailFilterStrength, outputStrength: GuardrailFilterStrength, type: GuardrailContentFilterType) {
+            self.inputStrength = inputStrength
+            self.outputStrength = outputStrength
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputStrength = "inputStrength"
+            case outputStrength = "outputStrength"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailContentFilterConfig: AWSEncodableShape {
+        /// The strength of the content filter to apply to prompts. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
+        public let inputStrength: GuardrailFilterStrength
+        /// The strength of the content filter to apply to model responses. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
+        public let outputStrength: GuardrailFilterStrength
+        /// The harmful category that the content filter is applied to.
+        public let type: GuardrailContentFilterType
+
+        public init(inputStrength: GuardrailFilterStrength, outputStrength: GuardrailFilterStrength, type: GuardrailContentFilterType) {
+            self.inputStrength = inputStrength
+            self.outputStrength = outputStrength
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputStrength = "inputStrength"
+            case outputStrength = "outputStrength"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailContentPolicy: AWSDecodableShape {
+        /// Contains the type of the content filter and how strongly it should apply to prompts and model responses.
+        public let filters: [GuardrailContentFilter]?
+
+        public init(filters: [GuardrailContentFilter]? = nil) {
+            self.filters = filters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+        }
+    }
+
+    public struct GuardrailContentPolicyConfig: AWSEncodableShape {
+        /// Contains the type of the content filter and how strongly it should apply to prompts and model responses.
+        public let filtersConfig: [GuardrailContentFilterConfig]
+
+        public init(filtersConfig: [GuardrailContentFilterConfig]) {
+            self.filtersConfig = filtersConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filtersConfig, name: "filtersConfig", parent: name, max: 6)
+            try self.validate(self.filtersConfig, name: "filtersConfig", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filtersConfig = "filtersConfig"
+        }
+    }
+
+    public struct GuardrailManagedWords: AWSDecodableShape {
+        /// ManagedWords$type The managed word type that was configured for the guardrail. (For now, we only offer profanity word list)
+        public let type: GuardrailManagedWordsType
+
+        public init(type: GuardrailManagedWordsType) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailManagedWordsConfig: AWSEncodableShape {
+        /// The managed word type to configure for the guardrail.
+        public let type: GuardrailManagedWordsType
+
+        public init(type: GuardrailManagedWordsType) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailPiiEntity: AWSDecodableShape {
+        /// The configured guardrail action when PII entity is detected.
+        public let action: GuardrailSensitiveInformationAction
+        /// The type of PII entity. For example, Social Security Number.
+        public let type: GuardrailPiiEntityType
+
+        public init(action: GuardrailSensitiveInformationAction, type: GuardrailPiiEntityType) {
+            self.action = action
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailPiiEntityConfig: AWSEncodableShape {
+        /// Configure guardrail action when the PII entity is detected.
+        public let action: GuardrailSensitiveInformationAction
+        /// Configure guardrail type when the PII entity is detected.
+        public let type: GuardrailPiiEntityType
+
+        public init(action: GuardrailSensitiveInformationAction, type: GuardrailPiiEntityType) {
+            self.action = action
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailRegex: AWSDecodableShape {
+        /// The action taken when a match to the regular expression is detected.
+        public let action: GuardrailSensitiveInformationAction
+        /// The description of the regular expression for the guardrail.
+        public let description: String?
+        /// The name of the regular expression for the guardrail.
+        public let name: String
+        /// The pattern of the regular expression configured for the guardrail.
+        public let pattern: String
+
+        public init(action: GuardrailSensitiveInformationAction, description: String? = nil, name: String, pattern: String) {
+            self.action = action
+            self.description = description
+            self.name = name
+            self.pattern = pattern
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case description = "description"
+            case name = "name"
+            case pattern = "pattern"
+        }
+    }
+
+    public struct GuardrailRegexConfig: AWSEncodableShape {
+        /// The guardrail action to configure when matching regular expression is detected.
+        public let action: GuardrailSensitiveInformationAction
+        /// The description of the regular expression to configure for the guardrail.
+        public let description: String?
+        /// The name of the regular expression to configure for the guardrail.
+        public let name: String
+        /// The regular expression pattern to configure for the guardrail.
+        public let pattern: String
+
+        public init(action: GuardrailSensitiveInformationAction, description: String? = nil, name: String, pattern: String) {
+            self.action = action
+            self.description = description
+            self.name = name
+            self.pattern = pattern
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case description = "description"
+            case name = "name"
+            case pattern = "pattern"
+        }
+    }
+
+    public struct GuardrailSensitiveInformationPolicy: AWSDecodableShape {
+        /// The list of PII entities configured for the guardrail.
+        public let piiEntities: [GuardrailPiiEntity]?
+        /// The list of regular expressions configured for the guardrail.
+        public let regexes: [GuardrailRegex]?
+
+        public init(piiEntities: [GuardrailPiiEntity]? = nil, regexes: [GuardrailRegex]? = nil) {
+            self.piiEntities = piiEntities
+            self.regexes = regexes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case piiEntities = "piiEntities"
+            case regexes = "regexes"
+        }
+    }
+
+    public struct GuardrailSensitiveInformationPolicyConfig: AWSEncodableShape {
+        /// A list of PII entities to configure to the guardrail.
+        public let piiEntitiesConfig: [GuardrailPiiEntityConfig]?
+        /// A list of regular expressions to configure to the guardrail.
+        public let regexesConfig: [GuardrailRegexConfig]?
+
+        public init(piiEntitiesConfig: [GuardrailPiiEntityConfig]? = nil, regexesConfig: [GuardrailRegexConfig]? = nil) {
+            self.piiEntitiesConfig = piiEntitiesConfig
+            self.regexesConfig = regexesConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.piiEntitiesConfig, name: "piiEntitiesConfig", parent: name, min: 1)
+            try self.validate(self.regexesConfig, name: "regexesConfig", parent: name, max: 10)
+            try self.validate(self.regexesConfig, name: "regexesConfig", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case piiEntitiesConfig = "piiEntitiesConfig"
+            case regexesConfig = "regexesConfig"
+        }
+    }
+
+    public struct GuardrailSummary: AWSDecodableShape {
+        /// The ARN of the guardrail.
+        public let arn: String
+        /// The date and time at which the guardrail was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// A description of the guardrail.
+        public let description: String?
+        /// The unique identifier of the guardrail.
+        public let id: String
+        /// The name of the guardrail.
+        public let name: String
+        /// The status of the guardrail.
+        public let status: GuardrailStatus
+        /// The date and time at which the guardrail was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+        /// The version of the guardrail.
+        public let version: String
+
+        public init(arn: String, createdAt: Date, description: String? = nil, id: String, name: String, status: GuardrailStatus, updatedAt: Date, version: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case updatedAt = "updatedAt"
+            case version = "version"
+        }
+    }
+
+    public struct GuardrailTopic: AWSDecodableShape {
+        /// A definition of the topic to deny.
+        public let definition: String
+        /// A list of prompts, each of which is an example of a prompt that can be categorized as belonging to the topic.
+        public let examples: [String]?
+        /// The name of the topic to deny.
+        public let name: String
+        /// Specifies to deny the topic.
+        public let type: GuardrailTopicType?
+
+        public init(definition: String, examples: [String]? = nil, name: String, type: GuardrailTopicType? = nil) {
+            self.definition = definition
+            self.examples = examples
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definition = "definition"
+            case examples = "examples"
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailTopicConfig: AWSEncodableShape {
+        /// A definition of the topic to deny.
+        public let definition: String
+        /// A list of prompts, each of which is an example of a prompt that can be categorized as belonging to the topic.
+        public let examples: [String]?
+        /// The name of the topic to deny.
+        public let name: String
+        /// Specifies to deny the topic.
+        public let type: GuardrailTopicType
+
+        public init(definition: String, examples: [String]? = nil, name: String, type: GuardrailTopicType) {
+            self.definition = definition
+            self.examples = examples
+            self.name = name
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.definition, name: "definition", parent: name, max: 200)
+            try self.validate(self.definition, name: "definition", parent: name, min: 1)
+            try self.examples?.forEach {
+                try validate($0, name: "examples[]", parent: name, max: 100)
+                try validate($0, name: "examples[]", parent: name, min: 1)
+            }
+            try self.validate(self.examples, name: "examples", parent: name, max: 5)
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-zA-Z-_ !?.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definition = "definition"
+            case examples = "examples"
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailTopicPolicy: AWSDecodableShape {
+        /// A list of policies related to topics that the guardrail should deny.
+        public let topics: [GuardrailTopic]
+
+        public init(topics: [GuardrailTopic]) {
+            self.topics = topics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topics = "topics"
+        }
+    }
+
+    public struct GuardrailTopicPolicyConfig: AWSEncodableShape {
+        /// A list of policies related to topics that the guardrail should deny.
+        public let topicsConfig: [GuardrailTopicConfig]
+
+        public init(topicsConfig: [GuardrailTopicConfig]) {
+            self.topicsConfig = topicsConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.topicsConfig.forEach {
+                try $0.validate(name: "\(name).topicsConfig[]")
+            }
+            try self.validate(self.topicsConfig, name: "topicsConfig", parent: name, max: 30)
+            try self.validate(self.topicsConfig, name: "topicsConfig", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topicsConfig = "topicsConfig"
+        }
+    }
+
+    public struct GuardrailWord: AWSDecodableShape {
+        /// Text of the word configured for the guardrail to block.
+        public let text: String
+
+        public init(text: String) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct GuardrailWordConfig: AWSEncodableShape {
+        /// Text of the word configured for the guardrail to block.
+        public let text: String
+
+        public init(text: String) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct GuardrailWordPolicy: AWSDecodableShape {
+        /// A list of managed words configured for the guardrail.
+        public let managedWordLists: [GuardrailManagedWords]?
+        /// A list of words configured for the guardrail.
+        public let words: [GuardrailWord]?
+
+        public init(managedWordLists: [GuardrailManagedWords]? = nil, words: [GuardrailWord]? = nil) {
+            self.managedWordLists = managedWordLists
+            self.words = words
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case managedWordLists = "managedWordLists"
+            case words = "words"
+        }
+    }
+
+    public struct GuardrailWordPolicyConfig: AWSEncodableShape {
+        /// A list of managed words to configure for the guardrail.
+        public let managedWordListsConfig: [GuardrailManagedWordsConfig]?
+        /// A list of words to configure for the guardrail.
+        public let wordsConfig: [GuardrailWordConfig]?
+
+        public init(managedWordListsConfig: [GuardrailManagedWordsConfig]? = nil, wordsConfig: [GuardrailWordConfig]? = nil) {
+            self.managedWordListsConfig = managedWordListsConfig
+            self.wordsConfig = wordsConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.wordsConfig, name: "wordsConfig", parent: name, max: 10000)
+            try self.validate(self.wordsConfig, name: "wordsConfig", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case managedWordListsConfig = "managedWordListsConfig"
+            case wordsConfig = "wordsConfig"
+        }
+    }
+
+    public struct HumanEvaluationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A HumanEvaluationCustomMetric object. It contains the names the metrics, how the metrics are to be evaluated, an optional description.
+        public let customMetrics: [HumanEvaluationCustomMetric]?
+        /// Use to specify the metrics, task, and prompt dataset to be used in your model evaluation job.
+        public let datasetMetricConfigs: [EvaluationDatasetMetricConfig]
+        /// The parameters of the human workflow.
+        public let humanWorkflowConfig: HumanWorkflowConfig?
+
+        public init(customMetrics: [HumanEvaluationCustomMetric]? = nil, datasetMetricConfigs: [EvaluationDatasetMetricConfig], humanWorkflowConfig: HumanWorkflowConfig? = nil) {
+            self.customMetrics = customMetrics
+            self.datasetMetricConfigs = datasetMetricConfigs
+            self.humanWorkflowConfig = humanWorkflowConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.customMetrics?.forEach {
+                try $0.validate(name: "\(name).customMetrics[]")
+            }
+            try self.validate(self.customMetrics, name: "customMetrics", parent: name, max: 10)
+            try self.validate(self.customMetrics, name: "customMetrics", parent: name, min: 1)
+            try self.datasetMetricConfigs.forEach {
+                try $0.validate(name: "\(name).datasetMetricConfigs[]")
+            }
+            try self.validate(self.datasetMetricConfigs, name: "datasetMetricConfigs", parent: name, max: 5)
+            try self.validate(self.datasetMetricConfigs, name: "datasetMetricConfigs", parent: name, min: 1)
+            try self.humanWorkflowConfig?.validate(name: "\(name).humanWorkflowConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customMetrics = "customMetrics"
+            case datasetMetricConfigs = "datasetMetricConfigs"
+            case humanWorkflowConfig = "humanWorkflowConfig"
+        }
+    }
+
+    public struct HumanEvaluationCustomMetric: AWSEncodableShape & AWSDecodableShape {
+        /// An optional description of the metric. Use this parameter to provide more details about the metric.
+        public let description: String?
+        /// The name of the metric. Your human evaluators will see this name in the evaluation UI.
+        public let name: String
+        /// Choose how you want your human workers to evaluation your model. Valid values for rating methods are ThumbsUpDown, IndividualLikertScale,ComparisonLikertScale, ComparisonChoice, and ComparisonRank
+        public let ratingMethod: String
+
+        public init(description: String? = nil, name: String, ratingMethod: String) {
+            self.description = description
+            self.name = name
+            self.ratingMethod = ratingMethod
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 63)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.+$")
+            try self.validate(self.name, name: "name", parent: name, max: 63)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-zA-Z-_.]+$")
+            try self.validate(self.ratingMethod, name: "ratingMethod", parent: name, max: 100)
+            try self.validate(self.ratingMethod, name: "ratingMethod", parent: name, min: 1)
+            try self.validate(self.ratingMethod, name: "ratingMethod", parent: name, pattern: "^[0-9a-zA-Z-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case ratingMethod = "ratingMethod"
+        }
+    }
+
+    public struct HumanWorkflowConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Number (ARN) for the flow definition
+        public let flowDefinitionArn: String
+        /// Instructions for the flow definition
+        public let instructions: String?
+
+        public init(flowDefinitionArn: String, instructions: String? = nil) {
+            self.flowDefinitionArn = flowDefinitionArn
+            self.instructions = instructions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowDefinitionArn, name: "flowDefinitionArn", parent: name, max: 1024)
+            try self.validate(self.flowDefinitionArn, name: "flowDefinitionArn", parent: name, pattern: "^arn:aws(-[^:]+)?:sagemaker:[a-z0-9-]{1,20}:[0-9]{12}:flow-definition/.*$")
+            try self.validate(self.instructions, name: "instructions", parent: name, max: 5000)
+            try self.validate(self.instructions, name: "instructions", parent: name, min: 1)
+            try self.validate(self.instructions, name: "instructions", parent: name, pattern: "^[\\S\\s]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowDefinitionArn = "flowDefinitionArn"
+            case instructions = "instructions"
+        }
+    }
+
     public struct ListCustomModelsRequest: AWSEncodableShape {
-        /// Return custom models only if the base model ARN matches this parameter.
+        /// Return custom models only if the base model Amazon Resource Name (ARN) matches this parameter.
         public let baseModelArnEquals: String?
         /// Return custom models created after the specified time.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -869,7 +2170,7 @@ extension Bedrock {
         /// Return custom models created before the specified time.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTimeBefore: Date?
-        /// Return custom models only if the foundation model ARN matches this parameter.
+        /// Return custom models only if the foundation model Amazon Resource Name (ARN) matches this parameter.
         public let foundationModelArnEquals: String?
         /// Maximum number of results to return in the response.
         public let maxResults: Int?
@@ -943,14 +2244,89 @@ extension Bedrock {
         }
     }
 
+    public struct ListEvaluationJobsRequest: AWSEncodableShape {
+        /// A filter that includes model evaluation jobs created after the time specified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTimeAfter: Date?
+        /// A filter that includes model evaluation jobs created prior to the time specified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTimeBefore: Date?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// Query parameter string for model evaluation job names.
+        public let nameContains: String?
+        /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
+        public let nextToken: String?
+        /// Allows you to sort model evaluation jobs by when they were created.
+        public let sortBy: SortJobsBy?
+        /// How you want the order of jobs sorted.
+        public let sortOrder: SortOrder?
+        /// Only return jobs where the status condition is met.
+        public let statusEquals: EvaluationJobStatus?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortJobsBy? = nil, sortOrder: SortOrder? = nil, statusEquals: EvaluationJobStatus? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.statusEquals = statusEquals
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self._creationTimeAfter, key: "creationTimeAfter")
+            request.encodeQuery(self._creationTimeBefore, key: "creationTimeBefore")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nameContains, key: "nameContains")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sortBy, key: "sortBy")
+            request.encodeQuery(self.sortOrder, key: "sortOrder")
+            request.encodeQuery(self.statusEquals, key: "statusEquals")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-z0-9](-*[a-z0-9]){0,62}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListEvaluationJobsResponse: AWSDecodableShape {
+        /// A summary of the model evaluation jobs.
+        public let jobSummaries: [EvaluationSummary]?
+        /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
+        public let nextToken: String?
+
+        public init(jobSummaries: [EvaluationSummary]? = nil, nextToken: String? = nil) {
+            self.jobSummaries = jobSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobSummaries = "jobSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListFoundationModelsRequest: AWSEncodableShape {
-        /// List by customization type.
+        /// Return models that support the customization type that you specify. For more information, see Custom models in the Amazon Bedrock User Guide.
         public let byCustomizationType: ModelCustomization?
-        /// List by inference type.
+        /// Return models that support the inference type that you specify. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
         public let byInferenceType: InferenceType?
-        /// List by output modality type.
+        /// Return models that support the output modality that you specify.
         public let byOutputModality: ModelModality?
-        /// A Amazon Bedrock model provider.
+        /// Return models belonging to the model provider that you specify.
         public let byProvider: String?
 
         public init(byCustomizationType: ModelCustomization? = nil, byInferenceType: InferenceType? = nil, byOutputModality: ModelModality? = nil, byProvider: String? = nil) {
@@ -986,6 +2362,58 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case modelSummaries = "modelSummaries"
+        }
+    }
+
+    public struct ListGuardrailsRequest: AWSEncodableShape {
+        /// The unique identifier of the guardrail.
+        public let guardrailIdentifier: String?
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// If there are more results than were returned in the response, the response returns a nextToken that you can send in another ListGuardrails request to see the next batch of results.
+        public let nextToken: String?
+
+        public init(guardrailIdentifier: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.guardrailIdentifier = guardrailIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.guardrailIdentifier, key: "guardrailIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListGuardrailsResponse: AWSDecodableShape {
+        /// A list of objects, each of which contains details about a guardrail.
+        public let guardrails: [GuardrailSummary]
+        /// If there are more results than were returned in the response, the response returns a nextToken that you can send in another ListGuardrails request to see the next batch of results.
+        public let nextToken: String?
+
+        public init(guardrails: [GuardrailSummary], nextToken: String? = nil) {
+            self.guardrails = guardrails
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardrails = "guardrails"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1065,25 +2493,25 @@ extension Bedrock {
     }
 
     public struct ListProvisionedModelThroughputsRequest: AWSEncodableShape {
-        /// Return provisioned capacities created after the specified time.
+        /// A filter that returns Provisioned Throughputs created after the specified time.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTimeAfter: Date?
-        /// Return provisioned capacities created before the specified time.
+        /// A filter that returns Provisioned Throughputs created before the specified time.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTimeBefore: Date?
-        /// THe maximum number of results to return in the response.
+        /// THe maximum number of results to return in the response. If there are more results than the number you specified, the response returns a nextToken value. To see the next batch of results, send the nextToken value in another list request.
         public let maxResults: Int?
-        /// Return the list of provisioned capacities where their model ARN is equal to this parameter.
+        /// A filter that returns Provisioned Throughputs whose model Amazon Resource Name (ARN) is equal to the value that you specify.
         public let modelArnEquals: String?
-        /// Return the list of provisioned capacities if their name contains these characters.
+        /// A filter that returns Provisioned Throughputs if their name contains the expression that you specify.
         public let nameContains: String?
-        /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
+        /// If there are more results than the number you specified in the maxResults field, the response returns a nextToken value. To see the next batch of results, specify the nextToken value in this field.
         public let nextToken: String?
-        /// The field to sort by in the returned list of provisioned capacities.
+        /// The field by which to sort the returned list of Provisioned Throughputs.
         public let sortBy: SortByProvisionedModels?
         /// The sort order of the results.
         public let sortOrder: SortOrder?
-        /// Return the list of provisioned capacities that match the specified status.
+        /// A filter that returns Provisioned Throughputs if their statuses matches the value that you specify.
         public let statusEquals: ProvisionedModelStatus?
 
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, modelArnEquals: String? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortByProvisionedModels? = nil, sortOrder: SortOrder? = nil, statusEquals: ProvisionedModelStatus? = nil) {
@@ -1130,9 +2558,9 @@ extension Bedrock {
     }
 
     public struct ListProvisionedModelThroughputsResponse: AWSDecodableShape {
-        /// Continuation token for the next request to list the next set of results.
+        /// If there are more results than the number you specified in the maxResults field, this value is returned. To see the next batch of results, include this value in the nextToken field in another list request.
         public let nextToken: String?
-        /// List of summaries, one for each provisioned throughput in the response.
+        /// A list of summaries, one for each Provisioned Throughput in the response.
         public let provisionedModelSummaries: [ProvisionedModelSummary]?
 
         public init(nextToken: String? = nil, provisionedModelSummaries: [ProvisionedModelSummary]? = nil) {
@@ -1147,7 +2575,7 @@ extension Bedrock {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The ARN of the resource.
+        /// The Amazon Resource Name (ARN) of the resource.
         public let resourceARN: String
 
         public init(resourceARN: String) {
@@ -1157,7 +2585,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:provisioned-model/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:provisioned-model/[a-z0-9]{12}$)|(:guardrail/[a-z0-9]+$)|(:evaluation-job/[a-z0-9]{12}$)))")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1213,21 +2641,21 @@ extension Bedrock {
     }
 
     public struct ModelCustomizationJobSummary: AWSDecodableShape {
-        /// ARN of the base model.
+        /// Amazon Resource Name (ARN) of the base model.
         public let baseModelArn: String
         /// Creation time of the custom model.
         @CustomCoding<ISO8601DateCoder>
         public var creationTime: Date
         /// Specifies whether to carry out continued pre-training of a model or whether to fine-tune it. For more information, see Custom models.
         public let customizationType: CustomizationType?
-        /// ARN of the custom model.
+        /// Amazon Resource Name (ARN) of the custom model.
         public let customModelArn: String?
         /// Name of the custom model.
         public let customModelName: String?
         /// Time that the customization job ended.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endTime: Date?
-        /// ARN of the customization job.
+        /// Amazon Resource Name (ARN) of the customization job.
         public let jobArn: String
         /// Name of the customization job.
         public let jobName: String
@@ -1284,32 +2712,32 @@ extension Bedrock {
     }
 
     public struct ProvisionedModelSummary: AWSDecodableShape {
-        /// Commitment duration for the provisioned throughput.
+        /// The duration for which the Provisioned Throughput was committed.
         public let commitmentDuration: CommitmentDuration?
-        /// Commitment expiration time for the provisioned throughput.
+        /// The timestamp for when the commitment term of the Provisioned Throughput expires.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var commitmentExpirationTime: Date?
-        /// The time that this provisioned throughput was created.
+        /// The time that the Provisioned Throughput was created.
         @CustomCoding<ISO8601DateCoder>
         public var creationTime: Date
-        /// Desired model ARN.
+        /// The Amazon Resource Name (ARN) of the model requested to be associated to this Provisioned Throughput. This value differs from the modelArn if updating hasn't completed.
         public let desiredModelArn: String
-        /// Desired model units.
+        /// The number of model units that was requested to be allocated to the Provisioned Throughput.
         public let desiredModelUnits: Int
-        /// Foundation model ARN.
+        /// The Amazon Resource Name (ARN) of the base model for which the Provisioned Throughput was created, or of the base model that the custom model for which the Provisioned Throughput was created was customized.
         public let foundationModelArn: String
-        /// The time that this provisioned throughput was last modified.
+        /// The time that the Provisioned Throughput was last modified.
         @CustomCoding<ISO8601DateCoder>
         public var lastModifiedTime: Date
-        /// The ARN of the model associated with this provisioned throughput.
+        /// The Amazon Resource Name (ARN) of the model associated with the Provisioned Throughput.
         public let modelArn: String
-        /// The number of model units allocated.
+        /// The number of model units allocated to the Provisioned Throughput.
         public let modelUnits: Int
-        /// The ARN of the provisioned throughput.
+        /// The Amazon Resource Name (ARN) of the Provisioned Throughput.
         public let provisionedModelArn: String
-        /// The name of the provisioned throughput.
+        /// The name of the Provisioned Throughput.
         public let provisionedModelName: String
-        /// Status of the provisioned throughput.
+        /// The status of the Provisioned Throughput.
         public let status: ProvisionedModelStatus
 
         public init(commitmentDuration: CommitmentDuration? = nil, commitmentExpirationTime: Date? = nil, creationTime: Date, desiredModelArn: String, desiredModelUnits: Int, foundationModelArn: String, lastModifiedTime: Date, modelArn: String, modelUnits: Int, provisionedModelArn: String, provisionedModelName: String, status: ProvisionedModelStatus) {
@@ -1387,6 +2815,32 @@ extension Bedrock {
         }
     }
 
+    public struct StopEvaluationJobRequest: AWSEncodableShape {
+        /// The ARN of the model evaluation job you want to stop.
+        public let jobIdentifier: String
+
+        public init(jobIdentifier: String) {
+            self.jobIdentifier = jobIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobIdentifier, key: "jobIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobIdentifier, name: "jobIdentifier", parent: name, max: 1011)
+            try self.validate(self.jobIdentifier, name: "jobIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:evaluation-job/[a-z0-9]{12})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopEvaluationJobResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct StopModelCustomizationJobRequest: AWSEncodableShape {
         /// Job identifier of the job to stop.
         public let jobIdentifier: String
@@ -1439,7 +2893,7 @@ extension Bedrock {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The ARN of the resource to tag.
+        /// The Amazon Resource Name (ARN) of the resource to tag.
         public let resourceARN: String
         /// Tags to associate with the resource.
         public let tags: [Tag]
@@ -1452,7 +2906,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:provisioned-model/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:provisioned-model/[a-z0-9]{12}$)|(:guardrail/[a-z0-9]+$)|(:evaluation-job/[a-z0-9]{12}$)))")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1502,7 +2956,7 @@ extension Bedrock {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The ARN of the resource to untag.
+        /// The Amazon Resource Name (ARN) of the resource to untag.
         public let resourceARN: String
         /// Tag keys of the tags to remove from the resource.
         public let tagKeys: [String]
@@ -1515,7 +2969,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:provisioned-model/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:provisioned-model/[a-z0-9]{12}$)|(:guardrail/[a-z0-9]+$)|(:evaluation-job/[a-z0-9]{12}$)))")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -1534,12 +2988,122 @@ extension Bedrock {
         public init() {}
     }
 
+    public struct UpdateGuardrailRequest: AWSEncodableShape {
+        /// The message to return when the guardrail blocks a prompt.
+        public let blockedInputMessaging: String
+        /// The message to return when the guardrail blocks a model response.
+        public let blockedOutputsMessaging: String
+        /// The content policy to configure for the guardrail.
+        public let contentPolicyConfig: GuardrailContentPolicyConfig?
+        /// A description of the guardrail.
+        public let description: String?
+        /// The unique identifier of the guardrail
+        public let guardrailIdentifier: String
+        /// The ARN of the KMS key with which to encrypt the guardrail.
+        public let kmsKeyId: String?
+        /// A name for the guardrail.
+        public let name: String
+        /// The sensitive information policy to configure for the guardrail.
+        public let sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig?
+        /// The topic policy to configure for the guardrail.
+        public let topicPolicyConfig: GuardrailTopicPolicyConfig?
+        /// The word policy to configure for the guardrail.
+        public let wordPolicyConfig: GuardrailWordPolicyConfig?
+
+        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicyConfig: GuardrailContentPolicyConfig? = nil, description: String? = nil, guardrailIdentifier: String, kmsKeyId: String? = nil, name: String, sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig? = nil, topicPolicyConfig: GuardrailTopicPolicyConfig? = nil, wordPolicyConfig: GuardrailWordPolicyConfig? = nil) {
+            self.blockedInputMessaging = blockedInputMessaging
+            self.blockedOutputsMessaging = blockedOutputsMessaging
+            self.contentPolicyConfig = contentPolicyConfig
+            self.description = description
+            self.guardrailIdentifier = guardrailIdentifier
+            self.kmsKeyId = kmsKeyId
+            self.name = name
+            self.sensitiveInformationPolicyConfig = sensitiveInformationPolicyConfig
+            self.topicPolicyConfig = topicPolicyConfig
+            self.wordPolicyConfig = wordPolicyConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.blockedInputMessaging, forKey: .blockedInputMessaging)
+            try container.encode(self.blockedOutputsMessaging, forKey: .blockedOutputsMessaging)
+            try container.encodeIfPresent(self.contentPolicyConfig, forKey: .contentPolicyConfig)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.guardrailIdentifier, key: "guardrailIdentifier")
+            try container.encodeIfPresent(self.kmsKeyId, forKey: .kmsKeyId)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.sensitiveInformationPolicyConfig, forKey: .sensitiveInformationPolicyConfig)
+            try container.encodeIfPresent(self.topicPolicyConfig, forKey: .topicPolicyConfig)
+            try container.encodeIfPresent(self.wordPolicyConfig, forKey: .wordPolicyConfig)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.blockedInputMessaging, name: "blockedInputMessaging", parent: name, max: 500)
+            try self.validate(self.blockedInputMessaging, name: "blockedInputMessaging", parent: name, min: 1)
+            try self.validate(self.blockedOutputsMessaging, name: "blockedOutputsMessaging", parent: name, max: 500)
+            try self.validate(self.blockedOutputsMessaging, name: "blockedOutputsMessaging", parent: name, min: 1)
+            try self.contentPolicyConfig?.validate(name: "\(name).contentPolicyConfig")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+))$")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-zA-Z-_]+$")
+            try self.sensitiveInformationPolicyConfig?.validate(name: "\(name).sensitiveInformationPolicyConfig")
+            try self.topicPolicyConfig?.validate(name: "\(name).topicPolicyConfig")
+            try self.wordPolicyConfig?.validate(name: "\(name).wordPolicyConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockedInputMessaging = "blockedInputMessaging"
+            case blockedOutputsMessaging = "blockedOutputsMessaging"
+            case contentPolicyConfig = "contentPolicyConfig"
+            case description = "description"
+            case kmsKeyId = "kmsKeyId"
+            case name = "name"
+            case sensitiveInformationPolicyConfig = "sensitiveInformationPolicyConfig"
+            case topicPolicyConfig = "topicPolicyConfig"
+            case wordPolicyConfig = "wordPolicyConfig"
+        }
+    }
+
+    public struct UpdateGuardrailResponse: AWSDecodableShape {
+        /// The ARN of the guardrail that was created.
+        public let guardrailArn: String
+        /// The unique identifier of the guardrail
+        public let guardrailId: String
+        /// The date and time at which the guardrail was updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+        /// The version of the guardrail.
+        public let version: String
+
+        public init(guardrailArn: String, guardrailId: String, updatedAt: Date, version: String) {
+            self.guardrailArn = guardrailArn
+            self.guardrailId = guardrailId
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardrailArn = "guardrailArn"
+            case guardrailId = "guardrailId"
+            case updatedAt = "updatedAt"
+            case version = "version"
+        }
+    }
+
     public struct UpdateProvisionedModelThroughputRequest: AWSEncodableShape {
-        /// The ARN of the new model to associate with this provisioned throughput.
+        /// The Amazon Resource Name (ARN) of the new model to associate with this Provisioned Throughput. You can't specify this field if this Provisioned Throughput is associated with a base model. If this Provisioned Throughput is associated with a custom model, you can specify one of the following options:   The base model from which the custom model was customized.   Another custom model that was customized from the same base model as the custom model.
         public let desiredModelId: String?
-        /// The new name for this provisioned throughput.
+        /// The new name for this Provisioned Throughput.
         public let desiredProvisionedModelName: String?
-        /// The ARN or name of the provisioned throughput to update.
+        /// The Amazon Resource Name (ARN) or name of the Provisioned Throughput to update.
         public let provisionedModelId: String
 
         public init(desiredModelId: String? = nil, desiredProvisionedModelName: String? = nil, provisionedModelId: String) {
@@ -1659,6 +3223,63 @@ extension Bedrock {
             case subnetIds = "subnetIds"
         }
     }
+
+    public struct EvaluationDatasetLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 URI of the S3 bucket specified in the job.
+        public let s3Uri: String?
+
+        public init(s3Uri: String? = nil) {
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "s3Uri"
+        }
+    }
+
+    public struct EvaluationInferenceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Used to specify the models.
+        public let models: [EvaluationModelConfig]?
+
+        public init(models: [EvaluationModelConfig]? = nil) {
+            self.models = models
+        }
+
+        public func validate(name: String) throws {
+            try self.models?.forEach {
+                try $0.validate(name: "\(name).models[]")
+            }
+            try self.validate(self.models, name: "models", parent: name, max: 2)
+            try self.validate(self.models, name: "models", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case models = "models"
+        }
+    }
+
+    public struct EvaluationModelConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the Amazon Bedrock model and inference parameters you want used.
+        public let bedrockModel: EvaluationBedrockModel?
+
+        public init(bedrockModel: EvaluationBedrockModel? = nil) {
+            self.bedrockModel = bedrockModel
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockModel?.validate(name: "\(name).bedrockModel")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockModel = "bedrockModel"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -1700,13 +3321,13 @@ public struct BedrockErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// An internal server error occurred. Retry your request.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The specified resource ARN was not found. Check the ARN and try your request again.
+    /// The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The number of requests exceeds the service quota. Resubmit your request later.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The number of requests exceeds the limit. Resubmit your request later.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The request contains more tags than can be associated with a resource (50 tags per resource).  The maximum number of tags includes both existing tags and those included in your current request.
+    /// The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// Input validation failed. Check your request parameters and retry the request.
     public static var validationException: Self { .init(.validationException) }

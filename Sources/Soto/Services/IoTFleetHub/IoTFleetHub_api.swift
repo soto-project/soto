@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS IoTFleetHub service.
 ///
-/// With Fleet Hub for AWS IoT Device Management you can build stand-alone web applications for monitoring the health of your device fleets.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+/// With Fleet Hub for IoT Device Management you can build stand-alone web applications for monitoring the health of your device fleets.
 public struct IoTFleetHub: AWSService {
     // MARK: Member variables
 
@@ -84,7 +84,7 @@ public struct IoTFleetHub: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a Fleet Hub for AWS IoT Device Management web application.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Creates a Fleet Hub for IoT Device Management web application. When creating a Fleet Hub application, you must create an organization instance of IAM Identity Center if you don't already have one. The Fleet Hub application you create must also be in the same Amazon Web Services Region of the organization instance of IAM Identity Center. For more information see Enabling IAM Identity Center and Organization instances of IAM Identity Center.
     @Sendable
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationResponse {
         return try await self.client.execute(
@@ -97,7 +97,7 @@ public struct IoTFleetHub: AWSService {
         )
     }
 
-    /// Deletes a Fleet Hub for AWS IoT Device Management web application.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Deletes a Fleet Hub for IoT Device Management web application.
     @Sendable
     public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationResponse {
         return try await self.client.execute(
@@ -110,7 +110,7 @@ public struct IoTFleetHub: AWSService {
         )
     }
 
-    /// Gets information about a Fleet Hub for AWS IoT Device Management web application.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Gets information about a Fleet Hub for IoT Device Management web application.
     @Sendable
     public func describeApplication(_ input: DescribeApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationResponse {
         return try await self.client.execute(
@@ -123,7 +123,7 @@ public struct IoTFleetHub: AWSService {
         )
     }
 
-    /// Gets a list of Fleet Hub for AWS IoT Device Management web applications for the current account.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Gets a list of Fleet Hub for IoT Device Management web applications for the current account.
     @Sendable
     public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationsResponse {
         return try await self.client.execute(
@@ -136,7 +136,7 @@ public struct IoTFleetHub: AWSService {
         )
     }
 
-    /// Lists the tags for the specified resource.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Lists the tags for the specified resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(
@@ -149,7 +149,7 @@ public struct IoTFleetHub: AWSService {
         )
     }
 
-    /// Adds to or modifies the tags of the specified resource. Tags are metadata which can be used to manage a resource.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Adds to or modifies the tags of the specified resource. Tags are metadata which can be used to manage a resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
         return try await self.client.execute(
@@ -162,7 +162,7 @@ public struct IoTFleetHub: AWSService {
         )
     }
 
-    /// Removes the specified tags (metadata) from the resource.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Removes the specified tags (metadata) from the resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         return try await self.client.execute(
@@ -175,7 +175,7 @@ public struct IoTFleetHub: AWSService {
         )
     }
 
-    /// Updates information about a Fleet Hub for a AWS IoT Device Management web application.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Updates information about a Fleet Hub for IoT Device Management web application.
     @Sendable
     public func updateApplication(_ input: UpdateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationResponse {
         return try await self.client.execute(
@@ -202,7 +202,7 @@ extension IoTFleetHub {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTFleetHub {
-    /// Gets a list of Fleet Hub for AWS IoT Device Management web applications for the current account.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Gets a list of Fleet Hub for IoT Device Management web applications for the current account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

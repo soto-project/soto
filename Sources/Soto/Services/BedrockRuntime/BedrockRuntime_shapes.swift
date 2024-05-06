@@ -26,13 +26,24 @@ import Foundation
 extension BedrockRuntime {
     // MARK: Enums
 
+    public enum Trace: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResponseStream: AWSDecodableShape, Sendable {
         /// Content included in the response.
         case chunk(PayloadPart)
+        /// An internal server error occurred. Retry your request.
         case internalServerException(InternalServerException)
+        /// An error occurred while streaming the response. Retry your request.
         case modelStreamErrorException(ModelStreamErrorException)
+        /// The request took too long to process. Processing time exceeded the model timeout length.
         case modelTimeoutException(ModelTimeoutException)
+        /// The number or frequency of requests exceeds the limit. Resubmit your request later.
         case throttlingException(ThrottlingException)
+        /// Input validation failed. Check your request parameters and retry the request.
         case validationException(ValidationException)
 
         public init(from decoder: Decoder) throws {
@@ -93,18 +104,27 @@ extension BedrockRuntime {
     public struct InvokeModelRequest: AWSEncodableShape {
         /// The desired MIME type of the inference body in the response. The default value is application/json.
         public let accept: String?
-        /// Input data in the format specified in the content-type request header. To see the format and content of this field for different models, refer to Inference parameters.
+        /// The prompt and inference parameters in the format specified in the contentType in the header. To see the format and content of the request and response bodies for different models, refer to Inference parameters. For more information, see Run inference in the Bedrock User Guide.
         public let body: AWSHTTPBody
         /// The MIME type of the input data in the request. The default value is application/json.
         public let contentType: String?
-        /// Identifier of the model.
+        /// The unique identifier of the guardrail that you want to use. If you don't provide a value, no guardrail is applied to the invocation. An error will be thrown in the following situations.   You don't provide a guardrail identifier but you specify the amazon-bedrock-guardrailConfig field in the request body.   You enable the guardrail but the contentType isn't application/json.   You provide a guardrail identifier, but guardrailVersion isn't specified.
+        public let guardrailIdentifier: String?
+        /// The version number for the guardrail. The value can also be DRAFT.
+        public let guardrailVersion: String?
+        /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.
         public let modelId: String
+        /// Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
+        public let trace: Trace?
 
-        public init(accept: String? = nil, body: AWSHTTPBody, contentType: String? = nil, modelId: String) {
+        public init(accept: String? = nil, body: AWSHTTPBody, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, trace: Trace? = nil) {
             self.accept = accept
             self.body = body
             self.contentType = contentType
+            self.guardrailIdentifier = guardrailIdentifier
+            self.guardrailVersion = guardrailVersion
             self.modelId = modelId
+            self.trace = trace
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -113,11 +133,17 @@ extension BedrockRuntime {
             request.encodeHeader(self.accept, key: "Accept")
             try container.encode(self.body)
             request.encodeHeader(self.contentType, key: "Content-Type")
+            request.encodeHeader(self.guardrailIdentifier, key: "X-Amzn-Bedrock-GuardrailIdentifier")
+            request.encodeHeader(self.guardrailVersion, key: "X-Amzn-Bedrock-GuardrailVersion")
             request.encodePath(self.modelId, key: "modelId")
+            request.encodeHeader(self.trace, key: "X-Amzn-Bedrock-Trace")
         }
 
         public func validate(name: String) throws {
             try self.validate(self.body, name: "body", parent: name, max: 25000000)
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
             try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
@@ -128,7 +154,7 @@ extension BedrockRuntime {
 
     public struct InvokeModelResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        /// Inference response from the model in the format specified in the content-type header field. To see the format and content of this field for different models, refer to Inference parameters.
+        /// Inference response from the model in the format specified in the contentType header. To see the format and content of the request and response bodies for different models, refer to Inference parameters.
         public let body: AWSHTTPBody
         /// The MIME type of the inference result.
         public let contentType: String
@@ -151,18 +177,27 @@ extension BedrockRuntime {
     public struct InvokeModelWithResponseStreamRequest: AWSEncodableShape {
         /// The desired MIME type of the inference body in the response. The default value is application/json.
         public let accept: String?
-        /// Inference input in the format specified by the  content-type. To see the format and content of this field for different models, refer to Inference parameters.
+        /// The prompt and inference parameters in the format specified in the contentType in the header. To see the format and content of the request and response bodies for different models, refer to Inference parameters. For more information, see Run inference in the Bedrock User Guide.
         public let body: AWSHTTPBody
         /// The MIME type of the input data in the request. The default value is application/json.
         public let contentType: String?
-        /// Id of the model to invoke using the streaming request.
+        /// The unique identifier of the guardrail that you want to use. If you don't provide a value, no guardrail is applied to the invocation. An error is thrown in the following situations.   You don't provide a guardrail identifier but you specify the amazon-bedrock-guardrailConfig field in the request body.   You enable the guardrail but the contentType isn't application/json.   You provide a guardrail identifier, but guardrailVersion isn't specified.
+        public let guardrailIdentifier: String?
+        /// The version number for the guardrail. The value can also be DRAFT.
+        public let guardrailVersion: String?
+        /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.
         public let modelId: String
+        /// Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
+        public let trace: Trace?
 
-        public init(accept: String? = nil, body: AWSHTTPBody, contentType: String? = nil, modelId: String) {
+        public init(accept: String? = nil, body: AWSHTTPBody, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, trace: Trace? = nil) {
             self.accept = accept
             self.body = body
             self.contentType = contentType
+            self.guardrailIdentifier = guardrailIdentifier
+            self.guardrailVersion = guardrailVersion
             self.modelId = modelId
+            self.trace = trace
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -171,11 +206,17 @@ extension BedrockRuntime {
             request.encodeHeader(self.accept, key: "X-Amzn-Bedrock-Accept")
             try container.encode(self.body)
             request.encodeHeader(self.contentType, key: "Content-Type")
+            request.encodeHeader(self.guardrailIdentifier, key: "X-Amzn-Bedrock-GuardrailIdentifier")
+            request.encodeHeader(self.guardrailVersion, key: "X-Amzn-Bedrock-GuardrailVersion")
             request.encodePath(self.modelId, key: "modelId")
+            request.encodeHeader(self.trace, key: "X-Amzn-Bedrock-Trace")
         }
 
         public func validate(name: String) throws {
             try self.validate(self.body, name: "body", parent: name, max: 25000000)
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
             try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
@@ -186,7 +227,7 @@ extension BedrockRuntime {
 
     public struct InvokeModelWithResponseStreamResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        /// Inference response from the model in the format specified by Content-Type. To see the format and content of this field for different models, refer to Inference parameters.
+        /// Inference response from the model in the format specified by the contentType header. To see the format and content of this field for different models, refer to Inference parameters.
         public let body: AWSEventStream<ResponseStream>
         /// The MIME type of the inference result.
         public let contentType: String
@@ -319,7 +360,7 @@ public struct BedrockRuntimeErrorType: AWSErrorType {
     public static var modelErrorException: Self { .init(.modelErrorException) }
     /// The model specified in the request is not ready to serve inference requests.
     public static var modelNotReadyException: Self { .init(.modelNotReadyException) }
-    /// An error occurred while streaming the response.
+    /// An error occurred while streaming the response. Retry your request.
     public static var modelStreamErrorException: Self { .init(.modelStreamErrorException) }
     /// The request took too long to process. Processing time exceeded the model timeout length.
     public static var modelTimeoutException: Self { .init(.modelTimeoutException) }

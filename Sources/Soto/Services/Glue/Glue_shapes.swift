@@ -11957,25 +11957,31 @@ extension Glue {
         public let databaseName: String
         /// (Required) Specifies the name of a table for which you are requesting metadata.
         public let name: String
+        /// The resource ARN of the view.
+        public let parentResourceArn: String?
         /// The Lake Formation data permissions of the caller on the table. Used to authorize the call when no view context is found.
         public let permissions: [Permission]?
         /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.
         public let querySessionContext: QuerySessionContext?
         /// Specified only if the base tables belong to a different Amazon Web Services Region.
         public let region: String?
+        /// The resource ARN of the root view in a chain of nested views.
+        public let rootResourceArn: String?
         /// A structure specifying the dialect and dialect version used by the query engine.
         public let supportedDialect: SupportedDialect?
-        /// (Required) A list of supported permission types.
+        /// Indicates the level of filtering a third-party analytical engine is capable of enforcing when calling the GetUnfilteredTableMetadata API operation. Accepted values are:    COLUMN_PERMISSION - Column permissions ensure that users can access only specific columns in the table. If there are particular columns contain sensitive data, data lake administrators can define column filters that exclude access to specific columns.    CELL_FILTER_PERMISSION - Cell-level filtering combines column filtering (include or exclude columns) and row filter expressions to restrict access to individual elements in the table.    NESTED_PERMISSION - Nested permissions combines cell-level filtering and nested column filtering to restrict access to columns and/or nested columns in specific rows based on row filter expressions.    NESTED_CELL_PERMISSION - Nested cell permissions combines nested permission with nested cell-level filtering. This allows different subsets of nested columns to be restricted based on an array of row filter expressions.    Note: Each of these permission types follows a hierarchical order where each subsequent permission type includes all permission of the previous type. Important: If you provide a supported permission type that doesn't match the user's level of permissions on the table, then Lake Formation raises an exception. For example, if the third-party engine calling the GetUnfilteredTableMetadata operation can enforce only column-level filtering, and the user has nested cell filtering applied on the table, Lake Formation throws an exception, and will not return unfiltered table metadata and data access credentials.
         public let supportedPermissionTypes: [PermissionType]
 
-        public init(auditContext: AuditContext? = nil, catalogId: String, databaseName: String, name: String, permissions: [Permission]? = nil, querySessionContext: QuerySessionContext? = nil, region: String? = nil, supportedDialect: SupportedDialect? = nil, supportedPermissionTypes: [PermissionType]) {
+        public init(auditContext: AuditContext? = nil, catalogId: String, databaseName: String, name: String, parentResourceArn: String? = nil, permissions: [Permission]? = nil, querySessionContext: QuerySessionContext? = nil, region: String? = nil, rootResourceArn: String? = nil, supportedDialect: SupportedDialect? = nil, supportedPermissionTypes: [PermissionType]) {
             self.auditContext = auditContext
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.name = name
+            self.parentResourceArn = parentResourceArn
             self.permissions = permissions
             self.querySessionContext = querySessionContext
             self.region = region
+            self.rootResourceArn = rootResourceArn
             self.supportedDialect = supportedDialect
             self.supportedPermissionTypes = supportedPermissionTypes
         }
@@ -11991,8 +11997,12 @@ extension Glue {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.parentResourceArn, name: "parentResourceArn", parent: name, max: 2048)
+            try self.validate(self.parentResourceArn, name: "parentResourceArn", parent: name, min: 20)
             try self.querySessionContext?.validate(name: "\(name).querySessionContext")
             try self.validate(self.region, name: "region", parent: name, max: 1024)
+            try self.validate(self.rootResourceArn, name: "rootResourceArn", parent: name, max: 2048)
+            try self.validate(self.rootResourceArn, name: "rootResourceArn", parent: name, min: 20)
             try self.supportedDialect?.validate(name: "\(name).supportedDialect")
             try self.validate(self.supportedPermissionTypes, name: "supportedPermissionTypes", parent: name, max: 255)
             try self.validate(self.supportedPermissionTypes, name: "supportedPermissionTypes", parent: name, min: 1)
@@ -12003,9 +12013,11 @@ extension Glue {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case name = "Name"
+            case parentResourceArn = "ParentResourceArn"
             case permissions = "Permissions"
             case querySessionContext = "QuerySessionContext"
             case region = "Region"
+            case rootResourceArn = "RootResourceArn"
             case supportedDialect = "SupportedDialect"
             case supportedPermissionTypes = "SupportedPermissionTypes"
         }
@@ -12028,10 +12040,12 @@ extension Glue {
         public let queryAuthorizationId: String?
         /// The resource ARN of the parent resource extracted from the request.
         public let resourceArn: String?
+        /// The filter that applies to the table. For example when applying the filter in SQL, it would go in the WHERE clause and can be evaluated by using an AND operator with any other predicates applied by the user querying the table.
+        public let rowFilter: String?
         /// A Table object containing the table metadata.
         public let table: Table?
 
-        public init(authorizedColumns: [String]? = nil, cellFilters: [ColumnRowFilter]? = nil, isMultiDialectView: Bool? = nil, isProtected: Bool? = nil, isRegisteredWithLakeFormation: Bool? = nil, permissions: [Permission]? = nil, queryAuthorizationId: String? = nil, resourceArn: String? = nil, table: Table? = nil) {
+        public init(authorizedColumns: [String]? = nil, cellFilters: [ColumnRowFilter]? = nil, isMultiDialectView: Bool? = nil, isProtected: Bool? = nil, isRegisteredWithLakeFormation: Bool? = nil, permissions: [Permission]? = nil, queryAuthorizationId: String? = nil, resourceArn: String? = nil, rowFilter: String? = nil, table: Table? = nil) {
             self.authorizedColumns = authorizedColumns
             self.cellFilters = cellFilters
             self.isMultiDialectView = isMultiDialectView
@@ -12040,6 +12054,7 @@ extension Glue {
             self.permissions = permissions
             self.queryAuthorizationId = queryAuthorizationId
             self.resourceArn = resourceArn
+            self.rowFilter = rowFilter
             self.table = table
         }
 
@@ -12052,6 +12067,7 @@ extension Glue {
             case permissions = "Permissions"
             case queryAuthorizationId = "QueryAuthorizationId"
             case resourceArn = "ResourceArn"
+            case rowFilter = "RowFilter"
             case table = "Table"
         }
     }
@@ -13601,9 +13617,9 @@ extension Glue {
         public let endpointUrl: String?
         /// The minimum time delay between two consecutive getRecords operations, specified in ms. The default value is 1000. This option is only configurable for Glue version 2.0 and above.
         public let idleTimeBetweenReadsInMs: Int64?
-        /// The maximum number of records to fetch per shard in the Kinesis data stream. The default value is 100000.
+        /// The maximum number of records to fetch per shard in the Kinesis data stream per microbatch. Note: The client can exceed this limit if the streaming job has already read extra records from Kinesis (in the same get-records call). If MaxFetchRecordsPerShard needs to be strict then it needs to be a multiple of MaxRecordPerRead. The default value is 100000.
         public let maxFetchRecordsPerShard: Int64?
-        /// The maximum time spent in the job executor to fetch a record from the Kinesis data stream per shard, specified in milliseconds (ms). The default value is 1000.
+        /// The maximum time spent for the job executor to read records for the current batch from the Kinesis data stream, specified in milliseconds (ms). Multiple GetRecords API calls may be made within this time. The default value is 1000.
         public let maxFetchTimeInMs: Int64?
         /// The maximum number of records to fetch from the Kinesis data stream in each getRecords operation. The default value is 10000.
         public let maxRecordPerRead: Int64?

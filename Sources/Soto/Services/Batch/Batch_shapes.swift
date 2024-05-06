@@ -276,12 +276,15 @@ extension Batch {
         public let statusReason: String?
         /// The Unix timestamp (in milliseconds) for when the attempt was stopped (when the attempt transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED).
         public let stoppedAt: Int64?
+        /// The properties for a task definition that describes the container and volume definitions of an Amazon ECS task.
+        public let taskProperties: [AttemptEcsTaskDetails]?
 
-        public init(container: AttemptContainerDetail? = nil, startedAt: Int64? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
+        public init(container: AttemptContainerDetail? = nil, startedAt: Int64? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil, taskProperties: [AttemptEcsTaskDetails]? = nil) {
             self.container = container
             self.startedAt = startedAt
             self.statusReason = statusReason
             self.stoppedAt = stoppedAt
+            self.taskProperties = taskProperties
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -289,6 +292,57 @@ extension Batch {
             case startedAt = "startedAt"
             case statusReason = "statusReason"
             case stoppedAt = "stoppedAt"
+            case taskProperties = "taskProperties"
+        }
+    }
+
+    public struct AttemptEcsTaskDetails: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the container instance that hosts the task.
+        public let containerInstanceArn: String?
+        /// A list of containers that are included in the taskProperties list.
+        public let containers: [AttemptTaskContainerDetails]?
+        /// The ARN of the Amazon ECS task.
+        public let taskArn: String?
+
+        public init(containerInstanceArn: String? = nil, containers: [AttemptTaskContainerDetails]? = nil, taskArn: String? = nil) {
+            self.containerInstanceArn = containerInstanceArn
+            self.containers = containers
+            self.taskArn = taskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerInstanceArn = "containerInstanceArn"
+            case containers = "containers"
+            case taskArn = "taskArn"
+        }
+    }
+
+    public struct AttemptTaskContainerDetails: AWSDecodableShape {
+        /// The exit code for the container’s attempt. A non-zero exit code is considered failed.
+        public let exitCode: Int?
+        /// The name of the Amazon CloudWatch Logs log stream that's associated with the container. The log group for Batch jobs is /aws/batch/job. Each container attempt receives a log stream name when they reach the RUNNING status.
+        public let logStreamName: String?
+        /// The name of a container.
+        public let name: String?
+        /// The network interfaces that are associated with the job attempt.
+        public let networkInterfaces: [NetworkInterface]?
+        /// A short (255 max characters) string that's easy to understand and provides additional details for a running or stopped container.
+        public let reason: String?
+
+        public init(exitCode: Int? = nil, logStreamName: String? = nil, name: String? = nil, networkInterfaces: [NetworkInterface]? = nil, reason: String? = nil) {
+            self.exitCode = exitCode
+            self.logStreamName = logStreamName
+            self.name = name
+            self.networkInterfaces = networkInterfaces
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exitCode = "exitCode"
+            case logStreamName = "logStreamName"
+            case name = "name"
+            case networkInterfaces = "networkInterfaces"
+            case reason = "reason"
         }
     }
 
@@ -1567,16 +1621,20 @@ extension Batch {
     public struct EksAttemptContainerDetail: AWSDecodableShape {
         /// The exit code returned for the job attempt. A non-zero exit code is considered failed.
         public let exitCode: Int?
+        /// The name of a container.
+        public let name: String?
         /// A short (255 max characters) human-readable string to provide additional details for a running or stopped container.
         public let reason: String?
 
-        public init(exitCode: Int? = nil, reason: String? = nil) {
+        public init(exitCode: Int? = nil, name: String? = nil, reason: String? = nil) {
             self.exitCode = exitCode
+            self.name = name
             self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case exitCode = "exitCode"
+            case name = "name"
             case reason = "reason"
         }
     }
@@ -1928,9 +1986,9 @@ extension Batch {
         public let dnsPolicy: String?
         /// Indicates if the pod uses the hosts' network IP address. The default value is true. Setting this to false enables the Kubernetes pod networking model. Most Batch workloads are egress-only and don't require the overhead of IP allocation for each pod for incoming connections. For more information, see Host namespaces and Pod networking in the Kubernetes documentation.
         public let hostNetwork: Bool?
-        /// References a Kubernetes secret resource. This object must start and end with an alphanumeric character, is required to be lowercase, can include periods (.) and hyphens (-), and can't contain more than 253 characters.  ImagePullSecret$name is required when this object is used.
+        /// References a Kubernetes secret resource. It holds a list of secrets. These secrets help to gain access to pull an images from a private registry.  ImagePullSecret$name is required when this object is used.
         public let imagePullSecrets: [ImagePullSecret]?
-        /// These containers run before application containers, always runs to completion, and must complete successfully before the next container starts. These containers are registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store.  For more information, see Init Containers in the Kubernetes documentation.  This object is limited to 10 elements
+        /// These containers run before application containers, always runs to completion, and must complete successfully before the next container starts. These containers are registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store. For more information, see Init Containers in the Kubernetes documentation.  This object is limited to 10 elements
         public let initContainers: [EksContainer]?
         /// Metadata about the Kubernetes pod. For more information, see Understanding Kubernetes Objects in the Kubernetes documentation.
         public let metadata: EksMetadata?
@@ -1985,7 +2043,7 @@ extension Batch {
         public let dnsPolicy: String?
         /// Indicates if the pod uses the hosts' network IP address. The default value is true. Setting this to false enables the Kubernetes pod networking model. Most Batch workloads are egress-only and don't require the overhead of IP allocation for each pod for incoming connections. For more information, see Host namespaces and Pod networking in the Kubernetes documentation.
         public let hostNetwork: Bool?
-        /// Displays the reference pointer to the Kubernetes secret resource.
+        /// Displays the reference pointer to the Kubernetes secret resource. These secrets help to gain access to pull an images from a private registry.
         public let imagePullSecrets: [ImagePullSecret]?
         /// The container registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store.
         public let initContainers: [EksContainerDetail]?
@@ -2034,7 +2092,7 @@ extension Batch {
     public struct EksPodPropertiesOverride: AWSEncodableShape {
         /// The overrides for the container that's used on the Amazon EKS pod.
         public let containers: [EksContainerOverride]?
-        /// The overrides for the conatainers defined in the Amazon EKS  pod. These containers run before application containers, always runs to completion, and must complete successfully before the next container starts. These containers are registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store.  For more information, see Init Containers in the Kubernetes documentation.  This object is limited to 10 elements
+        /// The overrides for the conatainers defined in the Amazon EKS pod. These containers run before application containers, always runs to completion, and must complete successfully before the next container starts. These containers are registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store. For more information, see Init Containers in the Kubernetes documentation.  This object is limited to 10 elements
         public let initContainers: [EksContainerOverride]?
         /// Metadata about the overrides for the container that's used on the Amazon EKS pod.
         public let metadata: EksMetadata?
@@ -2397,7 +2455,7 @@ extension Batch {
         public let startedAt: Int64?
         /// The current status for the job.  If your jobs don't progress to STARTING, see Jobs stuck in RUNNABLE status in the troubleshooting section of the Batch User Guide.
         public let status: JobStatus?
-        /// A short, human-readable string to provide more details for the current status of the job.    CAPACITY:INSUFFICIENT_INSTANCE_CAPACITY - All compute environments have insufficient capacity to service the job.    MISCONFIGURATION:COMPUTE_ENVIRONMENT_MAX_RESOURCE - All compute environments have a maxVcpu setting that is smaller than the job requirements.    MISCONFIGURATION:JOB_RESOURCE_REQUIREMENT - All compute environments  have no connected instances that meet the job requirements.    MISCONFIGURATION:SERVICE_ROLE_PERMISSIONS - All compute environments have problems with the service role permissions.
+        /// A short, human-readable string to provide more details for the current status of the job.    CAPACITY:INSUFFICIENT_INSTANCE_CAPACITY - All compute environments have insufficient capacity to service the job.    MISCONFIGURATION:COMPUTE_ENVIRONMENT_MAX_RESOURCE - All compute environments have a maxVcpu setting that is smaller than the job requirements.    MISCONFIGURATION:JOB_RESOURCE_REQUIREMENT - All compute environments have no connected instances that meet the job requirements.    MISCONFIGURATION:SERVICE_ROLE_PERMISSIONS - All compute environments have problems with the service role permissions.
         public let statusReason: String?
         /// The Unix timestamp (in milliseconds) for when the job was stopped. More specifically, it's when the job transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED.
         public let stoppedAt: Int64?
@@ -2521,13 +2579,13 @@ extension Batch {
     }
 
     public struct JobStateTimeLimitAction: AWSEncodableShape & AWSDecodableShape {
-        /// The action to take when a job is at the head of the job queue in the specified state for the specified period of time. The only supported value is "CANCEL", which will cancel the job.
+        /// The action to take when a job is at the head of the job queue in the specified state for the specified period of time. The only supported value is CANCEL, which will cancel the job.
         public let action: JobStateTimeLimitActionsAction?
         /// The approximate amount of time, in seconds, that must pass with the job in the specified state before the action is taken. The minimum value is 600 (10 minutes) and the maximum value is 86,400 (24 hours).
         public let maxTimeSeconds: Int?
         /// The reason to log for the action being taken.
         public let reason: String?
-        /// The state of the job needed to trigger the action. The only supported value is "RUNNABLE".
+        /// The state of the job needed to trigger the action. The only supported value is RUNNABLE.
         public let state: JobStateTimeLimitActionsState?
 
         public init(action: JobStateTimeLimitActionsAction? = nil, maxTimeSeconds: Int? = nil, reason: String? = nil, state: JobStateTimeLimitActionsState? = nil) {

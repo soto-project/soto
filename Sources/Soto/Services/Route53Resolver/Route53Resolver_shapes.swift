@@ -66,6 +66,12 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
+    public enum FirewallDomainRedirectionAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inspectRedirectionDomain = "INSPECT_REDIRECTION_DOMAIN"
+        case trustRedirectionDomain = "TRUST_REDIRECTION_DOMAIN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FirewallDomainUpdateOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case add = "ADD"
         case remove = "REMOVE"
@@ -548,6 +554,11 @@ extension Route53Resolver {
         public let creatorRequestId: String
         /// The ID of the domain list that you want to use in the rule.
         public let firewallDomainListId: String
+        /// 			How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME, DNAME, ot ALIAS.
+        /// 		  Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be
+        /// 			added to the allow domain list.  Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the redirection list to
+        /// 		the domain alloww list.
+        public let firewallDomainRedirectionAction: FirewallDomainRedirectionAction?
         /// The unique identifier of the firewall rule group where you want to create the rule.
         public let firewallRuleGroupId: String
         /// A name that lets you identify the rule in the rule group.
@@ -556,10 +567,14 @@ extension Route53Resolver {
         public let priority: Int
         /// 			The DNS query type you want the rule to evaluate. Allowed values are;
         ///
-        /// 				A: Returns an IPv4 address.   AAAA: Returns an Ipv6 address.   CAA: Restricts CAs that can create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS: Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV: Application specific values that identify servers.   TXT: Verifies email senders and application-specific values.
+        /// 				A: Returns an IPv4 address.   AAAA: Returns an Ipv6 address.   CAA: Restricts CAs that can create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS: Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV: Application specific values that identify servers.   TXT: Verifies email senders and application-specific values.   A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be
+        /// 				defined as TYPENUMBER, where the
+        /// 				NUMBER can be 1-65334, for
+        /// 				example, TYPE28. For more information, see
+        /// 				List of DNS record types.
         public let qtype: String?
 
-        public init(action: Action, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, creatorRequestId: String = CreateFirewallRuleRequest.idempotencyToken(), firewallDomainListId: String, firewallRuleGroupId: String, name: String, priority: Int, qtype: String? = nil) {
+        public init(action: Action, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, creatorRequestId: String = CreateFirewallRuleRequest.idempotencyToken(), firewallDomainListId: String, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String, name: String, priority: Int, qtype: String? = nil) {
             self.action = action
             self.blockOverrideDnsType = blockOverrideDnsType
             self.blockOverrideDomain = blockOverrideDomain
@@ -567,6 +582,7 @@ extension Route53Resolver {
             self.blockResponse = blockResponse
             self.creatorRequestId = creatorRequestId
             self.firewallDomainListId = firewallDomainListId
+            self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
             self.firewallRuleGroupId = firewallRuleGroupId
             self.name = name
             self.priority = priority
@@ -598,6 +614,7 @@ extension Route53Resolver {
             case blockResponse = "BlockResponse"
             case creatorRequestId = "CreatorRequestId"
             case firewallDomainListId = "FirewallDomainListId"
+            case firewallDomainRedirectionAction = "FirewallDomainRedirectionAction"
             case firewallRuleGroupId = "FirewallRuleGroupId"
             case name = "Name"
             case priority = "Priority"
@@ -716,7 +733,10 @@ extension Route53Resolver {
         /// The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify
         /// 			must include one or more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints).
         /// 			Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port
-        /// 			that you're using for DNS queries on your network.
+        /// 			that you're using for DNS queries on your network. Some security group rules will cause your connection to be tracked. For outbound resolver endpoint, it can potentially impact the
+        /// 			maximum queries per second from outbound endpoint to your target name server. For inbound resolver endpoint, it can bring down the overall maximum queries per second per IP address to as low as 1500.
+        /// 			To avoid connection tracking caused by security group, see
+        /// 			Untracked connections.
         public let securityGroupIds: [String]
         /// A list of the tag keys and values that you want to associate with the endpoint.
         public let tags: [Tag]?
@@ -989,7 +1009,11 @@ extension Route53Resolver {
         public let firewallRuleGroupId: String
         /// 			The DNS query type that the rule you are deleting evaluates. Allowed values are;
         ///
-        /// 				A: Returns an IPv4 address.   AAAA: Returns an Ipv6 address.   CAA: Restricts CAs that can create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS: Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV: Application specific values that identify servers.   TXT: Verifies email senders and application-specific values.
+        /// 				A: Returns an IPv4 address.   AAAA: Returns an Ipv6 address.   CAA: Restricts CAs that can create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS: Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV: Application specific values that identify servers.   TXT: Verifies email senders and application-specific values.   A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be
+        /// 				defined as TYPENUMBER, where the
+        /// 				NUMBER can be 1-65334, for
+        /// 				example, TYPE28. For more information, see
+        /// 				List of DNS record types.
         public let qtype: String?
 
         public init(firewallDomainListId: String, firewallRuleGroupId: String, qtype: String? = nil) {
@@ -1485,6 +1509,11 @@ extension Route53Resolver {
         public let creatorRequestId: String?
         /// The ID of the domain list that's used in the rule.
         public let firewallDomainListId: String?
+        /// 			How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME, DNAME, ot ALIAS.
+        /// 		  Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be
+        /// 			added to the allow domain list.  Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to
+        /// 			the domain alloww list.
+        public let firewallDomainRedirectionAction: FirewallDomainRedirectionAction?
         /// The unique identifier of the firewall rule group of the rule.
         public let firewallRuleGroupId: String?
         /// The date and time that the rule was last modified, in Unix time format and Coordinated Universal Time (UTC).
@@ -1495,10 +1524,14 @@ extension Route53Resolver {
         public let priority: Int?
         /// 			The DNS query type you want the rule to evaluate. Allowed values are;
         ///
-        /// 				A: Returns an IPv4 address.   AAAA: Returns an Ipv6 address.   CAA: Restricts CAs that can create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS: Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV: Application specific values that identify servers.   TXT: Verifies email senders and application-specific values.
+        /// 				A: Returns an IPv4 address.   AAAA: Returns an Ipv6 address.   CAA: Restricts CAs that can create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS: Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV: Application specific values that identify servers.   TXT: Verifies email senders and application-specific values.   A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be
+        /// 				defined as TYPENUMBER, where the
+        /// 				NUMBER can be 1-65334, for
+        /// 				example, TYPE28. For more information, see
+        /// 				List of DNS record types.
         public let qtype: String?
 
-        public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, firewallDomainListId: String? = nil, firewallRuleGroupId: String? = nil, modificationTime: String? = nil, name: String? = nil, priority: Int? = nil, qtype: String? = nil) {
+        public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, firewallDomainListId: String? = nil, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String? = nil, modificationTime: String? = nil, name: String? = nil, priority: Int? = nil, qtype: String? = nil) {
             self.action = action
             self.blockOverrideDnsType = blockOverrideDnsType
             self.blockOverrideDomain = blockOverrideDomain
@@ -1507,6 +1540,7 @@ extension Route53Resolver {
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
             self.firewallDomainListId = firewallDomainListId
+            self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
             self.firewallRuleGroupId = firewallRuleGroupId
             self.modificationTime = modificationTime
             self.name = name
@@ -1523,6 +1557,7 @@ extension Route53Resolver {
             case creationTime = "CreationTime"
             case creatorRequestId = "CreatorRequestId"
             case firewallDomainListId = "FirewallDomainListId"
+            case firewallDomainRedirectionAction = "FirewallDomainRedirectionAction"
             case firewallRuleGroupId = "FirewallRuleGroupId"
             case modificationTime = "ModificationTime"
             case name = "Name"
@@ -4009,6 +4044,11 @@ extension Route53Resolver {
         public let blockResponse: BlockResponse?
         /// The ID of the domain list to use in the rule.
         public let firewallDomainListId: String
+        /// 			How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME, DNAME, ot ALIAS.
+        /// 		  Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be
+        /// 			added to the allow domain list.  Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to
+        /// 			the domain alloww list.
+        public let firewallDomainRedirectionAction: FirewallDomainRedirectionAction?
         /// The unique identifier of the firewall rule group for the rule.
         public let firewallRuleGroupId: String
         /// The name of the rule.
@@ -4017,16 +4057,21 @@ extension Route53Resolver {
         public let priority: Int?
         /// 			The DNS query type you want the rule to evaluate. Allowed values are;
         ///
-        /// 				A: Returns an IPv4 address.   AAAA: Returns an Ipv6 address.   CAA: Restricts CAs that can create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS: Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV: Application specific values that identify servers.   TXT: Verifies email senders and application-specific values.
+        /// 				A: Returns an IPv4 address.   AAAA: Returns an Ipv6 address.   CAA: Restricts CAs that can create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS: Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV: Application specific values that identify servers.   TXT: Verifies email senders and application-specific values.   A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be
+        /// 				defined as TYPENUMBER, where the
+        /// 				NUMBER can be 1-65334, for
+        /// 				example, TYPE28. For more information, see
+        /// 				List of DNS record types.
         public let qtype: String?
 
-        public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, firewallDomainListId: String, firewallRuleGroupId: String, name: String? = nil, priority: Int? = nil, qtype: String? = nil) {
+        public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, firewallDomainListId: String, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String, name: String? = nil, priority: Int? = nil, qtype: String? = nil) {
             self.action = action
             self.blockOverrideDnsType = blockOverrideDnsType
             self.blockOverrideDomain = blockOverrideDomain
             self.blockOverrideTtl = blockOverrideTtl
             self.blockResponse = blockResponse
             self.firewallDomainListId = firewallDomainListId
+            self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
             self.firewallRuleGroupId = firewallRuleGroupId
             self.name = name
             self.priority = priority
@@ -4055,6 +4100,7 @@ extension Route53Resolver {
             case blockOverrideTtl = "BlockOverrideTtl"
             case blockResponse = "BlockResponse"
             case firewallDomainListId = "FirewallDomainListId"
+            case firewallDomainRedirectionAction = "FirewallDomainRedirectionAction"
             case firewallRuleGroupId = "FirewallRuleGroupId"
             case name = "Name"
             case priority = "Priority"
@@ -4366,7 +4412,8 @@ public struct Route53ResolverErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
+    /// The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a
+    /// 			resource policy for CloudWatch Logs.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The requested state transition isn't valid. For example, you can't delete a firewall
     /// 			domain list if it is in the process of being deleted, or you can't import domains into a

@@ -516,22 +516,30 @@ extension SESv2 {
         public let destination: Destination
         /// The ReplacementEmailContent associated with a BulkEmailEntry.
         public let replacementEmailContent: ReplacementEmailContent?
+        /// The list of message headers associated with the BulkEmailEntry data type.   Headers Not Present in BulkEmailEntry: If a header is specified in  Template but not in BulkEmailEntry, the header from Template will be added to the outgoing email.   Headers Present in BulkEmailEntry: If a header is specified in BulkEmailEntry, it takes precedence over any header of the same name specified in  Template :   If the header is also defined within Template, the value from BulkEmailEntry will replace the header's value in the email.   If the header is not defined within Template, it will simply be added to the email as specified in BulkEmailEntry.
+        public let replacementHeaders: [MessageHeader]?
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendBulkTemplatedEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
         public let replacementTags: [MessageTag]?
 
-        public init(destination: Destination, replacementEmailContent: ReplacementEmailContent? = nil, replacementTags: [MessageTag]? = nil) {
+        public init(destination: Destination, replacementEmailContent: ReplacementEmailContent? = nil, replacementHeaders: [MessageHeader]? = nil, replacementTags: [MessageTag]? = nil) {
             self.destination = destination
             self.replacementEmailContent = replacementEmailContent
+            self.replacementHeaders = replacementHeaders
             self.replacementTags = replacementTags
         }
 
         public func validate(name: String) throws {
             try self.replacementEmailContent?.validate(name: "\(name).replacementEmailContent")
+            try self.replacementHeaders?.forEach {
+                try $0.validate(name: "\(name).replacementHeaders[]")
+            }
+            try self.validate(self.replacementHeaders, name: "replacementHeaders", parent: name, max: 15)
         }
 
         private enum CodingKeys: String, CodingKey {
             case destination = "Destination"
             case replacementEmailContent = "ReplacementEmailContent"
+            case replacementHeaders = "ReplacementHeaders"
             case replacementTags = "ReplacementTags"
         }
     }
@@ -3299,12 +3307,14 @@ extension SESv2 {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.contactListName, key: "ContactListName")
             try container.encodeIfPresent(self.filter, forKey: .filter)
-            request.encodeQuery(self.nextToken, key: "NextToken")
-            request.encodeQuery(self.pageSize, key: "PageSize")
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.pageSize, forKey: .pageSize)
         }
 
         private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
         }
     }
 
@@ -3621,16 +3631,10 @@ extension SESv2 {
             self.pageSize = pageSize
         }
 
-        public func encode(to encoder: Encoder) throws {
-            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encodeIfPresent(self.importDestinationType, forKey: .importDestinationType)
-            request.encodeQuery(self.nextToken, key: "NextToken")
-            request.encodeQuery(self.pageSize, key: "PageSize")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case importDestinationType = "ImportDestinationType"
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
         }
     }
 

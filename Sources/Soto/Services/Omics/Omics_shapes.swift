@@ -57,8 +57,21 @@ extension Omics {
 
     public enum ETagAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bamMd5Up = "BAM_MD5up"
+        case bamSha256Up = "BAM_SHA256up"
+        case bamSha512Up = "BAM_SHA512up"
         case cramMd5Up = "CRAM_MD5up"
+        case cramSha256Up = "CRAM_SHA256up"
+        case cramSha512Up = "CRAM_SHA512up"
         case fastqMd5Up = "FASTQ_MD5up"
+        case fastqSha256Up = "FASTQ_SHA256up"
+        case fastqSha512Up = "FASTQ_SHA512up"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ETagAlgorithmFamily: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case md5up = "MD5up"
+        case sha256up = "SHA256up"
+        case sha512up = "SHA512up"
         public var description: String { return self.rawValue }
     }
 
@@ -270,6 +283,16 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
+    public enum ShareResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The share is on an annotation store
+        case annotationStore = "ANNOTATION_STORE"
+        /// The share is on a variant store
+        case variantStore = "VARIANT_STORE"
+        /// The share is on a workflow
+        case workflow = "WORKFLOW"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ShareStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// The share is activated
         case activating = "ACTIVATING"
@@ -283,6 +306,12 @@ extension Omics {
         case failed = "FAILED"
         /// The share has been created but is not yet active
         case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dynamic = "DYNAMIC"
+        case `static` = "STATIC"
         public var description: String { return self.rawValue }
     }
 
@@ -416,9 +445,9 @@ extension Omics {
     // MARK: Shapes
 
     public struct AbortMultipartReadSetUploadRequest: AWSEncodableShape {
-        ///  The sequence store ID for the store involved in the multipart upload.
+        /// The sequence store ID for the store involved in the multipart upload.
         public let sequenceStoreId: String
-        ///  The ID for the multipart upload.
+        /// The ID for the multipart upload.
         public let uploadId: String
 
         public init(sequenceStoreId: String, uploadId: String) {
@@ -450,7 +479,7 @@ extension Omics {
     }
 
     public struct AcceptShareRequest: AWSEncodableShape {
-        /// The ID for a share offer for analytics store data.
+        /// The ID of the resource share.
         public let shareId: String
 
         public init(shareId: String) {
@@ -467,7 +496,7 @@ extension Omics {
     }
 
     public struct AcceptShareResponse: AWSDecodableShape {
-        /// The status of an analytics store share.
+        /// The status of the resource share.
         public let status: ShareStatus?
 
         public init(status: ShareStatus? = nil) {
@@ -873,11 +902,11 @@ extension Omics {
     }
 
     public struct CompleteMultipartReadSetUploadRequest: AWSEncodableShape {
-        ///  The individual uploads or parts of a multipart upload.
+        /// The individual uploads or parts of a multipart upload.
         public let parts: [CompleteReadSetUploadPartListItem]
-        ///  The sequence store ID for the store involved in the multipart upload.
+        /// The sequence store ID for the store involved in the multipart upload.
         public let sequenceStoreId: String
-        ///  The ID for the multipart upload.
+        /// The ID for the multipart upload.
         public let uploadId: String
 
         public init(parts: [CompleteReadSetUploadPartListItem], sequenceStoreId: String, uploadId: String) {
@@ -909,7 +938,7 @@ extension Omics {
     }
 
     public struct CompleteMultipartReadSetUploadResponse: AWSDecodableShape {
-        ///  The read set ID created for an uploaded read set.
+        /// The read set ID created for an uploaded read set.
         public let readSetId: String
 
         public init(readSetId: String) {
@@ -1135,25 +1164,25 @@ extension Omics {
     }
 
     public struct CreateMultipartReadSetUploadRequest: AWSEncodableShape {
-        ///  An idempotency token that can be used to avoid triggering multiple multipart uploads.
+        /// An idempotency token that can be used to avoid triggering multiple multipart uploads.
         public let clientToken: String?
-        ///  The description of the read set.
+        /// The description of the read set.
         public let description: String?
-        ///  Where the source originated.
+        /// Where the source originated.
         public let generatedFrom: String?
-        ///  The name of the read set.
+        /// The name of the read set.
         public let name: String
-        ///  The ARN of the reference.
+        /// The ARN of the reference.
         public let referenceArn: String?
-        ///  The source's sample ID.
+        /// The source's sample ID.
         public let sampleId: String
-        ///  The sequence store ID for the store that is the destination of the multipart uploads.
+        /// The sequence store ID for the store that is the destination of the multipart uploads.
         public let sequenceStoreId: String
-        ///  The type of file being uploaded.
+        /// The type of file being uploaded.
         public let sourceFileType: FileType
-        ///  The source's subject ID.
+        /// The source's subject ID.
         public let subjectId: String
-        ///  Any tags to add to the read set.
+        /// Any tags to add to the read set.
         public let tags: [String: String]?
 
         public init(clientToken: String? = nil, description: String? = nil, generatedFrom: String? = nil, name: String, referenceArn: String? = nil, sampleId: String, sequenceStoreId: String, sourceFileType: FileType, subjectId: String, tags: [String: String]? = nil) {
@@ -1230,27 +1259,27 @@ extension Omics {
     }
 
     public struct CreateMultipartReadSetUploadResponse: AWSDecodableShape {
-        ///  The creation time of the multipart upload.
+        /// The creation time of the multipart upload.
         public let creationTime: Date
-        ///  The description of the read set.
+        /// The description of the read set.
         public let description: String?
-        ///  The source of the read set.
+        /// The source of the read set.
         public let generatedFrom: String?
-        ///  The name of the read set.
+        /// The name of the read set.
         public let name: String?
-        ///  The read set source's reference ARN.
+        /// The read set source's reference ARN.
         public let referenceArn: String
-        ///  The source's sample ID.
+        /// The source's sample ID.
         public let sampleId: String
-        ///  The sequence store ID for the store that the read set will be created in.
+        /// The sequence store ID for the store that the read set will be created in.
         public let sequenceStoreId: String
-        ///  The file type of the read set source.
+        /// The file type of the read set source.
         public let sourceFileType: FileType
-        ///  The source's subject ID.
+        /// The source's subject ID.
         public let subjectId: String
-        ///  The tags to add to the read set.
+        /// The tags to add to the read set.
         public let tags: [String: String]?
-        ///  he ID for the initiated multipart upload.
+        /// The ID for the initiated multipart upload.
         public let uploadId: String
 
         public init(creationTime: Date, description: String? = nil, generatedFrom: String? = nil, name: String? = nil, referenceArn: String, sampleId: String, sequenceStoreId: String, sourceFileType: FileType, subjectId: String, tags: [String: String]? = nil, uploadId: String) {
@@ -1366,7 +1395,7 @@ extension Omics {
         public let maxCpus: Int?
         /// A maximum run time for the group in minutes.
         public let maxDuration: Int?
-        ///  The maximum GPUs that can be used by a run group.
+        /// The maximum GPUs that can be used by a run group.
         public let maxGpus: Int?
         /// The maximum number of concurrent runs for the group.
         public let maxRuns: Int?
@@ -1438,7 +1467,9 @@ extension Omics {
         public let clientToken: String?
         /// A description for the store.
         public let description: String?
-        ///  An S3 location that is used to store files that have failed a direct upload.
+        /// The ETag algorithm family to use for ingested read sets.
+        public let eTagAlgorithmFamily: ETagAlgorithmFamily?
+        /// An S3 location that is used to store files that have failed a direct upload.
         public let fallbackLocation: String?
         /// A name for the store.
         public let name: String
@@ -1447,9 +1478,10 @@ extension Omics {
         /// Tags for the store.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = nil, description: String? = nil, fallbackLocation: String? = nil, name: String, sseConfig: SseConfig? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = nil, description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, name: String, sseConfig: SseConfig? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
+            self.eTagAlgorithmFamily = eTagAlgorithmFamily
             self.fallbackLocation = fallbackLocation
             self.name = name
             self.sseConfig = sseConfig
@@ -1477,6 +1509,7 @@ extension Omics {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case description = "description"
+            case eTagAlgorithmFamily = "eTagAlgorithmFamily"
             case fallbackLocation = "fallbackLocation"
             case name = "name"
             case sseConfig = "sseConfig"
@@ -1491,7 +1524,9 @@ extension Omics {
         public let creationTime: Date
         /// The store's description.
         public let description: String?
-        ///  An S3 location that is used to store files that have failed a direct upload.
+        /// The algorithm family of the ETag.
+        public let eTagAlgorithmFamily: ETagAlgorithmFamily?
+        /// An S3 location that is used to store files that have failed a direct upload.
         public let fallbackLocation: String?
         /// The store's ID.
         public let id: String
@@ -1500,10 +1535,11 @@ extension Omics {
         /// The store's SSE settings.
         public let sseConfig: SseConfig?
 
-        public init(arn: String, creationTime: Date, description: String? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, sseConfig: SseConfig? = nil) {
+        public init(arn: String, creationTime: Date, description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, sseConfig: SseConfig? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
+            self.eTagAlgorithmFamily = eTagAlgorithmFamily
             self.fallbackLocation = fallbackLocation
             self.id = id
             self.name = name
@@ -1514,6 +1550,7 @@ extension Omics {
             case arn = "arn"
             case creationTime = "creationTime"
             case description = "description"
+            case eTagAlgorithmFamily = "eTagAlgorithmFamily"
             case fallbackLocation = "fallbackLocation"
             case id = "id"
             case name = "name"
@@ -1522,11 +1559,11 @@ extension Omics {
     }
 
     public struct CreateShareRequest: AWSEncodableShape {
-        ///  The principal subscriber is the account being given access to the analytics store data through the share offer.
+        /// The principal subscriber is the account being offered shared access to the resource.
         public let principalSubscriber: String
-        ///  The resource ARN for the analytics store to be shared.
+        /// The ARN of the resource to be shared.
         public let resourceArn: String
-        ///  A name given to the share.
+        /// A name that the owner defines for the share.
         public let shareName: String?
 
         public init(principalSubscriber: String, resourceArn: String, shareName: String? = nil) {
@@ -1549,11 +1586,11 @@ extension Omics {
     }
 
     public struct CreateShareResponse: AWSDecodableShape {
-        ///  An ID generated for the share.
+        /// The ID that HealthOmics generates for the share.
         public let shareId: String?
-        ///  A name given to the share.
+        /// The name of the share.
         public let shareName: String?
-        ///  The status of a share.
+        /// The status of the share.
         public let status: ShareStatus?
 
         public init(shareId: String? = nil, shareName: String? = nil, status: ShareStatus? = nil) {
@@ -1642,7 +1679,7 @@ extension Omics {
     }
 
     public struct CreateWorkflowRequest: AWSEncodableShape {
-        ///  The computational accelerator specified to run the workflow.
+        /// The computational accelerator specified to run the workflow.
         public let accelerators: Accelerators?
         /// The URI of a definition for the workflow.
         public let definitionUri: String?
@@ -1660,7 +1697,7 @@ extension Omics {
         public let parameterTemplate: [String: WorkflowParameter]?
         /// To ensure that requests don't run multiple times, specify a unique ID for each request.
         public let requestId: String
-        /// A storage capacity for the workflow in gibibytes.
+        /// The storage capacity for the workflow in gibibytes.
         public let storageCapacity: Int?
         /// Tags for the workflow.
         public let tags: [String: String]?
@@ -1969,7 +2006,7 @@ extension Omics {
     }
 
     public struct DeleteShareRequest: AWSEncodableShape {
-        ///  The ID for the share request to be deleted.
+        /// The ID for the resource share to be deleted.
         public let shareId: String
 
         public init(shareId: String) {
@@ -1986,7 +2023,7 @@ extension Omics {
     }
 
     public struct DeleteShareResponse: AWSDecodableShape {
-        ///  The status of the share being deleted.
+        /// The status of the share being deleted.
         public let status: ShareStatus?
 
         public init(status: ShareStatus? = nil) {
@@ -2056,11 +2093,11 @@ extension Omics {
     }
 
     public struct ETag: AWSDecodableShape {
-        ///  The algorithm used to calculate the read set’s ETag(s).
+        /// The algorithm used to calculate the read set’s ETag(s).
         public let algorithm: ETagAlgorithm?
-        ///  The ETag hash calculated on Source1 of the read set.
+        /// The ETag hash calculated on Source1 of the read set.
         public let source1: String?
-        ///  The ETag hash calculated on Source2 of the read set.
+        /// The ETag hash calculated on Source2 of the read set.
         public let source2: String?
 
         public init(algorithm: ETagAlgorithm? = nil, source1: String? = nil, source2: String? = nil) {
@@ -2175,41 +2212,53 @@ extension Omics {
         public let contentLength: Int64?
         /// The file's part size.
         public let partSize: Int64?
+        /// The S3 URI metadata of a sequence store.
+        public let s3Access: ReadSetS3Access?
         /// The file's total parts.
         public let totalParts: Int?
 
-        public init(contentLength: Int64? = nil, partSize: Int64? = nil, totalParts: Int? = nil) {
+        public init(contentLength: Int64? = nil, partSize: Int64? = nil, s3Access: ReadSetS3Access? = nil, totalParts: Int? = nil) {
             self.contentLength = contentLength
             self.partSize = partSize
+            self.s3Access = s3Access
             self.totalParts = totalParts
         }
 
         private enum CodingKeys: String, CodingKey {
             case contentLength = "contentLength"
             case partSize = "partSize"
+            case s3Access = "s3Access"
             case totalParts = "totalParts"
         }
     }
 
     public struct Filter: AWSEncodableShape {
-        /// The Amazon Resource Number (Arn) for an analytics store.
+        /// Filter based on the Amazon Resource Number (ARN) of the resource. You can specify up to 10 values.
         public let resourceArns: [String]?
-        /// The status of an annotation store version.
+        /// Filter based on the resource status. You can specify up to 10 values.
         public let status: [ShareStatus]?
+        /// The type of resources to be filtered. You can specify one or more of the resource types.
+        public let type: [ShareResourceType]?
 
-        public init(resourceArns: [String]? = nil, status: [ShareStatus]? = nil) {
+        public init(resourceArns: [String]? = nil, status: [ShareStatus]? = nil, type: [ShareResourceType]? = nil) {
             self.resourceArns = resourceArns
             self.status = status
+            self.type = type
         }
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArns, name: "resourceArns", parent: name, max: 10)
             try self.validate(self.resourceArns, name: "resourceArns", parent: name, min: 1)
+            try self.validate(self.status, name: "status", parent: name, max: 10)
+            try self.validate(self.status, name: "status", parent: name, min: 1)
+            try self.validate(self.type, name: "type", parent: name, max: 10)
+            try self.validate(self.type, name: "type", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case resourceArns = "resourceArns"
             case status = "status"
+            case type = "type"
         }
     }
 
@@ -2235,7 +2284,7 @@ extension Omics {
     }
 
     public struct GetAnnotationImportResponse: AWSDecodableShape {
-        ///  The annotation schema generated by the parsed annotation data.
+        /// The annotation schema generated by the parsed annotation data.
         public let annotationFields: [String: String]?
         /// When the job completed.
         @CustomCoding<ISO8601DateCoder>
@@ -2717,7 +2766,7 @@ extension Omics {
         public let creationType: CreationType?
         /// The read set's description.
         public let description: String?
-        ///  The entity tag (ETag) is a hash of the object meant to represent its semantic content.
+        /// The entity tag (ETag) is a hash of the object meant to represent its semantic content.
         public let etag: ETag?
         /// The read set's files.
         public let files: ReadSetFiles?
@@ -2737,7 +2786,7 @@ extension Omics {
         public let sequenceStoreId: String
         /// The read set's status.
         public let status: ReadSetStatus
-        ///  The status message for a read set. It provides more detail as to why the read set has a status.
+        /// The status message for a read set. It provides more detail as to why the read set has a status.
         public let statusMessage: String?
         /// The read set's subject ID.
         public let subjectId: String?
@@ -3139,7 +3188,7 @@ extension Omics {
         public let maxCpus: Int?
         /// The group's maximum run time in minutes.
         public let maxDuration: Int?
-        ///  The maximum GPUs that can be used by a run group.
+        /// The maximum GPUs that can be used by a run group.
         public let maxGpus: Int?
         /// The maximum number of concurrent runs for the group.
         public let maxRuns: Int?
@@ -3202,7 +3251,7 @@ extension Omics {
     }
 
     public struct GetRunResponse: AWSDecodableShape {
-        ///  The computational accelerator used to run the workflow.
+        /// The computational accelerator used to run the workflow.
         public let accelerators: Accelerators?
         /// The run's ARN.
         public let arn: String?
@@ -3213,13 +3262,13 @@ extension Omics {
         public let definition: String?
         /// The run's digest.
         public let digest: String?
-        ///  The reason a run has failed.
+        /// The reason a run has failed.
         public let failureReason: String?
         /// The run's ID.
         public let id: String?
         /// The run's log level.
         public let logLevel: RunLogLevel?
-        ///  The location of the run log.
+        /// The location of the run log.
         public let logLocation: RunLogLocation?
         /// The run's name.
         public let name: String?
@@ -3239,7 +3288,7 @@ extension Omics {
         public let runGroupId: String?
         /// The run's ID.
         public let runId: String?
-        ///  The destination for workflow outputs.
+        /// The destination for workflow outputs.
         public let runOutputUri: String?
         /// Who started the run.
         public let startedBy: String?
@@ -3253,18 +3302,22 @@ extension Omics {
         /// The run's stop time.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var stopTime: Date?
-        /// The run's storage capacity in gigabytes.
+        /// The run's storage capacity in gibibytes. For dynamic storage,  after the run has completed, this value is the maximum amount of storage used during the run.
         public let storageCapacity: Int?
+        /// The run's storage type.
+        public let storageType: StorageType?
         /// The run's tags.
         public let tags: [String: String]?
-        ///  The universally unique identifier for a run.
+        /// The universally unique identifier for a run.
         public let uuid: String?
         /// The run's workflow ID.
         public let workflowId: String?
+        /// The ID of the workflow owner.
+        public let workflowOwnerId: String?
         /// The run's workflow type.
         public let workflowType: WorkflowType?
 
-        public init(accelerators: Accelerators? = nil, arn: String? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, failureReason: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, logLocation: RunLogLocation? = nil, name: String? = nil, outputUri: String? = nil, parameters: String? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, runOutputUri: String? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, tags: [String: String]? = nil, uuid: String? = nil, workflowId: String? = nil, workflowType: WorkflowType? = nil) {
+        public init(accelerators: Accelerators? = nil, arn: String? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, failureReason: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, logLocation: RunLogLocation? = nil, name: String? = nil, outputUri: String? = nil, parameters: String? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, runOutputUri: String? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, uuid: String? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil) {
             self.accelerators = accelerators
             self.arn = arn
             self.creationTime = creationTime
@@ -3290,9 +3343,11 @@ extension Omics {
             self.statusMessage = statusMessage
             self.stopTime = stopTime
             self.storageCapacity = storageCapacity
+            self.storageType = storageType
             self.tags = tags
             self.uuid = uuid
             self.workflowId = workflowId
+            self.workflowOwnerId = workflowOwnerId
             self.workflowType = workflowType
         }
 
@@ -3322,9 +3377,11 @@ extension Omics {
             case statusMessage = "statusMessage"
             case stopTime = "stopTime"
             case storageCapacity = "storageCapacity"
+            case storageType = "storageType"
             case tags = "tags"
             case uuid = "uuid"
             case workflowId = "workflowId"
+            case workflowOwnerId = "workflowOwnerId"
             case workflowType = "workflowType"
         }
     }
@@ -3365,11 +3422,11 @@ extension Omics {
         /// When the task was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTime: Date?
-        ///  The reason a task has failed.
+        /// The reason a task has failed.
         public let failureReason: String?
-        ///  The number of Graphics Processing Units (GPU) specified in the task.
+        /// The number of Graphics Processing Units (GPU) specified in the task.
         public let gpus: Int?
-        ///  The instance type for a task.
+        /// The instance type for a task.
         public let instanceType: String?
         /// The task's log stream.
         public let logStream: String?
@@ -3453,22 +3510,28 @@ extension Omics {
         public let creationTime: Date
         /// The store's description.
         public let description: String?
-        ///  An S3 location that is used to store files that have failed a direct upload.
+        /// The algorithm family of the ETag.
+        public let eTagAlgorithmFamily: ETagAlgorithmFamily?
+        /// An S3 location that is used to store files that have failed a direct upload.
         public let fallbackLocation: String?
         /// The store's ID.
         public let id: String
         /// The store's name.
         public let name: String?
+        /// The S3 metadata of a sequence store, including the ARN and S3 URI of the S3 bucket.
+        public let s3Access: SequenceStoreS3Access?
         /// The store's server-side encryption (SSE) settings.
         public let sseConfig: SseConfig?
 
-        public init(arn: String, creationTime: Date, description: String? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, sseConfig: SseConfig? = nil) {
+        public init(arn: String, creationTime: Date, description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, s3Access: SequenceStoreS3Access? = nil, sseConfig: SseConfig? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
+            self.eTagAlgorithmFamily = eTagAlgorithmFamily
             self.fallbackLocation = fallbackLocation
             self.id = id
             self.name = name
+            self.s3Access = s3Access
             self.sseConfig = sseConfig
         }
 
@@ -3476,15 +3539,17 @@ extension Omics {
             case arn = "arn"
             case creationTime = "creationTime"
             case description = "description"
+            case eTagAlgorithmFamily = "eTagAlgorithmFamily"
             case fallbackLocation = "fallbackLocation"
             case id = "id"
             case name = "name"
+            case s3Access = "s3Access"
             case sseConfig = "sseConfig"
         }
     }
 
     public struct GetShareRequest: AWSEncodableShape {
-        ///  The generated ID for a share.
+        /// The ID of the share.
         public let shareId: String
 
         public init(shareId: String) {
@@ -3501,7 +3566,7 @@ extension Omics {
     }
 
     public struct GetShareResponse: AWSDecodableShape {
-        ///  An analytic store share details object. contains status, resourceArn, ownerId, etc.
+        /// A resource share details object. The object includes the status, the resourceArn, and ownerId.
         public let share: ShareDetails?
 
         public init(share: ShareDetails? = nil) {
@@ -3535,7 +3600,7 @@ extension Omics {
     }
 
     public struct GetVariantImportResponse: AWSDecodableShape {
-        ///  The annotation schema generated by the parsed annotation data.
+        /// The annotation schema generated by the parsed annotation data.
         public let annotationFields: [String: String]?
         /// When the job completed.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -3673,11 +3738,14 @@ extension Omics {
         public let id: String
         /// The workflow's type.
         public let type: WorkflowType?
+        /// The ID of the workflow owner.
+        public let workflowOwnerId: String?
 
-        public init(export: [WorkflowExport]? = nil, id: String, type: WorkflowType? = nil) {
+        public init(export: [WorkflowExport]? = nil, id: String, type: WorkflowType? = nil, workflowOwnerId: String? = nil) {
             self.export = export
             self.id = id
             self.type = type
+            self.workflowOwnerId = workflowOwnerId
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -3686,6 +3754,7 @@ extension Omics {
             request.encodeQuery(self.export, key: "export")
             request.encodePath(self.id, key: "id")
             request.encodeQuery(self.type, key: "type")
+            request.encodeQuery(self.workflowOwnerId, key: "workflowOwnerId")
         }
 
         public func validate(name: String) throws {
@@ -3693,13 +3762,14 @@ extension Omics {
             try self.validate(self.id, name: "id", parent: name, max: 18)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.workflowOwnerId, name: "workflowOwnerId", parent: name, pattern: "^[0-9]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetWorkflowResponse: AWSDecodableShape {
-        ///  The computational accelerator specified to run the workflow.
+        /// The computational accelerator specified to run the workflow.
         public let accelerators: Accelerators?
         /// The workflow's ARN.
         public let arn: String?
@@ -3718,7 +3788,7 @@ extension Omics {
         public let id: String?
         /// The path of the main definition file for the workflow.
         public let main: String?
-        ///  Gets metadata for workflow.
+        /// Gets metadata for workflow.
         public let metadata: [String: String]?
         /// The workflow's name.
         public let name: String?
@@ -3728,7 +3798,7 @@ extension Omics {
         public let status: WorkflowStatus?
         /// The workflow's status message.
         public let statusMessage: String?
-        /// The workflow's storage capacity in gigabytes.
+        /// The workflow's storage capacity in gibibytes.
         public let storageCapacity: Int?
         /// The workflow's tags.
         public let tags: [String: String]?
@@ -4174,11 +4244,11 @@ extension Omics {
     }
 
     public struct ListMultipartReadSetUploadsRequest: AWSEncodableShape {
-        ///  The maximum number of multipart uploads returned in a page.
+        /// The maximum number of multipart uploads returned in a page.
         public let maxResults: Int?
-        ///  Next token returned in the response of a previous ListMultipartReadSetUploads call. Used to get the next page of results.
+        /// Next token returned in the response of a previous ListMultipartReadSetUploads call.  Used to get the next page of results.
         public let nextToken: String?
-        ///  The Sequence Store ID used for the multipart uploads.
+        /// The Sequence Store ID used for the multipart uploads.
         public let sequenceStoreId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, sequenceStoreId: String) {
@@ -4208,9 +4278,9 @@ extension Omics {
     }
 
     public struct ListMultipartReadSetUploadsResponse: AWSDecodableShape {
-        ///  Next token returned in the response of a previous ListMultipartReadSetUploads call. Used to get the next page of results.
+        /// Next token returned in the response of a previous ListMultipartReadSetUploads call.  Used to get the next page of results.
         public let nextToken: String?
-        ///  An array of multipart uploads.
+        /// An array of multipart uploads.
         public let uploads: [MultipartReadSetUploadListItem]?
 
         public init(nextToken: String? = nil, uploads: [MultipartReadSetUploadListItem]? = nil) {
@@ -4396,17 +4466,17 @@ extension Omics {
     }
 
     public struct ListReadSetUploadPartsRequest: AWSEncodableShape {
-        ///  Attributes used to filter for a specific subset of read set part uploads.
+        /// Attributes used to filter for a specific subset of read set part uploads.
         public let filter: ReadSetUploadPartListFilter?
-        ///  The maximum number of read set upload parts returned in a page.
+        /// The maximum number of read set upload parts returned in a page.
         public let maxResults: Int?
-        ///  Next token returned in the response of a previous ListReadSetUploadPartsRequest call. Used to get the next page of results.
+        /// Next token returned in the response of a previous ListReadSetUploadPartsRequest call. Used to get the next page of results.
         public let nextToken: String?
-        ///  The source file for the upload part.
+        /// The source file for the upload part.
         public let partSource: ReadSetPartSource
-        ///  The Sequence Store ID used for the multipart uploads.
+        /// The Sequence Store ID used for the multipart uploads.
         public let sequenceStoreId: String
-        ///  The ID for the initiated multipart upload.
+        /// The ID for the initiated multipart upload.
         public let uploadId: String
 
         public init(filter: ReadSetUploadPartListFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, partSource: ReadSetPartSource, sequenceStoreId: String, uploadId: String) {
@@ -4448,9 +4518,9 @@ extension Omics {
     }
 
     public struct ListReadSetUploadPartsResponse: AWSDecodableShape {
-        ///  Next token returned in the response of a previous ListReadSetUploadParts call. Used to get the next page of results.
+        /// Next token returned in the response of a previous ListReadSetUploadParts call. Used to get the next page of results.
         public let nextToken: String?
-        ///  An array of upload parts.
+        /// An array of upload parts.
         public let parts: [ReadSetUploadPartListItem]?
 
         public init(nextToken: String? = nil, parts: [ReadSetUploadPartListItem]? = nil) {
@@ -4803,7 +4873,7 @@ extension Omics {
         public let runGroupId: String?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let startingToken: String?
-        ///  The status of a run.
+        /// The status of a run.
         public let status: RunStatus?
 
         public init(maxResults: Int? = nil, name: String? = nil, runGroupId: String? = nil, startingToken: String? = nil, status: RunStatus? = nil) {
@@ -4908,13 +4978,13 @@ extension Omics {
     }
 
     public struct ListSharesRequest: AWSEncodableShape {
-        ///  Attributes used to filter for a specific subset of shares.
+        /// Attributes that you use to filter for a specific subset of resource shares.
         public let filter: Filter?
-        ///  The maximum number of shares to return in one page of results.
+        /// The maximum number of shares to return in one page of results.
         public let maxResults: Int?
-        ///  Next token returned in the response of a previous ListReadSetUploadPartsRequest call. Used to get the next page of results.
+        /// Next token returned in the response of a previous ListReadSetUploadPartsRequest call. Used to get the next page of results.
         public let nextToken: String?
-        ///  The account that owns the analytics store shared.
+        /// The account that owns the resource shares.
         public let resourceOwner: ResourceOwner
 
         public init(filter: Filter? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceOwner: ResourceOwner) {
@@ -4946,7 +5016,7 @@ extension Omics {
     public struct ListSharesResponse: AWSDecodableShape {
         /// Next token returned in the response of a previous ListSharesResponse call. Used to get the next page of results.
         public let nextToken: String?
-        ///  The shares available and their meta details.
+        /// The shares available and their metadata details.
         public let shares: [ShareDetails]
 
         public init(nextToken: String? = nil, shares: [ShareDetails]) {
@@ -5141,11 +5211,11 @@ extension Omics {
     public struct ListWorkflowsRequest: AWSEncodableShape {
         /// The maximum number of workflows to return in one page of results.
         public let maxResults: Int?
-        /// The workflows' name.
+        /// Filter the list by workflow name.
         public let name: String?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let startingToken: String?
-        /// The workflows' type.
+        /// Filter the list by workflow type.
         public let type: WorkflowType?
 
         public init(maxResults: Int? = nil, name: String? = nil, startingToken: String? = nil, type: WorkflowType? = nil) {
@@ -5177,7 +5247,7 @@ extension Omics {
     }
 
     public struct ListWorkflowsResponse: AWSDecodableShape {
-        /// The workflows' items.
+        /// A list of workflow items.
         public let items: [WorkflowListItem]?
         /// A pagination token that's included if more results are available.
         public let nextToken: String?
@@ -5419,7 +5489,7 @@ extension Omics {
         public let creationType: CreationType?
         /// The read set's description.
         public let description: String?
-        ///  The entity tag (ETag) is a hash of the object representing  its semantic content.
+        /// The entity tag (ETag) is a hash of the object representing its semantic content.
         public let etag: ETag?
         /// The read set's file type.
         public let fileType: FileType
@@ -5475,6 +5545,19 @@ extension Omics {
             case status = "status"
             case statusMessage = "statusMessage"
             case subjectId = "subjectId"
+        }
+    }
+
+    public struct ReadSetS3Access: AWSDecodableShape {
+        /// The S3 URI for each read set file.
+        public let s3Uri: String?
+
+        public init(s3Uri: String? = nil) {
+            self.s3Uri = s3Uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "s3Uri"
         }
     }
 
@@ -5746,12 +5829,14 @@ extension Omics {
         /// When the run stopped.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var stopTime: Date?
-        /// The run's storage capacity.
+        /// The run's storage capacity in gibibytes. For dynamic storage,  after the run has completed, this value is the maximum amount of storage used during the run.
         public let storageCapacity: Int?
+        /// The run's storage type.
+        public let storageType: StorageType?
         /// The run's workflow ID.
         public let workflowId: String?
 
-        public init(arn: String? = nil, creationTime: Date? = nil, id: String? = nil, name: String? = nil, priority: Int? = nil, startTime: Date? = nil, status: RunStatus? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, workflowId: String? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, id: String? = nil, name: String? = nil, priority: Int? = nil, startTime: Date? = nil, status: RunStatus? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, workflowId: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.id = id
@@ -5761,6 +5846,7 @@ extension Omics {
             self.status = status
             self.stopTime = stopTime
             self.storageCapacity = storageCapacity
+            self.storageType = storageType
             self.workflowId = workflowId
         }
 
@@ -5774,14 +5860,15 @@ extension Omics {
             case status = "status"
             case stopTime = "stopTime"
             case storageCapacity = "storageCapacity"
+            case storageType = "storageType"
             case workflowId = "workflowId"
         }
     }
 
     public struct RunLogLocation: AWSDecodableShape {
-        ///  The log stream ARN for the engine log.
+        /// The log stream ARN for the engine log.
         public let engineLogStream: String?
-        ///  The log stream ARN for the run log.
+        /// The log stream ARN for the run log.
         public let runLogStream: String?
 
         public init(engineLogStream: String? = nil, runLogStream: String? = nil) {
@@ -5827,6 +5914,8 @@ extension Omics {
         public let creationTime: Date
         /// The store's description.
         public let description: String?
+        /// The algorithm family of the ETag.
+        public let eTagAlgorithmFamily: ETagAlgorithmFamily?
         ///  An S3 location that is used to store files that have failed a direct upload.
         public let fallbackLocation: String?
         /// The store's ID.
@@ -5836,10 +5925,11 @@ extension Omics {
         /// The store's server-side encryption (SSE) settings.
         public let sseConfig: SseConfig?
 
-        public init(arn: String, creationTime: Date, description: String? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, sseConfig: SseConfig? = nil) {
+        public init(arn: String, creationTime: Date, description: String? = nil, eTagAlgorithmFamily: ETagAlgorithmFamily? = nil, fallbackLocation: String? = nil, id: String, name: String? = nil, sseConfig: SseConfig? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
+            self.eTagAlgorithmFamily = eTagAlgorithmFamily
             self.fallbackLocation = fallbackLocation
             self.id = id
             self.name = name
@@ -5850,6 +5940,7 @@ extension Omics {
             case arn = "arn"
             case creationTime = "creationTime"
             case description = "description"
+            case eTagAlgorithmFamily = "eTagAlgorithmFamily"
             case fallbackLocation = "fallbackLocation"
             case id = "id"
             case name = "name"
@@ -5884,33 +5975,53 @@ extension Omics {
         }
     }
 
+    public struct SequenceStoreS3Access: AWSDecodableShape {
+        /// This is ARN of the access point associated with the S3 bucket storing read sets.
+        public let s3AccessPointArn: String?
+        /// The S3 URI of the sequence store.
+        public let s3Uri: String?
+
+        public init(s3AccessPointArn: String? = nil, s3Uri: String? = nil) {
+            self.s3AccessPointArn = s3AccessPointArn
+            self.s3Uri = s3Uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3AccessPointArn = "s3AccessPointArn"
+            case s3Uri = "s3Uri"
+        }
+    }
+
     public struct ShareDetails: AWSDecodableShape {
-        ///  The timestamp for when the share was created.
+        /// The timestamp of when the resource share was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTime: Date?
-        ///  The account ID for the data owner. The owner creates the share offer.
+        /// The account ID for the data owner. The owner creates the resource share.
         public let ownerId: String?
-        ///  The principal subscriber is the account the analytics store data is being shared with.
+        /// The principal subscriber is the account that is sharing the resource.
         public let principalSubscriber: String?
-        ///  The resource Arn of the analytics store being shared.
+        /// The Arn of the shared resource.
         public let resourceArn: String?
-        ///  The ID for a share offer for an analytics store .
+        /// The ID of the shared resource.
+        public let resourceId: String?
+        /// The ID of the resource share.
         public let shareId: String?
-        ///  The name of the share.
+        /// The name of the resource share.
         public let shareName: String?
-        ///  The status of a share.
+        /// The status of the share.
         public let status: ShareStatus?
-        ///  The status message for a share. It provides more details on the status of the share.
+        /// The status message for a resource share. It provides additional details about the share status.
         public let statusMessage: String?
-        ///  The timestamp of the share update.
+        /// The timestamp of the resource share update.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updateTime: Date?
 
-        public init(creationTime: Date? = nil, ownerId: String? = nil, principalSubscriber: String? = nil, resourceArn: String? = nil, shareId: String? = nil, shareName: String? = nil, status: ShareStatus? = nil, statusMessage: String? = nil, updateTime: Date? = nil) {
+        public init(creationTime: Date? = nil, ownerId: String? = nil, principalSubscriber: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, shareId: String? = nil, shareName: String? = nil, status: ShareStatus? = nil, statusMessage: String? = nil, updateTime: Date? = nil) {
             self.creationTime = creationTime
             self.ownerId = ownerId
             self.principalSubscriber = principalSubscriber
             self.resourceArn = resourceArn
+            self.resourceId = resourceId
             self.shareId = shareId
             self.shareName = shareName
             self.status = status
@@ -5923,6 +6034,7 @@ extension Omics {
             case ownerId = "ownerId"
             case principalSubscriber = "principalSubscriber"
             case resourceArn = "resourceArn"
+            case resourceId = "resourceId"
             case shareId = "shareId"
             case shareName = "shareName"
             case status = "status"
@@ -5971,7 +6083,7 @@ extension Omics {
     }
 
     public struct StartAnnotationImportRequest: AWSEncodableShape {
-        ///  The annotation schema generated by the parsed annotation data.
+        /// The annotation schema generated by the parsed annotation data.
         public let annotationFields: [String: String]?
         /// A destination annotation store for the job.
         public let destinationName: String
@@ -6491,16 +6603,20 @@ extension Omics {
         public let runGroupId: String?
         /// The ID of a run to duplicate.
         public let runId: String?
-        /// A storage capacity for the run in gigabytes.
+        /// A storage capacity for the run in gibibytes. This field is not required if the storage type is dynamic (the system ignores any value that you enter).
         public let storageCapacity: Int?
+        /// The run's storage type. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. If you set the storage type to DYNAMIC, HealthOmics dynamically scales the storage up  or down, based on file system utilization.
+        public let storageType: StorageType?
         /// Tags for the run.
         public let tags: [String: String]?
         /// The run's workflow ID.
         public let workflowId: String?
+        /// The ID of the workflow owner.
+        public let workflowOwnerId: String?
         /// The run's workflow type.
         public let workflowType: WorkflowType?
 
-        public init(logLevel: RunLogLevel? = nil, name: String? = nil, outputUri: String? = nil, parameters: String? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, storageCapacity: Int? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowType: WorkflowType? = nil) {
+        public init(logLevel: RunLogLevel? = nil, name: String? = nil, outputUri: String? = nil, parameters: String? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil) {
             self.logLevel = logLevel
             self.name = name
             self.outputUri = outputUri
@@ -6512,8 +6628,10 @@ extension Omics {
             self.runGroupId = runGroupId
             self.runId = runId
             self.storageCapacity = storageCapacity
+            self.storageType = storageType
             self.tags = tags
             self.workflowId = workflowId
+            self.workflowOwnerId = workflowOwnerId
             self.workflowType = workflowType
         }
 
@@ -6544,6 +6662,7 @@ extension Omics {
             try self.validate(self.workflowId, name: "workflowId", parent: name, max: 18)
             try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
             try self.validate(self.workflowId, name: "workflowId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.workflowOwnerId, name: "workflowOwnerId", parent: name, pattern: "^[0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6558,8 +6677,10 @@ extension Omics {
             case runGroupId = "runGroupId"
             case runId = "runId"
             case storageCapacity = "storageCapacity"
+            case storageType = "storageType"
             case tags = "tags"
             case workflowId = "workflowId"
+            case workflowOwnerId = "workflowOwnerId"
             case workflowType = "workflowType"
         }
     }
@@ -6569,13 +6690,13 @@ extension Omics {
         public let arn: String?
         /// The run's ID.
         public let id: String?
-        ///  The destination for workflow outputs.
+        /// The destination for workflow outputs.
         public let runOutputUri: String?
         /// The run's status.
         public let status: RunStatus?
         /// The run's tags.
         public let tags: [String: String]?
-        ///  The universally unique identifier for a run.
+        /// The universally unique identifier for a run.
         public let uuid: String?
 
         public init(arn: String? = nil, id: String? = nil, runOutputUri: String? = nil, status: RunStatus? = nil, tags: [String: String]? = nil, uuid: String? = nil) {
@@ -6598,7 +6719,7 @@ extension Omics {
     }
 
     public struct StartVariantImportRequest: AWSEncodableShape {
-        ///  The annotation schema generated by the parsed annotation data.
+        /// The annotation schema generated by the parsed annotation data.
         public let annotationFields: [String: String]?
         /// The destination variant store for the job.
         public let destinationName: String
@@ -7006,7 +7127,7 @@ extension Omics {
         public let maxCpus: Int?
         /// A maximum run time for the group in minutes.
         public let maxDuration: Int?
-        ///  The maximum GPUs that can be used by a run group.
+        /// The maximum GPUs that can be used by a run group.
         public let maxGpus: Int?
         /// The maximum number of concurrent runs for the group.
         public let maxRuns: Int?
@@ -7159,15 +7280,15 @@ extension Omics {
 
     public struct UploadReadSetPartRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.allowStreaming]
-        ///  The number of the part being uploaded.
+        /// The number of the part being uploaded.
         public let partNumber: Int
-        ///  The source file for an upload part.
+        /// The source file for an upload part.
         public let partSource: ReadSetPartSource
-        ///  The read set data to upload for a part.
+        /// The read set data to upload for a part.
         public let payload: AWSHTTPBody
-        ///  The Sequence Store ID used for the multipart upload.
+        /// The Sequence Store ID used for the multipart upload.
         public let sequenceStoreId: String
-        ///  The ID for the initiated multipart upload.
+        /// The ID for the initiated multipart upload.
         public let uploadId: String
 
         public init(partNumber: Int, partSource: ReadSetPartSource, payload: AWSHTTPBody, sequenceStoreId: String, uploadId: String) {
@@ -7201,7 +7322,7 @@ extension Omics {
     }
 
     public struct UploadReadSetPartResponse: AWSDecodableShape {
-        ///  An identifier used to confirm that parts are being added to the intended upload.
+        /// An identifier used to confirm that parts are being added to the intended upload.
         public let checksum: String
 
         public init(checksum: String) {

@@ -52,6 +52,13 @@ extension PaymentCryptography {
         public var description: String { return self.rawValue }
     }
 
+    public enum KeyExportability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exportable = "EXPORTABLE"
+        case nonExportable = "NON_EXPORTABLE"
+        case sensitive = "SENSITIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum KeyMaterialType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case keyCryptogram = "KEY_CRYPTOGRAM"
         case rootPublicKeyCertificate = "ROOT_PUBLIC_KEY_CERTIFICATE"
@@ -489,20 +496,25 @@ extension PaymentCryptography {
     }
 
     public struct ExportTr31KeyBlock: AWSEncodableShape {
+        /// Optional metadata for export associated with the key material. This data is signed but transmitted in clear text.
+        public let keyBlockHeaders: KeyBlockHeaders?
         /// The KeyARN of the the wrapping key. This key encrypts or wraps the key under export for TR-31 key block generation.
         public let wrappingKeyIdentifier: String
 
-        public init(wrappingKeyIdentifier: String) {
+        public init(keyBlockHeaders: KeyBlockHeaders? = nil, wrappingKeyIdentifier: String) {
+            self.keyBlockHeaders = keyBlockHeaders
             self.wrappingKeyIdentifier = wrappingKeyIdentifier
         }
 
         public func validate(name: String) throws {
+            try self.keyBlockHeaders?.validate(name: "\(name).keyBlockHeaders")
             try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, max: 322)
             try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, min: 7)
             try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case keyBlockHeaders = "KeyBlockHeaders"
             case wrappingKeyIdentifier = "WrappingKeyIdentifier"
         }
     }
@@ -514,15 +526,18 @@ extension PaymentCryptography {
         public let exportToken: String
         /// The format of key block that Amazon Web Services Payment Cryptography will use during key export.
         public let keyBlockFormat: Tr34KeyBlockFormat
+        /// Optional metadata for export associated with the key material. This data is signed but transmitted in clear text.
+        public let keyBlockHeaders: KeyBlockHeaders?
         /// A random number value that is unique to the TR-34 key block generated using 2 pass. The operation will fail, if a random nonce value is not provided for a TR-34 key block generated using 2 pass.
         public let randomNonce: String?
         /// The KeyARN of the wrapping key certificate. Amazon Web Services Payment Cryptography uses this certificate to wrap the key under export.
         public let wrappingKeyCertificate: String
 
-        public init(certificateAuthorityPublicKeyIdentifier: String, exportToken: String, keyBlockFormat: Tr34KeyBlockFormat, randomNonce: String? = nil, wrappingKeyCertificate: String) {
+        public init(certificateAuthorityPublicKeyIdentifier: String, exportToken: String, keyBlockFormat: Tr34KeyBlockFormat, keyBlockHeaders: KeyBlockHeaders? = nil, randomNonce: String? = nil, wrappingKeyCertificate: String) {
             self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
             self.exportToken = exportToken
             self.keyBlockFormat = keyBlockFormat
+            self.keyBlockHeaders = keyBlockHeaders
             self.randomNonce = randomNonce
             self.wrappingKeyCertificate = wrappingKeyCertificate
         }
@@ -532,6 +547,7 @@ extension PaymentCryptography {
             try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, min: 7)
             try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
             try self.validate(self.exportToken, name: "exportToken", parent: name, pattern: "^export-token-[0-9a-zA-Z]{16,64}$")
+            try self.keyBlockHeaders?.validate(name: "\(name).keyBlockHeaders")
             try self.validate(self.randomNonce, name: "randomNonce", parent: name, max: 16)
             try self.validate(self.randomNonce, name: "randomNonce", parent: name, min: 16)
             try self.validate(self.randomNonce, name: "randomNonce", parent: name, pattern: "^[0-9A-F]+$")
@@ -544,6 +560,7 @@ extension PaymentCryptography {
             case certificateAuthorityPublicKeyIdentifier = "CertificateAuthorityPublicKeyIdentifier"
             case exportToken = "ExportToken"
             case keyBlockFormat = "KeyBlockFormat"
+            case keyBlockHeaders = "KeyBlockHeaders"
             case randomNonce = "RandomNonce"
             case wrappingKeyCertificate = "WrappingKeyCertificate"
         }
@@ -980,6 +997,44 @@ extension PaymentCryptography {
             case keyClass = "KeyClass"
             case keyModesOfUse = "KeyModesOfUse"
             case keyUsage = "KeyUsage"
+        }
+    }
+
+    public struct KeyBlockHeaders: AWSEncodableShape {
+        /// Specifies subsequent exportability of the key within the key block after it is received by the receiving party. It can be used to further restrict exportability of the key after export from Amazon Web Services Payment Cryptography. When set to EXPORTABLE, the key can be subsequently exported by the receiver under a KEK using TR-31 or TR-34 key block export only. When set to NON_EXPORTABLE, the key cannot be subsequently exported by the receiver. When set to SENSITIVE, the key can be exported by the receiver under a KEK using TR-31, TR-34, RSA wrap and unwrap cryptogram or using a symmetric cryptogram key export method. For further information refer to ANSI X9.143-2022.
+        public let keyExportability: KeyExportability?
+        public let keyModesOfUse: KeyModesOfUse?
+        /// Parameter used to indicate the version of the key carried in the key block or indicate the value carried in the key block is a component of a key.
+        public let keyVersion: String?
+        /// Parameter used to indicate the type of optional data in key block headers. Refer to ANSI X9.143-2022 for information on allowed data type for optional blocks. Optional block character limit is 112 characters. For each optional block, 2 characters are reserved for optional block ID and 2 characters reserved for optional block length. More than one optional blocks can be included as long as the combined length does not increase 112 characters.
+        public let optionalBlocks: [String: String]?
+
+        public init(keyExportability: KeyExportability? = nil, keyModesOfUse: KeyModesOfUse? = nil, keyVersion: String? = nil, optionalBlocks: [String: String]? = nil) {
+            self.keyExportability = keyExportability
+            self.keyModesOfUse = keyModesOfUse
+            self.keyVersion = keyVersion
+            self.optionalBlocks = optionalBlocks
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyVersion, name: "keyVersion", parent: name, max: 2)
+            try self.validate(self.keyVersion, name: "keyVersion", parent: name, min: 2)
+            try self.validate(self.keyVersion, name: "keyVersion", parent: name, pattern: "^[0-9A-Z]{2}+$")
+            try self.optionalBlocks?.forEach {
+                try validate($0.key, name: "optionalBlocks.key", parent: name, max: 2)
+                try validate($0.key, name: "optionalBlocks.key", parent: name, min: 2)
+                try validate($0.key, name: "optionalBlocks.key", parent: name, pattern: "^[0-9A-Z]{2}+$")
+                try validate($0.value, name: "optionalBlocks[\"\($0.key)\"]", parent: name, max: 108)
+                try validate($0.value, name: "optionalBlocks[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "optionalBlocks[\"\($0.key)\"]", parent: name, pattern: "^[0-9A-Z]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyExportability = "KeyExportability"
+            case keyModesOfUse = "KeyModesOfUse"
+            case keyVersion = "KeyVersion"
+            case optionalBlocks = "OptionalBlocks"
         }
     }
 

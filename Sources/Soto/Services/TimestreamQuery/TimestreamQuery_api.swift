@@ -123,6 +123,21 @@ public struct TimestreamQuery: AWSService {
         )
     }
 
+    /// Describes the settings for your account that include the query pricing model and the configured maximum TCUs the service can use for your query workload. You're charged only for the duration of compute units used for your workloads.
+    @Sendable
+    public func describeAccountSettings(_ input: DescribeAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountSettingsResponse {
+        return try await self.client.execute(
+            operation: "DescribeAccountSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query. Because the Timestream SDKs are designed to transparently work with the service’s architecture, including the management and mapping of the service endpoints, it is not recommended that you use this API unless:   You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream     Your application uses a programming language that does not yet have SDK support   You require better control over the client-side implementation   For detailed information on how and when to use and implement DescribeEndpoints, see The Endpoint Discovery Pattern.
     @Sendable
     public func describeEndpoints(_ input: DescribeEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointsResponse {
@@ -246,6 +261,21 @@ public struct TimestreamQuery: AWSService {
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         return try await self.client.execute(
             operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Transitions your account to use TCUs for query pricing and modifies the maximum query compute units that you've configured. If you reduce the value of MaxQueryTCU to a desired configuration, the new value can take up to 24 hours to be effective.  After you've transitioned your account to use TCUs for query pricing, you can't transition to using bytes scanned for query pricing.
+    @Sendable
+    public func updateAccountSettings(_ input: UpdateAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccountSettingsResponse {
+        return try await self.client.execute(
+            operation: "UpdateAccountSettings", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config

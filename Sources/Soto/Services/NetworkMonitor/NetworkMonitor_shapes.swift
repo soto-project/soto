@@ -60,11 +60,11 @@ extension NetworkMonitor {
     // MARK: Shapes
 
     public struct CreateMonitorInput: AWSEncodableShape {
-        /// The time, in seconds, that metrics are aggregated and sent to Amazon CloudWatch. Valid values are either 30 or 60.
+        /// The time, in seconds, that metrics are aggregated and sent to Amazon CloudWatch. Valid values are either 30 or 60.  60 is the default if no period is chosen.
         public let aggregationPeriod: Int64?
         /// Unique, case-sensitive identifier to ensure the idempotency of the request. Only returned if a client token was provided in the request.
         public let clientToken: String?
-        /// The name identifying the monitor. It can contain only letters, underscores (_), or dashes (-), and can be up to 255 characters.
+        /// The name identifying the monitor. It can contain only letters, underscores (_), or dashes (-), and can be up to 200 characters.
         public let monitorName: String
         /// Displays a list of all of the probes created for a monitor.
         public let probes: [CreateMonitorProbeInput]?
@@ -81,7 +81,7 @@ extension NetworkMonitor {
 
         public func validate(name: String) throws {
             try self.validate(self.aggregationPeriod, name: "aggregationPeriod", parent: name, min: 30)
-            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 255)
+            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 200)
             try self.validate(self.monitorName, name: "monitorName", parent: name, min: 1)
             try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.probes?.forEach {
@@ -134,15 +134,15 @@ extension NetworkMonitor {
     }
 
     public struct CreateMonitorProbeInput: AWSEncodableShape {
-        /// The destination IP address. This will be either IPV4 or IPV6.
+        /// The destination IP address. This must be either IPV4 or IPV6.
         public let destination: String
         /// The port associated with the destination. This is required only if the protocol is TCP and must be a number between 1 and 65536.
         public let destinationPort: Int?
-        /// The size of the packets sent between the source and destination. This will be a number between 56 and 8500.
+        /// The size of the packets sent between the source and destination. This must be a number between 56 and 8500.
         public let packetSize: Int?
         /// The list of key-value pairs created and assigned to the monitor.
         public let probeTags: [String: String]?
-        /// The protocol used for the network traffic between the source and destination. This will be either TCP or ICMP.
+        /// The protocol used for the network traffic between the source and destination. This must be either TCP or ICMP.
         public let `protocol`: `Protocol`
         /// The ARN of the subnet.
         public let sourceArn: String
@@ -187,7 +187,7 @@ extension NetworkMonitor {
     public struct CreateProbeInput: AWSEncodableShape {
         /// Unique, case-sensitive identifier to ensure the idempotency of the request. Only returned if a client token was provided in the request.
         public let clientToken: String?
-        /// The name of the monitor to associated with the probe. To get a list of available monitors, use ListMonitors.
+        /// The name of the monitor to associated with the probe.
         public let monitorName: String
         /// Describes the details of an individual probe for a monitor.
         public let probe: ProbeInput
@@ -211,7 +211,7 @@ extension NetworkMonitor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 255)
+            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 200)
             try self.validate(self.monitorName, name: "monitorName", parent: name, min: 1)
             try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.probe.validate(name: "\(name).probe")
@@ -235,19 +235,19 @@ extension NetworkMonitor {
         public let addressFamily: AddressFamily?
         /// The time and date that the probe was created.
         public let createdAt: Date?
-        /// The destination IP address for the monitor. This will be either an IPv4 or IPv6 address.
+        /// The destination IP address for the monitor. This must be either an IPv4 or IPv6 address.
         public let destination: String
         /// The port associated with the destination. This is required only if the protocol is TCP and must be a number between 1 and 65536.
         public let destinationPort: Int?
         /// The time and date when the probe was last modified.
         public let modifiedAt: Date?
-        /// The size of the packets sent between the source and destination. This will be a number between 56 and 8500.
+        /// The size of the packets sent between the source and destination. This must be a number between 56 and 8500.
         public let packetSize: Int?
         /// The ARN of the probe.
         public let probeArn: String?
         /// The ID of the probe for which details are returned.
         public let probeId: String?
-        /// The protocol used for the network traffic between the source and destination. This will be either TCP or ICMP.
+        /// The protocol used for the network traffic between the source and destination. This must be either TCP or ICMP.
         public let `protocol`: `Protocol`
         /// The ARN of the probe.
         public let sourceArn: String
@@ -292,7 +292,7 @@ extension NetworkMonitor {
     }
 
     public struct DeleteMonitorInput: AWSEncodableShape {
-        /// The name of the monitor to delete. Use the ListMonitors action to get a list of your current monitors.
+        /// The name of the monitor to delete.
         public let monitorName: String
 
         public init(monitorName: String) {
@@ -306,7 +306,7 @@ extension NetworkMonitor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 255)
+            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 200)
             try self.validate(self.monitorName, name: "monitorName", parent: name, min: 1)
             try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
@@ -319,9 +319,9 @@ extension NetworkMonitor {
     }
 
     public struct DeleteProbeInput: AWSEncodableShape {
-        /// The name of the monitor to delete. For a list of the available monitors, use the ListMonitors action.
+        /// The name of the monitor to delete.
         public let monitorName: String
-        /// The ID of the probe to delete. Run GetMonitor to get a lst of all probes and probe IDs associated with the monitor.
+        /// The ID of the probe to delete.
         public let probeId: String
 
         public init(monitorName: String, probeId: String) {
@@ -337,7 +337,7 @@ extension NetworkMonitor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 255)
+            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 200)
             try self.validate(self.monitorName, name: "monitorName", parent: name, min: 1)
             try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.validate(self.probeId, name: "probeId", parent: name, pattern: "^probe-[a-z0-9A-Z-]{21,64}$")
@@ -365,7 +365,7 @@ extension NetworkMonitor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 255)
+            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 200)
             try self.validate(self.monitorName, name: "monitorName", parent: name, min: 1)
             try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
@@ -382,11 +382,11 @@ extension NetworkMonitor {
         public let modifiedAt: Date
         /// The ARN of the selected monitor.
         public let monitorArn: String
-        /// The name of the monitor. To get a list of the current monitors and their names, use the ListMonitors action.
+        /// The name of the monitor.
         public let monitorName: String
         /// The details about each probe associated with that monitor.
         public let probes: [Probe]?
-        /// Returns a list of the state of each monitor.
+        /// Lists the status of the state of each monitor.
         public let state: MonitorState
         /// The list of key-value pairs assigned to the monitor.
         public let tags: [String: String]?
@@ -433,7 +433,7 @@ extension NetworkMonitor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 255)
+            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 200)
             try self.validate(self.monitorName, name: "monitorName", parent: name, min: 1)
             try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.validate(self.probeId, name: "probeId", parent: name, pattern: "^probe-[a-z0-9A-Z-]{21,64}$")
@@ -447,19 +447,19 @@ extension NetworkMonitor {
         public let addressFamily: AddressFamily?
         /// The time and date that the probe was created.
         public let createdAt: Date?
-        /// The destination IP address for the monitor. This will be either an IPv4 or IPv6 address.
+        /// The destination IP address for the monitor. This must be either an IPv4 or IPv6 address.
         public let destination: String
         /// The port associated with the destination. This is required only if the protocol is TCP and must be a number between 1 and 65536.
         public let destinationPort: Int?
         /// The time and date that the probe was last modified.
         public let modifiedAt: Date?
-        /// The size of the packets sent between the source and destination. This will be a number between 56 and 8500.
+        /// The size of the packets sent between the source and destination. This must be a number between 56 and 8500.
         public let packetSize: Int?
         /// The ARN of the probe.
         public let probeArn: String?
         /// The ID of the probe for which details are returned.
         public let probeId: String?
-        /// The protocol used for the network traffic between the source and destination. This will be either TCP or ICMP.
+        /// The protocol used for the network traffic between the source and destination. This must be either TCP or ICMP.
         public let `protocol`: `Protocol`
         /// The ARN of the probe.
         public let sourceArn: String
@@ -679,13 +679,13 @@ extension NetworkMonitor {
     }
 
     public struct ProbeInput: AWSEncodableShape {
-        /// The destination IP address. This will be either IPV4 or IPV6.
+        /// The destination IP address. This must be either IPV4 or IPV6.
         public let destination: String
         /// The port associated with the destination. This is required only if the protocol is TCP and must be a number between 1 and 65536.
         public let destinationPort: Int?
-        /// The size of the packets sent between the source and destination. This will be a number between 56 and 8500.
+        /// The size of the packets sent between the source and destination. This must be a number between 56 and 8500.
         public let packetSize: Int?
-        /// The protocol used for the network traffic between the source and destination. This will be either TCP or ICMP.
+        /// The protocol used for the network traffic between the source and destination. This must be either TCP or ICMP.
         public let `protocol`: `Protocol`
         /// The ARN of the subnet.
         public let sourceArn: String
@@ -807,7 +807,7 @@ extension NetworkMonitor {
     public struct UpdateMonitorInput: AWSEncodableShape {
         /// The aggregation time, in seconds, to change to. This must be either 30 or 60.
         public let aggregationPeriod: Int64
-        /// The name of the monitor to update. Run ListMonitors to get a list of monitor names.
+        /// The name of the monitor to update.
         public let monitorName: String
 
         public init(aggregationPeriod: Int64, monitorName: String) {
@@ -824,7 +824,7 @@ extension NetworkMonitor {
 
         public func validate(name: String) throws {
             try self.validate(self.aggregationPeriod, name: "aggregationPeriod", parent: name, min: 30)
-            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 255)
+            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 200)
             try self.validate(self.monitorName, name: "monitorName", parent: name, min: 1)
             try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
@@ -872,7 +872,7 @@ extension NetworkMonitor {
         public let monitorName: String
         /// he updated packets size for network traffic between the source and destination. This must be a number between 56 and 8500.
         public let packetSize: Int?
-        /// Run GetMonitor to get a list of probes and probe IDs.
+        /// The ID of the probe to update.
         public let probeId: String
         /// The updated network protocol for the destination. This can be either TCP or ICMP. If the protocol is TCP, then port is also required.
         public let `protocol`: `Protocol`?
@@ -906,7 +906,7 @@ extension NetworkMonitor {
             try self.validate(self.destination, name: "destination", parent: name, min: 1)
             try self.validate(self.destinationPort, name: "destinationPort", parent: name, max: 65536)
             try self.validate(self.destinationPort, name: "destinationPort", parent: name, min: 0)
-            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 255)
+            try self.validate(self.monitorName, name: "monitorName", parent: name, max: 200)
             try self.validate(self.monitorName, name: "monitorName", parent: name, min: 1)
             try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.validate(self.packetSize, name: "packetSize", parent: name, max: 8500)
@@ -924,13 +924,13 @@ extension NetworkMonitor {
     }
 
     public struct UpdateProbeOutput: AWSDecodableShape {
-        /// The updated IP address family. This will be either IPV4 or IPV6.
+        /// The updated IP address family. This must be either IPV4 or IPV6.
         public let addressFamily: AddressFamily?
         /// The time and date that the probe was created.
         public let createdAt: Date?
         /// The updated destination IP address for the probe.
         public let destination: String
-        /// The updated destination port. This will be a number between 1 and 65536.
+        /// The updated destination port. This must be a number between 1 and 65536.
         public let destinationPort: Int?
         /// The time and date that the probe was last updated.
         public let modifiedAt: Date?

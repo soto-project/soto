@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS QConnect service.
 ///
-///   Powered by Amazon Bedrock: Amazon Web Services implements automated abuse detection. Because Amazon Q in Connect is built on Amazon Bedrock, users can take full advantage of the controls implemented in Amazon Bedrock to enforce safety, security, and the responsible use of artificial intelligence (AI).  Amazon Q in Connect is a generative AI customer service assistant. It is an LLM-enhanced evolution of Amazon Connect Wisdom that delivers real-time recommendations to help contact center agents resolve customer issues quickly and accurately. Amazon Q automatically detects customer intent during calls and chats using conversational analytics and natural language understanding (NLU). It then provides agents with immediate, real-time generative responses and suggested actions, and links to relevant documents and articles. Agents can also query Amazon Q directly using natural language or keywords to answer customer requests. Use the Amazon Q in Connect APIs to create an assistant and a knowledge base, for example, or manage content by uploading custom files. For more information, see Use Amazon Q in Connect for generative AI powered agent assistance in real-time in the Amazon Connect Administrator Guide.
+///   Powered by Amazon Bedrock: Amazon Web Services implements automated abuse detection. Because Amazon Q in Connect is built on Amazon Bedrock, users can take full advantage of the controls implemented in Amazon Bedrock to enforce safety, security, and the responsible use of artificial intelligence (AI).  Amazon Q in Connect is a generative AI customer service assistant. It is an LLM-enhanced evolution of Amazon Connect Wisdom that delivers real-time recommendations to help contact center agents resolve customer issues quickly and accurately. Amazon Q in Connect automatically detects customer intent during calls and chats using conversational analytics and natural language understanding (NLU). It then provides agents with immediate, real-time generative responses and suggested actions, and links to relevant documents and articles. Agents can also query Amazon Q in Connect directly using natural language or keywords to answer customer requests. Use the Amazon Q in Connect APIs to create an assistant and a knowledge base, for example, or manage content by uploading custom files. For more information, see Use Amazon Q in Connect for generative AI powered agent assistance in real-time in the Amazon Connect Administrator Guide.
 public struct QConnect: AWSService {
     // MARK: Member variables
 
@@ -107,7 +107,7 @@ public struct QConnect: AWSService {
         )
     }
 
-    /// Creates Amazon Q content. Before to calling this API, use StartContentUpload to upload an asset.
+    /// Creates Amazon Q in Connect content. Before to calling this API, use StartContentUpload to upload an asset.
     @Sendable
     public func createContent(_ input: CreateContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContentResponse {
         return try await self.client.execute(
@@ -133,7 +133,7 @@ public struct QConnect: AWSService {
         )
     }
 
-    /// Creates an Amazon Q quick response.
+    /// Creates an Amazon Q in Connect quick response.
     @Sendable
     public func createQuickResponse(_ input: CreateQuickResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateQuickResponseResponse {
         return try await self.client.execute(
@@ -146,7 +146,7 @@ public struct QConnect: AWSService {
         )
     }
 
-    /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Amazon Q session for each contact on which Amazon Q is enabled.
+    /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
     @Sendable
     public func createSession(_ input: CreateSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSessionResponse {
         return try await self.client.execute(
@@ -328,7 +328,7 @@ public struct QConnect: AWSService {
         )
     }
 
-    /// Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use NotifyRecommendationsReceived. This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use QueryAssistant.
+    ///  This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.  Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use NotifyRecommendationsReceived. This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use QueryAssistant.
     @available(*, deprecated, message: "GetRecommendations API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     @Sendable
     public func getRecommendations(_ input: GetRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecommendationsResponse {
@@ -472,7 +472,7 @@ public struct QConnect: AWSService {
         )
     }
 
-    /// Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
+    ///  This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.  Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
     @available(*, deprecated, message: "QueryAssistant API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     @Sendable
     public func queryAssistant(_ input: QueryAssistantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> QueryAssistantResponse {
@@ -512,7 +512,7 @@ public struct QConnect: AWSService {
         )
     }
 
-    /// Searches existing Amazon Q quick responses in an Amazon Q knowledge base.
+    /// Searches existing Amazon Q in Connect quick responses in an Amazon Q in Connect knowledge base.
     @Sendable
     public func searchQuickResponses(_ input: SearchQuickResponsesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchQuickResponsesResponse {
         return try await self.client.execute(
@@ -551,7 +551,7 @@ public struct QConnect: AWSService {
         )
     }
 
-    /// Start an asynchronous job to import Amazon Q resources from an uploaded source file. Before calling this API, use StartContentUpload to upload an asset that contains the resource data.   For importing Amazon Q quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses.
+    /// Start an asynchronous job to import Amazon Q in Connect resources from an uploaded source file. Before calling this API, use StartContentUpload to upload an asset that contains the resource data.   For importing Amazon Q in Connect quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see Import quick responses.
     @Sendable
     public func startImportJob(_ input: StartImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartImportJobResponse {
         return try await self.client.execute(
@@ -603,7 +603,7 @@ public struct QConnect: AWSService {
         )
     }
 
-    /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Amazon Q using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view.
+    /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Amazon Q in Connect using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view.
     @Sendable
     public func updateKnowledgeBaseTemplateUri(_ input: UpdateKnowledgeBaseTemplateUriRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKnowledgeBaseTemplateUriResponse {
         return try await self.client.execute(
@@ -616,12 +616,25 @@ public struct QConnect: AWSService {
         )
     }
 
-    /// Updates an existing Amazon Q quick response.
+    /// Updates an existing Amazon Q in Connect quick response.
     @Sendable
     public func updateQuickResponse(_ input: UpdateQuickResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateQuickResponseResponse {
         return try await self.client.execute(
             operation: "UpdateQuickResponse", 
             path: "/knowledgeBases/{knowledgeBaseId}/quickResponses/{quickResponseId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates a session. A session is a contextual container used for generating recommendations. Amazon Connect updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
+    @Sendable
+    public func updateSession(_ input: UpdateSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSessionResponse {
+        return try await self.client.execute(
+            operation: "UpdateSession", 
+            path: "/assistants/{assistantId}/sessions/{sessionId}", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -757,7 +770,7 @@ extension QConnect {
         )
     }
 
-    /// Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
+    ///  This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.  Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -796,7 +809,7 @@ extension QConnect {
         )
     }
 
-    /// Searches existing Amazon Q quick responses in an Amazon Q knowledge base.
+    /// Searches existing Amazon Q in Connect quick responses in an Amazon Q in Connect knowledge base.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

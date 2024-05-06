@@ -91,6 +91,12 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExecutionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rollback = "ROLLBACK"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExecutorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case jobWorker = "JobWorker"
         case lambda = "Lambda"
@@ -147,6 +153,11 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
+    public enum Result: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rollback = "ROLLBACK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SourceRevisionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case commitId = "COMMIT_ID"
         case imageDigest = "IMAGE_DIGEST"
@@ -183,8 +194,10 @@ extension CodePipeline {
     }
 
     public enum TriggerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automatedRollback = "AutomatedRollback"
         case cloudWatchEvent = "CloudWatchEvent"
         case createPipeline = "CreatePipeline"
+        case manualRollback = "ManualRollback"
         case pollForSourceChanges = "PollForSourceChanges"
         case putActionRevision = "PutActionRevision"
         case startPipelineExecution = "StartPipelineExecution"
@@ -1666,6 +1679,19 @@ extension CodePipeline {
         }
     }
 
+    public struct FailureConditions: AWSEncodableShape & AWSDecodableShape {
+        /// The specified result for when the failure conditions are met, such as rolling back the stage.
+        public let result: Result?
+
+        public init(result: Result? = nil) {
+            self.result = result
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case result = "result"
+        }
+    }
+
     public struct FailureDetails: AWSEncodableShape {
         /// The external ID of the run of the action that failed.
         public let externalExecutionId: String?
@@ -2403,6 +2429,8 @@ extension CodePipeline {
     }
 
     public struct ListPipelineExecutionsInput: AWSEncodableShape {
+        /// The pipeline execution to filter on.
+        public let filter: PipelineExecutionFilter?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Pipeline history is limited to the most recent 12 months, based on pipeline execution start times. Default value is 100.
         public let maxResults: Int?
         /// The token that was returned from the previous ListPipelineExecutions call, which can be used to return the next set of pipeline executions in the list.
@@ -2410,13 +2438,15 @@ extension CodePipeline {
         /// The name of the pipeline for which you want to get execution summary information.
         public let pipelineName: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, pipelineName: String) {
+        public init(filter: PipelineExecutionFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, pipelineName: String) {
+            self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.pipelineName = pipelineName
         }
 
         public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -2427,6 +2457,7 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
             case pipelineName = "pipelineName"
@@ -2743,12 +2774,16 @@ extension CodePipeline {
         public let artifactRevisions: [ArtifactRevision]?
         /// The method that the pipeline will use to handle multiple executions. The default mode is SUPERSEDED.
         public let executionMode: ExecutionMode?
+        /// The type of the pipeline execution.
+        public let executionType: ExecutionType?
         /// The ID of the pipeline execution.
         public let pipelineExecutionId: String?
         /// The name of the pipeline with the specified pipeline execution.
         public let pipelineName: String?
         /// The version number of the pipeline with the specified pipeline execution.
         public let pipelineVersion: Int?
+        /// The metadata about the execution pertaining to stage rollback.
+        public let rollbackMetadata: PipelineRollbackMetadata?
         /// The status of the pipeline execution.   Cancelled: The pipeline’s definition was updated before the pipeline execution could be completed.   InProgress: The pipeline execution is currently running.   Stopped: The pipeline execution was manually stopped. For more information, see Stopped Executions.   Stopping: The pipeline execution received a request to be manually stopped. Depending on the selected stop mode, the execution is either completing or abandoning in-progress actions. For more information, see Stopped Executions.   Succeeded: The pipeline execution was completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead. For more information, see Superseded Executions.   Failed: The pipeline execution was not completed successfully.
         public let status: PipelineExecutionStatus?
         /// A summary that contains a description of the pipeline execution status.
@@ -2757,12 +2792,14 @@ extension CodePipeline {
         /// A list of pipeline variables used for the pipeline execution.
         public let variables: [ResolvedPipelineVariable]?
 
-        public init(artifactRevisions: [ArtifactRevision]? = nil, executionMode: ExecutionMode? = nil, pipelineExecutionId: String? = nil, pipelineName: String? = nil, pipelineVersion: Int? = nil, status: PipelineExecutionStatus? = nil, statusSummary: String? = nil, trigger: ExecutionTrigger? = nil, variables: [ResolvedPipelineVariable]? = nil) {
+        public init(artifactRevisions: [ArtifactRevision]? = nil, executionMode: ExecutionMode? = nil, executionType: ExecutionType? = nil, pipelineExecutionId: String? = nil, pipelineName: String? = nil, pipelineVersion: Int? = nil, rollbackMetadata: PipelineRollbackMetadata? = nil, status: PipelineExecutionStatus? = nil, statusSummary: String? = nil, trigger: ExecutionTrigger? = nil, variables: [ResolvedPipelineVariable]? = nil) {
             self.artifactRevisions = artifactRevisions
             self.executionMode = executionMode
+            self.executionType = executionType
             self.pipelineExecutionId = pipelineExecutionId
             self.pipelineName = pipelineName
             self.pipelineVersion = pipelineVersion
+            self.rollbackMetadata = rollbackMetadata
             self.status = status
             self.statusSummary = statusSummary
             self.trigger = trigger
@@ -2772,9 +2809,11 @@ extension CodePipeline {
         private enum CodingKeys: String, CodingKey {
             case artifactRevisions = "artifactRevisions"
             case executionMode = "executionMode"
+            case executionType = "executionType"
             case pipelineExecutionId = "pipelineExecutionId"
             case pipelineName = "pipelineName"
             case pipelineVersion = "pipelineVersion"
+            case rollbackMetadata = "rollbackMetadata"
             case status = "status"
             case statusSummary = "statusSummary"
             case trigger = "trigger"
@@ -2782,42 +2821,71 @@ extension CodePipeline {
         }
     }
 
+    public struct PipelineExecutionFilter: AWSEncodableShape {
+        /// Filter for pipeline executions where the stage was successful in the current pipeline version.
+        public let succeededInStage: SucceededInStageFilter?
+
+        public init(succeededInStage: SucceededInStageFilter? = nil) {
+            self.succeededInStage = succeededInStage
+        }
+
+        public func validate(name: String) throws {
+            try self.succeededInStage?.validate(name: "\(name).succeededInStage")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case succeededInStage = "succeededInStage"
+        }
+    }
+
     public struct PipelineExecutionSummary: AWSDecodableShape {
         /// The method that the pipeline will use to handle multiple executions. The default mode is SUPERSEDED.
         public let executionMode: ExecutionMode?
+        /// Type of the pipeline execution.
+        public let executionType: ExecutionType?
         /// The date and time of the last change to the pipeline execution, in timestamp format.
         public let lastUpdateTime: Date?
         /// The ID of the pipeline execution.
         public let pipelineExecutionId: String?
+        /// The metadata for the stage execution to be rolled back.
+        public let rollbackMetadata: PipelineRollbackMetadata?
         /// A list of the source artifact revisions that initiated a pipeline execution.
         public let sourceRevisions: [SourceRevision]?
         /// The date and time when the pipeline execution began, in timestamp format.
         public let startTime: Date?
         /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Stopped: The pipeline execution was manually stopped. For more information, see Stopped Executions.   Stopping: The pipeline execution received a request to be manually stopped. Depending on the selected stop mode, the execution is either completing or abandoning in-progress actions. For more information, see Stopped Executions.   Succeeded: The pipeline execution was completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead. For more information, see Superseded Executions.   Failed: The pipeline execution was not completed successfully.
         public let status: PipelineExecutionStatus?
+        /// Status summary for the pipeline.
+        public let statusSummary: String?
         /// The interaction that stopped a pipeline execution.
         public let stopTrigger: StopExecutionTrigger?
         /// The interaction or event that started a pipeline execution, such as automated change detection or a StartPipelineExecution API call.
         public let trigger: ExecutionTrigger?
 
-        public init(executionMode: ExecutionMode? = nil, lastUpdateTime: Date? = nil, pipelineExecutionId: String? = nil, sourceRevisions: [SourceRevision]? = nil, startTime: Date? = nil, status: PipelineExecutionStatus? = nil, stopTrigger: StopExecutionTrigger? = nil, trigger: ExecutionTrigger? = nil) {
+        public init(executionMode: ExecutionMode? = nil, executionType: ExecutionType? = nil, lastUpdateTime: Date? = nil, pipelineExecutionId: String? = nil, rollbackMetadata: PipelineRollbackMetadata? = nil, sourceRevisions: [SourceRevision]? = nil, startTime: Date? = nil, status: PipelineExecutionStatus? = nil, statusSummary: String? = nil, stopTrigger: StopExecutionTrigger? = nil, trigger: ExecutionTrigger? = nil) {
             self.executionMode = executionMode
+            self.executionType = executionType
             self.lastUpdateTime = lastUpdateTime
             self.pipelineExecutionId = pipelineExecutionId
+            self.rollbackMetadata = rollbackMetadata
             self.sourceRevisions = sourceRevisions
             self.startTime = startTime
             self.status = status
+            self.statusSummary = statusSummary
             self.stopTrigger = stopTrigger
             self.trigger = trigger
         }
 
         private enum CodingKeys: String, CodingKey {
             case executionMode = "executionMode"
+            case executionType = "executionType"
             case lastUpdateTime = "lastUpdateTime"
             case pipelineExecutionId = "pipelineExecutionId"
+            case rollbackMetadata = "rollbackMetadata"
             case sourceRevisions = "sourceRevisions"
             case startTime = "startTime"
             case status = "status"
+            case statusSummary = "statusSummary"
             case stopTrigger = "stopTrigger"
             case trigger = "trigger"
         }
@@ -2845,6 +2913,19 @@ extension CodePipeline {
             case pipelineArn = "pipelineArn"
             case pollingDisabledAt = "pollingDisabledAt"
             case updated = "updated"
+        }
+    }
+
+    public struct PipelineRollbackMetadata: AWSDecodableShape {
+        /// The pipeline execution ID to which the stage will be rolled back.
+        public let rollbackTargetPipelineExecutionId: String?
+
+        public init(rollbackTargetPipelineExecutionId: String? = nil) {
+            self.rollbackTargetPipelineExecutionId = rollbackTargetPipelineExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rollbackTargetPipelineExecutionId = "rollbackTargetPipelineExecutionId"
         }
     }
 
@@ -3409,6 +3490,50 @@ extension CodePipeline {
         }
     }
 
+    public struct RollbackStageInput: AWSEncodableShape {
+        /// The name of the pipeline for which the stage will be rolled back.
+        public let pipelineName: String
+        /// The name of the stage in the pipeline to be rolled back.
+        public let stageName: String
+        /// The pipeline execution ID for the stage to be rolled back to.
+        public let targetPipelineExecutionId: String
+
+        public init(pipelineName: String, stageName: String, targetPipelineExecutionId: String) {
+            self.pipelineName = pipelineName
+            self.stageName = stageName
+            self.targetPipelineExecutionId = targetPipelineExecutionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 100)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[A-Za-z0-9.@\\-_]+$")
+            try self.validate(self.stageName, name: "stageName", parent: name, max: 100)
+            try self.validate(self.stageName, name: "stageName", parent: name, min: 1)
+            try self.validate(self.stageName, name: "stageName", parent: name, pattern: "^[A-Za-z0-9.@\\-_]+$")
+            try self.validate(self.targetPipelineExecutionId, name: "targetPipelineExecutionId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineName = "pipelineName"
+            case stageName = "stageName"
+            case targetPipelineExecutionId = "targetPipelineExecutionId"
+        }
+    }
+
+    public struct RollbackStageOutput: AWSDecodableShape {
+        /// The execution ID of the pipeline execution for the stage that has been rolled back.
+        public let pipelineExecutionId: String
+
+        public init(pipelineExecutionId: String) {
+            self.pipelineExecutionId = pipelineExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionId = "pipelineExecutionId"
+        }
+    }
+
     public struct S3ArtifactLocation: AWSDecodableShape {
         /// The name of the S3 bucket.
         public let bucketName: String
@@ -3517,11 +3642,14 @@ extension CodePipeline {
         public let blockers: [BlockerDeclaration]?
         /// The name of the stage.
         public let name: String
+        /// The method to use when a stage has not completed successfully. For example, configuring this field for rollback will roll back a failed stage automatically to the last successful pipeline execution in the stage.
+        public let onFailure: FailureConditions?
 
-        public init(actions: [ActionDeclaration], blockers: [BlockerDeclaration]? = nil, name: String) {
+        public init(actions: [ActionDeclaration], blockers: [BlockerDeclaration]? = nil, name: String, onFailure: FailureConditions? = nil) {
             self.actions = actions
             self.blockers = blockers
             self.name = name
+            self.onFailure = onFailure
         }
 
         public func validate(name: String) throws {
@@ -3540,6 +3668,7 @@ extension CodePipeline {
             case actions = "actions"
             case blockers = "blockers"
             case name = "name"
+            case onFailure = "onFailure"
         }
     }
 
@@ -3548,15 +3677,19 @@ extension CodePipeline {
         public let pipelineExecutionId: String
         /// The status of the stage, or for a completed stage, the last status of the stage.  A status of cancelled means that the pipeline’s definition was updated before the stage execution could be completed.
         public let status: StageExecutionStatus
+        /// The type of pipeline execution for the stage, such as a rollback pipeline execution.
+        public let type: ExecutionType?
 
-        public init(pipelineExecutionId: String, status: StageExecutionStatus) {
+        public init(pipelineExecutionId: String, status: StageExecutionStatus, type: ExecutionType? = nil) {
             self.pipelineExecutionId = pipelineExecutionId
             self.status = status
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case pipelineExecutionId = "pipelineExecutionId"
             case status = "status"
+            case type = "type"
         }
     }
 
@@ -3704,6 +3837,25 @@ extension CodePipeline {
 
         private enum CodingKeys: String, CodingKey {
             case pipelineExecutionId = "pipelineExecutionId"
+        }
+    }
+
+    public struct SucceededInStageFilter: AWSEncodableShape {
+        /// The name of the stage for filtering for pipeline executions where the stage was successful in the current pipeline version.
+        public let stageName: String?
+
+        public init(stageName: String? = nil) {
+            self.stageName = stageName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.stageName, name: "stageName", parent: name, max: 100)
+            try self.validate(self.stageName, name: "stageName", parent: name, min: 1)
+            try self.validate(self.stageName, name: "stageName", parent: name, pattern: "^[A-Za-z0-9.@\\-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stageName = "stageName"
         }
     }
 
@@ -4069,6 +4221,7 @@ public struct CodePipelineErrorType: AWSErrorType {
         case outputVariablesSizeExceededException = "OutputVariablesSizeExceededException"
         case pipelineExecutionNotFoundException = "PipelineExecutionNotFoundException"
         case pipelineExecutionNotStoppableException = "PipelineExecutionNotStoppableException"
+        case pipelineExecutionOutdatedException = "PipelineExecutionOutdatedException"
         case pipelineNameInUseException = "PipelineNameInUseException"
         case pipelineNotFoundException = "PipelineNotFoundException"
         case pipelineVersionNotFoundException = "PipelineVersionNotFoundException"
@@ -4077,6 +4230,7 @@ public struct CodePipelineErrorType: AWSErrorType {
         case stageNotFoundException = "StageNotFoundException"
         case stageNotRetryableException = "StageNotRetryableException"
         case tooManyTagsException = "TooManyTagsException"
+        case unableToRollbackStageException = "UnableToRollbackStageException"
         case validationException = "ValidationException"
         case webhookNotFoundException = "WebhookNotFoundException"
     }
@@ -4153,6 +4307,8 @@ public struct CodePipelineErrorType: AWSErrorType {
     public static var pipelineExecutionNotFoundException: Self { .init(.pipelineExecutionNotFoundException) }
     /// Unable to stop the pipeline execution. The execution might already be in a Stopped state, or it might no longer be in progress.
     public static var pipelineExecutionNotStoppableException: Self { .init(.pipelineExecutionNotStoppableException) }
+    /// The specified pipeline execution is outdated and cannot be used as a target pipeline execution for rollback.
+    public static var pipelineExecutionOutdatedException: Self { .init(.pipelineExecutionOutdatedException) }
     /// The specified pipeline name is already in use.
     public static var pipelineNameInUseException: Self { .init(.pipelineNameInUseException) }
     /// The pipeline was specified in an invalid format or cannot be found.
@@ -4169,6 +4325,8 @@ public struct CodePipelineErrorType: AWSErrorType {
     public static var stageNotRetryableException: Self { .init(.stageNotRetryableException) }
     /// The tags limit for a resource has been exceeded.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    /// Unable to roll back the stage. The cause might be if the pipeline version has changed since the target pipeline execution was deployed, the stage is currently running, or an incorrect target pipeline execution ID was provided.
+    public static var unableToRollbackStageException: Self { .init(.unableToRollbackStageException) }
     /// The validation was specified in an invalid format.
     public static var validationException: Self { .init(.validationException) }
     /// The specified webhook was entered in an invalid format or cannot be found.

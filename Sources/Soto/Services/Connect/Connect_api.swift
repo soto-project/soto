@@ -303,6 +303,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Allows you to retrieve metadata about multiple attached files on an associated resource. Each attached file provided in the input list must be associated with the input AssociatedResourceArn.
+    @Sendable
+    public func batchGetAttachedFileMetadata(_ input: BatchGetAttachedFileMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetAttachedFileMetadataResponse {
+        return try await self.client.execute(
+            operation: "BatchGetAttachedFileMetadata", 
+            path: "/attached-files/{InstanceId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieve the flow associations for the given resources.
     @Sendable
     public func batchGetFlowAssociation(_ input: BatchGetFlowAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetFlowAssociationResponse {
@@ -335,6 +348,19 @@ public struct Connect: AWSService {
         return try await self.client.execute(
             operation: "ClaimPhoneNumber", 
             path: "/phone-number/claim", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Allows you to confirm that the attached file has been uploaded using the pre-signed URL provided in the StartAttachedFileUpload API.
+    @Sendable
+    public func completeAttachedFileUpload(_ input: CompleteAttachedFileUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CompleteAttachedFileUploadResponse {
+        return try await self.client.execute(
+            operation: "CompleteAttachedFileUpload", 
+            path: "/attached-files/{InstanceId}/{FileId}", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -665,6 +691,19 @@ public struct Connect: AWSService {
             operation: "DeactivateEvaluationForm", 
             path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/deactivate", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an attached file along with the underlying S3 Object.  The attached file is permanently deleted if S3 bucket versioning is not enabled.
+    @Sendable
+    public func deleteAttachedFile(_ input: DeleteAttachedFileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAttachedFileResponse {
+        return try await self.client.execute(
+            operation: "DeleteAttachedFile", 
+            path: "/attached-files/{InstanceId}/{FileId}", 
+            httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -1447,6 +1486,19 @@ public struct Connect: AWSService {
             operation: "DismissUserContact", 
             path: "/users/{InstanceId}/{UserId}/contact", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Provides a pre-signed URL for download of an approved attached file. This API also returns metadata about the attached file. It will only return a downloadURL if the status of the attached file is APPROVED.
+    @Sendable
+    public func getAttachedFile(_ input: GetAttachedFileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAttachedFileResponse {
+        return try await self.client.execute(
+            operation: "GetAttachedFile", 
+            path: "/attached-files/{InstanceId}/{FileId}", 
+            httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -2422,6 +2474,19 @@ public struct Connect: AWSService {
             operation: "SendChatIntegrationEvent", 
             path: "/chat-integration-event", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Provides a pre-signed Amazon S3 URL in response for uploading your content.  You may only use this API to upload attachments to a Connect Case.
+    @Sendable
+    public func startAttachedFileUpload(_ input: StartAttachedFileUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAttachedFileUploadResponse {
+        return try await self.client.execute(
+            operation: "StartAttachedFileUpload", 
+            path: "/attached-files/{InstanceId}", 
+            httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger

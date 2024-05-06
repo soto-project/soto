@@ -3887,17 +3887,21 @@ extension CostExplorer {
     }
 
     public struct ReservationPurchaseRecommendationMetadata: AWSDecodableShape {
-        /// The timestamp for when Amazon Web Services made this recommendation.
+        /// Additional metadata that might be applicable to the recommendation.
+        public let additionalMetadata: String?
+        /// The timestamp for when Amazon Web Services made the recommendation.
         public let generationTimestamp: String?
-        /// The ID for this specific recommendation.
+        /// The ID for the recommendation.
         public let recommendationId: String?
 
-        public init(generationTimestamp: String? = nil, recommendationId: String? = nil) {
+        public init(additionalMetadata: String? = nil, generationTimestamp: String? = nil, recommendationId: String? = nil) {
+            self.additionalMetadata = additionalMetadata
             self.generationTimestamp = generationTimestamp
             self.recommendationId = recommendationId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalMetadata = "AdditionalMetadata"
             case generationTimestamp = "GenerationTimestamp"
             case recommendationId = "RecommendationId"
         }
@@ -4078,11 +4082,11 @@ extension CostExplorer {
     public struct RightsizingRecommendationMetadata: AWSDecodableShape {
         /// Additional metadata that might be applicable to the recommendation.
         public let additionalMetadata: String?
-        /// The timestamp for when Amazon Web Services made this recommendation.
+        /// The timestamp for when Amazon Web Services made the recommendation.
         public let generationTimestamp: String?
-        /// The number of days of previous usage that Amazon Web Services considers when making this recommendation.
+        /// The number of days of previous usage that Amazon Web Services considers when making the recommendation.
         public let lookbackPeriodInDays: LookbackPeriodInDays?
-        /// The ID for this specific recommendation.
+        /// The ID for the recommendation.
         public let recommendationId: String?
 
         public init(additionalMetadata: String? = nil, generationTimestamp: String? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, recommendationId: String? = nil) {

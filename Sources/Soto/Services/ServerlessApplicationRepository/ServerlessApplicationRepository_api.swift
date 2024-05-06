@@ -74,8 +74,12 @@ public struct ServerlessApplicationRepository: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "us-east-1": "serverlessrepo-fips.us-east-1.amazonaws.com",
+            "us-east-2": "serverlessrepo-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "serverlessrepo.us-gov-east-1.amazonaws.com",
-            "us-gov-west-1": "serverlessrepo.us-gov-west-1.amazonaws.com"
+            "us-gov-west-1": "serverlessrepo.us-gov-west-1.amazonaws.com",
+            "us-west-1": "serverlessrepo-fips.us-west-1.amazonaws.com",
+            "us-west-2": "serverlessrepo-fips.us-west-2.amazonaws.com"
         ])
     ]}
 

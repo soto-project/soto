@@ -194,7 +194,7 @@ public struct InternetMonitor: AWSService {
         )
     }
 
-    /// Gets information the Amazon CloudWatch Internet Monitor has created and stored about a health event for a specified monitor. This information includes the impacted locations,
+    /// Gets information that Amazon CloudWatch Internet Monitor has created and stored about a health event for a specified monitor. This information includes the impacted locations,
     /// 			and all the information related to the event, by location. The information returned includes the impact on performance, availability, and round-trip time, information about the network providers (ASNs),
     /// 			the event type, and so on. Information rolled up at the global traffic level is also returned, including the impact type and total traffic impact.
     @Sendable
@@ -202,6 +202,23 @@ public struct InternetMonitor: AWSService {
         return try await self.client.execute(
             operation: "GetHealthEvent", 
             path: "/v20210603/Monitors/{MonitorName}/HealthEvents/{EventId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets information that Amazon CloudWatch Internet Monitor has generated about an internet event. Internet Monitor displays information about
+    /// 			recent global health events, called internet events, on a global outages map that is available to all Amazon Web Services
+    /// 			customers.  The information returned here includes the impacted location,
+    /// 			when the event started and (if the event is over) ended, the type of event (PERFORMANCE or AVAILABILITY),
+    /// 			and the status (ACTIVE or RESOLVED).
+    @Sendable
+    public func getInternetEvent(_ input: GetInternetEventInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInternetEventOutput {
+        return try await self.client.execute(
+            operation: "GetInternetEvent", 
+            path: "/v20210603/InternetEvents/{EventId}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -253,13 +270,31 @@ public struct InternetMonitor: AWSService {
         )
     }
 
-    /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end time and
+    /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end times, and
     /// 			the status.  Health events that have start times during the time frame that is requested are not included in the list of health events.
     @Sendable
     public func listHealthEvents(_ input: ListHealthEventsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHealthEventsOutput {
         return try await self.client.execute(
             operation: "ListHealthEvents", 
             path: "/v20210603/Monitors/{MonitorName}/HealthEvents", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists internet events that cause performance or availability issues for client locations. Amazon CloudWatch Internet Monitor displays information about
+    /// 			recent global health events, called internet events, on a global outages map that is available to all Amazon Web Services
+    /// 			customers.  You can constrain the list of internet events returned by providing a start time and end time to define a total
+    /// 			time frame for events you want to list. Both start time and end time specify the time when an event started. End time
+    /// 			is optional. If you don't include it, the default end time is the current time. You can also limit the events returned to a specific status
+    /// 			(ACTIVE or RESOLVED) or type (PERFORMANCE or AVAILABILITY).
+    @Sendable
+    public func listInternetEvents(_ input: ListInternetEventsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInternetEventsOutput {
+        return try await self.client.execute(
+            operation: "ListInternetEvents", 
+            path: "/v20210603/InternetEvents", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -400,7 +435,7 @@ extension InternetMonitor {
         )
     }
 
-    /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end time and
+    /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end times, and
     /// 			the status.  Health events that have start times during the time frame that is requested are not included in the list of health events.
     /// Return PaginatorSequence for operation.
     ///
@@ -416,6 +451,30 @@ extension InternetMonitor {
             command: self.listHealthEvents,
             inputKey: \ListHealthEventsInput.nextToken,
             outputKey: \ListHealthEventsOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists internet events that cause performance or availability issues for client locations. Amazon CloudWatch Internet Monitor displays information about
+    /// 			recent global health events, called internet events, on a global outages map that is available to all Amazon Web Services
+    /// 			customers.  You can constrain the list of internet events returned by providing a start time and end time to define a total
+    /// 			time frame for events you want to list. Both start time and end time specify the time when an event started. End time
+    /// 			is optional. If you don't include it, the default end time is the current time. You can also limit the events returned to a specific status
+    /// 			(ACTIVE or RESOLVED) or type (PERFORMANCE or AVAILABILITY).
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listInternetEventsPaginator(
+        _ input: ListInternetEventsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInternetEventsInput, ListInternetEventsOutput> {
+        return .init(
+            input: input,
+            command: self.listInternetEvents,
+            inputKey: \ListInternetEventsInput.nextToken,
+            outputKey: \ListInternetEventsOutput.nextToken,
             logger: logger
         )
     }
@@ -459,6 +518,19 @@ extension InternetMonitor.ListHealthEventsInput: AWSPaginateToken {
             linkedAccountId: self.linkedAccountId,
             maxResults: self.maxResults,
             monitorName: self.monitorName,
+            nextToken: token,
+            startTime: self.startTime
+        )
+    }
+}
+
+extension InternetMonitor.ListInternetEventsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> InternetMonitor.ListInternetEventsInput {
+        return .init(
+            endTime: self.endTime,
+            eventStatus: self.eventStatus,
+            eventType: self.eventType,
+            maxResults: self.maxResults,
             nextToken: token,
             startTime: self.startTime
         )
