@@ -356,7 +356,7 @@ public struct ServiceDiscovery: AWSService {
         )
     }
 
-    /// Lists summary information for all the services that are associated with one or more specified namespaces.
+    /// Lists summary information for all the services that are associated with one or more namespaces.
     @Sendable
     public func listServices(_ input: ListServicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServicesResponse {
         return try await self.client.execute(
@@ -576,7 +576,7 @@ extension ServiceDiscovery {
         )
     }
 
-    /// Lists summary information for all the services that are associated with one or more specified namespaces.
+    /// Lists summary information for all the services that are associated with one or more namespaces.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

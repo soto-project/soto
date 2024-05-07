@@ -352,6 +352,28 @@ extension SSM {
         public var description: String { return self.rawValue }
     }
 
+    public enum InstancePropertyFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activationIds = "ActivationIds"
+        case agentVersion = "AgentVersion"
+        case associationStatus = "AssociationStatus"
+        case documentName = "DocumentName"
+        case iamRole = "IamRole"
+        case instanceIds = "InstanceIds"
+        case pingStatus = "PingStatus"
+        case platformTypes = "PlatformTypes"
+        case resourceType = "ResourceType"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstancePropertyFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case beginWith = "BeginWith"
+        case equal = "Equal"
+        case greaterThan = "GreaterThan"
+        case lessThan = "LessThan"
+        case notEqual = "NotEqual"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InventoryAttributeDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case number = "number"
         case string = "string"
@@ -2806,7 +2828,7 @@ extension SSM {
         public let documentFormat: DocumentFormat?
         /// The type of document to create.  The DeploymentStrategy document type is an internal-use-only document type reserved for AppConfig.
         public let documentType: DocumentType?
-        /// A name for the SSM document.  You can't use the following strings as document name prefixes. These are reserved by Amazon Web Services for use as document name prefixes:    aws     amazon     amzn
+        /// A name for the SSM document.  You can't use the following strings as document name prefixes. These are reserved by Amazon Web Services for use as document name prefixes:    aws     amazon     amzn     AWSEC2     AWSConfigRemediation     AWSSupport
         public let name: String
         /// A list of SSM documents required by a document. This parameter is used exclusively by AppConfig. When a user creates an AppConfig configuration in an SSM document, the user must also specify a required document for validation purposes. In this case, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document for validation purposes. For more information, see What is AppConfig? in the AppConfig User Guide.
         public let requires: [DocumentRequires]?
@@ -2900,7 +2922,7 @@ extension SSM {
         public let scheduleOffset: Int?
         /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
-        /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. StartDate allows you to delay activation of the maintenance window until the specified future date.
+        /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. StartDate allows you to delay activation of the maintenance window until the specified future date.  When using a rate schedule, if you provide a start date that occurs in the past, the current date and time are used as the start date.
         public let startDate: String?
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a maintenance window to identify the type of tasks it will run, the types of targets, and the environment it will run in. In this case, you could specify the following key-value pairs:    Key=TaskType,Value=AgentUpdate     Key=OS,Value=Windows     Key=Environment,Value=Production     To add tags to an existing maintenance window, use the AddTagsToResource operation.
         public let tags: [Tag]?
@@ -4605,6 +4627,63 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case patches = "Patches"
+        }
+    }
+
+    public struct DescribeInstancePropertiesRequest: AWSEncodableShape {
+        /// The request filters to use with the operator.
+        public let filtersWithOperator: [InstancePropertyStringFilter]?
+        /// An array of instance property filters.
+        public let instancePropertyFilterList: [InstancePropertyFilter]?
+        /// The maximum number of items to return for the call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// The token provided by a previous request to use to return the next set of properties.
+        public let nextToken: String?
+
+        public init(filtersWithOperator: [InstancePropertyStringFilter]? = nil, instancePropertyFilterList: [InstancePropertyFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filtersWithOperator = filtersWithOperator
+            self.instancePropertyFilterList = instancePropertyFilterList
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filtersWithOperator?.forEach {
+                try $0.validate(name: "\(name).filtersWithOperator[]")
+            }
+            try self.validate(self.filtersWithOperator, name: "filtersWithOperator", parent: name, max: 40)
+            try self.validate(self.filtersWithOperator, name: "filtersWithOperator", parent: name, min: 1)
+            try self.instancePropertyFilterList?.forEach {
+                try $0.validate(name: "\(name).instancePropertyFilterList[]")
+            }
+            try self.validate(self.instancePropertyFilterList, name: "instancePropertyFilterList", parent: name, max: 40)
+            try self.validate(self.instancePropertyFilterList, name: "instancePropertyFilterList", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filtersWithOperator = "FiltersWithOperator"
+            case instancePropertyFilterList = "InstancePropertyFilterList"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeInstancePropertiesResult: AWSDecodableShape {
+        /// Properties for the managed instances.
+        public let instanceProperties: [InstanceProperty]?
+        /// The token for the next set of properties to return. Use this token to get the next set of results.
+        public let nextToken: String?
+
+        public init(instanceProperties: [InstanceProperty]? = nil, nextToken: String? = nil) {
+            self.instanceProperties = instanceProperties
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceProperties = "InstanceProperties"
+            case nextToken = "NextToken"
         }
     }
 
@@ -7241,7 +7320,7 @@ extension SSM {
     }
 
     public struct GetParametersRequest: AWSEncodableShape {
-        /// The names or Amazon Resource Names (ARNs) of the parameters that you want to query. For parameters shared with you from another account, you must use the full ARNs. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version". For more information about shared parameters, see Working with shared parameters in the Amazon Web Services Systems Manager User Guide.
+        /// The names or Amazon Resource Names (ARNs) of the parameters that you want to query. For parameters shared with you from another account, you must use the full ARNs. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version".  The results for GetParameters requests are listed in alphabetical order in query responses.  For information about shared parameters, see Working with shared parameters in the Amazon Web Services Systems Manager User Guide.
         public let names: [String]
         /// Return decrypted secure string value. Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
         public let withDecryption: Bool?
@@ -7906,6 +7985,179 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case type = "Type"
+            case values = "Values"
+        }
+    }
+
+    public struct InstanceProperty: AWSDecodableShape {
+        /// The activation ID created by Systems Manager when the server or virtual machine (VM) was registered
+        public let activationId: String?
+        /// The version of SSM Agent running on your managed node.
+        public let agentVersion: String?
+        /// The CPU architecture of the node. For example, x86_64.
+        public let architecture: String?
+        public let associationOverview: InstanceAggregatedAssociationOverview?
+        /// The status of the State Manager association applied to the managed node.
+        public let associationStatus: String?
+        /// The fully qualified host name of the managed node.
+        public let computerName: String?
+        /// The IAM role used in the hybrid activation to register the node with Systems Manager.
+        public let iamRole: String?
+        /// The ID of the managed node.
+        public let instanceId: String?
+        /// The instance profile attached to the node. If an instance profile isn't attached to the node, this value is blank.
+        public let instanceRole: String?
+        /// The current state of the node.
+        public let instanceState: String?
+        /// The instance type of the managed node. For example, t3.large.
+        public let instanceType: String?
+        /// The public IPv4 address assigned to the node. If a public IPv4 address isn't assigned to the node, this value is blank.
+        public let ipAddress: String?
+        /// The name of the key pair associated with the node. If a key pair isnt't associated with the node, this value is blank.
+        public let keyName: String?
+        /// The date the association was last run.
+        public let lastAssociationExecutionDate: Date?
+        /// The date and time when the SSM Agent last pinged the Systems Manager service.
+        public let lastPingDateTime: Date?
+        /// The last date the association was successfully run.
+        public let lastSuccessfulAssociationExecutionDate: Date?
+        /// The timestamp for when the node was launched.
+        public let launchTime: Date?
+        /// The value of the EC2 Name tag associated with the node. If a Name tag hasn't been applied to the node, this value is blank.
+        public let name: String?
+        /// Connection status of the SSM Agent on the managed node.
+        public let pingStatus: PingStatus?
+        /// The name of the operating system platform running on your managed node.
+        public let platformName: String?
+        /// The operating system platform type of the managed node. For example, Windows.
+        public let platformType: PlatformType?
+        /// The version of the OS platform running on your managed node.
+        public let platformVersion: String?
+        /// The date the node was registered with Systems Manager.
+        public let registrationDate: Date?
+        /// The type of managed node.
+        public let resourceType: String?
+        /// The ID of the source resource.
+        public let sourceId: String?
+        /// The type of the source resource.
+        public let sourceType: SourceType?
+
+        public init(activationId: String? = nil, agentVersion: String? = nil, architecture: String? = nil, associationOverview: InstanceAggregatedAssociationOverview? = nil, associationStatus: String? = nil, computerName: String? = nil, iamRole: String? = nil, instanceId: String? = nil, instanceRole: String? = nil, instanceState: String? = nil, instanceType: String? = nil, ipAddress: String? = nil, keyName: String? = nil, lastAssociationExecutionDate: Date? = nil, lastPingDateTime: Date? = nil, lastSuccessfulAssociationExecutionDate: Date? = nil, launchTime: Date? = nil, name: String? = nil, pingStatus: PingStatus? = nil, platformName: String? = nil, platformType: PlatformType? = nil, platformVersion: String? = nil, registrationDate: Date? = nil, resourceType: String? = nil, sourceId: String? = nil, sourceType: SourceType? = nil) {
+            self.activationId = activationId
+            self.agentVersion = agentVersion
+            self.architecture = architecture
+            self.associationOverview = associationOverview
+            self.associationStatus = associationStatus
+            self.computerName = computerName
+            self.iamRole = iamRole
+            self.instanceId = instanceId
+            self.instanceRole = instanceRole
+            self.instanceState = instanceState
+            self.instanceType = instanceType
+            self.ipAddress = ipAddress
+            self.keyName = keyName
+            self.lastAssociationExecutionDate = lastAssociationExecutionDate
+            self.lastPingDateTime = lastPingDateTime
+            self.lastSuccessfulAssociationExecutionDate = lastSuccessfulAssociationExecutionDate
+            self.launchTime = launchTime
+            self.name = name
+            self.pingStatus = pingStatus
+            self.platformName = platformName
+            self.platformType = platformType
+            self.platformVersion = platformVersion
+            self.registrationDate = registrationDate
+            self.resourceType = resourceType
+            self.sourceId = sourceId
+            self.sourceType = sourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activationId = "ActivationId"
+            case agentVersion = "AgentVersion"
+            case architecture = "Architecture"
+            case associationOverview = "AssociationOverview"
+            case associationStatus = "AssociationStatus"
+            case computerName = "ComputerName"
+            case iamRole = "IamRole"
+            case instanceId = "InstanceId"
+            case instanceRole = "InstanceRole"
+            case instanceState = "InstanceState"
+            case instanceType = "InstanceType"
+            case ipAddress = "IPAddress"
+            case keyName = "KeyName"
+            case lastAssociationExecutionDate = "LastAssociationExecutionDate"
+            case lastPingDateTime = "LastPingDateTime"
+            case lastSuccessfulAssociationExecutionDate = "LastSuccessfulAssociationExecutionDate"
+            case launchTime = "LaunchTime"
+            case name = "Name"
+            case pingStatus = "PingStatus"
+            case platformName = "PlatformName"
+            case platformType = "PlatformType"
+            case platformVersion = "PlatformVersion"
+            case registrationDate = "RegistrationDate"
+            case resourceType = "ResourceType"
+            case sourceId = "SourceId"
+            case sourceType = "SourceType"
+        }
+    }
+
+    public struct InstancePropertyFilter: AWSEncodableShape {
+        /// The name of the filter.
+        public let key: InstancePropertyFilterKey
+        /// The filter values.
+        public let valueSet: [String]
+
+        public init(key: InstancePropertyFilterKey, valueSet: [String]) {
+            self.key = key
+            self.valueSet = valueSet
+        }
+
+        public func validate(name: String) throws {
+            try self.valueSet.forEach {
+                try validate($0, name: "valueSet[]", parent: name, max: 100000)
+                try validate($0, name: "valueSet[]", parent: name, min: 1)
+                try validate($0, name: "valueSet[]", parent: name, pattern: "^.{1,100000}$")
+            }
+            try self.validate(self.valueSet, name: "valueSet", parent: name, max: 40)
+            try self.validate(self.valueSet, name: "valueSet", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case valueSet = "valueSet"
+        }
+    }
+
+    public struct InstancePropertyStringFilter: AWSEncodableShape {
+        /// The filter key name to describe your managed nodes.
+        public let key: String
+        /// The operator used by the filter call.
+        public let `operator`: InstancePropertyFilterOperator?
+        /// The filter key name to describe your managed nodes.
+        public let values: [String]
+
+        public init(key: String, operator: InstancePropertyFilterOperator? = nil, values: [String]) {
+            self.key = key
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 100000)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^.{1,100000}$")
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 100000)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^.{1,100000}$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 40)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case `operator` = "Operator"
             case values = "Values"
         }
     }
@@ -11424,7 +11676,7 @@ extension SSM {
         public let name: String?
         /// The priority of the task in the maintenance window, the lower the number the higher the priority. Tasks in a maintenance window are scheduled in priority order with tasks that have the same priority scheduled in parallel.
         public let priority: Int?
-        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a  maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's  service-linked role.  If no service-linked role for Systems Manager exists in your account, it is created when you run  RegisterTaskWithMaintenanceWindow. For more information, see Using  service-linked roles for Systems Manager in the in the Amazon Web Services Systems Manager User Guide:
+        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up maintenance windows in the in the Amazon Web Services Systems Manager User Guide.
         public let serviceRoleArn: String?
         /// The targets (either managed nodes or maintenance window targets).  One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see Registering maintenance window tasks without targets in the Amazon Web Services Systems Manager User Guide.  Specify managed nodes using the following format:   Key=InstanceIds,Values=,  Specify maintenance window targets using the following format:  Key=WindowTargetIds,Values=,
         public let targets: [Target]?
@@ -13431,7 +13683,7 @@ extension SSM {
         public let scheduleOffset: Int?
         /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
-        /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. StartDate allows you to delay activation of the maintenance window until the specified future date.
+        /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. StartDate allows you to delay activation of the maintenance window until the specified future date.  When using a rate schedule, if you provide a start date that occurs in the past, the current date and time are used as the start date.
         public let startDate: String?
         /// The ID of the maintenance window to update.
         public let windowId: String
@@ -13654,7 +13906,7 @@ extension SSM {
         public let priority: Int?
         /// If True, then all fields that are required by the RegisterTaskWithMaintenanceWindow operation are also required for this API request. Optional fields that aren't specified are set to null.
         public let replace: Bool?
-        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a  maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's  service-linked role.  If no service-linked role for Systems Manager exists in your account, it is created when you run  RegisterTaskWithMaintenanceWindow. For more information, see Using  service-linked roles for Systems Manager in the in the Amazon Web Services Systems Manager User Guide:
+        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up maintenance windows in the in the Amazon Web Services Systems Manager User Guide.
         public let serviceRoleArn: String?
         /// The targets (either managed nodes or tags) to modify. Managed nodes are specified using the format Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using the format  Key=tag_name,Values=tag_value.   One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see Registering maintenance window tasks without targets in the Amazon Web Services Systems Manager User Guide.
         public let targets: [Target]?
@@ -14269,6 +14521,7 @@ public struct SSMErrorType: AWSErrorType {
         case invalidFilterValue = "InvalidFilterValue"
         case invalidInstanceId = "InvalidInstanceId"
         case invalidInstanceInformationFilterValue = "InvalidInstanceInformationFilterValue"
+        case invalidInstancePropertyFilterValue = "InvalidInstancePropertyFilterValue"
         case invalidInventoryGroupException = "InvalidInventoryGroupException"
         case invalidInventoryItemContextException = "InvalidInventoryItemContextException"
         case invalidInventoryRequestException = "InvalidInventoryRequestException"
@@ -14474,6 +14727,8 @@ public struct SSMErrorType: AWSErrorType {
     public static var invalidInstanceId: Self { .init(.invalidInstanceId) }
     /// The specified filter value isn't valid.
     public static var invalidInstanceInformationFilterValue: Self { .init(.invalidInstanceInformationFilterValue) }
+    /// The specified filter value isn't valid.
+    public static var invalidInstancePropertyFilterValue: Self { .init(.invalidInstancePropertyFilterValue) }
     /// The specified inventory group isn't valid.
     public static var invalidInventoryGroupException: Self { .init(.invalidInventoryGroupException) }
     /// You specified invalid keys or values in the Context attribute for InventoryItem. Verify the keys and values, and try again.

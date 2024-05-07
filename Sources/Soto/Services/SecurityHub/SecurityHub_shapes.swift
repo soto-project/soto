@@ -21208,6 +21208,8 @@ extension SecurityHub {
             try self.accountDetails?.forEach {
                 try $0.validate(name: "\(name).accountDetails[]")
             }
+            try self.validate(self.accountDetails, name: "accountDetails", parent: name, max: 50)
+            try self.validate(self.accountDetails, name: "accountDetails", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -26509,7 +26511,7 @@ extension SecurityHub {
     }
 
     public struct StartConfigurationPolicyAssociationRequest: AWSEncodableShape {
-        ///  The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
+        ///  The Amazon Resource Name (ARN) of a configuration policy, the universally unique identifier (UUID) of a  configuration policy, or a value of SELF_MANAGED_SECURITY_HUB for a self-managed configuration.
         public let configurationPolicyIdentifier: String?
         ///  The identifier of the target account, organizational unit, or the root to associate with the specified configuration.
         public let target: Target?
@@ -26569,7 +26571,7 @@ extension SecurityHub {
     }
 
     public struct StartConfigurationPolicyDisassociationRequest: AWSEncodableShape {
-        ///  The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
+        ///  The Amazon Resource Name (ARN) of a configuration policy, the universally unique identifier (UUID) of a  configuration policy, or a value of SELF_MANAGED_SECURITY_HUB for a self-managed configuration.
         public let configurationPolicyIdentifier: String?
         ///  The identifier of the target account, organizational unit, or the root to disassociate from the specified configuration.
         public let target: Target?

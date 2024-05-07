@@ -26,6 +26,11 @@ import Foundation
 extension EMRContainers {
     // MARK: Enums
 
+    public enum CertificateProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pem = "PEM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContainerProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eks = "EKS"
         public var description: String { return self.rawValue }
@@ -80,6 +85,28 @@ extension EMRContainers {
     }
 
     // MARK: Shapes
+
+    public struct AuthorizationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Encryption-related configuration input for the security configuration.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// Lake Formation related configuration inputs for the security configuration.
+        public let lakeFormationConfiguration: LakeFormationConfiguration?
+
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.lakeFormationConfiguration = lakeFormationConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.lakeFormationConfiguration?.validate(name: "\(name).lakeFormationConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "encryptionConfiguration"
+            case lakeFormationConfiguration = "lakeFormationConfiguration"
+        }
+    }
 
     public struct CancelJobRunRequest: AWSEncodableShape {
         /// The ID of the job run to cancel.
@@ -494,6 +521,70 @@ extension EMRContainers {
         }
     }
 
+    public struct CreateSecurityConfigurationRequest: AWSEncodableShape {
+        /// The client idempotency token to use when creating the security configuration.
+        public let clientToken: String
+        /// The name of the security configuration.
+        public let name: String
+        /// Security configuration input for the request.
+        public let securityConfigurationData: SecurityConfigurationData
+        /// The tags to add to the security configuration.
+        public let tags: [String: String]?
+
+        public init(clientToken: String = CreateSecurityConfigurationRequest.idempotencyToken(), name: String, securityConfigurationData: SecurityConfigurationData, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.name = name
+            self.securityConfigurationData = securityConfigurationData
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+            try self.securityConfigurationData.validate(name: "\(name).securityConfigurationData")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "\\S")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case name = "name"
+            case securityConfigurationData = "securityConfigurationData"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateSecurityConfigurationResponse: AWSDecodableShape {
+        /// The ARN (Amazon Resource Name) of the security configuration.
+        public let arn: String?
+        /// The ID of the security configuration.
+        public let id: String?
+        /// The name of the security configuration.
+        public let name: String?
+
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
+        }
+    }
+
     public struct CreateVirtualClusterRequest: AWSEncodableShape {
         /// The client token of the virtual cluster.
         public let clientToken: String
@@ -501,13 +592,16 @@ extension EMRContainers {
         public let containerProvider: ContainerProvider
         /// The specified name of the virtual cluster.
         public let name: String
+        /// The ID of the security configuration.
+        public let securityConfigurationId: String?
         /// The tags assigned to the virtual cluster.
         public let tags: [String: String]?
 
-        public init(clientToken: String = CreateVirtualClusterRequest.idempotencyToken(), containerProvider: ContainerProvider, name: String, tags: [String: String]? = nil) {
+        public init(clientToken: String = CreateVirtualClusterRequest.idempotencyToken(), containerProvider: ContainerProvider, name: String, securityConfigurationId: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.containerProvider = containerProvider
             self.name = name
+            self.securityConfigurationId = securityConfigurationId
             self.tags = tags
         }
 
@@ -519,6 +613,9 @@ extension EMRContainers {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+            try self.validate(self.securityConfigurationId, name: "securityConfigurationId", parent: name, max: 64)
+            try self.validate(self.securityConfigurationId, name: "securityConfigurationId", parent: name, min: 1)
+            try self.validate(self.securityConfigurationId, name: "securityConfigurationId", parent: name, pattern: "^[0-9a-z]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -533,6 +630,7 @@ extension EMRContainers {
             case clientToken = "clientToken"
             case containerProvider = "containerProvider"
             case name = "name"
+            case securityConfigurationId = "securityConfigurationId"
             case tags = "tags"
         }
     }
@@ -799,6 +897,42 @@ extension EMRContainers {
         }
     }
 
+    public struct DescribeSecurityConfigurationRequest: AWSEncodableShape {
+        /// The ID of the security configuration.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 64)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeSecurityConfigurationResponse: AWSDecodableShape {
+        /// Details of the security configuration.
+        public let securityConfiguration: SecurityConfiguration?
+
+        public init(securityConfiguration: SecurityConfiguration? = nil) {
+            self.securityConfiguration = securityConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityConfiguration = "securityConfiguration"
+        }
+    }
+
     public struct DescribeVirtualClusterRequest: AWSEncodableShape {
         /// The ID of the virtual cluster that will be described.
         public let id: String
@@ -851,6 +985,23 @@ extension EMRContainers {
 
         private enum CodingKeys: String, CodingKey {
             case namespace = "namespace"
+        }
+    }
+
+    public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// In-transit encryption-related input for the security configuration.
+        public let inTransitEncryptionConfiguration: InTransitEncryptionConfiguration?
+
+        public init(inTransitEncryptionConfiguration: InTransitEncryptionConfiguration? = nil) {
+            self.inTransitEncryptionConfiguration = inTransitEncryptionConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.inTransitEncryptionConfiguration?.validate(name: "\(name).inTransitEncryptionConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inTransitEncryptionConfiguration = "inTransitEncryptionConfiguration"
         }
     }
 
@@ -1045,6 +1196,23 @@ extension EMRContainers {
             case credentials = "credentials"
             case expiresAt = "expiresAt"
             case id = "id"
+        }
+    }
+
+    public struct InTransitEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// TLS certificate-related configuration input for the security configuration.
+        public let tlsCertificateConfiguration: TLSCertificateConfiguration?
+
+        public init(tlsCertificateConfiguration: TLSCertificateConfiguration? = nil) {
+            self.tlsCertificateConfiguration = tlsCertificateConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.tlsCertificateConfiguration?.validate(name: "\(name).tlsCertificateConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tlsCertificateConfiguration = "tlsCertificateConfiguration"
         }
     }
 
@@ -1257,6 +1425,37 @@ extension EMRContainers {
         }
     }
 
+    public struct LakeFormationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The session tag to authorize Amazon EMR on EKS for API calls to Lake Formation.
+        public let authorizedSessionTagValue: String?
+        /// The query engine IAM role ARN that is tied to the secure Spark job. The QueryEngine role assumes the JobExecutionRole to execute all the Lake Formation calls.
+        public let queryEngineRoleArn: String?
+        /// The namespace input of the system job.
+        public let secureNamespaceInfo: SecureNamespaceInfo?
+
+        public init(authorizedSessionTagValue: String? = nil, queryEngineRoleArn: String? = nil, secureNamespaceInfo: SecureNamespaceInfo? = nil) {
+            self.authorizedSessionTagValue = authorizedSessionTagValue
+            self.queryEngineRoleArn = queryEngineRoleArn
+            self.secureNamespaceInfo = secureNamespaceInfo
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.authorizedSessionTagValue, name: "authorizedSessionTagValue", parent: name, max: 512)
+            try self.validate(self.authorizedSessionTagValue, name: "authorizedSessionTagValue", parent: name, min: 1)
+            try self.validate(self.authorizedSessionTagValue, name: "authorizedSessionTagValue", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9 ]+$")
+            try self.validate(self.queryEngineRoleArn, name: "queryEngineRoleArn", parent: name, max: 2048)
+            try self.validate(self.queryEngineRoleArn, name: "queryEngineRoleArn", parent: name, min: 20)
+            try self.validate(self.queryEngineRoleArn, name: "queryEngineRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):iam::(\\d{12})?:(role((\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F))[\\w+=,.@-]+)$")
+            try self.secureNamespaceInfo?.validate(name: "\(name).secureNamespaceInfo")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedSessionTagValue = "authorizedSessionTagValue"
+            case queryEngineRoleArn = "queryEngineRoleArn"
+            case secureNamespaceInfo = "secureNamespaceInfo"
+        }
+    }
+
     public struct ListJobRunsRequest: AWSEncodableShape {
         /// The date and time after which the job runs were submitted.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -1457,6 +1656,60 @@ extension EMRContainers {
         private enum CodingKeys: String, CodingKey {
             case endpoints = "endpoints"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListSecurityConfigurationsRequest: AWSEncodableShape {
+        /// The date and time after which the security configuration was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAfter: Date?
+        /// The date and time before which the security configuration was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdBefore: Date?
+        /// The maximum number of security configurations the operation can list.
+        public let maxResults: Int?
+        /// The token for the next set of security configurations to return.
+        public let nextToken: String?
+
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self._createdAfter, key: "createdAfter")
+            request.encodeQuery(self._createdBefore, key: "createdBefore")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSecurityConfigurationsResponse: AWSDecodableShape {
+        /// The token for the next set of security configurations to return.
+        public let nextToken: String?
+        /// The list of returned security configurations.
+        public let securityConfigurations: [SecurityConfiguration]?
+
+        public init(nextToken: String? = nil, securityConfigurations: [SecurityConfiguration]? = nil) {
+            self.nextToken = nextToken
+            self.securityConfigurations = securityConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case securityConfigurations = "securityConfigurations"
         }
     }
 
@@ -1745,6 +1998,87 @@ extension EMRContainers {
         }
     }
 
+    public struct SecureNamespaceInfo: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the Amazon EKS cluster where Amazon EMR on EKS jobs run.
+        public let clusterId: String?
+        /// The namespace of the Amazon EKS cluster where the system jobs run.
+        public let namespace: String?
+
+        public init(clusterId: String? = nil, namespace: String? = nil) {
+            self.clusterId = clusterId
+            self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 100)
+            try self.validate(self.clusterId, name: "clusterId", parent: name, min: 1)
+            try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 63)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "clusterId"
+            case namespace = "namespace"
+        }
+    }
+
+    public struct SecurityConfiguration: AWSDecodableShape {
+        /// The ARN (Amazon Resource Name) of the security configuration.
+        public let arn: String?
+        /// The date and time that the job run was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The user who created the job run.
+        public let createdBy: String?
+        /// The ID of the security configuration.
+        public let id: String?
+        /// The name of the security configuration.
+        public let name: String?
+        /// Security configuration inputs for the request.
+        public let securityConfigurationData: SecurityConfigurationData?
+        /// The tags to assign to the security configuration.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, id: String? = nil, name: String? = nil, securityConfigurationData: SecurityConfigurationData? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.id = id
+            self.name = name
+            self.securityConfigurationData = securityConfigurationData
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case id = "id"
+            case name = "name"
+            case securityConfigurationData = "securityConfigurationData"
+            case tags = "tags"
+        }
+    }
+
+    public struct SecurityConfigurationData: AWSEncodableShape & AWSDecodableShape {
+        /// Authorization-related configuration input for the security configuration.
+        public let authorizationConfiguration: AuthorizationConfiguration?
+
+        public init(authorizationConfiguration: AuthorizationConfiguration? = nil) {
+            self.authorizationConfiguration = authorizationConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.authorizationConfiguration?.validate(name: "\(name).authorizationConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationConfiguration = "authorizationConfiguration"
+        }
+    }
+
     public struct SparkSqlJobDriver: AWSEncodableShape & AWSDecodableShape {
         /// The SQL file to be executed.
         public let entryPoint: String?
@@ -1939,6 +2273,36 @@ extension EMRContainers {
         }
     }
 
+    public struct TLSCertificateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The TLS certificate type. Acceptable values: PEM or Custom.
+        public let certificateProviderType: CertificateProviderType?
+        /// Secrets Manager ARN that contains the private TLS certificate contents, used for communication between the user job and the system job.
+        public let privateCertificateSecretArn: String?
+        /// Secrets Manager ARN that contains the public TLS certificate contents, used for communication between the user job and the system job.
+        public let publicCertificateSecretArn: String?
+
+        public init(certificateProviderType: CertificateProviderType? = nil, privateCertificateSecretArn: String? = nil, publicCertificateSecretArn: String? = nil) {
+            self.certificateProviderType = certificateProviderType
+            self.privateCertificateSecretArn = privateCertificateSecretArn
+            self.publicCertificateSecretArn = publicCertificateSecretArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.privateCertificateSecretArn, name: "privateCertificateSecretArn", parent: name, max: 2048)
+            try self.validate(self.privateCertificateSecretArn, name: "privateCertificateSecretArn", parent: name, min: 3)
+            try self.validate(self.privateCertificateSecretArn, name: "privateCertificateSecretArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):secretsmanager:.+:(\\d{12}):secret:[0-9a-zA-Z/_+=.@-]+$")
+            try self.validate(self.publicCertificateSecretArn, name: "publicCertificateSecretArn", parent: name, max: 2048)
+            try self.validate(self.publicCertificateSecretArn, name: "publicCertificateSecretArn", parent: name, min: 3)
+            try self.validate(self.publicCertificateSecretArn, name: "publicCertificateSecretArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):secretsmanager:.+:(\\d{12}):secret:[0-9a-zA-Z/_+=.@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateProviderType = "certificateProviderType"
+            case privateCertificateSecretArn = "privateCertificateSecretArn"
+            case publicCertificateSecretArn = "publicCertificateSecretArn"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// The ARN of resources.
         public let resourceArn: String
@@ -2052,17 +2416,20 @@ extension EMRContainers {
         public let id: String?
         /// The name of the virtual cluster.
         public let name: String?
+        /// The ID of the security configuration.
+        public let securityConfigurationId: String?
         /// The state of the virtual cluster.
         public let state: VirtualClusterState?
         /// The assigned tags of the virtual cluster.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, containerProvider: ContainerProvider? = nil, createdAt: Date? = nil, id: String? = nil, name: String? = nil, state: VirtualClusterState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, containerProvider: ContainerProvider? = nil, createdAt: Date? = nil, id: String? = nil, name: String? = nil, securityConfigurationId: String? = nil, state: VirtualClusterState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.containerProvider = containerProvider
             self.createdAt = createdAt
             self.id = id
             self.name = name
+            self.securityConfigurationId = securityConfigurationId
             self.state = state
             self.tags = tags
         }
@@ -2073,6 +2440,7 @@ extension EMRContainers {
             case createdAt = "createdAt"
             case id = "id"
             case name = "name"
+            case securityConfigurationId = "securityConfigurationId"
             case state = "state"
             case tags = "tags"
         }

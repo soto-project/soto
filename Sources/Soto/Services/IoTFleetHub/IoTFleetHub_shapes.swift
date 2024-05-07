@@ -81,7 +81,7 @@ extension IoTFleetHub {
         public let applicationName: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The ARN of the role that the web application assumes when it interacts with AWS IoT Core.  The name of the role must be in the form AWSIotFleetHub_random_string .
+        /// The ARN of the role that the web application assumes when it interacts with Amazon Web Services IoT Core.  The name of the role must be in the form AWSIotFleetHub_random_string .
         public let roleArn: String
         /// A set of key/value pairs that you can use to manage the web application resource.
         public let tags: [String: String]?
@@ -218,9 +218,9 @@ extension IoTFleetHub {
         public let applicationState: ApplicationState
         /// The URL of the web application.
         public let applicationUrl: String
-        /// A message indicating why the DescribeApplication API failed.
+        /// A message that explains any failures included in the applicationState response field. This message  explains failures in the CreateApplication and DeleteApplication actions.
         public let errorMessage: String?
-        /// The ARN of the role that the web application assumes when it interacts with AWS IoT Core.
+        /// The ARN of the role that the web application assumes when it interacts with Amazon Web Services IoT Core.
         public let roleArn: String
         /// The Id of the single sign-on client that you use to authenticate and authorize users on the web application.
         public let ssoClientId: String?

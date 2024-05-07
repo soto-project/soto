@@ -505,7 +505,7 @@ extension Pipes {
         public func validate(name: String) throws {
             try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, max: 1600)
             try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, min: 1)
-            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:logs:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):log-group:.+)$")
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:logs:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):log-group:[\\.\\-_/#A-Za-z0-9]{1,512}(:\\*)?)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1059,7 +1059,7 @@ extension Pipes {
         public func validate(name: String) throws {
             try self.validate(self.deliveryStreamArn, name: "deliveryStreamArn", parent: name, max: 1600)
             try self.validate(self.deliveryStreamArn, name: "deliveryStreamArn", parent: name, min: 1)
-            try self.validate(self.deliveryStreamArn, name: "deliveryStreamArn", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:firehose:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):deliverystream/.+)$")
+            try self.validate(self.deliveryStreamArn, name: "deliveryStreamArn", parent: name, pattern: "^(^arn:aws([a-z]|\\-)*:firehose:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}):(\\d{12}):deliverystream/[a-zA-Z0-9_.-]{1,64})$")
         }
 
         private enum CodingKeys: String, CodingKey {

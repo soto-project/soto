@@ -468,11 +468,8 @@ extension SageMaker {
     }
 
     public enum AwsManagedHumanLoopRequestSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bedrockModelEvaluation = "AWS/Bedrock/ModelEvaluation"
-        case handshakeVerifyIdentity = "AWS/Handshake/VerifyIdentity"
         case rekognitionDetectModerationLabelsImageV3 = "AWS/Rekognition/DetectModerationLabels/Image/V3"
         case textractAnalyzeDocumentFormsV1 = "AWS/Textract/AnalyzeDocument/Forms/V1"
-        case textractAnalyzeExpense = "AWS/Textract/AnalyzeExpense"
         public var description: String { return self.rawValue }
     }
 
@@ -1929,6 +1926,14 @@ extension SageMaker {
         case mlG54Xlarge = "ml.g5.4xlarge"
         case mlG58Xlarge = "ml.g5.8xlarge"
         case mlG5Xlarge = "ml.g5.xlarge"
+        case mlG612Xlarge = "ml.g6.12xlarge"
+        case mlG616Xlarge = "ml.g6.16xlarge"
+        case mlG624Xlarge = "ml.g6.24xlarge"
+        case mlG62Xlarge = "ml.g6.2xlarge"
+        case mlG648Xlarge = "ml.g6.48xlarge"
+        case mlG64Xlarge = "ml.g6.4xlarge"
+        case mlG68Xlarge = "ml.g6.8xlarge"
+        case mlG6Xlarge = "ml.g6.xlarge"
         case mlInf124Xlarge = "ml.inf1.24xlarge"
         case mlInf12Xlarge = "ml.inf1.2xlarge"
         case mlInf16Xlarge = "ml.inf1.6xlarge"
@@ -2645,12 +2650,38 @@ extension SageMaker {
         case mlC54Xlarge = "ml.c5.4xlarge"
         case mlC59Xlarge = "ml.c5.9xlarge"
         case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC6I12Xlarge = "ml.c6i.12xlarge"
+        case mlC6I16Xlarge = "ml.c6i.16xlarge"
+        case mlC6I24Xlarge = "ml.c6i.24xlarge"
+        case mlC6I2Xlarge = "ml.c6i.2xlarge"
+        case mlC6I32Xlarge = "ml.c6i.32xlarge"
+        case mlC6I4Xlarge = "ml.c6i.4xlarge"
+        case mlC6I8Xlarge = "ml.c6i.8xlarge"
+        case mlC6ILarge = "ml.c6i.large"
+        case mlC6IXlarge = "ml.c6i.xlarge"
+        case mlC7I12Xlarge = "ml.c7i.12xlarge"
+        case mlC7I16Xlarge = "ml.c7i.16xlarge"
+        case mlC7I24Xlarge = "ml.c7i.24xlarge"
+        case mlC7I2Xlarge = "ml.c7i.2xlarge"
+        case mlC7I48Xlarge = "ml.c7i.48xlarge"
+        case mlC7I4Xlarge = "ml.c7i.4xlarge"
+        case mlC7I8Xlarge = "ml.c7i.8xlarge"
+        case mlC7ILarge = "ml.c7i.large"
+        case mlC7IXlarge = "ml.c7i.xlarge"
         case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
         case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
         case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
         case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
         case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
         case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlG512Xlarge = "ml.g5.12xlarge"
+        case mlG516Xlarge = "ml.g5.16xlarge"
+        case mlG524Xlarge = "ml.g5.24xlarge"
+        case mlG52Xlarge = "ml.g5.2xlarge"
+        case mlG548Xlarge = "ml.g5.48xlarge"
+        case mlG54Xlarge = "ml.g5.4xlarge"
+        case mlG58Xlarge = "ml.g5.8xlarge"
+        case mlG5Xlarge = "ml.g5.xlarge"
         case mlM410Xlarge = "ml.m4.10xlarge"
         case mlM416Xlarge = "ml.m4.16xlarge"
         case mlM42Xlarge = "ml.m4.2xlarge"
@@ -2662,12 +2693,48 @@ extension SageMaker {
         case mlM54Xlarge = "ml.m5.4xlarge"
         case mlM5Large = "ml.m5.large"
         case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM6I12Xlarge = "ml.m6i.12xlarge"
+        case mlM6I16Xlarge = "ml.m6i.16xlarge"
+        case mlM6I24Xlarge = "ml.m6i.24xlarge"
+        case mlM6I2Xlarge = "ml.m6i.2xlarge"
+        case mlM6I32Xlarge = "ml.m6i.32xlarge"
+        case mlM6I4Xlarge = "ml.m6i.4xlarge"
+        case mlM6I8Xlarge = "ml.m6i.8xlarge"
+        case mlM6ILarge = "ml.m6i.large"
+        case mlM6IXlarge = "ml.m6i.xlarge"
+        case mlM7I12Xlarge = "ml.m7i.12xlarge"
+        case mlM7I16Xlarge = "ml.m7i.16xlarge"
+        case mlM7I24Xlarge = "ml.m7i.24xlarge"
+        case mlM7I2Xlarge = "ml.m7i.2xlarge"
+        case mlM7I48Xlarge = "ml.m7i.48xlarge"
+        case mlM7I4Xlarge = "ml.m7i.4xlarge"
+        case mlM7I8Xlarge = "ml.m7i.8xlarge"
+        case mlM7ILarge = "ml.m7i.large"
+        case mlM7IXlarge = "ml.m7i.xlarge"
         case mlP216Xlarge = "ml.p2.16xlarge"
         case mlP28Xlarge = "ml.p2.8xlarge"
         case mlP2Xlarge = "ml.p2.xlarge"
         case mlP316Xlarge = "ml.p3.16xlarge"
         case mlP32Xlarge = "ml.p3.2xlarge"
         case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlR6I12Xlarge = "ml.r6i.12xlarge"
+        case mlR6I16Xlarge = "ml.r6i.16xlarge"
+        case mlR6I24Xlarge = "ml.r6i.24xlarge"
+        case mlR6I2Xlarge = "ml.r6i.2xlarge"
+        case mlR6I32Xlarge = "ml.r6i.32xlarge"
+        case mlR6I4Xlarge = "ml.r6i.4xlarge"
+        case mlR6I8Xlarge = "ml.r6i.8xlarge"
+        case mlR6ILarge = "ml.r6i.large"
+        case mlR6IXlarge = "ml.r6i.xlarge"
+        case mlR7I12Xlarge = "ml.r7i.12xlarge"
+        case mlR7I16Xlarge = "ml.r7i.16xlarge"
+        case mlR7I24Xlarge = "ml.r7i.24xlarge"
+        case mlR7I2Xlarge = "ml.r7i.2xlarge"
+        case mlR7I48Xlarge = "ml.r7i.48xlarge"
+        case mlR7I4Xlarge = "ml.r7i.4xlarge"
+        case mlR7I8Xlarge = "ml.r7i.8xlarge"
+        case mlR7ILarge = "ml.r7i.large"
+        case mlR7IXlarge = "ml.r7i.xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -5443,9 +5510,9 @@ extension SageMaker {
     }
 
     public struct ClusterLifeCycleConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The directory of the LifeCycle script under SourceS3Uri. This LifeCycle script runs during cluster creation.
+        /// The file name of the entrypoint script of lifecycle scripts under SourceS3Uri. This entrypoint script runs during cluster creation.
         public let onCreate: String?
-        /// An Amazon S3 bucket path where your LifeCycle scripts are stored.
+        /// An Amazon S3 bucket path where your lifecycle scripts are stored.  Make sure that the S3 bucket path starts with s3://sagemaker-. The IAM role for SageMaker HyperPod has the managed  AmazonSageMakerClusterInstanceRolePolicy attached, which allows access to S3 buckets with the specific prefix sagemaker-.
         public let sourceS3Uri: String?
 
         public init(onCreate: String? = nil, sourceS3Uri: String? = nil) {
@@ -7388,13 +7455,13 @@ extension SageMaker {
         public let eventTimeFeatureName: String?
         /// A list of Feature names and types. Name and Type is compulsory per Feature.  Valid feature FeatureTypes are Integral, Fractional and String.  FeatureNames cannot be any of the following: is_deleted, write_time, api_invocation_time  You can create up to 2,500 FeatureDefinitions per FeatureGroup.
         public let featureDefinitions: [FeatureDefinition]?
-        /// The name of the FeatureGroup. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account. The name:   Must start and end with an alphanumeric character.   Can only include alphanumeric characters, underscores, and hyphens. Spaces are not allowed.
+        /// The name of the FeatureGroup. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account. The name:   Must start with an alphanumeric character.   Can only include alphanumeric characters, underscores, and hyphens. Spaces are not allowed.
         public let featureGroupName: String?
         /// Use this to configure an OfflineFeatureStore. This parameter allows you to specify:   The Amazon Simple Storage Service (Amazon S3) location of an OfflineStore.   A configuration for an Amazon Web Services Glue or Amazon Web Services Hive data catalog.    An KMS encryption key to encrypt the Amazon S3 location used for OfflineStore. If KMS encryption key is not specified, by default we encrypt all data at rest using Amazon Web Services KMS key. By defining your bucket-level key for SSE, you can reduce Amazon Web Services KMS requests costs by up to 99 percent.   Format for the offline store table. Supported formats are Glue (Default) and Apache Iceberg.   To learn more about this parameter, see OfflineStoreConfig.
         public let offlineStoreConfig: OfflineStoreConfig?
         /// You can turn the OnlineStore on or off by specifying True for the EnableOnlineStore flag in OnlineStoreConfig. You can also include an Amazon Web Services KMS key ID (KMSKeyId) for at-rest encryption of the OnlineStore. The default value is False.
         public let onlineStoreConfig: OnlineStoreConfig?
-        /// The name of the Feature whose value uniquely identifies a Record defined in the FeatureStore. Only the latest record per identifier value will be stored in the OnlineStore. RecordIdentifierFeatureName must be one of feature definitions' names. You use the RecordIdentifierFeatureName to access data in a FeatureStore. This name:   Must start and end with an alphanumeric character.   Can only contains alphanumeric characters, hyphens, underscores. Spaces are not allowed.
+        /// The name of the Feature whose value uniquely identifies a Record defined in the FeatureStore. Only the latest record per identifier value will be stored in the OnlineStore. RecordIdentifierFeatureName must be one of feature definitions' names. You use the RecordIdentifierFeatureName to access data in a FeatureStore. This name:   Must start with an alphanumeric character.   Can only contains alphanumeric characters, hyphens, underscores. Spaces are not allowed.
         public let recordIdentifierFeatureName: String?
         /// The Amazon Resource Name (ARN) of the IAM execution role used to persist data into the OfflineStore if an OfflineStoreConfig is provided.
         public let roleArn: String?
@@ -9475,6 +9542,8 @@ extension SageMaker {
         public let retryStrategy: RetryStrategy?
         /// The Amazon Resource Name (ARN) of an IAM role that SageMaker can assume to perform tasks on your behalf.  During model training, SageMaker needs your permission to read input data from an S3 bucket, download a Docker image that contains training code, write model artifacts to an S3 bucket, write logs to Amazon CloudWatch Logs, and publish metrics to Amazon CloudWatch. You grant permissions for all of these tasks to an IAM role. For more information, see SageMaker Roles.   To be able to pass this role to SageMaker, the caller of this API must have the iam:PassRole permission.
         public let roleArn: String?
+        /// Contains information about attribute-based access control (ABAC) for the training job.
+        public let sessionChainingConfig: SessionChainingConfig?
         /// Specifies a limit to how long a model training job can run. It also specifies how long a managed Spot training job has to complete. When the job reaches the time limit, SageMaker ends the training job. Use this API to cap model training costs. To stop a job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
         public let stoppingCondition: StoppingCondition?
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
@@ -9485,7 +9554,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that you want your training job to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification? = nil, checkpointConfig: CheckpointConfig? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, hyperParameters: [String: String]? = nil, infraCheckConfig: InfraCheckConfig? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig? = nil, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, remoteDebugConfig: RemoteDebugConfig? = nil, resourceConfig: ResourceConfig? = nil, retryStrategy: RetryStrategy? = nil, roleArn: String? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingJobName: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification? = nil, checkpointConfig: CheckpointConfig? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, hyperParameters: [String: String]? = nil, infraCheckConfig: InfraCheckConfig? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig? = nil, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, remoteDebugConfig: RemoteDebugConfig? = nil, resourceConfig: ResourceConfig? = nil, retryStrategy: RetryStrategy? = nil, roleArn: String? = nil, sessionChainingConfig: SessionChainingConfig? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingJobName: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.checkpointConfig = checkpointConfig
             self.debugHookConfig = debugHookConfig
@@ -9505,6 +9574,7 @@ extension SageMaker {
             self.resourceConfig = resourceConfig
             self.retryStrategy = retryStrategy
             self.roleArn = roleArn
+            self.sessionChainingConfig = sessionChainingConfig
             self.stoppingCondition = stoppingCondition
             self.tags = tags
             self.tensorBoardOutputConfig = tensorBoardOutputConfig
@@ -9583,6 +9653,7 @@ extension SageMaker {
             case resourceConfig = "ResourceConfig"
             case retryStrategy = "RetryStrategy"
             case roleArn = "RoleArn"
+            case sessionChainingConfig = "SessionChainingConfig"
             case stoppingCondition = "StoppingCondition"
             case tags = "Tags"
             case tensorBoardOutputConfig = "TensorBoardOutputConfig"
@@ -10553,9 +10624,9 @@ extension SageMaker {
     }
 
     public struct DefaultEbsStorageSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The default size of the EBS storage volume for a private space.
+        /// The default size of the EBS storage volume for a space.
         public let defaultEbsVolumeSizeInGb: Int?
-        /// The maximum size of the EBS storage volume for a private space.
+        /// The maximum size of the EBS storage volume for a space.
         public let maximumEbsVolumeSizeInGb: Int?
 
         public init(defaultEbsVolumeSizeInGb: Int? = nil, maximumEbsVolumeSizeInGb: Int? = nil) {
@@ -10577,24 +10648,39 @@ extension SageMaker {
     }
 
     public struct DefaultSpaceSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The settings for assigning a custom file system to a domain. Permitted users can access this file system in Amazon SageMaker Studio.
+        public let customFileSystemConfigs: [CustomFileSystemConfig]?
+        public let customPosixUserConfig: CustomPosixUserConfig?
         /// The ARN of the execution role for the space.
         public let executionRole: String?
+        public let jupyterLabAppSettings: JupyterLabAppSettings?
         public let jupyterServerAppSettings: JupyterServerAppSettings?
         public let kernelGatewayAppSettings: KernelGatewayAppSettings?
         /// The security group IDs for the Amazon VPC that the space uses for communication.
         public let securityGroups: [String]?
+        public let spaceStorageSettings: DefaultSpaceStorageSettings?
 
-        public init(executionRole: String? = nil, jupyterServerAppSettings: JupyterServerAppSettings? = nil, kernelGatewayAppSettings: KernelGatewayAppSettings? = nil, securityGroups: [String]? = nil) {
+        public init(customFileSystemConfigs: [CustomFileSystemConfig]? = nil, customPosixUserConfig: CustomPosixUserConfig? = nil, executionRole: String? = nil, jupyterLabAppSettings: JupyterLabAppSettings? = nil, jupyterServerAppSettings: JupyterServerAppSettings? = nil, kernelGatewayAppSettings: KernelGatewayAppSettings? = nil, securityGroups: [String]? = nil, spaceStorageSettings: DefaultSpaceStorageSettings? = nil) {
+            self.customFileSystemConfigs = customFileSystemConfigs
+            self.customPosixUserConfig = customPosixUserConfig
             self.executionRole = executionRole
+            self.jupyterLabAppSettings = jupyterLabAppSettings
             self.jupyterServerAppSettings = jupyterServerAppSettings
             self.kernelGatewayAppSettings = kernelGatewayAppSettings
             self.securityGroups = securityGroups
+            self.spaceStorageSettings = spaceStorageSettings
         }
 
         public func validate(name: String) throws {
+            try self.customFileSystemConfigs?.forEach {
+                try $0.validate(name: "\(name).customFileSystemConfigs[]")
+            }
+            try self.validate(self.customFileSystemConfigs, name: "customFileSystemConfigs", parent: name, max: 2)
+            try self.customPosixUserConfig?.validate(name: "\(name).customPosixUserConfig")
             try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
             try self.validate(self.executionRole, name: "executionRole", parent: name, min: 20)
             try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.jupyterLabAppSettings?.validate(name: "\(name).jupyterLabAppSettings")
             try self.jupyterServerAppSettings?.validate(name: "\(name).jupyterServerAppSettings")
             try self.kernelGatewayAppSettings?.validate(name: "\(name).kernelGatewayAppSettings")
             try self.securityGroups?.forEach {
@@ -10602,18 +10688,23 @@ extension SageMaker {
                 try validate($0, name: "securityGroups[]", parent: name, pattern: "^[-0-9a-zA-Z]+$")
             }
             try self.validate(self.securityGroups, name: "securityGroups", parent: name, max: 5)
+            try self.spaceStorageSettings?.validate(name: "\(name).spaceStorageSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customFileSystemConfigs = "CustomFileSystemConfigs"
+            case customPosixUserConfig = "CustomPosixUserConfig"
             case executionRole = "ExecutionRole"
+            case jupyterLabAppSettings = "JupyterLabAppSettings"
             case jupyterServerAppSettings = "JupyterServerAppSettings"
             case kernelGatewayAppSettings = "KernelGatewayAppSettings"
             case securityGroups = "SecurityGroups"
+            case spaceStorageSettings = "SpaceStorageSettings"
         }
     }
 
     public struct DefaultSpaceStorageSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The default EBS storage settings for a private space.
+        /// The default EBS storage settings for a space.
         public let defaultEbsStorageSettings: DefaultEbsStorageSettings?
 
         public init(defaultEbsStorageSettings: DefaultEbsStorageSettings? = nil) {
@@ -17406,7 +17497,7 @@ extension SageMaker {
     }
 
     public struct EbsStorageSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The size of an EBS storage volume for a private space.
+        /// The size of an EBS storage volume for a space.
         public let ebsVolumeSizeInGb: Int?
 
         public init(ebsVolumeSizeInGb: Int? = nil) {
@@ -18260,7 +18351,7 @@ extension SageMaker {
         public let collectionConfig: CollectionConfig?
         /// A grouping of elements where each element within the collection must have the same feature type (String, Integral, or Fractional).    List: An ordered collection of elements.    Set: An unordered collection of unique elements.    Vector: A specialized list that represents a fixed-size array of elements. The vector dimension is determined by you. Must have elements with fractional feature types.
         public let collectionType: CollectionType?
-        /// The name of a feature. The type must be a string. FeatureName cannot be any of the following: is_deleted, write_time, api_invocation_time. The name:   Must start and end with an alphanumeric character.   Can only include alphanumeric characters, underscores, and hyphens. Spaces are not allowed.
+        /// The name of a feature. The type must be a string. FeatureName cannot be any of the following: is_deleted, write_time, api_invocation_time. The name:   Must start with an alphanumeric character.   Can only include alphanumeric characters, underscores, and hyphens. Spaces are not allowed.
         public let featureName: String?
         /// The value type of a feature. Valid values are Integral, Fractional, or String.
         public let featureType: FeatureType?
@@ -29647,7 +29738,7 @@ extension SageMaker {
     }
 
     public struct OwnershipSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The user profile who is the owner of the private space.
+        /// The user profile who is the owner of the space.
         public let ownerUserProfileName: String?
 
         public init(ownerUserProfileName: String? = nil) {
@@ -29665,7 +29756,7 @@ extension SageMaker {
     }
 
     public struct OwnershipSettingsSummary: AWSDecodableShape {
-        /// The user profile who is the owner of the private space.
+        /// The user profile who is the owner of the space.
         public let ownerUserProfileName: String?
 
         public init(ownerUserProfileName: String? = nil) {
@@ -33131,6 +33222,19 @@ extension SageMaker {
         }
     }
 
+    public struct SessionChainingConfig: AWSEncodableShape {
+        /// Set to True to allow SageMaker to extract session tags from a  training job creation role and reuse these tags when assuming the training  job execution role.
+        public let enableSessionTagChaining: Bool?
+
+        public init(enableSessionTagChaining: Bool? = nil) {
+            self.enableSessionTagChaining = enableSessionTagChaining
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableSessionTagChaining = "EnableSessionTagChaining"
+        }
+    }
+
     public struct ShadowModeConfig: AWSEncodableShape & AWSDecodableShape {
         /// List of shadow variant configurations.
         public let shadowModelVariants: [ShadowModelVariantConfig]?
@@ -33390,7 +33494,7 @@ extension SageMaker {
         public let jupyterLabAppSettings: SpaceJupyterLabAppSettings?
         public let jupyterServerAppSettings: JupyterServerAppSettings?
         public let kernelGatewayAppSettings: KernelGatewayAppSettings?
-        /// The storage settings for a private space.
+        /// The storage settings for a space.
         public let spaceStorageSettings: SpaceStorageSettings?
 
         public init(appType: AppType? = nil, codeEditorAppSettings: SpaceCodeEditorAppSettings? = nil, customFileSystems: [CustomFileSystem]? = nil, jupyterLabAppSettings: SpaceJupyterLabAppSettings? = nil, jupyterServerAppSettings: JupyterServerAppSettings? = nil, kernelGatewayAppSettings: KernelGatewayAppSettings? = nil, spaceStorageSettings: SpaceStorageSettings? = nil) {
@@ -33429,7 +33533,7 @@ extension SageMaker {
     public struct SpaceSettingsSummary: AWSDecodableShape {
         /// The type of app created within the space.
         public let appType: AppType?
-        /// The storage settings for a private space.
+        /// The storage settings for a space.
         public let spaceStorageSettings: SpaceStorageSettings?
 
         public init(appType: AppType? = nil, spaceStorageSettings: SpaceStorageSettings? = nil) {
@@ -33470,7 +33574,7 @@ extension SageMaker {
     }
 
     public struct SpaceStorageSettings: AWSEncodableShape & AWSDecodableShape {
-        /// A collection of EBS storage settings for a private space.
+        /// A collection of EBS storage settings for a space.
         public let ebsStorageSettings: EbsStorageSettings?
 
         public init(ebsStorageSettings: EbsStorageSettings? = nil) {
@@ -37972,7 +38076,7 @@ extension SageMaker {
         public let securityGroups: [String]?
         /// Specifies options for sharing Amazon SageMaker Studio notebooks.
         public let sharingSettings: SharingSettings?
-        /// The storage settings for a private space.
+        /// The storage settings for a space.
         public let spaceStorageSettings: DefaultSpaceStorageSettings?
         /// Whether the user can access Studio. If this value is set to DISABLED, the user cannot access Studio, even if that is the default experience for the domain.
         public let studioWebPortal: StudioWebPortal?

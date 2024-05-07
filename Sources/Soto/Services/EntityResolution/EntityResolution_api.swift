@@ -73,12 +73,51 @@ public struct EntityResolution: AWSService {
 
     // MARK: API Calls
 
+    /// Adds a policy statement object. To retrieve a list of existing policy statements, use the GetPolicy API.
+    @Sendable
+    public func addPolicyStatement(_ input: AddPolicyStatementInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AddPolicyStatementOutput {
+        return try await self.client.execute(
+            operation: "AddPolicyStatement", 
+            path: "/policies/{arn}/{statementId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes multiple unique IDs in a matching workflow.
+    @Sendable
+    public func batchDeleteUniqueId(_ input: BatchDeleteUniqueIdInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteUniqueIdOutput {
+        return try await self.client.execute(
+            operation: "BatchDeleteUniqueId", 
+            path: "/matchingworkflows/{workflowName}/uniqueids", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates an IdMappingWorkflow object which stores the configuration of the data processing job to be run. Each IdMappingWorkflow must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API.
     @Sendable
     public func createIdMappingWorkflow(_ input: CreateIdMappingWorkflowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIdMappingWorkflowOutput {
         return try await self.client.execute(
             operation: "CreateIdMappingWorkflow", 
             path: "/idmappingworkflows", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates an ID namespace object which will help customers provide metadata explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the UpdateIdNamespace API.
+    @Sendable
+    public func createIdNamespace(_ input: CreateIdNamespaceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIdNamespaceOutput {
+        return try await self.client.execute(
+            operation: "CreateIdNamespace", 
+            path: "/idnamespaces", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -125,12 +164,38 @@ public struct EntityResolution: AWSService {
         )
     }
 
+    /// Deletes the IdNamespace with a given name.
+    @Sendable
+    public func deleteIdNamespace(_ input: DeleteIdNamespaceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIdNamespaceOutput {
+        return try await self.client.execute(
+            operation: "DeleteIdNamespace", 
+            path: "/idnamespaces/{idNamespaceName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes the MatchingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
     @Sendable
     public func deleteMatchingWorkflow(_ input: DeleteMatchingWorkflowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMatchingWorkflowOutput {
         return try await self.client.execute(
             operation: "DeleteMatchingWorkflow", 
             path: "/matchingworkflows/{workflowName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the policy statement.
+    @Sendable
+    public func deletePolicyStatement(_ input: DeletePolicyStatementInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePolicyStatementOutput {
+        return try await self.client.execute(
+            operation: "DeletePolicyStatement", 
+            path: "/policies/{arn}/{statementId}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -177,6 +242,19 @@ public struct EntityResolution: AWSService {
         )
     }
 
+    /// Returns the IdNamespace with a given name, if it exists.
+    @Sendable
+    public func getIdNamespace(_ input: GetIdNamespaceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIdNamespaceOutput {
+        return try await self.client.execute(
+            operation: "GetIdNamespace", 
+            path: "/idnamespaces/{idNamespaceName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns the corresponding Match ID of a customer record if the record has been processed.
     @Sendable
     public func getMatchId(_ input: GetMatchIdInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMatchIdOutput {
@@ -209,6 +287,19 @@ public struct EntityResolution: AWSService {
         return try await self.client.execute(
             operation: "GetMatchingWorkflow", 
             path: "/matchingworkflows/{workflowName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns the resource-based policy.
+    @Sendable
+    public func getPolicy(_ input: GetPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyOutput {
+        return try await self.client.execute(
+            operation: "GetPolicy", 
+            path: "/policies/{arn}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -261,6 +352,19 @@ public struct EntityResolution: AWSService {
         return try await self.client.execute(
             operation: "ListIdMappingWorkflows", 
             path: "/idmappingworkflows", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of all ID namespaces.
+    @Sendable
+    public func listIdNamespaces(_ input: ListIdNamespacesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIdNamespacesOutput {
+        return try await self.client.execute(
+            operation: "ListIdNamespaces", 
+            path: "/idnamespaces", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -333,6 +437,19 @@ public struct EntityResolution: AWSService {
         )
     }
 
+    /// Updates the resource-based policy.
+    @Sendable
+    public func putPolicy(_ input: PutPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutPolicyOutput {
+        return try await self.client.execute(
+            operation: "PutPolicy", 
+            path: "/policies/{arn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Starts the IdMappingJob of a workflow. The workflow must have previously been created using the CreateIdMappingWorkflow endpoint.
     @Sendable
     public func startIdMappingJob(_ input: StartIdMappingJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartIdMappingJobOutput {
@@ -391,6 +508,19 @@ public struct EntityResolution: AWSService {
         return try await self.client.execute(
             operation: "UpdateIdMappingWorkflow", 
             path: "/idmappingworkflows/{workflowName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates an existing ID namespace.
+    @Sendable
+    public func updateIdNamespace(_ input: UpdateIdNamespaceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIdNamespaceOutput {
+        return try await self.client.execute(
+            operation: "UpdateIdNamespace", 
+            path: "/idnamespaces/{idNamespaceName}", 
             httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
@@ -472,6 +602,25 @@ extension EntityResolution {
             command: self.listIdMappingWorkflows,
             inputKey: \ListIdMappingWorkflowsInput.nextToken,
             outputKey: \ListIdMappingWorkflowsOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of all ID namespaces.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listIdNamespacesPaginator(
+        _ input: ListIdNamespacesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIdNamespacesInput, ListIdNamespacesOutput> {
+        return .init(
+            input: input,
+            command: self.listIdNamespaces,
+            inputKey: \ListIdNamespacesInput.nextToken,
+            outputKey: \ListIdNamespacesOutput.nextToken,
             logger: logger
         )
     }
@@ -565,6 +714,15 @@ extension EntityResolution.ListIdMappingJobsInput: AWSPaginateToken {
 
 extension EntityResolution.ListIdMappingWorkflowsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EntityResolution.ListIdMappingWorkflowsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EntityResolution.ListIdNamespacesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EntityResolution.ListIdNamespacesInput {
         return .init(
             maxResults: self.maxResults,
             nextToken: token

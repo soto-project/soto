@@ -41,6 +41,13 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
+    public enum AttributeChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case add = "Add"
+        case modify = "Modify"
+        case remove = "Remove"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CallAs: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case _self = "SELF"
         case delegatedAdmin = "DELEGATED_ADMIN"
@@ -794,7 +801,7 @@ extension CloudFormation {
         public let hookInvocationCount: Int?
         /// A ResourceChange structure that describes the resource and action that CloudFormation will perform.
         public let resourceChange: ResourceChange?
-        /// The type of entity that CloudFormation changes. Currently, the only entity type is Resource.
+        /// The type of entity that CloudFormation changes.    Resource This change is for a resource.
         public let type: ChangeType?
 
         public init(hookInvocationCount: Int? = nil, resourceChange: ResourceChange? = nil, type: ChangeType? = nil) {
@@ -1878,13 +1885,16 @@ extension CloudFormation {
     public struct DescribeChangeSetInput: AWSEncodableShape {
         /// The name or Amazon Resource Name (ARN) of the change set that you want to describe.
         public let changeSetName: String?
+        /// If true, the returned changes include detailed changes in the property values.
+        public let includePropertyValues: Bool?
         /// A string (provided by the DescribeChangeSet response output) that identifies the next page of information that you want to retrieve.
         public let nextToken: String?
         /// If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
         public let stackName: String?
 
-        public init(changeSetName: String? = nil, nextToken: String? = nil, stackName: String? = nil) {
+        public init(changeSetName: String? = nil, includePropertyValues: Bool? = nil, nextToken: String? = nil, stackName: String? = nil) {
             self.changeSetName = changeSetName
+            self.includePropertyValues = includePropertyValues
             self.nextToken = nextToken
             self.stackName = stackName
         }
@@ -1901,6 +1911,7 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case changeSetName = "ChangeSetName"
+            case includePropertyValues = "IncludePropertyValues"
             case nextToken = "NextToken"
             case stackName = "StackName"
         }
@@ -4681,6 +4692,10 @@ extension CloudFormation {
     public struct ResourceChange: AWSDecodableShape {
         /// The action that CloudFormation takes on the resource, such as Add (adds a new resource), Modify (changes a resource), Remove (deletes a resource), Import (imports a resource), or Dynamic (exact action for the resource can't be determined).
         public let action: ChangeAction?
+        /// An encoded JSON string containing the context of the resource after the change is executed.
+        public let afterContext: String?
+        /// An encoded JSON string containing the context of the resource before the change is executed.
+        public let beforeContext: String?
         /// The change set ID of the nested change set.
         public let changeSetId: String?
         /// For the Modify action, a list of ResourceChangeDetail structures that describes the changes that CloudFormation will make to the resource.
@@ -4702,8 +4717,10 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<ResourceAttribute>>
         public var scope: [ResourceAttribute]?
 
-        public init(action: ChangeAction? = nil, changeSetId: String? = nil, details: [ResourceChangeDetail]? = nil, logicalResourceId: String? = nil, moduleInfo: ModuleInfo? = nil, physicalResourceId: String? = nil, policyAction: PolicyAction? = nil, replacement: Replacement? = nil, resourceType: String? = nil, scope: [ResourceAttribute]? = nil) {
+        public init(action: ChangeAction? = nil, afterContext: String? = nil, beforeContext: String? = nil, changeSetId: String? = nil, details: [ResourceChangeDetail]? = nil, logicalResourceId: String? = nil, moduleInfo: ModuleInfo? = nil, physicalResourceId: String? = nil, policyAction: PolicyAction? = nil, replacement: Replacement? = nil, resourceType: String? = nil, scope: [ResourceAttribute]? = nil) {
             self.action = action
+            self.afterContext = afterContext
+            self.beforeContext = beforeContext
             self.changeSetId = changeSetId
             self.details = details
             self.logicalResourceId = logicalResourceId
@@ -4717,6 +4734,8 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
+            case afterContext = "AfterContext"
+            case beforeContext = "BeforeContext"
             case changeSetId = "ChangeSetId"
             case details = "Details"
             case logicalResourceId = "LogicalResourceId"
@@ -4881,22 +4900,38 @@ extension CloudFormation {
     }
 
     public struct ResourceTargetDefinition: AWSDecodableShape {
+        /// The value of the property after the change is executed. Large values can be truncated.
+        public let afterValue: String?
         /// Indicates which resource attribute is triggering this update, such as a change in the resource attribute's Metadata, Properties, or Tags.
         public let attribute: ResourceAttribute?
+        /// The type of change to be made to the property if the change is executed.    Add The item will be added.    Remove The item will be removed.    Modify The item will be modified.
+        public let attributeChangeType: AttributeChangeType?
+        /// The value of the property before the change is executed. Large values can be truncated.
+        public let beforeValue: String?
         /// If the Attribute value is Properties, the name of the property. For all other attributes, the value is null.
         public let name: String?
+        /// The property path of the property.
+        public let path: String?
         /// If the Attribute value is Properties, indicates whether a change to this property causes the resource to be recreated. The value can be Never, Always, or Conditionally. To determine the conditions for a Conditionally recreation, see the update behavior for that property in the CloudFormation User Guide.
         public let requiresRecreation: RequiresRecreation?
 
-        public init(attribute: ResourceAttribute? = nil, name: String? = nil, requiresRecreation: RequiresRecreation? = nil) {
+        public init(afterValue: String? = nil, attribute: ResourceAttribute? = nil, attributeChangeType: AttributeChangeType? = nil, beforeValue: String? = nil, name: String? = nil, path: String? = nil, requiresRecreation: RequiresRecreation? = nil) {
+            self.afterValue = afterValue
             self.attribute = attribute
+            self.attributeChangeType = attributeChangeType
+            self.beforeValue = beforeValue
             self.name = name
+            self.path = path
             self.requiresRecreation = requiresRecreation
         }
 
         private enum CodingKeys: String, CodingKey {
+            case afterValue = "AfterValue"
             case attribute = "Attribute"
+            case attributeChangeType = "AttributeChangeType"
+            case beforeValue = "BeforeValue"
             case name = "Name"
+            case path = "Path"
             case requiresRecreation = "RequiresRecreation"
         }
     }

@@ -71,6 +71,7 @@ extension ConnectCases {
     public enum RelatedItemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case comment = "Comment"
         case contact = "Contact"
+        case file = "File"
         public var description: String { return self.rawValue }
     }
 
@@ -305,6 +306,8 @@ extension ConnectCases {
         case comment(CommentContent)
         /// Represents the content of a contact to be returned to agents.
         case contact(ContactContent)
+        /// Represents the content of a File to be returned to agents.
+        case file(FileContent)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -322,12 +325,16 @@ extension ConnectCases {
             case .contact:
                 let value = try container.decode(ContactContent.self, forKey: .contact)
                 self = .contact(value)
+            case .file:
+                let value = try container.decode(FileContent.self, forKey: .file)
+                self = .file(value)
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case comment = "comment"
             case contact = "contact"
+            case file = "file"
         }
     }
 
@@ -336,6 +343,8 @@ extension ConnectCases {
         case comment(CommentContent)
         /// Object representing a contact in Amazon Connect as an API request field.
         case contact(Contact)
+        /// A file of related items.
+        case file(FileContent)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -344,6 +353,8 @@ extension ConnectCases {
                 try container.encode(value, forKey: .comment)
             case .contact(let value):
                 try container.encode(value, forKey: .contact)
+            case .file(let value):
+                try container.encode(value, forKey: .file)
             }
         }
 
@@ -353,12 +364,15 @@ extension ConnectCases {
                 try value.validate(name: "\(name).comment")
             case .contact(let value):
                 try value.validate(name: "\(name).contact")
+            case .file(let value):
+                try value.validate(name: "\(name).file")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case comment = "comment"
             case contact = "contact"
+            case file = "file"
         }
     }
 
@@ -367,6 +381,8 @@ extension ConnectCases {
         case comment(CommentFilter)
         /// A filter for related items of type Contact.
         case contact(ContactFilter)
+        /// A filter for related items of this type of File.
+        case file(FileFilter)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -375,6 +391,8 @@ extension ConnectCases {
                 try container.encode(value, forKey: .comment)
             case .contact(let value):
                 try container.encode(value, forKey: .contact)
+            case .file(let value):
+                try container.encode(value, forKey: .file)
             }
         }
 
@@ -382,6 +400,8 @@ extension ConnectCases {
             switch self {
             case .contact(let value):
                 try value.validate(name: "\(name).contact")
+            case .file(let value):
+                try value.validate(name: "\(name).file")
             default:
                 break
             }
@@ -390,6 +410,7 @@ extension ConnectCases {
         private enum CodingKeys: String, CodingKey {
             case comment = "comment"
             case contact = "contact"
+            case file = "file"
         }
     }
 
@@ -1097,6 +1118,102 @@ extension ConnectCases {
         public init() {}
     }
 
+    public struct DeleteFieldRequest: AWSEncodableShape {
+        /// The unique identifier of the Cases domain.
+        public let domainId: String
+        /// Unique identifier of the field.
+        public let fieldId: String
+
+        public init(domainId: String, fieldId: String) {
+            self.domainId = domainId
+            self.fieldId = fieldId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
+            request.encodePath(self.fieldId, key: "fieldId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 500)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteFieldResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteLayoutRequest: AWSEncodableShape {
+        /// The unique identifier of the Cases domain.
+        public let domainId: String
+        /// The unique identifier of the layout.
+        public let layoutId: String
+
+        public init(domainId: String, layoutId: String) {
+            self.domainId = domainId
+            self.layoutId = layoutId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
+            request.encodePath(self.layoutId, key: "layoutId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
+            try self.validate(self.layoutId, name: "layoutId", parent: name, max: 500)
+            try self.validate(self.layoutId, name: "layoutId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteLayoutResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteTemplateRequest: AWSEncodableShape {
+        /// The unique identifier of the Cases domain.
+        public let domainId: String
+        /// A unique identifier of a template.
+        public let templateId: String
+
+        public init(domainId: String, templateId: String) {
+            self.domainId = domainId
+            self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
+            request.encodePath(self.templateId, key: "templateId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
+            try self.validate(self.templateId, name: "templateId", parent: name, max: 500)
+            try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteTemplateResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DomainSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the domain.
         public let domainArn: String
@@ -1346,6 +1463,42 @@ extension ConnectCases {
         }
     }
 
+    public struct FileContent: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of a File in Amazon Connect.
+        public let fileArn: String
+
+        public init(fileArn: String) {
+            self.fileArn = fileArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fileArn, name: "fileArn", parent: name, max: 500)
+            try self.validate(self.fileArn, name: "fileArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileArn = "fileArn"
+        }
+    }
+
+    public struct FileFilter: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the file.
+        public let fileArn: String?
+
+        public init(fileArn: String? = nil) {
+            self.fileArn = fileArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fileArn, name: "fileArn", parent: name, max: 500)
+            try self.validate(self.fileArn, name: "fileArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileArn = "fileArn"
+        }
+    }
+
     public struct GetCaseAuditEventsRequest: AWSEncodableShape {
         /// A unique identifier of the case.
         public let caseId: String
@@ -1564,12 +1717,20 @@ extension ConnectCases {
     }
 
     public struct GetFieldResponse: AWSDecodableShape {
+        /// Timestamp at which the resource was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTime: Date?
+        /// Denotes whether or not the resource has been deleted.
+        public let deleted: Bool?
         /// Description of the field.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the field.
         public let fieldArn: String
         /// Unique identifier of the field.
         public let fieldId: String
+        /// Timestamp at which the resource was created or last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
         /// Name of the field.
         public let name: String
         /// Namespace of the field.
@@ -1579,10 +1740,13 @@ extension ConnectCases {
         /// Type of the field.
         public let type: FieldType
 
-        public init(description: String? = nil, fieldArn: String, fieldId: String, name: String, namespace: FieldNamespace, tags: [String: String]? = nil, type: FieldType) {
+        public init(createdTime: Date? = nil, deleted: Bool? = nil, description: String? = nil, fieldArn: String, fieldId: String, lastModifiedTime: Date? = nil, name: String, namespace: FieldNamespace, tags: [String: String]? = nil, type: FieldType) {
+            self.createdTime = createdTime
+            self.deleted = deleted
             self.description = description
             self.fieldArn = fieldArn
             self.fieldId = fieldId
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.namespace = namespace
             self.tags = tags
@@ -1590,9 +1754,12 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createdTime = "createdTime"
+            case deleted = "deleted"
             case description = "description"
             case fieldArn = "fieldArn"
             case fieldId = "fieldId"
+            case lastModifiedTime = "lastModifiedTime"
             case name = "name"
             case namespace = "namespace"
             case tags = "tags"
@@ -1631,6 +1798,14 @@ extension ConnectCases {
     public struct GetLayoutResponse: AWSDecodableShape {
         /// Information about which fields will be present in the layout, the order of the fields, and read-only attribute of the field.
         public let content: LayoutContent
+        /// Timestamp at which the resource was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTime: Date?
+        /// Denotes whether or not the resource has been deleted.
+        public let deleted: Bool?
+        /// Timestamp at which the resource was created or last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
         /// The Amazon Resource Name (ARN) of the newly created layout.
         public let layoutArn: String
         /// The unique identifier of the layout.
@@ -1640,8 +1815,11 @@ extension ConnectCases {
         /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
-        public init(content: LayoutContent, layoutArn: String, layoutId: String, name: String, tags: [String: String]? = nil) {
+        public init(content: LayoutContent, createdTime: Date? = nil, deleted: Bool? = nil, lastModifiedTime: Date? = nil, layoutArn: String, layoutId: String, name: String, tags: [String: String]? = nil) {
             self.content = content
+            self.createdTime = createdTime
+            self.deleted = deleted
+            self.lastModifiedTime = lastModifiedTime
             self.layoutArn = layoutArn
             self.layoutId = layoutId
             self.name = name
@@ -1650,6 +1828,9 @@ extension ConnectCases {
 
         private enum CodingKeys: String, CodingKey {
             case content = "content"
+            case createdTime = "createdTime"
+            case deleted = "deleted"
+            case lastModifiedTime = "lastModifiedTime"
             case layoutArn = "layoutArn"
             case layoutId = "layoutId"
             case name = "name"
@@ -1686,8 +1867,16 @@ extension ConnectCases {
     }
 
     public struct GetTemplateResponse: AWSDecodableShape {
+        /// Timestamp at which the resource was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTime: Date?
+        /// Denotes whether or not the resource has been deleted.
+        public let deleted: Bool?
         /// A brief description of the template.
         public let description: String?
+        /// Timestamp at which the resource was created or last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
         /// Configuration of layouts associated to the template.
         public let layoutConfiguration: LayoutConfiguration?
         /// The name of the template.
@@ -1703,8 +1892,11 @@ extension ConnectCases {
         /// A unique identifier of a template.
         public let templateId: String
 
-        public init(description: String? = nil, layoutConfiguration: LayoutConfiguration? = nil, name: String, requiredFields: [RequiredField]? = nil, status: TemplateStatus, tags: [String: String]? = nil, templateArn: String, templateId: String) {
+        public init(createdTime: Date? = nil, deleted: Bool? = nil, description: String? = nil, lastModifiedTime: Date? = nil, layoutConfiguration: LayoutConfiguration? = nil, name: String, requiredFields: [RequiredField]? = nil, status: TemplateStatus, tags: [String: String]? = nil, templateArn: String, templateId: String) {
+            self.createdTime = createdTime
+            self.deleted = deleted
             self.description = description
+            self.lastModifiedTime = lastModifiedTime
             self.layoutConfiguration = layoutConfiguration
             self.name = name
             self.requiredFields = requiredFields
@@ -1715,7 +1907,10 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createdTime = "createdTime"
+            case deleted = "deleted"
             case description = "description"
+            case lastModifiedTime = "lastModifiedTime"
             case layoutConfiguration = "layoutConfiguration"
             case name = "name"
             case requiredFields = "requiredFields"

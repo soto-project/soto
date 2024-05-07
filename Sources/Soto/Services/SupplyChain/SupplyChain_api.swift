@@ -98,6 +98,19 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
+
+    /// Send transactional data events with real-time data for analysis or monitoring.
+    @Sendable
+    public func sendDataIntegrationEvent(_ input: SendDataIntegrationEventRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendDataIntegrationEventResponse {
+        return try await self.client.execute(
+            operation: "SendDataIntegrationEvent", 
+            path: "/api-data/data-integration/instance/{instanceId}/data-integration-events", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
 }
 
 extension SupplyChain {

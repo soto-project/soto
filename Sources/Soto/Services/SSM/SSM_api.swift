@@ -674,6 +674,19 @@ public struct SSM: AWSService {
         )
     }
 
+    /// An API operation used by the Systems Manager console to display information about Systems Manager managed nodes.
+    @Sendable
+    public func describeInstanceProperties(_ input: DescribeInstancePropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstancePropertiesResult {
+        return try await self.client.execute(
+            operation: "DescribeInstanceProperties", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Describes a specific delete inventory operation.
     @Sendable
     public func describeInventoryDeletions(_ input: DescribeInventoryDeletionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInventoryDeletionsResult {
@@ -2157,6 +2170,25 @@ extension SSM {
         )
     }
 
+    /// An API operation used by the Systems Manager console to display information about Systems Manager managed nodes.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeInstancePropertiesPaginator(
+        _ input: DescribeInstancePropertiesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeInstancePropertiesRequest, DescribeInstancePropertiesResult> {
+        return .init(
+            input: input,
+            command: self.describeInstanceProperties,
+            inputKey: \DescribeInstancePropertiesRequest.nextToken,
+            outputKey: \DescribeInstancePropertiesResult.nextToken,
+            logger: logger
+        )
+    }
+
     /// Describes a specific delete inventory operation.
     /// Return PaginatorSequence for operation.
     ///
@@ -2936,6 +2968,17 @@ extension SSM.DescribeInstancePatchesRequest: AWSPaginateToken {
         return .init(
             filters: self.filters,
             instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension SSM.DescribeInstancePropertiesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SSM.DescribeInstancePropertiesRequest {
+        return .init(
+            filtersWithOperator: self.filtersWithOperator,
+            instancePropertyFilterList: self.instancePropertyFilterList,
             maxResults: self.maxResults,
             nextToken: token
         )

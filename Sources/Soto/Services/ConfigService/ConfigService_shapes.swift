@@ -1074,7 +1074,10 @@ extension ConfigService {
         public let configuration: String?
         /// The time when the recording of configuration changes was initiated for the resource.
         public let configurationItemCaptureTime: Date?
-        /// The time when configuration changes for the resource were delivered.
+        /// The time when configuration changes for the resource were delivered.  This field is optional and is not guaranteed to be present in a configuration item  (CI). If you are using daily recording,
+        /// 			this field will be populated. However, if you are using continuous recording,
+        /// 			this field will be omitted since the delivery time is instantaneous as the CI is available right away. For more information on daily recording and continuous recording, see Recording Frequency in the Config
+        /// 					Developer Guide.
         public let configurationItemDeliveryTime: Date?
         /// The configuration item status. Valid values include:   OK – The resource configuration has been updated.   ResourceDiscovered – The resource was newly discovered.   ResourceNotRecorded – The resource was discovered, but its configuration was not recorded since the recorder doesn't record resources of this type.   ResourceDeleted – The resource was deleted   ResourceDeletedNotRecorded – The resource was deleted, but its configuration was not recorded since the recorder doesn't record resources of this type.
         public let configurationItemStatus: ConfigurationItemStatus?
@@ -1733,7 +1736,10 @@ extension ConfigService {
         /// The time when the recording of configuration changes was
         /// 			initiated for the resource.
         public let configurationItemCaptureTime: Date?
-        /// The time when configuration changes for the resource were delivered.
+        /// The time when configuration changes for the resource were delivered.  This field is optional and is not guaranteed to be present in a configuration item  (CI). If you are using daily recording,
+        /// 			this field will be populated. However, if you are using continuous recording,
+        /// 			this field will be omitted since the delivery time is instantaneous as the CI is available right away. For more information on daily recording and continuous recording, see Recording Frequency in the Config
+        /// 					Developer Guide.
         public let configurationItemDeliveryTime: Date?
         /// Unique MD5 hash that represents the configuration item's
         /// 			state. You can use MD5 hash to compare the states of two or more
@@ -2966,7 +2972,7 @@ extension ConfigService {
         public let configRuleNames: [String]?
         /// The number of rule evaluation results that you want
         /// 			returned. This parameter is required if the rule limit for your account
-        /// 			is more than the default of 150 rules. For information about requesting a rule limit increase, see
+        /// 			is more than the default of 1000 rules. For information about requesting a rule limit increase, see
         /// 				Config Limits in the Amazon Web Services General
         /// 				Reference Guide.
         public let limit: Int?
@@ -7290,7 +7296,7 @@ extension ConfigService {
     public struct ResourceEvaluationFilters: AWSEncodableShape {
         /// Filters evaluations for a given infrastructure deployment. For example: CFN Stack.
         public let evaluationContextIdentifier: String?
-        /// Filters all resource evaluations results based on an evaluation mode. the valid value for this API is Proactive.
+        /// Filters all resource evaluations results based on an evaluation mode.  Currently, DECTECTIVE is not supported as a valid value. Ignore other documentation stating otherwise.
         public let evaluationMode: EvaluationMode?
         /// Returns a TimeWindow object.
         public let timeWindow: TimeWindow?
@@ -8237,7 +8243,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
     /// 			Delete unused resources using DeleteResourceConfig .
     public static var maxActiveResourcesExceededException: Self { .init(.maxActiveResourcesExceededException) }
     /// Failed to add the Config rule because the account already
-    /// 			contains the maximum number of 150 rules. Consider deleting any
+    /// 			contains the maximum number of 1000 rules. Consider deleting any
     /// 			deactivated rules before you add new rules.
     public static var maxNumberOfConfigRulesExceededException: Self { .init(.maxNumberOfConfigRulesExceededException) }
     /// You have reached the limit of the number of configuration recorders you can

@@ -85,6 +85,19 @@ public struct WorkSpaces: AWSService {
 
     // MARK: API Calls
 
+    /// Accepts the account link invitation.  There's currently no unlinking capability after you accept the account linking invitation.
+    @Sendable
+    public func acceptAccountLinkInvitation(_ input: AcceptAccountLinkInvitationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptAccountLinkInvitationResult {
+        return try await self.client.execute(
+            operation: "AcceptAccountLinkInvitation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Associates the specified connection alias with the specified directory to enable cross-Region redirection. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.  Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED.
     @Sendable
     public func associateConnectionAlias(_ input: AssociateConnectionAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateConnectionAliasResult {
@@ -142,6 +155,19 @@ public struct WorkSpaces: AWSService {
     public func copyWorkspaceImage(_ input: CopyWorkspaceImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyWorkspaceImageResult {
         return try await self.client.execute(
             operation: "CopyWorkspaceImage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates the account link invitation.
+    @Sendable
+    public func createAccountLinkInvitation(_ input: CreateAccountLinkInvitationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccountLinkInvitationResult {
+        return try await self.client.execute(
+            operation: "CreateAccountLinkInvitation", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -259,6 +285,19 @@ public struct WorkSpaces: AWSService {
     public func createWorkspaces(_ input: CreateWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspacesResult {
         return try await self.client.execute(
             operation: "CreateWorkspaces", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the account link invitation.
+    @Sendable
+    public func deleteAccountLinkInvitation(_ input: DeleteAccountLinkInvitationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountLinkInvitationResult {
+        return try await self.client.execute(
+            operation: "DeleteAccountLinkInvitation", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -696,6 +735,19 @@ public struct WorkSpaces: AWSService {
         )
     }
 
+    /// Retrieves account link information.
+    @Sendable
+    public func getAccountLink(_ input: GetAccountLinkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountLinkResult {
+        return try await self.client.execute(
+            operation: "GetAccountLink", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Imports client branding. Client branding allows you to customize your WorkSpace's client login portal. You can tailor your login portal company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in. After you import client branding, the default branding experience for the specified platform type is replaced with the imported experience    You must specify at least one platform type when importing client branding.   You can import up to 6 MB of data with each request. If your request exceeds this limit, you can import client branding for different platform types using separate requests.   In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify only one parameter for each platform type, but not both.   Imported data can take up to a minute to appear in the WorkSpaces client.
     @Sendable
     public func importClientBranding(_ input: ImportClientBrandingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportClientBrandingResult {
@@ -714,6 +766,19 @@ public struct WorkSpaces: AWSService {
     public func importWorkspaceImage(_ input: ImportWorkspaceImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportWorkspaceImageResult {
         return try await self.client.execute(
             operation: "ImportWorkspaceImage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists all account links.
+    @Sendable
+    public func listAccountLinks(_ input: ListAccountLinksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccountLinksResult {
+        return try await self.client.execute(
+            operation: "ListAccountLinks", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -896,6 +961,19 @@ public struct WorkSpaces: AWSService {
     public func registerWorkspaceDirectory(_ input: RegisterWorkspaceDirectoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterWorkspaceDirectoryResult {
         return try await self.client.execute(
             operation: "RegisterWorkspaceDirectory", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Rejects the account link invitation.
+    @Sendable
+    public func rejectAccountLinkInvitation(_ input: RejectAccountLinkInvitationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RejectAccountLinkInvitationResult {
+        return try await self.client.execute(
+            operation: "RejectAccountLinkInvitation", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1142,6 +1220,25 @@ extension WorkSpaces {
             logger: logger
         )
     }
+
+    /// Lists all account links.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAccountLinksPaginator(
+        _ input: ListAccountLinksRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAccountLinksRequest, ListAccountLinksResult> {
+        return .init(
+            input: input,
+            command: self.listAccountLinks,
+            inputKey: \ListAccountLinksRequest.nextToken,
+            outputKey: \ListAccountLinksResult.nextToken,
+            logger: logger
+        )
+    }
 }
 
 extension WorkSpaces.DescribeApplicationAssociationsRequest: AWSPaginateToken {
@@ -1199,6 +1296,16 @@ extension WorkSpaces.DescribeWorkspacesRequest: AWSPaginateToken {
             userName: self.userName,
             workspaceIds: self.workspaceIds,
             workspaceName: self.workspaceName
+        )
+    }
+}
+
+extension WorkSpaces.ListAccountLinksRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkSpaces.ListAccountLinksRequest {
+        return .init(
+            linkStatusFilter: self.linkStatusFilter,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

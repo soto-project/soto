@@ -476,7 +476,7 @@ extension IoTWireless {
     }
 
     public struct AssociateAwsAccountWithPartnerAccountRequest: AWSEncodableShape {
-        /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+        /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests.
         public let clientRequestToken: String?
         /// The Sidewalk account credentials.
         public let sidewalk: SidewalkAccountInfo
@@ -1002,7 +1002,7 @@ extension IoTWireless {
     }
 
     public struct CreateDestinationRequest: AWSEncodableShape {
-        /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+        /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests.
         public let clientRequestToken: String?
         /// The description of the new resource.
         public let description: String?
@@ -1072,7 +1072,7 @@ extension IoTWireless {
     }
 
     public struct CreateDeviceProfileRequest: AWSEncodableShape {
-        /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+        /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests.
         public let clientRequestToken: String?
         /// The device profile information to use to create the device profile.
         public let loRaWAN: LoRaWANDeviceProfile?
@@ -1204,7 +1204,7 @@ extension IoTWireless {
     }
 
     public struct CreateMulticastGroupRequest: AWSEncodableShape {
-        /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+        /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests.
         public let clientRequestToken: String?
         /// The description of the multicast group.
         public let description: String?
@@ -1334,7 +1334,7 @@ extension IoTWireless {
     }
 
     public struct CreateServiceProfileRequest: AWSEncodableShape {
-        /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+        /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests.
         public let clientRequestToken: String?
         /// The service profile information to use to create the service profile.
         public let loRaWAN: LoRaWANServiceProfile?
@@ -1388,7 +1388,7 @@ extension IoTWireless {
     }
 
     public struct CreateWirelessDeviceRequest: AWSEncodableShape {
-        /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+        /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests.
         public let clientRequestToken: String?
         /// The description of the new resource.
         public let description: String?
@@ -1466,7 +1466,7 @@ extension IoTWireless {
     }
 
     public struct CreateWirelessGatewayRequest: AWSEncodableShape {
-        /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+        /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests.
         public let clientRequestToken: String?
         /// The description of the new resource.
         public let description: String?
@@ -1527,7 +1527,7 @@ extension IoTWireless {
     public struct CreateWirelessGatewayTaskDefinitionRequest: AWSEncodableShape {
         /// Whether to automatically create tasks using this task definition for all gateways with the specified current version. If false, the task must me created by calling CreateWirelessGatewayTask.
         public let autoCreateTasks: Bool
-        /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+        /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests.
         public let clientRequestToken: String?
         /// The name of the new resource.
         public let name: String?
@@ -2676,7 +2676,7 @@ extension IoTWireless {
     }
 
     public struct GetMetricConfigurationResponse: AWSDecodableShape {
-        /// The account's configuration status for summary metric aggregation.
+        /// The configuration status of the AWS account for summary metric aggregation.
         public let summaryMetric: SummaryMetricConfiguration?
 
         public init(summaryMetric: SummaryMetricConfiguration? = nil) {
@@ -2689,7 +2689,7 @@ extension IoTWireless {
     }
 
     public struct GetMetricsRequest: AWSEncodableShape {
-        /// The list of queries to retrieve summary metrics.
+        /// The list of queries to retrieve the summary metrics.
         public let summaryMetricQueries: [SummaryMetricQuery]?
 
         public init(summaryMetricQueries: [SummaryMetricQuery]? = nil) {
@@ -2708,7 +2708,7 @@ extension IoTWireless {
     }
 
     public struct GetMetricsResponse: AWSDecodableShape {
-        /// The list of retrieved metrics.
+        /// The list of summary metrics that were retrieved.
         public let summaryMetricQueryResults: [SummaryMetricQueryResult]?
 
         public init(summaryMetricQueryResults: [SummaryMetricQueryResult]? = nil) {
@@ -4898,15 +4898,18 @@ extension IoTWireless {
         public let frequency: Int?
         /// Information about the gateways accessed by the device.
         public let gateways: [LoRaWANGatewayMetadata]?
+        /// Information about the LoRaWAN public network accessed by the device.
+        public let publicGateways: [LoRaWANPublicGatewayMetadata]?
         /// The date and time of the metadata.
         public let timestamp: String?
 
-        public init(dataRate: Int? = nil, devEui: String? = nil, fPort: Int? = nil, frequency: Int? = nil, gateways: [LoRaWANGatewayMetadata]? = nil, timestamp: String? = nil) {
+        public init(dataRate: Int? = nil, devEui: String? = nil, fPort: Int? = nil, frequency: Int? = nil, gateways: [LoRaWANGatewayMetadata]? = nil, publicGateways: [LoRaWANPublicGatewayMetadata]? = nil, timestamp: String? = nil) {
             self.dataRate = dataRate
             self.devEui = devEui
             self.fPort = fPort
             self.frequency = frequency
             self.gateways = gateways
+            self.publicGateways = publicGateways
             self.timestamp = timestamp
         }
 
@@ -4916,6 +4919,7 @@ extension IoTWireless {
             case fPort = "FPort"
             case frequency = "Frequency"
             case gateways = "Gateways"
+            case publicGateways = "PublicGateways"
             case timestamp = "Timestamp"
         }
     }
@@ -5400,6 +5404,38 @@ extension IoTWireless {
         }
     }
 
+    public struct LoRaWANPublicGatewayMetadata: AWSDecodableShape {
+        /// Boolean that indicates whether downlink is allowed using the network.
+        public let dlAllowed: Bool?
+        /// The ID of the gateways that are operated by the network provider.
+        public let id: String?
+        /// The ID of the LoRaWAN public network provider.
+        public let providerNetId: String?
+        public let rfRegion: String?
+        /// The RSSI (received signal strength indicator) value.
+        public let rssi: Double?
+        /// The SNR (signal to noise ratio) value.
+        public let snr: Double?
+
+        public init(dlAllowed: Bool? = nil, id: String? = nil, providerNetId: String? = nil, rfRegion: String? = nil, rssi: Double? = nil, snr: Double? = nil) {
+            self.dlAllowed = dlAllowed
+            self.id = id
+            self.providerNetId = providerNetId
+            self.rfRegion = rfRegion
+            self.rssi = rssi
+            self.snr = snr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dlAllowed = "DlAllowed"
+            case id = "Id"
+            case providerNetId = "ProviderNetId"
+            case rfRegion = "RfRegion"
+            case rssi = "Rssi"
+            case snr = "Snr"
+        }
+    }
+
     public struct LoRaWANSendDataToDevice: AWSEncodableShape & AWSDecodableShape {
         public let fPort: Int?
         /// Choose the gateways that you want to use for the downlink data traffic when the wireless device is running in class B or class C mode.
@@ -5726,17 +5762,17 @@ extension IoTWireless {
     }
 
     public struct MetricQueryValue: AWSDecodableShape {
-        /// The average of the values of the all data points collected during the period.
+        /// The average of the values of all data points collected during the aggregation period.
         public let avg: Double?
-        /// The maximum of the values of the all data points collected during the period.
+        /// The maximum of the values of all the data points collected during the aggregation period.
         public let max: Double?
-        /// The minimum of the values of the all data points collected during the period.
+        /// The minimum of the values of all data points collected during the aggregation period.
         public let min: Double?
-        /// The 90th percentile of the values of the all data points collected during the period.
+        /// The 90th percentile of the values of all data points collected during the aggregation period.
         public let p90: Double?
-        /// The standard deviation of the values of the all data points collected during the period.
+        /// The standard deviation of the values of all data points collected during the aggregation period.
         public let std: Double?
-        /// The sum of the values of the all data points collected during the period.
+        /// The sum of the values of all data points collected during the aggregation period.
         public let sum: Double?
 
         public init(avg: Double? = nil, max: Double? = nil, min: Double? = nil, p90: Double? = nil, std: Double? = nil, sum: Double? = nil) {
@@ -5827,7 +5863,7 @@ extension IoTWireless {
         public let appKey: String?
         /// The GenAppKey value.
         public let genAppKey: String?
-        /// The JoinEUI value. You specify this value instead of the AppEUI when using LoRaWAN  version v1.0.4.
+        /// The JoinEUI value. You specify this value instead of the AppEUI when using LoRaWAN version v1.0.4.
         public let joinEui: String?
 
         public init(appEui: String? = nil, appKey: String? = nil, genAppKey: String? = nil, joinEui: String? = nil) {
@@ -6918,7 +6954,7 @@ extension IoTWireless {
     }
 
     public struct SummaryMetricConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The configuration of summary metric.
+        /// The status of the configuration of summary metrics.
         public let status: SummaryMetricConfigurationStatus?
 
         public init(status: SummaryMetricConfigurationStatus? = nil) {
@@ -6931,17 +6967,17 @@ extension IoTWireless {
     }
 
     public struct SummaryMetricQuery: AWSEncodableShape {
-        /// The aggregation period of the metric.
+        /// The aggregation period of the summary metric.
         public let aggregationPeriod: AggregationPeriod?
-        /// The dimensions of the metric.
+        /// The dimensions of the summary metric.
         public let dimensions: [Dimension]?
-        /// The end timestamp for summary metric query.
+        /// The end timestamp for the summary metric query.
         public let endTimestamp: Date?
         /// The name of the metric.
         public let metricName: MetricName?
-        /// The id of the query.
+        /// The id of the summary metric query.
         public let queryId: String?
-        /// The start timestamp for summary metric query.
+        /// The start timestamp for the summary metric query.
         public let startTimestamp: Date?
 
         public init(aggregationPeriod: AggregationPeriod? = nil, dimensions: [Dimension]? = nil, endTimestamp: Date? = nil, metricName: MetricName? = nil, queryId: String? = nil, startTimestamp: Date? = nil) {
@@ -6975,23 +7011,23 @@ extension IoTWireless {
         public let aggregationPeriod: AggregationPeriod?
         /// The dimensions of the metric.
         public let dimensions: [Dimension]?
-        /// The end timestamp for summary metric query.
+        /// The end timestamp for the summary metric query.
         public let endTimestamp: Date?
-        /// The error message for the summary metric query.
+        /// The error message for the summary metric query result.
         public let error: String?
-        /// The name of the metric.
+        /// The name of the summary metric query result.
         public let metricName: MetricName?
-        /// The id of the query.
+        /// The ID of the summary metric results query operation.
         public let queryId: String?
-        /// The status of the metric query.
+        /// The status of the summary metric query result.
         public let queryStatus: MetricQueryStatus?
-        /// The start timestamp for summary metric query.
+        /// The start timestamp for the summary metric query.
         public let startTimestamp: Date?
         /// The timestamp of each aggregation result.
         public let timestamps: [Date]?
         /// The units of measurement to be used for interpreting the aggregation result.
         public let unit: String?
-        /// The list of aggregated metrics.
+        /// The list of aggregated summary metric query results.
         public let values: [MetricQueryValue]?
 
         public init(aggregationPeriod: AggregationPeriod? = nil, dimensions: [Dimension]? = nil, endTimestamp: Date? = nil, error: String? = nil, metricName: MetricName? = nil, queryId: String? = nil, queryStatus: MetricQueryStatus? = nil, startTimestamp: Date? = nil, timestamps: [Date]? = nil, unit: String? = nil, values: [MetricQueryValue]? = nil) {

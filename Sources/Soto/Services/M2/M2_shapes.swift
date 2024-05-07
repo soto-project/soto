@@ -60,6 +60,7 @@ extension M2 {
         case dispatching = "Dispatching"
         case failed = "Failed"
         case holding = "Holding"
+        case purged = "Purged"
         case running = "Running"
         case submitting = "Submitting"
         case succeeded = "Succeeded"
@@ -139,6 +140,8 @@ extension M2 {
     public enum BatchJobIdentifier: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Specifies a file associated with a specific batch job.
         case fileBatchJobIdentifier(FileBatchJobIdentifier)
+        /// Specifies the required information for restart, including execution ID and jobsteprestartmarker.
+        case restartBatchJobIdentifier(RestartBatchJobIdentifier)
         /// Specifies an Amazon S3 location that identifies the batch jobs that you want to run. Use this identifier to run ad hoc batch jobs.
         case s3BatchJobIdentifier(S3BatchJobIdentifier)
         /// A batch job identifier in which the batch job to run is identified by the script name.
@@ -157,6 +160,9 @@ extension M2 {
             case .fileBatchJobIdentifier:
                 let value = try container.decode(FileBatchJobIdentifier.self, forKey: .fileBatchJobIdentifier)
                 self = .fileBatchJobIdentifier(value)
+            case .restartBatchJobIdentifier:
+                let value = try container.decode(RestartBatchJobIdentifier.self, forKey: .restartBatchJobIdentifier)
+                self = .restartBatchJobIdentifier(value)
             case .s3BatchJobIdentifier:
                 let value = try container.decode(S3BatchJobIdentifier.self, forKey: .s3BatchJobIdentifier)
                 self = .s3BatchJobIdentifier(value)
@@ -171,6 +177,8 @@ extension M2 {
             switch self {
             case .fileBatchJobIdentifier(let value):
                 try container.encode(value, forKey: .fileBatchJobIdentifier)
+            case .restartBatchJobIdentifier(let value):
+                try container.encode(value, forKey: .restartBatchJobIdentifier)
             case .s3BatchJobIdentifier(let value):
                 try container.encode(value, forKey: .s3BatchJobIdentifier)
             case .scriptBatchJobIdentifier(let value):
@@ -178,8 +186,18 @@ extension M2 {
             }
         }
 
+        public func validate(name: String) throws {
+            switch self {
+            case .restartBatchJobIdentifier(let value):
+                try value.validate(name: "\(name).restartBatchJobIdentifier")
+            default:
+                break
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case fileBatchJobIdentifier = "fileBatchJobIdentifier"
+            case restartBatchJobIdentifier = "restartBatchJobIdentifier"
             case s3BatchJobIdentifier = "s3BatchJobIdentifier"
             case scriptBatchJobIdentifier = "scriptBatchJobIdentifier"
         }
@@ -1557,6 +1575,8 @@ extension M2 {
         public let jobId: String?
         /// The name of this batch job.
         public let jobName: String?
+        /// The restart steps information for the most recent restart operation.
+        public let jobStepRestartMarker: JobStepRestartMarker?
         /// The type of job.
         public let jobType: BatchJobType?
         /// The user for the job.
@@ -1570,13 +1590,14 @@ extension M2 {
         /// The reason for the reported status.
         public let statusReason: String?
 
-        public init(applicationId: String, batchJobIdentifier: BatchJobIdentifier? = nil, endTime: Date? = nil, executionId: String, jobId: String? = nil, jobName: String? = nil, jobType: BatchJobType? = nil, jobUser: String? = nil, returnCode: String? = nil, startTime: Date, status: BatchJobExecutionStatus, statusReason: String? = nil) {
+        public init(applicationId: String, batchJobIdentifier: BatchJobIdentifier? = nil, endTime: Date? = nil, executionId: String, jobId: String? = nil, jobName: String? = nil, jobStepRestartMarker: JobStepRestartMarker? = nil, jobType: BatchJobType? = nil, jobUser: String? = nil, returnCode: String? = nil, startTime: Date, status: BatchJobExecutionStatus, statusReason: String? = nil) {
             self.applicationId = applicationId
             self.batchJobIdentifier = batchJobIdentifier
             self.endTime = endTime
             self.executionId = executionId
             self.jobId = jobId
             self.jobName = jobName
+            self.jobStepRestartMarker = jobStepRestartMarker
             self.jobType = jobType
             self.jobUser = jobUser
             self.returnCode = returnCode
@@ -1592,6 +1613,7 @@ extension M2 {
             case executionId = "executionId"
             case jobId = "jobId"
             case jobName = "jobName"
+            case jobStepRestartMarker = "jobStepRestartMarker"
             case jobType = "jobType"
             case jobUser = "jobUser"
             case returnCode = "returnCode"
@@ -1926,6 +1948,64 @@ extension M2 {
         }
     }
 
+    public struct JobStep: AWSDecodableShape {
+        /// The name of a procedure step.
+        public let procStepName: String?
+        /// The number of a procedure step.
+        public let procStepNumber: Int?
+        /// The condition code of a step.
+        public let stepCondCode: String?
+        /// The name of a step.
+        public let stepName: String?
+        /// The number of a step.
+        public let stepNumber: Int?
+        /// Specifies if a step can be restarted or not.
+        public let stepRestartable: Bool?
+
+        public init(procStepName: String? = nil, procStepNumber: Int? = nil, stepCondCode: String? = nil, stepName: String? = nil, stepNumber: Int? = nil, stepRestartable: Bool? = nil) {
+            self.procStepName = procStepName
+            self.procStepNumber = procStepNumber
+            self.stepCondCode = stepCondCode
+            self.stepName = stepName
+            self.stepNumber = stepNumber
+            self.stepRestartable = stepRestartable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case procStepName = "procStepName"
+            case procStepNumber = "procStepNumber"
+            case stepCondCode = "stepCondCode"
+            case stepName = "stepName"
+            case stepNumber = "stepNumber"
+            case stepRestartable = "stepRestartable"
+        }
+    }
+
+    public struct JobStepRestartMarker: AWSEncodableShape & AWSDecodableShape {
+        /// The procedure step name that a job was restarted from.
+        public let fromProcStep: String?
+        /// The step name that a batch job restart was from.
+        public let fromStep: String
+        /// The procedure step name that a batch job was restarted to.
+        public let toProcStep: String?
+        /// The step name that a job was restarted to.
+        public let toStep: String?
+
+        public init(fromProcStep: String? = nil, fromStep: String, toProcStep: String? = nil, toStep: String? = nil) {
+            self.fromProcStep = fromProcStep
+            self.fromStep = fromStep
+            self.toProcStep = toProcStep
+            self.toStep = toStep
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromProcStep = "fromProcStep"
+            case fromStep = "fromStep"
+            case toProcStep = "toProcStep"
+            case toStep = "toStep"
+        }
+    }
+
     public struct ListApplicationVersionsRequest: AWSEncodableShape {
         /// The unique identifier of the application.
         public let applicationId: String
@@ -2158,6 +2238,45 @@ extension M2 {
         private enum CodingKeys: String, CodingKey {
             case batchJobExecutions = "batchJobExecutions"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListBatchJobRestartPointsRequest: AWSEncodableShape {
+        /// The unique identifier of the application.
+        public let applicationId: String
+        /// The unique identifier of each batch job execution.
+        public let executionId: String
+
+        public init(applicationId: String, executionId: String) {
+            self.applicationId = applicationId
+            self.executionId = executionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.executionId, key: "executionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^\\S{1,80}$")
+            try self.validate(self.executionId, name: "executionId", parent: name, pattern: "^\\S{1,80}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListBatchJobRestartPointsResponse: AWSDecodableShape {
+        /// Returns all the batch job steps and related information for a batch job that previously ran.
+        public let batchJobSteps: [JobStep]?
+
+        public init(batchJobSteps: [JobStep]? = nil) {
+            self.batchJobSteps = batchJobSteps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchJobSteps = "batchJobSteps"
         }
     }
 
@@ -2626,6 +2745,27 @@ extension M2 {
         }
     }
 
+    public struct RestartBatchJobIdentifier: AWSEncodableShape & AWSDecodableShape {
+        /// The executionId from the StartBatchJob response when the job ran for the first time.
+        public let executionId: String
+        /// The restart step information for the most recent restart operation.
+        public let jobStepRestartMarker: JobStepRestartMarker
+
+        public init(executionId: String, jobStepRestartMarker: JobStepRestartMarker) {
+            self.executionId = executionId
+            self.jobStepRestartMarker = jobStepRestartMarker
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionId, name: "executionId", parent: name, pattern: "^\\S{1,80}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionId = "executionId"
+            case jobStepRestartMarker = "jobStepRestartMarker"
+        }
+    }
+
     public struct S3BatchJobIdentifier: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 bucket that contains the batch job definitions.
         public let bucket: String
@@ -2722,6 +2862,7 @@ extension M2 {
 
         public func validate(name: String) throws {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^\\S{1,80}$")
+            try self.batchJobIdentifier.validate(name: "\(name).batchJobIdentifier")
             try self.jobParams?.forEach {
                 try validate($0.key, name: "jobParams.key", parent: name, max: 32)
                 try validate($0.key, name: "jobParams.key", parent: name, min: 1)

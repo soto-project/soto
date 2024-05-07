@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS PinpointSMSVoiceV2 service.
 ///
-/// Welcome to the Amazon Pinpoint SMS and Voice, version 2 API Reference. This guide provides information about Amazon Pinpoint SMS and Voice, version 2 API resources, including supported HTTP methods, parameters, and schemas. Amazon Pinpoint is an Amazon Web Services service that you can use to engage with your recipients across multiple messaging channels. The Amazon Pinpoint SMS and Voice, version 2 API provides programmatic access to options that are unique to the SMS and voice channels and supplements the resources provided by the Amazon Pinpoint API. If you're new to Amazon Pinpoint, it's also helpful to review the  Amazon Pinpoint Developer Guide. The Amazon Pinpoint Developer Guide provides tutorials, code samples, and procedures that demonstrate how to use Amazon Pinpoint features programmatically and how to integrate Amazon Pinpoint functionality into mobile apps and other types of applications. The guide also provides key information, such as Amazon Pinpoint integration with other Amazon Web Services services, and the quotas that apply to use of the service.  Regional availability  The Amazon Pinpoint SMS and Voice, version 2 API Reference is available in several Amazon Web Services Regions and it provides an endpoint for each of these Regions. For a list of all the Regions and endpoints where the API is currently available, see Amazon Web Services Service Endpoints and Amazon Pinpoint endpoints and quotas in the Amazon Web Services General Reference. To learn more about Amazon Web Services Regions, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference. In each Region, Amazon Web Services maintains multiple Availability Zones. These Availability Zones are physically isolated from each other, but are united by private, low-latency, high-throughput, and highly redundant network connections. These Availability Zones enable us to provide very high levels of availability and redundancy, while also minimizing latency. To learn more about the number of Availability Zones that are available in each Region, see Amazon Web Services Global Infrastructure.
+/// Welcome to the Amazon Pinpoint SMS and Voice, version 2 API Reference. This guide provides information about Amazon Pinpoint SMS and Voice, version 2 API resources, including supported HTTP methods, parameters, and schemas. Amazon Pinpoint is an Amazon Web Services service that you can use to engage with your recipients across multiple messaging channels. The Amazon Pinpoint SMS and Voice, version 2 API provides programmatic access to options that are unique to the SMS and voice channels. Amazon Pinpoint SMS and Voice, version 2 resources such as phone numbers, sender IDs, and opt-out lists can be used by the Amazon Pinpoint API. If you're new to Amazon Pinpoint SMS, it's also helpful to review the  Amazon Pinpoint SMS User Guide. The Amazon Pinpoint Developer Guide provides tutorials, code samples, and procedures that demonstrate how to use Amazon Pinpoint SMS features programmatically and how to integrate Amazon Pinpoint functionality into mobile apps and other types of applications. The guide also provides key information, such as Amazon Pinpoint integration with other Amazon Web Services services, and the quotas that apply to use of the service.  Regional availability  The Amazon Pinpoint SMS and Voice, version 2 API Reference is available in several Amazon Web Services Regions and it provides an endpoint for each of these Regions. For a list of all the Regions and endpoints where the API is currently available, see Amazon Web Services Service Endpoints and Amazon Pinpoint endpoints and quotas in the Amazon Web Services General Reference. To learn more about Amazon Web Services Regions, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference. In each Region, Amazon Web Services maintains multiple Availability Zones. These Availability Zones are physically isolated from each other, but are united by private, low-latency, high-throughput, and highly redundant network connections. These Availability Zones enable us to provide very high levels of availability and redundancy, while also minimizing latency. To learn more about the number of Availability Zones that are available in each Region, see Amazon Web Services Global Infrastructure.
 public struct PinpointSMSVoiceV2: AWSService {
     // MARK: Member variables
 
@@ -100,6 +100,19 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
+    /// Associate a protect configuration with a configuration set. This replaces the configuration sets current protect configuration. A configuration set can only be associated with one protect configuration at a time. A protect configuration can be associated with multiple configuration sets.
+    @Sendable
+    public func associateProtectConfiguration(_ input: AssociateProtectConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateProtectConfigurationResult {
+        return try await self.client.execute(
+            operation: "AssociateProtectConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a new configuration set. After you create the configuration set, you can add one or more event destinations to it. A configuration set is a set of rules that you apply to the SMS and voice messages that you send. When you send a message, you can optionally specify a single configuration set.
     @Sendable
     public func createConfigurationSet(_ input: CreateConfigurationSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfigurationSetResult {
@@ -144,6 +157,19 @@ public struct PinpointSMSVoiceV2: AWSService {
     public func createPool(_ input: CreatePoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePoolResult {
         return try await self.client.execute(
             operation: "CreatePool", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Create a new protect configuration. By default all country rule sets for each capability are set to ALLOW. Update the country rule sets using UpdateProtectConfigurationCountryRuleSet. A protect configurations name is stored as a Tag with the key set to Name and value as the name of the protect configuration.
+    @Sendable
+    public func createProtectConfiguration(_ input: CreateProtectConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProtectConfigurationResult {
+        return try await self.client.execute(
+            operation: "CreateProtectConfiguration", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -217,6 +243,19 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
+    /// Removes the current account default protect configuration.
+    @Sendable
+    public func deleteAccountDefaultProtectConfiguration(_ input: DeleteAccountDefaultProtectConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountDefaultProtectConfigurationResult {
+        return try await self.client.execute(
+            operation: "DeleteAccountDefaultProtectConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes an existing configuration set. A configuration set is a set of rules that you apply to voice and SMS messages that you send. In a configuration set, you can specify a destination for specific types of events related to voice and SMS messages.
     @Sendable
     public func deleteConfigurationSet(_ input: DeleteConfigurationSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConfigurationSetResult {
@@ -282,6 +321,19 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
+    /// Deletes an account-level monthly spending limit override for sending multimedia messages (MMS). Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas for Server Migration Service in the Server Migration Service User Guide.
+    @Sendable
+    public func deleteMediaMessageSpendLimitOverride(_ input: DeleteMediaMessageSpendLimitOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMediaMessageSpendLimitOverrideResult {
+        return try await self.client.execute(
+            operation: "DeleteMediaMessageSpendLimitOverride", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes an existing opt-out list. All opted out phone numbers in the opt-out list are deleted. If the specified opt-out list name doesn't exist or is in-use by an origination phone number or pool, an error is returned.
     @Sendable
     public func deleteOptOutList(_ input: DeleteOptOutListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteOptOutListResult {
@@ -313,6 +365,19 @@ public struct PinpointSMSVoiceV2: AWSService {
     public func deletePool(_ input: DeletePoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePoolResult {
         return try await self.client.execute(
             operation: "DeletePool", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Permanently delete the protect configuration. The protect configuration must have deletion protection disabled and must not be associated as the account default protect configuration or associated with a configuration set.
+    @Sendable
+    public func deleteProtectConfiguration(_ input: DeleteProtectConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProtectConfigurationResult {
+        return try await self.client.execute(
+            operation: "DeleteProtectConfiguration", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -503,6 +568,19 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
+    /// Retrieves the protect configurations that match any of filters. If a filter isn’t provided then all protect configurations are returned.
+    @Sendable
+    public func describeProtectConfigurations(_ input: DescribeProtectConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProtectConfigurationsResult {
+        return try await self.client.execute(
+            operation: "DescribeProtectConfigurations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves the specified registration attachments or all registration attachments associated with your Amazon Web Services account.
     @Sendable
     public func describeRegistrationAttachments(_ input: DescribeRegistrationAttachmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRegistrationAttachmentsResult {
@@ -646,11 +724,37 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
+    /// Disassociate a protect configuration from a configuration set.
+    @Sendable
+    public func disassociateProtectConfiguration(_ input: DisassociateProtectConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateProtectConfigurationResult {
+        return try await self.client.execute(
+            operation: "DisassociateProtectConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Discard the current version of the registration.
     @Sendable
     public func discardRegistrationVersion(_ input: DiscardRegistrationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DiscardRegistrationVersionResult {
         return try await self.client.execute(
             operation: "DiscardRegistrationVersion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieve the CountryRuleSet for the specified NumberCapability from a protect configuration.
+    @Sendable
+    public func getProtectConfigurationCountryRuleSet(_ input: GetProtectConfigurationCountryRuleSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProtectConfigurationCountryRuleSetResult {
+        return try await self.client.execute(
+            operation: "GetProtectConfigurationCountryRuleSet", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -802,6 +906,19 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
+    /// Creates a new multimedia message (MMS) and sends it to a recipient's phone number.
+    @Sendable
+    public func sendMediaMessage(_ input: SendMediaMessageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendMediaMessageResult {
+        return try await self.client.execute(
+            operation: "SendMediaMessage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a new text message and sends it to a recipient's phone number. SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information, see Message Parts per Second (MPS) limits in the Amazon Pinpoint User Guide.
     @Sendable
     public func sendTextMessage(_ input: SendTextMessageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendTextMessageResult {
@@ -828,6 +945,19 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
+    /// Set a protect configuration as your account default. You can only have one account default protect configuration at a time. The current account default protect configuration is replaced with the provided protect configuration.
+    @Sendable
+    public func setAccountDefaultProtectConfiguration(_ input: SetAccountDefaultProtectConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetAccountDefaultProtectConfigurationResult {
+        return try await self.client.execute(
+            operation: "SetAccountDefaultProtectConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Sets the default message type on a configuration set. Choose the category of SMS messages that you plan to send from this account. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional. If you plan to send messages that contain marketing material or other promotional content, choose Promotional. This setting applies to your entire Amazon Web Services account.
     @Sendable
     public func setDefaultMessageType(_ input: SetDefaultMessageTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetDefaultMessageTypeResult {
@@ -846,6 +976,19 @@ public struct PinpointSMSVoiceV2: AWSService {
     public func setDefaultSenderId(_ input: SetDefaultSenderIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetDefaultSenderIdResult {
         return try await self.client.execute(
             operation: "SetDefaultSenderId", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Sets an account level monthly spend limit override for sending MMS messages. The requested spend limit must be less than or equal to the MaxLimit, which is set by Amazon Web Services.
+    @Sendable
+    public func setMediaMessageSpendLimitOverride(_ input: SetMediaMessageSpendLimitOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetMediaMessageSpendLimitOverrideResult {
+        return try await self.client.execute(
+            operation: "SetMediaMessageSpendLimitOverride", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -950,6 +1093,32 @@ public struct PinpointSMSVoiceV2: AWSService {
     public func updatePool(_ input: UpdatePoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePoolResult {
         return try await self.client.execute(
             operation: "UpdatePool", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Update the setting for an existing protect configuration.
+    @Sendable
+    public func updateProtectConfiguration(_ input: UpdateProtectConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProtectConfigurationResult {
+        return try await self.client.execute(
+            operation: "UpdateProtectConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Update a country rule set to ALLOW or BLOCK messages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type.
+    @Sendable
+    public func updateProtectConfigurationCountryRuleSet(_ input: UpdateProtectConfigurationCountryRuleSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProtectConfigurationCountryRuleSetResult {
+        return try await self.client.execute(
+            operation: "UpdateProtectConfigurationCountryRuleSet", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 

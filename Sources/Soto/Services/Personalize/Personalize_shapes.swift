@@ -65,8 +65,15 @@ extension Personalize {
     }
 
     public enum TrainingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case autotrain = "AUTOTRAIN"
         case full = "FULL"
         case update = "UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automatic = "AUTOMATIC"
+        case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
 
@@ -174,6 +181,25 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case bestRecipeArn = "bestRecipeArn"
+        }
+    }
+
+    public struct AutoTrainingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies how often to automatically train new solution versions. Specify a rate expression in rate(value unit) format. For value, specify a number between 1 and 30. For unit, specify day or days. For example, to automatically create a new solution version every 5 days, specify rate(5 days). The default is every 7 days. For more information about auto training, see Creating and configuring a solution.
+        public let schedulingExpression: String?
+
+        public init(schedulingExpression: String? = nil) {
+            self.schedulingExpression = schedulingExpression
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.schedulingExpression, name: "schedulingExpression", parent: name, max: 16)
+            try self.validate(self.schedulingExpression, name: "schedulingExpression", parent: name, min: 1)
+            try self.validate(self.schedulingExpression, name: "schedulingExpression", parent: name, pattern: "^rate\\(\\d+ days?\\)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schedulingExpression = "schedulingExpression"
         }
     }
 
@@ -484,7 +510,7 @@ extension Personalize {
         public let minProvisionedTPS: Int?
         /// The name of the campaign.
         public let name: String?
-        /// The Amazon Resource Name (ARN) of a specific version of the solution.
+        /// The Amazon Resource Name (ARN) of the solution version the campaign uses.
         public let solutionVersionArn: String?
         /// The status of the campaign. A campaign can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
@@ -521,10 +547,13 @@ extension Personalize {
         public let enableMetadataWithRecommendations: Bool?
         /// Specifies the exploration configuration hyperparameters, including explorationWeight and  explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. Provide itemExplorationConfig data only if your solution uses the User-Personalization recipe.
         public let itemExplorationConfig: [String: String]?
+        /// Whether the campaign automatically updates to use the latest solution version (trained model) of a solution. If you specify True,  you must specify the ARN of your solution for the SolutionVersionArn parameter. It must be in SolutionArn/$LATEST format. The default is False and you must manually update the campaign to deploy the latest solution version.    For more information about automatic campaign updates, see  Enabling automatic campaign updates.
+        public let syncWithLatestSolutionVersion: Bool?
 
-        public init(enableMetadataWithRecommendations: Bool? = nil, itemExplorationConfig: [String: String]? = nil) {
+        public init(enableMetadataWithRecommendations: Bool? = nil, itemExplorationConfig: [String: String]? = nil, syncWithLatestSolutionVersion: Bool? = nil) {
             self.enableMetadataWithRecommendations = enableMetadataWithRecommendations
             self.itemExplorationConfig = itemExplorationConfig
+            self.syncWithLatestSolutionVersion = syncWithLatestSolutionVersion
         }
 
         public func validate(name: String) throws {
@@ -538,6 +567,7 @@ extension Personalize {
         private enum CodingKeys: String, CodingKey {
             case enableMetadataWithRecommendations = "enableMetadataWithRecommendations"
             case itemExplorationConfig = "itemExplorationConfig"
+            case syncWithLatestSolutionVersion = "syncWithLatestSolutionVersion"
         }
     }
 
@@ -827,7 +857,7 @@ extension Personalize {
         public let minProvisionedTPS: Int?
         /// A name for the new campaign. The campaign name must be unique within your account.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the solution version to deploy.
+        /// The Amazon Resource Name (ARN) of the trained model to deploy with the campaign. To specify the latest solution version of your solution,  specify the ARN of your solution in SolutionArn/$LATEST format. You must use this format if you set syncWithLatestSolutionVersion to True in the  CampaignConfig.   To deploy a model that isn't the latest solution version of your solution, specify the ARN of the solution version.   For more information about automatic campaign updates, see  Enabling automatic campaign updates.
         public let solutionVersionArn: String
         /// A list of tags to apply to the campaign.
         public let tags: [Tag]?
@@ -873,6 +903,63 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case campaignArn = "campaignArn"
+        }
+    }
+
+    public struct CreateDataDeletionJobRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the dataset group that has the datasets you want to delete records from.
+        public let datasetGroupArn: String
+        /// The Amazon S3 bucket that contains the list of userIds of the users to delete.
+        public let dataSource: DataSource
+        /// The name for the data deletion job.
+        public let jobName: String
+        /// The Amazon Resource Name (ARN) of the IAM role that has permissions to read from the Amazon S3 data source.
+        public let roleArn: String
+        /// A list of tags to apply to the data deletion job.
+        public let tags: [Tag]?
+
+        public init(datasetGroupArn: String, dataSource: DataSource, jobName: String, roleArn: String, tags: [Tag]? = nil) {
+            self.datasetGroupArn = datasetGroupArn
+            self.dataSource = dataSource
+            self.jobName = jobName
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
+            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
+            try self.dataSource.validate(name: "\(name).dataSource")
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 63)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetGroupArn = "datasetGroupArn"
+            case dataSource = "dataSource"
+            case jobName = "jobName"
+            case roleArn = "roleArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateDataDeletionJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the data deletion job.
+        public let dataDeletionJobArn: String?
+
+        public init(dataDeletionJobArn: String? = nil) {
+            self.dataDeletionJobArn = dataDeletionJobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataDeletionJobArn = "dataDeletionJobArn"
         }
     }
 
@@ -1379,6 +1466,8 @@ extension Personalize {
         public let name: String
         ///  We don't recommend enabling automated machine learning. Instead, match your use case to the available Amazon Personalize  recipes. For more information, see Choosing a recipe.  Whether to perform automated machine learning (AutoML). The default is false. For this case, you must specify recipeArn. When set to true, Amazon Personalize analyzes your training data and selects the optimal USER_PERSONALIZATION recipe and hyperparameters. In this case, you must omit recipeArn. Amazon Personalize determines the optimal recipe by running tests with different values for the hyperparameters. AutoML lengthens the training process as compared to selecting a specific recipe.
         public let performAutoML: Bool?
+        /// Whether the solution uses automatic training to create new solution versions (trained models). The default is True and the solution automatically creates new solution versions every 7 days. You can change the training frequency by specifying a schedulingExpression in the AutoTrainingConfig as part of solution configuration. For more information about automatic training, see Configuring automatic training.  Automatic solution version creation starts one hour after the solution is ACTIVE. If you manually create a solution version within the hour, the solution skips the first automatic training.   After training starts, you can get the solution version's Amazon Resource Name (ARN) with the ListSolutionVersions API operation.  To get its status, use the DescribeSolutionVersion.
+        public let performAutoTraining: Bool?
         /// Whether to perform hyperparameter optimization (HPO) on the specified or selected recipe. The default is false. When performing AutoML, this parameter is always true and you should not set it to false.
         public let performHPO: Bool?
         /// The Amazon Resource Name (ARN) of the recipe to use for model training. This is required when performAutoML is false. For information about different Amazon Personalize recipes and their ARNs,  see Choosing a recipe.
@@ -1388,11 +1477,12 @@ extension Personalize {
         /// A list of tags to apply to the solution.
         public let tags: [Tag]?
 
-        public init(datasetGroupArn: String, eventType: String? = nil, name: String, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionConfig: SolutionConfig? = nil, tags: [Tag]? = nil) {
+        public init(datasetGroupArn: String, eventType: String? = nil, name: String, performAutoML: Bool? = nil, performAutoTraining: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionConfig: SolutionConfig? = nil, tags: [Tag]? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.eventType = eventType
             self.name = name
             self.performAutoML = performAutoML
+            self.performAutoTraining = performAutoTraining
             self.performHPO = performHPO
             self.recipeArn = recipeArn
             self.solutionConfig = solutionConfig
@@ -1420,6 +1510,7 @@ extension Personalize {
             case eventType = "eventType"
             case name = "name"
             case performAutoML = "performAutoML"
+            case performAutoTraining = "performAutoTraining"
             case performHPO = "performHPO"
             case recipeArn = "recipeArn"
             case solutionConfig = "solutionConfig"
@@ -1490,8 +1581,93 @@ extension Personalize {
         }
     }
 
+    public struct DataDeletionJob: AWSDecodableShape {
+        /// The creation date and time (in Unix time) of the data deletion job.
+        public let creationDateTime: Date?
+        /// The Amazon Resource Name (ARN) of the data deletion job.
+        public let dataDeletionJobArn: String?
+        /// The Amazon Resource Name (ARN) of the dataset group the job deletes records from.
+        public let datasetGroupArn: String?
+        public let dataSource: DataSource?
+        /// If a data deletion job fails, provides the reason why.
+        public let failureReason: String?
+        /// The name of the data deletion job.
+        public let jobName: String?
+        /// The date and time (in Unix time) the data deletion job was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// The number of records deleted by a COMPLETED job.
+        public let numDeleted: Int?
+        /// The Amazon Resource Name (ARN) of the IAM role that has permissions to read from the Amazon S3 data source.
+        public let roleArn: String?
+        /// The status of the data deletion job. A data deletion job can have one of the following statuses:   PENDING > IN_PROGRESS > COMPLETED -or- FAILED
+        public let status: String?
+
+        public init(creationDateTime: Date? = nil, dataDeletionJobArn: String? = nil, datasetGroupArn: String? = nil, dataSource: DataSource? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, numDeleted: Int? = nil, roleArn: String? = nil, status: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.dataDeletionJobArn = dataDeletionJobArn
+            self.datasetGroupArn = datasetGroupArn
+            self.dataSource = dataSource
+            self.failureReason = failureReason
+            self.jobName = jobName
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.numDeleted = numDeleted
+            self.roleArn = roleArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case dataDeletionJobArn = "dataDeletionJobArn"
+            case datasetGroupArn = "datasetGroupArn"
+            case dataSource = "dataSource"
+            case failureReason = "failureReason"
+            case jobName = "jobName"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case numDeleted = "numDeleted"
+            case roleArn = "roleArn"
+            case status = "status"
+        }
+    }
+
+    public struct DataDeletionJobSummary: AWSDecodableShape {
+        /// The creation date and time (in Unix time) of the data deletion job.
+        public let creationDateTime: Date?
+        /// The Amazon Resource Name (ARN) of the data deletion job.
+        public let dataDeletionJobArn: String?
+        /// The Amazon Resource Name (ARN) of the dataset group the job deleted records from.
+        public let datasetGroupArn: String?
+        /// If a data deletion job fails, provides the reason why.
+        public let failureReason: String?
+        /// The name of the data deletion job.
+        public let jobName: String?
+        /// The date and time (in Unix time) the data deletion job was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// The status of the data deletion job. A data deletion job can have one of the following statuses:   PENDING > IN_PROGRESS > COMPLETED -or- FAILED
+        public let status: String?
+
+        public init(creationDateTime: Date? = nil, dataDeletionJobArn: String? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, status: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.dataDeletionJobArn = dataDeletionJobArn
+            self.datasetGroupArn = datasetGroupArn
+            self.failureReason = failureReason
+            self.jobName = jobName
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case dataDeletionJobArn = "dataDeletionJobArn"
+            case datasetGroupArn = "datasetGroupArn"
+            case failureReason = "failureReason"
+            case jobName = "jobName"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case status = "status"
+        }
+    }
+
     public struct DataSource: AWSEncodableShape & AWSDecodableShape {
-        /// The path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For example:   s3://bucket-name/folder-name/
+        /// For dataset import jobs, the path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For data deletion jobs, the path to the Amazon S3 bucket that stores the list of records to delete.   For example:   s3://bucket-name/folder-name/fileName.csv  If your CSV files are in a folder in your Amazon S3 bucket and you want your import job or data deletion job to consider multiple files, you can specify the path to the folder.  With a data deletion job, Amazon Personalize uses all files in the folder and any sub folder. Use the following syntax with a / after the folder name:  s3://bucket-name/folder-name/
         public let dataLocation: String?
 
         public init(dataLocation: String? = nil) {
@@ -2329,6 +2505,37 @@ extension Personalize {
         }
     }
 
+    public struct DescribeDataDeletionJobRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the data deletion job.
+        public let dataDeletionJobArn: String
+
+        public init(dataDeletionJobArn: String) {
+            self.dataDeletionJobArn = dataDeletionJobArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataDeletionJobArn, name: "dataDeletionJobArn", parent: name, max: 256)
+            try self.validate(self.dataDeletionJobArn, name: "dataDeletionJobArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataDeletionJobArn = "dataDeletionJobArn"
+        }
+    }
+
+    public struct DescribeDataDeletionJobResponse: AWSDecodableShape {
+        /// Information about the data deletion job, including the status. The status is one of the following values:   PENDING   IN_PROGRESS   COMPLETED   FAILED
+        public let dataDeletionJob: DataDeletionJob?
+
+        public init(dataDeletionJob: DataDeletionJob? = nil) {
+            self.dataDeletionJob = dataDeletionJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataDeletionJob = "dataDeletionJob"
+        }
+    }
+
     public struct DescribeDatasetExportJobRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the dataset export job to describe.
         public let datasetExportJobArn: String
@@ -3122,6 +3329,7 @@ extension Personalize {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, max: 256)
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
         }
@@ -3168,6 +3376,7 @@ extension Personalize {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, max: 256)
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
         }
@@ -3214,6 +3423,7 @@ extension Personalize {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, max: 256)
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
         }
@@ -3242,6 +3452,53 @@ extension Personalize {
         }
     }
 
+    public struct ListDataDeletionJobsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the dataset group to list data deletion jobs for.
+        public let datasetGroupArn: String?
+        /// The maximum number of data deletion jobs to return.
+        public let maxResults: Int?
+        /// A token returned from the previous call to ListDataDeletionJobs for getting the next set of jobs (if they exist).
+        public let nextToken: String?
+
+        public init(datasetGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.datasetGroupArn = datasetGroupArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
+            try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetGroupArn = "datasetGroupArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDataDeletionJobsResponse: AWSDecodableShape {
+        /// The list of data deletion jobs.
+        public let dataDeletionJobs: [DataDeletionJobSummary]?
+        /// A token for getting the next set of data deletion jobs (if they exist).
+        public let nextToken: String?
+
+        public init(dataDeletionJobs: [DataDeletionJobSummary]? = nil, nextToken: String? = nil) {
+            self.dataDeletionJobs = dataDeletionJobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataDeletionJobs = "dataDeletionJobs"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListDatasetExportJobsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the dataset to list the dataset export jobs for.
         public let datasetArn: String?
@@ -3262,6 +3519,7 @@ extension Personalize {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3303,6 +3561,7 @@ extension Personalize {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3348,6 +3607,7 @@ extension Personalize {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3394,6 +3654,7 @@ extension Personalize {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3440,6 +3701,7 @@ extension Personalize {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3486,6 +3748,7 @@ extension Personalize {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3532,6 +3795,7 @@ extension Personalize {
             try self.validate(self.metricAttributionArn, name: "metricAttributionArn", parent: name, max: 256)
             try self.validate(self.metricAttributionArn, name: "metricAttributionArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3578,6 +3842,7 @@ extension Personalize {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3625,6 +3890,7 @@ extension Personalize {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3672,6 +3938,7 @@ extension Personalize {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3713,6 +3980,7 @@ extension Personalize {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3756,6 +4024,7 @@ extension Personalize {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, max: 256)
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
         }
@@ -3804,6 +4073,7 @@ extension Personalize {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,1500}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3831,7 +4101,7 @@ extension Personalize {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The resource's Amazon Resource Name.
+        /// The resource's Amazon Resource Name (ARN).
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -4283,6 +4553,8 @@ extension Personalize {
         public let name: String?
         ///  We don't recommend enabling automated machine learning. Instead, match your use case to the available Amazon Personalize  recipes. For more information, see Determining your use case.   When true, Amazon Personalize performs a search for the best USER_PERSONALIZATION recipe from the list specified in the solution configuration (recipeArn must not be specified). When false (the default), Amazon Personalize uses recipeArn for training.
         public let performAutoML: Bool?
+        /// Specifies whether the solution automatically creates solution versions. The default is True and the solution automatically creates new solution versions every 7 days. For more information about auto training, see Creating and configuring a solution.
+        public let performAutoTraining: Bool?
         /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe. The default is false.
         public let performHPO: Bool?
         /// The ARN of the recipe used to create the solution. This is required when performAutoML is false.
@@ -4294,7 +4566,7 @@ extension Personalize {
         /// The status of the solution. A solution can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
 
-        public init(autoMLResult: AutoMLResult? = nil, creationDateTime: Date? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, lastUpdatedDateTime: Date? = nil, latestSolutionVersion: SolutionVersionSummary? = nil, name: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, status: String? = nil) {
+        public init(autoMLResult: AutoMLResult? = nil, creationDateTime: Date? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, lastUpdatedDateTime: Date? = nil, latestSolutionVersion: SolutionVersionSummary? = nil, name: String? = nil, performAutoML: Bool? = nil, performAutoTraining: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, status: String? = nil) {
             self.autoMLResult = autoMLResult
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
@@ -4303,6 +4575,7 @@ extension Personalize {
             self.latestSolutionVersion = latestSolutionVersion
             self.name = name
             self.performAutoML = performAutoML
+            self.performAutoTraining = performAutoTraining
             self.performHPO = performHPO
             self.recipeArn = recipeArn
             self.solutionArn = solutionArn
@@ -4319,6 +4592,7 @@ extension Personalize {
             case latestSolutionVersion = "latestSolutionVersion"
             case name = "name"
             case performAutoML = "performAutoML"
+            case performAutoTraining = "performAutoTraining"
             case performHPO = "performHPO"
             case recipeArn = "recipeArn"
             case solutionArn = "solutionArn"
@@ -4332,6 +4606,8 @@ extension Personalize {
         public let algorithmHyperParameters: [String: String]?
         /// The AutoMLConfig object containing a list of recipes to search when AutoML is performed.
         public let autoMLConfig: AutoMLConfig?
+        /// Specifies the automatic training configuration to use.
+        public let autoTrainingConfig: AutoTrainingConfig?
         /// Only events with a value greater than or equal to this threshold are used for training a model.
         public let eventValueThreshold: String?
         /// Lists the feature transformation parameters.
@@ -4343,9 +4619,10 @@ extension Personalize {
         ///  Specifies the training data configuration to use when creating a custom solution version (trained model).
         public let trainingDataConfig: TrainingDataConfig?
 
-        public init(algorithmHyperParameters: [String: String]? = nil, autoMLConfig: AutoMLConfig? = nil, eventValueThreshold: String? = nil, featureTransformationParameters: [String: String]? = nil, hpoConfig: HPOConfig? = nil, optimizationObjective: OptimizationObjective? = nil, trainingDataConfig: TrainingDataConfig? = nil) {
+        public init(algorithmHyperParameters: [String: String]? = nil, autoMLConfig: AutoMLConfig? = nil, autoTrainingConfig: AutoTrainingConfig? = nil, eventValueThreshold: String? = nil, featureTransformationParameters: [String: String]? = nil, hpoConfig: HPOConfig? = nil, optimizationObjective: OptimizationObjective? = nil, trainingDataConfig: TrainingDataConfig? = nil) {
             self.algorithmHyperParameters = algorithmHyperParameters
             self.autoMLConfig = autoMLConfig
+            self.autoTrainingConfig = autoTrainingConfig
             self.eventValueThreshold = eventValueThreshold
             self.featureTransformationParameters = featureTransformationParameters
             self.hpoConfig = hpoConfig
@@ -4360,6 +4637,7 @@ extension Personalize {
             }
             try self.validate(self.algorithmHyperParameters, name: "algorithmHyperParameters", parent: name, max: 100)
             try self.autoMLConfig?.validate(name: "\(name).autoMLConfig")
+            try self.autoTrainingConfig?.validate(name: "\(name).autoTrainingConfig")
             try self.validate(self.eventValueThreshold, name: "eventValueThreshold", parent: name, max: 256)
             try self.featureTransformationParameters?.forEach {
                 try validate($0.key, name: "featureTransformationParameters.key", parent: name, max: 256)
@@ -4374,6 +4652,7 @@ extension Personalize {
         private enum CodingKeys: String, CodingKey {
             case algorithmHyperParameters = "algorithmHyperParameters"
             case autoMLConfig = "autoMLConfig"
+            case autoTrainingConfig = "autoTrainingConfig"
             case eventValueThreshold = "eventValueThreshold"
             case featureTransformationParameters = "featureTransformationParameters"
             case hpoConfig = "hpoConfig"
@@ -4444,12 +4723,14 @@ extension Personalize {
         public let status: String?
         /// The time used to train the model. You are billed for the time it takes to train a model. This field is visible only after Amazon Personalize successfully trains a model.
         public let trainingHours: Double?
-        /// The scope of training to be performed when creating the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the data that has changed in comparison to the input solution. Choose UPDATE when you want to incrementally update your solution version instead of creating an entirely new one.  The UPDATE option can only be used when you already have an active solution version created from the input solution using the FULL option and the input solution was trained with the  User-Personalization recipe or the  HRNN-Coldstart recipe.
+        /// The scope of training to be performed when creating the solution version. A FULL training considers all of the data in your dataset group. An UPDATE processes only the data that has changed since the latest training. Only solution versions created with the User-Personalization recipe can use UPDATE.
         public let trainingMode: TrainingMode?
+        /// Whether the solution version was created automatically or manually.
+        public let trainingType: TrainingType?
         /// If hyperparameter optimization was performed, contains the hyperparameter values of the best performing model.
         public let tunedHPOParams: TunedHPOParams?
 
-        public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, solutionVersionArn: String? = nil, status: String? = nil, trainingHours: Double? = nil, trainingMode: TrainingMode? = nil, tunedHPOParams: TunedHPOParams? = nil) {
+        public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, solutionVersionArn: String? = nil, status: String? = nil, trainingHours: Double? = nil, trainingMode: TrainingMode? = nil, trainingType: TrainingType? = nil, tunedHPOParams: TunedHPOParams? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
             self.eventType = eventType
@@ -4465,6 +4746,7 @@ extension Personalize {
             self.status = status
             self.trainingHours = trainingHours
             self.trainingMode = trainingMode
+            self.trainingType = trainingType
             self.tunedHPOParams = tunedHPOParams
         }
 
@@ -4484,6 +4766,7 @@ extension Personalize {
             case status = "status"
             case trainingHours = "trainingHours"
             case trainingMode = "trainingMode"
+            case trainingType = "trainingType"
             case tunedHPOParams = "tunedHPOParams"
         }
     }
@@ -4499,13 +4782,19 @@ extension Personalize {
         public let solutionVersionArn: String?
         /// The status of the solution version. A solution version can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
         public let status: String?
+        /// The scope of training to be performed when creating the solution version. A FULL training considers all of the data in your dataset group. An UPDATE processes only the data that has changed since the latest training. Only solution versions created with the User-Personalization recipe can use UPDATE.
+        public let trainingMode: TrainingMode?
+        /// Whether the solution version was created automatically or manually.
+        public let trainingType: TrainingType?
 
-        public init(creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
+        public init(creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, solutionVersionArn: String? = nil, status: String? = nil, trainingMode: TrainingMode? = nil, trainingType: TrainingType? = nil) {
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.solutionVersionArn = solutionVersionArn
             self.status = status
+            self.trainingMode = trainingMode
+            self.trainingType = trainingType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4514,6 +4803,8 @@ extension Personalize {
             case lastUpdatedDateTime = "lastUpdatedDateTime"
             case solutionVersionArn = "solutionVersionArn"
             case status = "status"
+            case trainingMode = "trainingMode"
+            case trainingType = "trainingType"
         }
     }
 
@@ -4625,7 +4916,7 @@ extension Personalize {
     public struct TagResourceRequest: AWSEncodableShape {
         /// The resource's Amazon Resource Name (ARN).
         public let resourceArn: String
-        /// Tags to apply to the resource. For more information see Tagging Amazon Personalize recources.
+        /// Tags to apply to the resource. For more information see Tagging Amazon Personalize resources.
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -4670,7 +4961,7 @@ extension Personalize {
     }
 
     public struct TrainingDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the columns to exclude from training. Each key is a dataset type, and each value is a list of columns. Exclude columns to control what data Amazon Personalize uses to generate recommendations.   For example, you might have a column that you want to use only to filter recommendations. You can exclude this column from training and Amazon Personalize considers it only when filtering.
+        /// Specifies the columns to exclude from training. Each key is a dataset type, and each value is a list of columns. Exclude columns to control what data Amazon Personalize uses to generate recommendations.  For example, you might have a column that you want to use only to filter recommendations. You can exclude this column from training and Amazon Personalize considers it only when filtering.
         public let excludedDatasetColumns: [String: [String]]?
 
         public init(excludedDatasetColumns: [String: [String]]? = nil) {
@@ -4706,7 +4997,7 @@ extension Personalize {
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The resource's Amazon Resource Name (ARN).
         public let resourceArn: String
-        /// Keys to remove from the resource's tags.
+        /// The keys of the tags to be removed.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -4742,7 +5033,7 @@ extension Personalize {
         public let campaignConfig: CampaignConfig?
         /// Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support. A high minProvisionedTPS will increase your bill. We recommend starting with 1 for minProvisionedTPS (the default). Track your usage using Amazon CloudWatch metrics, and increase the minProvisionedTPS as necessary.
         public let minProvisionedTPS: Int?
-        /// The ARN of a new solution version to deploy.
+        /// The Amazon Resource Name (ARN) of a new model to deploy. To specify the latest solution version of your solution,  specify the ARN of your solution in SolutionArn/$LATEST format. You must use this format if you set syncWithLatestSolutionVersion to True in the  CampaignConfig.   To deploy a model that isn't the latest solution version of your solution, specify the ARN of the solution version.   For more information about automatic campaign updates, see  Enabling automatic campaign updates.
         public let solutionVersionArn: String?
 
         public init(campaignArn: String, campaignConfig: CampaignConfig? = nil, minProvisionedTPS: Int? = nil, solutionVersionArn: String? = nil) {

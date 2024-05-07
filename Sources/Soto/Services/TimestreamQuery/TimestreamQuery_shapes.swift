@@ -40,6 +40,12 @@ extension TimestreamQuery {
         public var description: String { return self.rawValue }
     }
 
+    public enum QueryPricingModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bytesScanned = "BYTES_SCANNED"
+        case computeUnits = "COMPUTE_UNITS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum S3EncryptionOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sseKms = "SSE_KMS"
         case sseS3 = "SSE_S3"
@@ -178,7 +184,7 @@ extension TimestreamQuery {
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9|!\\-_*'\\(\\)]([a-zA-Z0-9]|[!\\-_*'\\(\\)\\/.])+$")
             try self.notificationConfiguration.validate(name: "\(name).notificationConfiguration")
             try self.validate(self.queryString, name: "queryString", parent: name, max: 262144)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
@@ -263,6 +269,27 @@ extension TimestreamQuery {
 
         private enum CodingKeys: String, CodingKey {
             case scheduledQueryArn = "ScheduledQueryArn"
+        }
+    }
+
+    public struct DescribeAccountSettingsRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DescribeAccountSettingsResponse: AWSDecodableShape {
+        /// The maximum number of Timestream compute units (TCUs) the service will use at any point in time to serve your queries.
+        public let maxQueryTCU: Int?
+        /// The pricing model for queries in your account.
+        public let queryPricingModel: QueryPricingModel?
+
+        public init(maxQueryTCU: Int? = nil, queryPricingModel: QueryPricingModel? = nil) {
+            self.maxQueryTCU = maxQueryTCU
+            self.queryPricingModel = queryPricingModel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxQueryTCU = "MaxQueryTCU"
+            case queryPricingModel = "QueryPricingModel"
         }
     }
 
@@ -409,6 +436,8 @@ extension TimestreamQuery {
     public struct ExecutionStats: AWSDecodableShape {
         /// Bytes metered for a single scheduled query run.
         public let bytesMetered: Int64?
+        /// Bytes scanned for a single scheduled query run.
+        public let cumulativeBytesScanned: Int64?
         /// Data writes metered for records ingested in a single scheduled query run.
         public let dataWrites: Int64?
         /// Total time, measured in milliseconds, that was needed for the scheduled query run to complete.
@@ -418,8 +447,9 @@ extension TimestreamQuery {
         /// The number of records ingested for a single scheduled query run.
         public let recordsIngested: Int64?
 
-        public init(bytesMetered: Int64? = nil, dataWrites: Int64? = nil, executionTimeInMillis: Int64? = nil, queryResultRows: Int64? = nil, recordsIngested: Int64? = nil) {
+        public init(bytesMetered: Int64? = nil, cumulativeBytesScanned: Int64? = nil, dataWrites: Int64? = nil, executionTimeInMillis: Int64? = nil, queryResultRows: Int64? = nil, recordsIngested: Int64? = nil) {
             self.bytesMetered = bytesMetered
+            self.cumulativeBytesScanned = cumulativeBytesScanned
             self.dataWrites = dataWrites
             self.executionTimeInMillis = executionTimeInMillis
             self.queryResultRows = queryResultRows
@@ -428,6 +458,7 @@ extension TimestreamQuery {
 
         private enum CodingKeys: String, CodingKey {
             case bytesMetered = "BytesMetered"
+            case cumulativeBytesScanned = "CumulativeBytesScanned"
             case dataWrites = "DataWrites"
             case executionTimeInMillis = "ExecutionTimeInMillis"
             case queryResultRows = "QueryResultRows"
@@ -1245,6 +1276,40 @@ extension TimestreamQuery {
         public init() {}
     }
 
+    public struct UpdateAccountSettingsRequest: AWSEncodableShape {
+        /// The maximum number of compute units the service will use at any point in time to serve your queries. To run queries, you must set a minimum capacity of 4 TCU. You can set the maximum number of TCU in multiples of 4, for example, 4, 8, 16, 32, and so on. The maximum value supported for MaxQueryTCU is 1000. To request an increase to this soft limit, contact Amazon Web Services Support. For information about the default quota for maxQueryTCU, see Default quotas.
+        public let maxQueryTCU: Int?
+        /// The pricing model for queries in an account.
+        public let queryPricingModel: QueryPricingModel?
+
+        public init(maxQueryTCU: Int? = nil, queryPricingModel: QueryPricingModel? = nil) {
+            self.maxQueryTCU = maxQueryTCU
+            self.queryPricingModel = queryPricingModel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxQueryTCU = "MaxQueryTCU"
+            case queryPricingModel = "QueryPricingModel"
+        }
+    }
+
+    public struct UpdateAccountSettingsResponse: AWSDecodableShape {
+        /// The configured maximum number of compute units the service will use at any point in time to serve your queries.
+        public let maxQueryTCU: Int?
+        /// The pricing model for an account.
+        public let queryPricingModel: QueryPricingModel?
+
+        public init(maxQueryTCU: Int? = nil, queryPricingModel: QueryPricingModel? = nil) {
+            self.maxQueryTCU = maxQueryTCU
+            self.queryPricingModel = queryPricingModel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxQueryTCU = "MaxQueryTCU"
+            case queryPricingModel = "QueryPricingModel"
+        }
+    }
+
     public struct UpdateScheduledQueryRequest: AWSEncodableShape {
         /// ARN of the scheuled query.
         public let scheduledQueryArn: String
@@ -1306,7 +1371,7 @@ public struct TimestreamQueryErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     ///  Unable to poll results for a cancelled query.
     public static var conflictException: Self { .init(.conflictException) }
-    ///  Timestream was unable to fully process this request because of an internal server error.
+    ///  The service was unable to fully process this request because of an internal server error.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The requested endpoint was not valid.
     public static var invalidEndpointException: Self { .init(.invalidEndpointException) }

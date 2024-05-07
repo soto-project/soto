@@ -257,7 +257,7 @@ public struct FMS: AWSService {
         )
     }
 
-    /// Returns information about the specified account's administrative scope. The admistrative scope defines the resources that an Firewall Manager administrator can manage.
+    /// Returns information about the specified account's administrative scope. The administrative scope defines the resources that an Firewall Manager administrator can manage.
     @Sendable
     public func getAdminScope(_ input: GetAdminScopeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAdminScopeResponse {
         return try await self.client.execute(
@@ -283,7 +283,7 @@ public struct FMS: AWSService {
         )
     }
 
-    /// Returns detailed compliance information about the specified member account. Details include resources that are in and out of compliance with the specified policy.    Resources are considered noncompliant for WAF and Shield Advanced policies if the specified policy has not been applied to them.   Resources are considered noncompliant for security group policies if they are in scope of the policy, they violate one or more of the policy rules, and remediation is disabled or not possible.   Resources are considered noncompliant for Network Firewall policies if a firewall is missing in the VPC, if the firewall endpoint isn't set up in an expected Availability Zone and subnet, if a subnet created by the Firewall Manager doesn't have the expected route table, and for modifications to a firewall policy that violate the Firewall Manager policy's rules.   Resources are considered noncompliant for DNS Firewall policies if a DNS Firewall rule group is missing from the rule group associations for the VPC.
+    /// Returns detailed compliance information about the specified member account. Details include resources that are in and out of compliance with the specified policy.  The reasons for resources being considered compliant depend on the Firewall Manager policy type.
     @Sendable
     public func getComplianceDetail(_ input: GetComplianceDetailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetComplianceDetailResponse {
         return try await self.client.execute(
@@ -586,10 +586,13 @@ public struct FMS: AWSService {
     /// 		policy types across accounts, you can create multiple policies. You can create more than one
     /// 		policy for each type.  If you add a new account to an organization that you created with Organizations, Firewall Manager
     /// 		automatically applies the policy to the resources in that account that are within scope of
-    /// 		the policy.  Firewall Manager provides the following types of policies:     Shield Advanced policy - This policy applies Shield Advanced
+    /// 		the policy.  Firewall Manager provides the following types of policies:     WAF policy - This policy applies WAF web ACL
+    /// 				protections to specified accounts and resources.     Shield Advanced policy - This policy applies Shield Advanced
     /// 				protection to specified accounts and resources.     Security Groups policy - This type of policy gives you
     /// 				control over security groups that are in use throughout your organization in
-    /// 				Organizations and lets you enforce a baseline set of rules across your organization.     Network Firewall policy - This policy applies
+    /// 				Organizations and lets you enforce a baseline set of rules across your organization.     Network ACL policy - This type of policy gives you
+    /// 				control over the network ACLs that are in use throughout your organization in
+    /// 				Organizations and lets you enforce a baseline set of first and last network ACL rules across your organization.     Network Firewall policy - This policy applies
     /// 				Network Firewall protection to your organization's VPCs.     DNS Firewall policy - This policy applies
     /// 				Amazon Route 53 Resolver DNS Firewall protections to your organization's VPCs.     Third-party firewall policy - This policy applies third-party firewall protections. Third-party firewalls are available by subscription through the Amazon Web Services Marketplace console at Amazon Web Services Marketplace.    Palo Alto Networks Cloud NGFW policy - This policy applies Palo Alto Networks Cloud Next Generation Firewall (NGFW) protections and Palo Alto Networks Cloud NGFW rulestacks to your organization's VPCs.    Fortigate CNF policy - This policy applies
     /// 						Fortigate Cloud Native Firewall (CNF) protections. Fortigate CNF is a cloud-centered solution that blocks Zero-Day threats and secures cloud infrastructures with industry-leading advanced threat prevention, smart web application firewalls (WAF), and API protection.

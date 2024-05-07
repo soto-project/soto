@@ -26,6 +26,13 @@ import Foundation
 extension RolesAnywhere {
     // MARK: Enums
 
+    public enum CertificateField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case x509Issuer = "x509Issuer"
+        case x509SAN = "x509SAN"
+        case x509Subject = "x509Subject"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NotificationChannel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         public var description: String { return self.rawValue }
@@ -86,6 +93,23 @@ extension RolesAnywhere {
     }
 
     // MARK: Shapes
+
+    public struct AttributeMapping: AWSDecodableShape {
+        /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
+        public let certificateField: CertificateField?
+        /// A list of mapping entries for every supported specifier or sub-field.
+        public let mappingRules: [MappingRule]?
+
+        public init(certificateField: CertificateField? = nil, mappingRules: [MappingRule]? = nil) {
+            self.certificateField = certificateField
+            self.mappingRules = mappingRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateField = "certificateField"
+            case mappingRules = "mappingRules"
+        }
+    }
 
     public struct CreateProfileRequest: AWSEncodableShape {
         ///  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the
@@ -271,6 +295,50 @@ extension RolesAnywhere {
 
         private enum CodingKeys: String, CodingKey {
             case crl = "crl"
+        }
+    }
+
+    public struct DeleteAttributeMappingRequest: AWSEncodableShape {
+        /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
+        public let certificateField: CertificateField
+        /// The unique identifier of the profile.
+        public let profileId: String
+        /// A list of specifiers of a certificate field; for example, CN, OU, UID from a Subject.
+        public let specifiers: [String]?
+
+        public init(certificateField: CertificateField, profileId: String, specifiers: [String]? = nil) {
+            self.certificateField = certificateField
+            self.profileId = profileId
+            self.specifiers = specifiers
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.certificateField, key: "certificateField")
+            request.encodePath(self.profileId, key: "profileId")
+            request.encodeQuery(self.specifiers, key: "specifiers")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 36)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 36)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAttributeMappingResponse: AWSDecodableShape {
+        /// The state of the profile after a read or write operation.
+        public let profile: ProfileDetail
+
+        public init(profile: ProfileDetail) {
+            self.profile = profile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profile = "profile"
         }
     }
 
@@ -461,6 +529,19 @@ extension RolesAnywhere {
         }
     }
 
+    public struct MappingRule: AWSEncodableShape & AWSDecodableShape {
+        /// Specifier within a certificate field, such as CN, OU, or UID from the Subject field.
+        public let specifier: String
+
+        public init(specifier: String) {
+            self.specifier = specifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case specifier = "specifier"
+        }
+    }
+
     public struct NotificationSetting: AWSEncodableShape {
         /// The specified channel of notification. IAM Roles Anywhere uses CloudWatch metrics, EventBridge, and Health Dashboard to notify for an event.  In the absence of a specific channel, IAM Roles Anywhere applies this setting to 'ALL' channels.
         public let channel: NotificationChannel?
@@ -533,6 +614,8 @@ extension RolesAnywhere {
     }
 
     public struct ProfileDetail: AWSDecodableShape {
+        /// A mapping applied to the authenticating end-entity certificate.
+        public let attributeMappings: [AttributeMapping]?
         /// The ISO-8601 timestamp when the profile was created.
         public let createdAt: Date?
         /// The Amazon Web Services account that created the profile.
@@ -560,7 +643,8 @@ extension RolesAnywhere {
         /// The ISO-8601 timestamp when the profile was last updated.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, createdBy: String? = nil, durationSeconds: Int? = nil, enabled: Bool? = nil, managedPolicyArns: [String]? = nil, name: String? = nil, profileArn: String? = nil, profileId: String? = nil, requireInstanceProperties: Bool? = nil, roleArns: [String]? = nil, sessionPolicy: String? = nil, updatedAt: Date? = nil) {
+        public init(attributeMappings: [AttributeMapping]? = nil, createdAt: Date? = nil, createdBy: String? = nil, durationSeconds: Int? = nil, enabled: Bool? = nil, managedPolicyArns: [String]? = nil, name: String? = nil, profileArn: String? = nil, profileId: String? = nil, requireInstanceProperties: Bool? = nil, roleArns: [String]? = nil, sessionPolicy: String? = nil, updatedAt: Date? = nil) {
+            self.attributeMappings = attributeMappings
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.durationSeconds = durationSeconds
@@ -576,6 +660,7 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attributeMappings = "attributeMappings"
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case durationSeconds = "durationSeconds"
@@ -596,6 +681,53 @@ extension RolesAnywhere {
         public let profile: ProfileDetail?
 
         public init(profile: ProfileDetail? = nil) {
+            self.profile = profile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profile = "profile"
+        }
+    }
+
+    public struct PutAttributeMappingRequest: AWSEncodableShape {
+        /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
+        public let certificateField: CertificateField
+        /// A list of mapping entries for every supported specifier or sub-field.
+        public let mappingRules: [MappingRule]
+        /// The unique identifier of the profile.
+        public let profileId: String
+
+        public init(certificateField: CertificateField, mappingRules: [MappingRule], profileId: String) {
+            self.certificateField = certificateField
+            self.mappingRules = mappingRules
+            self.profileId = profileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.certificateField, forKey: .certificateField)
+            try container.encode(self.mappingRules, forKey: .mappingRules)
+            request.encodePath(self.profileId, key: "profileId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 36)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 36)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateField = "certificateField"
+            case mappingRules = "mappingRules"
+        }
+    }
+
+    public struct PutAttributeMappingResponse: AWSDecodableShape {
+        /// The state of the profile after a read or write operation.
+        public let profile: ProfileDetail
+
+        public init(profile: ProfileDetail) {
             self.profile = profile
         }
 

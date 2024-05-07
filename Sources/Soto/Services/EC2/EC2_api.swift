@@ -764,7 +764,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Cancels the specified Spot Fleet requests. After you cancel a Spot Fleet request, the Spot Fleet launches no new instances. You must also specify whether a canceled Spot Fleet request should terminate its instances. If you choose to terminate the instances, the Spot Fleet request enters the cancelled_terminating state. Otherwise, the Spot Fleet request enters the cancelled_running state and the instances continue to run until they are interrupted or you terminate them manually.
+    /// Cancels the specified Spot Fleet requests. After you cancel a Spot Fleet request, the Spot Fleet launches no new instances. You must also specify whether a canceled Spot Fleet request should terminate its instances. If you choose to terminate the instances, the Spot Fleet request enters the cancelled_terminating state. Otherwise, the Spot Fleet request enters the cancelled_running state and the instances continue to run until they are interrupted or you terminate them manually.  Restrictions    You can delete up to 100 fleets in a single request. If you exceed the specified number, no fleets are deleted.
     @Sendable
     public func cancelSpotFleetRequests(_ input: CancelSpotFleetRequestsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelSpotFleetRequestsResponse {
         return try await self.client.execute(
@@ -994,7 +994,7 @@ public struct EC2: AWSService {
 
     /// Creates a custom set of DHCP options. After you create a DHCP option set, you associate
     /// 	       it with a VPC. After you associate a DHCP option set with a VPC, all existing and newly
-    /// 	       launched instances in the VPC use this set of DHCP options. The following are the individual DHCP options you can specify. For more information, see  DHCP options sets  in the Amazon VPC User Guide.    domain-name - If you're using AmazonProvidedDNS in us-east-1,  specify ec2.internal. If you're using AmazonProvidedDNS in any other Region,  specify region.compute.internal. Otherwise, specify a custom domain name. This value is used to complete unqualified DNS hostnames. Some Linux operating systems accept multiple domain names separated by spaces. However, Windows and other Linux operating systems treat the value as a single domain, which results in unexpected behavior. If your DHCP option set is associated with a VPC that has instances running operating systems that treat the value as a single domain, specify only one domain name.    domain-name-servers - The IP addresses of up to four DNS servers, or AmazonProvidedDNS. To specify multiple domain name servers in a single parameter,  separate the IP addresses using commas. To have your instances receive custom DNS  hostnames as specified in domain-name, you must specify a custom DNS server.    ntp-servers - The IP addresses of up to eight Network Time Protocol (NTP) servers (four IPv4 addresses and four IPv6 addresses).    netbios-name-servers - The IP addresses of up to four NetBIOS name servers.    netbios-node-type - The NetBIOS node type (1, 2, 4, or 8). We recommend that you specify 2. Broadcast and multicast are not supported. For more information about  NetBIOS node types, see RFC 2132.    ipv6-preferred-lease-time - A value (in seconds, minutes, hours, or years) for how frequently a running instance with an IPv6 assigned to it goes through DHCPv6 lease renewal.  Acceptable values are between 140 and 2147483647 seconds (approximately 68 years). If no value is entered, the default lease time is 140 seconds. If you use long-term addressing for EC2 instances, you can increase the lease time and avoid frequent  lease renewal requests. Lease renewal typically occurs when half of the lease time has elapsed.
+    /// 	       launched instances in the VPC use this set of DHCP options. The following are the individual DHCP options you can specify. For more information, see  DHCP options sets  in the Amazon VPC User Guide.    domain-name - If you're using AmazonProvidedDNS in us-east-1,  specify ec2.internal. If you're using AmazonProvidedDNS in any other Region,  specify region.compute.internal. Otherwise, specify a custom domain name. This value is used to complete unqualified DNS hostnames. Some Linux operating systems accept multiple domain names separated by spaces. However, Windows and other Linux operating systems treat the value as a single domain, which results in unexpected behavior. If your DHCP option set is associated with a VPC that has instances running operating systems that treat the value as a single domain, specify only one domain name.    domain-name-servers - The IP addresses of up to four DNS servers, or AmazonProvidedDNS. To specify multiple domain name servers in a single parameter,  separate the IP addresses using commas. To have your instances receive custom DNS  hostnames as specified in domain-name, you must specify a custom DNS server.    ntp-servers - The IP addresses of up to eight Network Time Protocol (NTP) servers (four IPv4 addresses and four IPv6 addresses).    netbios-name-servers - The IP addresses of up to four NetBIOS name servers.    netbios-node-type - The NetBIOS node type (1, 2, 4, or 8). We recommend that you specify 2. Broadcast and multicast are not supported. For more information about  NetBIOS node types, see RFC 2132.    ipv6-address-preferred-lease-time - A value (in seconds, minutes, hours, or years) for how frequently a running instance with an IPv6 assigned to it goes through DHCPv6 lease renewal.  Acceptable values are between 140 and 2147483647 seconds (approximately 68 years). If no value is entered, the default lease time is 140 seconds. If you use long-term addressing for EC2 instances, you can increase the lease time and avoid frequent  lease renewal requests. Lease renewal typically occurs when half of the lease time has elapsed.
     @Sendable
     public func createDhcpOptions(_ input: CreateDhcpOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDhcpOptionsResult {
         return try await self.client.execute(
@@ -1193,7 +1193,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify a launch template instead of providing the launch parameters in the request. For more information, see Launch an instance from a launch template in the Amazon Elastic Compute Cloud User Guide. If you want to clone an existing launch template as the basis for creating a new launch template, you can use the Amazon EC2 console. The API, SDKs, and CLI do not support cloning a template. For more information, see Create a launch template from an existing launch template in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify a launch template instead of providing the launch parameters in the request. For more information, see Launch an instance from a launch template in the Amazon Elastic Compute Cloud User Guide. To clone an existing launch template as the basis for a new launch template, use the  Amazon EC2 console. The API, SDKs, and CLI do not support cloning a template. For more  information, see Create a launch template from an existing launch template in the Amazon Elastic Compute Cloud User Guide.
     @Sendable
     public func createLaunchTemplate(_ input: CreateLaunchTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLaunchTemplateResult {
         return try await self.client.execute(
@@ -1206,7 +1206,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a new version of a launch template. You can specify an existing version of launch template from which to base the new version. Launch template versions are numbered in the order in which they are created. You cannot specify, change, or replace the numbering of launch template versions. Launch templates are immutable; after you create a launch template, you can't modify it. Instead, you can create a new version of the launch template that includes any changes you require. For more information, see Modify a launch template (manage launch template versions) in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates a new version of a launch template. You must specify an existing launch template, either by name or ID. You can determine whether the new version inherits  parameters from a source version, and add or overwrite parameters as needed. Launch template versions are numbered in the order in which they are created. You can't specify, change, or replace the numbering of launch template versions. Launch templates are immutable; after you create a launch template, you can't modify it. Instead, you can create a new version of the launch template that includes the changes that you require. For more information, see Modify a launch template (manage launch template versions) in the Amazon Elastic Compute Cloud User Guide.
     @Sendable
     public func createLaunchTemplateVersion(_ input: CreateLaunchTemplateVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLaunchTemplateVersionResult {
         return try await self.client.execute(
@@ -2066,7 +2066,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Deletes the specified EC2 Fleets. After you delete an EC2 Fleet, it launches no new instances. You must also specify whether a deleted EC2 Fleet should terminate its instances. If you choose to terminate the instances, the EC2 Fleet enters the deleted_terminating state. Otherwise, the EC2 Fleet enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. For instant fleets, EC2 Fleet must terminate the instances when the fleet is deleted. A deleted instant fleet with running instances is not supported.  Restrictions    You can delete up to 25 instant fleets in a single request. If you exceed this number, no instant fleets are deleted and an error is returned. There is no restriction on the number of fleets of type maintain or request that can be deleted in a single request.   Up to 1000 instances can be terminated in a single request to delete instant fleets.   For more information, see Delete an EC2 Fleet in the Amazon EC2 User Guide.
+    /// Deletes the specified EC2 Fleets. After you delete an EC2 Fleet, it launches no new instances. You must also specify whether a deleted EC2 Fleet should terminate its instances. If you choose to terminate the instances, the EC2 Fleet enters the deleted_terminating state. Otherwise, the EC2 Fleet enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. For instant fleets, EC2 Fleet must terminate the instances when the fleet is deleted. Up to 1000 instances can be terminated in a single request to delete instant fleets. A deleted instant fleet with running instances is not supported.  Restrictions    You can delete up to 25 fleets of type instant in a single request.   You can delete up to 100 fleets of type maintain or request in a single request.   You can delete up to 125 fleets in a single request, provided you do not exceed the quota for each fleet type, as specified above.   If you exceed the specified number of fleets to delete, no fleets are deleted.   For more information, see Delete an EC2 Fleet in the Amazon EC2 User Guide.
     @Sendable
     public func deleteFleets(_ input: DeleteFleetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFleetsResult {
         return try await self.client.execute(
@@ -2722,7 +2722,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Deletes the specified transit gateway route table. You must disassociate the route table from any transit gateway route tables before you can delete it.
+    /// Deletes the specified transit gateway route table. If there are any route tables associated with the transit gateway route table, you must first run DisassociateRouteTable before you can delete the transit gateway route table. This removes any route tables associated with the transit gateway route table.
     @Sendable
     public func deleteTransitGatewayRouteTable(_ input: DeleteTransitGatewayRouteTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTransitGatewayRouteTableResult {
         return try await self.client.execute(
@@ -3591,7 +3591,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other  Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other  Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeImages(_ input: DescribeImagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeImagesResult {
         return try await self.client.execute(
@@ -3721,7 +3721,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Returns a list of all instance types offered. The results can be filtered by location (Region or Availability Zone). If no location is specified, the instance types offered in the current Region are returned.
+    /// Lists the instance types that are offered for the specified location. If no location is specified, the default is to list the instance types that are offered in the current Region.
     @Sendable
     public func describeInstanceTypeOfferings(_ input: DescribeInstanceTypeOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceTypeOfferingsResult {
         return try await self.client.execute(
@@ -3734,7 +3734,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the details of the instance types that are offered in a location. The results can be filtered by the attributes of the instance types.
+    /// Describes the specified instance types. By default, all instance types for the current Region are described. Alternatively, you can filter the results.
     @Sendable
     public func describeInstanceTypes(_ input: DescribeInstanceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceTypesResult {
         return try await self.client.execute(
@@ -3747,7 +3747,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeInstances(_ input: DescribeInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstancesResult {
         return try await self.client.execute(
@@ -4139,7 +4139,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes one or more of your network interfaces. If you have a large number of network interfaces, the operation fails unless  you use pagination or one of the following filters: group-id,  mac-address, private-dns-name, private-ip-address,  private-dns-name, subnet-id, or vpc-id.
+    /// Describes one or more of your network interfaces. If you have a large number of network interfaces, the operation fails unless  you use pagination or one of the following filters: group-id,  mac-address, private-dns-name, private-ip-address,  private-dns-name, subnet-id, or vpc-id.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
     @Sendable
     public func describeNetworkInterfaces(_ input: DescribeNetworkInterfacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNetworkInterfacesResult {
         return try await self.client.execute(
@@ -4389,7 +4389,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All Amazon Web Services accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific Amazon Web Services account.    implicit: An Amazon Web Services account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or Amazon Web Services accounts with create volume permissions. If no options are specified,  Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the Amazon Web Services account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify Amazon Web Services account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination. To get the state of fast snapshot restores for a snapshot, use DescribeFastSnapshotRestores. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon EBS User Guide.
+    /// Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All Amazon Web Services accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific Amazon Web Services account.    implicit: An Amazon Web Services account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or Amazon Web Services accounts with create volume permissions. If no options are specified,  Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the Amazon Web Services account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify Amazon Web Services account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination. To get the state of fast snapshot restores for a snapshot, use DescribeFastSnapshotRestores. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon EBS User Guide.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
     @Sendable
     public func describeSnapshots(_ input: DescribeSnapshotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSnapshotsResult {
         return try await self.client.execute(
@@ -4520,7 +4520,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the specified tags for your EC2 resources. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the specified tags for your EC2 resources. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeTags(_ input: DescribeTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTagsResult {
         return try await self.client.execute(
@@ -4806,7 +4806,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination. For more information about EBS volumes, see Amazon EBS volumes in the Amazon EBS User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination. For more information about EBS volumes, see Amazon EBS volumes in the Amazon EBS User Guide.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeVolumes(_ input: DescribeVolumesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVolumesResult {
         return try await self.client.execute(
@@ -5181,6 +5181,19 @@ public struct EC2: AWSService {
     public func disableImageDeprecation(_ input: DisableImageDeprecationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableImageDeprecationResult {
         return try await self.client.execute(
             operation: "DisableImageDeprecation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Disables deregistration protection for an AMI. When deregistration protection is disabled, the AMI can be deregistered. If you chose to include a 24-hour cooldown period when you enabled deregistration protection for the AMI, then, when you disable deregistration protection, you won’t immediately be able to deregister the AMI. For more information, see Protect an AMI from deregistration in the Amazon EC2 User Guide.
+    @Sendable
+    public func disableImageDeregistrationProtection(_ input: DisableImageDeregistrationProtectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableImageDeregistrationProtectionResult {
+        return try await self.client.execute(
+            operation: "DisableImageDeregistrationProtection", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -5598,6 +5611,19 @@ public struct EC2: AWSService {
         )
     }
 
+    /// Enables deregistration protection for an AMI. When deregistration protection is enabled, the AMI can't be deregistered. To allow the AMI to be deregistered, you must first disable deregistration protection using DisableImageDeregistrationProtection. For more information, see Protect an AMI from deregistration in the Amazon EC2 User Guide.
+    @Sendable
+    public func enableImageDeregistrationProtection(_ input: EnableImageDeregistrationProtectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableImageDeregistrationProtectionResult {
+        return try await self.client.execute(
+            operation: "EnableImageDeregistrationProtection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Enable an Organizations member account as the IPAM admin account. You cannot select the Organizations management account as the IPAM admin account. For more information, see Enable integration with Organizations in the Amazon VPC IPAM User Guide.
     @Sendable
     public func enableIpamOrganizationAdminAccount(_ input: EnableIpamOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableIpamOrganizationAdminAccountResult {
@@ -5863,7 +5889,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Retrieve a JPG-format screenshot of a running instance to help with troubleshooting. The returned content is Base64-encoded.
+    /// Retrieve a JPG-format screenshot of a running instance to help with troubleshooting. The returned content is Base64-encoded. For more information, see Instance console output in the Amazon EC2 User Guide.
     @Sendable
     public func getConsoleScreenshot(_ input: GetConsoleScreenshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConsoleScreenshotResult {
         return try await self.client.execute(
@@ -5972,6 +5998,19 @@ public struct EC2: AWSService {
     public func getInstanceMetadataDefaults(_ input: GetInstanceMetadataDefaultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInstanceMetadataDefaultsResult {
         return try await self.client.execute(
             operation: "GetInstanceMetadataDefaults", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets the public endorsement key associated with the Nitro Trusted  Platform Module (NitroTPM) for the specified instance.
+    @Sendable
+    public func getInstanceTpmEkPub(_ input: GetInstanceTpmEkPubRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInstanceTpmEkPubResult {
+        return try await self.client.execute(
+            operation: "GetInstanceTpmEkPub", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -6786,7 +6825,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Modifies the default instance metadata service (IMDS) settings at the account level in the specified Amazon Web Services  Region.  To remove a parameter's account-level default setting, specify no-preference. At instance launch, the value will come from the AMI, or from the launch parameter if specified. For more information, see Order of precedence for instance metadata options in the Amazon EC2 User Guide.
+    /// Modifies the default instance metadata service (IMDS) settings at the account level in the specified Amazon Web Services  Region.  To remove a parameter's account-level default setting, specify no-preference. If an account-level setting is cleared with no-preference, then the instance launch considers the other instance metadata settings. For more information, see Order of precedence for instance metadata options in the Amazon EC2 User Guide.
     @Sendable
     public func modifyInstanceMetadataDefaults(_ input: ModifyInstanceMetadataDefaultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyInstanceMetadataDefaultsResult {
         return try await self.client.execute(
@@ -8851,7 +8890,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other  Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other  Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9003,7 +9042,7 @@ extension EC2 {
         )
     }
 
-    /// Returns a list of all instance types offered. The results can be filtered by location (Region or Availability Zone). If no location is specified, the instance types offered in the current Region are returned.
+    /// Lists the instance types that are offered for the specified location. If no location is specified, the default is to list the instance types that are offered in the current Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9022,7 +9061,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the details of the instance types that are offered in a location. The results can be filtered by the attributes of the instance types.
+    /// Describes the specified instance types. By default, all instance types for the current Region are described. Alternatively, you can filter the results.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9041,7 +9080,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9536,7 +9575,7 @@ extension EC2 {
         )
     }
 
-    /// Describes one or more of your network interfaces. If you have a large number of network interfaces, the operation fails unless  you use pagination or one of the following filters: group-id,  mac-address, private-dns-name, private-ip-address,  private-dns-name, subnet-id, or vpc-id.
+    /// Describes one or more of your network interfaces. If you have a large number of network interfaces, the operation fails unless  you use pagination or one of the following filters: group-id,  mac-address, private-dns-name, private-ip-address,  private-dns-name, subnet-id, or vpc-id.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9785,7 +9824,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All Amazon Web Services accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific Amazon Web Services account.    implicit: An Amazon Web Services account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or Amazon Web Services accounts with create volume permissions. If no options are specified,  Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the Amazon Web Services account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify Amazon Web Services account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination. To get the state of fast snapshot restores for a snapshot, use DescribeFastSnapshotRestores. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon EBS User Guide.
+    /// Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All Amazon Web Services accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific Amazon Web Services account.    implicit: An Amazon Web Services account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or Amazon Web Services accounts with create volume permissions. If no options are specified,  Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the Amazon Web Services account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify Amazon Web Services account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination. To get the state of fast snapshot restores for a snapshot, use DescribeFastSnapshotRestores. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon EBS User Guide.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9919,7 +9958,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the specified tags for your EC2 resources. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the specified tags for your EC2 resources. For more information about tags, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -10318,7 +10357,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination. For more information about EBS volumes, see Amazon EBS volumes in the Amazon EBS User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. For more information, see Pagination. For more information about EBS volumes, see Amazon EBS volumes in the Amazon EBS User Guide.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.   The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -192,6 +192,10 @@ extension CloudWatch {
         /// The metric dimensions associated with the anomaly detection model.
         @OptionalCustomCoding<StandardArrayCoder<Dimension>>
         public var dimensions: [Dimension]?
+        /// This object includes parameters that you can use to provide information about your metric to
+        /// 			CloudWatch to help it build more accurate anomaly detection models. Currently, it includes
+        /// 			the PeriodicSpikes parameter.
+        public let metricCharacteristics: MetricCharacteristics?
         /// The CloudWatch metric math expression for this anomaly detector.
         public let metricMathAnomalyDetector: MetricMathAnomalyDetector?
         /// The name of the metric associated with the anomaly detection model.
@@ -202,12 +206,13 @@ extension CloudWatch {
         public let singleMetricAnomalyDetector: SingleMetricAnomalyDetector?
         /// The statistic associated with the anomaly detection model.
         public let stat: String?
-        /// The current status of the anomaly detector's training. The possible values are TRAINED | PENDING_TRAINING | TRAINED_INSUFFICIENT_DATA
+        /// The current status of the anomaly detector's training.
         public let stateValue: AnomalyDetectorStateValue?
 
-        public init(configuration: AnomalyDetectorConfiguration? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stateValue: AnomalyDetectorStateValue? = nil) {
+        public init(configuration: AnomalyDetectorConfiguration? = nil, metricCharacteristics: MetricCharacteristics? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stateValue: AnomalyDetectorStateValue? = nil) {
             self.configuration = configuration
             self.dimensions = nil
+            self.metricCharacteristics = metricCharacteristics
             self.metricMathAnomalyDetector = metricMathAnomalyDetector
             self.metricName = nil
             self.namespace = nil
@@ -217,9 +222,10 @@ extension CloudWatch {
         }
 
         @available(*, deprecated, message: "Members dimensions, metricName, namespace, stat have been deprecated")
-        public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, metricName: String? = nil, namespace: String? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stat: String? = nil, stateValue: AnomalyDetectorStateValue? = nil) {
+        public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricCharacteristics: MetricCharacteristics? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, metricName: String? = nil, namespace: String? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stat: String? = nil, stateValue: AnomalyDetectorStateValue? = nil) {
             self.configuration = configuration
             self.dimensions = dimensions
+            self.metricCharacteristics = metricCharacteristics
             self.metricMathAnomalyDetector = metricMathAnomalyDetector
             self.metricName = metricName
             self.namespace = namespace
@@ -231,6 +237,7 @@ extension CloudWatch {
         private enum CodingKeys: String, CodingKey {
             case configuration = "Configuration"
             case dimensions = "Dimensions"
+            case metricCharacteristics = "MetricCharacteristics"
             case metricMathAnomalyDetector = "MetricMathAnomalyDetector"
             case metricName = "MetricName"
             case namespace = "Namespace"
@@ -2419,6 +2426,22 @@ extension CloudWatch {
         }
     }
 
+    public struct MetricCharacteristics: AWSEncodableShape & AWSDecodableShape {
+        /// Set this parameter to true if values for this metric consistently include spikes
+        /// 			that should not be considered to be anomalies. With this set to true, CloudWatch will expect
+        /// 			to see spikes that occurred consistently during the model training period, and won't flag future similar spikes
+        /// 			as anomalies.
+        public let periodicSpikes: Bool?
+
+        public init(periodicSpikes: Bool? = nil) {
+            self.periodicSpikes = periodicSpikes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case periodicSpikes = "PeriodicSpikes"
+        }
+    }
+
     public struct MetricDataQuery: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the account where the metrics are located. If you are performing a GetMetricData operation in a monitoring account, use this to specify
         /// 			which account to retrieve this metric from. If you are performing a PutMetricAlarm operation, use this to specify
@@ -2847,6 +2870,10 @@ extension CloudWatch {
         /// The metric dimensions to create the anomaly detection model for.
         @OptionalCustomCoding<StandardArrayCoder<Dimension>>
         public var dimensions: [Dimension]?
+        /// Use this object to include parameters to provide information about your metric to
+        /// 			CloudWatch to help it build more accurate anomaly detection models. Currently, it includes
+        /// 			the PeriodicSpikes parameter.
+        public let metricCharacteristics: MetricCharacteristics?
         /// The metric math anomaly detector to be created. When using MetricMathAnomalyDetector, you cannot include the following parameters in the same operation:    Dimensions     MetricName     Namespace     Stat    the SingleMetricAnomalyDetector parameters of PutAnomalyDetectorInput    Instead, specify the metric math anomaly detector attributes
         /// 			as part of the property MetricMathAnomalyDetector.
         public let metricMathAnomalyDetector: MetricMathAnomalyDetector?
@@ -2861,9 +2888,10 @@ extension CloudWatch {
         /// The statistic to use for the metric and the anomaly detection model.
         public let stat: String?
 
-        public init(configuration: AnomalyDetectorConfiguration? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil) {
+        public init(configuration: AnomalyDetectorConfiguration? = nil, metricCharacteristics: MetricCharacteristics? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil) {
             self.configuration = configuration
             self.dimensions = nil
+            self.metricCharacteristics = metricCharacteristics
             self.metricMathAnomalyDetector = metricMathAnomalyDetector
             self.metricName = nil
             self.namespace = nil
@@ -2872,9 +2900,10 @@ extension CloudWatch {
         }
 
         @available(*, deprecated, message: "Members dimensions, metricName, namespace, stat have been deprecated")
-        public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, metricName: String? = nil, namespace: String? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stat: String? = nil) {
+        public init(configuration: AnomalyDetectorConfiguration? = nil, dimensions: [Dimension]? = nil, metricCharacteristics: MetricCharacteristics? = nil, metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil, metricName: String? = nil, namespace: String? = nil, singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil, stat: String? = nil) {
             self.configuration = configuration
             self.dimensions = dimensions
+            self.metricCharacteristics = metricCharacteristics
             self.metricMathAnomalyDetector = metricMathAnomalyDetector
             self.metricName = metricName
             self.namespace = namespace
@@ -2902,6 +2931,7 @@ extension CloudWatch {
         private enum CodingKeys: String, CodingKey {
             case configuration = "Configuration"
             case dimensions = "Dimensions"
+            case metricCharacteristics = "MetricCharacteristics"
             case metricMathAnomalyDetector = "MetricMathAnomalyDetector"
             case metricName = "MetricName"
             case namespace = "Namespace"

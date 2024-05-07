@@ -216,6 +216,12 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
+    public enum RotationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automatic = "AUTOMATIC"
+        case onDemand = "ON_DEMAND"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SigningAlgorithmSpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ecdsaSha256 = "ECDSA_SHA_256"
         case ecdsaSha384 = "ECDSA_SHA_384"
@@ -838,7 +844,7 @@ extension KMS {
         public let customKeyStores: [CustomKeyStoresListEntry]?
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
         public let nextMarker: String?
-        /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in thisresponse to the Marker parameter in a subsequent request.
+        /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
 
         public init(customKeyStores: [CustomKeyStoresListEntry]? = nil, nextMarker: String? = nil, truncated: Bool? = nil) {
@@ -973,18 +979,24 @@ extension KMS {
     public struct EnableKeyRotationRequest: AWSEncodableShape {
         /// Identifies a symmetric encryption KMS key. You cannot enable automatic rotation of asymmetric KMS keys, HMAC KMS keys, KMS keys with imported key material, or KMS keys in a custom key store. To enable or disable automatic rotation of a set of related multi-Region keys, set the property on the primary key. Specify the key ID or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
         public let keyId: String
+        /// Use this parameter to specify a custom period of time between each rotation date. If no value is specified, the default value is 365 days. The rotation period defines the number of days after you enable automatic key rotation that KMS will rotate your key material, and the number of days between each automatic rotation thereafter. You can use the  kms:RotationPeriodInDays condition key to further constrain the  values that principals can specify in the RotationPeriodInDays parameter.
+        public let rotationPeriodInDays: Int?
 
-        public init(keyId: String) {
+        public init(keyId: String, rotationPeriodInDays: Int? = nil) {
             self.keyId = keyId
+            self.rotationPeriodInDays = rotationPeriodInDays
         }
 
         public func validate(name: String) throws {
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.validate(self.rotationPeriodInDays, name: "rotationPeriodInDays", parent: name, max: 2560)
+            try self.validate(self.rotationPeriodInDays, name: "rotationPeriodInDays", parent: name, min: 90)
         }
 
         private enum CodingKeys: String, CodingKey {
             case keyId = "KeyId"
+            case rotationPeriodInDays = "RotationPeriodInDays"
         }
     }
 
@@ -1517,15 +1529,31 @@ extension KMS {
     }
 
     public struct GetKeyRotationStatusResponse: AWSDecodableShape {
+        /// Identifies the specified symmetric encryption KMS key.
+        public let keyId: String?
         /// A Boolean value that specifies whether key rotation is enabled.
         public let keyRotationEnabled: Bool?
+        /// The next date that KMS will automatically rotate the key material.
+        public let nextRotationDate: Date?
+        /// Identifies the date and time that an in progress on-demand rotation was initiated. The KMS API follows an eventual consistency model due to the distributed nature of the system. As a result, there might be a slight delay between initiating on-demand key rotation and the rotation's completion. Once the on-demand rotation is complete, use ListKeyRotations to view the details of the on-demand rotation.
+        public let onDemandRotationStartDate: Date?
+        /// The number of days between each automatic rotation. The default value is 365 days.
+        public let rotationPeriodInDays: Int?
 
-        public init(keyRotationEnabled: Bool? = nil) {
+        public init(keyId: String? = nil, keyRotationEnabled: Bool? = nil, nextRotationDate: Date? = nil, onDemandRotationStartDate: Date? = nil, rotationPeriodInDays: Int? = nil) {
+            self.keyId = keyId
             self.keyRotationEnabled = keyRotationEnabled
+            self.nextRotationDate = nextRotationDate
+            self.onDemandRotationStartDate = onDemandRotationStartDate
+            self.rotationPeriodInDays = rotationPeriodInDays
         }
 
         private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
             case keyRotationEnabled = "KeyRotationEnabled"
+            case nextRotationDate = "NextRotationDate"
+            case onDemandRotationStartDate = "OnDemandRotationStartDate"
+            case rotationPeriodInDays = "RotationPeriodInDays"
         }
     }
 
@@ -1945,7 +1973,7 @@ extension KMS {
         public let aliases: [AliasListEntry]?
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
         public let nextMarker: String?
-        /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in thisresponse to the Marker parameter in a subsequent request.
+        /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
 
         public init(aliases: [AliasListEntry]? = nil, nextMarker: String? = nil, truncated: Bool? = nil) {
@@ -2011,7 +2039,7 @@ extension KMS {
         public let grants: [GrantListEntry]?
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
         public let nextMarker: String?
-        /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in thisresponse to the Marker parameter in a subsequent request.
+        /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
 
         public init(grants: [GrantListEntry]? = nil, nextMarker: String? = nil, truncated: Bool? = nil) {
@@ -2063,7 +2091,7 @@ extension KMS {
         public let nextMarker: String?
         /// A list of key policy names. The only valid value is default.
         public let policyNames: [String]?
-        /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in thisresponse to the Marker parameter in a subsequent request.
+        /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
 
         public init(nextMarker: String? = nil, policyNames: [String]? = nil, truncated: Bool? = nil) {
@@ -2075,6 +2103,58 @@ extension KMS {
         private enum CodingKeys: String, CodingKey {
             case nextMarker = "NextMarker"
             case policyNames = "PolicyNames"
+            case truncated = "Truncated"
+        }
+    }
+
+    public struct ListKeyRotationsRequest: AWSEncodableShape {
+        /// Gets the key rotations for the specified KMS key. Specify the key ID or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
+        public let keyId: String
+        /// Use this parameter to specify the maximum number of items to return. When this value is present, KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100.
+        public let limit: Int?
+        /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
+        public let marker: String?
+
+        public init(keyId: String, limit: Int? = nil, marker: String? = nil) {
+            self.keyId = keyId
+            self.limit = limit
+            self.marker = marker
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
+            try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.validate(self.limit, name: "limit", parent: name, max: 1000)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.marker, name: "marker", parent: name, max: 1024)
+            try self.validate(self.marker, name: "marker", parent: name, min: 1)
+            try self.validate(self.marker, name: "marker", parent: name, pattern: "^[\\u0020-\\u00FF]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case limit = "Limit"
+            case marker = "Marker"
+        }
+    }
+
+    public struct ListKeyRotationsResponse: AWSDecodableShape {
+        /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
+        public let nextMarker: String?
+        /// A list of completed key material rotations.
+        public let rotations: [RotationsListEntry]?
+        /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
+        public let truncated: Bool?
+
+        public init(nextMarker: String? = nil, rotations: [RotationsListEntry]? = nil, truncated: Bool? = nil) {
+            self.nextMarker = nextMarker
+            self.rotations = rotations
+            self.truncated = truncated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "NextMarker"
+            case rotations = "Rotations"
             case truncated = "Truncated"
         }
     }
@@ -2109,7 +2189,7 @@ extension KMS {
         public let keys: [KeyListEntry]?
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
         public let nextMarker: String?
-        /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in thisresponse to the Marker parameter in a subsequent request.
+        /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
 
         public init(keys: [KeyListEntry]? = nil, nextMarker: String? = nil, truncated: Bool? = nil) {
@@ -2161,7 +2241,7 @@ extension KMS {
         public let nextMarker: String?
         /// A list of tags. Each tag consists of a tag key and a tag value.  Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC for KMS in the Key Management Service Developer Guide.
         public let tags: [Tag]?
-        /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in thisresponse to the Marker parameter in a subsequent request.
+        /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
 
         public init(nextMarker: String? = nil, tags: [Tag]? = nil, truncated: Bool? = nil) {
@@ -2528,6 +2608,58 @@ extension KMS {
             case dryRun = "DryRun"
             case grantId = "GrantId"
             case keyId = "KeyId"
+        }
+    }
+
+    public struct RotateKeyOnDemandRequest: AWSEncodableShape {
+        /// Identifies a symmetric encryption KMS key. You cannot perform on-demand rotation of asymmetric KMS keys, HMAC KMS keys,  KMS keys with imported key material, or KMS keys in a custom key store. To perform on-demand rotation of a set of related multi-Region keys, invoke the on-demand rotation on the primary key. Specify the key ID or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
+        public let keyId: String
+
+        public init(keyId: String) {
+            self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
+            try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+        }
+    }
+
+    public struct RotateKeyOnDemandResponse: AWSDecodableShape {
+        /// Identifies the symmetric encryption KMS key that you initiated on-demand rotation on.
+        public let keyId: String?
+
+        public init(keyId: String? = nil) {
+            self.keyId = keyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+        }
+    }
+
+    public struct RotationsListEntry: AWSDecodableShape {
+        /// Unique identifier of the key.
+        public let keyId: String?
+        /// Date and time that the key material rotation completed. Formatted as Unix time.
+        public let rotationDate: Date?
+        /// Identifies whether the key material rotation was a scheduled automatic rotation or an on-demand rotation.
+        public let rotationType: RotationType?
+
+        public init(keyId: String? = nil, rotationDate: Date? = nil, rotationType: RotationType? = nil) {
+            self.keyId = keyId
+            self.rotationDate = rotationDate
+            self.rotationType = rotationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case rotationDate = "RotationDate"
+            case rotationType = "RotationType"
         }
     }
 
@@ -3084,6 +3216,7 @@ public struct KMSErrorType: AWSErrorType {
         case cloudHsmClusterNotActiveException = "CloudHsmClusterNotActiveException"
         case cloudHsmClusterNotFoundException = "CloudHsmClusterNotFoundException"
         case cloudHsmClusterNotRelatedException = "CloudHsmClusterNotRelatedException"
+        case conflictException = "ConflictException"
         case customKeyStoreHasCMKsException = "CustomKeyStoreHasCMKsException"
         case customKeyStoreInvalidStateException = "CustomKeyStoreInvalidStateException"
         case customKeyStoreNameInUseException = "CustomKeyStoreNameInUseException"
@@ -3157,6 +3290,8 @@ public struct KMSErrorType: AWSErrorType {
     public static var cloudHsmClusterNotFoundException: Self { .init(.cloudHsmClusterNotFoundException) }
     /// The request was rejected because the specified CloudHSM cluster has a different cluster certificate than the original cluster. You cannot use the operation to specify an unrelated cluster for an CloudHSM key store. Specify an CloudHSM cluster that shares a backup history with the original cluster. This includes clusters that were created from a backup of the current cluster, and clusters that were created from the same backup that produced the current cluster. CloudHSM clusters that share a backup history have the same cluster certificate. To view the cluster certificate of an CloudHSM cluster, use the DescribeClusters operation.
     public static var cloudHsmClusterNotRelatedException: Self { .init(.cloudHsmClusterNotRelatedException) }
+    /// The request was rejected because an automatic rotation of this key is currently in  progress or scheduled to begin within the next 20 minutes.
+    public static var conflictException: Self { .init(.conflictException) }
     /// The request was rejected because the custom key store contains KMS keys. After verifying that you do not need to use the KMS keys, use the ScheduleKeyDeletion operation to delete the KMS keys. After they are deleted, you can delete the custom key store.
     public static var customKeyStoreHasCMKsException: Self { .init(.customKeyStoreHasCMKsException) }
     /// The request was rejected because of the ConnectionState of the custom key store. To get the ConnectionState of a custom key store, use the DescribeCustomKeyStores operation. This exception is thrown under the following conditions:   You requested the ConnectCustomKeyStore operation on a custom key store with a ConnectionState of DISCONNECTING or FAILED. This operation is valid for all other ConnectionState values. To reconnect a custom key store in a FAILED state, disconnect it (DisconnectCustomKeyStore), then connect it (ConnectCustomKeyStore).   You requested the CreateKey operation in a custom key store that is not connected. This operations is valid only when the custom key store ConnectionState is CONNECTED.   You requested the DisconnectCustomKeyStore operation on a custom key store with a ConnectionState of DISCONNECTING or DISCONNECTED. This operation is valid for all other ConnectionState values.   You requested the UpdateCustomKeyStore or DeleteCustomKeyStore operation on a custom key store that is not disconnected. This operation is valid only when the custom key store ConnectionState is DISCONNECTED.   You requested the GenerateRandom operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.

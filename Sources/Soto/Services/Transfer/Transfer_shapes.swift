@@ -53,6 +53,7 @@ extension Transfer {
     public enum CertificateUsageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case encryption = "ENCRYPTION"
         case signing = "SIGNING"
+        case tls = "TLS"
         public var description: String { return self.rawValue }
     }
 
@@ -3680,6 +3681,62 @@ extension Transfer {
             case dateImported = "DateImported"
             case sshPublicKeyBody = "SshPublicKeyBody"
             case sshPublicKeyId = "SshPublicKeyId"
+        }
+    }
+
+    public struct StartDirectoryListingRequest: AWSEncodableShape {
+        /// The unique identifier for the connector.
+        public let connectorId: String
+        /// An optional parameter where you can specify the maximum number of file/directory names to retrieve. The default value is 1,000.
+        public let maxItems: Int?
+        /// Specifies the path (bucket and prefix) in Amazon S3 storage to store the results of the directory listing.
+        public let outputDirectoryPath: String
+        /// Specifies the directory on the remote SFTP server for which you want to list its contents.
+        public let remoteDirectoryPath: String
+
+        public init(connectorId: String, maxItems: Int? = nil, outputDirectoryPath: String, remoteDirectoryPath: String) {
+            self.connectorId = connectorId
+            self.maxItems = maxItems
+            self.outputDirectoryPath = outputDirectoryPath
+            self.remoteDirectoryPath = remoteDirectoryPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorId, name: "connectorId", parent: name, max: 19)
+            try self.validate(self.connectorId, name: "connectorId", parent: name, min: 19)
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^c-([0-9a-f]{17})$")
+            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
+            try self.validate(self.outputDirectoryPath, name: "outputDirectoryPath", parent: name, max: 1024)
+            try self.validate(self.outputDirectoryPath, name: "outputDirectoryPath", parent: name, min: 1)
+            try self.validate(self.outputDirectoryPath, name: "outputDirectoryPath", parent: name, pattern: "^(.)+$")
+            try self.validate(self.remoteDirectoryPath, name: "remoteDirectoryPath", parent: name, max: 1024)
+            try self.validate(self.remoteDirectoryPath, name: "remoteDirectoryPath", parent: name, min: 1)
+            try self.validate(self.remoteDirectoryPath, name: "remoteDirectoryPath", parent: name, pattern: "^(.)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorId = "ConnectorId"
+            case maxItems = "MaxItems"
+            case outputDirectoryPath = "OutputDirectoryPath"
+            case remoteDirectoryPath = "RemoteDirectoryPath"
+        }
+    }
+
+    public struct StartDirectoryListingResponse: AWSDecodableShape {
+        /// Returns a unique identifier for the directory listing call.
+        public let listingId: String
+        /// Returns the file name where the results are stored. This is a combination of the connector ID and the listing ID: &lt;connector-id&gt;-&lt;listing-id&gt;.json.
+        public let outputFileName: String
+
+        public init(listingId: String, outputFileName: String) {
+            self.listingId = listingId
+            self.outputFileName = outputFileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listingId = "ListingId"
+            case outputFileName = "OutputFileName"
         }
     }
 

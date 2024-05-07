@@ -78,6 +78,7 @@ public struct SESv2: AWSService {
             "ca-central-1": "email-fips.ca-central-1.amazonaws.com",
             "us-east-1": "email-fips.us-east-1.amazonaws.com",
             "us-east-2": "email-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "email-fips.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "email-fips.us-gov-west-1.amazonaws.com",
             "us-west-1": "email-fips.us-west-1.amazonaws.com",
             "us-west-2": "email-fips.us-west-2.amazonaws.com"
@@ -702,8 +703,8 @@ public struct SESv2: AWSService {
     public func listContacts(_ input: ListContactsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactsResponse {
         return try await self.client.execute(
             operation: "ListContacts", 
-            path: "/v2/email/contact-lists/{ContactListName}/contacts", 
-            httpMethod: .GET, 
+            path: "/v2/email/contact-lists/{ContactListName}/contacts/list", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -806,8 +807,8 @@ public struct SESv2: AWSService {
     public func listImportJobs(_ input: ListImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImportJobsResponse {
         return try await self.client.execute(
             operation: "ListImportJobs", 
-            path: "/v2/email/import-jobs", 
-            httpMethod: .GET, 
+            path: "/v2/email/import-jobs/list", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger

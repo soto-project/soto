@@ -73,6 +73,19 @@ public struct TrustedAdvisor: AWSService {
 
     // MARK: API Calls
 
+    /// Update one or more exclusion status for a list of recommendation resources
+    @Sendable
+    public func batchUpdateRecommendationResourceExclusion(_ input: BatchUpdateRecommendationResourceExclusionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateRecommendationResourceExclusionResponse {
+        return try await self.client.execute(
+            operation: "BatchUpdateRecommendationResourceExclusion", 
+            path: "/v1/batch-update-recommendation-resource-exclusion", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations.
     @Sendable
     public func getOrganizationRecommendation(_ input: GetOrganizationRecommendationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOrganizationRecommendationResponse {
@@ -177,7 +190,7 @@ public struct TrustedAdvisor: AWSService {
         )
     }
 
-    /// Update the lifecyle of a Recommendation within an Organization. This API only supports prioritized recommendations.
+    /// Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations.
     @Sendable
     public func updateOrganizationRecommendationLifecycle(_ input: UpdateOrganizationRecommendationLifecycleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -360,6 +373,7 @@ extension TrustedAdvisor.ListOrganizationRecommendationResourcesRequest: AWSPagi
     public func usingPaginationToken(_ token: String) -> TrustedAdvisor.ListOrganizationRecommendationResourcesRequest {
         return .init(
             affectedAccountId: self.affectedAccountId,
+            exclusionStatus: self.exclusionStatus,
             maxResults: self.maxResults,
             nextToken: token,
             organizationRecommendationIdentifier: self.organizationRecommendationIdentifier,
@@ -389,6 +403,7 @@ extension TrustedAdvisor.ListOrganizationRecommendationsRequest: AWSPaginateToke
 extension TrustedAdvisor.ListRecommendationResourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> TrustedAdvisor.ListRecommendationResourcesRequest {
         return .init(
+            exclusionStatus: self.exclusionStatus,
             maxResults: self.maxResults,
             nextToken: token,
             recommendationIdentifier: self.recommendationIdentifier,

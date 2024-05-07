@@ -186,6 +186,58 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Creates a cloudwatch alarm template to dynamically generate cloudwatch metric alarms on targeted resource types.
+    @Sendable
+    public func createCloudWatchAlarmTemplate(_ input: CreateCloudWatchAlarmTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCloudWatchAlarmTemplateResponse {
+        return try await self.client.execute(
+            operation: "CreateCloudWatchAlarmTemplate", 
+            path: "/prod/cloudwatch-alarm-templates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a cloudwatch alarm template group to group your cloudwatch alarm templates and to attach to signal maps for dynamically creating alarms.
+    @Sendable
+    public func createCloudWatchAlarmTemplateGroup(_ input: CreateCloudWatchAlarmTemplateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCloudWatchAlarmTemplateGroupResponse {
+        return try await self.client.execute(
+            operation: "CreateCloudWatchAlarmTemplateGroup", 
+            path: "/prod/cloudwatch-alarm-template-groups", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates an eventbridge rule template to monitor events and send notifications to your targeted resources.
+    @Sendable
+    public func createEventBridgeRuleTemplate(_ input: CreateEventBridgeRuleTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEventBridgeRuleTemplateResponse {
+        return try await self.client.execute(
+            operation: "CreateEventBridgeRuleTemplate", 
+            path: "/prod/eventbridge-rule-templates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates an eventbridge rule template group to group your eventbridge rule templates and to attach to signal maps for dynamically creating notification rules.
+    @Sendable
+    public func createEventBridgeRuleTemplateGroup(_ input: CreateEventBridgeRuleTemplateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEventBridgeRuleTemplateGroupResponse {
+        return try await self.client.execute(
+            operation: "CreateEventBridgeRuleTemplateGroup", 
+            path: "/prod/eventbridge-rule-template-groups", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Create an input
     @Sendable
     public func createInput(_ input: CreateInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInputResponse {
@@ -251,6 +303,19 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Initiates the creation of a new signal map. Will discover a new mediaResourceMap based on the provided discoveryEntryPointArn.
+    @Sendable
+    public func createSignalMap(_ input: CreateSignalMapRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSignalMapResponse {
+        return try await self.client.execute(
+            operation: "CreateSignalMap", 
+            path: "/prod/signal-maps", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Create tags for a resource
     @Sendable
     public func createTags(_ input: CreateTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -270,6 +335,58 @@ public struct MediaLive: AWSService {
         return try await self.client.execute(
             operation: "DeleteChannel", 
             path: "/prod/channels/{ChannelId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a cloudwatch alarm template.
+    @Sendable
+    public func deleteCloudWatchAlarmTemplate(_ input: DeleteCloudWatchAlarmTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteCloudWatchAlarmTemplate", 
+            path: "/prod/cloudwatch-alarm-templates/{Identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a cloudwatch alarm template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted.
+    @Sendable
+    public func deleteCloudWatchAlarmTemplateGroup(_ input: DeleteCloudWatchAlarmTemplateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteCloudWatchAlarmTemplateGroup", 
+            path: "/prod/cloudwatch-alarm-template-groups/{Identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an eventbridge rule template.
+    @Sendable
+    public func deleteEventBridgeRuleTemplate(_ input: DeleteEventBridgeRuleTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteEventBridgeRuleTemplate", 
+            path: "/prod/eventbridge-rule-templates/{Identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an eventbridge rule template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted.
+    @Sendable
+    public func deleteEventBridgeRuleTemplateGroup(_ input: DeleteEventBridgeRuleTemplateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteEventBridgeRuleTemplateGroup", 
+            path: "/prod/eventbridge-rule-template-groups/{Identifier}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -348,6 +465,19 @@ public struct MediaLive: AWSService {
         return try await self.client.execute(
             operation: "DeleteSchedule", 
             path: "/prod/channels/{ChannelId}/schedule", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the specified signal map.
+    @Sendable
+    public func deleteSignalMap(_ input: DeleteSignalMapRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteSignalMap", 
+            path: "/prod/signal-maps/{Identifier}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -524,12 +654,129 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Retrieves the specified cloudwatch alarm template.
+    @Sendable
+    public func getCloudWatchAlarmTemplate(_ input: GetCloudWatchAlarmTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCloudWatchAlarmTemplateResponse {
+        return try await self.client.execute(
+            operation: "GetCloudWatchAlarmTemplate", 
+            path: "/prod/cloudwatch-alarm-templates/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the specified cloudwatch alarm template group.
+    @Sendable
+    public func getCloudWatchAlarmTemplateGroup(_ input: GetCloudWatchAlarmTemplateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCloudWatchAlarmTemplateGroupResponse {
+        return try await self.client.execute(
+            operation: "GetCloudWatchAlarmTemplateGroup", 
+            path: "/prod/cloudwatch-alarm-template-groups/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the specified eventbridge rule template.
+    @Sendable
+    public func getEventBridgeRuleTemplate(_ input: GetEventBridgeRuleTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEventBridgeRuleTemplateResponse {
+        return try await self.client.execute(
+            operation: "GetEventBridgeRuleTemplate", 
+            path: "/prod/eventbridge-rule-templates/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the specified eventbridge rule template group.
+    @Sendable
+    public func getEventBridgeRuleTemplateGroup(_ input: GetEventBridgeRuleTemplateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEventBridgeRuleTemplateGroupResponse {
+        return try await self.client.execute(
+            operation: "GetEventBridgeRuleTemplateGroup", 
+            path: "/prod/eventbridge-rule-template-groups/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the specified signal map.
+    @Sendable
+    public func getSignalMap(_ input: GetSignalMapRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSignalMapResponse {
+        return try await self.client.execute(
+            operation: "GetSignalMap", 
+            path: "/prod/signal-maps/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Produces list of channels that have been created
     @Sendable
     public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelsResponse {
         return try await self.client.execute(
             operation: "ListChannels", 
             path: "/prod/channels", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists cloudwatch alarm template groups.
+    @Sendable
+    public func listCloudWatchAlarmTemplateGroups(_ input: ListCloudWatchAlarmTemplateGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCloudWatchAlarmTemplateGroupsResponse {
+        return try await self.client.execute(
+            operation: "ListCloudWatchAlarmTemplateGroups", 
+            path: "/prod/cloudwatch-alarm-template-groups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists cloudwatch alarm templates.
+    @Sendable
+    public func listCloudWatchAlarmTemplates(_ input: ListCloudWatchAlarmTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCloudWatchAlarmTemplatesResponse {
+        return try await self.client.execute(
+            operation: "ListCloudWatchAlarmTemplates", 
+            path: "/prod/cloudwatch-alarm-templates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists eventbridge rule template groups.
+    @Sendable
+    public func listEventBridgeRuleTemplateGroups(_ input: ListEventBridgeRuleTemplateGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEventBridgeRuleTemplateGroupsResponse {
+        return try await self.client.execute(
+            operation: "ListEventBridgeRuleTemplateGroups", 
+            path: "/prod/eventbridge-rule-template-groups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists eventbridge rule templates.
+    @Sendable
+    public func listEventBridgeRuleTemplates(_ input: ListEventBridgeRuleTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEventBridgeRuleTemplatesResponse {
+        return try await self.client.execute(
+            operation: "ListEventBridgeRuleTemplates", 
+            path: "/prod/eventbridge-rule-templates", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -641,6 +888,19 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Lists signal maps.
+    @Sendable
+    public func listSignalMaps(_ input: ListSignalMapsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSignalMapsResponse {
+        return try await self.client.execute(
+            operation: "ListSignalMaps", 
+            path: "/prod/signal-maps", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Produces list of tags that have been created for a resource
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -719,6 +979,19 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Initiates a deployment to delete the monitor of the specified signal map.
+    @Sendable
+    public func startDeleteMonitorDeployment(_ input: StartDeleteMonitorDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDeleteMonitorDeploymentResponse {
+        return try await self.client.execute(
+            operation: "StartDeleteMonitorDeployment", 
+            path: "/prod/signal-maps/{Identifier}/monitor-deployment", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Start an input device that is attached to a MediaConnect flow. (There is no need to start a device that is attached to a MediaLive input; MediaLive starts the device when the channel starts.)
     @Sendable
     public func startInputDevice(_ input: StartInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartInputDeviceResponse {
@@ -745,6 +1018,19 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Initiates a deployment to deploy the latest monitor of the specified signal map.
+    @Sendable
+    public func startMonitorDeployment(_ input: StartMonitorDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMonitorDeploymentResponse {
+        return try await self.client.execute(
+            operation: "StartMonitorDeployment", 
+            path: "/prod/signal-maps/{Identifier}/monitor-deployment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
     @Sendable
     public func startMultiplex(_ input: StartMultiplexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMultiplexResponse {
@@ -752,6 +1038,19 @@ public struct MediaLive: AWSService {
             operation: "StartMultiplex", 
             path: "/prod/multiplexes/{MultiplexId}/start", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Initiates an update for the specified signal map. Will discover a new signal map if a changed discoveryEntryPointArn is provided.
+    @Sendable
+    public func startUpdateSignalMap(_ input: StartUpdateSignalMapRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartUpdateSignalMapResponse {
+        return try await self.client.execute(
+            operation: "StartUpdateSignalMap", 
+            path: "/prod/signal-maps/{Identifier}", 
+            httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -843,6 +1142,58 @@ public struct MediaLive: AWSService {
             operation: "UpdateChannelClass", 
             path: "/prod/channels/{ChannelId}/channelClass", 
             httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the specified cloudwatch alarm template.
+    @Sendable
+    public func updateCloudWatchAlarmTemplate(_ input: UpdateCloudWatchAlarmTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCloudWatchAlarmTemplateResponse {
+        return try await self.client.execute(
+            operation: "UpdateCloudWatchAlarmTemplate", 
+            path: "/prod/cloudwatch-alarm-templates/{Identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the specified cloudwatch alarm template group.
+    @Sendable
+    public func updateCloudWatchAlarmTemplateGroup(_ input: UpdateCloudWatchAlarmTemplateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCloudWatchAlarmTemplateGroupResponse {
+        return try await self.client.execute(
+            operation: "UpdateCloudWatchAlarmTemplateGroup", 
+            path: "/prod/cloudwatch-alarm-template-groups/{Identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the specified eventbridge rule template.
+    @Sendable
+    public func updateEventBridgeRuleTemplate(_ input: UpdateEventBridgeRuleTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEventBridgeRuleTemplateResponse {
+        return try await self.client.execute(
+            operation: "UpdateEventBridgeRuleTemplate", 
+            path: "/prod/eventbridge-rule-templates/{Identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the specified eventbridge rule template group.
+    @Sendable
+    public func updateEventBridgeRuleTemplateGroup(_ input: UpdateEventBridgeRuleTemplateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEventBridgeRuleTemplateGroupResponse {
+        return try await self.client.execute(
+            operation: "UpdateEventBridgeRuleTemplateGroup", 
+            path: "/prod/eventbridge-rule-template-groups/{Identifier}", 
+            httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -975,6 +1326,82 @@ extension MediaLive {
             command: self.listChannels,
             inputKey: \ListChannelsRequest.nextToken,
             outputKey: \ListChannelsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists cloudwatch alarm template groups.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listCloudWatchAlarmTemplateGroupsPaginator(
+        _ input: ListCloudWatchAlarmTemplateGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCloudWatchAlarmTemplateGroupsRequest, ListCloudWatchAlarmTemplateGroupsResponse> {
+        return .init(
+            input: input,
+            command: self.listCloudWatchAlarmTemplateGroups,
+            inputKey: \ListCloudWatchAlarmTemplateGroupsRequest.nextToken,
+            outputKey: \ListCloudWatchAlarmTemplateGroupsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists cloudwatch alarm templates.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listCloudWatchAlarmTemplatesPaginator(
+        _ input: ListCloudWatchAlarmTemplatesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCloudWatchAlarmTemplatesRequest, ListCloudWatchAlarmTemplatesResponse> {
+        return .init(
+            input: input,
+            command: self.listCloudWatchAlarmTemplates,
+            inputKey: \ListCloudWatchAlarmTemplatesRequest.nextToken,
+            outputKey: \ListCloudWatchAlarmTemplatesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists eventbridge rule template groups.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listEventBridgeRuleTemplateGroupsPaginator(
+        _ input: ListEventBridgeRuleTemplateGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEventBridgeRuleTemplateGroupsRequest, ListEventBridgeRuleTemplateGroupsResponse> {
+        return .init(
+            input: input,
+            command: self.listEventBridgeRuleTemplateGroups,
+            inputKey: \ListEventBridgeRuleTemplateGroupsRequest.nextToken,
+            outputKey: \ListEventBridgeRuleTemplateGroupsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists eventbridge rule templates.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listEventBridgeRuleTemplatesPaginator(
+        _ input: ListEventBridgeRuleTemplatesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEventBridgeRuleTemplatesRequest, ListEventBridgeRuleTemplatesResponse> {
+        return .init(
+            input: input,
+            command: self.listEventBridgeRuleTemplates,
+            inputKey: \ListEventBridgeRuleTemplatesRequest.nextToken,
+            outputKey: \ListEventBridgeRuleTemplatesResponse.nextToken,
             logger: logger
         )
     }
@@ -1130,6 +1557,25 @@ extension MediaLive {
             logger: logger
         )
     }
+
+    /// Lists signal maps.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listSignalMapsPaginator(
+        _ input: ListSignalMapsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSignalMapsRequest, ListSignalMapsResponse> {
+        return .init(
+            input: input,
+            command: self.listSignalMaps,
+            inputKey: \ListSignalMapsRequest.nextToken,
+            outputKey: \ListSignalMapsResponse.nextToken,
+            logger: logger
+        )
+    }
 }
 
 extension MediaLive.DescribeScheduleRequest: AWSPaginateToken {
@@ -1147,6 +1593,50 @@ extension MediaLive.ListChannelsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension MediaLive.ListCloudWatchAlarmTemplateGroupsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListCloudWatchAlarmTemplateGroupsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            scope: self.scope,
+            signalMapIdentifier: self.signalMapIdentifier
+        )
+    }
+}
+
+extension MediaLive.ListCloudWatchAlarmTemplatesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListCloudWatchAlarmTemplatesRequest {
+        return .init(
+            groupIdentifier: self.groupIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            scope: self.scope,
+            signalMapIdentifier: self.signalMapIdentifier
+        )
+    }
+}
+
+extension MediaLive.ListEventBridgeRuleTemplateGroupsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListEventBridgeRuleTemplateGroupsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            signalMapIdentifier: self.signalMapIdentifier
+        )
+    }
+}
+
+extension MediaLive.ListEventBridgeRuleTemplatesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListEventBridgeRuleTemplatesRequest {
+        return .init(
+            groupIdentifier: self.groupIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            signalMapIdentifier: self.signalMapIdentifier
         )
     }
 }
@@ -1239,6 +1729,17 @@ extension MediaLive.ListReservationsRequest: AWSPaginateToken {
             resourceType: self.resourceType,
             specialFeature: self.specialFeature,
             videoQuality: self.videoQuality
+        )
+    }
+}
+
+extension MediaLive.ListSignalMapsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListSignalMapsRequest {
+        return .init(
+            cloudWatchAlarmTemplateGroupIdentifier: self.cloudWatchAlarmTemplateGroupIdentifier,
+            eventBridgeRuleTemplateGroupIdentifier: self.eventBridgeRuleTemplateGroupIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -1433,6 +1934,78 @@ extension MediaLive {
             ],
             minDelayTime: .seconds(5),
             command: self.describeMultiplex
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
+    public func waitUntilSignalMapCreated(
+        _ input: GetSignalMapRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "CREATE_COMPLETE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "CREATE_IN_PROGRESS")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "CREATE_FAILED")),
+            ],
+            minDelayTime: .seconds(5),
+            command: self.getSignalMap
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
+    public func waitUntilSignalMapMonitorDeleted(
+        _ input: GetSignalMapRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("monitorDeployment.status", expected: "DELETE_COMPLETE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("monitorDeployment.status", expected: "DELETE_IN_PROGRESS")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("monitorDeployment.status", expected: "DELETE_FAILED")),
+            ],
+            minDelayTime: .seconds(5),
+            command: self.getSignalMap
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
+    public func waitUntilSignalMapMonitorDeployed(
+        _ input: GetSignalMapRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("monitorDeployment.status", expected: "DRY_RUN_DEPLOYMENT_COMPLETE")),
+                .init(state: .success, matcher: try! JMESPathMatcher("monitorDeployment.status", expected: "DEPLOYMENT_COMPLETE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("monitorDeployment.status", expected: "DRY_RUN_DEPLOYMENT_IN_PROGRESS")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("monitorDeployment.status", expected: "DEPLOYMENT_IN_PROGRESS")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("monitorDeployment.status", expected: "DRY_RUN_DEPLOYMENT_FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("monitorDeployment.status", expected: "DEPLOYMENT_FAILED")),
+            ],
+            minDelayTime: .seconds(5),
+            command: self.getSignalMap
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
+    public func waitUntilSignalMapUpdated(
+        _ input: GetSignalMapRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "UPDATE_COMPLETE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "UPDATE_IN_PROGRESS")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "UPDATE_FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "UPDATE_REVERTED")),
+            ],
+            minDelayTime: .seconds(5),
+            command: self.getSignalMap
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }

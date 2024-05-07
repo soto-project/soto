@@ -300,7 +300,7 @@ public struct KMS: AWSService {
     }
 
     /// Disables automatic rotation of the key material of the specified symmetric encryption KMS key. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys, HMAC KMS keys, KMS keys with imported key material, or KMS keys in a custom key store. To enable or disable automatic rotation of a set of related multi-Region keys, set the property on the primary key. You can enable (EnableKeyRotation) and disable automatic rotation of the key material in customer managed KMS keys. Key material rotation of Amazon Web Services managed KMS keys is not configurable. KMS always rotates the key material for every year. Rotation of Amazon Web Services owned KMS keys varies.  In May 2022, KMS changed the rotation schedule for Amazon Web Services managed keys from every three years to every year. For details, see EnableKeyRotation.  The KMS key that you use for this operation must be in a compatible key state. For
-    /// details, see Key states of KMS keys in the Key Management Service Developer Guide.  Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.  Required permissions: kms:DisableKeyRotation (key policy)  Related operations:     EnableKeyRotation     GetKeyRotationStatus     Eventual consistency: The KMS API follows an eventual consistency model.  For more information, see KMS eventual consistency.
+    /// details, see Key states of KMS keys in the Key Management Service Developer Guide.  Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.  Required permissions: kms:DisableKeyRotation (key policy)  Related operations:     EnableKeyRotation     GetKeyRotationStatus     ListKeyRotations     RotateKeyOnDemand     Eventual consistency: The KMS API follows an eventual consistency model.  For more information, see KMS eventual consistency.
     @Sendable
     public func disableKeyRotation(_ input: DisableKeyRotationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -343,8 +343,8 @@ public struct KMS: AWSService {
         )
     }
 
-    /// Enables automatic rotation of the key material of the specified symmetric encryption KMS key.  When you enable automatic rotation of a customer managed KMS key, KMS rotates the key material of the KMS key one year (approximately 365 days) from the enable date and every year thereafter. You can monitor rotation of the key material for your KMS keys in CloudTrail and Amazon CloudWatch. To disable rotation of the key material in a customer managed KMS key, use the DisableKeyRotation operation. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys, HMAC KMS keys, KMS keys with imported key material, or KMS keys in a custom key store. To enable or disable automatic rotation of a set of related multi-Region keys, set the property on the primary key.  You cannot enable or disable automatic rotation Amazon Web Services managed KMS keys. KMS always rotates the key material of Amazon Web Services managed keys every year. Rotation of Amazon Web Services owned KMS keys varies.  In May 2022, KMS changed the rotation schedule for Amazon Web Services managed keys from every three years (approximately 1,095 days) to every year (approximately 365 days). New Amazon Web Services managed keys are automatically rotated one year after they are created, and approximately every year thereafter.  Existing Amazon Web Services managed keys are automatically rotated one year after their most recent rotation, and every year thereafter.  The KMS key that you use for this operation must be in a compatible key state. For
-    /// details, see Key states of KMS keys in the Key Management Service Developer Guide.  Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.  Required permissions: kms:EnableKeyRotation (key policy)  Related operations:     DisableKeyRotation     GetKeyRotationStatus     Eventual consistency: The KMS API follows an eventual consistency model.  For more information, see KMS eventual consistency.
+    /// Enables automatic rotation of the key material of the specified symmetric encryption KMS key.  By default, when you enable automatic rotation of a customer managed KMS key, KMS rotates the key material of the KMS key one year (approximately 365 days) from the enable date and every year thereafter. You can use the optional RotationPeriodInDays parameter to specify a custom rotation period when you enable key rotation, or you can use  RotationPeriodInDays to modify the rotation period of a key that you previously  enabled automatic key rotation on. You can monitor rotation of the key material for your KMS keys in CloudTrail and Amazon CloudWatch. To disable rotation of the key material in a customer managed KMS key, use the DisableKeyRotation operation. You can use the GetKeyRotationStatus operation to identify any in progress  rotations. You can use the ListKeyRotations operation to view the details of completed rotations. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys, HMAC KMS keys, KMS keys with imported key material, or KMS keys in a custom key store. To enable or disable automatic rotation of a set of related multi-Region keys, set the property on the primary key.  You cannot enable or disable automatic rotation of Amazon Web Services managed KMS keys. KMS always rotates the key material of Amazon Web Services managed keys every year. Rotation of Amazon Web Services owned KMS keys is managed by the Amazon Web Services service that owns the key.  In May 2022, KMS changed the rotation schedule for Amazon Web Services managed keys from every three years (approximately 1,095 days) to every year (approximately 365 days). New Amazon Web Services managed keys are automatically rotated one year after they are created, and approximately every year thereafter.  Existing Amazon Web Services managed keys are automatically rotated one year after their most recent rotation, and every year thereafter.  The KMS key that you use for this operation must be in a compatible key state. For
+    /// details, see Key states of KMS keys in the Key Management Service Developer Guide.  Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.  Required permissions: kms:EnableKeyRotation (key policy)  Related operations:     DisableKeyRotation     GetKeyRotationStatus     ListKeyRotations     RotateKeyOnDemand   You can perform on-demand (RotateKeyOnDemand) rotation of the  key material in customer managed KMS keys, regardless of whether or not automatic key rotation is enabled.     Eventual consistency: The KMS API follows an eventual consistency model.  For more information, see KMS eventual consistency.
     @Sendable
     public func enableKeyRotation(_ input: EnableKeyRotationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -467,8 +467,8 @@ public struct KMS: AWSService {
         )
     }
 
-    /// Gets a Boolean value that indicates whether automatic rotation of the key material is enabled for the specified KMS key. When you enable automatic rotation for customer managed KMS keys, KMS rotates the key material of the KMS key one year (approximately 365 days) from the enable date and every year thereafter. You can monitor rotation of the key material for your KMS keys in CloudTrail and Amazon CloudWatch. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys, HMAC KMS keys, KMS keys with imported key material, or KMS keys in a custom key store. To enable or disable automatic rotation of a set of related multi-Region keys, set the property on the primary key.. You can enable (EnableKeyRotation) and disable automatic rotation (DisableKeyRotation) of the key material in customer managed KMS keys. Key material rotation of Amazon Web Services managed KMS keys is not configurable. KMS always rotates the key material in Amazon Web Services managed KMS keys every year. The key rotation status for Amazon Web Services managed KMS keys is always true.  In May 2022, KMS changed the rotation schedule for Amazon Web Services managed keys from every three years to every year. For details, see EnableKeyRotation.  The KMS key that you use for this operation must be in a compatible key state. For
-    /// details, see Key states of KMS keys in the Key Management Service Developer Guide.   Disabled: The key rotation status does not change when you disable a KMS key. However, while the KMS key is disabled, KMS does not rotate the key material. When you re-enable the KMS key, rotation resumes. If the key material in the re-enabled KMS key hasn't been rotated in one year, KMS rotates it immediately, and every year thereafter. If it's been less than a year since the key material in the re-enabled KMS key was rotated, the KMS key resumes its prior rotation schedule.   Pending deletion: While a KMS key is pending deletion, its key rotation status is false and KMS does not rotate the key material. If you cancel the deletion, the original key rotation status returns to true.    Cross-account use: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key ARN in the value of the KeyId parameter.  Required permissions: kms:GetKeyRotationStatus (key policy)  Related operations:     DisableKeyRotation     EnableKeyRotation     Eventual consistency: The KMS API follows an eventual consistency model.  For more information, see KMS eventual consistency.
+    /// Provides detailed information about the rotation status for a KMS key, including  whether automatic rotation of the key material is enabled for the specified KMS key, the rotation period, and the next scheduled rotation date. Automatic key rotation is supported only on symmetric encryption KMS keys. You cannot enable automatic rotation of asymmetric KMS keys, HMAC KMS keys, KMS keys with imported key material, or KMS keys in a custom key store. To enable or disable automatic rotation of a set of related multi-Region keys, set the property on the primary key.. You can enable (EnableKeyRotation) and disable automatic rotation (DisableKeyRotation) of the key material in customer managed KMS keys. Key material rotation of Amazon Web Services managed KMS keys is not configurable. KMS always rotates the key material in Amazon Web Services managed KMS keys every year. The key rotation status for Amazon Web Services managed KMS keys is always true. You can perform on-demand (RotateKeyOnDemand) rotation of the  key material in customer managed KMS keys, regardless of whether or not automatic key rotation is enabled.  You can use GetKeyRotationStatus to identify the date and time that an in progress on-demand rotation was initiated. You can use ListKeyRotations to view the details of completed rotations.  In May 2022, KMS changed the rotation schedule for Amazon Web Services managed keys from every three years to every year. For details, see EnableKeyRotation.  The KMS key that you use for this operation must be in a compatible key state. For
+    /// details, see Key states of KMS keys in the Key Management Service Developer Guide.   Disabled: The key rotation status does not change when you disable a KMS key. However, while the KMS key is disabled, KMS does not rotate the key material. When you re-enable the KMS key, rotation resumes. If the key material in the re-enabled KMS key hasn't been rotated in one year, KMS rotates it immediately, and every year thereafter. If it's been less than a year since the key material in the re-enabled KMS key was rotated, the KMS key resumes its prior rotation schedule.   Pending deletion: While a KMS key is pending deletion, its key rotation status is false and KMS does not rotate the key material. If you cancel the deletion, the original key rotation status returns to true.    Cross-account use: Yes. To perform this operation on a KMS key in a different Amazon Web Services account, specify the key ARN in the value of the KeyId parameter.  Required permissions: kms:GetKeyRotationStatus (key policy)  Related operations:     DisableKeyRotation     EnableKeyRotation     ListKeyRotations     RotateKeyOnDemand     Eventual consistency: The KMS API follows an eventual consistency model.  For more information, see KMS eventual consistency.
     @Sendable
     public func getKeyRotationStatus(_ input: GetKeyRotationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKeyRotationStatusResponse {
         return try await self.client.execute(
@@ -554,6 +554,19 @@ public struct KMS: AWSService {
     public func listKeyPolicies(_ input: ListKeyPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKeyPoliciesResponse {
         return try await self.client.execute(
             operation: "ListKeyPolicies", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns information about all completed key material rotations for the specified KMS key. You must specify the KMS key in all requests. You can refine the key rotations list by limiting the number of rotations returned. For detailed information about automatic and on-demand key rotations, see Rotating KMS keys in the Key Management Service Developer Guide.  Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.  Required permissions: kms:ListKeyRotations (key policy)  Related operations:     EnableKeyRotation     DisableKeyRotation     GetKeyRotationStatus     RotateKeyOnDemand     Eventual consistency: The KMS API follows an eventual consistency model.  For more information, see KMS eventual consistency.
+    @Sendable
+    public func listKeyRotations(_ input: ListKeyRotationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKeyRotationsResponse {
+        return try await self.client.execute(
+            operation: "ListKeyRotations", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -659,6 +672,20 @@ public struct KMS: AWSService {
     public func revokeGrant(_ input: RevokeGrantRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
             operation: "RevokeGrant", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Immediately initiates rotation of the key material of the specified symmetric encryption KMS key. You can perform on-demand rotation of the key material in customer managed KMS keys,  regardless of whether or not automatic key rotation is enabled. On-demand rotations do not change existing automatic rotation schedules. For example, consider a KMS key that has automatic key rotation enabled with a rotation period of 730 days. If the key is scheduled to  automatically rotate on April 14, 2024, and you perform an on-demand rotation on April 10, 2024, the key will automatically rotate, as scheduled, on April 14, 2024 and every 730 days thereafter.  You can perform on-demand key rotation a maximum of 10 times per KMS key. You can use the KMS console  to view the number of remaining on-demand rotations available for a KMS key.  You can use GetKeyRotationStatus to identify any in progress  on-demand rotations. You can use ListKeyRotations to identify the date that completed on-demand rotations were performed. You can monitor rotation of the key material  for your KMS keys in CloudTrail and Amazon CloudWatch. On-demand key rotation is supported only on symmetric encryption KMS keys. You cannot perform on-demand rotation of asymmetric KMS keys, HMAC KMS keys,  KMS keys with imported key material, or KMS keys in a custom key store. To perform on-demand rotation of a set of related multi-Region keys, invoke the on-demand rotation on the primary key. You cannot initiate on-demand rotation of Amazon Web Services managed KMS keys. KMS always rotates the key material of Amazon Web Services managed keys every year. Rotation of Amazon Web Services owned KMS keys is managed by the Amazon Web Services service that owns the key. The KMS key that you use for this operation must be in a compatible key state. For
+    /// details, see Key states of KMS keys in the Key Management Service Developer Guide.  Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.  Required permissions: kms:RotateKeyOnDemand (key policy)  Related operations:     EnableKeyRotation     DisableKeyRotation     GetKeyRotationStatus     ListKeyRotations     Eventual consistency: The KMS API follows an eventual consistency model.  For more information, see KMS eventual consistency.
+    @Sendable
+    public func rotateKeyOnDemand(_ input: RotateKeyOnDemandRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RotateKeyOnDemandResponse {
+        return try await self.client.execute(
+            operation: "RotateKeyOnDemand", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -900,6 +927,25 @@ extension KMS {
         )
     }
 
+    /// Returns information about all completed key material rotations for the specified KMS key. You must specify the KMS key in all requests. You can refine the key rotations list by limiting the number of rotations returned. For detailed information about automatic and on-demand key rotations, see Rotating KMS keys in the Key Management Service Developer Guide.  Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.  Required permissions: kms:ListKeyRotations (key policy)  Related operations:     EnableKeyRotation     DisableKeyRotation     GetKeyRotationStatus     RotateKeyOnDemand     Eventual consistency: The KMS API follows an eventual consistency model.  For more information, see KMS eventual consistency.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listKeyRotationsPaginator(
+        _ input: ListKeyRotationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListKeyRotationsRequest, ListKeyRotationsResponse> {
+        return .init(
+            input: input,
+            command: self.listKeyRotations,
+            inputKey: \ListKeyRotationsRequest.marker,
+            outputKey: \ListKeyRotationsResponse.nextMarker,
+            logger: logger
+        )
+    }
+
     /// Gets a list of all KMS keys in the caller's Amazon Web Services account and Region.  Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account.  Required permissions: kms:ListKeys (IAM policy)  Related operations:     CreateKey     DescribeKey     ListAliases     ListResourceTags     Eventual consistency: The KMS API follows an eventual consistency model.  For more information, see KMS eventual consistency.
     /// Return PaginatorSequence for operation.
     ///
@@ -993,6 +1039,16 @@ extension KMS.ListGrantsRequest: AWSPaginateToken {
 
 extension KMS.ListKeyPoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> KMS.ListKeyPoliciesRequest {
+        return .init(
+            keyId: self.keyId,
+            limit: self.limit,
+            marker: token
+        )
+    }
+}
+
+extension KMS.ListKeyRotationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> KMS.ListKeyRotationsRequest {
         return .init(
             keyId: self.keyId,
             limit: self.limit,

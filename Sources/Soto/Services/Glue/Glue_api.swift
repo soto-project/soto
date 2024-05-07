@@ -1797,7 +1797,7 @@ public struct Glue: AWSService {
         )
     }
 
-    /// Retrieves table metadata from the Data Catalog that contains unfiltered  metadata. For IAM authorization, the public IAM action associated with this API is glue:GetTable.
+    /// Allows a third-party analytical engine to retrieve unfiltered table metadata from the Data Catalog. For IAM authorization, the public IAM action associated with this API is glue:GetTable.
     @Sendable
     public func getUnfilteredTableMetadata(_ input: GetUnfilteredTableMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUnfilteredTableMetadataResponse {
         return try await self.client.execute(

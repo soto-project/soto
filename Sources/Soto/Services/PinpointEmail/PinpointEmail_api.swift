@@ -78,6 +78,7 @@ public struct PinpointEmail: AWSService {
             "ca-central-1": "email-fips.ca-central-1.amazonaws.com",
             "us-east-1": "email-fips.us-east-1.amazonaws.com",
             "us-east-2": "email-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "email-fips.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "email-fips.us-gov-west-1.amazonaws.com",
             "us-west-1": "email-fips.us-west-1.amazonaws.com",
             "us-west-2": "email-fips.us-west-2.amazonaws.com"

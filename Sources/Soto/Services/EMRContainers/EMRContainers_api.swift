@@ -123,6 +123,19 @@ public struct EMRContainers: AWSService {
         )
     }
 
+    /// Creates a security configuration. Security configurations in Amazon EMR on EKS are templates for different security setups. You can use security configurations to configure the Lake Formation integration setup. You can also create a security configuration to re-use a security setup each time you create a virtual cluster.
+    @Sendable
+    public func createSecurityConfiguration(_ input: CreateSecurityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSecurityConfigurationResponse {
+        return try await self.client.execute(
+            operation: "CreateSecurityConfiguration", 
+            path: "/securityconfigurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     @Sendable
     public func createVirtualCluster(_ input: CreateVirtualClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVirtualClusterResponse {
@@ -214,6 +227,19 @@ public struct EMRContainers: AWSService {
         )
     }
 
+    /// Displays detailed information about a specified security configuration. Security configurations in Amazon EMR on EKS are templates for different security setups. You can use security configurations to configure the Lake Formation integration setup. You can also create a security configuration to re-use a security setup each time you create a virtual cluster.
+    @Sendable
+    public func describeSecurityConfiguration(_ input: DescribeSecurityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSecurityConfigurationResponse {
+        return try await self.client.execute(
+            operation: "DescribeSecurityConfiguration", 
+            path: "/securityconfigurations/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Displays detailed information about a specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     @Sendable
     public func describeVirtualCluster(_ input: DescribeVirtualClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVirtualClusterResponse {
@@ -272,6 +298,19 @@ public struct EMRContainers: AWSService {
         return try await self.client.execute(
             operation: "ListManagedEndpoints", 
             path: "/virtualclusters/{virtualClusterId}/endpoints", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists security configurations based on a set of parameters. Security configurations in Amazon EMR on EKS are templates for different security setups. You can use security configurations to configure the Lake Formation integration setup. You can also create a security configuration to re-use a security setup each time you create a virtual cluster.
+    @Sendable
+    public func listSecurityConfigurations(_ input: ListSecurityConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityConfigurationsResponse {
+        return try await self.client.execute(
+            operation: "ListSecurityConfigurations", 
+            path: "/securityconfigurations", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -415,6 +454,25 @@ extension EMRContainers {
         )
     }
 
+    /// Lists security configurations based on a set of parameters. Security configurations in Amazon EMR on EKS are templates for different security setups. You can use security configurations to configure the Lake Formation integration setup. You can also create a security configuration to re-use a security setup each time you create a virtual cluster.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listSecurityConfigurationsPaginator(
+        _ input: ListSecurityConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSecurityConfigurationsRequest, ListSecurityConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listSecurityConfigurations,
+            inputKey: \ListSecurityConfigurationsRequest.nextToken,
+            outputKey: \ListSecurityConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     /// Return PaginatorSequence for operation.
     ///
@@ -470,6 +528,17 @@ extension EMRContainers.ListManagedEndpointsRequest: AWSPaginateToken {
             states: self.states,
             types: self.types,
             virtualClusterId: self.virtualClusterId
+        )
+    }
+}
+
+extension EMRContainers.ListSecurityConfigurationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EMRContainers.ListSecurityConfigurationsRequest {
+        return .init(
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

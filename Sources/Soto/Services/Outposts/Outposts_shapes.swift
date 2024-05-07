@@ -44,6 +44,20 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
+    public enum CapacityTaskFailureType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case unsupportedCapacityConfiguration = "UNSUPPORTED_CAPACITY_CONFIGURATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapacityTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case requested = "REQUESTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CatalogItemClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rack = "RACK"
         case server = "SERVER"
@@ -172,6 +186,7 @@ extension Outposts {
     public enum ShipmentCarrier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dbs = "DBS"
         case dhl = "DHL"
+        case expeditors = "EXPEDITORS"
         case fedex = "FEDEX"
         case ups = "UPS"
         public var description: String { return self.rawValue }
@@ -341,6 +356,40 @@ extension Outposts {
         }
     }
 
+    public struct CancelCapacityTaskInput: AWSEncodableShape {
+        /// ID of the capacity task that you want to cancel.
+        public let capacityTaskId: String
+        /// ID or ARN of the Outpost associated with the capacity task that you want to cancel.
+        public let outpostIdentifier: String
+
+        public init(capacityTaskId: String, outpostIdentifier: String) {
+            self.capacityTaskId = capacityTaskId
+            self.outpostIdentifier = outpostIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.capacityTaskId, key: "CapacityTaskId")
+            request.encodePath(self.outpostIdentifier, key: "OutpostIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.capacityTaskId, name: "capacityTaskId", parent: name, max: 21)
+            try self.validate(self.capacityTaskId, name: "capacityTaskId", parent: name, min: 21)
+            try self.validate(self.capacityTaskId, name: "capacityTaskId", parent: name, pattern: "^cap-[a-f0-9]{17}$")
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, min: 1)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelCapacityTaskOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct CancelOrderInput: AWSEncodableShape {
         ///  The ID of the order.
         public let orderId: String
@@ -366,6 +415,60 @@ extension Outposts {
 
     public struct CancelOrderOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct CapacityTaskFailure: AWSDecodableShape {
+        /// The reason that the specified capacity task failed.
+        public let reason: String
+        /// The type of failure.
+        public let type: CapacityTaskFailureType?
+
+        public init(reason: String, type: CapacityTaskFailureType? = nil) {
+            self.reason = reason
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "Reason"
+            case type = "Type"
+        }
+    }
+
+    public struct CapacityTaskSummary: AWSDecodableShape {
+        /// The ID of the specified capacity task.
+        public let capacityTaskId: String?
+        /// The status of the capacity task.
+        public let capacityTaskStatus: CapacityTaskStatus?
+        /// The date that the specified capacity task successfully ran.
+        public let completionDate: Date?
+        /// The date that the specified capacity task was created.
+        public let creationDate: Date?
+        /// The date that the specified capacity was last modified.
+        public let lastModifiedDate: Date?
+        /// The ID of the Amazon Web Services Outposts order of the host associated with the capacity task.
+        public let orderId: String?
+        /// The ID of the Outpost associated with the specified capacity task.
+        public let outpostId: String?
+
+        public init(capacityTaskId: String? = nil, capacityTaskStatus: CapacityTaskStatus? = nil, completionDate: Date? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, orderId: String? = nil, outpostId: String? = nil) {
+            self.capacityTaskId = capacityTaskId
+            self.capacityTaskStatus = capacityTaskStatus
+            self.completionDate = completionDate
+            self.creationDate = creationDate
+            self.lastModifiedDate = lastModifiedDate
+            self.orderId = orderId
+            self.outpostId = outpostId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityTaskId = "CapacityTaskId"
+            case capacityTaskStatus = "CapacityTaskStatus"
+            case completionDate = "CompletionDate"
+            case creationDate = "CreationDate"
+            case lastModifiedDate = "LastModifiedDate"
+            case orderId = "OrderId"
+            case outpostId = "OutpostId"
+        }
     }
 
     public struct CatalogItem: AWSDecodableShape {
@@ -650,7 +753,7 @@ extension Outposts {
     }
 
     public struct DeleteOutpostInput: AWSEncodableShape {
-        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
+        ///  The ID or ARN of the Outpost.
         public let outpostId: String
 
         public init(outpostId: String) {
@@ -721,6 +824,85 @@ extension Outposts {
             case family = "Family"
             case maxSize = "MaxSize"
             case quantity = "Quantity"
+        }
+    }
+
+    public struct GetCapacityTaskInput: AWSEncodableShape {
+        /// ID of the capacity task.
+        public let capacityTaskId: String
+        /// ID or ARN of the Outpost associated with the specified capacity task.
+        public let outpostIdentifier: String
+
+        public init(capacityTaskId: String, outpostIdentifier: String) {
+            self.capacityTaskId = capacityTaskId
+            self.outpostIdentifier = outpostIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.capacityTaskId, key: "CapacityTaskId")
+            request.encodePath(self.outpostIdentifier, key: "OutpostIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.capacityTaskId, name: "capacityTaskId", parent: name, max: 21)
+            try self.validate(self.capacityTaskId, name: "capacityTaskId", parent: name, min: 21)
+            try self.validate(self.capacityTaskId, name: "capacityTaskId", parent: name, pattern: "^cap-[a-f0-9]{17}$")
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, min: 1)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCapacityTaskOutput: AWSDecodableShape {
+        /// ID of the capacity task.
+        public let capacityTaskId: String?
+        /// Status of the capacity task. A capacity task can have one of the following statuses:    REQUESTED - The capacity task was created and is awaiting the next step by Amazon Web Services Outposts.    IN_PROGRESS - The capacity task is running and cannot be cancelled.    WAITING_FOR_EVACUATION - The capacity task requires capacity to run. You must stop the recommended EC2 running instances to free up capacity for the task to run.
+        public let capacityTaskStatus: CapacityTaskStatus?
+        /// The date the capacity task ran successfully.
+        public let completionDate: Date?
+        /// The date the capacity task was created.
+        public let creationDate: Date?
+        /// Performs a dry run to determine if you are above or below instance capacity.
+        public let dryRun: Bool?
+        /// Reason why the capacity task failed.
+        public let failed: CapacityTaskFailure?
+        /// The date the capacity task was last modified.
+        public let lastModifiedDate: Date?
+        /// ID of the Amazon Web Services Outposts order associated with the specified capacity task.
+        public let orderId: String?
+        /// ID of the Outpost associated with the specified capacity task.
+        public let outpostId: String?
+        /// List of instance pools requested in the capacity task.
+        public let requestedInstancePools: [InstanceTypeCapacity]?
+
+        public init(capacityTaskId: String? = nil, capacityTaskStatus: CapacityTaskStatus? = nil, completionDate: Date? = nil, creationDate: Date? = nil, dryRun: Bool? = nil, failed: CapacityTaskFailure? = nil, lastModifiedDate: Date? = nil, orderId: String? = nil, outpostId: String? = nil, requestedInstancePools: [InstanceTypeCapacity]? = nil) {
+            self.capacityTaskId = capacityTaskId
+            self.capacityTaskStatus = capacityTaskStatus
+            self.completionDate = completionDate
+            self.creationDate = creationDate
+            self.dryRun = dryRun
+            self.failed = failed
+            self.lastModifiedDate = lastModifiedDate
+            self.orderId = orderId
+            self.outpostId = outpostId
+            self.requestedInstancePools = requestedInstancePools
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityTaskId = "CapacityTaskId"
+            case capacityTaskStatus = "CapacityTaskStatus"
+            case completionDate = "CompletionDate"
+            case creationDate = "CreationDate"
+            case dryRun = "DryRun"
+            case failed = "Failed"
+            case lastModifiedDate = "LastModifiedDate"
+            case orderId = "OrderId"
+            case outpostId = "OutpostId"
+            case requestedInstancePools = "RequestedInstancePools"
         }
     }
 
@@ -836,7 +1018,7 @@ extension Outposts {
     }
 
     public struct GetOutpostInput: AWSEncodableShape {
-        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
+        ///  The ID or ARN of the Outpost.
         public let outpostId: String
 
         public init(outpostId: String) {
@@ -861,7 +1043,7 @@ extension Outposts {
     public struct GetOutpostInstanceTypesInput: AWSEncodableShape {
         public let maxResults: Int?
         public let nextToken: String?
-        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
+        ///  The ID or ARN of the Outpost.
         public let outpostId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, outpostId: String) {
@@ -923,6 +1105,62 @@ extension Outposts {
 
         private enum CodingKeys: String, CodingKey {
             case outpost = "Outpost"
+        }
+    }
+
+    public struct GetOutpostSupportedInstanceTypesInput: AWSEncodableShape {
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// The ID for the Amazon Web Services Outposts order.
+        public let orderId: String
+        /// The ID or ARN of the Outpost.
+        public let outpostIdentifier: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, orderId: String, outpostIdentifier: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.orderId = orderId
+            self.outpostIdentifier = outpostIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.orderId, key: "OrderId")
+            request.encodePath(self.outpostIdentifier, key: "OutpostIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
+            try self.validate(self.orderId, name: "orderId", parent: name, max: 20)
+            try self.validate(self.orderId, name: "orderId", parent: name, min: 1)
+            try self.validate(self.orderId, name: "orderId", parent: name, pattern: "^oo-[a-f0-9]{17}$")
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, min: 1)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetOutpostSupportedInstanceTypesOutput: AWSDecodableShape {
+        public let instanceTypes: [InstanceTypeItem]?
+        public let nextToken: String?
+
+        public init(instanceTypes: [InstanceTypeItem]? = nil, nextToken: String? = nil) {
+            self.instanceTypes = instanceTypes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceTypes = "InstanceTypes"
+            case nextToken = "NextToken"
         }
     }
 
@@ -1005,6 +1243,31 @@ extension Outposts {
 
         private enum CodingKeys: String, CodingKey {
             case site = "Site"
+        }
+    }
+
+    public struct InstanceTypeCapacity: AWSEncodableShape & AWSDecodableShape {
+        /// The number of instances for the specified instance type.
+        public let count: Int
+        /// The instance type of the hosts.
+        public let instanceType: String
+
+        public init(count: Int, instanceType: String) {
+            self.count = count
+            self.instanceType = instanceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.count, name: "count", parent: name, max: 9999)
+            try self.validate(self.count, name: "count", parent: name, min: 0)
+            try self.validate(self.instanceType, name: "instanceType", parent: name, max: 64)
+            try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
+            try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "^[a-z0-9\\-]+\\.[a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
+            case instanceType = "InstanceType"
         }
     }
 
@@ -1163,6 +1426,60 @@ extension Outposts {
 
         private enum CodingKeys: String, CodingKey {
             case assets = "Assets"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCapacityTasksInput: AWSEncodableShape {
+        /// A list of statuses. For example, REQUESTED or WAITING_FOR_EVACUATION.
+        public let capacityTaskStatusFilter: [CapacityTaskStatus]?
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// Filters the results by an Outpost ID or an Outpost ARN.
+        public let outpostIdentifierFilter: String?
+
+        public init(capacityTaskStatusFilter: [CapacityTaskStatus]? = nil, maxResults: Int? = nil, nextToken: String? = nil, outpostIdentifierFilter: String? = nil) {
+            self.capacityTaskStatusFilter = capacityTaskStatusFilter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.outpostIdentifierFilter = outpostIdentifierFilter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.capacityTaskStatusFilter, key: "CapacityTaskStatusFilter")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.outpostIdentifierFilter, key: "OutpostIdentifierFilter")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
+            try self.validate(self.outpostIdentifierFilter, name: "outpostIdentifierFilter", parent: name, max: 180)
+            try self.validate(self.outpostIdentifierFilter, name: "outpostIdentifierFilter", parent: name, min: 1)
+            try self.validate(self.outpostIdentifierFilter, name: "outpostIdentifierFilter", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCapacityTasksOutput: AWSDecodableShape {
+        /// Lists all the capacity tasks.
+        public let capacityTasks: [CapacityTaskSummary]?
+        public let nextToken: String?
+
+        public init(capacityTasks: [CapacityTaskSummary]? = nil, nextToken: String? = nil) {
+            self.capacityTasks = capacityTasks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityTasks = "CapacityTasks"
             case nextToken = "NextToken"
         }
     }
@@ -1696,6 +2013,100 @@ extension Outposts {
         }
     }
 
+    public struct StartCapacityTaskInput: AWSEncodableShape {
+        /// You can request a dry run to determine if the instance type and instance size changes is above or below available instance capacity. Requesting a dry run does not make any changes to your plan.
+        public let dryRun: Bool?
+        /// The instance pools specified in the capacity task.
+        public let instancePools: [InstanceTypeCapacity]
+        /// The ID of the Amazon Web Services Outposts order associated with the specified capacity task.
+        public let orderId: String
+        /// The ID or ARN of the Outposts associated with the specified capacity task.
+        public let outpostIdentifier: String
+
+        public init(dryRun: Bool? = nil, instancePools: [InstanceTypeCapacity], orderId: String, outpostIdentifier: String) {
+            self.dryRun = dryRun
+            self.instancePools = instancePools
+            self.orderId = orderId
+            self.outpostIdentifier = outpostIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dryRun, forKey: .dryRun)
+            try container.encode(self.instancePools, forKey: .instancePools)
+            try container.encode(self.orderId, forKey: .orderId)
+            request.encodePath(self.outpostIdentifier, key: "OutpostIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.instancePools.forEach {
+                try $0.validate(name: "\(name).instancePools[]")
+            }
+            try self.validate(self.orderId, name: "orderId", parent: name, max: 20)
+            try self.validate(self.orderId, name: "orderId", parent: name, min: 1)
+            try self.validate(self.orderId, name: "orderId", parent: name, pattern: "^oo-[a-f0-9]{17}$")
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, min: 1)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case instancePools = "InstancePools"
+            case orderId = "OrderId"
+        }
+    }
+
+    public struct StartCapacityTaskOutput: AWSDecodableShape {
+        /// ID of the capacity task that you want to start.
+        public let capacityTaskId: String?
+        /// Status of the specified capacity task.
+        public let capacityTaskStatus: CapacityTaskStatus?
+        /// Date that the specified capacity task ran successfully.
+        public let completionDate: Date?
+        /// Date that the specified capacity task was created.
+        public let creationDate: Date?
+        /// Results of the dry run showing if the specified capacity task is above or below the available instance capacity.
+        public let dryRun: Bool?
+        /// Reason that the specified capacity task failed.
+        public let failed: CapacityTaskFailure?
+        /// Date that the specified capacity task was last modified.
+        public let lastModifiedDate: Date?
+        /// ID of the Amazon Web Services Outposts order of the host associated with the capacity task.
+        public let orderId: String?
+        /// ID of the Outpost associated with the capacity task.
+        public let outpostId: String?
+        /// List of the instance pools requested in the specified capacity task.
+        public let requestedInstancePools: [InstanceTypeCapacity]?
+
+        public init(capacityTaskId: String? = nil, capacityTaskStatus: CapacityTaskStatus? = nil, completionDate: Date? = nil, creationDate: Date? = nil, dryRun: Bool? = nil, failed: CapacityTaskFailure? = nil, lastModifiedDate: Date? = nil, orderId: String? = nil, outpostId: String? = nil, requestedInstancePools: [InstanceTypeCapacity]? = nil) {
+            self.capacityTaskId = capacityTaskId
+            self.capacityTaskStatus = capacityTaskStatus
+            self.completionDate = completionDate
+            self.creationDate = creationDate
+            self.dryRun = dryRun
+            self.failed = failed
+            self.lastModifiedDate = lastModifiedDate
+            self.orderId = orderId
+            self.outpostId = outpostId
+            self.requestedInstancePools = requestedInstancePools
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityTaskId = "CapacityTaskId"
+            case capacityTaskStatus = "CapacityTaskStatus"
+            case completionDate = "CompletionDate"
+            case creationDate = "CreationDate"
+            case dryRun = "DryRun"
+            case failed = "Failed"
+            case lastModifiedDate = "LastModifiedDate"
+            case orderId = "OrderId"
+            case outpostId = "OutpostId"
+            case requestedInstancePools = "RequestedInstancePools"
+        }
+    }
+
     public struct StartConnectionRequest: AWSEncodableShape {
         ///  The ID of the Outpost server.
         public let assetId: String
@@ -1833,7 +2244,7 @@ extension Outposts {
     public struct UpdateOutpostInput: AWSEncodableShape {
         public let description: String?
         public let name: String?
-        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
+        ///  The ID or ARN of the Outpost.
         public let outpostId: String
         ///  The type of hardware for this Outpost.
         public let supportedHardwareType: SupportedHardwareType?

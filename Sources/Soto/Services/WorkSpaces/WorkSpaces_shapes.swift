@@ -32,6 +32,15 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum AccountLinkStatusEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case linkNotFound = "LINK_NOT_FOUND"
+        case linked = "LINKED"
+        case linkingFailed = "LINKING_FAILED"
+        case pendingAcceptanceByTargetAccount = "PENDING_ACCEPTANCE_BY_TARGET_ACCOUNT"
+        case rejected = "REJECTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Application: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case microsoftOffice2016 = "Microsoft_Office_2016"
         case microsoftOffice2019 = "Microsoft_Office_2019"
@@ -133,6 +142,12 @@ extension WorkSpaces {
     public enum DataReplication: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noReplication = "NO_REPLICATION"
         case primaryAsSource = "PRIMARY_AS_SOURCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DedicatedTenancyAccountType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sourceAccount = "SOURCE_ACCOUNT"
+        case targetAccount = "TARGET_ACCOUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -377,6 +392,66 @@ extension WorkSpaces {
     }
 
     // MARK: Shapes
+
+    public struct AcceptAccountLinkInvitationRequest: AWSEncodableShape {
+        /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
+        public let clientToken: String?
+        /// The identifier of the account link.
+        public let linkId: String
+
+        public init(clientToken: String? = nil, linkId: String) {
+            self.clientToken = clientToken
+            self.linkId = linkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^.{1,64}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-.{8,24}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case linkId = "LinkId"
+        }
+    }
+
+    public struct AcceptAccountLinkInvitationResult: AWSDecodableShape {
+        /// Information about the account link.
+        public let accountLink: AccountLink?
+
+        public init(accountLink: AccountLink? = nil) {
+            self.accountLink = accountLink
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountLink = "AccountLink"
+        }
+    }
+
+    public struct AccountLink: AWSDecodableShape {
+        /// The identifier of the account link.
+        public let accountLinkId: String?
+        /// The status of the account link.
+        public let accountLinkStatus: AccountLinkStatusEnum?
+        /// The identifier of the source account.
+        public let sourceAccountId: String?
+        /// The identifier of the target account.
+        public let targetAccountId: String?
+
+        public init(accountLinkId: String? = nil, accountLinkStatus: AccountLinkStatusEnum? = nil, sourceAccountId: String? = nil, targetAccountId: String? = nil) {
+            self.accountLinkId = accountLinkId
+            self.accountLinkStatus = accountLinkStatus
+            self.sourceAccountId = sourceAccountId
+            self.targetAccountId = targetAccountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountLinkId = "AccountLinkId"
+            case accountLinkStatus = "AccountLinkStatus"
+            case sourceAccountId = "SourceAccountId"
+            case targetAccountId = "TargetAccountId"
+        }
+    }
 
     public struct AccountModification: AWSDecodableShape {
         /// The IP address range, specified as an IPv4 CIDR block, for the management network interface used for the account.
@@ -854,6 +929,41 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case imageId = "ImageId"
+        }
+    }
+
+    public struct CreateAccountLinkInvitationRequest: AWSEncodableShape {
+        /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
+        public let clientToken: String?
+        /// The identifier of the target account.
+        public let targetAccountId: String
+
+        public init(clientToken: String? = nil, targetAccountId: String) {
+            self.clientToken = clientToken
+            self.targetAccountId = targetAccountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^.{1,64}$")
+            try self.validate(self.targetAccountId, name: "targetAccountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case targetAccountId = "TargetAccountId"
+        }
+    }
+
+    public struct CreateAccountLinkInvitationResult: AWSDecodableShape {
+        /// Information about the account link.
+        public let accountLink: AccountLink?
+
+        public init(accountLink: AccountLink? = nil) {
+            self.accountLink = accountLink
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountLink = "AccountLink"
         }
     }
 
@@ -1415,6 +1525,41 @@ extension WorkSpaces {
         }
     }
 
+    public struct DeleteAccountLinkInvitationRequest: AWSEncodableShape {
+        /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
+        public let clientToken: String?
+        /// The identifier of the account link.
+        public let linkId: String
+
+        public init(clientToken: String? = nil, linkId: String) {
+            self.clientToken = clientToken
+            self.linkId = linkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^.{1,64}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-.{8,24}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case linkId = "LinkId"
+        }
+    }
+
+    public struct DeleteAccountLinkInvitationResult: AWSDecodableShape {
+        /// Information about the account link.
+        public let accountLink: AccountLink?
+
+        public init(accountLink: AccountLink? = nil) {
+            self.accountLink = accountLink
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountLink = "AccountLink"
+        }
+    }
+
     public struct DeleteClientBrandingRequest: AWSEncodableShape {
         /// The device type for which you want to delete client branding.
         public let platforms: [ClientDeviceType]
@@ -1685,17 +1830,21 @@ extension WorkSpaces {
     }
 
     public struct DescribeAccountResult: AWSDecodableShape {
+        /// The type of linked account.
+        public let dedicatedTenancyAccountType: DedicatedTenancyAccountType?
         /// The IP address range, specified as an IPv4 CIDR block, used for the management network interface. The management network interface is connected to a secure Amazon WorkSpaces management network. It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
         public let dedicatedTenancyManagementCidrRange: String?
         /// The status of BYOL (whether BYOL is enabled or disabled).
         public let dedicatedTenancySupport: DedicatedTenancySupportResultEnum?
 
-        public init(dedicatedTenancyManagementCidrRange: String? = nil, dedicatedTenancySupport: DedicatedTenancySupportResultEnum? = nil) {
+        public init(dedicatedTenancyAccountType: DedicatedTenancyAccountType? = nil, dedicatedTenancyManagementCidrRange: String? = nil, dedicatedTenancySupport: DedicatedTenancySupportResultEnum? = nil) {
+            self.dedicatedTenancyAccountType = dedicatedTenancyAccountType
             self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
             self.dedicatedTenancySupport = dedicatedTenancySupport
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dedicatedTenancyAccountType = "DedicatedTenancyAccountType"
             case dedicatedTenancyManagementCidrRange = "DedicatedTenancyManagementCidrRange"
             case dedicatedTenancySupport = "DedicatedTenancySupport"
         }
@@ -2764,6 +2913,41 @@ extension WorkSpaces {
         }
     }
 
+    public struct GetAccountLinkRequest: AWSEncodableShape {
+        /// The identifier of the account link
+        public let linkedAccountId: String?
+        /// The identifier of the account to link.
+        public let linkId: String?
+
+        public init(linkedAccountId: String? = nil, linkId: String? = nil) {
+            self.linkedAccountId = linkedAccountId
+            self.linkId = linkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.linkedAccountId, name: "linkedAccountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-.{8,24}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case linkedAccountId = "LinkedAccountId"
+            case linkId = "LinkId"
+        }
+    }
+
+    public struct GetAccountLinkResult: AWSDecodableShape {
+        /// The account link of the account link to retrieve.
+        public let accountLink: AccountLink?
+
+        public init(accountLink: AccountLink? = nil) {
+            self.accountLink = accountLink
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountLink = "AccountLink"
+        }
+    }
+
     public struct ImagePermission: AWSDecodableShape {
         /// The identifier of the Amazon Web Services account that an image has been shared with.
         public let sharedAccountId: String?
@@ -3070,6 +3254,51 @@ extension WorkSpaces {
         private enum CodingKeys: String, CodingKey {
             case ipRule = "ipRule"
             case ruleDesc = "ruleDesc"
+        }
+    }
+
+    public struct ListAccountLinksRequest: AWSEncodableShape {
+        /// Filters the account based on their link status.
+        public let linkStatusFilter: [AccountLinkStatusEnum]?
+        /// The maximum number of accounts to return.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(linkStatusFilter: [AccountLinkStatusEnum]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.linkStatusFilter = linkStatusFilter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case linkStatusFilter = "LinkStatusFilter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAccountLinksResult: AWSDecodableShape {
+        /// Information about the account links.
+        public let accountLinks: [AccountLink]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(accountLinks: [AccountLink]? = nil, nextToken: String? = nil) {
+            self.accountLinks = accountLinks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountLinks = "AccountLinks"
+            case nextToken = "NextToken"
         }
     }
 
@@ -3615,6 +3844,41 @@ extension WorkSpaces {
 
     public struct RegisterWorkspaceDirectoryResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct RejectAccountLinkInvitationRequest: AWSEncodableShape {
+        /// The client token of the account link invitation to reject.
+        public let clientToken: String?
+        /// The identifier of the account link
+        public let linkId: String
+
+        public init(clientToken: String? = nil, linkId: String) {
+            self.clientToken = clientToken
+            self.linkId = linkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^.{1,64}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-.{8,24}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case linkId = "LinkId"
+        }
+    }
+
+    public struct RejectAccountLinkInvitationResult: AWSDecodableShape {
+        /// Information about the account link.
+        public let accountLink: AccountLink?
+
+        public init(accountLink: AccountLink? = nil) {
+            self.accountLink = accountLink
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountLink = "AccountLink"
+        }
     }
 
     public struct RelatedWorkspaceProperties: AWSDecodableShape {
@@ -4807,7 +5071,9 @@ public struct WorkSpacesErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case applicationNotSupportedException = "ApplicationNotSupportedException"
         case computeNotCompatibleException = "ComputeNotCompatibleException"
+        case conflictException = "ConflictException"
         case incompatibleApplicationsException = "IncompatibleApplicationsException"
+        case internalServerException = "InternalServerException"
         case invalidParameterValuesException = "InvalidParameterValuesException"
         case invalidResourceStateException = "InvalidResourceStateException"
         case operatingSystemNotCompatibleException = "OperatingSystemNotCompatibleException"
@@ -4822,6 +5088,7 @@ public struct WorkSpacesErrorType: AWSErrorType {
         case resourceUnavailableException = "ResourceUnavailableException"
         case unsupportedNetworkConfigurationException = "UnsupportedNetworkConfigurationException"
         case unsupportedWorkspaceConfigurationException = "UnsupportedWorkspaceConfigurationException"
+        case validationException = "ValidationException"
         case workspacesDefaultRoleNotFoundException = "WorkspacesDefaultRoleNotFoundException"
     }
 
@@ -4849,8 +5116,12 @@ public struct WorkSpacesErrorType: AWSErrorType {
     public static var applicationNotSupportedException: Self { .init(.applicationNotSupportedException) }
     /// The compute type of the WorkSpace is not compatible with the application.
     public static var computeNotCompatibleException: Self { .init(.computeNotCompatibleException) }
+    /// The TargetAccountId is already linked or invited.
+    public static var conflictException: Self { .init(.conflictException) }
     /// The specified application is not compatible with the resource.
     public static var incompatibleApplicationsException: Self { .init(.incompatibleApplicationsException) }
+    /// Unexpected server error occured.
+    public static var internalServerException: Self { .init(.internalServerException) }
     /// One or more parameter values are not valid.
     public static var invalidParameterValuesException: Self { .init(.invalidParameterValuesException) }
     /// The state of the resource is not valid for this operation.
@@ -4879,6 +5150,8 @@ public struct WorkSpacesErrorType: AWSErrorType {
     public static var unsupportedNetworkConfigurationException: Self { .init(.unsupportedNetworkConfigurationException) }
     /// The configuration of this WorkSpace is not supported for this operation. For more information, see   Required  Configuration and Service Components for WorkSpaces .
     public static var unsupportedWorkspaceConfigurationException: Self { .init(.unsupportedWorkspaceConfigurationException) }
+    /// You either haven't provided a TargetAccountId or  are using the same value for TargetAccountId and SourceAccountId.
+    public static var validationException: Self { .init(.validationException) }
     /// The workspaces_DefaultRole role could not be found. If this is the first time you are registering a directory, you will need to create the workspaces_DefaultRole role before you can register a directory. For more information, see Creating the workspaces_DefaultRole Role.
     public static var workspacesDefaultRoleNotFoundException: Self { .init(.workspacesDefaultRoleNotFoundException) }
 }

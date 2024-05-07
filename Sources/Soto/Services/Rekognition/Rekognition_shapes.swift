@@ -890,6 +890,8 @@ extension Rekognition {
     }
 
     public struct ContentModerationDetection: AWSDecodableShape {
+        /// A list of predicted results for the type of content an image contains. For example,  the image content might be from animation, sports, or a video game.
+        public let contentTypes: [ContentType]?
         ///  The time duration of a segment in milliseconds, I.e. time elapsed from StartTimestampMillis to EndTimestampMillis.
         public let durationMillis: Int64?
         ///  The time in milliseconds defining the end of the timeline segment containing a continuously detected moderation label.
@@ -901,7 +903,8 @@ extension Rekognition {
         /// Time, in milliseconds from the beginning of the video, that the content moderation label was detected. Note that Timestamp is not guaranteed to be accurate to the individual frame where the moderated content first appears.
         public let timestamp: Int64?
 
-        public init(durationMillis: Int64? = nil, endTimestampMillis: Int64? = nil, moderationLabel: ModerationLabel? = nil, startTimestampMillis: Int64? = nil, timestamp: Int64? = nil) {
+        public init(contentTypes: [ContentType]? = nil, durationMillis: Int64? = nil, endTimestampMillis: Int64? = nil, moderationLabel: ModerationLabel? = nil, startTimestampMillis: Int64? = nil, timestamp: Int64? = nil) {
+            self.contentTypes = contentTypes
             self.durationMillis = durationMillis
             self.endTimestampMillis = endTimestampMillis
             self.moderationLabel = moderationLabel
@@ -910,6 +913,7 @@ extension Rekognition {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case contentTypes = "ContentTypes"
             case durationMillis = "DurationMillis"
             case endTimestampMillis = "EndTimestampMillis"
             case moderationLabel = "ModerationLabel"
@@ -1178,7 +1182,7 @@ extension Rekognition {
     }
 
     public struct CreateFaceLivenessSessionResponse: AWSDecodableShape {
-        /// A unique 128-bit UUID identifying a Face Liveness session.
+        /// A unique 128-bit UUID identifying a Face Liveness session.  A new sessionID must be used for every Face Liveness check. If a given sessionID is used for subsequent  Face Liveness checks, the checks will fail. Additionally, a SessionId expires 3 minutes after it's sent,  making all Liveness data associated with the session (e.g., sessionID, reference image, audit images, etc.) unavailable.
         public let sessionId: String
 
         public init(sessionId: String) {

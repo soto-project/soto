@@ -58,6 +58,12 @@ extension MediaTailor {
         public var description: String { return self.rawValue }
     }
 
+    public enum InsertionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case playerSelect = "PLAYER_SELECT"
+        case stitchedOnly = "STITCHED_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asRun = "AS_RUN"
         public var description: String { return self.rawValue }
@@ -1749,6 +1755,8 @@ extension MediaTailor {
         public let dashConfiguration: DashConfiguration?
         /// The configuration for HLS content.
         public let hlsConfiguration: HlsConfiguration?
+        /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
+        public let insertionMode: InsertionMode?
         /// The configuration for pre-roll ad insertion.
         public let livePreRollConfiguration: LivePreRollConfiguration?
         /// The Amazon CloudWatch log settings for a playback configuration.
@@ -1774,7 +1782,7 @@ extension MediaTailor {
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -1782,6 +1790,7 @@ extension MediaTailor {
             self.configurationAliases = configurationAliases
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
+            self.insertionMode = insertionMode
             self.livePreRollConfiguration = livePreRollConfiguration
             self.logConfiguration = logConfiguration
             self.manifestProcessingRules = manifestProcessingRules
@@ -1804,6 +1813,7 @@ extension MediaTailor {
             case configurationAliases = "ConfigurationAliases"
             case dashConfiguration = "DashConfiguration"
             case hlsConfiguration = "HlsConfiguration"
+            case insertionMode = "InsertionMode"
             case livePreRollConfiguration = "LivePreRollConfiguration"
             case logConfiguration = "LogConfiguration"
             case manifestProcessingRules = "ManifestProcessingRules"
@@ -2419,6 +2429,8 @@ extension MediaTailor {
         public let dashConfiguration: DashConfiguration?
         /// The configuration for HLS content.
         public let hlsConfiguration: HlsConfiguration?
+        /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
+        public let insertionMode: InsertionMode?
         /// The configuration for pre-roll ad insertion.
         public let livePreRollConfiguration: LivePreRollConfiguration?
         /// The Amazon CloudWatch log settings for a playback configuration.
@@ -2444,7 +2456,7 @@ extension MediaTailor {
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -2452,6 +2464,7 @@ extension MediaTailor {
             self.configurationAliases = configurationAliases
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
+            self.insertionMode = insertionMode
             self.livePreRollConfiguration = livePreRollConfiguration
             self.logConfiguration = logConfiguration
             self.manifestProcessingRules = manifestProcessingRules
@@ -2474,6 +2487,7 @@ extension MediaTailor {
             case configurationAliases = "ConfigurationAliases"
             case dashConfiguration = "DashConfiguration"
             case hlsConfiguration = "HlsConfiguration"
+            case insertionMode = "InsertionMode"
             case livePreRollConfiguration = "LivePreRollConfiguration"
             case logConfiguration = "LogConfiguration"
             case manifestProcessingRules = "ManifestProcessingRules"
@@ -2608,6 +2622,8 @@ extension MediaTailor {
         public let configurationAliases: [String: [String: String]]?
         /// The configuration for DASH content.
         public let dashConfiguration: DashConfigurationForPut?
+        /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
+        public let insertionMode: InsertionMode?
         /// The configuration for pre-roll ad insertion.
         public let livePreRollConfiguration: LivePreRollConfiguration?
         /// The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
@@ -2625,13 +2641,14 @@ extension MediaTailor {
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
             self.cdnConfiguration = cdnConfiguration
             self.configurationAliases = configurationAliases
             self.dashConfiguration = dashConfiguration
+            self.insertionMode = insertionMode
             self.livePreRollConfiguration = livePreRollConfiguration
             self.manifestProcessingRules = manifestProcessingRules
             self.name = name
@@ -2653,6 +2670,7 @@ extension MediaTailor {
             case cdnConfiguration = "CdnConfiguration"
             case configurationAliases = "ConfigurationAliases"
             case dashConfiguration = "DashConfiguration"
+            case insertionMode = "InsertionMode"
             case livePreRollConfiguration = "LivePreRollConfiguration"
             case manifestProcessingRules = "ManifestProcessingRules"
             case name = "Name"
@@ -2679,6 +2697,8 @@ extension MediaTailor {
         public let dashConfiguration: DashConfiguration?
         /// The configuration for HLS content.
         public let hlsConfiguration: HlsConfiguration?
+        /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
+        public let insertionMode: InsertionMode?
         /// The configuration for pre-roll ad insertion.
         public let livePreRollConfiguration: LivePreRollConfiguration?
         /// The Amazon CloudWatch log settings for a playback configuration.
@@ -2704,7 +2724,7 @@ extension MediaTailor {
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -2712,6 +2732,7 @@ extension MediaTailor {
             self.configurationAliases = configurationAliases
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
+            self.insertionMode = insertionMode
             self.livePreRollConfiguration = livePreRollConfiguration
             self.logConfiguration = logConfiguration
             self.manifestProcessingRules = manifestProcessingRules
@@ -2734,6 +2755,7 @@ extension MediaTailor {
             case configurationAliases = "ConfigurationAliases"
             case dashConfiguration = "DashConfiguration"
             case hlsConfiguration = "HlsConfiguration"
+            case insertionMode = "InsertionMode"
             case livePreRollConfiguration = "LivePreRollConfiguration"
             case logConfiguration = "LogConfiguration"
             case manifestProcessingRules = "ManifestProcessingRules"

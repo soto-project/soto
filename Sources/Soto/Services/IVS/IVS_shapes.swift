@@ -129,7 +129,7 @@ extension IVS {
     }
 
     public struct BatchError: AWSDecodableShape {
-        /// Channel ARN.
+        /// ARN of an IVS resource; e.g., channel.
         public let arn: String?
         /// Error code.
         public let code: String?
@@ -161,7 +161,7 @@ extension IVS {
             try self.arns.forEach {
                 try validate($0, name: "arns[]", parent: name, max: 128)
                 try validate($0, name: "arns[]", parent: name, min: 1)
-                try validate($0, name: "arns[]", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+                try validate($0, name: "arns[]", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
             }
             try self.validate(self.arns, name: "arns", parent: name, max: 50)
             try self.validate(self.arns, name: "arns", parent: name, min: 1)
@@ -200,7 +200,7 @@ extension IVS {
             try self.arns.forEach {
                 try validate($0, name: "arns[]", parent: name, max: 128)
                 try validate($0, name: "arns[]", parent: name, min: 1)
-                try validate($0, name: "arns[]", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:stream-key/[a-zA-Z0-9-]+$")
+                try validate($0, name: "arns[]", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stream-key/[a-zA-Z0-9-]+$")
             }
             try self.validate(self.arns, name: "arns", parent: name, max: 50)
             try self.validate(self.arns, name: "arns", parent: name, min: 1)
@@ -302,7 +302,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 128)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 1)
-            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
             try self.validate(self.viewerId, name: "viewerId", parent: name, max: 40)
             try self.validate(self.viewerId, name: "viewerId", parent: name, min: 1)
             try self.validate(self.viewerSessionVersionsLessThanOrEqualTo, name: "viewerSessionVersionsLessThanOrEqualTo", parent: name, min: 0)
@@ -633,7 +633,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 128)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 1)
-            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -672,7 +672,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 128)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -691,7 +691,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 128)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:playback-key/[a-zA-Z0-9-]+$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-key/[a-zA-Z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -751,7 +751,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 128)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:stream-key/[a-zA-Z0-9-]+$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stream-key/[a-zA-Z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -787,7 +787,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 128)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -818,7 +818,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 128)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:playback-key/[a-zA-Z0-9-]+$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-key/[a-zA-Z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -910,7 +910,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 128)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:stream-key/[a-zA-Z0-9-]+$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stream-key/[a-zA-Z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -941,7 +941,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 128)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 1)
-            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -975,7 +975,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 128)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 1)
-            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
             try self.validate(self.streamId, name: "streamId", parent: name, max: 26)
             try self.validate(self.streamId, name: "streamId", parent: name, min: 26)
             try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^st-[a-zA-Z0-9]+$")
@@ -1260,7 +1260,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 128)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 1)
-            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -1308,7 +1308,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 128)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 1)
-            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -1401,7 +1401,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:[a-z-]/[a-zA-Z0-9-]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:[a-z-]/[a-zA-Z0-9-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1546,7 +1546,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 128)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 1)
-            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
             try self.validate(self.metadata, name: "metadata", parent: name, min: 1)
         }
 
@@ -1696,7 +1696,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 128)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 1)
-            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
             try self.validate(self.viewerId, name: "viewerId", parent: name, max: 40)
             try self.validate(self.viewerId, name: "viewerId", parent: name, min: 1)
             try self.validate(self.viewerSessionVersionsLessThanOrEqualTo, name: "viewerSessionVersionsLessThanOrEqualTo", parent: name, min: 0)
@@ -1724,7 +1724,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 128)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 1)
-            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1976,7 +1976,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:[a-z-]/[a-zA-Z0-9-]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:[a-z-]/[a-zA-Z0-9-]+$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2045,7 +2045,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:[a-z-]/[a-zA-Z0-9-]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:[a-z-]/[a-zA-Z0-9-]+$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -2095,7 +2095,7 @@ extension IVS {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 128)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:[is]vs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.playbackRestrictionPolicyArn, name: "playbackRestrictionPolicyArn", parent: name, max: 128)

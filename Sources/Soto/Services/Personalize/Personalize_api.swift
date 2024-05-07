@@ -100,11 +100,24 @@ public struct Personalize: AWSService {
         )
     }
 
-    /// Creates a campaign that deploys a solution version. When a client calls the GetRecommendations and GetPersonalizedRanking APIs, a campaign is specified in the request.  Minimum Provisioned TPS and Auto-Scaling   A high minProvisionedTPS will increase your cost. We recommend starting with 1 for minProvisionedTPS (the default). Track your usage using Amazon CloudWatch metrics, and increase the minProvisionedTPS as necessary.   When you create an Amazon Personalize campaign, you can specify the minimum provisioned transactions per second (minProvisionedTPS) for the campaign. This is the baseline transaction throughput for the campaign provisioned by Amazon Personalize. It sets the minimum billing charge for the campaign while it is active. A transaction is a single GetRecommendations or GetPersonalizedRanking request. The default minProvisionedTPS is 1. If your TPS increases beyond the minProvisionedTPS, Amazon Personalize auto-scales the provisioned capacity up and down, but never below minProvisionedTPS.  There's a short time delay while the capacity is increased that might cause loss of transactions. When your traffic reduces, capacity returns to the minProvisionedTPS.  You are charged for the the minimum provisioned TPS or, if your requests exceed the minProvisionedTPS, the actual TPS.  The actual TPS is the total number of recommendation requests you make. We recommend starting with a low minProvisionedTPS, track your usage using Amazon CloudWatch metrics, and then increase the minProvisionedTPS as necessary. For more information about campaign costs, see Amazon Personalize pricing.  Status  A campaign can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS   To get the campaign status, call DescribeCampaign.  Wait until the status of the campaign is ACTIVE before asking the campaign for recommendations.   Related APIs     ListCampaigns     DescribeCampaign     UpdateCampaign     DeleteCampaign
+    ///  You incur campaign costs while it is active. To avoid unnecessary costs, make sure to delete the campaign when you are finished. For information about campaign costs, see Amazon Personalize pricing.  Creates a campaign that deploys a solution version. When a client calls the GetRecommendations and GetPersonalizedRanking APIs, a campaign is specified in the request.  Minimum Provisioned TPS and Auto-Scaling   A high minProvisionedTPS will increase your cost. We recommend starting with 1 for minProvisionedTPS (the default). Track your usage using Amazon CloudWatch metrics, and increase the minProvisionedTPS as necessary.   When you create an Amazon Personalize campaign, you can specify the minimum provisioned transactions per second (minProvisionedTPS) for the campaign. This is the baseline transaction throughput for the campaign provisioned by Amazon Personalize. It sets the minimum billing charge for the campaign while it is active. A transaction is a single GetRecommendations or GetPersonalizedRanking request. The default minProvisionedTPS is 1. If your TPS increases beyond the minProvisionedTPS, Amazon Personalize auto-scales the provisioned capacity up and down, but never below minProvisionedTPS.  There's a short time delay while the capacity is increased that might cause loss of transactions. When your traffic reduces, capacity returns to the minProvisionedTPS.  You are charged for the the minimum provisioned TPS or, if your requests exceed the minProvisionedTPS, the actual TPS.  The actual TPS is the total number of recommendation requests you make. We recommend starting with a low minProvisionedTPS, track your usage using Amazon CloudWatch metrics, and then increase the minProvisionedTPS as necessary. For more information about campaign costs, see Amazon Personalize pricing.  Status  A campaign can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS   To get the campaign status, call DescribeCampaign.  Wait until the status of the campaign is ACTIVE before asking the campaign for recommendations.   Related APIs     ListCampaigns     DescribeCampaign     UpdateCampaign     DeleteCampaign
     @Sendable
     public func createCampaign(_ input: CreateCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCampaignResponse {
         return try await self.client.execute(
             operation: "CreateCampaign", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a batch job that deletes all references to specific users from an Amazon Personalize dataset group in batches. You specify the users to delete in a CSV file of userIds in  an Amazon S3 bucket. After a job completes, Amazon Personalize no longer trains on the users’ data and no longer considers the users when generating user segments.  For more information about creating a data deletion job, see Deleting users.   Your input file must be a CSV file with a single USER_ID column that lists the users IDs. For more information about preparing the CSV file, see Preparing your data deletion file and uploading it to Amazon S3.   To give Amazon Personalize permission to access your input CSV file of userIds, you must specify an IAM service role that has permission to read from the data source. This role  needs GetObject and ListBucket permissions for the bucket and its content. These permissions are the same as importing data. For information on granting access to your Amazon S3 bucket, see Giving Amazon Personalize Access to Amazon S3 Resources.     After you create a job, it can take up to a day to delete all references to the users from datasets and models. Until the job completes,  Amazon Personalize continues to use the data when training. And if you use a User Segmentation recipe, the users might appear in user segments.    Status  A data deletion job can have one of the following statuses:   PENDING > IN_PROGRESS > COMPLETED -or- FAILED   To get the status of the data deletion job, call DescribeDataDeletionJob API operation and specify the Amazon Resource Name (ARN) of the job. If the status is FAILED, the response includes a failureReason key, which describes why the job failed.  Related APIs     ListDataDeletionJobs     DescribeDataDeletionJob
+    @Sendable
+    public func createDataDeletionJob(_ input: CreateDataDeletionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataDeletionJobResponse {
+        return try await self.client.execute(
+            operation: "CreateDataDeletionJob", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -230,7 +243,7 @@ public struct Personalize: AWSService {
         )
     }
 
-    /// Creates the configuration for training a model. A trained model is known as a solution version. After the configuration is created, you train the model (create a solution version) by calling the CreateSolutionVersion operation. Every time you call CreateSolutionVersion, a new version of the solution is created. After creating a solution version, you check its accuracy by calling GetSolutionMetrics. When you are satisfied with the version, you deploy it using CreateCampaign. The campaign provides recommendations to a client through the GetRecommendations API. To train a model, Amazon Personalize requires training data and a recipe. The training data comes from the dataset group that you provide in the request. A recipe specifies the training algorithm and a feature transformation. You can specify one of the predefined recipes provided by Amazon Personalize.   Amazon Personalize doesn't support configuring the hpoObjective  for solution hyperparameter optimization at this time.   Status  A solution can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS   To get the status of the solution, call DescribeSolution. Wait until the status shows as ACTIVE before calling CreateSolutionVersion.  Related APIs     ListSolutions     CreateSolutionVersion     DescribeSolution     DeleteSolution       ListSolutionVersions     DescribeSolutionVersion
+    ///  After you create a solution, you can’t change its configuration. By default, all new solutions use automatic training. With automatic training, you incur training costs while your solution is active. You can't stop automatic training for a solution. To avoid unnecessary costs, make sure to delete the solution when you are finished. For information about training costs, see Amazon Personalize pricing.  Creates the configuration for training a model (creating a solution version). This configuration includes the recipe to use for model training and optional training configuration, such as columns to use in training and feature transformation parameters. For more information about configuring a solution, see Creating and configuring a solution.   By default, new solutions use automatic training to create solution versions every 7 days. You can change the training frequency. Automatic solution version creation starts one hour after the solution is ACTIVE. If you manually create a solution version within the hour, the solution skips the first automatic training. For more information, see Configuring automatic training.  To turn off automatic training, set performAutoTraining to false. If you turn off automatic training, you must manually create a solution version by calling the CreateSolutionVersion operation. After training starts, you can get the solution version's Amazon Resource Name (ARN) with the ListSolutionVersions API operation.  To get its status, use the DescribeSolutionVersion.  After training completes you can evaluate model accuracy by calling GetSolutionMetrics. When you are satisfied with the solution version, you deploy it using CreateCampaign. The campaign provides recommendations to a client through the GetRecommendations API.  Amazon Personalize doesn't support configuring the hpoObjective  for solution hyperparameter optimization at this time.   Status  A solution can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS   To get the status of the solution, call DescribeSolution. If you use manual training, the status must be ACTIVE before you call CreateSolutionVersion.  Related APIs     ListSolutions     CreateSolutionVersion     DescribeSolution     DeleteSolution       ListSolutionVersions     DescribeSolutionVersion
     @Sendable
     public func createSolution(_ input: CreateSolutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSolutionResponse {
         return try await self.client.execute(
@@ -417,6 +430,19 @@ public struct Personalize: AWSService {
     public func describeCampaign(_ input: DescribeCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCampaignResponse {
         return try await self.client.execute(
             operation: "DescribeCampaign", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describes the data deletion job created by CreateDataDeletionJob, including the job status.
+    @Sendable
+    public func describeDataDeletionJob(_ input: DescribeDataDeletionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataDeletionJobResponse {
+        return try await self.client.execute(
+            operation: "DescribeDataDeletionJob", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -646,6 +672,19 @@ public struct Personalize: AWSService {
         )
     }
 
+    /// Returns a list of data deletion jobs for a dataset group ordered by creation time, with the most recent first. When a dataset group is not specified, all the data deletion jobs associated with the account are listed. The response provides the properties for each job, including the Amazon Resource Name (ARN). For more information on data deletion jobs, see Deleting users.
+    @Sendable
+    public func listDataDeletionJobs(_ input: ListDataDeletionJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataDeletionJobsResponse {
+        return try await self.client.execute(
+            operation: "ListDataDeletionJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a list of dataset export jobs that use the given dataset. When a dataset is not specified, all the dataset export jobs associated with the account are listed. The response provides the properties for each dataset export job, including the Amazon Resource Name (ARN). For more information on dataset export jobs, see CreateDatasetExportJob. For more information on datasets, see CreateDataset.
     @Sendable
     public func listDatasetExportJobs(_ input: ListDatasetExportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDatasetExportJobsResponse {
@@ -802,7 +841,7 @@ public struct Personalize: AWSService {
         )
     }
 
-    /// Returns a list of solutions that use the given dataset group. When a dataset group is not specified, all the solutions associated with the account are listed. The response provides the properties for each solution, including the Amazon Resource Name (ARN). For more information on solutions, see CreateSolution.
+    /// Returns a list of solutions in a given dataset group. When a dataset group is not specified, all the solutions associated with the account are listed. The response provides the properties for each solution, including the Amazon Resource Name (ARN). For more information on solutions, see CreateSolution.
     @Sendable
     public func listSolutions(_ input: ListSolutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSolutionsResponse {
         return try await self.client.execute(
@@ -880,7 +919,7 @@ public struct Personalize: AWSService {
         )
     }
 
-    /// Remove tags that are attached to a resource.
+    /// Removes the specified tags that are attached to a resource. For more information, see Removing tags from Amazon Personalize resources.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         return try await self.client.execute(
@@ -893,7 +932,7 @@ public struct Personalize: AWSService {
         )
     }
 
-    ///  Updates a campaign to deploy a retrained solution version with an existing campaign, change your campaign's minProvisionedTPS, or modify your campaign's configuration, such as the exploration configuration.  To update a campaign, the campaign status must be ACTIVE or CREATE FAILED. Check the campaign status using the DescribeCampaign operation.  You can still get recommendations from a campaign while an update is in progress. The campaign will use the previous solution version and campaign configuration to generate recommendations until the latest campaign update status is Active.   For more information about updating a campaign, including code samples, see Updating a campaign. For more information about campaigns, see Creating a campaign.
+    ///  Updates a campaign to deploy a retrained solution version with an existing campaign, change your campaign's minProvisionedTPS, or modify your campaign's configuration. For example, you can set enableMetadataWithRecommendations to true for an existing campaign.  To update a campaign to start automatically using the latest solution version, specify the following:   For the SolutionVersionArn parameter, specify the Amazon Resource Name (ARN) of your solution in SolutionArn/$LATEST format.    In the campaignConfig, set syncWithLatestSolutionVersion to true.    To update a campaign, the campaign status must be ACTIVE or CREATE FAILED. Check the campaign status using the DescribeCampaign operation.  You can still get recommendations from a campaign while an update is in progress. The campaign will use the previous solution version and campaign configuration to generate recommendations until the latest campaign update status is Active.   For more information about updating a campaign, including code samples, see Updating a campaign. For more information about campaigns, see Creating a campaign.
     @Sendable
     public func updateCampaign(_ input: UpdateCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCampaignResponse {
         return try await self.client.execute(
@@ -1244,7 +1283,7 @@ extension Personalize {
         )
     }
 
-    /// Returns a list of solutions that use the given dataset group. When a dataset group is not specified, all the solutions associated with the account are listed. The response provides the properties for each solution, including the Amazon Resource Name (ARN). For more information on solutions, see CreateSolution.
+    /// Returns a list of solutions in a given dataset group. When a dataset group is not specified, all the solutions associated with the account are listed. The response provides the properties for each solution, including the Amazon Resource Name (ARN). For more information on solutions, see CreateSolution.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

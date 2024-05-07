@@ -163,14 +163,18 @@ extension ConnectCampaigns {
     }
 
     public struct AnswerMachineDetectionConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Enable or disable await answer machine prompt
+        public let awaitAnswerMachinePrompt: Bool?
         /// Enable or disable answering machine detection
         public let enableAnswerMachineDetection: Bool
 
-        public init(enableAnswerMachineDetection: Bool) {
+        public init(awaitAnswerMachinePrompt: Bool? = nil, enableAnswerMachineDetection: Bool) {
+            self.awaitAnswerMachinePrompt = awaitAnswerMachinePrompt
             self.enableAnswerMachineDetection = enableAnswerMachineDetection
         }
 
         private enum CodingKeys: String, CodingKey {
+            case awaitAnswerMachinePrompt = "awaitAnswerMachinePrompt"
             case enableAnswerMachineDetection = "enableAnswerMachineDetection"
         }
     }

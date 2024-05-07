@@ -293,6 +293,43 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum CloudWatchAlarmTemplateComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case greaterThanOrEqualToThreshold = "GreaterThanOrEqualToThreshold"
+        case greaterThanThreshold = "GreaterThanThreshold"
+        case lessThanOrEqualToThreshold = "LessThanOrEqualToThreshold"
+        case lessThanThreshold = "LessThanThreshold"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CloudWatchAlarmTemplateStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case average = "Average"
+        case maximum = "Maximum"
+        case minimum = "Minimum"
+        case sampleCount = "SampleCount"
+        case sum = "Sum"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CloudWatchAlarmTemplateTargetResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cloudfrontDistribution = "CLOUDFRONT_DISTRIBUTION"
+        case mediaconnectFlow = "MEDIACONNECT_FLOW"
+        case medialiveChannel = "MEDIALIVE_CHANNEL"
+        case medialiveInputDevice = "MEDIALIVE_INPUT_DEVICE"
+        case medialiveMultiplex = "MEDIALIVE_MULTIPLEX"
+        case mediapackageChannel = "MEDIAPACKAGE_CHANNEL"
+        case mediapackageOriginEndpoint = "MEDIAPACKAGE_ORIGIN_ENDPOINT"
+        case s3Bucket = "S3_BUCKET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CloudWatchAlarmTemplateTreatMissingData: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case breaching = "breaching"
+        case ignore = "ignore"
+        case missing = "missing"
+        case notBreaching = "notBreaching"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CmafIngestSegmentLengthUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case milliseconds = "MILLISECONDS"
         case seconds = "SECONDS"
@@ -598,6 +635,23 @@ extension MediaLive {
     public enum EmbeddedScte20Detection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case off = "OFF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventBridgeRuleTemplateEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mediaconnectAlert = "MEDIACONNECT_ALERT"
+        case mediaconnectFlowStatusChange = "MEDIACONNECT_FLOW_STATUS_CHANGE"
+        case mediaconnectOutputHealth = "MEDIACONNECT_OUTPUT_HEALTH"
+        case mediaconnectSourceHealth = "MEDIACONNECT_SOURCE_HEALTH"
+        case medialiveChannelAlert = "MEDIALIVE_CHANNEL_ALERT"
+        case medialiveChannelInputChange = "MEDIALIVE_CHANNEL_INPUT_CHANGE"
+        case medialiveChannelStateChange = "MEDIALIVE_CHANNEL_STATE_CHANGE"
+        case medialiveMultiplexAlert = "MEDIALIVE_MULTIPLEX_ALERT"
+        case medialiveMultiplexStateChange = "MEDIALIVE_MULTIPLEX_STATE_CHANGE"
+        case mediapackageHarvestJobNotification = "MEDIAPACKAGE_HARVEST_JOB_NOTIFICATION"
+        case mediapackageInputNotification = "MEDIAPACKAGE_INPUT_NOTIFICATION"
+        case mediapackageKeyProviderNotification = "MEDIAPACKAGE_KEY_PROVIDER_NOTIFICATION"
+        case signalMapActiveAlarm = "SIGNAL_MAP_ACTIVE_ALARM"
         public var description: String { return self.rawValue }
     }
 
@@ -1856,6 +1910,33 @@ extension MediaLive {
     public enum Scte35WebDeliveryAllowedFlag: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case webDeliveryAllowed = "WEB_DELIVERY_ALLOWED"
         case webDeliveryNotAllowed = "WEB_DELIVERY_NOT_ALLOWED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SignalMapMonitorDeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deleteComplete = "DELETE_COMPLETE"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deploymentComplete = "DEPLOYMENT_COMPLETE"
+        case deploymentFailed = "DEPLOYMENT_FAILED"
+        case deploymentInProgress = "DEPLOYMENT_IN_PROGRESS"
+        case dryRunDeploymentComplete = "DRY_RUN_DEPLOYMENT_COMPLETE"
+        case dryRunDeploymentFailed = "DRY_RUN_DEPLOYMENT_FAILED"
+        case dryRunDeploymentInProgress = "DRY_RUN_DEPLOYMENT_IN_PROGRESS"
+        case notDeployed = "NOT_DEPLOYED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SignalMapStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createComplete = "CREATE_COMPLETE"
+        case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case notReady = "NOT_READY"
+        case ready = "READY"
+        case updateComplete = "UPDATE_COMPLETE"
+        case updateFailed = "UPDATE_FAILED"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updateReverted = "UPDATE_REVERTED"
         public var description: String { return self.rawValue }
     }
 
@@ -3605,6 +3686,118 @@ extension MediaLive {
         public init() {}
     }
 
+    public struct CloudWatchAlarmTemplateGroupSummary: AWSDecodableShape {
+        /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
+        public let arn: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        /// A cloudwatch alarm template group's id. AWS provided template groups have ids that start with `aws-`
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let tags: [String: String]?
+        /// The number of templates in a group.
+        public let templateCount: Int?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, modifiedAt: Date? = nil, name: String? = nil, tags: [String: String]? = nil, templateCount: Int? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.tags = tags
+            self.templateCount = templateCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case tags = "tags"
+            case templateCount = "templateCount"
+        }
+    }
+
+    public struct CloudWatchAlarmTemplateSummary: AWSDecodableShape {
+        /// A cloudwatch alarm template's ARN (Amazon Resource Name)
+        public let arn: String?
+        public let comparisonOperator: CloudWatchAlarmTemplateComparisonOperator?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The number of datapoints within the evaluation period that must be breaching to trigger the alarm.
+        public let datapointsToAlarm: Int?
+        /// A resource's optional description.
+        public let description: String?
+        /// The number of periods over which data is compared to the specified threshold.
+        public let evaluationPeriods: Int?
+        /// A cloudwatch alarm template group's id. AWS provided template groups have ids that start with `aws-`
+        public let groupId: String?
+        /// A cloudwatch alarm template's id. AWS provided templates have ids that start with `aws-`
+        public let id: String?
+        /// The name of the metric associated with the alarm. Must be compatible with targetResourceType.
+        public let metricName: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        /// The period, in seconds, over which the specified statistic is applied.
+        public let period: Int?
+        public let statistic: CloudWatchAlarmTemplateStatistic?
+        public let tags: [String: String]?
+        public let targetResourceType: CloudWatchAlarmTemplateTargetResourceType?
+        /// The threshold value to compare with the specified statistic.
+        public let threshold: Double?
+        public let treatMissingData: CloudWatchAlarmTemplateTreatMissingData?
+
+        public init(arn: String? = nil, comparisonOperator: CloudWatchAlarmTemplateComparisonOperator? = nil, createdAt: Date? = nil, datapointsToAlarm: Int? = nil, description: String? = nil, evaluationPeriods: Int? = nil, groupId: String? = nil, id: String? = nil, metricName: String? = nil, modifiedAt: Date? = nil, name: String? = nil, period: Int? = nil, statistic: CloudWatchAlarmTemplateStatistic? = nil, tags: [String: String]? = nil, targetResourceType: CloudWatchAlarmTemplateTargetResourceType? = nil, threshold: Double? = nil, treatMissingData: CloudWatchAlarmTemplateTreatMissingData? = nil) {
+            self.arn = arn
+            self.comparisonOperator = comparisonOperator
+            self.createdAt = createdAt
+            self.datapointsToAlarm = datapointsToAlarm
+            self.description = description
+            self.evaluationPeriods = evaluationPeriods
+            self.groupId = groupId
+            self.id = id
+            self.metricName = metricName
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.period = period
+            self.statistic = statistic
+            self.tags = tags
+            self.targetResourceType = targetResourceType
+            self.threshold = threshold
+            self.treatMissingData = treatMissingData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case comparisonOperator = "comparisonOperator"
+            case createdAt = "createdAt"
+            case datapointsToAlarm = "datapointsToAlarm"
+            case description = "description"
+            case evaluationPeriods = "evaluationPeriods"
+            case groupId = "groupId"
+            case id = "id"
+            case metricName = "metricName"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case period = "period"
+            case statistic = "statistic"
+            case tags = "tags"
+            case targetResourceType = "targetResourceType"
+            case threshold = "threshold"
+            case treatMissingData = "treatMissingData"
+        }
+    }
+
     public struct CmafIngestGroupSettings: AWSEncodableShape & AWSDecodableShape {
         /// A HTTP destination for the tracks
         public let destination: OutputLocationRef?
@@ -3797,6 +3990,360 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case channel = "channel"
+        }
+    }
+
+    public struct CreateCloudWatchAlarmTemplateGroupRequest: AWSEncodableShape {
+        /// A resource's optional description.
+        public let description: String?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.description = description
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateCloudWatchAlarmTemplateGroupResponse: AWSDecodableShape {
+        /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
+        public let arn: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        /// A cloudwatch alarm template group's id. AWS provided template groups have ids that start with `aws-`
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, modifiedAt: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateCloudWatchAlarmTemplateRequest: AWSEncodableShape {
+        public let comparisonOperator: CloudWatchAlarmTemplateComparisonOperator?
+        /// The number of datapoints within the evaluation period that must be breaching to trigger the alarm.
+        public let datapointsToAlarm: Int?
+        /// A resource's optional description.
+        public let description: String?
+        /// The number of periods over which data is compared to the specified threshold.
+        public let evaluationPeriods: Int?
+        /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
+        public let groupIdentifier: String?
+        /// The name of the metric associated with the alarm. Must be compatible with targetResourceType.
+        public let metricName: String?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        /// The period, in seconds, over which the specified statistic is applied.
+        public let period: Int?
+        public let statistic: CloudWatchAlarmTemplateStatistic?
+        public let tags: [String: String]?
+        public let targetResourceType: CloudWatchAlarmTemplateTargetResourceType?
+        /// The threshold value to compare with the specified statistic.
+        public let threshold: Double?
+        public let treatMissingData: CloudWatchAlarmTemplateTreatMissingData?
+
+        public init(comparisonOperator: CloudWatchAlarmTemplateComparisonOperator? = nil, datapointsToAlarm: Int? = nil, description: String? = nil, evaluationPeriods: Int? = nil, groupIdentifier: String? = nil, metricName: String? = nil, name: String? = nil, period: Int? = nil, statistic: CloudWatchAlarmTemplateStatistic? = nil, tags: [String: String]? = nil, targetResourceType: CloudWatchAlarmTemplateTargetResourceType? = nil, threshold: Double? = nil, treatMissingData: CloudWatchAlarmTemplateTreatMissingData? = nil) {
+            self.comparisonOperator = comparisonOperator
+            self.datapointsToAlarm = datapointsToAlarm
+            self.description = description
+            self.evaluationPeriods = evaluationPeriods
+            self.groupIdentifier = groupIdentifier
+            self.metricName = metricName
+            self.name = name
+            self.period = period
+            self.statistic = statistic
+            self.tags = tags
+            self.targetResourceType = targetResourceType
+            self.threshold = threshold
+            self.treatMissingData = treatMissingData
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datapointsToAlarm, name: "datapointsToAlarm", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.evaluationPeriods, name: "evaluationPeriods", parent: name, min: 1)
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "^[^\\s]+$")
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s]+$")
+            try self.validate(self.period, name: "period", parent: name, max: 86400)
+            try self.validate(self.period, name: "period", parent: name, min: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "comparisonOperator"
+            case datapointsToAlarm = "datapointsToAlarm"
+            case description = "description"
+            case evaluationPeriods = "evaluationPeriods"
+            case groupIdentifier = "groupIdentifier"
+            case metricName = "metricName"
+            case name = "name"
+            case period = "period"
+            case statistic = "statistic"
+            case tags = "tags"
+            case targetResourceType = "targetResourceType"
+            case threshold = "threshold"
+            case treatMissingData = "treatMissingData"
+        }
+    }
+
+    public struct CreateCloudWatchAlarmTemplateResponse: AWSDecodableShape {
+        /// A cloudwatch alarm template's ARN (Amazon Resource Name)
+        public let arn: String?
+        public let comparisonOperator: CloudWatchAlarmTemplateComparisonOperator?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The number of datapoints within the evaluation period that must be breaching to trigger the alarm.
+        public let datapointsToAlarm: Int?
+        /// A resource's optional description.
+        public let description: String?
+        /// The number of periods over which data is compared to the specified threshold.
+        public let evaluationPeriods: Int?
+        /// A cloudwatch alarm template group's id. AWS provided template groups have ids that start with `aws-`
+        public let groupId: String?
+        /// A cloudwatch alarm template's id. AWS provided templates have ids that start with `aws-`
+        public let id: String?
+        /// The name of the metric associated with the alarm. Must be compatible with targetResourceType.
+        public let metricName: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        /// The period, in seconds, over which the specified statistic is applied.
+        public let period: Int?
+        public let statistic: CloudWatchAlarmTemplateStatistic?
+        public let tags: [String: String]?
+        public let targetResourceType: CloudWatchAlarmTemplateTargetResourceType?
+        /// The threshold value to compare with the specified statistic.
+        public let threshold: Double?
+        public let treatMissingData: CloudWatchAlarmTemplateTreatMissingData?
+
+        public init(arn: String? = nil, comparisonOperator: CloudWatchAlarmTemplateComparisonOperator? = nil, createdAt: Date? = nil, datapointsToAlarm: Int? = nil, description: String? = nil, evaluationPeriods: Int? = nil, groupId: String? = nil, id: String? = nil, metricName: String? = nil, modifiedAt: Date? = nil, name: String? = nil, period: Int? = nil, statistic: CloudWatchAlarmTemplateStatistic? = nil, tags: [String: String]? = nil, targetResourceType: CloudWatchAlarmTemplateTargetResourceType? = nil, threshold: Double? = nil, treatMissingData: CloudWatchAlarmTemplateTreatMissingData? = nil) {
+            self.arn = arn
+            self.comparisonOperator = comparisonOperator
+            self.createdAt = createdAt
+            self.datapointsToAlarm = datapointsToAlarm
+            self.description = description
+            self.evaluationPeriods = evaluationPeriods
+            self.groupId = groupId
+            self.id = id
+            self.metricName = metricName
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.period = period
+            self.statistic = statistic
+            self.tags = tags
+            self.targetResourceType = targetResourceType
+            self.threshold = threshold
+            self.treatMissingData = treatMissingData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case comparisonOperator = "comparisonOperator"
+            case createdAt = "createdAt"
+            case datapointsToAlarm = "datapointsToAlarm"
+            case description = "description"
+            case evaluationPeriods = "evaluationPeriods"
+            case groupId = "groupId"
+            case id = "id"
+            case metricName = "metricName"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case period = "period"
+            case statistic = "statistic"
+            case tags = "tags"
+            case targetResourceType = "targetResourceType"
+            case threshold = "threshold"
+            case treatMissingData = "treatMissingData"
+        }
+    }
+
+    public struct CreateEventBridgeRuleTemplateGroupRequest: AWSEncodableShape {
+        /// A resource's optional description.
+        public let description: String?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.description = description
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateEventBridgeRuleTemplateGroupResponse: AWSDecodableShape {
+        /// An eventbridge rule template group's ARN (Amazon Resource Name)
+        public let arn: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        /// An eventbridge rule template group's id. AWS provided template groups have ids that start with `aws-`
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, modifiedAt: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateEventBridgeRuleTemplateRequest: AWSEncodableShape {
+        /// A resource's optional description.
+        public let description: String?
+        public let eventTargets: [EventBridgeRuleTemplateTarget]?
+        public let eventType: EventBridgeRuleTemplateEventType?
+        /// An eventbridge rule template group's identifier. Can be either be its id or current name.
+        public let groupIdentifier: String?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, eventTargets: [EventBridgeRuleTemplateTarget]? = nil, eventType: EventBridgeRuleTemplateEventType? = nil, groupIdentifier: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.description = description
+            self.eventTargets = eventTargets
+            self.eventType = eventType
+            self.groupIdentifier = groupIdentifier
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.eventTargets?.forEach {
+                try $0.validate(name: "\(name).eventTargets[]")
+            }
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "^[^\\s]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case eventTargets = "eventTargets"
+            case eventType = "eventType"
+            case groupIdentifier = "groupIdentifier"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateEventBridgeRuleTemplateResponse: AWSDecodableShape {
+        /// An eventbridge rule template's ARN (Amazon Resource Name)
+        public let arn: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        public let eventTargets: [EventBridgeRuleTemplateTarget]?
+        public let eventType: EventBridgeRuleTemplateEventType?
+        /// An eventbridge rule template group's id. AWS provided template groups have ids that start with `aws-`
+        public let groupId: String?
+        /// An eventbridge rule template's id. AWS provided templates have ids that start with `aws-`
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, eventTargets: [EventBridgeRuleTemplateTarget]? = nil, eventType: EventBridgeRuleTemplateEventType? = nil, groupId: String? = nil, id: String? = nil, modifiedAt: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.eventTargets = eventTargets
+            self.eventType = eventType
+            self.groupId = groupId
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case eventTargets = "eventTargets"
+            case eventType = "eventType"
+            case groupId = "groupId"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -4036,6 +4583,124 @@ extension MediaLive {
         }
     }
 
+    public struct CreateSignalMapRequest: AWSEncodableShape {
+        public let cloudWatchAlarmTemplateGroupIdentifiers: [String]?
+        /// A resource's optional description.
+        public let description: String?
+        /// A top-level supported AWS resource ARN to discovery a signal map from.
+        public let discoveryEntryPointArn: String?
+        public let eventBridgeRuleTemplateGroupIdentifiers: [String]?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let tags: [String: String]?
+
+        public init(cloudWatchAlarmTemplateGroupIdentifiers: [String]? = nil, description: String? = nil, discoveryEntryPointArn: String? = nil, eventBridgeRuleTemplateGroupIdentifiers: [String]? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.cloudWatchAlarmTemplateGroupIdentifiers = cloudWatchAlarmTemplateGroupIdentifiers
+            self.description = description
+            self.discoveryEntryPointArn = discoveryEntryPointArn
+            self.eventBridgeRuleTemplateGroupIdentifiers = eventBridgeRuleTemplateGroupIdentifiers
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudWatchAlarmTemplateGroupIdentifiers?.forEach {
+                try validate($0, name: "cloudWatchAlarmTemplateGroupIdentifiers[]", parent: name, pattern: "^[^\\s]+$")
+            }
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.discoveryEntryPointArn, name: "discoveryEntryPointArn", parent: name, max: 2048)
+            try self.validate(self.discoveryEntryPointArn, name: "discoveryEntryPointArn", parent: name, min: 1)
+            try self.eventBridgeRuleTemplateGroupIdentifiers?.forEach {
+                try validate($0, name: "eventBridgeRuleTemplateGroupIdentifiers[]", parent: name, pattern: "^[^\\s]+$")
+            }
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchAlarmTemplateGroupIdentifiers = "cloudWatchAlarmTemplateGroupIdentifiers"
+            case description = "description"
+            case discoveryEntryPointArn = "discoveryEntryPointArn"
+            case eventBridgeRuleTemplateGroupIdentifiers = "eventBridgeRuleTemplateGroupIdentifiers"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateSignalMapResponse: AWSDecodableShape {
+        /// A signal map's ARN (Amazon Resource Name)
+        public let arn: String?
+        public let cloudWatchAlarmTemplateGroupIds: [String]?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        /// A top-level supported AWS resource ARN to discovery a signal map from.
+        public let discoveryEntryPointArn: String?
+        /// Error message associated with a failed creation or failed update attempt of a signal map.
+        public let errorMessage: String?
+        public let eventBridgeRuleTemplateGroupIds: [String]?
+        public let failedMediaResourceMap: [String: MediaResource]?
+        /// A signal map's id.
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastDiscoveredAt: Date?
+        public let lastSuccessfulMonitorDeployment: SuccessfulMonitorDeployment?
+        public let mediaResourceMap: [String: MediaResource]?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// If true, there are pending monitor changes for this signal map that can be deployed.
+        public let monitorChangesPendingDeployment: Bool?
+        public let monitorDeployment: MonitorDeployment?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let status: SignalMapStatus?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, cloudWatchAlarmTemplateGroupIds: [String]? = nil, createdAt: Date? = nil, description: String? = nil, discoveryEntryPointArn: String? = nil, errorMessage: String? = nil, eventBridgeRuleTemplateGroupIds: [String]? = nil, failedMediaResourceMap: [String: MediaResource]? = nil, id: String? = nil, lastDiscoveredAt: Date? = nil, lastSuccessfulMonitorDeployment: SuccessfulMonitorDeployment? = nil, mediaResourceMap: [String: MediaResource]? = nil, modifiedAt: Date? = nil, monitorChangesPendingDeployment: Bool? = nil, monitorDeployment: MonitorDeployment? = nil, name: String? = nil, status: SignalMapStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.cloudWatchAlarmTemplateGroupIds = cloudWatchAlarmTemplateGroupIds
+            self.createdAt = createdAt
+            self.description = description
+            self.discoveryEntryPointArn = discoveryEntryPointArn
+            self.errorMessage = errorMessage
+            self.eventBridgeRuleTemplateGroupIds = eventBridgeRuleTemplateGroupIds
+            self.failedMediaResourceMap = failedMediaResourceMap
+            self.id = id
+            self.lastDiscoveredAt = lastDiscoveredAt
+            self.lastSuccessfulMonitorDeployment = lastSuccessfulMonitorDeployment
+            self.mediaResourceMap = mediaResourceMap
+            self.modifiedAt = modifiedAt
+            self.monitorChangesPendingDeployment = monitorChangesPendingDeployment
+            self.monitorDeployment = monitorDeployment
+            self.name = name
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case cloudWatchAlarmTemplateGroupIds = "cloudWatchAlarmTemplateGroupIds"
+            case createdAt = "createdAt"
+            case description = "description"
+            case discoveryEntryPointArn = "discoveryEntryPointArn"
+            case errorMessage = "errorMessage"
+            case eventBridgeRuleTemplateGroupIds = "eventBridgeRuleTemplateGroupIds"
+            case failedMediaResourceMap = "failedMediaResourceMap"
+            case id = "id"
+            case lastDiscoveredAt = "lastDiscoveredAt"
+            case lastSuccessfulMonitorDeployment = "lastSuccessfulMonitorDeployment"
+            case mediaResourceMap = "mediaResourceMap"
+            case modifiedAt = "modifiedAt"
+            case monitorChangesPendingDeployment = "monitorChangesPendingDeployment"
+            case monitorDeployment = "monitorDeployment"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
     public struct CreateTagsRequest: AWSEncodableShape {
         public let resourceArn: String
         public let tags: [String: String]?
@@ -4153,6 +4818,74 @@ extension MediaLive {
             case tags = "tags"
             case vpc = "vpc"
         }
+    }
+
+    public struct DeleteCloudWatchAlarmTemplateGroupRequest: AWSEncodableShape {
+        /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCloudWatchAlarmTemplateRequest: AWSEncodableShape {
+        /// A cloudwatch alarm template's identifier. Can be either be its id or current name.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteEventBridgeRuleTemplateGroupRequest: AWSEncodableShape {
+        /// An eventbridge rule template group's identifier. Can be either be its id or current name.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteEventBridgeRuleTemplateRequest: AWSEncodableShape {
+        /// An eventbridge rule template's identifier. Can be either be its id or current name.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteInputRequest: AWSEncodableShape {
@@ -4434,6 +5167,23 @@ extension MediaLive {
 
     public struct DeleteScheduleResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteSignalMapRequest: AWSEncodableShape {
+        /// A signal map's identifier. Can be either be its id or current name.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteTagsRequest: AWSEncodableShape {
@@ -5780,6 +6530,112 @@ extension MediaLive {
         }
     }
 
+    public struct EventBridgeRuleTemplateGroupSummary: AWSDecodableShape {
+        /// An eventbridge rule template group's ARN (Amazon Resource Name)
+        public let arn: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        /// An eventbridge rule template group's id. AWS provided template groups have ids that start with `aws-`
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let tags: [String: String]?
+        /// The number of templates in a group.
+        public let templateCount: Int?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, modifiedAt: Date? = nil, name: String? = nil, tags: [String: String]? = nil, templateCount: Int? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.tags = tags
+            self.templateCount = templateCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case tags = "tags"
+            case templateCount = "templateCount"
+        }
+    }
+
+    public struct EventBridgeRuleTemplateSummary: AWSDecodableShape {
+        /// An eventbridge rule template's ARN (Amazon Resource Name)
+        public let arn: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        /// The number of targets configured to send matching events.
+        public let eventTargetCount: Int?
+        public let eventType: EventBridgeRuleTemplateEventType?
+        /// An eventbridge rule template group's id. AWS provided template groups have ids that start with `aws-`
+        public let groupId: String?
+        /// An eventbridge rule template's id. AWS provided templates have ids that start with `aws-`
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, eventTargetCount: Int? = nil, eventType: EventBridgeRuleTemplateEventType? = nil, groupId: String? = nil, id: String? = nil, modifiedAt: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.eventTargetCount = eventTargetCount
+            self.eventType = eventType
+            self.groupId = groupId
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case eventTargetCount = "eventTargetCount"
+            case eventType = "eventType"
+            case groupId = "groupId"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct EventBridgeRuleTemplateTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Target ARNs must be either an SNS topic or CloudWatch log group.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 2048)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
     public struct FailoverCondition: AWSEncodableShape & AWSDecodableShape {
         /// Failover condition type-specific settings.
         public let failoverConditionSettings: FailoverConditionSettings?
@@ -6005,6 +6861,354 @@ extension MediaLive {
             case captureInterval = "captureInterval"
             case captureIntervalUnits = "captureIntervalUnits"
             case timecodeBurninSettings = "timecodeBurninSettings"
+        }
+    }
+
+    public struct GetCloudWatchAlarmTemplateGroupRequest: AWSEncodableShape {
+        /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCloudWatchAlarmTemplateGroupResponse: AWSDecodableShape {
+        /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
+        public let arn: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        /// A cloudwatch alarm template group's id. AWS provided template groups have ids that start with `aws-`
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, modifiedAt: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct GetCloudWatchAlarmTemplateRequest: AWSEncodableShape {
+        /// A cloudwatch alarm template's identifier. Can be either be its id or current name.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCloudWatchAlarmTemplateResponse: AWSDecodableShape {
+        /// A cloudwatch alarm template's ARN (Amazon Resource Name)
+        public let arn: String?
+        public let comparisonOperator: CloudWatchAlarmTemplateComparisonOperator?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The number of datapoints within the evaluation period that must be breaching to trigger the alarm.
+        public let datapointsToAlarm: Int?
+        /// A resource's optional description.
+        public let description: String?
+        /// The number of periods over which data is compared to the specified threshold.
+        public let evaluationPeriods: Int?
+        /// A cloudwatch alarm template group's id. AWS provided template groups have ids that start with `aws-`
+        public let groupId: String?
+        /// A cloudwatch alarm template's id. AWS provided templates have ids that start with `aws-`
+        public let id: String?
+        /// The name of the metric associated with the alarm. Must be compatible with targetResourceType.
+        public let metricName: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        /// The period, in seconds, over which the specified statistic is applied.
+        public let period: Int?
+        public let statistic: CloudWatchAlarmTemplateStatistic?
+        public let tags: [String: String]?
+        public let targetResourceType: CloudWatchAlarmTemplateTargetResourceType?
+        /// The threshold value to compare with the specified statistic.
+        public let threshold: Double?
+        public let treatMissingData: CloudWatchAlarmTemplateTreatMissingData?
+
+        public init(arn: String? = nil, comparisonOperator: CloudWatchAlarmTemplateComparisonOperator? = nil, createdAt: Date? = nil, datapointsToAlarm: Int? = nil, description: String? = nil, evaluationPeriods: Int? = nil, groupId: String? = nil, id: String? = nil, metricName: String? = nil, modifiedAt: Date? = nil, name: String? = nil, period: Int? = nil, statistic: CloudWatchAlarmTemplateStatistic? = nil, tags: [String: String]? = nil, targetResourceType: CloudWatchAlarmTemplateTargetResourceType? = nil, threshold: Double? = nil, treatMissingData: CloudWatchAlarmTemplateTreatMissingData? = nil) {
+            self.arn = arn
+            self.comparisonOperator = comparisonOperator
+            self.createdAt = createdAt
+            self.datapointsToAlarm = datapointsToAlarm
+            self.description = description
+            self.evaluationPeriods = evaluationPeriods
+            self.groupId = groupId
+            self.id = id
+            self.metricName = metricName
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.period = period
+            self.statistic = statistic
+            self.tags = tags
+            self.targetResourceType = targetResourceType
+            self.threshold = threshold
+            self.treatMissingData = treatMissingData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case comparisonOperator = "comparisonOperator"
+            case createdAt = "createdAt"
+            case datapointsToAlarm = "datapointsToAlarm"
+            case description = "description"
+            case evaluationPeriods = "evaluationPeriods"
+            case groupId = "groupId"
+            case id = "id"
+            case metricName = "metricName"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case period = "period"
+            case statistic = "statistic"
+            case tags = "tags"
+            case targetResourceType = "targetResourceType"
+            case threshold = "threshold"
+            case treatMissingData = "treatMissingData"
+        }
+    }
+
+    public struct GetEventBridgeRuleTemplateGroupRequest: AWSEncodableShape {
+        /// An eventbridge rule template group's identifier. Can be either be its id or current name.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetEventBridgeRuleTemplateGroupResponse: AWSDecodableShape {
+        /// An eventbridge rule template group's ARN (Amazon Resource Name)
+        public let arn: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        /// An eventbridge rule template group's id. AWS provided template groups have ids that start with `aws-`
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, modifiedAt: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct GetEventBridgeRuleTemplateRequest: AWSEncodableShape {
+        /// An eventbridge rule template's identifier. Can be either be its id or current name.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetEventBridgeRuleTemplateResponse: AWSDecodableShape {
+        /// An eventbridge rule template's ARN (Amazon Resource Name)
+        public let arn: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        public let eventTargets: [EventBridgeRuleTemplateTarget]?
+        public let eventType: EventBridgeRuleTemplateEventType?
+        /// An eventbridge rule template group's id. AWS provided template groups have ids that start with `aws-`
+        public let groupId: String?
+        /// An eventbridge rule template's id. AWS provided templates have ids that start with `aws-`
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, eventTargets: [EventBridgeRuleTemplateTarget]? = nil, eventType: EventBridgeRuleTemplateEventType? = nil, groupId: String? = nil, id: String? = nil, modifiedAt: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.eventTargets = eventTargets
+            self.eventType = eventType
+            self.groupId = groupId
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case eventTargets = "eventTargets"
+            case eventType = "eventType"
+            case groupId = "groupId"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct GetSignalMapRequest: AWSEncodableShape {
+        /// A signal map's identifier. Can be either be its id or current name.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSignalMapResponse: AWSDecodableShape {
+        /// A signal map's ARN (Amazon Resource Name)
+        public let arn: String?
+        public let cloudWatchAlarmTemplateGroupIds: [String]?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        /// A top-level supported AWS resource ARN to discovery a signal map from.
+        public let discoveryEntryPointArn: String?
+        /// Error message associated with a failed creation or failed update attempt of a signal map.
+        public let errorMessage: String?
+        public let eventBridgeRuleTemplateGroupIds: [String]?
+        public let failedMediaResourceMap: [String: MediaResource]?
+        /// A signal map's id.
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastDiscoveredAt: Date?
+        public let lastSuccessfulMonitorDeployment: SuccessfulMonitorDeployment?
+        public let mediaResourceMap: [String: MediaResource]?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// If true, there are pending monitor changes for this signal map that can be deployed.
+        public let monitorChangesPendingDeployment: Bool?
+        public let monitorDeployment: MonitorDeployment?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let status: SignalMapStatus?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, cloudWatchAlarmTemplateGroupIds: [String]? = nil, createdAt: Date? = nil, description: String? = nil, discoveryEntryPointArn: String? = nil, errorMessage: String? = nil, eventBridgeRuleTemplateGroupIds: [String]? = nil, failedMediaResourceMap: [String: MediaResource]? = nil, id: String? = nil, lastDiscoveredAt: Date? = nil, lastSuccessfulMonitorDeployment: SuccessfulMonitorDeployment? = nil, mediaResourceMap: [String: MediaResource]? = nil, modifiedAt: Date? = nil, monitorChangesPendingDeployment: Bool? = nil, monitorDeployment: MonitorDeployment? = nil, name: String? = nil, status: SignalMapStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.cloudWatchAlarmTemplateGroupIds = cloudWatchAlarmTemplateGroupIds
+            self.createdAt = createdAt
+            self.description = description
+            self.discoveryEntryPointArn = discoveryEntryPointArn
+            self.errorMessage = errorMessage
+            self.eventBridgeRuleTemplateGroupIds = eventBridgeRuleTemplateGroupIds
+            self.failedMediaResourceMap = failedMediaResourceMap
+            self.id = id
+            self.lastDiscoveredAt = lastDiscoveredAt
+            self.lastSuccessfulMonitorDeployment = lastSuccessfulMonitorDeployment
+            self.mediaResourceMap = mediaResourceMap
+            self.modifiedAt = modifiedAt
+            self.monitorChangesPendingDeployment = monitorChangesPendingDeployment
+            self.monitorDeployment = monitorDeployment
+            self.name = name
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case cloudWatchAlarmTemplateGroupIds = "cloudWatchAlarmTemplateGroupIds"
+            case createdAt = "createdAt"
+            case description = "description"
+            case discoveryEntryPointArn = "discoveryEntryPointArn"
+            case errorMessage = "errorMessage"
+            case eventBridgeRuleTemplateGroupIds = "eventBridgeRuleTemplateGroupIds"
+            case failedMediaResourceMap = "failedMediaResourceMap"
+            case id = "id"
+            case lastDiscoveredAt = "lastDiscoveredAt"
+            case lastSuccessfulMonitorDeployment = "lastSuccessfulMonitorDeployment"
+            case mediaResourceMap = "mediaResourceMap"
+            case modifiedAt = "modifiedAt"
+            case monitorChangesPendingDeployment = "monitorChangesPendingDeployment"
+            case monitorDeployment = "monitorDeployment"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -8079,6 +9283,202 @@ extension MediaLive {
         }
     }
 
+    public struct ListCloudWatchAlarmTemplateGroupsRequest: AWSEncodableShape {
+        public let maxResults: Int?
+        /// A token used to retrieve the next set of results in paginated list responses.
+        public let nextToken: String?
+        /// Represents the scope of a resource, with options for all scopes, AWS provided resources, or local resources.
+        public let scope: String?
+        /// A signal map's identifier. Can be either be its id or current name.
+        public let signalMapIdentifier: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, scope: String? = nil, signalMapIdentifier: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.scope = scope
+            self.signalMapIdentifier = signalMapIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.scope, key: "scope")
+            request.encodeQuery(self.signalMapIdentifier, key: "signalMapIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCloudWatchAlarmTemplateGroupsResponse: AWSDecodableShape {
+        public let cloudWatchAlarmTemplateGroups: [CloudWatchAlarmTemplateGroupSummary]?
+        /// A token used to retrieve the next set of results in paginated list responses.
+        public let nextToken: String?
+
+        public init(cloudWatchAlarmTemplateGroups: [CloudWatchAlarmTemplateGroupSummary]? = nil, nextToken: String? = nil) {
+            self.cloudWatchAlarmTemplateGroups = cloudWatchAlarmTemplateGroups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchAlarmTemplateGroups = "cloudWatchAlarmTemplateGroups"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCloudWatchAlarmTemplatesRequest: AWSEncodableShape {
+        /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
+        public let groupIdentifier: String?
+        public let maxResults: Int?
+        /// A token used to retrieve the next set of results in paginated list responses.
+        public let nextToken: String?
+        /// Represents the scope of a resource, with options for all scopes, AWS provided resources, or local resources.
+        public let scope: String?
+        /// A signal map's identifier. Can be either be its id or current name.
+        public let signalMapIdentifier: String?
+
+        public init(groupIdentifier: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, scope: String? = nil, signalMapIdentifier: String? = nil) {
+            self.groupIdentifier = groupIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.scope = scope
+            self.signalMapIdentifier = signalMapIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.groupIdentifier, key: "groupIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.scope, key: "scope")
+            request.encodeQuery(self.signalMapIdentifier, key: "signalMapIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCloudWatchAlarmTemplatesResponse: AWSDecodableShape {
+        public let cloudWatchAlarmTemplates: [CloudWatchAlarmTemplateSummary]?
+        /// A token used to retrieve the next set of results in paginated list responses.
+        public let nextToken: String?
+
+        public init(cloudWatchAlarmTemplates: [CloudWatchAlarmTemplateSummary]? = nil, nextToken: String? = nil) {
+            self.cloudWatchAlarmTemplates = cloudWatchAlarmTemplates
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchAlarmTemplates = "cloudWatchAlarmTemplates"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListEventBridgeRuleTemplateGroupsRequest: AWSEncodableShape {
+        public let maxResults: Int?
+        /// A token used to retrieve the next set of results in paginated list responses.
+        public let nextToken: String?
+        /// A signal map's identifier. Can be either be its id or current name.
+        public let signalMapIdentifier: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, signalMapIdentifier: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.signalMapIdentifier = signalMapIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.signalMapIdentifier, key: "signalMapIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListEventBridgeRuleTemplateGroupsResponse: AWSDecodableShape {
+        public let eventBridgeRuleTemplateGroups: [EventBridgeRuleTemplateGroupSummary]?
+        /// A token used to retrieve the next set of results in paginated list responses.
+        public let nextToken: String?
+
+        public init(eventBridgeRuleTemplateGroups: [EventBridgeRuleTemplateGroupSummary]? = nil, nextToken: String? = nil) {
+            self.eventBridgeRuleTemplateGroups = eventBridgeRuleTemplateGroups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventBridgeRuleTemplateGroups = "eventBridgeRuleTemplateGroups"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListEventBridgeRuleTemplatesRequest: AWSEncodableShape {
+        /// An eventbridge rule template group's identifier. Can be either be its id or current name.
+        public let groupIdentifier: String?
+        public let maxResults: Int?
+        /// A token used to retrieve the next set of results in paginated list responses.
+        public let nextToken: String?
+        /// A signal map's identifier. Can be either be its id or current name.
+        public let signalMapIdentifier: String?
+
+        public init(groupIdentifier: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, signalMapIdentifier: String? = nil) {
+            self.groupIdentifier = groupIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.signalMapIdentifier = signalMapIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.groupIdentifier, key: "groupIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.signalMapIdentifier, key: "signalMapIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListEventBridgeRuleTemplatesResponse: AWSDecodableShape {
+        public let eventBridgeRuleTemplates: [EventBridgeRuleTemplateSummary]?
+        /// A token used to retrieve the next set of results in paginated list responses.
+        public let nextToken: String?
+
+        public init(eventBridgeRuleTemplates: [EventBridgeRuleTemplateSummary]? = nil, nextToken: String? = nil) {
+            self.eventBridgeRuleTemplates = eventBridgeRuleTemplates
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventBridgeRuleTemplates = "eventBridgeRuleTemplates"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListInputDeviceTransfersRequest: AWSEncodableShape {
         public let maxResults: Int?
         public let nextToken: String?
@@ -8484,6 +9884,55 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case reservations = "reservations"
+        }
+    }
+
+    public struct ListSignalMapsRequest: AWSEncodableShape {
+        /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
+        public let cloudWatchAlarmTemplateGroupIdentifier: String?
+        /// An eventbridge rule template group's identifier. Can be either be its id or current name.
+        public let eventBridgeRuleTemplateGroupIdentifier: String?
+        public let maxResults: Int?
+        /// A token used to retrieve the next set of results in paginated list responses.
+        public let nextToken: String?
+
+        public init(cloudWatchAlarmTemplateGroupIdentifier: String? = nil, eventBridgeRuleTemplateGroupIdentifier: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.cloudWatchAlarmTemplateGroupIdentifier = cloudWatchAlarmTemplateGroupIdentifier
+            self.eventBridgeRuleTemplateGroupIdentifier = eventBridgeRuleTemplateGroupIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.cloudWatchAlarmTemplateGroupIdentifier, key: "cloudWatchAlarmTemplateGroupIdentifier")
+            request.encodeQuery(self.eventBridgeRuleTemplateGroupIdentifier, key: "eventBridgeRuleTemplateGroupIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSignalMapsResponse: AWSDecodableShape {
+        /// A token used to retrieve the next set of results in paginated list responses.
+        public let nextToken: String?
+        public let signalMaps: [SignalMapSummary]?
+
+        public init(nextToken: String? = nil, signalMaps: [SignalMapSummary]? = nil) {
+            self.nextToken = nextToken
+            self.signalMaps = signalMaps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case signalMaps = "signalMaps"
         }
     }
 
@@ -8966,6 +10415,62 @@ extension MediaLive {
 
     public struct MediaPackageOutputSettings: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct MediaResource: AWSDecodableShape {
+        public let destinations: [MediaResourceNeighbor]?
+        /// The logical name of an AWS media resource.
+        public let name: String?
+        public let sources: [MediaResourceNeighbor]?
+
+        public init(destinations: [MediaResourceNeighbor]? = nil, name: String? = nil, sources: [MediaResourceNeighbor]? = nil) {
+            self.destinations = destinations
+            self.name = name
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case name = "name"
+            case sources = "sources"
+        }
+    }
+
+    public struct MediaResourceNeighbor: AWSDecodableShape {
+        /// The ARN of a resource used in AWS media workflows.
+        public let arn: String?
+        /// The logical name of an AWS media resource.
+        public let name: String?
+
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
+        }
+    }
+
+    public struct MonitorDeployment: AWSDecodableShape {
+        /// URI associated with a signal map's monitor deployment.
+        public let detailsUri: String?
+        /// Error message associated with a failed monitor deployment of a signal map.
+        public let errorMessage: String?
+        public let status: SignalMapMonitorDeploymentStatus?
+
+        public init(detailsUri: String? = nil, errorMessage: String? = nil, status: SignalMapMonitorDeploymentStatus? = nil) {
+            self.detailsUri = detailsUri
+            self.errorMessage = errorMessage
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detailsUri = "detailsUri"
+            case errorMessage = "errorMessage"
+            case status = "status"
+        }
     }
 
     public struct MotionGraphicsActivateScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
@@ -11118,6 +12623,48 @@ extension MediaLive {
         }
     }
 
+    public struct SignalMapSummary: AWSDecodableShape {
+        /// A signal map's ARN (Amazon Resource Name)
+        public let arn: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        /// A signal map's id.
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        public let monitorDeploymentStatus: SignalMapMonitorDeploymentStatus?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let status: SignalMapStatus?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, modifiedAt: Date? = nil, monitorDeploymentStatus: SignalMapMonitorDeploymentStatus? = nil, name: String? = nil, status: SignalMapStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.monitorDeploymentStatus = monitorDeploymentStatus
+            self.name = name
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
+            case monitorDeploymentStatus = "monitorDeploymentStatus"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
     public struct SmpteTtDestinationSettings: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
@@ -11240,6 +12787,96 @@ extension MediaLive {
         }
     }
 
+    public struct StartDeleteMonitorDeploymentRequest: AWSEncodableShape {
+        /// A signal map's identifier. Can be either be its id or current name.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StartDeleteMonitorDeploymentResponse: AWSDecodableShape {
+        /// A signal map's ARN (Amazon Resource Name)
+        public let arn: String?
+        public let cloudWatchAlarmTemplateGroupIds: [String]?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        /// A top-level supported AWS resource ARN to discovery a signal map from.
+        public let discoveryEntryPointArn: String?
+        /// Error message associated with a failed creation or failed update attempt of a signal map.
+        public let errorMessage: String?
+        public let eventBridgeRuleTemplateGroupIds: [String]?
+        public let failedMediaResourceMap: [String: MediaResource]?
+        /// A signal map's id.
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastDiscoveredAt: Date?
+        public let lastSuccessfulMonitorDeployment: SuccessfulMonitorDeployment?
+        public let mediaResourceMap: [String: MediaResource]?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// If true, there are pending monitor changes for this signal map that can be deployed.
+        public let monitorChangesPendingDeployment: Bool?
+        public let monitorDeployment: MonitorDeployment?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let status: SignalMapStatus?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, cloudWatchAlarmTemplateGroupIds: [String]? = nil, createdAt: Date? = nil, description: String? = nil, discoveryEntryPointArn: String? = nil, errorMessage: String? = nil, eventBridgeRuleTemplateGroupIds: [String]? = nil, failedMediaResourceMap: [String: MediaResource]? = nil, id: String? = nil, lastDiscoveredAt: Date? = nil, lastSuccessfulMonitorDeployment: SuccessfulMonitorDeployment? = nil, mediaResourceMap: [String: MediaResource]? = nil, modifiedAt: Date? = nil, monitorChangesPendingDeployment: Bool? = nil, monitorDeployment: MonitorDeployment? = nil, name: String? = nil, status: SignalMapStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.cloudWatchAlarmTemplateGroupIds = cloudWatchAlarmTemplateGroupIds
+            self.createdAt = createdAt
+            self.description = description
+            self.discoveryEntryPointArn = discoveryEntryPointArn
+            self.errorMessage = errorMessage
+            self.eventBridgeRuleTemplateGroupIds = eventBridgeRuleTemplateGroupIds
+            self.failedMediaResourceMap = failedMediaResourceMap
+            self.id = id
+            self.lastDiscoveredAt = lastDiscoveredAt
+            self.lastSuccessfulMonitorDeployment = lastSuccessfulMonitorDeployment
+            self.mediaResourceMap = mediaResourceMap
+            self.modifiedAt = modifiedAt
+            self.monitorChangesPendingDeployment = monitorChangesPendingDeployment
+            self.monitorDeployment = monitorDeployment
+            self.name = name
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case cloudWatchAlarmTemplateGroupIds = "cloudWatchAlarmTemplateGroupIds"
+            case createdAt = "createdAt"
+            case description = "description"
+            case discoveryEntryPointArn = "discoveryEntryPointArn"
+            case errorMessage = "errorMessage"
+            case eventBridgeRuleTemplateGroupIds = "eventBridgeRuleTemplateGroupIds"
+            case failedMediaResourceMap = "failedMediaResourceMap"
+            case id = "id"
+            case lastDiscoveredAt = "lastDiscoveredAt"
+            case lastSuccessfulMonitorDeployment = "lastSuccessfulMonitorDeployment"
+            case mediaResourceMap = "mediaResourceMap"
+            case modifiedAt = "modifiedAt"
+            case monitorChangesPendingDeployment = "monitorChangesPendingDeployment"
+            case monitorDeployment = "monitorDeployment"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
     public struct StartInputDeviceMaintenanceWindowRequest: AWSEncodableShape {
         /// The unique ID of the input device to start a maintenance window for. For example, hd-123456789abcdef.
         public let inputDeviceId: String
@@ -11280,6 +12917,101 @@ extension MediaLive {
 
     public struct StartInputDeviceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct StartMonitorDeploymentRequest: AWSEncodableShape {
+        public let dryRun: Bool?
+        /// A signal map's identifier. Can be either be its id or current name.
+        public let identifier: String
+
+        public init(dryRun: Bool? = nil, identifier: String) {
+            self.dryRun = dryRun
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dryRun, forKey: .dryRun)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "dryRun"
+        }
+    }
+
+    public struct StartMonitorDeploymentResponse: AWSDecodableShape {
+        /// A signal map's ARN (Amazon Resource Name)
+        public let arn: String?
+        public let cloudWatchAlarmTemplateGroupIds: [String]?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        /// A top-level supported AWS resource ARN to discovery a signal map from.
+        public let discoveryEntryPointArn: String?
+        /// Error message associated with a failed creation or failed update attempt of a signal map.
+        public let errorMessage: String?
+        public let eventBridgeRuleTemplateGroupIds: [String]?
+        public let failedMediaResourceMap: [String: MediaResource]?
+        /// A signal map's id.
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastDiscoveredAt: Date?
+        public let lastSuccessfulMonitorDeployment: SuccessfulMonitorDeployment?
+        public let mediaResourceMap: [String: MediaResource]?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// If true, there are pending monitor changes for this signal map that can be deployed.
+        public let monitorChangesPendingDeployment: Bool?
+        public let monitorDeployment: MonitorDeployment?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let status: SignalMapStatus?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, cloudWatchAlarmTemplateGroupIds: [String]? = nil, createdAt: Date? = nil, description: String? = nil, discoveryEntryPointArn: String? = nil, errorMessage: String? = nil, eventBridgeRuleTemplateGroupIds: [String]? = nil, failedMediaResourceMap: [String: MediaResource]? = nil, id: String? = nil, lastDiscoveredAt: Date? = nil, lastSuccessfulMonitorDeployment: SuccessfulMonitorDeployment? = nil, mediaResourceMap: [String: MediaResource]? = nil, modifiedAt: Date? = nil, monitorChangesPendingDeployment: Bool? = nil, monitorDeployment: MonitorDeployment? = nil, name: String? = nil, status: SignalMapStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.cloudWatchAlarmTemplateGroupIds = cloudWatchAlarmTemplateGroupIds
+            self.createdAt = createdAt
+            self.description = description
+            self.discoveryEntryPointArn = discoveryEntryPointArn
+            self.errorMessage = errorMessage
+            self.eventBridgeRuleTemplateGroupIds = eventBridgeRuleTemplateGroupIds
+            self.failedMediaResourceMap = failedMediaResourceMap
+            self.id = id
+            self.lastDiscoveredAt = lastDiscoveredAt
+            self.lastSuccessfulMonitorDeployment = lastSuccessfulMonitorDeployment
+            self.mediaResourceMap = mediaResourceMap
+            self.modifiedAt = modifiedAt
+            self.monitorChangesPendingDeployment = monitorChangesPendingDeployment
+            self.monitorDeployment = monitorDeployment
+            self.name = name
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case cloudWatchAlarmTemplateGroupIds = "cloudWatchAlarmTemplateGroupIds"
+            case createdAt = "createdAt"
+            case description = "description"
+            case discoveryEntryPointArn = "discoveryEntryPointArn"
+            case errorMessage = "errorMessage"
+            case eventBridgeRuleTemplateGroupIds = "eventBridgeRuleTemplateGroupIds"
+            case failedMediaResourceMap = "failedMediaResourceMap"
+            case id = "id"
+            case lastDiscoveredAt = "lastDiscoveredAt"
+            case lastSuccessfulMonitorDeployment = "lastSuccessfulMonitorDeployment"
+            case mediaResourceMap = "mediaResourceMap"
+            case modifiedAt = "modifiedAt"
+            case monitorChangesPendingDeployment = "monitorChangesPendingDeployment"
+            case monitorDeployment = "monitorDeployment"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
+        }
     }
 
     public struct StartMultiplexRequest: AWSEncodableShape {
@@ -11358,6 +13090,140 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case timecode = "timecode"
+        }
+    }
+
+    public struct StartUpdateSignalMapRequest: AWSEncodableShape {
+        public let cloudWatchAlarmTemplateGroupIdentifiers: [String]?
+        /// A resource's optional description.
+        public let description: String?
+        /// A top-level supported AWS resource ARN to discovery a signal map from.
+        public let discoveryEntryPointArn: String?
+        public let eventBridgeRuleTemplateGroupIdentifiers: [String]?
+        /// If true, will force a rediscovery of a signal map if an unchanged discoveryEntryPointArn is provided.
+        public let forceRediscovery: Bool?
+        /// A signal map's identifier. Can be either be its id or current name.
+        public let identifier: String
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+
+        public init(cloudWatchAlarmTemplateGroupIdentifiers: [String]? = nil, description: String? = nil, discoveryEntryPointArn: String? = nil, eventBridgeRuleTemplateGroupIdentifiers: [String]? = nil, forceRediscovery: Bool? = nil, identifier: String, name: String? = nil) {
+            self.cloudWatchAlarmTemplateGroupIdentifiers = cloudWatchAlarmTemplateGroupIdentifiers
+            self.description = description
+            self.discoveryEntryPointArn = discoveryEntryPointArn
+            self.eventBridgeRuleTemplateGroupIdentifiers = eventBridgeRuleTemplateGroupIdentifiers
+            self.forceRediscovery = forceRediscovery
+            self.identifier = identifier
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.cloudWatchAlarmTemplateGroupIdentifiers, forKey: .cloudWatchAlarmTemplateGroupIdentifiers)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.discoveryEntryPointArn, forKey: .discoveryEntryPointArn)
+            try container.encodeIfPresent(self.eventBridgeRuleTemplateGroupIdentifiers, forKey: .eventBridgeRuleTemplateGroupIdentifiers)
+            try container.encodeIfPresent(self.forceRediscovery, forKey: .forceRediscovery)
+            request.encodePath(self.identifier, key: "Identifier")
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudWatchAlarmTemplateGroupIdentifiers?.forEach {
+                try validate($0, name: "cloudWatchAlarmTemplateGroupIdentifiers[]", parent: name, pattern: "^[^\\s]+$")
+            }
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.discoveryEntryPointArn, name: "discoveryEntryPointArn", parent: name, max: 2048)
+            try self.validate(self.discoveryEntryPointArn, name: "discoveryEntryPointArn", parent: name, min: 1)
+            try self.eventBridgeRuleTemplateGroupIdentifiers?.forEach {
+                try validate($0, name: "eventBridgeRuleTemplateGroupIdentifiers[]", parent: name, pattern: "^[^\\s]+$")
+            }
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchAlarmTemplateGroupIdentifiers = "cloudWatchAlarmTemplateGroupIdentifiers"
+            case description = "description"
+            case discoveryEntryPointArn = "discoveryEntryPointArn"
+            case eventBridgeRuleTemplateGroupIdentifiers = "eventBridgeRuleTemplateGroupIdentifiers"
+            case forceRediscovery = "forceRediscovery"
+            case name = "name"
+        }
+    }
+
+    public struct StartUpdateSignalMapResponse: AWSDecodableShape {
+        /// A signal map's ARN (Amazon Resource Name)
+        public let arn: String?
+        public let cloudWatchAlarmTemplateGroupIds: [String]?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        /// A top-level supported AWS resource ARN to discovery a signal map from.
+        public let discoveryEntryPointArn: String?
+        /// Error message associated with a failed creation or failed update attempt of a signal map.
+        public let errorMessage: String?
+        public let eventBridgeRuleTemplateGroupIds: [String]?
+        public let failedMediaResourceMap: [String: MediaResource]?
+        /// A signal map's id.
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastDiscoveredAt: Date?
+        public let lastSuccessfulMonitorDeployment: SuccessfulMonitorDeployment?
+        public let mediaResourceMap: [String: MediaResource]?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// If true, there are pending monitor changes for this signal map that can be deployed.
+        public let monitorChangesPendingDeployment: Bool?
+        public let monitorDeployment: MonitorDeployment?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let status: SignalMapStatus?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, cloudWatchAlarmTemplateGroupIds: [String]? = nil, createdAt: Date? = nil, description: String? = nil, discoveryEntryPointArn: String? = nil, errorMessage: String? = nil, eventBridgeRuleTemplateGroupIds: [String]? = nil, failedMediaResourceMap: [String: MediaResource]? = nil, id: String? = nil, lastDiscoveredAt: Date? = nil, lastSuccessfulMonitorDeployment: SuccessfulMonitorDeployment? = nil, mediaResourceMap: [String: MediaResource]? = nil, modifiedAt: Date? = nil, monitorChangesPendingDeployment: Bool? = nil, monitorDeployment: MonitorDeployment? = nil, name: String? = nil, status: SignalMapStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.cloudWatchAlarmTemplateGroupIds = cloudWatchAlarmTemplateGroupIds
+            self.createdAt = createdAt
+            self.description = description
+            self.discoveryEntryPointArn = discoveryEntryPointArn
+            self.errorMessage = errorMessage
+            self.eventBridgeRuleTemplateGroupIds = eventBridgeRuleTemplateGroupIds
+            self.failedMediaResourceMap = failedMediaResourceMap
+            self.id = id
+            self.lastDiscoveredAt = lastDiscoveredAt
+            self.lastSuccessfulMonitorDeployment = lastSuccessfulMonitorDeployment
+            self.mediaResourceMap = mediaResourceMap
+            self.modifiedAt = modifiedAt
+            self.monitorChangesPendingDeployment = monitorChangesPendingDeployment
+            self.monitorDeployment = monitorDeployment
+            self.name = name
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case cloudWatchAlarmTemplateGroupIds = "cloudWatchAlarmTemplateGroupIds"
+            case createdAt = "createdAt"
+            case description = "description"
+            case discoveryEntryPointArn = "discoveryEntryPointArn"
+            case errorMessage = "errorMessage"
+            case eventBridgeRuleTemplateGroupIds = "eventBridgeRuleTemplateGroupIds"
+            case failedMediaResourceMap = "failedMediaResourceMap"
+            case id = "id"
+            case lastDiscoveredAt = "lastDiscoveredAt"
+            case lastSuccessfulMonitorDeployment = "lastSuccessfulMonitorDeployment"
+            case mediaResourceMap = "mediaResourceMap"
+            case modifiedAt = "modifiedAt"
+            case monitorChangesPendingDeployment = "monitorChangesPendingDeployment"
+            case monitorDeployment = "monitorDeployment"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -11765,6 +13631,22 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case lastFrameClippingBehavior = "lastFrameClippingBehavior"
             case timecode = "timecode"
+        }
+    }
+
+    public struct SuccessfulMonitorDeployment: AWSDecodableShape {
+        /// URI associated with a signal map's monitor deployment.
+        public let detailsUri: String?
+        public let status: SignalMapMonitorDeploymentStatus?
+
+        public init(detailsUri: String? = nil, status: SignalMapMonitorDeploymentStatus? = nil) {
+            self.detailsUri = detailsUri
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detailsUri = "detailsUri"
+            case status = "status"
         }
     }
 
@@ -12213,6 +14095,389 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case channel = "channel"
+        }
+    }
+
+    public struct UpdateCloudWatchAlarmTemplateGroupRequest: AWSEncodableShape {
+        /// A resource's optional description.
+        public let description: String?
+        /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
+        public let identifier: String
+
+        public init(description: String? = nil, identifier: String) {
+            self.description = description
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+        }
+    }
+
+    public struct UpdateCloudWatchAlarmTemplateGroupResponse: AWSDecodableShape {
+        /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
+        public let arn: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        /// A cloudwatch alarm template group's id. AWS provided template groups have ids that start with `aws-`
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, modifiedAt: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct UpdateCloudWatchAlarmTemplateRequest: AWSEncodableShape {
+        public let comparisonOperator: CloudWatchAlarmTemplateComparisonOperator?
+        /// The number of datapoints within the evaluation period that must be breaching to trigger the alarm.
+        public let datapointsToAlarm: Int?
+        /// A resource's optional description.
+        public let description: String?
+        /// The number of periods over which data is compared to the specified threshold.
+        public let evaluationPeriods: Int?
+        /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
+        public let groupIdentifier: String?
+        /// A cloudwatch alarm template's identifier. Can be either be its id or current name.
+        public let identifier: String
+        /// The name of the metric associated with the alarm. Must be compatible with targetResourceType.
+        public let metricName: String?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        /// The period, in seconds, over which the specified statistic is applied.
+        public let period: Int?
+        public let statistic: CloudWatchAlarmTemplateStatistic?
+        public let targetResourceType: CloudWatchAlarmTemplateTargetResourceType?
+        /// The threshold value to compare with the specified statistic.
+        public let threshold: Double?
+        public let treatMissingData: CloudWatchAlarmTemplateTreatMissingData?
+
+        public init(comparisonOperator: CloudWatchAlarmTemplateComparisonOperator? = nil, datapointsToAlarm: Int? = nil, description: String? = nil, evaluationPeriods: Int? = nil, groupIdentifier: String? = nil, identifier: String, metricName: String? = nil, name: String? = nil, period: Int? = nil, statistic: CloudWatchAlarmTemplateStatistic? = nil, targetResourceType: CloudWatchAlarmTemplateTargetResourceType? = nil, threshold: Double? = nil, treatMissingData: CloudWatchAlarmTemplateTreatMissingData? = nil) {
+            self.comparisonOperator = comparisonOperator
+            self.datapointsToAlarm = datapointsToAlarm
+            self.description = description
+            self.evaluationPeriods = evaluationPeriods
+            self.groupIdentifier = groupIdentifier
+            self.identifier = identifier
+            self.metricName = metricName
+            self.name = name
+            self.period = period
+            self.statistic = statistic
+            self.targetResourceType = targetResourceType
+            self.threshold = threshold
+            self.treatMissingData = treatMissingData
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.comparisonOperator, forKey: .comparisonOperator)
+            try container.encodeIfPresent(self.datapointsToAlarm, forKey: .datapointsToAlarm)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.evaluationPeriods, forKey: .evaluationPeriods)
+            try container.encodeIfPresent(self.groupIdentifier, forKey: .groupIdentifier)
+            request.encodePath(self.identifier, key: "Identifier")
+            try container.encodeIfPresent(self.metricName, forKey: .metricName)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.period, forKey: .period)
+            try container.encodeIfPresent(self.statistic, forKey: .statistic)
+            try container.encodeIfPresent(self.targetResourceType, forKey: .targetResourceType)
+            try container.encodeIfPresent(self.threshold, forKey: .threshold)
+            try container.encodeIfPresent(self.treatMissingData, forKey: .treatMissingData)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datapointsToAlarm, name: "datapointsToAlarm", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.evaluationPeriods, name: "evaluationPeriods", parent: name, min: 1)
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "^[^\\s]+$")
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s]+$")
+            try self.validate(self.period, name: "period", parent: name, max: 86400)
+            try self.validate(self.period, name: "period", parent: name, min: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "comparisonOperator"
+            case datapointsToAlarm = "datapointsToAlarm"
+            case description = "description"
+            case evaluationPeriods = "evaluationPeriods"
+            case groupIdentifier = "groupIdentifier"
+            case metricName = "metricName"
+            case name = "name"
+            case period = "period"
+            case statistic = "statistic"
+            case targetResourceType = "targetResourceType"
+            case threshold = "threshold"
+            case treatMissingData = "treatMissingData"
+        }
+    }
+
+    public struct UpdateCloudWatchAlarmTemplateResponse: AWSDecodableShape {
+        /// A cloudwatch alarm template's ARN (Amazon Resource Name)
+        public let arn: String?
+        public let comparisonOperator: CloudWatchAlarmTemplateComparisonOperator?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The number of datapoints within the evaluation period that must be breaching to trigger the alarm.
+        public let datapointsToAlarm: Int?
+        /// A resource's optional description.
+        public let description: String?
+        /// The number of periods over which data is compared to the specified threshold.
+        public let evaluationPeriods: Int?
+        /// A cloudwatch alarm template group's id. AWS provided template groups have ids that start with `aws-`
+        public let groupId: String?
+        /// A cloudwatch alarm template's id. AWS provided templates have ids that start with `aws-`
+        public let id: String?
+        /// The name of the metric associated with the alarm. Must be compatible with targetResourceType.
+        public let metricName: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        /// The period, in seconds, over which the specified statistic is applied.
+        public let period: Int?
+        public let statistic: CloudWatchAlarmTemplateStatistic?
+        public let tags: [String: String]?
+        public let targetResourceType: CloudWatchAlarmTemplateTargetResourceType?
+        /// The threshold value to compare with the specified statistic.
+        public let threshold: Double?
+        public let treatMissingData: CloudWatchAlarmTemplateTreatMissingData?
+
+        public init(arn: String? = nil, comparisonOperator: CloudWatchAlarmTemplateComparisonOperator? = nil, createdAt: Date? = nil, datapointsToAlarm: Int? = nil, description: String? = nil, evaluationPeriods: Int? = nil, groupId: String? = nil, id: String? = nil, metricName: String? = nil, modifiedAt: Date? = nil, name: String? = nil, period: Int? = nil, statistic: CloudWatchAlarmTemplateStatistic? = nil, tags: [String: String]? = nil, targetResourceType: CloudWatchAlarmTemplateTargetResourceType? = nil, threshold: Double? = nil, treatMissingData: CloudWatchAlarmTemplateTreatMissingData? = nil) {
+            self.arn = arn
+            self.comparisonOperator = comparisonOperator
+            self.createdAt = createdAt
+            self.datapointsToAlarm = datapointsToAlarm
+            self.description = description
+            self.evaluationPeriods = evaluationPeriods
+            self.groupId = groupId
+            self.id = id
+            self.metricName = metricName
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.period = period
+            self.statistic = statistic
+            self.tags = tags
+            self.targetResourceType = targetResourceType
+            self.threshold = threshold
+            self.treatMissingData = treatMissingData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case comparisonOperator = "comparisonOperator"
+            case createdAt = "createdAt"
+            case datapointsToAlarm = "datapointsToAlarm"
+            case description = "description"
+            case evaluationPeriods = "evaluationPeriods"
+            case groupId = "groupId"
+            case id = "id"
+            case metricName = "metricName"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case period = "period"
+            case statistic = "statistic"
+            case tags = "tags"
+            case targetResourceType = "targetResourceType"
+            case threshold = "threshold"
+            case treatMissingData = "treatMissingData"
+        }
+    }
+
+    public struct UpdateEventBridgeRuleTemplateGroupRequest: AWSEncodableShape {
+        /// A resource's optional description.
+        public let description: String?
+        /// An eventbridge rule template group's identifier. Can be either be its id or current name.
+        public let identifier: String
+
+        public init(description: String? = nil, identifier: String) {
+            self.description = description
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+        }
+    }
+
+    public struct UpdateEventBridgeRuleTemplateGroupResponse: AWSDecodableShape {
+        /// An eventbridge rule template group's ARN (Amazon Resource Name)
+        public let arn: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        /// An eventbridge rule template group's id. AWS provided template groups have ids that start with `aws-`
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, modifiedAt: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct UpdateEventBridgeRuleTemplateRequest: AWSEncodableShape {
+        /// A resource's optional description.
+        public let description: String?
+        public let eventTargets: [EventBridgeRuleTemplateTarget]?
+        public let eventType: EventBridgeRuleTemplateEventType?
+        /// An eventbridge rule template group's identifier. Can be either be its id or current name.
+        public let groupIdentifier: String?
+        /// An eventbridge rule template's identifier. Can be either be its id or current name.
+        public let identifier: String
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+
+        public init(description: String? = nil, eventTargets: [EventBridgeRuleTemplateTarget]? = nil, eventType: EventBridgeRuleTemplateEventType? = nil, groupIdentifier: String? = nil, identifier: String, name: String? = nil) {
+            self.description = description
+            self.eventTargets = eventTargets
+            self.eventType = eventType
+            self.groupIdentifier = groupIdentifier
+            self.identifier = identifier
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.eventTargets, forKey: .eventTargets)
+            try container.encodeIfPresent(self.eventType, forKey: .eventType)
+            try container.encodeIfPresent(self.groupIdentifier, forKey: .groupIdentifier)
+            request.encodePath(self.identifier, key: "Identifier")
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.eventTargets?.forEach {
+                try $0.validate(name: "\(name).eventTargets[]")
+            }
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "^[^\\s]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case eventTargets = "eventTargets"
+            case eventType = "eventType"
+            case groupIdentifier = "groupIdentifier"
+            case name = "name"
+        }
+    }
+
+    public struct UpdateEventBridgeRuleTemplateResponse: AWSDecodableShape {
+        /// An eventbridge rule template's ARN (Amazon Resource Name)
+        public let arn: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// A resource's optional description.
+        public let description: String?
+        public let eventTargets: [EventBridgeRuleTemplateTarget]?
+        public let eventType: EventBridgeRuleTemplateEventType?
+        /// An eventbridge rule template group's id. AWS provided template groups have ids that start with `aws-`
+        public let groupId: String?
+        /// An eventbridge rule template's id. AWS provided templates have ids that start with `aws-`
+        public let id: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        public let name: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, eventTargets: [EventBridgeRuleTemplateTarget]? = nil, eventType: EventBridgeRuleTemplateEventType? = nil, groupId: String? = nil, id: String? = nil, modifiedAt: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.eventTargets = eventTargets
+            self.eventType = eventType
+            self.groupId = groupId
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case eventTargets = "eventTargets"
+            case eventType = "eventType"
+            case groupId = "groupId"
+            case id = "id"
+            case modifiedAt = "modifiedAt"
+            case name = "name"
+            case tags = "tags"
         }
     }
 

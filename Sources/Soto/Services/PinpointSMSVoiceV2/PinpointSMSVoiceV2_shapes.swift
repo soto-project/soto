@@ -28,6 +28,7 @@ extension PinpointSMSVoiceV2 {
 
     public enum AccountAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountTier = "ACCOUNT_TIER"
+        case defaultProtectConfigurationId = "DEFAULT_PROTECT_CONFIGURATION_ID"
         public var description: String { return self.rawValue }
     }
 
@@ -61,6 +62,7 @@ extension PinpointSMSVoiceV2 {
         case defaultSenderId = "default-sender-id"
         case eventDestinationName = "event-destination-name"
         case matchingEventTypes = "matching-event-types"
+        case protectConfigurationId = "protect-configuration-id"
         public var description: String { return self.rawValue }
     }
 
@@ -72,6 +74,23 @@ extension PinpointSMSVoiceV2 {
 
     public enum EventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
+        case mediaAll = "MEDIA_ALL"
+        case mediaBlocked = "MEDIA_BLOCKED"
+        case mediaCarrierBlocked = "MEDIA_CARRIER_BLOCKED"
+        case mediaCarrierUnreachable = "MEDIA_CARRIER_UNREACHABLE"
+        case mediaDelivered = "MEDIA_DELIVERED"
+        case mediaFileInaccessible = "MEDIA_FILE_INACCESSIBLE"
+        case mediaFileSizeExceeded = "MEDIA_FILE_SIZE_EXCEEDED"
+        case mediaFileTypeUnsupported = "MEDIA_FILE_TYPE_UNSUPPORTED"
+        case mediaInvalid = "MEDIA_INVALID"
+        case mediaInvalidMessage = "MEDIA_INVALID_MESSAGE"
+        case mediaPending = "MEDIA_PENDING"
+        case mediaQueued = "MEDIA_QUEUED"
+        case mediaSpam = "MEDIA_SPAM"
+        case mediaSuccessful = "MEDIA_SUCCESSFUL"
+        case mediaTtlExpired = "MEDIA_TTL_EXPIRED"
+        case mediaUnknown = "MEDIA_UNKNOWN"
+        case mediaUnreachable = "MEDIA_UNREACHABLE"
         case textAll = "TEXT_ALL"
         case textBlocked = "TEXT_BLOCKED"
         case textCarrierBlocked = "TEXT_CARRIER_BLOCKED"
@@ -149,6 +168,7 @@ extension PinpointSMSVoiceV2 {
     }
 
     public enum NumberCapability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mms = "MMS"
         case sms = "SMS"
         case voice = "VOICE"
         public var description: String { return self.rawValue }
@@ -213,6 +233,18 @@ extension PinpointSMSVoiceV2 {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProtectConfigurationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountDefault = "account-default"
+        case deletionProtectionEnabled = "deletion-protection-enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProtectStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allow = "ALLOW"
+        case block = "BLOCK"
         public var description: String { return self.rawValue }
     }
 
@@ -300,6 +332,7 @@ extension PinpointSMSVoiceV2 {
     }
 
     public enum SpendLimitName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mediaMessageMonthlySpendLimit = "MEDIA_MESSAGE_MONTHLY_SPEND_LIMIT"
         case textMessageMonthlySpendLimit = "TEXT_MESSAGE_MONTHLY_SPEND_LIMIT"
         case voiceMessageMonthlySpendLimit = "VOICE_MESSAGE_MONTHLY_SPEND_LIMIT"
         public var description: String { return self.rawValue }
@@ -500,8 +533,59 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct AssociateProtectConfigurationRequest: AWSEncodableShape {
+        /// The name of the ConfigurationSet.
+        public let configurationSetName: String
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        public init(configurationSetName: String, protectConfigurationId: String) {
+            self.configurationSetName = configurationSetName
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, max: 256)
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, min: 1)
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, max: 256)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, min: 1)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
+    public struct AssociateProtectConfigurationResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the configuration set.
+        public let configurationSetArn: String
+        /// The name of the ConfigurationSet.
+        public let configurationSetName: String
+        /// The Amazon Resource Name (ARN) of the protect configuration.
+        public let protectConfigurationArn: String
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        public init(configurationSetArn: String, configurationSetName: String, protectConfigurationArn: String, protectConfigurationId: String) {
+            self.configurationSetArn = configurationSetArn
+            self.configurationSetName = configurationSetName
+            self.protectConfigurationArn = protectConfigurationArn
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetArn = "ConfigurationSetArn"
+            case configurationSetName = "ConfigurationSetName"
+            case protectConfigurationArn = "ProtectConfigurationArn"
+            case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
     public struct CloudWatchLogsDestination: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of an Amazon Identity and Access Management (IAM) role that is able to write event data to an Amazon CloudWatch destination.
+        /// The Amazon Resource Name (ARN) of an Identity and Access Management role that is able to write event data to an Amazon CloudWatch destination.
         public let iamRoleArn: String
         /// The name of the Amazon CloudWatch log group that you want to record events in.
         public let logGroupArn: String
@@ -539,9 +623,9 @@ extension PinpointSMSVoiceV2 {
 
         public func validate(name: String) throws {
             try self.values.forEach {
-                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -566,14 +650,17 @@ extension PinpointSMSVoiceV2 {
         public let defaultSenderId: String?
         /// An array of EventDestination objects that describe any events to log and where to log them.
         public let eventDestinations: [EventDestination]
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String?
 
-        public init(configurationSetArn: String, configurationSetName: String, createdTimestamp: Date, defaultMessageType: MessageType? = nil, defaultSenderId: String? = nil, eventDestinations: [EventDestination]) {
+        public init(configurationSetArn: String, configurationSetName: String, createdTimestamp: Date, defaultMessageType: MessageType? = nil, defaultSenderId: String? = nil, eventDestinations: [EventDestination], protectConfigurationId: String? = nil) {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
             self.createdTimestamp = createdTimestamp
             self.defaultMessageType = defaultMessageType
             self.defaultSenderId = defaultSenderId
             self.eventDestinations = eventDestinations
+            self.protectConfigurationId = protectConfigurationId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -583,6 +670,7 @@ extension PinpointSMSVoiceV2 {
             case defaultMessageType = "DefaultMessageType"
             case defaultSenderId = "DefaultSenderId"
             case eventDestinations = "EventDestinations"
+            case protectConfigurationId = "ProtectConfigurationId"
         }
     }
 
@@ -648,7 +736,7 @@ extension PinpointSMSVoiceV2 {
     public struct CreateEventDestinationRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
         public let clientToken: String?
-        /// An object that contains information about an event destination for logging to Amazon CloudWatch logs.
+        /// An object that contains information about an event destination for logging to Amazon CloudWatch Logs.
         public let cloudWatchLogsDestination: CloudWatchLogsDestination?
         /// Either the name of the configuration set or the configuration set ARN to apply event logging to. The ConfigurateSetName and ConfigurationSetArn can be found using the DescribeConfigurationSets action.
         public let configurationSetName: String
@@ -683,7 +771,7 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.eventDestinationName, name: "eventDestinationName", parent: name, min: 1)
             try self.validate(self.eventDestinationName, name: "eventDestinationName", parent: name, pattern: "^[A-Za-z0-9_-]+$")
             try self.kinesisFirehoseDestination?.validate(name: "\(name).kinesisFirehoseDestination")
-            try self.validate(self.matchingEventTypes, name: "matchingEventTypes", parent: name, max: 25)
+            try self.validate(self.matchingEventTypes, name: "matchingEventTypes", parent: name, max: 43)
             try self.validate(self.matchingEventTypes, name: "matchingEventTypes", parent: name, min: 1)
             try self.snsDestination?.validate(name: "\(name).snsDestination")
         }
@@ -886,6 +974,70 @@ extension PinpointSMSVoiceV2 {
             case twoWayChannelArn = "TwoWayChannelArn"
             case twoWayChannelRole = "TwoWayChannelRole"
             case twoWayEnabled = "TwoWayEnabled"
+        }
+    }
+
+    public struct CreateProtectConfigurationRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+        public let clientToken: String?
+        /// When set to true deletion protection is enabled. By default this is set to false.
+        public let deletionProtectionEnabled: Bool?
+        /// An array of key and value pair tags that are associated with the resource.
+        public let tags: [Tag]?
+
+        public init(clientToken: String? = CreateProtectConfigurationRequest.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateProtectConfigurationResult: AWSDecodableShape {
+        /// This is true if the protect configuration is set as your account default protect configuration.
+        public let accountDefault: Bool
+        /// The time when the protect configuration was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// When set to true deletion protection is enabled. By default this is set to false.
+        public let deletionProtectionEnabled: Bool
+        /// The Amazon Resource Name (ARN) of the protect configuration.
+        public let protectConfigurationArn: String
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+        /// An array of key and value pair tags that are associated with the resource.
+        public let tags: [Tag]?
+
+        public init(accountDefault: Bool, createdTimestamp: Date, deletionProtectionEnabled: Bool, protectConfigurationArn: String, protectConfigurationId: String, tags: [Tag]? = nil) {
+            self.accountDefault = accountDefault
+            self.createdTimestamp = createdTimestamp
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.protectConfigurationArn = protectConfigurationArn
+            self.protectConfigurationId = protectConfigurationId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountDefault = "AccountDefault"
+            case createdTimestamp = "CreatedTimestamp"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case protectConfigurationArn = "ProtectConfigurationArn"
+            case protectConfigurationId = "ProtectConfigurationId"
+            case tags = "Tags"
         }
     }
 
@@ -1215,6 +1367,27 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct DeleteAccountDefaultProtectConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DeleteAccountDefaultProtectConfigurationResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the account default protect configuration.
+        public let defaultProtectConfigurationArn: String
+        /// The unique identifier of the account default protect configuration.
+        public let defaultProtectConfigurationId: String
+
+        public init(defaultProtectConfigurationArn: String, defaultProtectConfigurationId: String) {
+            self.defaultProtectConfigurationArn = defaultProtectConfigurationArn
+            self.defaultProtectConfigurationId = defaultProtectConfigurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultProtectConfigurationArn = "DefaultProtectConfigurationArn"
+            case defaultProtectConfigurationId = "DefaultProtectConfigurationId"
+        }
+    }
+
     public struct DeleteConfigurationSetRequest: AWSEncodableShape {
         /// The name of the configuration set or the configuration set ARN that you want to delete. The ConfigurationSetName and ConfigurationSetArn can be found using the DescribeConfigurationSets action.
         public let configurationSetName: String
@@ -1449,6 +1622,23 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct DeleteMediaMessageSpendLimitOverrideRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DeleteMediaMessageSpendLimitOverrideResult: AWSDecodableShape {
+        /// The current monthly limit, in US dollars.
+        public let monthlyLimit: Int64?
+
+        public init(monthlyLimit: Int64? = nil) {
+            self.monthlyLimit = monthlyLimit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monthlyLimit = "MonthlyLimit"
+        }
+    }
+
     public struct DeleteOptOutListRequest: AWSEncodableShape {
         /// The OptOutListName or OptOutListArn of the OptOutList to delete. You can use DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.
         public let optOutListName: String
@@ -1613,6 +1803,54 @@ extension PinpointSMSVoiceV2 {
             case twoWayChannelArn = "TwoWayChannelArn"
             case twoWayChannelRole = "TwoWayChannelRole"
             case twoWayEnabled = "TwoWayEnabled"
+        }
+    }
+
+    public struct DeleteProtectConfigurationRequest: AWSEncodableShape {
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        public init(protectConfigurationId: String) {
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, max: 256)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, min: 1)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
+    public struct DeleteProtectConfigurationResult: AWSDecodableShape {
+        /// This is true if the protect configuration is set as your account default protect configuration.
+        public let accountDefault: Bool
+        /// The time when the protect configuration was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The status of deletion protection for the protect configuration. When set to true deletion protection is enabled. By default this is set to false.
+        public let deletionProtectionEnabled: Bool
+        /// The Amazon Resource Name (ARN) of the protect configuration.
+        public let protectConfigurationArn: String
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        public init(accountDefault: Bool, createdTimestamp: Date, deletionProtectionEnabled: Bool, protectConfigurationArn: String, protectConfigurationId: String) {
+            self.accountDefault = accountDefault
+            self.createdTimestamp = createdTimestamp
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.protectConfigurationArn = protectConfigurationArn
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountDefault = "AccountDefault"
+            case createdTimestamp = "CreatedTimestamp"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case protectConfigurationArn = "ProtectConfigurationArn"
+            case protectConfigurationId = "ProtectConfigurationId"
         }
     }
 
@@ -2335,6 +2573,66 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct DescribeProtectConfigurationsRequest: AWSEncodableShape {
+        /// An array of ProtectConfigurationFilter objects to filter the results.
+        public let filters: [ProtectConfigurationFilter]?
+        /// The maximum number of results to return per each request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// An array of protect configuration identifiers to search for.
+        public let protectConfigurationIds: [String]?
+
+        public init(filters: [ProtectConfigurationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, protectConfigurationIds: [String]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.protectConfigurationIds = protectConfigurationIds
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.protectConfigurationIds?.forEach {
+                try validate($0, name: "protectConfigurationIds[]", parent: name, max: 256)
+                try validate($0, name: "protectConfigurationIds[]", parent: name, min: 1)
+                try validate($0, name: "protectConfigurationIds[]", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            }
+            try self.validate(self.protectConfigurationIds, name: "protectConfigurationIds", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case protectConfigurationIds = "ProtectConfigurationIds"
+        }
+    }
+
+    public struct DescribeProtectConfigurationsResult: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// An array of ProtectConfigurationInformation objects that contain the details for the request.
+        public let protectConfigurations: [ProtectConfigurationInformation]?
+
+        public init(nextToken: String? = nil, protectConfigurations: [ProtectConfigurationInformation]? = nil) {
+            self.nextToken = nextToken
+            self.protectConfigurations = protectConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case protectConfigurations = "ProtectConfigurations"
+        }
+    }
+
     public struct DescribeRegistrationAttachmentsRequest: AWSEncodableShape {
         /// An array of RegistrationAttachmentFilter objects to filter the results.
         public let filters: [RegistrationAttachmentFilter]?
@@ -3045,6 +3343,57 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct DisassociateProtectConfigurationRequest: AWSEncodableShape {
+        /// The name of the ConfigurationSet.
+        public let configurationSetName: String
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        public init(configurationSetName: String, protectConfigurationId: String) {
+            self.configurationSetName = configurationSetName
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, max: 256)
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, min: 1)
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, max: 256)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, min: 1)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
+    public struct DisassociateProtectConfigurationResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the configuration set.
+        public let configurationSetArn: String
+        /// The name of the ConfigurationSet.
+        public let configurationSetName: String
+        /// The Amazon Resource Name (ARN) of the protect configuration.
+        public let protectConfigurationArn: String
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        public init(configurationSetArn: String, configurationSetName: String, protectConfigurationArn: String, protectConfigurationId: String) {
+            self.configurationSetArn = configurationSetArn
+            self.configurationSetName = configurationSetName
+            self.protectConfigurationArn = protectConfigurationArn
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetArn = "ConfigurationSetArn"
+            case configurationSetName = "ConfigurationSetName"
+            case protectConfigurationArn = "ProtectConfigurationArn"
+            case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
     public struct DiscardRegistrationVersionRequest: AWSEncodableShape {
         /// The unique identifier for the registration.
         public let registrationId: String
@@ -3126,6 +3475,54 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct GetProtectConfigurationCountryRuleSetRequest: AWSEncodableShape {
+        /// The capability type to return the CountryRuleSet for. Valid values are SMS, VOICE, or MMS.
+        public let numberCapability: NumberCapability
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        public init(numberCapability: NumberCapability, protectConfigurationId: String) {
+            self.numberCapability = numberCapability
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, max: 256)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, min: 1)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberCapability = "NumberCapability"
+            case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
+    public struct GetProtectConfigurationCountryRuleSetResult: AWSDecodableShape {
+        /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see Supported countries and regions (SMS channel) in the Amazon Pinpoint SMS user guide.
+        public let countryRuleSet: [String: ProtectConfigurationCountryRuleSetInformation]
+        /// The capability type associated with the returned ProtectConfigurationCountryRuleSetInformation objects.
+        public let numberCapability: NumberCapability
+        /// The Amazon Resource Name (ARN) of the protect configuration.
+        public let protectConfigurationArn: String
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        public init(countryRuleSet: [String: ProtectConfigurationCountryRuleSetInformation], numberCapability: NumberCapability, protectConfigurationArn: String, protectConfigurationId: String) {
+            self.countryRuleSet = countryRuleSet
+            self.numberCapability = numberCapability
+            self.protectConfigurationArn = protectConfigurationArn
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case countryRuleSet = "CountryRuleSet"
+            case numberCapability = "NumberCapability"
+            case protectConfigurationArn = "ProtectConfigurationArn"
+            case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
     public struct KeywordFilter: AWSEncodableShape {
         /// The name of the attribute to filter on.
         public let name: KeywordFilterName
@@ -3139,9 +3536,9 @@ extension PinpointSMSVoiceV2 {
 
         public func validate(name: String) throws {
             try self.values.forEach {
-                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -3177,7 +3574,7 @@ extension PinpointSMSVoiceV2 {
     public struct KinesisFirehoseDestination: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let deliveryStreamArn: String
-        /// The ARN of an Amazon Identity and Access Management (IAM) role that is able to write event data to an Amazon Firehose destination.
+        /// The ARN of an Identity and Access Management role that is able to write event data to an Amazon Kinesis Data Firehose destination.
         public let iamRoleArn: String
 
         public init(deliveryStreamArn: String, iamRoleArn: String) {
@@ -3404,9 +3801,9 @@ extension PinpointSMSVoiceV2 {
 
         public func validate(name: String) throws {
             try self.values.forEach {
-                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -3481,9 +3878,9 @@ extension PinpointSMSVoiceV2 {
 
         public func validate(name: String) throws {
             try self.values.forEach {
-                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -3589,9 +3986,9 @@ extension PinpointSMSVoiceV2 {
 
         public func validate(name: String) throws {
             try self.values.forEach {
-                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -3673,9 +4070,9 @@ extension PinpointSMSVoiceV2 {
 
         public func validate(name: String) throws {
             try self.values.forEach {
-                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -3684,6 +4081,75 @@ extension PinpointSMSVoiceV2 {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case values = "Values"
+        }
+    }
+
+    public struct ProtectConfigurationCountryRuleSetInformation: AWSEncodableShape & AWSDecodableShape {
+        /// The types of protection that can be used.
+        public let protectStatus: ProtectStatus
+
+        public init(protectStatus: ProtectStatus) {
+            self.protectStatus = protectStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protectStatus = "ProtectStatus"
+        }
+    }
+
+    public struct ProtectConfigurationFilter: AWSEncodableShape {
+        /// The name of the attribute to filter on.
+        public let name: ProtectConfigurationFilterName
+        /// An array of values to filter for.
+        public let values: [String]
+
+        public init(name: ProtectConfigurationFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 128)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct ProtectConfigurationInformation: AWSDecodableShape {
+        /// This is true if the protect configuration is set as your account default protect configuration.
+        public let accountDefault: Bool
+        /// The time when the protect configuration was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The status of deletion protection for the protect configuration. When set to true deletion protection is enabled. By default this is set to false.
+        public let deletionProtectionEnabled: Bool
+        /// The Amazon Resource Name (ARN) of the protect configuration.
+        public let protectConfigurationArn: String
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        public init(accountDefault: Bool, createdTimestamp: Date, deletionProtectionEnabled: Bool, protectConfigurationArn: String, protectConfigurationId: String) {
+            self.accountDefault = accountDefault
+            self.createdTimestamp = createdTimestamp
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.protectConfigurationArn = protectConfigurationArn
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountDefault = "AccountDefault"
+            case createdTimestamp = "CreatedTimestamp"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case protectConfigurationArn = "ProtectConfigurationArn"
+            case protectConfigurationId = "ProtectConfigurationId"
         }
     }
 
@@ -3906,9 +4372,9 @@ extension PinpointSMSVoiceV2 {
 
         public func validate(name: String) throws {
             try self.values.forEach {
-                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -3962,9 +4428,9 @@ extension PinpointSMSVoiceV2 {
 
         public func validate(name: String) throws {
             try self.values.forEach {
-                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -4154,9 +4620,9 @@ extension PinpointSMSVoiceV2 {
 
         public func validate(name: String) throws {
             try self.values.forEach {
-                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -4322,9 +4788,9 @@ extension PinpointSMSVoiceV2 {
 
         public func validate(name: String) throws {
             try self.values.forEach {
-                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -4349,9 +4815,9 @@ extension PinpointSMSVoiceV2 {
 
         public func validate(name: String) throws {
             try self.values.forEach {
-                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -4626,7 +5092,7 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, max: 2)
             try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, min: 2)
             try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, pattern: "^[A-Z]{2}$")
-            try self.validate(self.numberCapabilities, name: "numberCapabilities", parent: name, max: 2)
+            try self.validate(self.numberCapabilities, name: "numberCapabilities", parent: name, max: 3)
             try self.validate(self.numberCapabilities, name: "numberCapabilities", parent: name, min: 1)
             try self.validate(self.optOutListName, name: "optOutListName", parent: name, max: 256)
             try self.validate(self.optOutListName, name: "optOutListName", parent: name, min: 1)
@@ -4952,6 +5418,107 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct SendMediaMessageRequest: AWSEncodableShape {
+        /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
+        public let configurationSetName: String?
+        /// You can specify custom data in this field. If you do, that data is logged to the event destination.
+        public let context: [String: String]?
+        /// The destination phone number in E.164 format.
+        public let destinationPhoneNumber: String
+        /// When set to true, the message is checked and validated, but isn't sent to the end recipient.
+        public let dryRun: Bool?
+        /// The maximum amount that you want to spend, in US dollars, per each MMS message.
+        public let maxPrice: String?
+        /// An array of URLs to each media file to send.  The media files have to be stored in a publicly available S3 bucket. Supported media file formats are listed in MMS file types, size and character limits. For more information on creating an S3 bucket and managing objects, see Creating a bucket and Uploading objects in the S3 user guide.
+        public let mediaUrls: [String]?
+        /// The text body of the message.
+        public let messageBody: String?
+        /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
+        public let originationIdentity: String
+        /// The unique identifier of the protect configuration to use.
+        public let protectConfigurationId: String?
+        /// How long the text message is valid for. By default this is 72 hours.
+        public let timeToLive: Int?
+
+        public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, maxPrice: String? = nil, mediaUrls: [String]? = nil, messageBody: String? = nil, originationIdentity: String, protectConfigurationId: String? = nil, timeToLive: Int? = nil) {
+            self.configurationSetName = configurationSetName
+            self.context = context
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.dryRun = dryRun
+            self.maxPrice = maxPrice
+            self.mediaUrls = mediaUrls
+            self.messageBody = messageBody
+            self.originationIdentity = originationIdentity
+            self.protectConfigurationId = protectConfigurationId
+            self.timeToLive = timeToLive
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, max: 256)
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, min: 1)
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.context?.forEach {
+                try validate($0.key, name: "context.key", parent: name, max: 100)
+                try validate($0.key, name: "context.key", parent: name, min: 1)
+                try validate($0.key, name: "context.key", parent: name, pattern: "^\\S+$")
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, max: 800)
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, pattern: "^(?!\\s)^[\\s\\S]+(?<!\\s)$")
+            }
+            try self.validate(self.context, name: "context", parent: name, max: 5)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, max: 20)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, min: 1)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, pattern: "^\\+?[1-9][0-9]{1,18}$")
+            try self.validate(self.maxPrice, name: "maxPrice", parent: name, max: 8)
+            try self.validate(self.maxPrice, name: "maxPrice", parent: name, min: 2)
+            try self.validate(self.maxPrice, name: "maxPrice", parent: name, pattern: "^[0-9]{0,2}\\.[0-9]{1,5}$")
+            try self.mediaUrls?.forEach {
+                try validate($0, name: "mediaUrls[]", parent: name, max: 2048)
+                try validate($0, name: "mediaUrls[]", parent: name, min: 1)
+                try validate($0, name: "mediaUrls[]", parent: name, pattern: "^s3://([a-z0-9\\.-]{3,63})/(.+)$")
+            }
+            try self.validate(self.mediaUrls, name: "mediaUrls", parent: name, max: 1)
+            try self.validate(self.mediaUrls, name: "mediaUrls", parent: name, min: 1)
+            try self.validate(self.messageBody, name: "messageBody", parent: name, max: 1600)
+            try self.validate(self.messageBody, name: "messageBody", parent: name, min: 1)
+            try self.validate(self.messageBody, name: "messageBody", parent: name, pattern: "^(?!\\s*$)[\\s\\S]+$")
+            try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, max: 256)
+            try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, min: 1)
+            try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, pattern: "^[A-Za-z0-9_:/\\+-]+$")
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, max: 256)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, min: 1)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.timeToLive, name: "timeToLive", parent: name, max: 259200)
+            try self.validate(self.timeToLive, name: "timeToLive", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case context = "Context"
+            case destinationPhoneNumber = "DestinationPhoneNumber"
+            case dryRun = "DryRun"
+            case maxPrice = "MaxPrice"
+            case mediaUrls = "MediaUrls"
+            case messageBody = "MessageBody"
+            case originationIdentity = "OriginationIdentity"
+            case protectConfigurationId = "ProtectConfigurationId"
+            case timeToLive = "TimeToLive"
+        }
+    }
+
+    public struct SendMediaMessageResult: AWSDecodableShape {
+        /// The unique identifier for the message.
+        public let messageId: String?
+
+        public init(messageId: String? = nil) {
+            self.messageId = messageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "MessageId"
+        }
+    }
+
     public struct SendTextMessageRequest: AWSEncodableShape {
         /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
         public let configurationSetName: String?
@@ -4973,10 +5540,12 @@ extension PinpointSMSVoiceV2 {
         public let messageType: MessageType?
         /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
         public let originationIdentity: String?
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String?
         /// How long the text message is valid for. By default this is 72 hours.
         public let timeToLive: Int?
 
-        public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationCountryParameters: [DestinationCountryParameterKey: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, keyword: String? = nil, maxPrice: String? = nil, messageBody: String? = nil, messageType: MessageType? = nil, originationIdentity: String? = nil, timeToLive: Int? = nil) {
+        public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationCountryParameters: [DestinationCountryParameterKey: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, keyword: String? = nil, maxPrice: String? = nil, messageBody: String? = nil, messageType: MessageType? = nil, originationIdentity: String? = nil, protectConfigurationId: String? = nil, timeToLive: Int? = nil) {
             self.configurationSetName = configurationSetName
             self.context = context
             self.destinationCountryParameters = destinationCountryParameters
@@ -4987,6 +5556,7 @@ extension PinpointSMSVoiceV2 {
             self.messageBody = messageBody
             self.messageType = messageType
             self.originationIdentity = originationIdentity
+            self.protectConfigurationId = protectConfigurationId
             self.timeToLive = timeToLive
         }
 
@@ -5024,6 +5594,9 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, max: 256)
             try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, min: 1)
             try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, pattern: "^[A-Za-z0-9_:/\\+-]+$")
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, max: 256)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, min: 1)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
             try self.validate(self.timeToLive, name: "timeToLive", parent: name, max: 259200)
             try self.validate(self.timeToLive, name: "timeToLive", parent: name, min: 5)
         }
@@ -5039,6 +5612,7 @@ extension PinpointSMSVoiceV2 {
             case messageBody = "MessageBody"
             case messageType = "MessageType"
             case originationIdentity = "OriginationIdentity"
+            case protectConfigurationId = "ProtectConfigurationId"
             case timeToLive = "TimeToLive"
         }
     }
@@ -5073,12 +5647,14 @@ extension PinpointSMSVoiceV2 {
         public let messageBodyTextType: VoiceMessageBodyTextType?
         /// The origination identity to use for the voice call. This can be the PhoneNumber, PhoneNumberId, PhoneNumberArn, PoolId, or PoolArn.
         public let originationIdentity: String
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String?
         /// How long the voice message is valid for. By default this is 72 hours.
         public let timeToLive: Int?
         /// The voice for the Amazon Polly service to use. By default this is set to "MATTHEW".
         public let voiceId: VoiceId?
 
-        public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, maxPricePerMinute: String? = nil, messageBody: String? = nil, messageBodyTextType: VoiceMessageBodyTextType? = nil, originationIdentity: String, timeToLive: Int? = nil, voiceId: VoiceId? = nil) {
+        public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, maxPricePerMinute: String? = nil, messageBody: String? = nil, messageBodyTextType: VoiceMessageBodyTextType? = nil, originationIdentity: String, protectConfigurationId: String? = nil, timeToLive: Int? = nil, voiceId: VoiceId? = nil) {
             self.configurationSetName = configurationSetName
             self.context = context
             self.destinationPhoneNumber = destinationPhoneNumber
@@ -5087,6 +5663,7 @@ extension PinpointSMSVoiceV2 {
             self.messageBody = messageBody
             self.messageBodyTextType = messageBodyTextType
             self.originationIdentity = originationIdentity
+            self.protectConfigurationId = protectConfigurationId
             self.timeToLive = timeToLive
             self.voiceId = voiceId
         }
@@ -5116,6 +5693,9 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, max: 256)
             try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, min: 1)
             try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, pattern: "^[A-Za-z0-9_:/\\+-]+$")
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, max: 256)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, min: 1)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
             try self.validate(self.timeToLive, name: "timeToLive", parent: name, max: 259200)
             try self.validate(self.timeToLive, name: "timeToLive", parent: name, min: 5)
         }
@@ -5129,6 +5709,7 @@ extension PinpointSMSVoiceV2 {
             case messageBody = "MessageBody"
             case messageBodyTextType = "MessageBodyTextType"
             case originationIdentity = "OriginationIdentity"
+            case protectConfigurationId = "ProtectConfigurationId"
             case timeToLive = "TimeToLive"
             case voiceId = "VoiceId"
         }
@@ -5186,9 +5767,9 @@ extension PinpointSMSVoiceV2 {
 
         public func validate(name: String) throws {
             try self.values.forEach {
-                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -5238,6 +5819,42 @@ extension PinpointSMSVoiceV2 {
             case registrationId = "RegistrationId"
             case senderId = "SenderId"
             case senderIdArn = "SenderIdArn"
+        }
+    }
+
+    public struct SetAccountDefaultProtectConfigurationRequest: AWSEncodableShape {
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        public init(protectConfigurationId: String) {
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, max: 256)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, min: 1)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
+    public struct SetAccountDefaultProtectConfigurationResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the account default protect configuration.
+        public let defaultProtectConfigurationArn: String
+        /// The unique identifier of the account default protect configuration.
+        public let defaultProtectConfigurationId: String
+
+        public init(defaultProtectConfigurationArn: String, defaultProtectConfigurationId: String) {
+            self.defaultProtectConfigurationArn = defaultProtectConfigurationArn
+            self.defaultProtectConfigurationId = defaultProtectConfigurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultProtectConfigurationArn = "DefaultProtectConfigurationArn"
+            case defaultProtectConfigurationId = "DefaultProtectConfigurationId"
         }
     }
 
@@ -5329,6 +5946,37 @@ extension PinpointSMSVoiceV2 {
             case configurationSetArn = "ConfigurationSetArn"
             case configurationSetName = "ConfigurationSetName"
             case senderId = "SenderId"
+        }
+    }
+
+    public struct SetMediaMessageSpendLimitOverrideRequest: AWSEncodableShape {
+        /// The new monthly limit to enforce on text messages.
+        public let monthlyLimit: Int64
+
+        public init(monthlyLimit: Int64) {
+            self.monthlyLimit = monthlyLimit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.monthlyLimit, name: "monthlyLimit", parent: name, max: 1000000000)
+            try self.validate(self.monthlyLimit, name: "monthlyLimit", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monthlyLimit = "MonthlyLimit"
+        }
+    }
+
+    public struct SetMediaMessageSpendLimitOverrideResult: AWSDecodableShape {
+        /// The current monthly limit to enforce on sending text messages.
+        public let monthlyLimit: Int64?
+
+        public init(monthlyLimit: Int64? = nil) {
+            self.monthlyLimit = monthlyLimit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monthlyLimit = "MonthlyLimit"
         }
     }
 
@@ -5658,7 +6306,7 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.eventDestinationName, name: "eventDestinationName", parent: name, min: 1)
             try self.validate(self.eventDestinationName, name: "eventDestinationName", parent: name, pattern: "^[A-Za-z0-9_-]+$")
             try self.kinesisFirehoseDestination?.validate(name: "\(name).kinesisFirehoseDestination")
-            try self.validate(self.matchingEventTypes, name: "matchingEventTypes", parent: name, max: 25)
+            try self.validate(self.matchingEventTypes, name: "matchingEventTypes", parent: name, max: 43)
             try self.validate(self.matchingEventTypes, name: "matchingEventTypes", parent: name, min: 1)
             try self.snsDestination?.validate(name: "\(name).snsDestination")
         }
@@ -5937,6 +6585,117 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct UpdateProtectConfigurationCountryRuleSetRequest: AWSEncodableShape {
+        /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see Supported countries and regions (SMS channel) in the Amazon Pinpoint SMS user guide.
+        public let countryRuleSetUpdates: [String: ProtectConfigurationCountryRuleSetInformation]
+        /// The number capability to apply the CountryRuleSetUpdates updates to.
+        public let numberCapability: NumberCapability
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        public init(countryRuleSetUpdates: [String: ProtectConfigurationCountryRuleSetInformation], numberCapability: NumberCapability, protectConfigurationId: String) {
+            self.countryRuleSetUpdates = countryRuleSetUpdates
+            self.numberCapability = numberCapability
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        public func validate(name: String) throws {
+            try self.countryRuleSetUpdates.forEach {
+                try validate($0.key, name: "countryRuleSetUpdates.key", parent: name, max: 2)
+                try validate($0.key, name: "countryRuleSetUpdates.key", parent: name, min: 2)
+                try validate($0.key, name: "countryRuleSetUpdates.key", parent: name, pattern: "^[A-Z]{2}$")
+            }
+            try self.validate(self.countryRuleSetUpdates, name: "countryRuleSetUpdates", parent: name, max: 300)
+            try self.validate(self.countryRuleSetUpdates, name: "countryRuleSetUpdates", parent: name, min: 1)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, max: 256)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, min: 1)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case countryRuleSetUpdates = "CountryRuleSetUpdates"
+            case numberCapability = "NumberCapability"
+            case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
+    public struct UpdateProtectConfigurationCountryRuleSetResult: AWSDecodableShape {
+        /// An array of ProtectConfigurationCountryRuleSetInformation containing the rules for the NumberCapability.
+        public let countryRuleSet: [String: ProtectConfigurationCountryRuleSetInformation]
+        /// The number capability that was updated
+        public let numberCapability: NumberCapability
+        /// The Amazon Resource Name (ARN) of the protect configuration.
+        public let protectConfigurationArn: String
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        public init(countryRuleSet: [String: ProtectConfigurationCountryRuleSetInformation], numberCapability: NumberCapability, protectConfigurationArn: String, protectConfigurationId: String) {
+            self.countryRuleSet = countryRuleSet
+            self.numberCapability = numberCapability
+            self.protectConfigurationArn = protectConfigurationArn
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case countryRuleSet = "CountryRuleSet"
+            case numberCapability = "NumberCapability"
+            case protectConfigurationArn = "ProtectConfigurationArn"
+            case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
+    public struct UpdateProtectConfigurationRequest: AWSEncodableShape {
+        /// When set to true deletion protection is enabled. By default this is set to false.
+        public let deletionProtectionEnabled: Bool?
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        public init(deletionProtectionEnabled: Bool? = nil, protectConfigurationId: String) {
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, max: 256)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, min: 1)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
+    public struct UpdateProtectConfigurationResult: AWSDecodableShape {
+        /// This is true if the protect configuration is set as your account default protect configuration.
+        public let accountDefault: Bool
+        /// The time when the protect configuration was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The status of deletion protection for the protect configuration. When set to true deletion protection is enabled. By default this is set to false.
+        public let deletionProtectionEnabled: Bool
+        /// The Amazon Resource Name (ARN) of the protect configuration.
+        public let protectConfigurationArn: String
+        /// The unique identifier for the protect configuration.
+        public let protectConfigurationId: String
+
+        public init(accountDefault: Bool, createdTimestamp: Date, deletionProtectionEnabled: Bool, protectConfigurationArn: String, protectConfigurationId: String) {
+            self.accountDefault = accountDefault
+            self.createdTimestamp = createdTimestamp
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.protectConfigurationArn = protectConfigurationArn
+            self.protectConfigurationId = protectConfigurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountDefault = "AccountDefault"
+            case createdTimestamp = "CreatedTimestamp"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case protectConfigurationArn = "ProtectConfigurationArn"
+            case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
     public struct UpdateSenderIdRequest: AWSEncodableShape {
         /// By default this is set to false. When set to true the sender ID can't be deleted.
         public let deletionProtectionEnabled: Bool?
@@ -6021,9 +6780,9 @@ extension PinpointSMSVoiceV2 {
 
         public func validate(name: String) throws {
             try self.values.forEach {
-                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[\\.:A-Za-z0-9_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)

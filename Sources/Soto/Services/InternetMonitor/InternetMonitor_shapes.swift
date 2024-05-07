@@ -40,6 +40,18 @@ extension InternetMonitor {
         public var description: String { return self.rawValue }
     }
 
+    public enum InternetEventStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case resolved = "RESOLVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InternetEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case availability = "AVAILABILITY"
+        case performance = "PERFORMANCE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LocalHealthEventsConfigStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -126,6 +138,50 @@ extension InternetMonitor {
             case experienceScore = "ExperienceScore"
             case percentOfClientLocationImpacted = "PercentOfClientLocationImpacted"
             case percentOfTotalTrafficImpacted = "PercentOfTotalTrafficImpacted"
+        }
+    }
+
+    public struct ClientLocation: AWSDecodableShape {
+        /// The name of the internet service provider (ISP) or network (ASN).
+        public let asName: String
+        /// The Autonomous System Number (ASN) of the network at an impacted location.
+        public let asNumber: Int64
+        /// The name of the city where the internet event is located.
+        public let city: String
+        /// The name of the country where the internet event is located.
+        public let country: String
+        /// The latitude where the internet event is located.
+        public let latitude: Double
+        /// The longitude where the internet event is located.
+        public let longitude: Double
+        /// The metro area where the health event is located. Metro indicates a metropolitan region in the United States, such as the region around New York City. In non-US countries,
+        /// 			this is a second-level subdivision. For example, in the United Kingdom, it could be a county, a London borough, a unitary
+        /// 			authority, council area, and so on.
+        public let metro: String?
+        /// The subdivision location where the health event is located. The subdivision usually maps to states in most countries
+        /// 			(including the United States). For United Kingdom, it maps to a country (England, Scotland, Wales) or province (Northern Ireland).
+        public let subdivision: String?
+
+        public init(asName: String, asNumber: Int64, city: String, country: String, latitude: Double, longitude: Double, metro: String? = nil, subdivision: String? = nil) {
+            self.asName = asName
+            self.asNumber = asNumber
+            self.city = city
+            self.country = country
+            self.latitude = latitude
+            self.longitude = longitude
+            self.metro = metro
+            self.subdivision = subdivision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asName = "ASName"
+            case asNumber = "ASNumber"
+            case city = "City"
+            case country = "Country"
+            case latitude = "Latitude"
+            case longitude = "Longitude"
+            case metro = "Metro"
+            case subdivision = "Subdivision"
         }
     }
 
@@ -277,7 +333,10 @@ extension InternetMonitor {
         /// The internally-generated identifier of a health event. Because EventID contains the forward slash (“/”) character, you must
         /// 			URL-encode the EventID field in the request URL.
         public let eventId: String
-        /// TBD
+        /// The account ID for an account that you've set up cross-account sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account
+        /// 			sharing by using Amazon CloudWatch Observability Access Manager. For more information, see
+        /// 			Internet Monitor cross-account
+        /// 			observability in the Amazon CloudWatch Internet Monitor User Guide.
         public let linkedAccountId: String?
         /// The name of the monitor.
         public let monitorName: String
@@ -366,8 +425,71 @@ extension InternetMonitor {
         }
     }
 
+    public struct GetInternetEventInput: AWSEncodableShape {
+        /// The EventId of the internet event to return information for.
+        public let eventId: String
+
+        public init(eventId: String) {
+            self.eventId = eventId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.eventId, key: "EventId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventId, name: "eventId", parent: name, max: 255)
+            try self.validate(self.eventId, name: "eventId", parent: name, min: 1)
+            try self.validate(self.eventId, name: "eventId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetInternetEventOutput: AWSDecodableShape {
+        /// The impacted location, such as a city, where clients access Amazon Web Services application resources.
+        public let clientLocation: ClientLocation
+        /// The time when the internet event ended. If the event hasn't ended yet, this value is empty.
+        public let endedAt: Date?
+        /// The Amazon Resource Name (ARN) of the internet event.
+        public let eventArn: String
+        /// The internally-generated identifier of an internet event.
+        public let eventId: String
+        /// The status of the internet event.
+        public let eventStatus: InternetEventStatus
+        /// The type of network impairment.
+        public let eventType: InternetEventType
+        /// The time when the internet event started.
+        public let startedAt: Date
+
+        public init(clientLocation: ClientLocation, endedAt: Date? = nil, eventArn: String, eventId: String, eventStatus: InternetEventStatus, eventType: InternetEventType, startedAt: Date) {
+            self.clientLocation = clientLocation
+            self.endedAt = endedAt
+            self.eventArn = eventArn
+            self.eventId = eventId
+            self.eventStatus = eventStatus
+            self.eventType = eventType
+            self.startedAt = startedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientLocation = "ClientLocation"
+            case endedAt = "EndedAt"
+            case eventArn = "EventArn"
+            case eventId = "EventId"
+            case eventStatus = "EventStatus"
+            case eventType = "EventType"
+            case startedAt = "StartedAt"
+        }
+    }
+
     public struct GetMonitorInput: AWSEncodableShape {
-        /// TBD
+        /// The account ID for an account that you've set up cross-account sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account
+        /// 			sharing by using Amazon CloudWatch Observability Access Manager. For more information, see
+        /// 			Internet Monitor cross-account
+        /// 				observability in the Amazon CloudWatch Internet Monitor User Guide.
         public let linkedAccountId: String?
         /// The name of the monitor.
         public let monitorName: String
@@ -589,7 +711,7 @@ extension InternetMonitor {
         public let percentOfTotalTrafficImpacted: Double?
         /// When a health event started.
         public let startedAt: Date
-        /// Health event list member.
+        /// The status of a health event.
         public let status: HealthEventStatus
 
         public init(createdAt: Date? = nil, endedAt: Date? = nil, eventArn: String, eventId: String, healthScoreThreshold: Double? = nil, impactedLocations: [ImpactedLocation], impactType: HealthEventImpactType, lastUpdatedAt: Date, percentOfTotalTrafficImpacted: Double? = nil, startedAt: Date, status: HealthEventStatus) {
@@ -656,7 +778,7 @@ extension InternetMonitor {
     }
 
     public struct ImpactedLocation: AWSDecodableShape {
-        /// The name of the network at an impacted location.
+        /// The name of the internet service provider (ISP) or network (ASN).
         public let asName: String
         /// The Autonomous System Number (ASN) of the network at an impacted location.
         public let asNumber: Int64
@@ -727,6 +849,44 @@ extension InternetMonitor {
         }
     }
 
+    public struct InternetEventSummary: AWSDecodableShape {
+        /// The impacted location, such as a city, that Amazon Web Services clients access application resources from.
+        public let clientLocation: ClientLocation
+        /// The time when an internet event ended. If the event hasn't ended yet, this value
+        /// 		is empty.
+        public let endedAt: Date?
+        /// The Amazon Resource Name (ARN) of the internet event.
+        public let eventArn: String
+        /// The internally-generated identifier of an internet event.
+        public let eventId: String
+        /// The status of an internet event.
+        public let eventStatus: InternetEventStatus
+        /// The type of network impairment.
+        public let eventType: InternetEventType
+        /// The time when an internet event started.
+        public let startedAt: Date
+
+        public init(clientLocation: ClientLocation, endedAt: Date? = nil, eventArn: String, eventId: String, eventStatus: InternetEventStatus, eventType: InternetEventType, startedAt: Date) {
+            self.clientLocation = clientLocation
+            self.endedAt = endedAt
+            self.eventArn = eventArn
+            self.eventId = eventId
+            self.eventStatus = eventStatus
+            self.eventType = eventType
+            self.startedAt = startedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientLocation = "ClientLocation"
+            case endedAt = "EndedAt"
+            case eventArn = "EventArn"
+            case eventId = "EventId"
+            case eventStatus = "EventStatus"
+            case eventType = "EventType"
+            case startedAt = "StartedAt"
+        }
+    }
+
     public struct InternetHealth: AWSDecodableShape {
         /// Availability in Internet Monitor represents the estimated percentage of traffic that is not seeing an availability drop. For example, an availability score of 99%
         /// 			for an end user and service location pair is equivalent to 1% of the traffic experiencing an availability drop for that pair. For more information, see How Internet Monitor calculates performance and availability
@@ -768,7 +928,10 @@ extension InternetMonitor {
         public let endTime: Date?
         /// The status of a health event.
         public let eventStatus: HealthEventStatus?
-        /// TBD
+        /// The account ID for an account that you've set up cross-account sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account
+        /// 			sharing by using Amazon CloudWatch Observability Access Manager. For more information, see
+        /// 			Internet Monitor cross-account
+        /// 				observability in the Amazon CloudWatch Internet Monitor User Guide.
         public let linkedAccountId: String?
         /// The number of health event objects that you want to return with this call.
         public let maxResults: Int?
@@ -831,8 +994,71 @@ extension InternetMonitor {
         }
     }
 
+    public struct ListInternetEventsInput: AWSEncodableShape {
+        /// The end time of the time window that you want to get a list of internet events for.
+        public let endTime: Date?
+        /// The status of an internet event.
+        public let eventStatus: String?
+        /// The type of network impairment.
+        public let eventType: String?
+        /// The number of query results that you want to return with this call.
+        public let maxResults: Int?
+        /// The token for the next set of results. You receive this token from a previous call.
+        public let nextToken: String?
+        /// The start time of the time window that you want to get a list of internet events for.
+        public let startTime: Date?
+
+        public init(endTime: Date? = nil, eventStatus: String? = nil, eventType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil) {
+            self.endTime = endTime
+            self.eventStatus = eventStatus
+            self.eventType = eventType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.endTime, key: "EndTime")
+            request.encodeQuery(self.eventStatus, key: "EventStatus")
+            request.encodeQuery(self.eventType, key: "EventType")
+            request.encodeQuery(self.maxResults, key: "InternetEventMaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.startTime, key: "StartTime")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListInternetEventsOutput: AWSDecodableShape {
+        /// A set of internet events returned for the list operation.
+        public let internetEvents: [InternetEventSummary]
+        /// The token for the next set of results. You receive this token from a previous call.
+        public let nextToken: String?
+
+        public init(internetEvents: [InternetEventSummary], nextToken: String? = nil) {
+            self.internetEvents = internetEvents
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case internetEvents = "InternetEvents"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListMonitorsInput: AWSEncodableShape {
-        /// TBD
+        /// A boolean option that you can set to TRUE to include monitors for linked accounts in a list of
+        /// 			monitors, when you've set up cross-account sharing in Amazon CloudWatch Internet Monitor. You configure cross-account
+        /// 			sharing by using Amazon CloudWatch Observability Access Manager. For more information, see
+        /// 			Internet Monitor cross-account
+        /// 				observability in the Amazon CloudWatch Internet Monitor User Guide.
         public let includeLinkedAccounts: Bool?
         /// The number of monitor objects that you want to return with this call.
         public let maxResults: Int?
@@ -975,7 +1201,7 @@ extension InternetMonitor {
     }
 
     public struct Network: AWSDecodableShape {
-        /// The internet provider name or network name.
+        /// The name of the internet service provider (ISP) or network (ASN).
         public let asName: String
         /// The Autonomous System Number (ASN) of the internet provider or network.
         public let asNumber: Int64
@@ -994,7 +1220,7 @@ extension InternetMonitor {
     public struct NetworkImpairment: AWSDecodableShape {
         /// The combination of the Autonomous System Number (ASN) of the network and the name of the network.
         public let asPath: [Network]
-        /// Type of network impairment.
+        /// The type of network impairment.
         public let networkEventType: TriangulationEventType
         /// The networks that could be impacted by a network impairment event.
         public let networks: [Network]
@@ -1116,7 +1342,10 @@ extension InternetMonitor {
         /// 			Using the Amazon CloudWatch Internet Monitor query interface
         /// 			in the Amazon CloudWatch Internet Monitor User Guide.
         public let filterParameters: [FilterParameter]?
-        /// TBD
+        /// The account ID for an account that you've set up cross-account sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account
+        /// 			sharing by using Amazon CloudWatch Observability Access Manager. For more information, see
+        /// 			Internet Monitor cross-account
+        /// 				observability in the Amazon CloudWatch Internet Monitor User Guide.
         public let linkedAccountId: String?
         /// The name of the monitor to query.
         public let monitorName: String

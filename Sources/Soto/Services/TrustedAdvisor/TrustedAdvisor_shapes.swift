@@ -26,6 +26,12 @@ import Foundation
 extension TrustedAdvisor {
     // MARK: Enums
 
+    public enum ExclusionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case excluded = "excluded"
+        case included = "included"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecommendationLanguage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bahasaIndonesia = "id"
         case brazilianPortuguese = "pt_BR"
@@ -155,6 +161,40 @@ extension TrustedAdvisor {
             case updatedOnBehalfOfJobTitle = "updatedOnBehalfOfJobTitle"
             case updateReason = "updateReason"
             case updateReasonCode = "updateReasonCode"
+        }
+    }
+
+    public struct BatchUpdateRecommendationResourceExclusionRequest: AWSEncodableShape {
+        /// A list of recommendation resource ARNs and exclusion status to update
+        public let recommendationResourceExclusions: [RecommendationResourceExclusion]
+
+        public init(recommendationResourceExclusions: [RecommendationResourceExclusion]) {
+            self.recommendationResourceExclusions = recommendationResourceExclusions
+        }
+
+        public func validate(name: String) throws {
+            try self.recommendationResourceExclusions.forEach {
+                try $0.validate(name: "\(name).recommendationResourceExclusions[]")
+            }
+            try self.validate(self.recommendationResourceExclusions, name: "recommendationResourceExclusions", parent: name, max: 100)
+            try self.validate(self.recommendationResourceExclusions, name: "recommendationResourceExclusions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommendationResourceExclusions = "recommendationResourceExclusions"
+        }
+    }
+
+    public struct BatchUpdateRecommendationResourceExclusionResponse: AWSDecodableShape {
+        /// A list of recommendation resource ARNs whose exclusion status failed to update, if any
+        public let batchUpdateRecommendationResourceExclusionErrors: [UpdateRecommendationResourceExclusionError]
+
+        public init(batchUpdateRecommendationResourceExclusionErrors: [UpdateRecommendationResourceExclusionError]) {
+            self.batchUpdateRecommendationResourceExclusionErrors = batchUpdateRecommendationResourceExclusionErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchUpdateRecommendationResourceExclusionErrors = "batchUpdateRecommendationResourceExclusionErrors"
         }
     }
 
@@ -388,6 +428,8 @@ extension TrustedAdvisor {
     public struct ListOrganizationRecommendationResourcesRequest: AWSEncodableShape {
         /// An account affected by this organization recommendation
         public let affectedAccountId: String?
+        /// The exclusion status of the resource
+        public let exclusionStatus: ExclusionStatus?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -399,8 +441,9 @@ extension TrustedAdvisor {
         /// The status of the resource
         public let status: ResourceStatus?
 
-        public init(affectedAccountId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationRecommendationIdentifier: String, regionCode: String? = nil, status: ResourceStatus? = nil) {
+        public init(affectedAccountId: String? = nil, exclusionStatus: ExclusionStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationRecommendationIdentifier: String, regionCode: String? = nil, status: ResourceStatus? = nil) {
             self.affectedAccountId = affectedAccountId
+            self.exclusionStatus = exclusionStatus
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.organizationRecommendationIdentifier = organizationRecommendationIdentifier
@@ -412,6 +455,7 @@ extension TrustedAdvisor {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.affectedAccountId, key: "affectedAccountId")
+            request.encodeQuery(self.exclusionStatus, key: "exclusionStatus")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodePath(self.organizationRecommendationIdentifier, key: "organizationRecommendationIdentifier")
@@ -527,6 +571,8 @@ extension TrustedAdvisor {
     }
 
     public struct ListRecommendationResourcesRequest: AWSEncodableShape {
+        /// The exclusion status of the resource
+        public let exclusionStatus: ExclusionStatus?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -538,7 +584,8 @@ extension TrustedAdvisor {
         /// The status of the resource
         public let status: ResourceStatus?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, recommendationIdentifier: String, regionCode: String? = nil, status: ResourceStatus? = nil) {
+        public init(exclusionStatus: ExclusionStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, recommendationIdentifier: String, regionCode: String? = nil, status: ResourceStatus? = nil) {
+            self.exclusionStatus = exclusionStatus
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.recommendationIdentifier = recommendationIdentifier
@@ -549,6 +596,7 @@ extension TrustedAdvisor {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.exclusionStatus, key: "exclusionStatus")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodePath(self.recommendationIdentifier, key: "recommendationIdentifier")
@@ -760,6 +808,8 @@ extension TrustedAdvisor {
         public let arn: String
         /// The AWS resource identifier
         public let awsResourceId: String
+        /// The exclusion status of the Recommendation Resource
+        public let exclusionStatus: ExclusionStatus?
         /// The ID of the Recommendation Resource
         public let id: String
         /// When the Recommendation Resource was last updated
@@ -773,10 +823,11 @@ extension TrustedAdvisor {
         /// The current status of the Recommendation Resource
         public let status: ResourceStatus
 
-        public init(accountId: String? = nil, arn: String, awsResourceId: String, id: String, lastUpdatedAt: Date, metadata: [String: String], recommendationArn: String, regionCode: String, status: ResourceStatus) {
+        public init(accountId: String? = nil, arn: String, awsResourceId: String, exclusionStatus: ExclusionStatus? = nil, id: String, lastUpdatedAt: Date, metadata: [String: String], recommendationArn: String, regionCode: String, status: ResourceStatus) {
             self.accountId = accountId
             self.arn = arn
             self.awsResourceId = awsResourceId
+            self.exclusionStatus = exclusionStatus
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.metadata = metadata
@@ -789,6 +840,7 @@ extension TrustedAdvisor {
             case accountId = "accountId"
             case arn = "arn"
             case awsResourceId = "awsResourceId"
+            case exclusionStatus = "exclusionStatus"
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
             case metadata = "metadata"
@@ -986,11 +1038,36 @@ extension TrustedAdvisor {
         }
     }
 
+    public struct RecommendationResourceExclusion: AWSEncodableShape {
+        /// The ARN of the Recommendation Resource
+        public let arn: String
+        /// The exclusion status
+        public let isExcluded: Bool
+
+        public init(arn: String, isExcluded: Bool) {
+            self.arn = arn
+            self.isExcluded = isExcluded
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 2048)
+            try self.validate(self.arn, name: "arn", parent: name, min: 20)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[\\w-]+:trustedadvisor::\\d{12}:recommendation-resource\\/[\\w-]+\\/[\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case isExcluded = "isExcluded"
+        }
+    }
+
     public struct RecommendationResourceSummary: AWSDecodableShape {
         /// The ARN of the Recommendation Resource
         public let arn: String
         /// The AWS resource identifier
         public let awsResourceId: String
+        /// The exclusion status of the Recommendation Resource
+        public let exclusionStatus: ExclusionStatus?
         /// The ID of the Recommendation Resource
         public let id: String
         /// When the Recommendation Resource was last updated
@@ -1004,9 +1081,10 @@ extension TrustedAdvisor {
         /// The current status of the Recommendation Resource
         public let status: ResourceStatus
 
-        public init(arn: String, awsResourceId: String, id: String, lastUpdatedAt: Date, metadata: [String: String], recommendationArn: String, regionCode: String, status: ResourceStatus) {
+        public init(arn: String, awsResourceId: String, exclusionStatus: ExclusionStatus? = nil, id: String, lastUpdatedAt: Date, metadata: [String: String], recommendationArn: String, regionCode: String, status: ResourceStatus) {
             self.arn = arn
             self.awsResourceId = awsResourceId
+            self.exclusionStatus = exclusionStatus
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.metadata = metadata
@@ -1018,6 +1096,7 @@ extension TrustedAdvisor {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case awsResourceId = "awsResourceId"
+            case exclusionStatus = "exclusionStatus"
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
             case metadata = "metadata"
@@ -1194,6 +1273,27 @@ extension TrustedAdvisor {
             case lifecycleStage = "lifecycleStage"
             case updateReason = "updateReason"
             case updateReasonCode = "updateReasonCode"
+        }
+    }
+
+    public struct UpdateRecommendationResourceExclusionError: AWSDecodableShape {
+        /// The ARN of the Recommendation Resource
+        public let arn: String?
+        /// The error code
+        public let errorCode: String?
+        /// The error message
+        public let errorMessage: String?
+
+        public init(arn: String? = nil, errorCode: String? = nil, errorMessage: String? = nil) {
+            self.arn = arn
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 }

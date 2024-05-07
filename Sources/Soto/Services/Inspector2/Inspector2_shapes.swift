@@ -95,6 +95,12 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum CisReportFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case csv = "CSV"
+        case pdf = "PDF"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CisReportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -282,6 +288,18 @@ extension Inspector2 {
         case macos = "MACOS"
         case unknown = "UNKNOWN"
         case windows = "WINDOWS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Ec2ScanMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ec2Hybrid = "EC2_HYBRID"
+        case ec2SsmAgentBased = "EC2_SSM_AGENT_BASED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Ec2ScanModeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pending = "PENDING"
+        case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
@@ -598,6 +616,12 @@ extension Inspector2 {
     public enum SbomReportFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cyclonedx14 = "CYCLONEDX_1_4"
         case spdx23 = "SPDX_2_3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScanMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ec2Agentless = "EC2_AGENTLESS"
+        case ec2SsmAgentBased = "EC2_SSM_AGENT_BASED"
         public var description: String { return self.rawValue }
     }
 
@@ -2555,6 +2579,8 @@ extension Inspector2 {
         public let resourceId: [CoverageStringFilter]?
         /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION, AWS_ECR_CONTAINER_IMAGE,  AWS_ECR_REPOSITORY or AWS_ACCOUNT.
         public let resourceType: [CoverageStringFilter]?
+        /// The filter to search for Amazon EC2 instance coverage by scan mode. Valid values are EC2_SSM_AGENT_BASED and EC2_HYBRID.
+        public let scanMode: [CoverageStringFilter]?
         /// The scan status code to filter on. Valid values are: ValidationException, InternalServerException, ResourceNotFoundException, BadRequestException, and ThrottlingException.
         public let scanStatusCode: [CoverageStringFilter]?
         /// The scan status reason to filter on.
@@ -2562,7 +2588,7 @@ extension Inspector2 {
         /// An array of Amazon Inspector scan types to return coverage statistics for.
         public let scanType: [CoverageStringFilter]?
 
-        public init(accountId: [CoverageStringFilter]? = nil, ec2InstanceTags: [CoverageMapFilter]? = nil, ecrImageTags: [CoverageStringFilter]? = nil, ecrRepositoryName: [CoverageStringFilter]? = nil, imagePulledAt: [CoverageDateFilter]? = nil, lambdaFunctionName: [CoverageStringFilter]? = nil, lambdaFunctionRuntime: [CoverageStringFilter]? = nil, lambdaFunctionTags: [CoverageMapFilter]? = nil, lastScannedAt: [CoverageDateFilter]? = nil, resourceId: [CoverageStringFilter]? = nil, resourceType: [CoverageStringFilter]? = nil, scanStatusCode: [CoverageStringFilter]? = nil, scanStatusReason: [CoverageStringFilter]? = nil, scanType: [CoverageStringFilter]? = nil) {
+        public init(accountId: [CoverageStringFilter]? = nil, ec2InstanceTags: [CoverageMapFilter]? = nil, ecrImageTags: [CoverageStringFilter]? = nil, ecrRepositoryName: [CoverageStringFilter]? = nil, imagePulledAt: [CoverageDateFilter]? = nil, lambdaFunctionName: [CoverageStringFilter]? = nil, lambdaFunctionRuntime: [CoverageStringFilter]? = nil, lambdaFunctionTags: [CoverageMapFilter]? = nil, lastScannedAt: [CoverageDateFilter]? = nil, resourceId: [CoverageStringFilter]? = nil, resourceType: [CoverageStringFilter]? = nil, scanMode: [CoverageStringFilter]? = nil, scanStatusCode: [CoverageStringFilter]? = nil, scanStatusReason: [CoverageStringFilter]? = nil, scanType: [CoverageStringFilter]? = nil) {
             self.accountId = accountId
             self.ec2InstanceTags = ec2InstanceTags
             self.ecrImageTags = ecrImageTags
@@ -2574,6 +2600,7 @@ extension Inspector2 {
             self.lastScannedAt = lastScannedAt
             self.resourceId = resourceId
             self.resourceType = resourceType
+            self.scanMode = scanMode
             self.scanStatusCode = scanStatusCode
             self.scanStatusReason = scanStatusReason
             self.scanType = scanType
@@ -2629,6 +2656,11 @@ extension Inspector2 {
             }
             try self.validate(self.resourceType, name: "resourceType", parent: name, max: 10)
             try self.validate(self.resourceType, name: "resourceType", parent: name, min: 1)
+            try self.scanMode?.forEach {
+                try $0.validate(name: "\(name).scanMode[]")
+            }
+            try self.validate(self.scanMode, name: "scanMode", parent: name, max: 10)
+            try self.validate(self.scanMode, name: "scanMode", parent: name, min: 1)
             try self.scanStatusCode?.forEach {
                 try $0.validate(name: "\(name).scanStatusCode[]")
             }
@@ -2658,6 +2690,7 @@ extension Inspector2 {
             case lastScannedAt = "lastScannedAt"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
+            case scanMode = "scanMode"
             case scanStatusCode = "scanStatusCode"
             case scanStatusReason = "scanStatusReason"
             case scanType = "scanType"
@@ -2723,17 +2756,20 @@ extension Inspector2 {
         public let resourceMetadata: ResourceScanMetadata?
         /// The type of the covered resource.
         public let resourceType: CoverageResourceType
+        /// The scan method that is applied to the instance.
+        public let scanMode: ScanMode?
         /// The status of the scan covering the resource.
         public let scanStatus: ScanStatus?
         /// The Amazon Inspector scan type covering the resource.
         public let scanType: ScanType
 
-        public init(accountId: String, lastScannedAt: Date? = nil, resourceId: String, resourceMetadata: ResourceScanMetadata? = nil, resourceType: CoverageResourceType, scanStatus: ScanStatus? = nil, scanType: ScanType) {
+        public init(accountId: String, lastScannedAt: Date? = nil, resourceId: String, resourceMetadata: ResourceScanMetadata? = nil, resourceType: CoverageResourceType, scanMode: ScanMode? = nil, scanStatus: ScanStatus? = nil, scanType: ScanType) {
             self.accountId = accountId
             self.lastScannedAt = lastScannedAt
             self.resourceId = resourceId
             self.resourceMetadata = resourceMetadata
             self.resourceType = resourceType
+            self.scanMode = scanMode
             self.scanStatus = scanStatus
             self.scanType = scanType
         }
@@ -2744,6 +2780,7 @@ extension Inspector2 {
             case resourceId = "resourceId"
             case resourceMetadata = "resourceMetadata"
             case resourceType = "resourceType"
+            case scanMode = "scanMode"
             case scanStatus = "scanStatus"
             case scanType = "scanType"
         }
@@ -3359,6 +3396,32 @@ extension Inspector2 {
         }
     }
 
+    public struct Ec2Configuration: AWSEncodableShape {
+        /// The scan method that is applied to the instance.
+        public let scanMode: Ec2ScanMode
+
+        public init(scanMode: Ec2ScanMode) {
+            self.scanMode = scanMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scanMode = "scanMode"
+        }
+    }
+
+    public struct Ec2ConfigurationState: AWSDecodableShape {
+        /// An object that contains details about the state of the Amazon EC2 scan mode.
+        public let scanModeState: Ec2ScanModeState?
+
+        public init(scanModeState: Ec2ScanModeState? = nil) {
+            self.scanModeState = scanModeState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scanModeState = "scanModeState"
+        }
+    }
+
     public struct Ec2InstanceAggregation: AWSEncodableShape {
         /// The AMI IDs associated with the Amazon EC2 instances to aggregate findings for.
         public let amis: [StringFilter]?
@@ -3470,6 +3533,23 @@ extension Inspector2 {
             case amiId = "amiId"
             case platform = "platform"
             case tags = "tags"
+        }
+    }
+
+    public struct Ec2ScanModeState: AWSDecodableShape {
+        /// The scan method that is applied to the instance.
+        public let scanMode: Ec2ScanMode?
+        /// The status of the Amazon EC2 scan mode setting.
+        public let scanModeStatus: Ec2ScanModeStatus?
+
+        public init(scanMode: Ec2ScanMode? = nil, scanModeStatus: Ec2ScanModeStatus? = nil) {
+            self.scanMode = scanMode
+            self.scanModeStatus = scanModeStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scanMode = "scanMode"
+            case scanModeStatus = "scanModeStatus"
         }
     }
 
@@ -4219,7 +4299,7 @@ extension Inspector2 {
         public let inspectorScore: Double?
         /// An object that contains details of the Amazon Inspector score.
         public let inspectorScoreDetails: InspectorScoreDetails?
-        /// The date and time that the finding was last observed.
+        ///  The date and time the finding was last observed.  This timestamp for this field remains unchanged until a finding is updated.
         public let lastObservedAt: Date
         /// An object that contains the details of a network reachability finding.
         public let networkReachabilityDetails: NetworkReachabilityDetails?
@@ -4463,12 +4543,15 @@ extension Inspector2 {
     }
 
     public struct GetCisScanReportRequest: AWSEncodableShape {
+        ///  The format of the report.  Valid values are PDF and CSV.  If no value is specified, the report format defaults to PDF.
+        public let reportFormat: CisReportFormat?
         /// The scan ARN.
         public let scanArn: String
         /// The target accounts.
         public let targetAccounts: [String]?
 
-        public init(scanArn: String, targetAccounts: [String]? = nil) {
+        public init(reportFormat: CisReportFormat? = nil, scanArn: String, targetAccounts: [String]? = nil) {
+            self.reportFormat = reportFormat
             self.scanArn = scanArn
             self.targetAccounts = targetAccounts
         }
@@ -4484,6 +4567,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case reportFormat = "reportFormat"
             case scanArn = "scanArn"
             case targetAccounts = "targetAccounts"
         }
@@ -4492,7 +4576,7 @@ extension Inspector2 {
     public struct GetCisScanReportResponse: AWSDecodableShape {
         /// The status.
         public let status: CisReportStatus?
-        ///  The URL where the CIS scan report PDF can be downloaded.
+        ///  The URL where a PDF or CSV of the CIS scan report can be downloaded.
         public let url: String?
 
         public init(status: CisReportStatus? = nil, url: String? = nil) {
@@ -4583,14 +4667,18 @@ extension Inspector2 {
     }
 
     public struct GetConfigurationResponse: AWSDecodableShape {
+        /// Specifies how the Amazon EC2 automated scan mode is currently configured for your environment.
+        public let ec2Configuration: Ec2ConfigurationState?
         /// Specifies how the ECR automated re-scan duration is currently configured for your environment.
         public let ecrConfiguration: EcrConfigurationState?
 
-        public init(ecrConfiguration: EcrConfigurationState? = nil) {
+        public init(ec2Configuration: Ec2ConfigurationState? = nil, ecrConfiguration: EcrConfigurationState? = nil) {
+            self.ec2Configuration = ec2Configuration
             self.ecrConfiguration = ecrConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ec2Configuration = "ec2Configuration"
             case ecrConfiguration = "ecrConfiguration"
         }
     }
@@ -7380,14 +7468,18 @@ extension Inspector2 {
     }
 
     public struct UpdateConfigurationRequest: AWSEncodableShape {
+        /// Specifies how the Amazon EC2 automated scan will be updated for your environment.
+        public let ec2Configuration: Ec2Configuration?
         /// Specifies how the ECR automated re-scan will be updated for your environment.
-        public let ecrConfiguration: EcrConfiguration
+        public let ecrConfiguration: EcrConfiguration?
 
-        public init(ecrConfiguration: EcrConfiguration) {
+        public init(ec2Configuration: Ec2Configuration? = nil, ecrConfiguration: EcrConfiguration? = nil) {
+            self.ec2Configuration = ec2Configuration
             self.ecrConfiguration = ecrConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ec2Configuration = "ec2Configuration"
             case ecrConfiguration = "ecrConfiguration"
         }
     }

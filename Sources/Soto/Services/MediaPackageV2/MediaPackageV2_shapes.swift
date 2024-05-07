@@ -26,6 +26,12 @@ import Foundation
 extension MediaPackageV2 {
     // MARK: Enums
 
+    public enum AdMarkerDash: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case binary = "BINARY"
+        case xml = "XML"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AdMarkerHls: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case daterange = "DATERANGE"
         public var description: String { return self.rawValue }
@@ -40,6 +46,34 @@ extension MediaPackageV2 {
     public enum ContainerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cmaf = "CMAF"
         case ts = "TS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashDrmSignaling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case individual = "INDIVIDUAL"
+        case referenced = "REFERENCED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashPeriodTrigger: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case avails = "AVAILS"
+        case drmKeyRotation = "DRM_KEY_ROTATION"
+        case none = "NONE"
+        case sourceChanges = "SOURCE_CHANGES"
+        case sourceDisruptions = "SOURCE_DISRUPTIONS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashSegmentTemplateFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case numberWithTimeline = "NUMBER_WITH_TIMELINE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashUtcTimingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case httpHead = "HTTP_HEAD"
+        case httpIso = "HTTP_ISO"
+        case httpXsdate = "HTTP_XSDATE"
+        case utcDirect = "UTC_DIRECT"
         public var description: String { return self.rawValue }
     }
 
@@ -335,6 +369,65 @@ extension MediaPackageV2 {
         }
     }
 
+    public struct CreateDashManifestConfiguration: AWSEncodableShape {
+        /// Determines how the DASH manifest signals the DRM content.
+        public let drmSignaling: DashDrmSignaling?
+        public let filterConfiguration: FilterConfiguration?
+        /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint.
+        public let manifestName: String
+        /// The total duration (in seconds) of the manifest's content.
+        public let manifestWindowSeconds: Int?
+        /// Minimum amount of content (in seconds) that a player must keep available in the buffer.
+        public let minBufferTimeSeconds: Int?
+        /// Minimum amount of time (in seconds) that the player should wait before requesting updates to the manifest.
+        public let minUpdatePeriodSeconds: Int?
+        /// A list of triggers that controls when AWS Elemental MediaPackage separates the MPEG-DASH manifest into multiple periods. Type ADS to indicate that AWS Elemental MediaPackage must create periods in the output manifest that correspond to SCTE-35 ad markers in the input source. Leave this value empty to indicate that the manifest is contained all in one period. For more information about periods in the DASH manifest, see Multi-period DASH in AWS Elemental MediaPackage.
+        public let periodTriggers: [DashPeriodTrigger]?
+        /// The SCTE configuration.
+        public let scteDash: ScteDash?
+        /// Determines the type of variable used in the media URL of the SegmentTemplate tag in the manifest. Also specifies if segment timeline information is included in SegmentTimeline or SegmentTemplate. Value description:    NUMBER_WITH_TIMELINE - The $Number$ variable is used in the media URL. The value of this variable is the sequential number of the segment. A full SegmentTimeline object is presented in each SegmentTemplate.
+        public let segmentTemplateFormat: DashSegmentTemplateFormat?
+        /// The amount of time (in seconds) that the player should be from the end of the manifest.
+        public let suggestedPresentationDelaySeconds: Int?
+        /// Determines the type of UTC timing included in the DASH Media Presentation Description (MPD).
+        public let utcTiming: DashUtcTiming?
+
+        public init(drmSignaling: DashDrmSignaling? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [DashPeriodTrigger]? = nil, scteDash: ScteDash? = nil, segmentTemplateFormat: DashSegmentTemplateFormat? = nil, suggestedPresentationDelaySeconds: Int? = nil, utcTiming: DashUtcTiming? = nil) {
+            self.drmSignaling = drmSignaling
+            self.filterConfiguration = filterConfiguration
+            self.manifestName = manifestName
+            self.manifestWindowSeconds = manifestWindowSeconds
+            self.minBufferTimeSeconds = minBufferTimeSeconds
+            self.minUpdatePeriodSeconds = minUpdatePeriodSeconds
+            self.periodTriggers = periodTriggers
+            self.scteDash = scteDash
+            self.segmentTemplateFormat = segmentTemplateFormat
+            self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
+            self.utcTiming = utcTiming
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.manifestName, name: "manifestName", parent: name, max: 256)
+            try self.validate(self.manifestName, name: "manifestName", parent: name, min: 1)
+            try self.validate(self.manifestName, name: "manifestName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.periodTriggers, name: "periodTriggers", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case drmSignaling = "DrmSignaling"
+            case filterConfiguration = "FilterConfiguration"
+            case manifestName = "ManifestName"
+            case manifestWindowSeconds = "ManifestWindowSeconds"
+            case minBufferTimeSeconds = "MinBufferTimeSeconds"
+            case minUpdatePeriodSeconds = "MinUpdatePeriodSeconds"
+            case periodTriggers = "PeriodTriggers"
+            case scteDash = "ScteDash"
+            case segmentTemplateFormat = "SegmentTemplateFormat"
+            case suggestedPresentationDelaySeconds = "SuggestedPresentationDelaySeconds"
+            case utcTiming = "UtcTiming"
+        }
+    }
+
     public struct CreateHlsManifestConfiguration: AWSEncodableShape {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index, with an added suffix to distinguish it from the manifest name. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public let childManifestName: String?
@@ -424,6 +517,8 @@ extension MediaPackageV2 {
         public let clientToken: String?
         /// The type of container to attach to this origin endpoint. A container type is a file format that encapsulates one or more media streams, such as audio and video, into a single file. You can't change the container type after you create the endpoint.
         public let containerType: ContainerType
+        /// A DASH manifest configuration.
+        public let dashManifests: [CreateDashManifestConfiguration]?
         /// Enter any descriptive text that helps you to identify the origin endpoint.
         public let description: String?
         /// An HTTP live streaming (HLS) manifest configuration.
@@ -439,11 +534,12 @@ extension MediaPackageV2 {
         /// A comma-separated list of tag key:value pairs that you define. For example:  "Key1": "Value1",   "Key2": "Value2"
         public let tags: [String: String]?
 
-        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateOriginEndpointRequest.idempotencyToken(), containerType: ContainerType, description: String? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateOriginEndpointRequest.idempotencyToken(), containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.clientToken = clientToken
             self.containerType = containerType
+            self.dashManifests = dashManifests
             self.description = description
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
@@ -460,6 +556,7 @@ extension MediaPackageV2 {
             request.encodePath(self.channelName, key: "ChannelName")
             request.encodeHeader(self.clientToken, key: "x-amzn-client-token")
             try container.encode(self.containerType, forKey: .containerType)
+            try container.encodeIfPresent(self.dashManifests, forKey: .dashManifests)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.hlsManifests, forKey: .hlsManifests)
             try container.encodeIfPresent(self.lowLatencyHlsManifests, forKey: .lowLatencyHlsManifests)
@@ -479,6 +576,9 @@ extension MediaPackageV2 {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\S]+$")
+            try self.dashManifests?.forEach {
+                try $0.validate(name: "\(name).dashManifests[]")
+            }
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.hlsManifests?.forEach {
                 try $0.validate(name: "\(name).hlsManifests[]")
@@ -494,6 +594,7 @@ extension MediaPackageV2 {
 
         private enum CodingKeys: String, CodingKey {
             case containerType = "ContainerType"
+            case dashManifests = "DashManifests"
             case description = "Description"
             case hlsManifests = "HlsManifests"
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
@@ -515,6 +616,8 @@ extension MediaPackageV2 {
         public let containerType: ContainerType
         /// The date and time the origin endpoint was created.
         public let createdAt: Date
+        /// A DASH manifest configuration.
+        public let dashManifests: [GetDashManifestConfiguration]?
         /// The description for your origin endpoint.
         public let description: String?
         /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
@@ -534,12 +637,13 @@ extension MediaPackageV2 {
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
 
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, description: String? = nil, eTag: String? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.containerType = containerType
             self.createdAt = createdAt
+            self.dashManifests = dashManifests
             self.description = description
             self.eTag = eTag
             self.hlsManifests = hlsManifests
@@ -557,6 +661,7 @@ extension MediaPackageV2 {
             case channelName = "ChannelName"
             case containerType = "ContainerType"
             case createdAt = "CreatedAt"
+            case dashManifests = "DashManifests"
             case description = "Description"
             case eTag = "ETag"
             case hlsManifests = "HlsManifests"
@@ -566,6 +671,23 @@ extension MediaPackageV2 {
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
             case tags = "Tags"
+        }
+    }
+
+    public struct DashUtcTiming: AWSEncodableShape & AWSDecodableShape {
+        /// The UTC timing mode.
+        public let timingMode: DashUtcTimingMode?
+        /// The the method that the player uses to synchronize to coordinated universal time (UTC) wall clock time.
+        public let timingSource: String?
+
+        public init(timingMode: DashUtcTimingMode? = nil, timingSource: String? = nil) {
+            self.timingMode = timingMode
+            self.timingSource = timingSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timingMode = "TimingMode"
+            case timingSource = "TimingSource"
         }
     }
 
@@ -1019,6 +1141,62 @@ extension MediaPackageV2 {
         }
     }
 
+    public struct GetDashManifestConfiguration: AWSDecodableShape {
+        /// Determines how the DASH manifest signals the DRM content.
+        public let drmSignaling: DashDrmSignaling?
+        public let filterConfiguration: FilterConfiguration?
+        /// A short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index.
+        public let manifestName: String
+        /// The total duration (in seconds) of the manifest's content.
+        public let manifestWindowSeconds: Int?
+        /// Minimum amount of content (in seconds) that a player must keep available in the buffer.
+        public let minBufferTimeSeconds: Int?
+        /// Minimum amount of time (in seconds) that the player should wait before requesting updates to the manifest.
+        public let minUpdatePeriodSeconds: Int?
+        /// A list of triggers that controls when AWS Elemental MediaPackage separates the MPEG-DASH manifest into multiple periods. Leave this value empty to indicate that the manifest is contained all in one period. For more information about periods in the DASH manifest, see Multi-period DASH in AWS Elemental MediaPackage.
+        public let periodTriggers: [DashPeriodTrigger]?
+        /// The SCTE configuration.
+        public let scteDash: ScteDash?
+        /// Determines the type of variable used in the media URL of the SegmentTemplate tag in the manifest. Also specifies if segment timeline information is included in SegmentTimeline or SegmentTemplate. Value description:    NUMBER_WITH_TIMELINE - The $Number$ variable is used in the media URL. The value of this variable is the sequential number of the segment. A full SegmentTimeline object is presented in each SegmentTemplate.
+        public let segmentTemplateFormat: DashSegmentTemplateFormat?
+        /// The amount of time (in seconds) that the player should be from the end of the manifest.
+        public let suggestedPresentationDelaySeconds: Int?
+        /// The egress domain URL for stream delivery from MediaPackage.
+        public let url: String
+        /// Determines the type of UTC timing included in the DASH Media Presentation Description (MPD).
+        public let utcTiming: DashUtcTiming?
+
+        public init(drmSignaling: DashDrmSignaling? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [DashPeriodTrigger]? = nil, scteDash: ScteDash? = nil, segmentTemplateFormat: DashSegmentTemplateFormat? = nil, suggestedPresentationDelaySeconds: Int? = nil, url: String, utcTiming: DashUtcTiming? = nil) {
+            self.drmSignaling = drmSignaling
+            self.filterConfiguration = filterConfiguration
+            self.manifestName = manifestName
+            self.manifestWindowSeconds = manifestWindowSeconds
+            self.minBufferTimeSeconds = minBufferTimeSeconds
+            self.minUpdatePeriodSeconds = minUpdatePeriodSeconds
+            self.periodTriggers = periodTriggers
+            self.scteDash = scteDash
+            self.segmentTemplateFormat = segmentTemplateFormat
+            self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
+            self.url = url
+            self.utcTiming = utcTiming
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case drmSignaling = "DrmSignaling"
+            case filterConfiguration = "FilterConfiguration"
+            case manifestName = "ManifestName"
+            case manifestWindowSeconds = "ManifestWindowSeconds"
+            case minBufferTimeSeconds = "MinBufferTimeSeconds"
+            case minUpdatePeriodSeconds = "MinUpdatePeriodSeconds"
+            case periodTriggers = "PeriodTriggers"
+            case scteDash = "ScteDash"
+            case segmentTemplateFormat = "SegmentTemplateFormat"
+            case suggestedPresentationDelaySeconds = "SuggestedPresentationDelaySeconds"
+            case url = "Url"
+            case utcTiming = "UtcTiming"
+        }
+    }
+
     public struct GetHlsManifestConfiguration: AWSDecodableShape {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default child manifest name, index_1. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public let childManifestName: String?
@@ -1199,6 +1377,8 @@ extension MediaPackageV2 {
         public let containerType: ContainerType
         /// The date and time the origin endpoint was created.
         public let createdAt: Date
+        /// A DASH manifest configuration.
+        public let dashManifests: [GetDashManifestConfiguration]?
         /// The description for your origin endpoint.
         public let description: String?
         /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
@@ -1217,12 +1397,13 @@ extension MediaPackageV2 {
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
 
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, description: String? = nil, eTag: String? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.containerType = containerType
             self.createdAt = createdAt
+            self.dashManifests = dashManifests
             self.description = description
             self.eTag = eTag
             self.hlsManifests = hlsManifests
@@ -1240,6 +1421,7 @@ extension MediaPackageV2 {
             case channelName = "ChannelName"
             case containerType = "ContainerType"
             case createdAt = "CreatedAt"
+            case dashManifests = "DashManifests"
             case description = "Description"
             case eTag = "ETag"
             case hlsManifests = "HlsManifests"
@@ -1359,6 +1541,23 @@ extension MediaPackageV2 {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDashManifestConfiguration: AWSDecodableShape {
+        /// A short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index.
+        public let manifestName: String
+        /// The egress domain URL for stream delivery from MediaPackage.
+        public let url: String?
+
+        public init(manifestName: String, url: String? = nil) {
+            self.manifestName = manifestName
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case manifestName = "ManifestName"
+            case url = "Url"
         }
     }
 
@@ -1502,6 +1701,8 @@ extension MediaPackageV2 {
         public let containerType: ContainerType
         /// The date and time the origin endpoint was created.
         public let createdAt: Date?
+        /// A DASH manifest configuration.
+        public let dashManifests: [ListDashManifestConfiguration]?
         /// Any descriptive information that you want to add to the origin endpoint for future identification purposes.
         public let description: String?
         /// An HTTP live streaming (HLS) manifest configuration.
@@ -1513,12 +1714,13 @@ extension MediaPackageV2 {
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         public let originEndpointName: String
 
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date? = nil, description: String? = nil, hlsManifests: [ListHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [ListLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date? = nil, originEndpointName: String) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date? = nil, dashManifests: [ListDashManifestConfiguration]? = nil, description: String? = nil, hlsManifests: [ListHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [ListLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date? = nil, originEndpointName: String) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.containerType = containerType
             self.createdAt = createdAt
+            self.dashManifests = dashManifests
             self.description = description
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
@@ -1532,6 +1734,7 @@ extension MediaPackageV2 {
             case channelName = "ChannelName"
             case containerType = "ContainerType"
             case createdAt = "CreatedAt"
+            case dashManifests = "DashManifests"
             case description = "Description"
             case hlsManifests = "HlsManifests"
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
@@ -1643,6 +1846,19 @@ extension MediaPackageV2 {
 
         private enum CodingKeys: String, CodingKey {
             case scteFilter = "ScteFilter"
+        }
+    }
+
+    public struct ScteDash: AWSEncodableShape & AWSDecodableShape {
+        /// Choose how ad markers are included in the packaged content. If you include ad markers in the content stream in your upstream encoders, then you need to inform MediaPackage what to do with the ad markers in the output. Value description:    Binary - The SCTE-35 marker is expressed as a hex-string (Base64 string) rather than full XML.    XML - The SCTE marker is expressed fully in XML.
+        public let adMarkerDash: AdMarkerDash?
+
+        public init(adMarkerDash: AdMarkerDash? = nil) {
+            self.adMarkerDash = adMarkerDash
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adMarkerDash = "AdMarkerDash"
         }
     }
 
@@ -1945,6 +2161,8 @@ extension MediaPackageV2 {
         public let channelName: String
         /// The type of container attached to this origin endpoint. A container type is a file format that encapsulates one or more media streams, such as audio and video, into a single file.
         public let containerType: ContainerType
+        /// A DASH manifest configuration.
+        public let dashManifests: [CreateDashManifestConfiguration]?
         /// Any descriptive information that you want to add to the origin endpoint for future identification purposes.
         public let description: String?
         /// The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.
@@ -1960,10 +2178,11 @@ extension MediaPackageV2 {
         /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
         public let startoverWindowSeconds: Int?
 
-        public init(channelGroupName: String, channelName: String, containerType: ContainerType, description: String? = nil, eTag: String? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil) {
+        public init(channelGroupName: String, channelName: String, containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.containerType = containerType
+            self.dashManifests = dashManifests
             self.description = description
             self.eTag = eTag
             self.hlsManifests = hlsManifests
@@ -1979,6 +2198,7 @@ extension MediaPackageV2 {
             request.encodePath(self.channelGroupName, key: "ChannelGroupName")
             request.encodePath(self.channelName, key: "ChannelName")
             try container.encode(self.containerType, forKey: .containerType)
+            try container.encodeIfPresent(self.dashManifests, forKey: .dashManifests)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodeHeader(self.eTag, key: "x-amzn-update-if-match")
             try container.encodeIfPresent(self.hlsManifests, forKey: .hlsManifests)
@@ -1995,6 +2215,9 @@ extension MediaPackageV2 {
             try self.validate(self.channelName, name: "channelName", parent: name, max: 256)
             try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
             try self.validate(self.channelName, name: "channelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.dashManifests?.forEach {
+                try $0.validate(name: "\(name).dashManifests[]")
+            }
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.eTag, name: "eTag", parent: name, max: 256)
             try self.validate(self.eTag, name: "eTag", parent: name, min: 1)
@@ -2013,6 +2236,7 @@ extension MediaPackageV2 {
 
         private enum CodingKeys: String, CodingKey {
             case containerType = "ContainerType"
+            case dashManifests = "DashManifests"
             case description = "Description"
             case hlsManifests = "HlsManifests"
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
@@ -2032,6 +2256,8 @@ extension MediaPackageV2 {
         public let containerType: ContainerType
         /// The date and time the origin endpoint was created.
         public let createdAt: Date
+        /// A DASH manifest configuration.
+        public let dashManifests: [GetDashManifestConfiguration]?
         /// The description of the origin endpoint.
         public let description: String?
         /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
@@ -2051,12 +2277,13 @@ extension MediaPackageV2 {
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
 
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, description: String? = nil, eTag: String? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.containerType = containerType
             self.createdAt = createdAt
+            self.dashManifests = dashManifests
             self.description = description
             self.eTag = eTag
             self.hlsManifests = hlsManifests
@@ -2074,6 +2301,7 @@ extension MediaPackageV2 {
             case channelName = "ChannelName"
             case containerType = "ContainerType"
             case createdAt = "CreatedAt"
+            case dashManifests = "DashManifests"
             case description = "Description"
             case eTag = "ETag"
             case hlsManifests = "HlsManifests"

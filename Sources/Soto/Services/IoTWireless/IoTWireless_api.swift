@@ -280,7 +280,7 @@ public struct IoTWireless: AWSService {
         )
     }
 
-    /// Provisions a wireless gateway.
+    /// Provisions a wireless gateway.  When provisioning a wireless gateway, you might run into duplication errors for the following reasons.   If you specify a GatewayEui value that already exists.   If you used a ClientRequestToken with the same parameters  within the last 10 minutes.   To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period.
     @Sendable
     public func createWirelessGateway(_ input: CreateWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWirelessGatewayResponse {
         return try await self.client.execute(
@@ -436,7 +436,7 @@ public struct IoTWireless: AWSService {
         )
     }
 
-    /// Deletes a wireless gateway.
+    /// Deletes a wireless gateway.  When deleting a wireless gateway, you might run into duplication errors for the following reasons.   If you specify a GatewayEui value that already exists.   If you used a ClientRequestToken with the same parameters  within the last 10 minutes.   To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period.
     @Sendable
     public func deleteWirelessGateway(_ input: DeleteWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWirelessGatewayResponse {
         return try await self.client.execute(
@@ -644,7 +644,7 @@ public struct IoTWireless: AWSService {
         )
     }
 
-    /// Get the metric configuration status for this account.
+    /// Get the metric configuration status for this AWS account.
     @Sendable
     public func getMetricConfiguration(_ input: GetMetricConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricConfigurationResponse {
         return try await self.client.execute(
@@ -657,7 +657,7 @@ public struct IoTWireless: AWSService {
         )
     }
 
-    /// Get metrics.
+    /// Get the summary metrics for this AWS account.
     @Sendable
     public func getMetrics(_ input: GetMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricsResponse {
         return try await self.client.execute(
@@ -1415,7 +1415,7 @@ public struct IoTWireless: AWSService {
         )
     }
 
-    /// Update the metric configuration.
+    /// Update the summary metric configuration.
     @Sendable
     public func updateMetricConfiguration(_ input: UpdateMetricConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMetricConfigurationResponse {
         return try await self.client.execute(

@@ -40,15 +40,18 @@ extension OAM {
     public struct CreateLinkInput: AWSEncodableShape {
         /// Specify a friendly human-readable name to use to identify this source account when you are viewing data from it in the monitoring account. You can use a custom label or use the following variables:    $AccountName is the name of the account    $AccountEmail is the globally unique email address of the account    $AccountEmailNoDomain is the email address of the account without the domain name
         public let labelTemplate: String
-        /// An array of strings that define which types of data that the source account shares with the monitoring account.
+        /// Use this structure to optionally create filters that specify that only some metric namespaces or log groups are to be shared from  the source account to the monitoring account.
+        public let linkConfiguration: LinkConfiguration?
+        /// An array of strings that define which types of data that the source account shares with the monitoring  account.
         public let resourceTypes: [ResourceType]
-        /// The ARN of the sink to use to create this link. You can use ListSinks to find the ARNs of sinks. For more information about sinks, see CreateSink.
+        /// The ARN of the sink to use to create this link. You can use ListSinks to find the ARNs of sinks. For more information about sinks, see  CreateSink.
         public let sinkIdentifier: String
-        /// Assigns one or more tags (key-value pairs) to the link.  Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. For more information about using tags to control access, see Controlling access to Amazon Web Services resources using tags.
+        /// Assigns one or more tags (key-value pairs) to the link.  Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags.
         public let tags: [String: String]?
 
-        public init(labelTemplate: String, resourceTypes: [ResourceType], sinkIdentifier: String, tags: [String: String]? = nil) {
+        public init(labelTemplate: String, linkConfiguration: LinkConfiguration? = nil, resourceTypes: [ResourceType], sinkIdentifier: String, tags: [String: String]? = nil) {
             self.labelTemplate = labelTemplate
+            self.linkConfiguration = linkConfiguration
             self.resourceTypes = resourceTypes
             self.sinkIdentifier = sinkIdentifier
             self.tags = tags
@@ -57,6 +60,7 @@ extension OAM {
         public func validate(name: String) throws {
             try self.validate(self.labelTemplate, name: "labelTemplate", parent: name, max: 64)
             try self.validate(self.labelTemplate, name: "labelTemplate", parent: name, min: 1)
+            try self.linkConfiguration?.validate(name: "\(name).linkConfiguration")
             try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 50)
             try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, min: 1)
             try self.validate(self.sinkIdentifier, name: "sinkIdentifier", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_:\\.\\-\\/]{0,2047}$")
@@ -70,6 +74,7 @@ extension OAM {
 
         private enum CodingKeys: String, CodingKey {
             case labelTemplate = "LabelTemplate"
+            case linkConfiguration = "LinkConfiguration"
             case resourceTypes = "ResourceTypes"
             case sinkIdentifier = "SinkIdentifier"
             case tags = "Tags"
@@ -81,10 +86,12 @@ extension OAM {
         public let arn: String?
         /// The random ID string that Amazon Web Services generated as part of the link ARN.
         public let id: String?
-        /// The label that you assigned to this link. If the labelTemplate includes variables, this field displays the variables resolved to their actual values.
+        /// The label that you assigned to this link. If the labelTemplate includes variables,  this field displays the variables resolved to their actual values.
         public let label: String?
         /// The exact label template that you specified, with the variables not resolved.
         public let labelTemplate: String?
+        /// This structure includes filters that specify which metric namespaces and which log groups are shared from  the source account to the monitoring account.
+        public let linkConfiguration: LinkConfiguration?
         /// The resource types supported by this link.
         public let resourceTypes: [String]?
         /// The ARN of the sink that is used for this link.
@@ -92,11 +99,12 @@ extension OAM {
         /// The tags assigned to the link.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, id: String? = nil, label: String? = nil, labelTemplate: String? = nil, resourceTypes: [String]? = nil, sinkArn: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, id: String? = nil, label: String? = nil, labelTemplate: String? = nil, linkConfiguration: LinkConfiguration? = nil, resourceTypes: [String]? = nil, sinkArn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.id = id
             self.label = label
             self.labelTemplate = labelTemplate
+            self.linkConfiguration = linkConfiguration
             self.resourceTypes = resourceTypes
             self.sinkArn = sinkArn
             self.tags = tags
@@ -107,6 +115,7 @@ extension OAM {
             case id = "Id"
             case label = "Label"
             case labelTemplate = "LabelTemplate"
+            case linkConfiguration = "LinkConfiguration"
             case resourceTypes = "ResourceTypes"
             case sinkArn = "SinkArn"
             case tags = "Tags"
@@ -116,7 +125,7 @@ extension OAM {
     public struct CreateSinkInput: AWSEncodableShape {
         /// A name for the sink.
         public let name: String
-        /// Assigns one or more tags (key-value pairs) to the link.  Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. For more information about using tags to control access, see Controlling access to Amazon Web Services resources using tags.
+        /// Assigns one or more tags (key-value pairs) to the link.  Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags.
         public let tags: [String: String]?
 
         public init(name: String, tags: [String: String]? = nil) {
@@ -233,6 +242,8 @@ extension OAM {
         public let label: String?
         /// The exact label template that was specified when the link was created, with the template variables not resolved.
         public let labelTemplate: String?
+        /// This structure includes filters that specify which metric namespaces and which log groups are shared from  the source account to the monitoring account.
+        public let linkConfiguration: LinkConfiguration?
         /// The resource types supported by this link.
         public let resourceTypes: [String]?
         /// The ARN of the sink that is used for this link.
@@ -240,11 +251,12 @@ extension OAM {
         /// The tags assigned to the link.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, id: String? = nil, label: String? = nil, labelTemplate: String? = nil, resourceTypes: [String]? = nil, sinkArn: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, id: String? = nil, label: String? = nil, labelTemplate: String? = nil, linkConfiguration: LinkConfiguration? = nil, resourceTypes: [String]? = nil, sinkArn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.id = id
             self.label = label
             self.labelTemplate = labelTemplate
+            self.linkConfiguration = linkConfiguration
             self.resourceTypes = resourceTypes
             self.sinkArn = sinkArn
             self.tags = tags
@@ -255,6 +267,7 @@ extension OAM {
             case id = "Id"
             case label = "Label"
             case labelTemplate = "LabelTemplate"
+            case linkConfiguration = "LinkConfiguration"
             case resourceTypes = "ResourceTypes"
             case sinkArn = "SinkArn"
             case tags = "Tags"
@@ -338,6 +351,28 @@ extension OAM {
             case policy = "Policy"
             case sinkArn = "SinkArn"
             case sinkId = "SinkId"
+        }
+    }
+
+    public struct LinkConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Use this structure to filter which log groups are to send log events from  the source account to the monitoring account.
+        public let logGroupConfiguration: LogGroupConfiguration?
+        /// Use this structure to filter which metric namespaces are to be shared from  the source account to the monitoring account.
+        public let metricConfiguration: MetricConfiguration?
+
+        public init(logGroupConfiguration: LogGroupConfiguration? = nil, metricConfiguration: MetricConfiguration? = nil) {
+            self.logGroupConfiguration = logGroupConfiguration
+            self.metricConfiguration = metricConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.logGroupConfiguration?.validate(name: "\(name).logGroupConfiguration")
+            try self.metricConfiguration?.validate(name: "\(name).metricConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupConfiguration = "LogGroupConfiguration"
+            case metricConfiguration = "MetricConfiguration"
         }
     }
 
@@ -535,7 +570,7 @@ extension OAM {
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
-        /// The ARN of the  resource that you want to view tags for. The ARN format of a sink is arn:aws:oam:Region:account-id:sink/sink-id   The ARN format of a link is arn:aws:oam:Region:account-id:link/link-id   For more information about ARN format, see CloudWatch Logs resources and operations.  Unlike tagging permissions in other Amazon Web Services services, to retrieve the list of tags for links or sinks you must have the oam:RequestTag permission. The aws:ReguestTag permission does not allow you to tag and untag links and sinks.
+        /// The ARN of the  resource that you want to view tags for. The ARN format of a sink is  arn:aws:oam:Region:account-id:sink/sink-id   The ARN format of a link is  arn:aws:oam:Region:account-id:link/link-id   For more information about ARN format, see CloudWatch Logs  resources and operations.  Unlike tagging permissions in other Amazon Web Services services, to retrieve the list of tags for links or sinks you must have the oam:RequestTag permission. The aws:ReguestTag permission does not allow you to tag and untag links and sinks.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -565,6 +600,42 @@ extension OAM {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct LogGroupConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Use this field to specify which log groups are to share their log events with the monitoring account. Use the term LogGroupName and one or more of the following operands.  Use single quotation marks (')  around log group names. The matching of log group names is case sensitive. Each filter has a limit of five conditional operands. Conditional operands are AND and OR.    = and !=     AND     OR     LIKE and NOT LIKE. These can be used only as prefix searches. Include a % at the end of the string that you want to search for and include.    IN and NOT IN, using parentheses ( )    Examples:    LogGroupName IN ('This-Log-Group', 'Other-Log-Group') includes only the log groups with names This-Log-Group and  Other-Log-Group.    LogGroupName NOT IN ('Private-Log-Group', 'Private-Log-Group-2') includes all log groups except the log groups with names Private-Log-Group and  Private-Log-Group-2.    LogGroupName LIKE 'aws/lambda/%' OR LogGroupName LIKE 'AWSLogs%' includes all log groups that have names that start with aws/lambda/ or  AWSLogs.    If you are updating a link that uses filters, you can specify * as the only value for the  filter parameter to delete the filter and share all log groups with the monitoring account.
+        public let filter: String
+
+        public init(filter: String) {
+            self.filter = filter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filter, name: "filter", parent: name, max: 2000)
+            try self.validate(self.filter, name: "filter", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+        }
+    }
+
+    public struct MetricConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Use this field to specify which metrics are to be shared with the monitoring account. Use the term Namespace and one or more of the following operands. Use single quotation marks (') around namespace names. The matching of namespace names is case sensitive. Each filter has a limit of five conditional operands. Conditional operands are AND and OR.    = and !=     AND     OR     LIKE and NOT LIKE. These can be used only as prefix searches. Include a % at the end of the string that you want to search for and include.    IN and NOT IN, using parentheses ( )    Examples:    Namespace NOT LIKE 'AWS/%' includes only namespaces that don't start with AWS/, such as custom namespaces.    Namespace IN ('AWS/EC2', 'AWS/ELB', 'AWS/S3') includes only the metrics in the EC2, Elastic Load Balancing, and Amazon S3 namespaces.     Namespace = 'AWS/EC2' OR Namespace NOT LIKE 'AWS/%' includes only the EC2 namespace and your custom namespaces.    If you are updating a link that uses filters, you can specify * as the only value for the  filter parameter to delete the filter and share all metric namespaces with the monitoring account.
+        public let filter: String
+
+        public init(filter: String) {
+            self.filter = filter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filter, name: "filter", parent: name, max: 2000)
+            try self.validate(self.filter, name: "filter", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
         }
     }
 
@@ -611,7 +682,7 @@ extension OAM {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
-        /// The ARN of the  resource that you're adding tags to. The ARN format of a sink is arn:aws:oam:Region:account-id:sink/sink-id   The ARN format of a link is arn:aws:oam:Region:account-id:link/link-id   For more information about ARN format, see CloudWatch Logs resources and operations.
+        /// The ARN of the  resource that you're adding tags to. The ARN format of a sink is  arn:aws:oam:Region:account-id:sink/sink-id   The ARN format of a link is  arn:aws:oam:Region:account-id:link/link-id   For more information about ARN format, see CloudWatch Logs  resources and operations.
         public let resourceArn: String
         /// The list of key-value pairs to associate with the resource.
         public let tags: [String: String]
@@ -648,7 +719,7 @@ extension OAM {
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
-        /// The ARN of the resource that you're removing tags from. The ARN format of a sink is arn:aws:oam:Region:account-id:sink/sink-id   The ARN format of a link is arn:aws:oam:Region:account-id:link/link-id   For more information about ARN format, see CloudWatch Logs resources and operations.
+        /// The ARN of the resource that you're removing tags from. The ARN format of a sink is  arn:aws:oam:Region:account-id:sink/sink-id   The ARN format of a link is  arn:aws:oam:Region:account-id:link/link-id   For more information about ARN format, see CloudWatch Logs  resources and operations.
         public let resourceArn: String
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
@@ -683,22 +754,27 @@ extension OAM {
     public struct UpdateLinkInput: AWSEncodableShape {
         /// The ARN of the link that you want to update.
         public let identifier: String
-        /// An array of strings that define which types of data that the source account will send to the monitoring account. Your input here replaces the current set of data types that are shared.
+        /// Use this structure to filter which metric namespaces and which log groups are to be shared from  the source account to the monitoring account.
+        public let linkConfiguration: LinkConfiguration?
+        /// An array of strings that define which types of data that the source account will send to the monitoring  account. Your input here replaces the current set of data types that are shared.
         public let resourceTypes: [ResourceType]
 
-        public init(identifier: String, resourceTypes: [ResourceType]) {
+        public init(identifier: String, linkConfiguration: LinkConfiguration? = nil, resourceTypes: [ResourceType]) {
             self.identifier = identifier
+            self.linkConfiguration = linkConfiguration
             self.resourceTypes = resourceTypes
         }
 
         public func validate(name: String) throws {
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_:\\.\\-\\/]{0,2047}$")
+            try self.linkConfiguration?.validate(name: "\(name).linkConfiguration")
             try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 50)
             try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case identifier = "Identifier"
+            case linkConfiguration = "LinkConfiguration"
             case resourceTypes = "ResourceTypes"
         }
     }
@@ -712,6 +788,8 @@ extension OAM {
         public let label: String?
         /// The exact label template that was specified when the link was created, with the template variables not resolved.
         public let labelTemplate: String?
+        /// This structure includes filters that specify which metric namespaces and which log groups are shared from  the source account to the monitoring account.
+        public let linkConfiguration: LinkConfiguration?
         /// The resource types now supported by this link.
         public let resourceTypes: [String]?
         /// The ARN of the sink that is used for this link.
@@ -719,11 +797,12 @@ extension OAM {
         /// The tags assigned to the link.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, id: String? = nil, label: String? = nil, labelTemplate: String? = nil, resourceTypes: [String]? = nil, sinkArn: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, id: String? = nil, label: String? = nil, labelTemplate: String? = nil, linkConfiguration: LinkConfiguration? = nil, resourceTypes: [String]? = nil, sinkArn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.id = id
             self.label = label
             self.labelTemplate = labelTemplate
+            self.linkConfiguration = linkConfiguration
             self.resourceTypes = resourceTypes
             self.sinkArn = sinkArn
             self.tags = tags
@@ -734,6 +813,7 @@ extension OAM {
             case id = "Id"
             case label = "Label"
             case labelTemplate = "LabelTemplate"
+            case linkConfiguration = "LinkConfiguration"
             case resourceTypes = "ResourceTypes"
             case sinkArn = "SinkArn"
             case tags = "Tags"

@@ -61,6 +61,7 @@ public struct MarketplaceEntitlementService: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-11",
             endpoint: endpoint,
+            serviceEndpoints: Self.serviceEndpoints,
             errorType: MarketplaceEntitlementServiceErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -70,6 +71,10 @@ public struct MarketplaceEntitlementService: AWSService {
     }
 
 
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "cn-northwest-1": "entitlement-marketplace.cn-northwest-1.amazonaws.com.cn"
+    ]}
 
 
 

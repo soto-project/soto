@@ -4255,7 +4255,7 @@ extension ChimeSDKVoice {
     public struct UpdatePhoneNumberRequest: AWSEncodableShape {
         /// The outbound calling name associated with the phone number.
         public let callingName: String?
-        /// Specifies the name assigned to one or more phone numbers.
+        /// Specifies the updated name assigned to one or more phone numbers.
         public let name: String?
         /// The phone number ID.
         public let phoneNumberId: String

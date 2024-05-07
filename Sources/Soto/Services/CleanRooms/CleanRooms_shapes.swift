@@ -57,6 +57,18 @@ extension CleanRooms {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnalysisTemplateValidationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case invalid = "INVALID"
+        case unableToValidate = "UNABLE_TO_VALIDATE"
+        case valid = "VALID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalysisTemplateValidationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case differentialPrivacy = "DIFFERENTIAL_PRIVACY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CollaborationQueryLogStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -643,8 +655,10 @@ extension CleanRooms {
         public let source: AnalysisSource
         /// The time that the analysis template was last updated.
         public let updateTime: Date
+        /// Information about the validations performed on the analysis template.
+        public let validations: [AnalysisTemplateValidationStatusDetail]?
 
-        public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, format: AnalysisFormat, id: String, membershipArn: String, membershipId: String, name: String, schema: AnalysisSchema, source: AnalysisSource, updateTime: Date) {
+        public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, format: AnalysisFormat, id: String, membershipArn: String, membershipId: String, name: String, schema: AnalysisSchema, source: AnalysisSource, updateTime: Date, validations: [AnalysisTemplateValidationStatusDetail]? = nil) {
             self.analysisParameters = analysisParameters
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -659,6 +673,7 @@ extension CleanRooms {
             self.schema = schema
             self.source = source
             self.updateTime = updateTime
+            self.validations = validations
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -676,6 +691,7 @@ extension CleanRooms {
             case schema = "schema"
             case source = "source"
             case updateTime = "updateTime"
+            case validations = "validations"
         }
     }
 
@@ -725,6 +741,40 @@ extension CleanRooms {
             case membershipId = "membershipId"
             case name = "name"
             case updateTime = "updateTime"
+        }
+    }
+
+    public struct AnalysisTemplateValidationStatusDetail: AWSDecodableShape {
+        /// The reasons for the validation results.
+        public let reasons: [AnalysisTemplateValidationStatusReason]?
+        /// The status of the validation.
+        public let status: AnalysisTemplateValidationStatus
+        /// The type of validation that was performed.
+        public let type: AnalysisTemplateValidationType
+
+        public init(reasons: [AnalysisTemplateValidationStatusReason]? = nil, status: AnalysisTemplateValidationStatus, type: AnalysisTemplateValidationType) {
+            self.reasons = reasons
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reasons = "reasons"
+            case status = "status"
+            case type = "type"
+        }
+    }
+
+    public struct AnalysisTemplateValidationStatusReason: AWSDecodableShape {
+        /// The validation message.
+        public let message: String
+
+        public init(message: String) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
         }
     }
 
@@ -1038,8 +1088,10 @@ extension CleanRooms {
         public let source: AnalysisSource
         /// The time that the analysis template in the collaboration was last updated.
         public let updateTime: Date
+        /// The validations that were performed.
+        public let validations: [AnalysisTemplateValidationStatusDetail]?
 
-        public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, format: AnalysisFormat, id: String, name: String, schema: AnalysisSchema, source: AnalysisSource, updateTime: Date) {
+        public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, format: AnalysisFormat, id: String, name: String, schema: AnalysisSchema, source: AnalysisSource, updateTime: Date, validations: [AnalysisTemplateValidationStatusDetail]? = nil) {
             self.analysisParameters = analysisParameters
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -1053,6 +1105,7 @@ extension CleanRooms {
             self.schema = schema
             self.source = source
             self.updateTime = updateTime
+            self.validations = validations
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1069,6 +1122,7 @@ extension CleanRooms {
             case schema = "schema"
             case source = "source"
             case updateTime = "updateTime"
+            case validations = "validations"
         }
     }
 

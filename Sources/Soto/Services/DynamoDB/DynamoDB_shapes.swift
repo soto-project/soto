@@ -1266,14 +1266,17 @@ extension DynamoDB {
         public let indexName: String
         /// The key schema for the global secondary index.
         public let keySchema: [KeySchemaElement]
+        /// The maximum number of read and write units for the global secondary index being created. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        public let onDemandThroughput: OnDemandThroughput?
         /// Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         public let projection: Projection
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughput?
 
-        public init(indexName: String, keySchema: [KeySchemaElement], projection: Projection, provisionedThroughput: ProvisionedThroughput? = nil) {
+        public init(indexName: String, keySchema: [KeySchemaElement], onDemandThroughput: OnDemandThroughput? = nil, projection: Projection, provisionedThroughput: ProvisionedThroughput? = nil) {
             self.indexName = indexName
             self.keySchema = keySchema
+            self.onDemandThroughput = onDemandThroughput
             self.projection = projection
             self.provisionedThroughput = provisionedThroughput
         }
@@ -1294,6 +1297,7 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case indexName = "IndexName"
             case keySchema = "KeySchema"
+            case onDemandThroughput = "OnDemandThroughput"
             case projection = "Projection"
             case provisionedThroughput = "ProvisionedThroughput"
         }
@@ -1353,6 +1357,8 @@ extension DynamoDB {
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]?
         /// The KMS key that should be used for KMS encryption in the new replica. To specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB KMS key alias/aws/dynamodb.
         public let kmsMasterKeyId: String?
+        /// The maximum on-demand throughput settings for the specified replica table being created. You can only modify MaxReadRequestUnits, because you can't modify MaxWriteRequestUnits for individual replica tables.
+        public let onDemandThroughputOverride: OnDemandThroughputOverride?
         /// Replica-specific provisioned throughput. If not specified, uses the source table's provisioned throughput settings.
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
         /// The Region where the new replica will be created.
@@ -1360,9 +1366,10 @@ extension DynamoDB {
         /// Replica-specific table class. If not specified, uses the source table's table class.
         public let tableClassOverride: TableClass?
 
-        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]? = nil, kmsMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String, tableClassOverride: TableClass? = nil) {
+        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]? = nil, kmsMasterKeyId: String? = nil, onDemandThroughputOverride: OnDemandThroughputOverride? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String, tableClassOverride: TableClass? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
+            self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.regionName = regionName
             self.tableClassOverride = tableClassOverride
@@ -1379,6 +1386,7 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case globalSecondaryIndexes = "GlobalSecondaryIndexes"
             case kmsMasterKeyId = "KMSMasterKeyId"
+            case onDemandThroughputOverride = "OnDemandThroughputOverride"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case regionName = "RegionName"
             case tableClassOverride = "TableClassOverride"
@@ -1398,9 +1406,11 @@ extension DynamoDB {
         public let keySchema: [KeySchemaElement]
         /// One or more local secondary indexes (the maximum is 5) to be created on the table. Each index is scoped to a given partition key value. There is a 10 GB size limit per partition key value; otherwise, the size of a local secondary index is unconstrained. Each local secondary index in the array includes the following:    IndexName - The name of the local secondary index. Must be unique only for this table.     KeySchema - Specifies the key schema for the local secondary index. The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes is in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
         public let localSecondaryIndexes: [LocalSecondaryIndex]?
+        /// Sets the maximum number of read and write units for the specified table in on-demand capacity mode. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        public let onDemandThroughput: OnDemandThroughput?
         /// Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation. If you set BillingMode as PROVISIONED, you must specify this property. If you set BillingMode as PAY_PER_REQUEST, you cannot specify this property. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughput?
-        /// An Amazon Web Services resource-based policy document in JSON format that will be attached to the table. When you attach a resource-based policy while creating a table, the policy creation is strongly consistent. The maximum size supported for a resource-based policy document is 20 KB. DynamoDB counts whitespaces when calculating the size of a policy against this limit. You can’t request an increase for this limit. For a full list of all considerations that you should keep in mind while attaching a resource-based policy, see Resource-based policy considerations.
+        /// An Amazon Web Services resource-based policy document in JSON format that will be attached to the table. When you attach a resource-based policy while creating a table, the policy application is strongly consistent. The maximum size supported for a resource-based policy document is 20 KB. DynamoDB counts whitespaces when calculating the size of a policy against this limit. For a full list of all considerations that apply for resource-based policies, see Resource-based policy considerations.
         public let resourcePolicy: String?
         /// Represents the settings used to enable server-side encryption.
         public let sseSpecification: SSESpecification?
@@ -1413,13 +1423,14 @@ extension DynamoDB {
         /// A list of key-value pairs to label the table. For more information, see Tagging for DynamoDB.
         public let tags: [Tag]?
 
-        public init(attributeDefinitions: [AttributeDefinition], billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, keySchema: [KeySchemaElement], localSecondaryIndexes: [LocalSecondaryIndex]? = nil, provisionedThroughput: ProvisionedThroughput? = nil, resourcePolicy: String? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, tags: [Tag]? = nil) {
+        public init(attributeDefinitions: [AttributeDefinition], billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, keySchema: [KeySchemaElement], localSecondaryIndexes: [LocalSecondaryIndex]? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, resourcePolicy: String? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, tags: [Tag]? = nil) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.keySchema = keySchema
             self.localSecondaryIndexes = localSecondaryIndexes
+            self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
             self.resourcePolicy = resourcePolicy
             self.sseSpecification = sseSpecification
@@ -1459,6 +1470,7 @@ extension DynamoDB {
             case globalSecondaryIndexes = "GlobalSecondaryIndexes"
             case keySchema = "KeySchema"
             case localSecondaryIndexes = "LocalSecondaryIndexes"
+            case onDemandThroughput = "OnDemandThroughput"
             case provisionedThroughput = "ProvisionedThroughput"
             case resourcePolicy = "ResourcePolicy"
             case sseSpecification = "SSESpecification"
@@ -1773,7 +1785,7 @@ extension DynamoDB {
     }
 
     public struct DeleteResourcePolicyOutput: AWSDecodableShape {
-        /// A unique string that represents the revision ID of the policy. If you are comparing revision IDs, make sure to always use string comparison logic. This value will be empty if you make a request against a resource without a policy.
+        /// A unique string that represents the revision ID of the policy. If you're comparing revision IDs, make sure to always use string comparison logic. This value will be empty if you make a request against a resource without a policy.
         public let revisionId: String?
 
         public init(revisionId: String? = nil) {
@@ -2757,7 +2769,7 @@ extension DynamoDB {
     public struct GetResourcePolicyOutput: AWSDecodableShape {
         /// The resource-based policy document attached to the resource, which can be a table or stream, in JSON format.
         public let policy: String?
-        /// A unique string that represents the revision ID of the policy. If you are comparing revision IDs, make sure to always use string comparison logic.
+        /// A unique string that represents the revision ID of the policy. If you're comparing revision IDs, make sure to always use string comparison logic.
         public let revisionId: String?
 
         public init(policy: String? = nil, revisionId: String? = nil) {
@@ -2776,14 +2788,17 @@ extension DynamoDB {
         public let indexName: String
         /// The complete key schema for a global secondary index, which consists of one or more pairs of attribute names and key types:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
         public let keySchema: [KeySchemaElement]
+        /// The maximum number of read and write units for the specified global secondary index. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        public let onDemandThroughput: OnDemandThroughput?
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         public let projection: Projection
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughput?
 
-        public init(indexName: String, keySchema: [KeySchemaElement], projection: Projection, provisionedThroughput: ProvisionedThroughput? = nil) {
+        public init(indexName: String, keySchema: [KeySchemaElement], onDemandThroughput: OnDemandThroughput? = nil, projection: Projection, provisionedThroughput: ProvisionedThroughput? = nil) {
             self.indexName = indexName
             self.keySchema = keySchema
+            self.onDemandThroughput = onDemandThroughput
             self.projection = projection
             self.provisionedThroughput = provisionedThroughput
         }
@@ -2804,6 +2819,7 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case indexName = "IndexName"
             case keySchema = "KeySchema"
+            case onDemandThroughput = "OnDemandThroughput"
             case projection = "Projection"
             case provisionedThroughput = "ProvisionedThroughput"
         }
@@ -2847,12 +2863,14 @@ extension DynamoDB {
         public let itemCount: Int64?
         /// The complete key schema for a global secondary index, which consists of one or more pairs of attribute names and key types:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
         public let keySchema: [KeySchemaElement]?
+        /// The maximum number of read and write units for the specified global secondary index. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        public let onDemandThroughput: OnDemandThroughput?
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         public let projection: Projection?
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughputDescription?
 
-        public init(backfilling: Bool? = nil, indexArn: String? = nil, indexName: String? = nil, indexSizeBytes: Int64? = nil, indexStatus: IndexStatus? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, projection: Projection? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil) {
+        public init(backfilling: Bool? = nil, indexArn: String? = nil, indexName: String? = nil, indexSizeBytes: Int64? = nil, indexStatus: IndexStatus? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, onDemandThroughput: OnDemandThroughput? = nil, projection: Projection? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil) {
             self.backfilling = backfilling
             self.indexArn = indexArn
             self.indexName = indexName
@@ -2860,6 +2878,7 @@ extension DynamoDB {
             self.indexStatus = indexStatus
             self.itemCount = itemCount
             self.keySchema = keySchema
+            self.onDemandThroughput = onDemandThroughput
             self.projection = projection
             self.provisionedThroughput = provisionedThroughput
         }
@@ -2872,6 +2891,7 @@ extension DynamoDB {
             case indexStatus = "IndexStatus"
             case itemCount = "ItemCount"
             case keySchema = "KeySchema"
+            case onDemandThroughput = "OnDemandThroughput"
             case projection = "Projection"
             case provisionedThroughput = "ProvisionedThroughput"
         }
@@ -2882,14 +2902,16 @@ extension DynamoDB {
         public let indexName: String?
         /// The complete key schema for a global secondary index, which consists of one or more pairs of attribute names and key types:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
         public let keySchema: [KeySchemaElement]?
+        public let onDemandThroughput: OnDemandThroughput?
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         public let projection: Projection?
         /// Represents the provisioned throughput settings for the specified global secondary index.
         public let provisionedThroughput: ProvisionedThroughput?
 
-        public init(indexName: String? = nil, keySchema: [KeySchemaElement]? = nil, projection: Projection? = nil, provisionedThroughput: ProvisionedThroughput? = nil) {
+        public init(indexName: String? = nil, keySchema: [KeySchemaElement]? = nil, onDemandThroughput: OnDemandThroughput? = nil, projection: Projection? = nil, provisionedThroughput: ProvisionedThroughput? = nil) {
             self.indexName = indexName
             self.keySchema = keySchema
+            self.onDemandThroughput = onDemandThroughput
             self.projection = projection
             self.provisionedThroughput = provisionedThroughput
         }
@@ -2897,6 +2919,7 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case indexName = "IndexName"
             case keySchema = "KeySchema"
+            case onDemandThroughput = "OnDemandThroughput"
             case projection = "Projection"
             case provisionedThroughput = "ProvisionedThroughput"
         }
@@ -3801,6 +3824,36 @@ extension DynamoDB {
         }
     }
 
+    public struct OnDemandThroughput: AWSEncodableShape & AWSDecodableShape {
+        /// Maximum number of read request units for the specified table. To specify a maximum OnDemandThroughput on your table, set the value of MaxReadRequestUnits as greater than or equal to 1. To remove the maximum OnDemandThroughput that is currently set on your table, set the value of MaxReadRequestUnits to -1.
+        public let maxReadRequestUnits: Int64?
+        /// Maximum number of write request units for the specified table. To specify a maximum OnDemandThroughput on your table, set the value of MaxWriteRequestUnits as greater than or equal to 1. To remove the maximum OnDemandThroughput that is currently set on your table, set the value of MaxWriteRequestUnits to -1.
+        public let maxWriteRequestUnits: Int64?
+
+        public init(maxReadRequestUnits: Int64? = nil, maxWriteRequestUnits: Int64? = nil) {
+            self.maxReadRequestUnits = maxReadRequestUnits
+            self.maxWriteRequestUnits = maxWriteRequestUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxReadRequestUnits = "MaxReadRequestUnits"
+            case maxWriteRequestUnits = "MaxWriteRequestUnits"
+        }
+    }
+
+    public struct OnDemandThroughputOverride: AWSEncodableShape & AWSDecodableShape {
+        /// Maximum number of read request units for the specified replica table.
+        public let maxReadRequestUnits: Int64?
+
+        public init(maxReadRequestUnits: Int64? = nil) {
+            self.maxReadRequestUnits = maxReadRequestUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxReadRequestUnits = "MaxReadRequestUnits"
+        }
+    }
+
     public struct ParameterizedStatement: AWSEncodableShape {
         ///  The parameter values.
         public let parameters: [AttributeValue]?
@@ -4122,9 +4175,9 @@ extension DynamoDB {
     public struct PutResourcePolicyInput: AWSEncodableShape {
         /// Set this parameter to true to confirm that you want to remove your permissions to change the policy of this resource in the future.
         public let confirmRemoveSelfResourceAccess: Bool?
-        /// A string value that you can use to conditionally update your policy. You can provide the revision ID of your existing policy to make mutating requests against that policy. When you provide an expected revision ID, if the revision ID of the existing policy on the resource doesn't match or if there's no policy attached to the resource, your request will be rejected with a PolicyNotFoundException. To conditionally put a policy when no policy exists for the resource, specify NO_POLICY for the revision ID.
+        /// A string value that you can use to conditionally update your policy. You can provide the revision ID of your existing policy to make mutating requests against that policy.  When you provide an expected revision ID, if the revision ID of the existing policy on the resource doesn't match or if there's no policy attached to the resource, your request will be rejected with a PolicyNotFoundException.  To conditionally attach a policy when no policy exists for the resource, specify NO_POLICY for the revision ID.
         public let expectedRevisionId: String?
-        /// An Amazon Web Services resource-based policy document in JSON format. The maximum size supported for a resource-based policy document is 20 KB. DynamoDB counts whitespaces when calculating the size of a policy against this limit. For a full list of all considerations that you should keep in mind while attaching a resource-based policy, see Resource-based policy considerations.
+        /// An Amazon Web Services resource-based policy document in JSON format.   The maximum size supported for a resource-based policy document is 20 KB. DynamoDB counts whitespaces when calculating the size of a policy against this limit.   Within a resource-based policy, if the action for a DynamoDB service-linked role (SLR) to replicate data for a global table is denied, adding or deleting a replica will fail with an error.   For a full list of all considerations that apply while attaching a resource-based policy, see Resource-based policy considerations.
         public let policy: String
         /// The Amazon Resource Name (ARN) of the DynamoDB resource to which the policy will be attached. The resources you can specify include tables and streams. You can control index permissions using the base table's policy. To specify the same permission level for your table and its indexes, you can provide both the table and index Amazon Resource Name (ARN)s in the Resource field of a given Statement in your policy document. Alternatively, to specify different permissions for your table, indexes, or both, you can define multiple Statement fields in your policy document.
         public let resourceArn: String
@@ -4160,7 +4213,7 @@ extension DynamoDB {
     }
 
     public struct PutResourcePolicyOutput: AWSDecodableShape {
-        /// A unique string that represents the revision ID of the policy. If you are comparing revision IDs, make sure to always use string comparison logic.
+        /// A unique string that represents the revision ID of the policy. If you're comparing revision IDs, make sure to always use string comparison logic.
         public let revisionId: String?
 
         public init(revisionId: String? = nil) {
@@ -4380,6 +4433,8 @@ extension DynamoDB {
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]?
         /// The KMS key of the replica that will be used for KMS encryption.
         public let kmsMasterKeyId: String?
+        /// Overrides the maximum on-demand throughput settings for the specified replica table.
+        public let onDemandThroughputOverride: OnDemandThroughputOverride?
         /// Replica-specific provisioned throughput. If not described, uses the source table's provisioned throughput settings.
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
         /// The name of the Region.
@@ -4394,9 +4449,10 @@ extension DynamoDB {
         public let replicaStatusPercentProgress: String?
         public let replicaTableClassSummary: TableClassSummary?
 
-        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]? = nil, kmsMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String? = nil, replicaInaccessibleDateTime: Date? = nil, replicaStatus: ReplicaStatus? = nil, replicaStatusDescription: String? = nil, replicaStatusPercentProgress: String? = nil, replicaTableClassSummary: TableClassSummary? = nil) {
+        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]? = nil, kmsMasterKeyId: String? = nil, onDemandThroughputOverride: OnDemandThroughputOverride? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String? = nil, replicaInaccessibleDateTime: Date? = nil, replicaStatus: ReplicaStatus? = nil, replicaStatusDescription: String? = nil, replicaStatusPercentProgress: String? = nil, replicaTableClassSummary: TableClassSummary? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
+            self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.regionName = regionName
             self.replicaInaccessibleDateTime = replicaInaccessibleDateTime
@@ -4409,6 +4465,7 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case globalSecondaryIndexes = "GlobalSecondaryIndexes"
             case kmsMasterKeyId = "KMSMasterKeyId"
+            case onDemandThroughputOverride = "OnDemandThroughputOverride"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case regionName = "RegionName"
             case replicaInaccessibleDateTime = "ReplicaInaccessibleDateTime"
@@ -4422,11 +4479,14 @@ extension DynamoDB {
     public struct ReplicaGlobalSecondaryIndex: AWSEncodableShape {
         /// The name of the global secondary index.
         public let indexName: String
+        /// Overrides the maximum on-demand throughput settings for the specified global secondary index in the specified replica table.
+        public let onDemandThroughputOverride: OnDemandThroughputOverride?
         /// Replica table GSI-specific provisioned throughput. If not specified, uses the source table GSI's read capacity settings.
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
 
-        public init(indexName: String, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil) {
+        public init(indexName: String, onDemandThroughputOverride: OnDemandThroughputOverride? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil) {
             self.indexName = indexName
+            self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
         }
 
@@ -4439,6 +4499,7 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case indexName = "IndexName"
+            case onDemandThroughputOverride = "OnDemandThroughputOverride"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
         }
     }
@@ -4492,16 +4553,20 @@ extension DynamoDB {
     public struct ReplicaGlobalSecondaryIndexDescription: AWSDecodableShape {
         /// The name of the global secondary index.
         public let indexName: String?
+        /// Overrides the maximum on-demand throughput for the specified global secondary index in the specified replica table.
+        public let onDemandThroughputOverride: OnDemandThroughputOverride?
         /// If not described, uses the source table GSI's read capacity settings.
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
 
-        public init(indexName: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil) {
+        public init(indexName: String? = nil, onDemandThroughputOverride: OnDemandThroughputOverride? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil) {
             self.indexName = indexName
+            self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
         }
 
         private enum CodingKeys: String, CodingKey {
             case indexName = "IndexName"
+            case onDemandThroughputOverride = "OnDemandThroughputOverride"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
         }
     }
@@ -4728,6 +4793,7 @@ extension DynamoDB {
         public let globalSecondaryIndexOverride: [GlobalSecondaryIndex]?
         /// List of local secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
         public let localSecondaryIndexOverride: [LocalSecondaryIndex]?
+        public let onDemandThroughputOverride: OnDemandThroughput?
         /// Provisioned throughput settings for the restored table.
         public let provisionedThroughputOverride: ProvisionedThroughput?
         /// The new server-side encryption settings for the restored table.
@@ -4735,11 +4801,12 @@ extension DynamoDB {
         /// The name of the new table to which the backup must be restored.
         public let targetTableName: String
 
-        public init(backupArn: String, billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, sseSpecificationOverride: SSESpecification? = nil, targetTableName: String) {
+        public init(backupArn: String, billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, onDemandThroughputOverride: OnDemandThroughput? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, sseSpecificationOverride: SSESpecification? = nil, targetTableName: String) {
             self.backupArn = backupArn
             self.billingModeOverride = billingModeOverride
             self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
             self.localSecondaryIndexOverride = localSecondaryIndexOverride
+            self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.sseSpecificationOverride = sseSpecificationOverride
             self.targetTableName = targetTableName
@@ -4765,6 +4832,7 @@ extension DynamoDB {
             case billingModeOverride = "BillingModeOverride"
             case globalSecondaryIndexOverride = "GlobalSecondaryIndexOverride"
             case localSecondaryIndexOverride = "LocalSecondaryIndexOverride"
+            case onDemandThroughputOverride = "OnDemandThroughputOverride"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case sseSpecificationOverride = "SSESpecificationOverride"
             case targetTableName = "TargetTableName"
@@ -4791,6 +4859,7 @@ extension DynamoDB {
         public let globalSecondaryIndexOverride: [GlobalSecondaryIndex]?
         /// List of local secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
         public let localSecondaryIndexOverride: [LocalSecondaryIndex]?
+        public let onDemandThroughputOverride: OnDemandThroughput?
         /// Provisioned throughput settings for the restored table.
         public let provisionedThroughputOverride: ProvisionedThroughput?
         /// Time in the past to restore the table to.
@@ -4806,10 +4875,11 @@ extension DynamoDB {
         /// Restore the table to the latest possible time. LatestRestorableDateTime is typically 5 minutes before the current time.
         public let useLatestRestorableTime: Bool?
 
-        public init(billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, restoreDateTime: Date? = nil, sourceTableArn: String? = nil, sourceTableName: String? = nil, sseSpecificationOverride: SSESpecification? = nil, targetTableName: String, useLatestRestorableTime: Bool? = nil) {
+        public init(billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, onDemandThroughputOverride: OnDemandThroughput? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, restoreDateTime: Date? = nil, sourceTableArn: String? = nil, sourceTableName: String? = nil, sseSpecificationOverride: SSESpecification? = nil, targetTableName: String, useLatestRestorableTime: Bool? = nil) {
             self.billingModeOverride = billingModeOverride
             self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
             self.localSecondaryIndexOverride = localSecondaryIndexOverride
+            self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.restoreDateTime = restoreDateTime
             self.sourceTableArn = sourceTableArn
@@ -4841,6 +4911,7 @@ extension DynamoDB {
             case billingModeOverride = "BillingModeOverride"
             case globalSecondaryIndexOverride = "GlobalSecondaryIndexOverride"
             case localSecondaryIndexOverride = "LocalSecondaryIndexOverride"
+            case onDemandThroughputOverride = "OnDemandThroughputOverride"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case restoreDateTime = "RestoreDateTime"
             case sourceTableArn = "SourceTableArn"
@@ -5077,6 +5148,7 @@ extension DynamoDB {
         public let itemCount: Int64?
         /// Schema of the table.
         public let keySchema: [KeySchemaElement]
+        public let onDemandThroughput: OnDemandThroughput?
         /// Read IOPs and Write IOPS on the table when the backup was created.
         public let provisionedThroughput: ProvisionedThroughput
         /// ARN of the table for which backup was created.
@@ -5090,10 +5162,11 @@ extension DynamoDB {
         /// Size of the table in bytes. Note that this is an approximate value.
         public let tableSizeBytes: Int64?
 
-        public init(billingMode: BillingMode? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement], provisionedThroughput: ProvisionedThroughput, tableArn: String? = nil, tableCreationDateTime: Date, tableId: String, tableName: String, tableSizeBytes: Int64? = nil) {
+        public init(billingMode: BillingMode? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement], onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput, tableArn: String? = nil, tableCreationDateTime: Date, tableId: String, tableName: String, tableSizeBytes: Int64? = nil) {
             self.billingMode = billingMode
             self.itemCount = itemCount
             self.keySchema = keySchema
+            self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
             self.tableArn = tableArn
             self.tableCreationDateTime = tableCreationDateTime
@@ -5106,6 +5179,7 @@ extension DynamoDB {
             case billingMode = "BillingMode"
             case itemCount = "ItemCount"
             case keySchema = "KeySchema"
+            case onDemandThroughput = "OnDemandThroughput"
             case provisionedThroughput = "ProvisionedThroughput"
             case tableArn = "TableArn"
             case tableCreationDateTime = "TableCreationDateTime"
@@ -5208,16 +5282,18 @@ extension DynamoDB {
         public let globalSecondaryIndexes: [GlobalSecondaryIndex]?
         ///  The primary key and option sort key of the table created as part of the import operation.
         public let keySchema: [KeySchemaElement]
+        public let onDemandThroughput: OnDemandThroughput?
         public let provisionedThroughput: ProvisionedThroughput?
         public let sseSpecification: SSESpecification?
         ///  The name of the table created as part of the import operation.
         public let tableName: String
 
-        public init(attributeDefinitions: [AttributeDefinition], billingMode: BillingMode? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, keySchema: [KeySchemaElement], provisionedThroughput: ProvisionedThroughput? = nil, sseSpecification: SSESpecification? = nil, tableName: String) {
+        public init(attributeDefinitions: [AttributeDefinition], billingMode: BillingMode? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, keySchema: [KeySchemaElement], onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, sseSpecification: SSESpecification? = nil, tableName: String) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.keySchema = keySchema
+            self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
             self.sseSpecification = sseSpecification
             self.tableName = tableName
@@ -5246,6 +5322,7 @@ extension DynamoDB {
             case billingMode = "BillingMode"
             case globalSecondaryIndexes = "GlobalSecondaryIndexes"
             case keySchema = "KeySchema"
+            case onDemandThroughput = "OnDemandThroughput"
             case provisionedThroughput = "ProvisionedThroughput"
             case sseSpecification = "SSESpecification"
             case tableName = "TableName"
@@ -5277,6 +5354,8 @@ extension DynamoDB {
         public let latestStreamLabel: String?
         /// Represents one or more local secondary indexes on the table. Each index is scoped to a given partition key value. Tables with one or more local secondary indexes are subject to an item collection size limit, where the amount of data within a given item collection cannot exceed 10 GB. Each element is composed of:    IndexName - The name of the local secondary index.    KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes is in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      IndexSizeBytes - Represents the total size of the index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.    ItemCount - Represents the number of items in the index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.   If the table is in the DELETING state, no information about indexes will be returned.
         public let localSecondaryIndexes: [LocalSecondaryIndexDescription]?
+        /// The maximum number of read and write units for the specified on-demand table. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        public let onDemandThroughput: OnDemandThroughput?
         /// The provisioned throughput settings for the table, consisting of read and write capacity units, along with data about increases and decreases.
         public let provisionedThroughput: ProvisionedThroughputDescription?
         /// Represents replicas of the table.
@@ -5300,7 +5379,7 @@ extension DynamoDB {
         /// The current state of the table:    CREATING - The table is being created.    UPDATING - The table/index configuration is being updated. The table/index remains available for data operations when UPDATING.    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The KMS key used to encrypt the table in inaccessible. Table operations may fail due to failure to use the KMS key. DynamoDB will initiate the table archival process when a table's KMS key remains inaccessible for more than seven days.     ARCHIVING - The table is being archived. Operations are not allowed until archival is complete.     ARCHIVED - The table has been archived. See the ArchivalReason for more information.
         public let tableStatus: TableStatus?
 
-        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil) {
+        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil) {
             self.archivalSummary = archivalSummary
             self.attributeDefinitions = attributeDefinitions
             self.billingModeSummary = billingModeSummary
@@ -5313,6 +5392,7 @@ extension DynamoDB {
             self.latestStreamArn = latestStreamArn
             self.latestStreamLabel = latestStreamLabel
             self.localSecondaryIndexes = localSecondaryIndexes
+            self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
             self.replicas = replicas
             self.restoreSummary = restoreSummary
@@ -5339,6 +5419,7 @@ extension DynamoDB {
             case latestStreamArn = "LatestStreamArn"
             case latestStreamLabel = "LatestStreamLabel"
             case localSecondaryIndexes = "LocalSecondaryIndexes"
+            case onDemandThroughput = "OnDemandThroughput"
             case provisionedThroughput = "ProvisionedThroughput"
             case replicas = "Replicas"
             case restoreSummary = "RestoreSummary"
@@ -5716,11 +5797,14 @@ extension DynamoDB {
     public struct UpdateGlobalSecondaryIndexAction: AWSEncodableShape {
         /// The name of the global secondary index to be updated.
         public let indexName: String
+        /// Updates the maximum number of read and write units for the specified global secondary index. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        public let onDemandThroughput: OnDemandThroughput?
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
-        public let provisionedThroughput: ProvisionedThroughput
+        public let provisionedThroughput: ProvisionedThroughput?
 
-        public init(indexName: String, provisionedThroughput: ProvisionedThroughput) {
+        public init(indexName: String, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil) {
             self.indexName = indexName
+            self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
         }
 
@@ -5728,11 +5812,12 @@ extension DynamoDB {
             try self.validate(self.indexName, name: "indexName", parent: name, max: 255)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 3)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
-            try self.provisionedThroughput.validate(name: "\(name).provisionedThroughput")
+            try self.provisionedThroughput?.validate(name: "\(name).provisionedThroughput")
         }
 
         private enum CodingKeys: String, CodingKey {
             case indexName = "IndexName"
+            case onDemandThroughput = "OnDemandThroughput"
             case provisionedThroughput = "ProvisionedThroughput"
         }
     }
@@ -6016,6 +6101,8 @@ extension DynamoDB {
         public let globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]?
         /// The KMS key of the replica that should be used for KMS encryption. To specify a key, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. Note that you should only provide this parameter if the key is different from the default DynamoDB KMS key alias/aws/dynamodb.
         public let kmsMasterKeyId: String?
+        /// Overrides the maximum on-demand throughput for the replica table.
+        public let onDemandThroughputOverride: OnDemandThroughputOverride?
         /// Replica-specific provisioned throughput. If not specified, uses the source table's provisioned throughput settings.
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
         /// The Region where the replica exists.
@@ -6023,9 +6110,10 @@ extension DynamoDB {
         /// Replica-specific table class. If not specified, uses the source table's table class.
         public let tableClassOverride: TableClass?
 
-        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]? = nil, kmsMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String, tableClassOverride: TableClass? = nil) {
+        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]? = nil, kmsMasterKeyId: String? = nil, onDemandThroughputOverride: OnDemandThroughputOverride? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String, tableClassOverride: TableClass? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
+            self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.regionName = regionName
             self.tableClassOverride = tableClassOverride
@@ -6042,6 +6130,7 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case globalSecondaryIndexes = "GlobalSecondaryIndexes"
             case kmsMasterKeyId = "KMSMasterKeyId"
+            case onDemandThroughputOverride = "OnDemandThroughputOverride"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case regionName = "RegionName"
             case tableClassOverride = "TableClassOverride"
@@ -6057,6 +6146,8 @@ extension DynamoDB {
         public let deletionProtectionEnabled: Bool?
         /// An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:    Create - add a new global secondary index to the table.    Update - modify the provisioned throughput settings of an existing global secondary index.    Delete - remove a global secondary index from the table.   You can create or delete only one global secondary index per UpdateTable operation. For more information, see Managing Global Secondary Indexes in the Amazon DynamoDB Developer Guide.
         public let globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]?
+        /// Updates the maximum number of read and write units for the specified table in on-demand capacity mode. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        public let onDemandThroughput: OnDemandThroughput?
         /// The new provisioned throughput settings for the specified table or index.
         public let provisionedThroughput: ProvisionedThroughput?
         /// A list of replica update actions (create, delete, or update) for the table.  This property only applies to Version 2019.11.21 (Current) of global tables.
@@ -6070,11 +6161,12 @@ extension DynamoDB {
         /// The name of the table to be updated. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
 
-        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String) {
+        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
+            self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
             self.replicaUpdates = replicaUpdates
             self.sseSpecification = sseSpecification
@@ -6104,6 +6196,7 @@ extension DynamoDB {
             case billingMode = "BillingMode"
             case deletionProtectionEnabled = "DeletionProtectionEnabled"
             case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
+            case onDemandThroughput = "OnDemandThroughput"
             case provisionedThroughput = "ProvisionedThroughput"
             case replicaUpdates = "ReplicaUpdates"
             case sseSpecification = "SSESpecification"

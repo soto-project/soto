@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS QBusiness service.
 ///
-///  Amazon Q is in preview release and is subject to change.  This is the Amazon Q (for business use) API Reference. Amazon Q is a fully managed, generative-AI powered enterprise chat assistant that you can deploy within your organization. Amazon Q enhances employee productivity by supporting key tasks such as question-answering, knowledge discovery, writing email messages, summarizing text, drafting document outlines, and brainstorming ideas. Users ask questions of Amazon Q and get answers that are presented in a conversational manner. For an introduction to the service, see the  Amazon Q (for business use) Developer Guide . For an overview of the Amazon Q APIs, see Overview of Amazon Q API operations. For information about the IAM access control permissions you need to use this API, see IAM roles for Amazon Q in the Amazon Q (for business use) Developer Guide. You can use the following AWS SDKs to access Amazon Q APIs:    AWS SDK for C++     AWS SDK for Go     AWS SDK for Java     AWS SDK for JavaScript     AWS SDK for .NET     AWS SDK for Python (Boto3)     AWS SDK for Ruby    The following resources provide additional information about using the Amazon Q API:     Setting up for Amazon Q       Amazon Q CLI Reference       Amazon Web Services General Reference
+/// This is the Amazon Q Business API Reference. Amazon Q Business is a fully managed, generative-AI powered enterprise chat assistant that you can deploy within your organization. Amazon Q Business enhances employee productivity by supporting key tasks such as question-answering, knowledge discovery, writing email messages, summarizing text, drafting document outlines, and brainstorming ideas. Users ask questions of Amazon Q Business and get answers that are presented in a conversational manner. For an introduction to the service, see the  Amazon Q Business User Guide . For an overview of the Amazon Q Business APIs, see Overview of Amazon Q Business API operations. For information about the IAM access control permissions you need to use this API, see IAM roles for Amazon Q Business in the Amazon Q Business User Guide. You can use the following AWS SDKs to access Amazon Q Business APIs:    AWS SDK for C++     AWS SDK for Go     AWS SDK for Java     AWS SDK for JavaScript     AWS SDK for .NET     AWS SDK for Python (Boto3)     AWS SDK for Ruby    The following resources provide additional information about using the Amazon Q Business API:     Setting up for Amazon Q Business       Amazon Q Business CLI Reference       Amazon Web Services General Reference
 public struct QBusiness: AWSService {
     // MARK: Member variables
 
@@ -149,7 +149,7 @@ public struct QBusiness: AWSService {
 
     // MARK: API Calls
 
-    /// Asynchronously deletes one or more documents added using the BatchPutDocument API from an Amazon Q index. You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
+    /// Asynchronously deletes one or more documents added using the BatchPutDocument API from an Amazon Q Business index. You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
     @Sendable
     public func batchDeleteDocument(_ input: BatchDeleteDocumentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteDocumentResponse {
         return try await self.client.execute(
@@ -162,7 +162,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Adds one or more documents to an Amazon Q index. You use this API to:   ingest your structured and unstructured documents and documents stored in an Amazon S3 bucket into an Amazon Q index.   add custom attributes to documents in an Amazon Q index.   attach an access control list to the documents added to an Amazon Q index.   You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
+    /// Adds one or more documents to an Amazon Q Business index. You use this API to:   ingest your structured and unstructured documents and documents stored in an Amazon S3 bucket into an Amazon Q Business index.   add custom attributes to documents in an Amazon Q Business index.   attach an access control list to the documents added to an Amazon Q Business index.   You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
     @Sendable
     public func batchPutDocument(_ input: BatchPutDocumentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchPutDocumentResponse {
         return try await self.client.execute(
@@ -175,7 +175,20 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Starts or continues a non-streaming Amazon Q conversation.
+    /// Starts or continues a streaming Amazon Q Business conversation.
+    @Sendable
+    public func chat(_ input: ChatInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ChatOutput {
+        return try await self.client.execute(
+            operation: "Chat", 
+            path: "/applications/{applicationId}/conversations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Starts or continues a non-streaming Amazon Q Business conversation.
     @Sendable
     public func chatSync(_ input: ChatSyncInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ChatSyncOutput {
         return try await self.client.execute(
@@ -188,7 +201,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Creates an Amazon Q application.
+    /// Creates an Amazon Q Business application.  There are new tiers for Amazon Q Business. Not all features in Amazon Q Business Pro are  also available in Amazon Q Business Lite. For information on what's included in  Amazon Q Business Lite and what's included in  Amazon Q Business Pro, see Amazon Q Business tiers.  You must use the Amazon Q Business console to assign subscription tiers to users.
     @Sendable
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationResponse {
         return try await self.client.execute(
@@ -201,7 +214,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Creates a data source connector for an Amazon Q application.  CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
+    /// Creates a data source connector for an Amazon Q Business application.  CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
     @Sendable
     public func createDataSource(_ input: CreateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataSourceResponse {
         return try await self.client.execute(
@@ -214,7 +227,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Creates an Amazon Q index. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the  BatchPutDocument API or the  CreateDataSource API.
+    /// Creates an Amazon Q Business index. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the  BatchPutDocument API or the  CreateDataSource API.
     @Sendable
     public func createIndex(_ input: CreateIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIndexResponse {
         return try await self.client.execute(
@@ -227,7 +240,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Creates an Amazon Q plugin.
+    /// Creates an Amazon Q Business plugin.
     @Sendable
     public func createPlugin(_ input: CreatePluginRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePluginResponse {
         return try await self.client.execute(
@@ -240,7 +253,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Adds a retriever to your Amazon Q application.
+    /// Adds a retriever to your Amazon Q Business application.
     @Sendable
     public func createRetriever(_ input: CreateRetrieverRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRetrieverResponse {
         return try await self.client.execute(
@@ -266,7 +279,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Creates an Amazon Q web experience.
+    /// Creates an Amazon Q Business web experience.
     @Sendable
     public func createWebExperience(_ input: CreateWebExperienceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWebExperienceResponse {
         return try await self.client.execute(
@@ -279,7 +292,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Deletes an Amazon Q application.
+    /// Deletes an Amazon Q Business application.
     @Sendable
     public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationResponse {
         return try await self.client.execute(
@@ -292,7 +305,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Deletes chat controls configured for an existing Amazon Q application.
+    /// Deletes chat controls configured for an existing Amazon Q Business application.
     @Sendable
     public func deleteChatControlsConfiguration(_ input: DeleteChatControlsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteChatControlsConfigurationResponse {
         return try await self.client.execute(
@@ -305,7 +318,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Deletes an Amazon Q web experience conversation.
+    /// Deletes an Amazon Q Business web experience conversation.
     @Sendable
     public func deleteConversation(_ input: DeleteConversationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConversationResponse {
         return try await self.client.execute(
@@ -318,7 +331,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Deletes an Amazon Q data source connector. While the data source is being deleted, the Status field returned by a call to the DescribeDataSource API is set to DELETING.
+    /// Deletes an Amazon Q Business data source connector. While the data source is being deleted, the Status field returned by a call to the DescribeDataSource API is set to DELETING.
     @Sendable
     public func deleteDataSource(_ input: DeleteDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataSourceResponse {
         return try await self.client.execute(
@@ -344,7 +357,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Deletes an Amazon Q index.
+    /// Deletes an Amazon Q Business index.
     @Sendable
     public func deleteIndex(_ input: DeleteIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIndexResponse {
         return try await self.client.execute(
@@ -357,7 +370,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Deletes an Amazon Q plugin.
+    /// Deletes an Amazon Q Business plugin.
     @Sendable
     public func deletePlugin(_ input: DeletePluginRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePluginResponse {
         return try await self.client.execute(
@@ -370,7 +383,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Deletes the retriever used by an Amazon Q application.
+    /// Deletes the retriever used by an Amazon Q Business application.
     @Sendable
     public func deleteRetriever(_ input: DeleteRetrieverRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRetrieverResponse {
         return try await self.client.execute(
@@ -396,7 +409,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Deletes an Amazon Q web experience.
+    /// Deletes an Amazon Q Business web experience.
     @Sendable
     public func deleteWebExperience(_ input: DeleteWebExperienceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWebExperienceResponse {
         return try await self.client.execute(
@@ -409,7 +422,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Gets information about an existing Amazon Q application.
+    /// Gets information about an existing Amazon Q Business application.
     @Sendable
     public func getApplication(_ input: GetApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApplicationResponse {
         return try await self.client.execute(
@@ -422,7 +435,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Gets information about an chat controls configured for an existing Amazon Q application.
+    /// Gets information about an chat controls configured for an existing Amazon Q Business application.
     @Sendable
     public func getChatControlsConfiguration(_ input: GetChatControlsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChatControlsConfigurationResponse {
         return try await self.client.execute(
@@ -435,7 +448,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Gets information about an existing Amazon Q data source connector.
+    /// Gets information about an existing Amazon Q Business data source connector.
     @Sendable
     public func getDataSource(_ input: GetDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataSourceResponse {
         return try await self.client.execute(
@@ -461,7 +474,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Gets information about an existing Amazon Q index.
+    /// Gets information about an existing Amazon Q Business index.
     @Sendable
     public func getIndex(_ input: GetIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIndexResponse {
         return try await self.client.execute(
@@ -474,7 +487,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Gets information about an existing Amazon Q plugin.
+    /// Gets information about an existing Amazon Q Business plugin.
     @Sendable
     public func getPlugin(_ input: GetPluginRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPluginResponse {
         return try await self.client.execute(
@@ -487,7 +500,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Gets information about an existing retriever used by an Amazon Q application.
+    /// Gets information about an existing retriever used by an Amazon Q Business application.
     @Sendable
     public func getRetriever(_ input: GetRetrieverRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRetrieverResponse {
         return try await self.client.execute(
@@ -513,7 +526,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Gets information about an existing Amazon Q web experience.
+    /// Gets information about an existing Amazon Q Business web experience.
     @Sendable
     public func getWebExperience(_ input: GetWebExperienceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWebExperienceResponse {
         return try await self.client.execute(
@@ -526,7 +539,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Lists Amazon Q applications.
+    /// Lists Amazon Q Business applications.
     @Sendable
     public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationsResponse {
         return try await self.client.execute(
@@ -539,7 +552,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Lists one or more Amazon Q conversations.
+    /// Lists one or more Amazon Q Business conversations.
     @Sendable
     public func listConversations(_ input: ListConversationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConversationsResponse {
         return try await self.client.execute(
@@ -552,7 +565,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Get information about an Amazon Q data source connector synchronization.
+    /// Get information about an Amazon Q Business data source connector synchronization.
     @Sendable
     public func listDataSourceSyncJobs(_ input: ListDataSourceSyncJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSourceSyncJobsResponse {
         return try await self.client.execute(
@@ -565,7 +578,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Lists the Amazon Q data source connectors that you have created.
+    /// Lists the Amazon Q Business data source connectors that you have created.
     @Sendable
     public func listDataSources(_ input: ListDataSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSourcesResponse {
         return try await self.client.execute(
@@ -604,7 +617,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Lists the Amazon Q indices you have created.
+    /// Lists the Amazon Q Business indices you have created.
     @Sendable
     public func listIndices(_ input: ListIndicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIndicesResponse {
         return try await self.client.execute(
@@ -617,7 +630,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Gets a list of messages associated with an Amazon Q web experience.
+    /// Gets a list of messages associated with an Amazon Q Business web experience.
     @Sendable
     public func listMessages(_ input: ListMessagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMessagesResponse {
         return try await self.client.execute(
@@ -630,7 +643,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Lists configured Amazon Q plugins.
+    /// Lists configured Amazon Q Business plugins.
     @Sendable
     public func listPlugins(_ input: ListPluginsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPluginsResponse {
         return try await self.client.execute(
@@ -643,7 +656,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Lists the retriever used by an Amazon Q application.
+    /// Lists the retriever used by an Amazon Q Business application.
     @Sendable
     public func listRetrievers(_ input: ListRetrieversRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRetrieversResponse {
         return try await self.client.execute(
@@ -656,7 +669,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Gets a list of tags associated with a specified resource. Amazon Q applications and data sources can have tags associated with them.
+    /// Gets a list of tags associated with a specified resource. Amazon Q Business applications and data sources can have tags associated with them.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(
@@ -669,7 +682,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Lists one or more Amazon Q Web Experiences.
+    /// Lists one or more Amazon Q Business Web Experiences.
     @Sendable
     public func listWebExperiences(_ input: ListWebExperiencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWebExperiencesResponse {
         return try await self.client.execute(
@@ -682,7 +695,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Enables your end user to to provide feedback on their Amazon Q generated chat responses.
+    /// Enables your end user to provide feedback on their Amazon Q Business generated chat responses.
     @Sendable
     public func putFeedback(_ input: PutFeedbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -695,7 +708,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Create, or updates, a mapping of users—who have access to a document—to groups. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their Amazon Q chat results.
+    /// Create, or updates, a mapping of users—who have access to a document—to groups. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their Amazon Q Business chat results.
     @Sendable
     public func putGroup(_ input: PutGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutGroupResponse {
         return try await self.client.execute(
@@ -708,7 +721,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Starts a data source connector synchronization job. If a synchronization job is already in progress, Amazon Q returns a ConflictException.
+    /// Starts a data source connector synchronization job. If a synchronization job is already in progress, Amazon Q Business returns a ConflictException.
     @Sendable
     public func startDataSourceSyncJob(_ input: StartDataSourceSyncJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDataSourceSyncJobResponse {
         return try await self.client.execute(
@@ -721,7 +734,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Stops an Amazon Q data source connector synchronization job already in progress.
+    /// Stops an Amazon Q Business data source connector synchronization job already in progress.
     @Sendable
     public func stopDataSourceSyncJob(_ input: StopDataSourceSyncJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopDataSourceSyncJobResponse {
         return try await self.client.execute(
@@ -734,7 +747,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Adds the specified tag to the specified Amazon Q application or data source resource. If the tag already exists, the existing value is replaced with the new value.
+    /// Adds the specified tag to the specified Amazon Q Business application or data source resource. If the tag already exists, the existing value is replaced with the new value.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
         return try await self.client.execute(
@@ -747,7 +760,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Removes a tag from an Amazon Q application or a data source.
+    /// Removes a tag from an Amazon Q Business application or a data source.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         return try await self.client.execute(
@@ -760,7 +773,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Updates an existing Amazon Q application.
+    /// Updates an existing Amazon Q Business application.
     @Sendable
     public func updateApplication(_ input: UpdateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationResponse {
         return try await self.client.execute(
@@ -773,7 +786,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Updates an set of chat controls configured for an existing Amazon Q application.
+    /// Updates an set of chat controls configured for an existing Amazon Q Business application.
     @Sendable
     public func updateChatControlsConfiguration(_ input: UpdateChatControlsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChatControlsConfigurationResponse {
         return try await self.client.execute(
@@ -786,7 +799,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Updates an existing Amazon Q data source connector.
+    /// Updates an existing Amazon Q Business data source connector.
     @Sendable
     public func updateDataSource(_ input: UpdateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSourceResponse {
         return try await self.client.execute(
@@ -799,7 +812,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Updates an Amazon Q index.
+    /// Updates an Amazon Q Business index.
     @Sendable
     public func updateIndex(_ input: UpdateIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIndexResponse {
         return try await self.client.execute(
@@ -812,7 +825,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Updates an Amazon Q plugin.
+    /// Updates an Amazon Q Business plugin.
     @Sendable
     public func updatePlugin(_ input: UpdatePluginRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePluginResponse {
         return try await self.client.execute(
@@ -825,7 +838,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Updates the retriever used for your Amazon Q application.
+    /// Updates the retriever used for your Amazon Q Business application.
     @Sendable
     public func updateRetriever(_ input: UpdateRetrieverRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRetrieverResponse {
         return try await self.client.execute(
@@ -851,7 +864,7 @@ public struct QBusiness: AWSService {
         )
     }
 
-    /// Updates an Amazon Q web experience.
+    /// Updates an Amazon Q Business web experience.
     @Sendable
     public func updateWebExperience(_ input: UpdateWebExperienceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWebExperienceResponse {
         return try await self.client.execute(
@@ -878,7 +891,7 @@ extension QBusiness {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension QBusiness {
-    /// Gets information about an chat controls configured for an existing Amazon Q application.
+    /// Gets information about an chat controls configured for an existing Amazon Q Business application.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -897,7 +910,7 @@ extension QBusiness {
         )
     }
 
-    /// Lists Amazon Q applications.
+    /// Lists Amazon Q Business applications.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -916,7 +929,7 @@ extension QBusiness {
         )
     }
 
-    /// Lists one or more Amazon Q conversations.
+    /// Lists one or more Amazon Q Business conversations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -935,7 +948,7 @@ extension QBusiness {
         )
     }
 
-    /// Get information about an Amazon Q data source connector synchronization.
+    /// Get information about an Amazon Q Business data source connector synchronization.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -954,7 +967,7 @@ extension QBusiness {
         )
     }
 
-    /// Lists the Amazon Q data source connectors that you have created.
+    /// Lists the Amazon Q Business data source connectors that you have created.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1011,7 +1024,7 @@ extension QBusiness {
         )
     }
 
-    /// Lists the Amazon Q indices you have created.
+    /// Lists the Amazon Q Business indices you have created.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1030,7 +1043,7 @@ extension QBusiness {
         )
     }
 
-    /// Gets a list of messages associated with an Amazon Q web experience.
+    /// Gets a list of messages associated with an Amazon Q Business web experience.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1049,7 +1062,7 @@ extension QBusiness {
         )
     }
 
-    /// Lists configured Amazon Q plugins.
+    /// Lists configured Amazon Q Business plugins.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1068,7 +1081,7 @@ extension QBusiness {
         )
     }
 
-    /// Lists the retriever used by an Amazon Q application.
+    /// Lists the retriever used by an Amazon Q Business application.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1087,7 +1100,7 @@ extension QBusiness {
         )
     }
 
-    /// Lists one or more Amazon Q Web Experiences.
+    /// Lists one or more Amazon Q Business Web Experiences.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

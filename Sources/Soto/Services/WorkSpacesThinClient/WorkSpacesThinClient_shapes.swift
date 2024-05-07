@@ -330,11 +330,11 @@ extension WorkSpacesThinClient {
         /// The status of the device.
         public let status: DeviceStatus?
         /// The tag keys and optional values for the resource.
-        public let tags: EmbeddedTag?
+        public let tags: [String: String]?
         /// The timestamp of when the device was updated.
         public let updatedAt: Date?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, currentSoftwareSetId: String? = nil, currentSoftwareSetVersion: String? = nil, desiredSoftwareSetId: String? = nil, environmentId: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastConnectedAt: Date? = nil, lastPostureAt: Date? = nil, model: String? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, pendingSoftwareSetVersion: String? = nil, serialNumber: String? = nil, softwareSetComplianceStatus: DeviceSoftwareSetComplianceStatus? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, softwareSetUpdateStatus: SoftwareSetUpdateStatus? = nil, status: DeviceStatus? = nil, tags: EmbeddedTag? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, currentSoftwareSetId: String? = nil, currentSoftwareSetVersion: String? = nil, desiredSoftwareSetId: String? = nil, environmentId: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastConnectedAt: Date? = nil, lastPostureAt: Date? = nil, model: String? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, pendingSoftwareSetVersion: String? = nil, serialNumber: String? = nil, softwareSetComplianceStatus: DeviceSoftwareSetComplianceStatus? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, softwareSetUpdateStatus: SoftwareSetUpdateStatus? = nil, status: DeviceStatus? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.currentSoftwareSetId = currentSoftwareSetId
@@ -412,12 +412,10 @@ extension WorkSpacesThinClient {
         public let softwareSetUpdateSchedule: SoftwareSetUpdateSchedule?
         /// The status of the device.
         public let status: DeviceStatus?
-        /// The tag keys and optional values for the resource.
-        public let tags: EmbeddedTag?
         /// The timestamp of when the device was updated.
         public let updatedAt: Date?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, currentSoftwareSetId: String? = nil, desiredSoftwareSetId: String? = nil, environmentId: String? = nil, id: String? = nil, lastConnectedAt: Date? = nil, lastPostureAt: Date? = nil, model: String? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, serialNumber: String? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, status: DeviceStatus? = nil, tags: EmbeddedTag? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, currentSoftwareSetId: String? = nil, desiredSoftwareSetId: String? = nil, environmentId: String? = nil, id: String? = nil, lastConnectedAt: Date? = nil, lastPostureAt: Date? = nil, model: String? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, serialNumber: String? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, status: DeviceStatus? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.currentSoftwareSetId = currentSoftwareSetId
@@ -432,7 +430,6 @@ extension WorkSpacesThinClient {
             self.serialNumber = serialNumber
             self.softwareSetUpdateSchedule = softwareSetUpdateSchedule
             self.status = status
-            self.tags = tags
             self.updatedAt = updatedAt
         }
 
@@ -451,25 +448,7 @@ extension WorkSpacesThinClient {
             case serialNumber = "serialNumber"
             case softwareSetUpdateSchedule = "softwareSetUpdateSchedule"
             case status = "status"
-            case tags = "tags"
             case updatedAt = "updatedAt"
-        }
-    }
-
-    public struct EmbeddedTag: AWSDecodableShape {
-        /// The internal ID of a resource to tag.
-        public let internalId: String?
-        /// The Amazon Resource Name (ARN) of a resource to tag.
-        public let resourceArn: String?
-
-        public init(internalId: String? = nil, resourceArn: String? = nil) {
-            self.internalId = internalId
-            self.resourceArn = resourceArn
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case internalId = "internalId"
-            case resourceArn = "resourceArn"
         }
     }
 
@@ -509,11 +488,11 @@ extension WorkSpacesThinClient {
         /// An option to define if software updates should be applied within a maintenance window.
         public let softwareSetUpdateSchedule: SoftwareSetUpdateSchedule?
         /// The tag keys and optional values for the resource.
-        public let tags: EmbeddedTag?
+        public let tags: [String: String]?
         /// The timestamp of when the device was updated.
         public let updatedAt: Date?
 
-        public init(activationCode: String? = nil, arn: String? = nil, createdAt: Date? = nil, desiredSoftwareSetId: String? = nil, desktopArn: String? = nil, desktopEndpoint: String? = nil, desktopType: DesktopType? = nil, id: String? = nil, kmsKeyArn: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, pendingSoftwareSetVersion: String? = nil, registeredDevicesCount: Int? = nil, softwareSetComplianceStatus: EnvironmentSoftwareSetComplianceStatus? = nil, softwareSetUpdateMode: SoftwareSetUpdateMode? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, tags: EmbeddedTag? = nil, updatedAt: Date? = nil) {
+        public init(activationCode: String? = nil, arn: String? = nil, createdAt: Date? = nil, desiredSoftwareSetId: String? = nil, desktopArn: String? = nil, desktopEndpoint: String? = nil, desktopType: DesktopType? = nil, id: String? = nil, kmsKeyArn: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, pendingSoftwareSetVersion: String? = nil, registeredDevicesCount: Int? = nil, softwareSetComplianceStatus: EnvironmentSoftwareSetComplianceStatus? = nil, softwareSetUpdateMode: SoftwareSetUpdateMode? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.activationCode = activationCode
             self.arn = arn
             self.createdAt = createdAt
@@ -585,12 +564,10 @@ extension WorkSpacesThinClient {
         public let softwareSetUpdateMode: SoftwareSetUpdateMode?
         /// An option to define if software updates should be applied within a maintenance window.
         public let softwareSetUpdateSchedule: SoftwareSetUpdateSchedule?
-        /// The tag keys and optional values for the resource.
-        public let tags: EmbeddedTag?
         /// The timestamp of when the device was updated.
         public let updatedAt: Date?
 
-        public init(activationCode: String? = nil, arn: String? = nil, createdAt: Date? = nil, desiredSoftwareSetId: String? = nil, desktopArn: String? = nil, desktopEndpoint: String? = nil, desktopType: DesktopType? = nil, id: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, softwareSetUpdateMode: SoftwareSetUpdateMode? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, tags: EmbeddedTag? = nil, updatedAt: Date? = nil) {
+        public init(activationCode: String? = nil, arn: String? = nil, createdAt: Date? = nil, desiredSoftwareSetId: String? = nil, desktopArn: String? = nil, desktopEndpoint: String? = nil, desktopType: DesktopType? = nil, id: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, softwareSetUpdateMode: SoftwareSetUpdateMode? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, updatedAt: Date? = nil) {
             self.activationCode = activationCode
             self.arn = arn
             self.createdAt = createdAt
@@ -604,7 +581,6 @@ extension WorkSpacesThinClient {
             self.pendingSoftwareSetId = pendingSoftwareSetId
             self.softwareSetUpdateMode = softwareSetUpdateMode
             self.softwareSetUpdateSchedule = softwareSetUpdateSchedule
-            self.tags = tags
             self.updatedAt = updatedAt
         }
 
@@ -622,7 +598,6 @@ extension WorkSpacesThinClient {
             case pendingSoftwareSetId = "pendingSoftwareSetId"
             case softwareSetUpdateMode = "softwareSetUpdateMode"
             case softwareSetUpdateSchedule = "softwareSetUpdateSchedule"
-            case tags = "tags"
             case updatedAt = "updatedAt"
         }
     }
@@ -972,17 +947,20 @@ extension WorkSpacesThinClient {
         public let software: [Software]?
         /// The timestamp of the end of support for the software set.
         public let supportedUntil: Date?
+        /// The tag keys and optional values for the resource.
+        public let tags: [String: String]?
         /// An option to define if the software set has been validated.
         public let validationStatus: SoftwareSetValidationStatus?
         /// The version of the software set.
         public let version: String?
 
-        public init(arn: String? = nil, id: String? = nil, releasedAt: Date? = nil, software: [Software]? = nil, supportedUntil: Date? = nil, validationStatus: SoftwareSetValidationStatus? = nil, version: String? = nil) {
+        public init(arn: String? = nil, id: String? = nil, releasedAt: Date? = nil, software: [Software]? = nil, supportedUntil: Date? = nil, tags: [String: String]? = nil, validationStatus: SoftwareSetValidationStatus? = nil, version: String? = nil) {
             self.arn = arn
             self.id = id
             self.releasedAt = releasedAt
             self.software = software
             self.supportedUntil = supportedUntil
+            self.tags = tags
             self.validationStatus = validationStatus
             self.version = version
         }
@@ -993,6 +971,7 @@ extension WorkSpacesThinClient {
             case releasedAt = "releasedAt"
             case software = "software"
             case supportedUntil = "supportedUntil"
+            case tags = "tags"
             case validationStatus = "validationStatus"
             case version = "version"
         }
@@ -1254,7 +1233,6 @@ public struct WorkSpacesThinClientErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
-        case internalServiceException = "InternalServiceException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
@@ -1285,8 +1263,6 @@ public struct WorkSpacesThinClientErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// The server encountered an internal error and is unable to complete the request.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// Request processing failed due to some unknown error, exception, or failure.
-    public static var internalServiceException: Self { .init(.internalServiceException) }
     /// The resource specified in the request was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Your request exceeds a service quota.

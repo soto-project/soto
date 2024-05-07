@@ -72,7 +72,7 @@ public struct MediaConvert: AWSService {
 
     /// custom endpoints for regions
     static var serviceEndpoints: [String: String] {[
-        "cn-northwest-1": "subscribe.mediaconvert.cn-northwest-1.amazonaws.com.cn"
+        "cn-northwest-1": "mediaconvert.cn-northwest-1.amazonaws.com.cn"
     ]}
 
 

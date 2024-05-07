@@ -73,7 +73,7 @@ public struct OAM: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a link between a source account and a sink that you have created in a monitoring account. Before you create a link, you must create a sink in the monitoring account and create a sink policy in that account. The sink policy must permit the source account to link to it. You can grant permission to source accounts by granting permission to an entire organization or to individual accounts. For more information, see CreateSink and PutSinkPolicy. Each monitoring account can be linked to as many as 100,000 source accounts. Each source account can be linked to as many as five monitoring accounts.
+    /// Creates a link between a source account and a sink that you have created in a monitoring account. After the link is created,  data is sent from the source account to the monitoring account. When you create a link, you can optionally specify filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account. Before you create a link, you must create a sink in the monitoring account and create a sink policy in that account. The sink policy must permit the source account to link to it. You can grant permission to source accounts by granting permission to an entire organization or to individual accounts. For more information, see  CreateSink and PutSinkPolicy. Each monitoring account can be linked to as many as 100,000 source accounts. Each source account can be linked to as many as five monitoring accounts.
     @Sendable
     public func createLink(_ input: CreateLinkInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLinkOutput {
         return try await self.client.execute(
@@ -86,7 +86,7 @@ public struct OAM: AWSService {
         )
     }
 
-    /// Use this to create a sink in the current account, so that it can be used as a monitoring account in CloudWatch cross-account observability. A sink is a resource that represents an attachment point in a monitoring account. Source accounts can link to the sink to send observability data. After you create a sink, you must create a sink policy that allows source accounts to attach to it. For more information, see PutSinkPolicy. Each account can contain one sink. If you delete a sink, you can then create a new one in that account.
+    /// Use this to create a sink in the current account, so that it can be used as a monitoring account in CloudWatch cross-account observability. A sink is a resource that represents an attachment point in a monitoring account. Source accounts can link to the sink to send observability data. After you create a sink, you must create a sink policy that allows source accounts to attach to it.  For more information, see PutSinkPolicy. Each account can contain one sink per Region. If you delete a sink, you can then create a new one in that Region.
     @Sendable
     public func createSink(_ input: CreateSinkInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSinkOutput {
         return try await self.client.execute(
@@ -151,7 +151,7 @@ public struct OAM: AWSService {
         )
     }
 
-    /// Returns the current sink policy attached to this sink. The sink policy specifies what accounts can attach to this sink as source accounts, and what types of data they can share.
+    /// Returns the current sink policy attached to this sink. The sink policy specifies what  accounts can attach to this sink as source accounts, and what types of data they can share.
     @Sendable
     public func getSinkPolicy(_ input: GetSinkPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSinkPolicyOutput {
         return try await self.client.execute(
@@ -216,7 +216,7 @@ public struct OAM: AWSService {
         )
     }
 
-    /// Creates or updates the resource policy that grants permissions to source accounts to link to the monitoring account sink. When you create a sink policy, you can grant permissions to all accounts in an organization or to individual accounts. You can also use a sink policy to limit the types of data that is shared. The three types that you can allow or deny are:    Metrics - Specify with AWS::CloudWatch::Metric     Log groups - Specify with AWS::Logs::LogGroup     Traces - Specify with AWS::XRay::Trace     Application Insights - Applications - Specify with AWS::ApplicationInsights::Application    See the examples in this section to see how to specify permitted source accounts and data types.
+    /// Creates or updates the resource policy that grants permissions to source accounts to link to the monitoring account sink. When you create a sink policy, you can grant permissions to all accounts in an organization or to individual accounts. You can also use a sink policy to limit the types of data that is shared. The three types that  you can allow or deny are:    Metrics - Specify with AWS::CloudWatch::Metric     Log groups - Specify with AWS::Logs::LogGroup     Traces - Specify with AWS::XRay::Trace     Application Insights - Applications - Specify with AWS::ApplicationInsights::Application    See the examples in this section to see how to specify permitted source accounts and data types.
     @Sendable
     public func putSinkPolicy(_ input: PutSinkPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutSinkPolicyOutput {
         return try await self.client.execute(
@@ -229,7 +229,7 @@ public struct OAM: AWSService {
         )
     }
 
-    /// Assigns one or more tags (key-value pairs) to the specified resource. Both sinks and links can be tagged.  Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource.  Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the oam:ResourceTag permission. The iam:ResourceTag permission does not allow you to tag and untag links and sinks.
+    /// Assigns one or more tags (key-value pairs) to the specified resource.  Both sinks and links can be tagged.  Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the alarm,  this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource.  Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the oam:ResourceTag permission. The iam:ResourceTag permission does not allow you to tag and untag links and sinks.
     @Sendable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
         return try await self.client.execute(
@@ -255,7 +255,7 @@ public struct OAM: AWSService {
         )
     }
 
-    /// Use this operation to change what types of data are shared from a source account to its linked monitoring account sink. You can't change the sink or change the monitoring account with this operation. To update the list of tags associated with the sink, use TagResource.
+    /// Use this operation to change what types of data are shared from a source account to its linked monitoring account sink. You can't change the sink or change the monitoring account with this operation. When you update a link, you can optionally specify filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account. To update the list of tags associated with the sink, use  TagResource.
     @Sendable
     public func updateLink(_ input: UpdateLinkInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLinkOutput {
         return try await self.client.execute(

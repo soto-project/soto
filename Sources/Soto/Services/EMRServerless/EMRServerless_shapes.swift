@@ -396,10 +396,9 @@ extension EMRServerless {
             try self.properties?.forEach {
                 try validate($0.key, name: "properties.key", parent: name, max: 1024)
                 try validate($0.key, name: "properties.key", parent: name, min: 1)
-                try validate($0.key, name: "properties.key", parent: name, pattern: ".*\\S.*")
+                try validate($0.key, name: "properties.key", parent: name, pattern: "^.*\\S.*$")
                 try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, max: 1024)
-                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, pattern: "^.*\\S.*$")
             }
             try self.validate(self.properties, name: "properties", parent: name, max: 100)
         }
@@ -1162,24 +1161,29 @@ extension EMRServerless {
         public let cloudWatchLoggingConfiguration: CloudWatchLoggingConfiguration?
         /// The managed log persistence configuration for a job run.
         public let managedPersistenceMonitoringConfiguration: ManagedPersistenceMonitoringConfiguration?
+        /// The monitoring configuration object you can configure to send metrics to Amazon Managed Service for Prometheus for a job run.
+        public let prometheusMonitoringConfiguration: PrometheusMonitoringConfiguration?
         /// The Amazon S3 configuration for monitoring log publishing.
         public let s3MonitoringConfiguration: S3MonitoringConfiguration?
 
-        public init(cloudWatchLoggingConfiguration: CloudWatchLoggingConfiguration? = nil, managedPersistenceMonitoringConfiguration: ManagedPersistenceMonitoringConfiguration? = nil, s3MonitoringConfiguration: S3MonitoringConfiguration? = nil) {
+        public init(cloudWatchLoggingConfiguration: CloudWatchLoggingConfiguration? = nil, managedPersistenceMonitoringConfiguration: ManagedPersistenceMonitoringConfiguration? = nil, prometheusMonitoringConfiguration: PrometheusMonitoringConfiguration? = nil, s3MonitoringConfiguration: S3MonitoringConfiguration? = nil) {
             self.cloudWatchLoggingConfiguration = cloudWatchLoggingConfiguration
             self.managedPersistenceMonitoringConfiguration = managedPersistenceMonitoringConfiguration
+            self.prometheusMonitoringConfiguration = prometheusMonitoringConfiguration
             self.s3MonitoringConfiguration = s3MonitoringConfiguration
         }
 
         public func validate(name: String) throws {
             try self.cloudWatchLoggingConfiguration?.validate(name: "\(name).cloudWatchLoggingConfiguration")
             try self.managedPersistenceMonitoringConfiguration?.validate(name: "\(name).managedPersistenceMonitoringConfiguration")
+            try self.prometheusMonitoringConfiguration?.validate(name: "\(name).prometheusMonitoringConfiguration")
             try self.s3MonitoringConfiguration?.validate(name: "\(name).s3MonitoringConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLoggingConfiguration = "cloudWatchLoggingConfiguration"
             case managedPersistenceMonitoringConfiguration = "managedPersistenceMonitoringConfiguration"
+            case prometheusMonitoringConfiguration = "prometheusMonitoringConfiguration"
             case s3MonitoringConfiguration = "s3MonitoringConfiguration"
         }
     }
@@ -1213,6 +1217,25 @@ extension EMRServerless {
         private enum CodingKeys: String, CodingKey {
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
+        }
+    }
+
+    public struct PrometheusMonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The remote write URL in the Amazon Managed Service for Prometheus workspace to send metrics to.
+        public let remoteWriteUrl: String?
+
+        public init(remoteWriteUrl: String? = nil) {
+            self.remoteWriteUrl = remoteWriteUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.remoteWriteUrl, name: "remoteWriteUrl", parent: name, max: 10280)
+            try self.validate(self.remoteWriteUrl, name: "remoteWriteUrl", parent: name, min: 1)
+            try self.validate(self.remoteWriteUrl, name: "remoteWriteUrl", parent: name, pattern: "^https://aps-workspaces.([a-z]{2}-[a-z-]{1,20}-[1-9]).amazonaws(.[0-9A-Za-z]{2,4})+/workspaces/[-_.0-9A-Za-z]{1,100}/api/v1/remote_write$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case remoteWriteUrl = "remoteWriteUrl"
         }
     }
 
@@ -1681,12 +1704,15 @@ extension EMRServerless {
         public let cpu: String
         /// The disk requirements for every worker instance of the worker type.
         public let disk: String?
+        /// The disk type for every worker instance of the work type. Shuffle optimized disks have higher performance  characteristics and are better for shuffle heavy workloads. Default is STANDARD.
+        public let diskType: String?
         /// The memory requirements for every worker instance of the worker type.
         public let memory: String
 
-        public init(cpu: String, disk: String? = nil, memory: String) {
+        public init(cpu: String, disk: String? = nil, diskType: String? = nil, memory: String) {
             self.cpu = cpu
             self.disk = disk
+            self.diskType = diskType
             self.memory = memory
         }
 
@@ -1697,6 +1723,7 @@ extension EMRServerless {
             try self.validate(self.disk, name: "disk", parent: name, max: 15)
             try self.validate(self.disk, name: "disk", parent: name, min: 1)
             try self.validate(self.disk, name: "disk", parent: name, pattern: "^[1-9][0-9]*(\\s)?(GB|gb|gB|Gb)$")
+            try self.validate(self.diskType, name: "diskType", parent: name, pattern: "^(SHUFFLE_OPTIMIZED|[Ss]huffle_[Oo]ptimized|STANDARD|[Ss]tandard)$")
             try self.validate(self.memory, name: "memory", parent: name, max: 15)
             try self.validate(self.memory, name: "memory", parent: name, min: 1)
             try self.validate(self.memory, name: "memory", parent: name, pattern: "^[1-9][0-9]*(\\s)?(GB|gb|gB|Gb)?$")
@@ -1705,6 +1732,7 @@ extension EMRServerless {
         private enum CodingKeys: String, CodingKey {
             case cpu = "cpu"
             case disk = "disk"
+            case diskType = "diskType"
             case memory = "memory"
         }
     }

@@ -26,6 +26,12 @@ import Foundation
 extension WellArchitected {
     // MARK: Enums
 
+    public enum AccountJiraIssueManagementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AdditionalResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case helpfulResource = "HELPFUL_RESOURCE"
         case improvementPlan = "IMPROVEMENT_PLAN"
@@ -102,6 +108,28 @@ extension WellArchitected {
         case complete = "COMPLETE"
         case error = "ERROR"
         case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IntegratingService: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case jira = "JIRA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IntegrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case configured = "CONFIGURED"
+        case notConfigured = "NOT_CONFIGURED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IntegrationStatusInput: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notConfigured = "NOT_CONFIGURED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IssueManagementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auto = "AUTO"
+        case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
 
@@ -255,7 +283,78 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
+    public enum WorkloadIssueManagementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case inherit = "INHERIT"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct AccountJiraConfigurationInput: AWSEncodableShape {
+        /// Account-level: Configuration status of the Jira integration.
+        public let integrationStatus: IntegrationStatusInput?
+        /// Account-level: Jira issue management status.
+        public let issueManagementStatus: AccountJiraIssueManagementStatus?
+        /// Account-level: Jira issue management type.
+        public let issueManagementType: IssueManagementType?
+        /// Account-level: Jira project key to sync workloads to.
+        public let jiraProjectKey: String?
+
+        public init(integrationStatus: IntegrationStatusInput? = nil, issueManagementStatus: AccountJiraIssueManagementStatus? = nil, issueManagementType: IssueManagementType? = nil, jiraProjectKey: String? = nil) {
+            self.integrationStatus = integrationStatus
+            self.issueManagementStatus = issueManagementStatus
+            self.issueManagementType = issueManagementType
+            self.jiraProjectKey = jiraProjectKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jiraProjectKey, name: "jiraProjectKey", parent: name, max: 100)
+            try self.validate(self.jiraProjectKey, name: "jiraProjectKey", parent: name, min: 1)
+            try self.validate(self.jiraProjectKey, name: "jiraProjectKey", parent: name, pattern: "^[A-Z][A-Z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationStatus = "IntegrationStatus"
+            case issueManagementStatus = "IssueManagementStatus"
+            case issueManagementType = "IssueManagementType"
+            case jiraProjectKey = "JiraProjectKey"
+        }
+    }
+
+    public struct AccountJiraConfigurationOutput: AWSDecodableShape {
+        /// Account-level: Configuration status of the Jira integration.
+        public let integrationStatus: IntegrationStatus?
+        /// Account-level: Jira issue management status.
+        public let issueManagementStatus: AccountJiraIssueManagementStatus?
+        /// Account-level: Jira issue management type.
+        public let issueManagementType: IssueManagementType?
+        /// Account-level: Jira project key to sync workloads to.
+        public let jiraProjectKey: String?
+        /// Account-level: Status message on configuration of the Jira integration.
+        public let statusMessage: String?
+        /// Account-level: Jira subdomain URL.
+        public let subdomain: String?
+
+        public init(integrationStatus: IntegrationStatus? = nil, issueManagementStatus: AccountJiraIssueManagementStatus? = nil, issueManagementType: IssueManagementType? = nil, jiraProjectKey: String? = nil, statusMessage: String? = nil, subdomain: String? = nil) {
+            self.integrationStatus = integrationStatus
+            self.issueManagementStatus = issueManagementStatus
+            self.issueManagementType = issueManagementType
+            self.jiraProjectKey = jiraProjectKey
+            self.statusMessage = statusMessage
+            self.subdomain = subdomain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationStatus = "IntegrationStatus"
+            case issueManagementStatus = "IssueManagementStatus"
+            case issueManagementType = "IssueManagementType"
+            case jiraProjectKey = "JiraProjectKey"
+            case statusMessage = "StatusMessage"
+            case subdomain = "Subdomain"
+        }
+    }
 
     public struct AdditionalResources: AWSDecodableShape {
         /// The URLs for additional resources, either helpful resources or improvement plans, for a custom lens. Up to five additional URLs can be specified.
@@ -283,6 +382,8 @@ extension WellArchitected {
         public let helpfulResourceUrl: String?
         public let improvementPlanUrl: String?
         public let isApplicable: Bool?
+        /// Configuration of the Jira integration.
+        public let jiraConfiguration: JiraConfiguration?
         public let notes: String?
         public let pillarId: String?
         public let questionDescription: String?
@@ -293,13 +394,14 @@ extension WellArchitected {
         public let risk: Risk?
         public let selectedChoices: [String]?
 
-        public init(choiceAnswers: [ChoiceAnswer]? = nil, choices: [Choice]? = nil, helpfulResourceDisplayText: String? = nil, helpfulResourceUrl: String? = nil, improvementPlanUrl: String? = nil, isApplicable: Bool? = nil, notes: String? = nil, pillarId: String? = nil, questionDescription: String? = nil, questionId: String? = nil, questionTitle: String? = nil, reason: AnswerReason? = nil, risk: Risk? = nil, selectedChoices: [String]? = nil) {
+        public init(choiceAnswers: [ChoiceAnswer]? = nil, choices: [Choice]? = nil, helpfulResourceDisplayText: String? = nil, helpfulResourceUrl: String? = nil, improvementPlanUrl: String? = nil, isApplicable: Bool? = nil, jiraConfiguration: JiraConfiguration? = nil, notes: String? = nil, pillarId: String? = nil, questionDescription: String? = nil, questionId: String? = nil, questionTitle: String? = nil, reason: AnswerReason? = nil, risk: Risk? = nil, selectedChoices: [String]? = nil) {
             self.choiceAnswers = choiceAnswers
             self.choices = choices
             self.helpfulResourceDisplayText = helpfulResourceDisplayText
             self.helpfulResourceUrl = helpfulResourceUrl
             self.improvementPlanUrl = improvementPlanUrl
             self.isApplicable = isApplicable
+            self.jiraConfiguration = jiraConfiguration
             self.notes = notes
             self.pillarId = pillarId
             self.questionDescription = questionDescription
@@ -317,6 +419,7 @@ extension WellArchitected {
             case helpfulResourceUrl = "HelpfulResourceUrl"
             case improvementPlanUrl = "ImprovementPlanUrl"
             case isApplicable = "IsApplicable"
+            case jiraConfiguration = "JiraConfiguration"
             case notes = "Notes"
             case pillarId = "PillarId"
             case questionDescription = "QuestionDescription"
@@ -333,6 +436,8 @@ extension WellArchitected {
         public let choiceAnswerSummaries: [ChoiceAnswerSummary]?
         public let choices: [Choice]?
         public let isApplicable: Bool?
+        /// Configuration of the Jira integration.
+        public let jiraConfiguration: JiraConfiguration?
         public let pillarId: String?
         public let questionId: String?
         public let questionTitle: String?
@@ -343,10 +448,11 @@ extension WellArchitected {
         public let risk: Risk?
         public let selectedChoices: [String]?
 
-        public init(choiceAnswerSummaries: [ChoiceAnswerSummary]? = nil, choices: [Choice]? = nil, isApplicable: Bool? = nil, pillarId: String? = nil, questionId: String? = nil, questionTitle: String? = nil, questionType: QuestionType? = nil, reason: AnswerReason? = nil, risk: Risk? = nil, selectedChoices: [String]? = nil) {
+        public init(choiceAnswerSummaries: [ChoiceAnswerSummary]? = nil, choices: [Choice]? = nil, isApplicable: Bool? = nil, jiraConfiguration: JiraConfiguration? = nil, pillarId: String? = nil, questionId: String? = nil, questionTitle: String? = nil, questionType: QuestionType? = nil, reason: AnswerReason? = nil, risk: Risk? = nil, selectedChoices: [String]? = nil) {
             self.choiceAnswerSummaries = choiceAnswerSummaries
             self.choices = choices
             self.isApplicable = isApplicable
+            self.jiraConfiguration = jiraConfiguration
             self.pillarId = pillarId
             self.questionId = questionId
             self.questionTitle = questionTitle
@@ -360,6 +466,7 @@ extension WellArchitected {
             case choiceAnswerSummaries = "ChoiceAnswerSummaries"
             case choices = "Choices"
             case isApplicable = "IsApplicable"
+            case jiraConfiguration = "JiraConfiguration"
             case pillarId = "PillarId"
             case questionId = "QuestionId"
             case questionTitle = "QuestionTitle"
@@ -903,10 +1010,8 @@ extension WellArchitected {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.profileDescription, name: "profileDescription", parent: name, max: 100)
             try self.validate(self.profileDescription, name: "profileDescription", parent: name, min: 3)
-            try self.validate(self.profileDescription, name: "profileDescription", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
             try self.validate(self.profileName, name: "profileName", parent: name, max: 100)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 3)
-            try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
             try self.profileQuestions?.forEach {
                 try $0.validate(name: "\(name).profileQuestions[]")
             }
@@ -1128,6 +1233,8 @@ extension WellArchitected {
         public let environment: WorkloadEnvironment?
         public let industry: String?
         public let industryType: String?
+        /// Jira configuration settings when creating a workload.
+        public let jiraConfiguration: WorkloadJiraConfigurationInput?
         public let lenses: [String]?
         public let nonAwsRegions: [String]?
         public let notes: String?
@@ -1141,7 +1248,7 @@ extension WellArchitected {
         public let tags: [String: String]?
         public let workloadName: String?
 
-        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, clientRequestToken: String? = nil, description: String? = nil, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment? = nil, industry: String? = nil, industryType: String? = nil, lenses: [String]? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, pillarPriorities: [String]? = nil, profileArns: [String]? = nil, reviewOwner: String? = nil, reviewTemplateArns: [String]? = nil, tags: [String: String]? = nil, workloadName: String? = nil) {
+        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, clientRequestToken: String? = nil, description: String? = nil, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment? = nil, industry: String? = nil, industryType: String? = nil, jiraConfiguration: WorkloadJiraConfigurationInput? = nil, lenses: [String]? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, pillarPriorities: [String]? = nil, profileArns: [String]? = nil, reviewOwner: String? = nil, reviewTemplateArns: [String]? = nil, tags: [String: String]? = nil, workloadName: String? = nil) {
             self.accountIds = accountIds
             self.applications = applications
             self.architecturalDesign = architecturalDesign
@@ -1152,6 +1259,7 @@ extension WellArchitected {
             self.environment = environment
             self.industry = industry
             self.industryType = industryType
+            self.jiraConfiguration = jiraConfiguration
             self.lenses = lenses
             self.nonAwsRegions = nonAwsRegions
             self.notes = notes
@@ -1187,6 +1295,7 @@ extension WellArchitected {
             try self.validate(self.description, name: "description", parent: name, min: 3)
             try self.validate(self.industry, name: "industry", parent: name, max: 100)
             try self.validate(self.industryType, name: "industryType", parent: name, max: 100)
+            try self.jiraConfiguration?.validate(name: "\(name).jiraConfiguration")
             try self.lenses?.forEach {
                 try validate($0, name: "lenses[]", parent: name, max: 128)
                 try validate($0, name: "lenses[]", parent: name, min: 1)
@@ -1236,6 +1345,7 @@ extension WellArchitected {
             case environment = "Environment"
             case industry = "Industry"
             case industryType = "IndustryType"
+            case jiraConfiguration = "JiraConfiguration"
             case lenses = "Lenses"
             case nonAwsRegions = "NonAwsRegions"
             case notes = "Notes"
@@ -1772,6 +1882,27 @@ extension WellArchitected {
         }
     }
 
+    public struct GetGlobalSettingsOutput: AWSDecodableShape {
+        /// Discovery integration status.
+        public let discoveryIntegrationStatus: DiscoveryIntegrationStatus?
+        /// Jira configuration status.
+        public let jiraConfiguration: AccountJiraConfigurationOutput?
+        /// Amazon Web Services Organizations sharing status.
+        public let organizationSharingStatus: OrganizationSharingStatus?
+
+        public init(discoveryIntegrationStatus: DiscoveryIntegrationStatus? = nil, jiraConfiguration: AccountJiraConfigurationOutput? = nil, organizationSharingStatus: OrganizationSharingStatus? = nil) {
+            self.discoveryIntegrationStatus = discoveryIntegrationStatus
+            self.jiraConfiguration = jiraConfiguration
+            self.organizationSharingStatus = organizationSharingStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case discoveryIntegrationStatus = "DiscoveryIntegrationStatus"
+            case jiraConfiguration = "JiraConfiguration"
+            case organizationSharingStatus = "OrganizationSharingStatus"
+        }
+    }
+
     public struct GetLensInput: AWSEncodableShape {
         public let lensAlias: String
         /// The lens version to be retrieved.
@@ -2305,14 +2436,17 @@ extension WellArchitected {
         /// The improvement plan details.
         public let improvementPlans: [ChoiceImprovementPlan]?
         public let improvementPlanUrl: String?
+        /// Configuration of the Jira integration.
+        public let jiraConfiguration: JiraConfiguration?
         public let pillarId: String?
         public let questionId: String?
         public let questionTitle: String?
         public let risk: Risk?
 
-        public init(improvementPlans: [ChoiceImprovementPlan]? = nil, improvementPlanUrl: String? = nil, pillarId: String? = nil, questionId: String? = nil, questionTitle: String? = nil, risk: Risk? = nil) {
+        public init(improvementPlans: [ChoiceImprovementPlan]? = nil, improvementPlanUrl: String? = nil, jiraConfiguration: JiraConfiguration? = nil, pillarId: String? = nil, questionId: String? = nil, questionTitle: String? = nil, risk: Risk? = nil) {
             self.improvementPlans = improvementPlans
             self.improvementPlanUrl = improvementPlanUrl
+            self.jiraConfiguration = jiraConfiguration
             self.pillarId = pillarId
             self.questionId = questionId
             self.questionTitle = questionTitle
@@ -2322,10 +2456,46 @@ extension WellArchitected {
         private enum CodingKeys: String, CodingKey {
             case improvementPlans = "ImprovementPlans"
             case improvementPlanUrl = "ImprovementPlanUrl"
+            case jiraConfiguration = "JiraConfiguration"
             case pillarId = "PillarId"
             case questionId = "QuestionId"
             case questionTitle = "QuestionTitle"
             case risk = "Risk"
+        }
+    }
+
+    public struct JiraConfiguration: AWSDecodableShape {
+        /// The URL of the associated Jira issue.
+        public let jiraIssueUrl: String?
+        public let lastSyncedTime: Date?
+
+        public init(jiraIssueUrl: String? = nil, lastSyncedTime: Date? = nil) {
+            self.jiraIssueUrl = jiraIssueUrl
+            self.lastSyncedTime = lastSyncedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jiraIssueUrl = "JiraIssueUrl"
+            case lastSyncedTime = "LastSyncedTime"
+        }
+    }
+
+    public struct JiraSelectedQuestionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Selected pillars in the workload.
+        public let selectedPillars: [SelectedPillar]?
+
+        public init(selectedPillars: [SelectedPillar]? = nil) {
+            self.selectedPillars = selectedPillars
+        }
+
+        public func validate(name: String) throws {
+            try self.selectedPillars?.forEach {
+                try $0.validate(name: "\(name).selectedPillars[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selectedPillars = "SelectedPillars"
         }
     }
 
@@ -2385,6 +2555,8 @@ extension WellArchitected {
     }
 
     public struct LensReview: AWSDecodableShape {
+        /// Jira configuration status of the Lens review.
+        public let jiraConfiguration: JiraSelectedQuestionConfiguration?
         public let lensAlias: String?
         /// The ARN for the lens.
         public let lensArn: String?
@@ -2402,7 +2574,8 @@ extension WellArchitected {
         public let riskCounts: [Risk: Int]?
         public let updatedAt: Date?
 
-        public init(lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, nextToken: String? = nil, notes: String? = nil, pillarReviewSummaries: [PillarReviewSummary]? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, profiles: [WorkloadProfile]? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil) {
+        public init(jiraConfiguration: JiraSelectedQuestionConfiguration? = nil, lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, nextToken: String? = nil, notes: String? = nil, pillarReviewSummaries: [PillarReviewSummary]? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, profiles: [WorkloadProfile]? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil) {
+            self.jiraConfiguration = jiraConfiguration
             self.lensAlias = lensAlias
             self.lensArn = lensArn
             self.lensName = lensName
@@ -2418,6 +2591,7 @@ extension WellArchitected {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jiraConfiguration = "JiraConfiguration"
             case lensAlias = "LensAlias"
             case lensArn = "LensArn"
             case lensName = "LensName"
@@ -3286,7 +3460,6 @@ extension WellArchitected {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.profileNamePrefix, name: "profileNamePrefix", parent: name, max: 100)
-            try self.validate(self.profileNamePrefix, name: "profileNamePrefix", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3454,7 +3627,6 @@ extension WellArchitected {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.profileNamePrefix, name: "profileNamePrefix", parent: name, max: 100)
-            try self.validate(self.profileNamePrefix, name: "profileNamePrefix", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
             try self.validate(self.templateNamePrefix, name: "templateNamePrefix", parent: name, max: 100)
             try self.validate(self.templateNamePrefix, name: "templateNamePrefix", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
             try self.validate(self.workloadNamePrefix, name: "workloadNamePrefix", parent: name, max: 100)
@@ -4362,6 +4534,27 @@ extension WellArchitected {
         }
     }
 
+    public struct SelectedPillar: AWSEncodableShape & AWSDecodableShape {
+        public let pillarId: String?
+        /// Selected question IDs in the selected pillar.
+        public let selectedQuestionIds: [String]?
+
+        public init(pillarId: String? = nil, selectedQuestionIds: [String]? = nil) {
+            self.pillarId = pillarId
+            self.selectedQuestionIds = selectedQuestionIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pillarId, name: "pillarId", parent: name, max: 64)
+            try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pillarId = "PillarId"
+            case selectedQuestionIds = "SelectedQuestionIds"
+        }
+    }
+
     public struct ShareInvitation: AWSDecodableShape {
         public let lensAlias: String?
         /// The ARN for the lens.
@@ -4633,27 +4826,72 @@ extension WellArchitected {
     public struct UpdateGlobalSettingsInput: AWSEncodableShape {
         /// The status of discovery support settings.
         public let discoveryIntegrationStatus: DiscoveryIntegrationStatus?
+        /// The status of Jira integration settings.
+        public let jiraConfiguration: AccountJiraConfigurationInput?
         /// The status of organization sharing settings.
         public let organizationSharingStatus: OrganizationSharingStatus?
 
-        public init(discoveryIntegrationStatus: DiscoveryIntegrationStatus? = nil, organizationSharingStatus: OrganizationSharingStatus? = nil) {
+        public init(discoveryIntegrationStatus: DiscoveryIntegrationStatus? = nil, jiraConfiguration: AccountJiraConfigurationInput? = nil, organizationSharingStatus: OrganizationSharingStatus? = nil) {
             self.discoveryIntegrationStatus = discoveryIntegrationStatus
+            self.jiraConfiguration = jiraConfiguration
             self.organizationSharingStatus = organizationSharingStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.jiraConfiguration?.validate(name: "\(name).jiraConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case discoveryIntegrationStatus = "DiscoveryIntegrationStatus"
+            case jiraConfiguration = "JiraConfiguration"
             case organizationSharingStatus = "OrganizationSharingStatus"
         }
     }
 
+    public struct UpdateIntegrationInput: AWSEncodableShape {
+        public let clientRequestToken: String?
+        /// Which integrated service to update.
+        public let integratingService: IntegratingService?
+        public let workloadId: String
+
+        public init(clientRequestToken: String? = nil, integratingService: IntegratingService? = nil, workloadId: String) {
+            self.clientRequestToken = clientRequestToken
+            self.integratingService = integratingService
+            self.workloadId = workloadId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.integratingService, forKey: .integratingService)
+            request.encodePath(self.workloadId, key: "WorkloadId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
+            try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case integratingService = "IntegratingService"
+        }
+    }
+
     public struct UpdateLensReviewInput: AWSEncodableShape {
+        /// Configuration of the Jira integration.
+        public let jiraConfiguration: JiraSelectedQuestionConfiguration?
         public let lensAlias: String
         public let lensNotes: String?
         public let pillarNotes: [String: String]?
         public let workloadId: String
 
-        public init(lensAlias: String, lensNotes: String? = nil, pillarNotes: [String: String]? = nil, workloadId: String) {
+        public init(jiraConfiguration: JiraSelectedQuestionConfiguration? = nil, lensAlias: String, lensNotes: String? = nil, pillarNotes: [String: String]? = nil, workloadId: String) {
+            self.jiraConfiguration = jiraConfiguration
             self.lensAlias = lensAlias
             self.lensNotes = lensNotes
             self.pillarNotes = pillarNotes
@@ -4663,6 +4901,7 @@ extension WellArchitected {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.jiraConfiguration, forKey: .jiraConfiguration)
             request.encodePath(self.lensAlias, key: "LensAlias")
             try container.encodeIfPresent(self.lensNotes, forKey: .lensNotes)
             try container.encodeIfPresent(self.pillarNotes, forKey: .pillarNotes)
@@ -4670,6 +4909,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
+            try self.jiraConfiguration?.validate(name: "\(name).jiraConfiguration")
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.lensNotes, name: "lensNotes", parent: name, max: 2084)
@@ -4684,6 +4924,7 @@ extension WellArchitected {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jiraConfiguration = "JiraConfiguration"
             case lensNotes = "LensNotes"
             case pillarNotes = "PillarNotes"
         }
@@ -4731,7 +4972,6 @@ extension WellArchitected {
             try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
             try self.validate(self.profileDescription, name: "profileDescription", parent: name, max: 100)
             try self.validate(self.profileDescription, name: "profileDescription", parent: name, min: 3)
-            try self.validate(self.profileDescription, name: "profileDescription", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
             try self.profileQuestions?.forEach {
                 try $0.validate(name: "\(name).profileQuestions[]")
             }
@@ -5036,6 +5276,8 @@ extension WellArchitected {
         public let industryType: String?
         /// Flag indicating whether the workload owner has acknowledged that the Review owner field is required. If a Review owner is not added to the workload within 60 days of acknowledgement, access to the workload is restricted until an owner is added.
         public let isReviewOwnerUpdateAcknowledged: Bool?
+        /// Configuration of the Jira integration.
+        public let jiraConfiguration: WorkloadJiraConfigurationInput?
         public let nonAwsRegions: [String]?
         public let notes: String?
         public let pillarPriorities: [String]?
@@ -5043,7 +5285,7 @@ extension WellArchitected {
         public let workloadId: String
         public let workloadName: String?
 
-        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, description: String? = nil, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment? = nil, improvementStatus: WorkloadImprovementStatus? = nil, industry: String? = nil, industryType: String? = nil, isReviewOwnerUpdateAcknowledged: Bool? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String? = nil, workloadId: String, workloadName: String? = nil) {
+        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, description: String? = nil, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment? = nil, improvementStatus: WorkloadImprovementStatus? = nil, industry: String? = nil, industryType: String? = nil, isReviewOwnerUpdateAcknowledged: Bool? = nil, jiraConfiguration: WorkloadJiraConfigurationInput? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String? = nil, workloadId: String, workloadName: String? = nil) {
             self.accountIds = accountIds
             self.applications = applications
             self.architecturalDesign = architecturalDesign
@@ -5055,6 +5297,7 @@ extension WellArchitected {
             self.industry = industry
             self.industryType = industryType
             self.isReviewOwnerUpdateAcknowledged = isReviewOwnerUpdateAcknowledged
+            self.jiraConfiguration = jiraConfiguration
             self.nonAwsRegions = nonAwsRegions
             self.notes = notes
             self.pillarPriorities = pillarPriorities
@@ -5077,6 +5320,7 @@ extension WellArchitected {
             try container.encodeIfPresent(self.industry, forKey: .industry)
             try container.encodeIfPresent(self.industryType, forKey: .industryType)
             try container.encodeIfPresent(self.isReviewOwnerUpdateAcknowledged, forKey: .isReviewOwnerUpdateAcknowledged)
+            try container.encodeIfPresent(self.jiraConfiguration, forKey: .jiraConfiguration)
             try container.encodeIfPresent(self.nonAwsRegions, forKey: .nonAwsRegions)
             try container.encodeIfPresent(self.notes, forKey: .notes)
             try container.encodeIfPresent(self.pillarPriorities, forKey: .pillarPriorities)
@@ -5107,6 +5351,7 @@ extension WellArchitected {
             try self.validate(self.description, name: "description", parent: name, min: 3)
             try self.validate(self.industry, name: "industry", parent: name, max: 100)
             try self.validate(self.industryType, name: "industryType", parent: name, max: 100)
+            try self.jiraConfiguration?.validate(name: "\(name).jiraConfiguration")
             try self.nonAwsRegions?.forEach {
                 try validate($0, name: "nonAwsRegions[]", parent: name, max: 25)
                 try validate($0, name: "nonAwsRegions[]", parent: name, min: 3)
@@ -5138,6 +5383,7 @@ extension WellArchitected {
             case industry = "Industry"
             case industryType = "IndustryType"
             case isReviewOwnerUpdateAcknowledged = "IsReviewOwnerUpdateAcknowledged"
+            case jiraConfiguration = "JiraConfiguration"
             case nonAwsRegions = "NonAwsRegions"
             case notes = "Notes"
             case pillarPriorities = "PillarPriorities"
@@ -5348,6 +5594,8 @@ extension WellArchitected {
         public let industryType: String?
         /// Flag indicating whether the workload owner has acknowledged that the Review owner field is required. If a Review owner is not added to the workload within 60 days of acknowledgement, access to the workload is restricted until an owner is added.
         public let isReviewOwnerUpdateAcknowledged: Bool?
+        /// Jira configuration for a specific workload.
+        public let jiraConfiguration: WorkloadJiraConfigurationOutput?
         public let lenses: [String]?
         public let nonAwsRegions: [String]?
         public let notes: String?
@@ -5368,7 +5616,7 @@ extension WellArchitected {
         public let workloadId: String?
         public let workloadName: String?
 
-        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, description: String? = nil, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment? = nil, improvementStatus: WorkloadImprovementStatus? = nil, industry: String? = nil, industryType: String? = nil, isReviewOwnerUpdateAcknowledged: Bool? = nil, lenses: [String]? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, owner: String? = nil, pillarPriorities: [String]? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, profiles: [WorkloadProfile]? = nil, reviewOwner: String? = nil, reviewRestrictionDate: Date? = nil, riskCounts: [Risk: Int]? = nil, shareInvitationId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
+        public init(accountIds: [String]? = nil, applications: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, description: String? = nil, discoveryConfig: WorkloadDiscoveryConfig? = nil, environment: WorkloadEnvironment? = nil, improvementStatus: WorkloadImprovementStatus? = nil, industry: String? = nil, industryType: String? = nil, isReviewOwnerUpdateAcknowledged: Bool? = nil, jiraConfiguration: WorkloadJiraConfigurationOutput? = nil, lenses: [String]? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, owner: String? = nil, pillarPriorities: [String]? = nil, prioritizedRiskCounts: [Risk: Int]? = nil, profiles: [WorkloadProfile]? = nil, reviewOwner: String? = nil, reviewRestrictionDate: Date? = nil, riskCounts: [Risk: Int]? = nil, shareInvitationId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.accountIds = accountIds
             self.applications = applications
             self.architecturalDesign = architecturalDesign
@@ -5380,6 +5628,7 @@ extension WellArchitected {
             self.industry = industry
             self.industryType = industryType
             self.isReviewOwnerUpdateAcknowledged = isReviewOwnerUpdateAcknowledged
+            self.jiraConfiguration = jiraConfiguration
             self.lenses = lenses
             self.nonAwsRegions = nonAwsRegions
             self.notes = notes
@@ -5410,6 +5659,7 @@ extension WellArchitected {
             case industry = "Industry"
             case industryType = "IndustryType"
             case isReviewOwnerUpdateAcknowledged = "IsReviewOwnerUpdateAcknowledged"
+            case jiraConfiguration = "JiraConfiguration"
             case lenses = "Lenses"
             case nonAwsRegions = "NonAwsRegions"
             case notes = "Notes"
@@ -5443,6 +5693,58 @@ extension WellArchitected {
         private enum CodingKeys: String, CodingKey {
             case trustedAdvisorIntegrationStatus = "TrustedAdvisorIntegrationStatus"
             case workloadResourceDefinition = "WorkloadResourceDefinition"
+        }
+    }
+
+    public struct WorkloadJiraConfigurationInput: AWSEncodableShape {
+        /// Workload-level: Jira issue management status.
+        public let issueManagementStatus: WorkloadIssueManagementStatus?
+        /// Workload-level: Jira issue management type.
+        public let issueManagementType: IssueManagementType?
+        /// Workload-level: Jira project key to sync workloads to.
+        public let jiraProjectKey: String?
+
+        public init(issueManagementStatus: WorkloadIssueManagementStatus? = nil, issueManagementType: IssueManagementType? = nil, jiraProjectKey: String? = nil) {
+            self.issueManagementStatus = issueManagementStatus
+            self.issueManagementType = issueManagementType
+            self.jiraProjectKey = jiraProjectKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jiraProjectKey, name: "jiraProjectKey", parent: name, max: 100)
+            try self.validate(self.jiraProjectKey, name: "jiraProjectKey", parent: name, min: 1)
+            try self.validate(self.jiraProjectKey, name: "jiraProjectKey", parent: name, pattern: "^[A-Z][A-Z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case issueManagementStatus = "IssueManagementStatus"
+            case issueManagementType = "IssueManagementType"
+            case jiraProjectKey = "JiraProjectKey"
+        }
+    }
+
+    public struct WorkloadJiraConfigurationOutput: AWSDecodableShape {
+        /// Workload-level: Jira issue management status.
+        public let issueManagementStatus: WorkloadIssueManagementStatus?
+        /// Workload-level: Jira issue management type.
+        public let issueManagementType: IssueManagementType?
+        /// Workload-level: Jira project key to sync workloads to.
+        public let jiraProjectKey: String?
+        /// Workload-level: Status message on configuration of the Jira integration.
+        public let statusMessage: String?
+
+        public init(issueManagementStatus: WorkloadIssueManagementStatus? = nil, issueManagementType: IssueManagementType? = nil, jiraProjectKey: String? = nil, statusMessage: String? = nil) {
+            self.issueManagementStatus = issueManagementStatus
+            self.issueManagementType = issueManagementType
+            self.jiraProjectKey = jiraProjectKey
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case issueManagementStatus = "IssueManagementStatus"
+            case issueManagementType = "IssueManagementType"
+            case jiraProjectKey = "JiraProjectKey"
+            case statusMessage = "StatusMessage"
         }
     }
 

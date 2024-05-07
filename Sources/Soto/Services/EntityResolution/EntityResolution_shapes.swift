@@ -32,8 +32,26 @@ extension EntityResolution {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeleteUniqueIdErrorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case serviceError = "SERVICE_ERROR"
+        case validationError = "VALIDATION_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeleteUniqueIdStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accepted = "ACCEPTED"
+        case completed = "COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IdMappingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case provider = "PROVIDER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdNamespaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case source = "SOURCE"
+        case target = "TARGET"
         public var description: String { return self.rawValue }
     }
 
@@ -87,7 +105,158 @@ extension EntityResolution {
         public var description: String { return self.rawValue }
     }
 
+    public enum StatementEffect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allow = "Allow"
+        case deny = "Deny"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct AddPolicyStatementInput: AWSEncodableShape {
+        /// The action that the principal can use on the resource.  For example, entityresolution:GetIdMappingJob, entityresolution:GetMatchingJob.
+        public let action: [String]
+        /// The Amazon Resource Name (ARN) of the resource that will be accessed by the principal.
+        public let arn: String
+        /// A set of condition keys that you can use in key policies.
+        public let condition: String?
+        /// Determines whether the permissions specified in the policy are to be allowed (Allow) or denied (Deny).
+        public let effect: StatementEffect
+        /// The Amazon Web Services service or Amazon Web Services account that can access the resource defined as ARN.
+        public let principal: [String]
+        /// A statement identifier that differentiates the statement from others in the same policy.
+        public let statementId: String
+
+        public init(action: [String], arn: String, condition: String? = nil, effect: StatementEffect, principal: [String], statementId: String) {
+            self.action = action
+            self.arn = arn
+            self.condition = condition
+            self.effect = effect
+            self.principal = principal
+            self.statementId = statementId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.action, forKey: .action)
+            request.encodePath(self.arn, key: "arn")
+            try container.encodeIfPresent(self.condition, forKey: .condition)
+            try container.encode(self.effect, forKey: .effect)
+            try container.encode(self.principal, forKey: .principal)
+            request.encodePath(self.statementId, key: "statementId")
+        }
+
+        public func validate(name: String) throws {
+            try self.action.forEach {
+                try validate($0, name: "action[]", parent: name, max: 64)
+                try validate($0, name: "action[]", parent: name, min: 3)
+                try validate($0, name: "action[]", parent: name, pattern: "^(entityresolution:[a-zA-Z0-9]+)$")
+            }
+            try self.validate(self.action, name: "action", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|matchingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})$")
+            try self.validate(self.condition, name: "condition", parent: name, max: 40960)
+            try self.validate(self.condition, name: "condition", parent: name, min: 1)
+            try self.principal.forEach {
+                try validate($0, name: "principal[]", parent: name, max: 64)
+                try validate($0, name: "principal[]", parent: name, min: 12)
+                try validate($0, name: "principal[]", parent: name, pattern: "^(\\d{12})|([a-z0-9\\.]+)$")
+            }
+            try self.validate(self.principal, name: "principal", parent: name, min: 1)
+            try self.validate(self.statementId, name: "statementId", parent: name, max: 64)
+            try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
+            try self.validate(self.statementId, name: "statementId", parent: name, pattern: "^[0-9A-Za-z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case condition = "condition"
+            case effect = "effect"
+            case principal = "principal"
+        }
+    }
+
+    public struct AddPolicyStatementOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the resource that will be accessed by the principal.
+        public let arn: String
+        /// The resource-based policy.
+        public let policy: String?
+        /// A unique identifier for the current revision of the policy.
+        public let token: String
+
+        public init(arn: String, policy: String? = nil, token: String) {
+            self.arn = arn
+            self.policy = policy
+            self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case policy = "policy"
+            case token = "token"
+        }
+    }
+
+    public struct BatchDeleteUniqueIdInput: AWSEncodableShape {
+        /// The input source for the batch delete unique ID operation.
+        public let inputSource: String?
+        /// The unique IDs to delete.
+        public let uniqueIds: [String]
+        /// The name of the workflow.
+        public let workflowName: String
+
+        public init(inputSource: String? = nil, uniqueIds: [String], workflowName: String) {
+            self.inputSource = inputSource
+            self.uniqueIds = uniqueIds
+            self.workflowName = workflowName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.inputSource, key: "inputSource")
+            request.encodeHeader(self.uniqueIds, key: "uniqueIds")
+            request.encodePath(self.workflowName, key: "workflowName")
+        }
+
+        public func validate(name: String) throws {
+            try self.uniqueIds.forEach {
+                try validate($0, name: "uniqueIds[]", parent: name, max: 760)
+                try validate($0, name: "uniqueIds[]", parent: name, min: 1)
+                try validate($0, name: "uniqueIds[]", parent: name, pattern: "^[a-zA-Z_0-9-,]*$")
+            }
+            try self.validate(self.workflowName, name: "workflowName", parent: name, max: 255)
+            try self.validate(self.workflowName, name: "workflowName", parent: name, min: 1)
+            try self.validate(self.workflowName, name: "workflowName", parent: name, pattern: "^[a-zA-Z_0-9-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct BatchDeleteUniqueIdOutput: AWSDecodableShape {
+        /// The unique IDs that were deleted.
+        public let deleted: [DeletedUniqueId]
+        /// The unique IDs that were disconnected.
+        public let disconnectedUniqueIds: [String]
+        ///  The errors from deleting multiple unique IDs.
+        public let errors: [DeleteUniqueIdError]
+        /// The status of the batch delete unique ID operation.
+        public let status: DeleteUniqueIdStatus
+
+        public init(deleted: [DeletedUniqueId], disconnectedUniqueIds: [String], errors: [DeleteUniqueIdError], status: DeleteUniqueIdStatus) {
+            self.deleted = deleted
+            self.disconnectedUniqueIds = disconnectedUniqueIds
+            self.errors = errors
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleted = "deleted"
+            case disconnectedUniqueIds = "disconnectedUniqueIds"
+            case errors = "errors"
+            case status = "status"
+        }
+    }
 
     public struct CreateIdMappingWorkflowInput: AWSEncodableShape {
         /// A description of the workflow.
@@ -97,7 +266,7 @@ extension EntityResolution {
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [IdMappingWorkflowInputSource]
         /// A list of IdMappingWorkflowOutputSource objects, each of which contains fields OutputS3Path and Output.
-        public let outputSourceConfig: [IdMappingWorkflowOutputSource]
+        public let outputSourceConfig: [IdMappingWorkflowOutputSource]?
         /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
         public let roleArn: String
         /// The tags used to organize, track, or control access for this resource.
@@ -105,7 +274,7 @@ extension EntityResolution {
         /// The name of the workflow. There can't be multiple IdMappingWorkflows with the same name.
         public let workflowName: String
 
-        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource], roleArn: String, tags: [String: String]? = nil, workflowName: String) {
+        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String, tags: [String: String]? = nil, workflowName: String) {
             self.description = description
             self.idMappingTechniques = idMappingTechniques
             self.inputSourceConfig = inputSourceConfig
@@ -123,11 +292,13 @@ extension EntityResolution {
             }
             try self.validate(self.inputSourceConfig, name: "inputSourceConfig", parent: name, max: 20)
             try self.validate(self.inputSourceConfig, name: "inputSourceConfig", parent: name, min: 1)
-            try self.outputSourceConfig.forEach {
+            try self.outputSourceConfig?.forEach {
                 try $0.validate(name: "\(name).outputSourceConfig[]")
             }
             try self.validate(self.outputSourceConfig, name: "outputSourceConfig", parent: name, max: 1)
             try self.validate(self.outputSourceConfig, name: "outputSourceConfig", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 512)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -159,7 +330,7 @@ extension EntityResolution {
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [IdMappingWorkflowInputSource]
         /// A list of IdMappingWorkflowOutputSource objects, each of which contains fields OutputS3Path and Output.
-        public let outputSourceConfig: [IdMappingWorkflowOutputSource]
+        public let outputSourceConfig: [IdMappingWorkflowOutputSource]?
         /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
         public let roleArn: String
         /// The ARN (Amazon Resource Name) that Entity Resolution generated for the IDMappingWorkflow.
@@ -167,7 +338,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
-        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource], roleArn: String, workflowArn: String, workflowName: String) {
+        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String, workflowArn: String, workflowName: String) {
             self.description = description
             self.idMappingTechniques = idMappingTechniques
             self.inputSourceConfig = inputSourceConfig
@@ -185,6 +356,117 @@ extension EntityResolution {
             case roleArn = "roleArn"
             case workflowArn = "workflowArn"
             case workflowName = "workflowName"
+        }
+    }
+
+    public struct CreateIdNamespaceInput: AWSEncodableShape {
+        /// The description of the ID namespace.
+        public let description: String?
+        /// Determines the properties of IdMappingWorflow where this IdNamespace can be used as a Source or a Target.
+        public let idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowProperties]?
+        /// The name of the ID namespace.
+        public let idNamespaceName: String
+        /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
+        public let inputSourceConfig: [IdNamespaceInputSource]?
+        /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access the resources defined in this IdNamespace on your behalf as part of the workflow run.
+        public let roleArn: String?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// The type of ID namespace. There are two types: SOURCE and TARGET.  The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow.  The TARGET contains a configuration of targetId to which all sourceIds will resolve to.
+        public let type: IdNamespaceType
+
+        public init(description: String? = nil, idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowProperties]? = nil, idNamespaceName: String, inputSourceConfig: [IdNamespaceInputSource]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, type: IdNamespaceType) {
+            self.description = description
+            self.idMappingWorkflowProperties = idMappingWorkflowProperties
+            self.idNamespaceName = idNamespaceName
+            self.inputSourceConfig = inputSourceConfig
+            self.roleArn = roleArn
+            self.tags = tags
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.idMappingWorkflowProperties?.forEach {
+                try $0.validate(name: "\(name).idMappingWorkflowProperties[]")
+            }
+            try self.validate(self.idMappingWorkflowProperties, name: "idMappingWorkflowProperties", parent: name, max: 1)
+            try self.validate(self.idMappingWorkflowProperties, name: "idMappingWorkflowProperties", parent: name, min: 1)
+            try self.validate(self.idNamespaceName, name: "idNamespaceName", parent: name, max: 255)
+            try self.validate(self.idNamespaceName, name: "idNamespaceName", parent: name, min: 1)
+            try self.validate(self.idNamespaceName, name: "idNamespaceName", parent: name, pattern: "^[a-zA-Z_0-9-]*$")
+            try self.inputSourceConfig?.forEach {
+                try $0.validate(name: "\(name).inputSourceConfig[]")
+            }
+            try self.validate(self.inputSourceConfig, name: "inputSourceConfig", parent: name, max: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 512)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case idMappingWorkflowProperties = "idMappingWorkflowProperties"
+            case idNamespaceName = "idNamespaceName"
+            case inputSourceConfig = "inputSourceConfig"
+            case roleArn = "roleArn"
+            case tags = "tags"
+            case type = "type"
+        }
+    }
+
+    public struct CreateIdNamespaceOutput: AWSDecodableShape {
+        /// The timestamp of when the ID namespace was created.
+        public let createdAt: Date
+        /// The description of the ID namespace.
+        public let description: String?
+        /// Determines the properties of IdMappingWorkflow where this IdNamespace can be used as a Source or a Target.
+        public let idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowProperties]?
+        /// The Amazon Resource Name (ARN) of the ID namespace.
+        public let idNamespaceArn: String
+        /// The name of the ID namespace.
+        public let idNamespaceName: String
+        /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
+        public let inputSourceConfig: [IdNamespaceInputSource]?
+        /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access the resources defined in inputSourceConfig on your behalf as part of the workflow run.
+        public let roleArn: String?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// The type of ID namespace. There are two types: SOURCE and TARGET. The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow.  The TARGET contains a configuration of targetId to which all sourceIds will resolve to.
+        public let type: IdNamespaceType
+        /// The timestamp of when the ID namespace was last updated.
+        public let updatedAt: Date
+
+        public init(createdAt: Date, description: String? = nil, idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowProperties]? = nil, idNamespaceArn: String, idNamespaceName: String, inputSourceConfig: [IdNamespaceInputSource]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, type: IdNamespaceType, updatedAt: Date) {
+            self.createdAt = createdAt
+            self.description = description
+            self.idMappingWorkflowProperties = idMappingWorkflowProperties
+            self.idNamespaceArn = idNamespaceArn
+            self.idNamespaceName = idNamespaceName
+            self.inputSourceConfig = inputSourceConfig
+            self.roleArn = roleArn
+            self.tags = tags
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case description = "description"
+            case idMappingWorkflowProperties = "idMappingWorkflowProperties"
+            case idNamespaceArn = "idNamespaceArn"
+            case idNamespaceName = "idNamespaceName"
+            case inputSourceConfig = "inputSourceConfig"
+            case roleArn = "roleArn"
+            case tags = "tags"
+            case type = "type"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -398,6 +680,42 @@ extension EntityResolution {
         }
     }
 
+    public struct DeleteIdNamespaceInput: AWSEncodableShape {
+        /// The name of the ID namespace.
+        public let idNamespaceName: String
+
+        public init(idNamespaceName: String) {
+            self.idNamespaceName = idNamespaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.idNamespaceName, key: "idNamespaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.idNamespaceName, name: "idNamespaceName", parent: name, max: 255)
+            try self.validate(self.idNamespaceName, name: "idNamespaceName", parent: name, min: 1)
+            try self.validate(self.idNamespaceName, name: "idNamespaceName", parent: name, pattern: "^[a-zA-Z_0-9-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteIdNamespaceOutput: AWSDecodableShape {
+        /// A successful operation message.
+        public let message: String
+
+        public init(message: String) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct DeleteMatchingWorkflowInput: AWSEncodableShape {
         /// The name of the workflow to be retrieved.
         public let workflowName: String
@@ -431,6 +749,55 @@ extension EntityResolution {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct DeletePolicyStatementInput: AWSEncodableShape {
+        /// The ARN of the resource for which the policy need to be deleted.
+        public let arn: String
+        /// A statement identifier that differentiates the statement from others in the same policy.
+        public let statementId: String
+
+        public init(arn: String, statementId: String) {
+            self.arn = arn
+            self.statementId = statementId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "arn")
+            request.encodePath(self.statementId, key: "statementId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|matchingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})$")
+            try self.validate(self.statementId, name: "statementId", parent: name, max: 64)
+            try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
+            try self.validate(self.statementId, name: "statementId", parent: name, pattern: "^[0-9A-Za-z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePolicyStatementOutput: AWSDecodableShape {
+        /// The ARN of the resource for which the policy need to be deleted.
+        public let arn: String
+        /// The resource-based policy.
+        public let policy: String?
+        /// A unique identifier for the deleted policy.
+        public let token: String
+
+        public init(arn: String, policy: String? = nil, token: String) {
+            self.arn = arn
+            self.policy = policy
+            self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case policy = "policy"
+            case token = "token"
         }
     }
 
@@ -470,6 +837,36 @@ extension EntityResolution {
         }
     }
 
+    public struct DeleteUniqueIdError: AWSDecodableShape {
+        ///  The error type for the batch delete unique ID operation.
+        public let errorType: DeleteUniqueIdErrorType
+        /// The unique ID that could not be deleted.
+        public let uniqueId: String
+
+        public init(errorType: DeleteUniqueIdErrorType, uniqueId: String) {
+            self.errorType = errorType
+            self.uniqueId = uniqueId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorType = "errorType"
+            case uniqueId = "uniqueId"
+        }
+    }
+
+    public struct DeletedUniqueId: AWSDecodableShape {
+        ///  The unique ID of the deleted item.
+        public let uniqueId: String
+
+        public init(uniqueId: String) {
+            self.uniqueId = uniqueId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uniqueId = "uniqueId"
+        }
+    }
+
     public struct ErrorDetails: AWSDecodableShape {
         /// The error message from the job, if there is one.
         public let errorMessage: String?
@@ -503,9 +900,7 @@ extension EntityResolution {
 
         public func validate(name: String) throws {
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-f0-9]{32}$")
-            try self.validate(self.workflowName, name: "workflowName", parent: name, max: 255)
-            try self.validate(self.workflowName, name: "workflowName", parent: name, min: 1)
-            try self.validate(self.workflowName, name: "workflowName", parent: name, pattern: "^[a-zA-Z_0-9-]*$")
+            try self.validate(self.workflowName, name: "workflowName", parent: name, pattern: "^[a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idmappingworkflow/[a-zA-Z_0-9-]{1,255})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -519,16 +914,19 @@ extension EntityResolution {
         public let jobId: String
         /// Metrics associated with the execution, specifically total records processed, unique IDs generated, and records the execution skipped.
         public let metrics: IdMappingJobMetrics?
+        /// A list of OutputSource objects.
+        public let outputSourceConfig: [IdMappingJobOutputSource]?
         /// The time at which the job was started.
         public let startTime: Date
         /// The current status of the job.
         public let status: JobStatus
 
-        public init(endTime: Date? = nil, errorDetails: ErrorDetails? = nil, jobId: String, metrics: IdMappingJobMetrics? = nil, startTime: Date, status: JobStatus) {
+        public init(endTime: Date? = nil, errorDetails: ErrorDetails? = nil, jobId: String, metrics: IdMappingJobMetrics? = nil, outputSourceConfig: [IdMappingJobOutputSource]? = nil, startTime: Date, status: JobStatus) {
             self.endTime = endTime
             self.errorDetails = errorDetails
             self.jobId = jobId
             self.metrics = metrics
+            self.outputSourceConfig = outputSourceConfig
             self.startTime = startTime
             self.status = status
         }
@@ -538,6 +936,7 @@ extension EntityResolution {
             case errorDetails = "errorDetails"
             case jobId = "jobId"
             case metrics = "metrics"
+            case outputSourceConfig = "outputSourceConfig"
             case startTime = "startTime"
             case status = "status"
         }
@@ -576,8 +975,8 @@ extension EntityResolution {
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [IdMappingWorkflowInputSource]
         /// A list of OutputSource objects, each of which contains fields OutputS3Path and KMSArn.
-        public let outputSourceConfig: [IdMappingWorkflowOutputSource]
-        /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access resources on your behalf.
+        public let outputSourceConfig: [IdMappingWorkflowOutputSource]?
+        /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
         public let roleArn: String
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -588,7 +987,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
-        public init(createdAt: Date, description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource], roleArn: String, tags: [String: String]? = nil, updatedAt: Date, workflowArn: String, workflowName: String) {
+        public init(createdAt: Date, description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String, tags: [String: String]? = nil, updatedAt: Date, workflowArn: String, workflowName: String) {
             self.createdAt = createdAt
             self.description = description
             self.idMappingTechniques = idMappingTechniques
@@ -615,13 +1014,86 @@ extension EntityResolution {
         }
     }
 
+    public struct GetIdNamespaceInput: AWSEncodableShape {
+        /// The name of the ID namespace.
+        public let idNamespaceName: String
+
+        public init(idNamespaceName: String) {
+            self.idNamespaceName = idNamespaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.idNamespaceName, key: "idNamespaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.idNamespaceName, name: "idNamespaceName", parent: name, pattern: "^[a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idnamespace/[a-zA-Z_0-9-]{1,255})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetIdNamespaceOutput: AWSDecodableShape {
+        /// The timestamp of when the ID namespace was created.
+        public let createdAt: Date
+        /// The description of the ID namespace.
+        public let description: String?
+        /// Determines the properties of IdMappingWorkflow where this IdNamespace can be used as a Source or a Target.
+        public let idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowProperties]?
+        /// The Amazon Resource Name (ARN) of the ID namespace.
+        public let idNamespaceArn: String
+        /// The name of the ID namespace.
+        public let idNamespaceName: String
+        /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
+        public let inputSourceConfig: [IdNamespaceInputSource]?
+        /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access the resources defined in this IdNamespace on your behalf as part of a workflow run.
+        public let roleArn: String?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// The type of ID namespace. There are two types: SOURCE and TARGET. The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow.  The TARGET contains a configuration of targetId to which all sourceIds will resolve to.
+        public let type: IdNamespaceType
+        /// The timestamp of when the ID namespace was last updated.
+        public let updatedAt: Date
+
+        public init(createdAt: Date, description: String? = nil, idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowProperties]? = nil, idNamespaceArn: String, idNamespaceName: String, inputSourceConfig: [IdNamespaceInputSource]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, type: IdNamespaceType, updatedAt: Date) {
+            self.createdAt = createdAt
+            self.description = description
+            self.idMappingWorkflowProperties = idMappingWorkflowProperties
+            self.idNamespaceArn = idNamespaceArn
+            self.idNamespaceName = idNamespaceName
+            self.inputSourceConfig = inputSourceConfig
+            self.roleArn = roleArn
+            self.tags = tags
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case description = "description"
+            case idMappingWorkflowProperties = "idMappingWorkflowProperties"
+            case idNamespaceArn = "idNamespaceArn"
+            case idNamespaceName = "idNamespaceName"
+            case inputSourceConfig = "inputSourceConfig"
+            case roleArn = "roleArn"
+            case tags = "tags"
+            case type = "type"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct GetMatchIdInput: AWSEncodableShape {
+        /// Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER, and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890.
+        public let applyNormalization: Bool?
         /// The record to fetch the Match ID for.
         public let record: [String: String]
         /// The name of the workflow.
         public let workflowName: String
 
-        public init(record: [String: String], workflowName: String) {
+        public init(applyNormalization: Bool? = nil, record: [String: String], workflowName: String) {
+            self.applyNormalization = applyNormalization
             self.record = record
             self.workflowName = workflowName
         }
@@ -629,6 +1101,7 @@ extension EntityResolution {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.applyNormalization, forKey: .applyNormalization)
             try container.encode(self.record, forKey: .record)
             request.encodePath(self.workflowName, key: "workflowName")
         }
@@ -640,6 +1113,7 @@ extension EntityResolution {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applyNormalization = "applyNormalization"
             case record = "record"
         }
     }
@@ -647,13 +1121,17 @@ extension EntityResolution {
     public struct GetMatchIdOutput: AWSDecodableShape {
         /// The unique identifiers for this group of match records.
         public let matchId: String?
+        /// The rule the record matched on.
+        public let matchRule: String?
 
-        public init(matchId: String? = nil) {
+        public init(matchId: String? = nil, matchRule: String? = nil) {
             self.matchId = matchId
+            self.matchRule = matchRule
         }
 
         private enum CodingKeys: String, CodingKey {
             case matchId = "matchId"
+            case matchRule = "matchRule"
         }
     }
 
@@ -694,16 +1172,19 @@ extension EntityResolution {
         public let jobId: String
         /// Metrics associated with the execution, specifically total records processed, unique IDs generated, and records the execution skipped.
         public let metrics: JobMetrics?
+        /// A list of OutputSource objects.
+        public let outputSourceConfig: [JobOutputSource]?
         /// The time at which the job was started.
         public let startTime: Date
         /// The current status of the job.
         public let status: JobStatus
 
-        public init(endTime: Date? = nil, errorDetails: ErrorDetails? = nil, jobId: String, metrics: JobMetrics? = nil, startTime: Date, status: JobStatus) {
+        public init(endTime: Date? = nil, errorDetails: ErrorDetails? = nil, jobId: String, metrics: JobMetrics? = nil, outputSourceConfig: [JobOutputSource]? = nil, startTime: Date, status: JobStatus) {
             self.endTime = endTime
             self.errorDetails = errorDetails
             self.jobId = jobId
             self.metrics = metrics
+            self.outputSourceConfig = outputSourceConfig
             self.startTime = startTime
             self.status = status
         }
@@ -713,6 +1194,7 @@ extension EntityResolution {
             case errorDetails = "errorDetails"
             case jobId = "jobId"
             case metrics = "metrics"
+            case outputSourceConfig = "outputSourceConfig"
             case startTime = "startTime"
             case status = "status"
         }
@@ -754,7 +1236,7 @@ extension EntityResolution {
         public let outputSourceConfig: [OutputSource]
         /// An object which defines the resolutionType and the ruleBasedProperties.
         public let resolutionTechniques: ResolutionTechniques
-        /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access resources on your behalf.
+        /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
         public let roleArn: String
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -794,6 +1276,48 @@ extension EntityResolution {
         }
     }
 
+    public struct GetPolicyInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource for which the policy need to be returned.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "arn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|matchingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPolicyOutput: AWSDecodableShape {
+        /// The Entity Resolution resource ARN.
+        public let arn: String
+        /// The resource-based policy.
+        public let policy: String?
+        /// A unique identifier for the current revision of the policy.
+        public let token: String
+
+        public init(arn: String, policy: String? = nil, token: String) {
+            self.arn = arn
+            self.policy = policy
+            self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case policy = "policy"
+            case token = "token"
+        }
+    }
+
     public struct GetProviderServiceInput: AWSEncodableShape {
         /// The name of the provider. This name is typically the company name.
         public let providerName: String
@@ -818,7 +1342,7 @@ extension EntityResolution {
             try self.validate(self.providerName, name: "providerName", parent: name, pattern: "^[a-zA-Z_0-9-]*$")
             try self.validate(self.providerServiceName, name: "providerServiceName", parent: name, max: 255)
             try self.validate(self.providerServiceName, name: "providerServiceName", parent: name, min: 20)
-            try self.validate(self.providerServiceName, name: "providerServiceName", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):(entityresolution):([a-z]{2}-[a-z-]+?-[0-9])::providerservice/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$")
+            try self.validate(self.providerServiceName, name: "providerServiceName", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):(entityresolution):([a-z]{2}-[a-z]{1,10}-[0-9])::providerservice/([a-zA-Z0-9_-]{1,255})/([a-zA-Z0-9_-]{1,255})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -827,14 +1351,20 @@ extension EntityResolution {
     public struct GetProviderServiceOutput: AWSDecodableShape {
         /// Specifies whether output data from the provider is anonymized. A value of TRUE means the output will be anonymized and you can't relate the data that comes back from the provider to the identifying input. A value of FALSE means the output won't be anonymized and you can relate the data that comes back from the provider to your source data.
         public let anonymizedOutput: Bool
+        /// Input schema for the provider service.
+        public let providerComponentSchema: ProviderComponentSchema?
         /// The definition of the provider configuration.
         public let providerConfigurationDefinition: String?
         /// The required configuration fields to use with the provider service.
         public let providerEndpointConfiguration: ProviderEndpointConfiguration
         /// The definition of the provider entity output.
         public let providerEntityOutputDefinition: String
+        /// The provider configuration required for different ID namespace types.
+        public let providerIdNameSpaceConfiguration: ProviderIdNameSpaceConfiguration?
         /// The Amazon Web Services accounts and the S3 permissions that are required by some providers to create an S3 bucket for intermediate data storage.
         public let providerIntermediateDataAccessConfiguration: ProviderIntermediateDataAccessConfiguration?
+        /// Provider service job configurations.
+        public let providerJobConfiguration: String?
         /// The name of the provider. This name is typically the company name.
         public let providerName: String
         /// The ARN (Amazon Resource Name) that Entity Resolution generated for the provider service.
@@ -846,12 +1376,15 @@ extension EntityResolution {
         /// The type of provider service.
         public let providerServiceType: ServiceType
 
-        public init(anonymizedOutput: Bool, providerConfigurationDefinition: String? = nil, providerEndpointConfiguration: ProviderEndpointConfiguration, providerEntityOutputDefinition: String, providerIntermediateDataAccessConfiguration: ProviderIntermediateDataAccessConfiguration? = nil, providerName: String, providerServiceArn: String, providerServiceDisplayName: String, providerServiceName: String, providerServiceType: ServiceType) {
+        public init(anonymizedOutput: Bool, providerComponentSchema: ProviderComponentSchema? = nil, providerConfigurationDefinition: String? = nil, providerEndpointConfiguration: ProviderEndpointConfiguration, providerEntityOutputDefinition: String, providerIdNameSpaceConfiguration: ProviderIdNameSpaceConfiguration? = nil, providerIntermediateDataAccessConfiguration: ProviderIntermediateDataAccessConfiguration? = nil, providerJobConfiguration: String? = nil, providerName: String, providerServiceArn: String, providerServiceDisplayName: String, providerServiceName: String, providerServiceType: ServiceType) {
             self.anonymizedOutput = anonymizedOutput
+            self.providerComponentSchema = providerComponentSchema
             self.providerConfigurationDefinition = providerConfigurationDefinition
             self.providerEndpointConfiguration = providerEndpointConfiguration
             self.providerEntityOutputDefinition = providerEntityOutputDefinition
+            self.providerIdNameSpaceConfiguration = providerIdNameSpaceConfiguration
             self.providerIntermediateDataAccessConfiguration = providerIntermediateDataAccessConfiguration
+            self.providerJobConfiguration = providerJobConfiguration
             self.providerName = providerName
             self.providerServiceArn = providerServiceArn
             self.providerServiceDisplayName = providerServiceDisplayName
@@ -861,10 +1394,13 @@ extension EntityResolution {
 
         private enum CodingKeys: String, CodingKey {
             case anonymizedOutput = "anonymizedOutput"
+            case providerComponentSchema = "providerComponentSchema"
             case providerConfigurationDefinition = "providerConfigurationDefinition"
             case providerEndpointConfiguration = "providerEndpointConfiguration"
             case providerEntityOutputDefinition = "providerEntityOutputDefinition"
+            case providerIdNameSpaceConfiguration = "providerIdNameSpaceConfiguration"
             case providerIntermediateDataAccessConfiguration = "providerIntermediateDataAccessConfiguration"
+            case providerJobConfiguration = "providerJobConfiguration"
             case providerName = "providerName"
             case providerServiceArn = "providerServiceArn"
             case providerServiceDisplayName = "providerServiceDisplayName"
@@ -958,19 +1494,50 @@ extension EntityResolution {
         }
     }
 
+    public struct IdMappingJobOutputSource: AWSEncodableShape & AWSDecodableShape {
+        /// Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key.
+        public let kmsArn: String?
+        /// The S3 path to which Entity Resolution will write the output table.
+        public let outputS3Path: String
+        /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf as part of workflow execution.
+        public let roleArn: String
+
+        public init(kmsArn: String? = nil, outputS3Path: String, roleArn: String) {
+            self.kmsArn = kmsArn
+            self.outputS3Path = outputS3Path
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsArn, name: "kmsArn", parent: name, pattern: "^arn:aws:kms:.*:[0-9]+:.*$")
+            try self.validate(self.outputS3Path, name: "outputS3Path", parent: name, max: 1024)
+            try self.validate(self.outputS3Path, name: "outputS3Path", parent: name, min: 1)
+            try self.validate(self.outputS3Path, name: "outputS3Path", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 512)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsArn = "KMSArn"
+            case outputS3Path = "outputS3Path"
+            case roleArn = "roleArn"
+        }
+    }
+
     public struct IdMappingTechniques: AWSEncodableShape & AWSDecodableShape {
         /// The type of ID mapping.
         public let idMappingType: IdMappingType
         /// An object which defines any additional configurations required by the provider service.
-        public let providerProperties: ProviderProperties
+        public let providerProperties: ProviderProperties?
 
-        public init(idMappingType: IdMappingType, providerProperties: ProviderProperties) {
+        public init(idMappingType: IdMappingType, providerProperties: ProviderProperties? = nil) {
             self.idMappingType = idMappingType
             self.providerProperties = providerProperties
         }
 
         public func validate(name: String) throws {
-            try self.providerProperties.validate(name: "\(name).providerProperties")
+            try self.providerProperties?.validate(name: "\(name).providerProperties")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -980,14 +1547,17 @@ extension EntityResolution {
     }
 
     public struct IdMappingWorkflowInputSource: AWSEncodableShape & AWSDecodableShape {
-        /// An Gluetable ARN for the input source table.
+        /// An Glue table ARN for the input source table.
         public let inputSourceARN: String
         /// The name of the schema to be retrieved.
-        public let schemaName: String
+        public let schemaName: String?
+        /// The type of ID namespace. There are two types: SOURCE and TARGET.  The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow.  The TARGET contains a configuration of targetId to which all sourceIds will resolve to.
+        public let type: IdNamespaceType?
 
-        public init(inputSourceARN: String, schemaName: String) {
+        public init(inputSourceARN: String, schemaName: String? = nil, type: IdNamespaceType? = nil) {
             self.inputSourceARN = inputSourceARN
             self.schemaName = schemaName
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -999,6 +1569,7 @@ extension EntityResolution {
         private enum CodingKeys: String, CodingKey {
             case inputSourceARN = "inputSourceARN"
             case schemaName = "schemaName"
+            case type = "type"
         }
     }
 
@@ -1048,6 +1619,83 @@ extension EntityResolution {
             case updatedAt = "updatedAt"
             case workflowArn = "workflowArn"
             case workflowName = "workflowName"
+        }
+    }
+
+    public struct IdNamespaceIdMappingWorkflowProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The type of ID mapping.
+        public let idMappingType: IdMappingType
+        /// An object which defines any additional configurations required by the provider service.
+        public let providerProperties: NamespaceProviderProperties?
+
+        public init(idMappingType: IdMappingType, providerProperties: NamespaceProviderProperties? = nil) {
+            self.idMappingType = idMappingType
+            self.providerProperties = providerProperties
+        }
+
+        public func validate(name: String) throws {
+            try self.providerProperties?.validate(name: "\(name).providerProperties")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idMappingType = "idMappingType"
+            case providerProperties = "providerProperties"
+        }
+    }
+
+    public struct IdNamespaceInputSource: AWSEncodableShape & AWSDecodableShape {
+        /// An Glue table ARN for the input source table.
+        public let inputSourceARN: String
+        /// The name of the schema.
+        public let schemaName: String?
+
+        public init(inputSourceARN: String, schemaName: String? = nil) {
+            self.inputSourceARN = inputSourceARN
+            self.schemaName = schemaName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
+            try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)
+            try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "^[a-zA-Z_0-9-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputSourceARN = "inputSourceARN"
+            case schemaName = "schemaName"
+        }
+    }
+
+    public struct IdNamespaceSummary: AWSDecodableShape {
+        /// The timestamp of when the ID namespace was created.
+        public let createdAt: Date
+        /// The description of the ID namespace.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the ID namespace.
+        public let idNamespaceArn: String
+        /// The name of the ID namespace.
+        public let idNamespaceName: String
+        /// The type of ID namespace. There are two types: SOURCE and TARGET. The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow.  The TARGET contains a configuration of targetId to which all sourceIds will resolve to.
+        public let type: IdNamespaceType
+        /// The timestamp of when the ID namespace was last updated.
+        public let updatedAt: Date
+
+        public init(createdAt: Date, description: String? = nil, idNamespaceArn: String, idNamespaceName: String, type: IdNamespaceType, updatedAt: Date) {
+            self.createdAt = createdAt
+            self.description = description
+            self.idNamespaceArn = idNamespaceArn
+            self.idNamespaceName = idNamespaceName
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case description = "description"
+            case idNamespaceArn = "idNamespaceArn"
+            case idNamespaceName = "idNamespaceName"
+            case type = "type"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -1135,6 +1783,27 @@ extension EntityResolution {
         }
     }
 
+    public struct JobOutputSource: AWSDecodableShape {
+        /// Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key.
+        public let kmsArn: String?
+        /// The S3 path to which Entity Resolution will write the output table.
+        public let outputS3Path: String
+        /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf as part of workflow execution.
+        public let roleArn: String
+
+        public init(kmsArn: String? = nil, outputS3Path: String, roleArn: String) {
+            self.kmsArn = kmsArn
+            self.outputS3Path = outputS3Path
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsArn = "KMSArn"
+            case outputS3Path = "outputS3Path"
+            case roleArn = "roleArn"
+        }
+    }
+
     public struct JobSummary: AWSDecodableShape {
         /// The time at which the job has finished.
         public let endTime: Date?
@@ -1186,9 +1855,7 @@ extension EntityResolution {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z_0-9-=+/]*$")
-            try self.validate(self.workflowName, name: "workflowName", parent: name, max: 255)
-            try self.validate(self.workflowName, name: "workflowName", parent: name, min: 1)
-            try self.validate(self.workflowName, name: "workflowName", parent: name, pattern: "^[a-zA-Z_0-9-]*$")
+            try self.validate(self.workflowName, name: "workflowName", parent: name, pattern: "^[a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idmappingworkflow/[a-zA-Z_0-9-]{1,255})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1252,6 +1919,50 @@ extension EntityResolution {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case workflowSummaries = "workflowSummaries"
+        }
+    }
+
+    public struct ListIdNamespacesInput: AWSEncodableShape {
+        /// The maximum number of IdNamespace objects returned per page.
+        public let maxResults: Int?
+        /// The pagination token from the previous API call.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z_0-9-=+/]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListIdNamespacesOutput: AWSDecodableShape {
+        /// A list of IdNamespaceSummaries objects.
+        public let idNamespaceSummaries: [IdNamespaceSummary]?
+        /// The pagination token from the previous API call.
+        public let nextToken: String?
+
+        public init(idNamespaceSummaries: [IdNamespaceSummary]? = nil, nextToken: String? = nil) {
+            self.idNamespaceSummaries = idNamespaceSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idNamespaceSummaries = "idNamespaceSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1460,7 +2171,7 @@ extension EntityResolution {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):(entityresolution):.*:[0-9]+:((schemamapping|matchingworkflow|idmappingworkflow)/[a-zA-Z0-9_-]+)$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|matchingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1505,6 +2216,29 @@ extension EntityResolution {
             case updatedAt = "updatedAt"
             case workflowArn = "workflowArn"
             case workflowName = "workflowName"
+        }
+    }
+
+    public struct NamespaceProviderProperties: AWSEncodableShape & AWSDecodableShape {
+        /// An object which defines any additional configurations required by the provider service.
+        public let providerConfiguration: String?
+        /// The Amazon Resource Name (ARN) of the provider service.
+        public let providerServiceArn: String
+
+        public init(providerConfiguration: String? = nil, providerServiceArn: String) {
+            self.providerConfiguration = providerConfiguration
+            self.providerServiceArn = providerServiceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.providerServiceArn, name: "providerServiceArn", parent: name, max: 255)
+            try self.validate(self.providerServiceArn, name: "providerServiceArn", parent: name, min: 20)
+            try self.validate(self.providerServiceArn, name: "providerServiceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):(entityresolution):([a-z]{2}-[a-z]{1,10}-[0-9])::providerservice/([a-zA-Z0-9_-]{1,255})/([a-zA-Z0-9_-]{1,255})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case providerConfiguration = "providerConfiguration"
+            case providerServiceArn = "providerServiceArn"
         }
     }
 
@@ -1562,6 +2296,44 @@ extension EntityResolution {
             case kmsArn = "KMSArn"
             case output = "output"
             case outputS3Path = "outputS3Path"
+        }
+    }
+
+    public struct ProviderComponentSchema: AWSDecodableShape {
+        /// The provider schema attributes.
+        public let providerSchemaAttributes: [ProviderSchemaAttribute]?
+        /// Input schema for the provider service.
+        public let schemas: [[String]]?
+
+        public init(providerSchemaAttributes: [ProviderSchemaAttribute]? = nil, schemas: [[String]]? = nil) {
+            self.providerSchemaAttributes = providerSchemaAttributes
+            self.schemas = schemas
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case providerSchemaAttributes = "providerSchemaAttributes"
+            case schemas = "schemas"
+        }
+    }
+
+    public struct ProviderIdNameSpaceConfiguration: AWSDecodableShape {
+        /// The description of the ID namespace.
+        public let description: String?
+        /// Configurations required for the source ID namespace.
+        public let providerSourceConfigurationDefinition: String?
+        /// Configurations required for the target  ID namespace.
+        public let providerTargetConfigurationDefinition: String?
+
+        public init(description: String? = nil, providerSourceConfigurationDefinition: String? = nil, providerTargetConfigurationDefinition: String? = nil) {
+            self.description = description
+            self.providerSourceConfigurationDefinition = providerSourceConfigurationDefinition
+            self.providerTargetConfigurationDefinition = providerTargetConfigurationDefinition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case providerSourceConfigurationDefinition = "providerSourceConfigurationDefinition"
+            case providerTargetConfigurationDefinition = "providerTargetConfigurationDefinition"
         }
     }
 
@@ -1625,13 +2397,38 @@ extension EntityResolution {
             try self.intermediateSourceConfiguration?.validate(name: "\(name).intermediateSourceConfiguration")
             try self.validate(self.providerServiceArn, name: "providerServiceArn", parent: name, max: 255)
             try self.validate(self.providerServiceArn, name: "providerServiceArn", parent: name, min: 20)
-            try self.validate(self.providerServiceArn, name: "providerServiceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):(entityresolution):([a-z]{2}-[a-z-]+?-[0-9])::providerservice/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$")
+            try self.validate(self.providerServiceArn, name: "providerServiceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):(entityresolution):([a-z]{2}-[a-z]{1,10}-[0-9])::providerservice/([a-zA-Z0-9_-]{1,255})/([a-zA-Z0-9_-]{1,255})$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case intermediateSourceConfiguration = "intermediateSourceConfiguration"
             case providerConfiguration = "providerConfiguration"
             case providerServiceArn = "providerServiceArn"
+        }
+    }
+
+    public struct ProviderSchemaAttribute: AWSDecodableShape {
+        /// The field name.
+        public let fieldName: String
+        /// The hashing attribute of the provider schema.
+        public let hashing: Bool?
+        /// The sub type of the provider schema attribute.
+        public let subType: String?
+        /// The type of the provider schema attribute.
+        public let type: SchemaAttributeType
+
+        public init(fieldName: String, hashing: Bool? = nil, subType: String? = nil, type: SchemaAttributeType) {
+            self.fieldName = fieldName
+            self.hashing = hashing
+            self.subType = subType
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "fieldName"
+            case hashing = "hashing"
+            case subType = "subType"
+            case type = "type"
         }
     }
 
@@ -1664,10 +2461,68 @@ extension EntityResolution {
         }
     }
 
+    public struct PutPolicyInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource for which the policy needs to be updated.
+        public let arn: String
+        /// The resource-based policy.
+        public let policy: String
+        /// A unique identifier for the current revision of the policy.
+        public let token: String?
+
+        public init(arn: String, policy: String, token: String? = nil) {
+            self.arn = arn
+            self.policy = policy
+            self.token = token
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "arn")
+            try container.encode(self.policy, forKey: .policy)
+            try container.encodeIfPresent(self.token, forKey: .token)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|matchingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})$")
+            try self.validate(self.policy, name: "policy", parent: name, max: 40960)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+            try self.validate(self.token, name: "token", parent: name, max: 36)
+            try self.validate(self.token, name: "token", parent: name, min: 36)
+            try self.validate(self.token, name: "token", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
+            case token = "token"
+        }
+    }
+
+    public struct PutPolicyOutput: AWSDecodableShape {
+        /// The Entity Resolution resource ARN.
+        public let arn: String
+        /// The resource-based policy.
+        public let policy: String?
+        /// A unique identifier for the current revision of the policy.
+        public let token: String
+
+        public init(arn: String, policy: String? = nil, token: String) {
+            self.arn = arn
+            self.policy = policy
+            self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case policy = "policy"
+            case token = "token"
+        }
+    }
+
     public struct ResolutionTechniques: AWSEncodableShape & AWSDecodableShape {
         /// The properties of the provider service.
         public let providerProperties: ProviderProperties?
-        /// The type of matching. There are two types of matching: RULE_MATCHING and ML_MATCHING.
+        /// The type of matching. There are three types of matching: RULE_MATCHING, ML_MATCHING, and PROVIDER.
         public let resolutionType: ResolutionType
         /// An object which defines the list of matching rules to run and has a field Rules, which is a list of rule objects.
         public let ruleBasedProperties: RuleBasedProperties?
@@ -1740,9 +2595,9 @@ extension EntityResolution {
     public struct SchemaInputAttribute: AWSEncodableShape & AWSDecodableShape {
         /// A string containing the field name.
         public let fieldName: String
-        /// Instruct Entity Resolution to combine several columns into a unified column with the identical attribute type. For example, when working with columns such as first_name, middle_name, and last_name, assigning them a common GroupName will prompt Entity Resolution to concatenate them into a single value.
+        /// A string that instructs Entity Resolution to combine several columns into a unified column with the identical attribute type.  For example, when working with columns such as first_name, middle_name, and last_name, assigning them a common groupName will prompt Entity Resolution to concatenate them into a single value.
         public let groupName: String?
-        /// A key that allows grouping of multiple input attributes into a unified matching group. For example, let's consider a scenario where the source table contains various addresses, such as business_address and shipping_address. By assigning the MatchKey Address to both attributes, Entity Resolution will match records across these fields to create a consolidated matching group. If no MatchKey is specified for a column, it won't be utilized for matching purposes but will still be included in the output table.
+        /// A key that allows grouping of multiple input attributes into a unified matching group. For example, consider a scenario where the source table contains various addresses, such as business_address and shipping_address. By assigning a matchKey  called address to both attributes, Entity Resolution will match records across these fields to create a consolidated matching group. If no matchKey is specified for a column, it won't be utilized for matching purposes but will still be included in the output table.
         public let matchKey: String?
         /// The subtype of the attribute, selected from a list of values.
         public let subType: String?
@@ -1807,38 +2662,51 @@ extension EntityResolution {
     }
 
     public struct StartIdMappingJobInput: AWSEncodableShape {
+        /// A list of OutputSource objects.
+        public let outputSourceConfig: [IdMappingJobOutputSource]?
         /// The name of the ID mapping job to be retrieved.
         public let workflowName: String
 
-        public init(workflowName: String) {
+        public init(outputSourceConfig: [IdMappingJobOutputSource]? = nil, workflowName: String) {
+            self.outputSourceConfig = outputSourceConfig
             self.workflowName = workflowName
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            _ = encoder.container(keyedBy: CodingKeys.self)
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.outputSourceConfig, forKey: .outputSourceConfig)
             request.encodePath(self.workflowName, key: "workflowName")
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.workflowName, name: "workflowName", parent: name, max: 255)
-            try self.validate(self.workflowName, name: "workflowName", parent: name, min: 1)
-            try self.validate(self.workflowName, name: "workflowName", parent: name, pattern: "^[a-zA-Z_0-9-]*$")
+            try self.outputSourceConfig?.forEach {
+                try $0.validate(name: "\(name).outputSourceConfig[]")
+            }
+            try self.validate(self.outputSourceConfig, name: "outputSourceConfig", parent: name, max: 1)
+            try self.validate(self.outputSourceConfig, name: "outputSourceConfig", parent: name, min: 1)
+            try self.validate(self.workflowName, name: "workflowName", parent: name, pattern: "^[a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idmappingworkflow/[a-zA-Z_0-9-]{1,255})$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case outputSourceConfig = "outputSourceConfig"
+        }
     }
 
     public struct StartIdMappingJobOutput: AWSDecodableShape {
         /// The ID of the job.
         public let jobId: String
+        /// A list of OutputSource objects.
+        public let outputSourceConfig: [IdMappingJobOutputSource]?
 
-        public init(jobId: String) {
+        public init(jobId: String, outputSourceConfig: [IdMappingJobOutputSource]? = nil) {
             self.jobId = jobId
+            self.outputSourceConfig = outputSourceConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case jobId = "jobId"
+            case outputSourceConfig = "outputSourceConfig"
         }
     }
 
@@ -1897,7 +2765,7 @@ extension EntityResolution {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):(entityresolution):.*:[0-9]+:((schemamapping|matchingworkflow|idmappingworkflow)/[a-zA-Z0-9_-]+)$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|matchingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1934,7 +2802,7 @@ extension EntityResolution {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):(entityresolution):.*:[0-9]+:((schemamapping|matchingworkflow|idmappingworkflow)/[a-zA-Z0-9_-]+)$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|matchingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -1957,13 +2825,13 @@ extension EntityResolution {
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [IdMappingWorkflowInputSource]
         /// A list of OutputSource objects, each of which contains fields OutputS3Path and KMSArn.
-        public let outputSourceConfig: [IdMappingWorkflowOutputSource]
-        /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access resources on your behalf.
+        public let outputSourceConfig: [IdMappingWorkflowOutputSource]?
+        /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
         public let roleArn: String
         /// The name of the workflow.
         public let workflowName: String
 
-        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource], roleArn: String, workflowName: String) {
+        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String, workflowName: String) {
             self.description = description
             self.idMappingTechniques = idMappingTechniques
             self.inputSourceConfig = inputSourceConfig
@@ -1978,7 +2846,7 @@ extension EntityResolution {
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encode(self.idMappingTechniques, forKey: .idMappingTechniques)
             try container.encode(self.inputSourceConfig, forKey: .inputSourceConfig)
-            try container.encode(self.outputSourceConfig, forKey: .outputSourceConfig)
+            try container.encodeIfPresent(self.outputSourceConfig, forKey: .outputSourceConfig)
             try container.encode(self.roleArn, forKey: .roleArn)
             request.encodePath(self.workflowName, key: "workflowName")
         }
@@ -1991,11 +2859,13 @@ extension EntityResolution {
             }
             try self.validate(self.inputSourceConfig, name: "inputSourceConfig", parent: name, max: 20)
             try self.validate(self.inputSourceConfig, name: "inputSourceConfig", parent: name, min: 1)
-            try self.outputSourceConfig.forEach {
+            try self.outputSourceConfig?.forEach {
                 try $0.validate(name: "\(name).outputSourceConfig[]")
             }
             try self.validate(self.outputSourceConfig, name: "outputSourceConfig", parent: name, max: 1)
             try self.validate(self.outputSourceConfig, name: "outputSourceConfig", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 512)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.validate(self.workflowName, name: "workflowName", parent: name, max: 255)
             try self.validate(self.workflowName, name: "workflowName", parent: name, min: 1)
@@ -2019,15 +2889,15 @@ extension EntityResolution {
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [IdMappingWorkflowInputSource]
         /// A list of OutputSource objects, each of which contains fields OutputS3Path and KMSArn.
-        public let outputSourceConfig: [IdMappingWorkflowOutputSource]
-        /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access resources on your behalf.
+        public let outputSourceConfig: [IdMappingWorkflowOutputSource]?
+        /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
         public let roleArn: String
-        /// The Amazon Resource Name (ARN) of the workflow role. Entity Resolution assumes this role to access resources on your behalf.
+        /// The Amazon Resource Name (ARN) of the workflow role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
         public let workflowArn: String
         /// The name of the workflow.
         public let workflowName: String
 
-        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource], roleArn: String, workflowArn: String, workflowName: String) {
+        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String, workflowArn: String, workflowName: String) {
             self.description = description
             self.idMappingTechniques = idMappingTechniques
             self.inputSourceConfig = inputSourceConfig
@@ -2045,6 +2915,108 @@ extension EntityResolution {
             case roleArn = "roleArn"
             case workflowArn = "workflowArn"
             case workflowName = "workflowName"
+        }
+    }
+
+    public struct UpdateIdNamespaceInput: AWSEncodableShape {
+        /// The description of the ID namespace.
+        public let description: String?
+        /// Determines the properties of IdMappingWorkflow where this IdNamespace can be used as a Source or a Target.
+        public let idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowProperties]?
+        /// The name of the ID namespace.
+        public let idNamespaceName: String
+        /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
+        public let inputSourceConfig: [IdNamespaceInputSource]?
+        /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access the resources defined in this IdNamespace on your behalf as part of a workflow run.
+        public let roleArn: String?
+
+        public init(description: String? = nil, idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowProperties]? = nil, idNamespaceName: String, inputSourceConfig: [IdNamespaceInputSource]? = nil, roleArn: String? = nil) {
+            self.description = description
+            self.idMappingWorkflowProperties = idMappingWorkflowProperties
+            self.idNamespaceName = idNamespaceName
+            self.inputSourceConfig = inputSourceConfig
+            self.roleArn = roleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.idMappingWorkflowProperties, forKey: .idMappingWorkflowProperties)
+            request.encodePath(self.idNamespaceName, key: "idNamespaceName")
+            try container.encodeIfPresent(self.inputSourceConfig, forKey: .inputSourceConfig)
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.idMappingWorkflowProperties?.forEach {
+                try $0.validate(name: "\(name).idMappingWorkflowProperties[]")
+            }
+            try self.validate(self.idMappingWorkflowProperties, name: "idMappingWorkflowProperties", parent: name, max: 1)
+            try self.validate(self.idMappingWorkflowProperties, name: "idMappingWorkflowProperties", parent: name, min: 1)
+            try self.validate(self.idNamespaceName, name: "idNamespaceName", parent: name, max: 255)
+            try self.validate(self.idNamespaceName, name: "idNamespaceName", parent: name, min: 1)
+            try self.validate(self.idNamespaceName, name: "idNamespaceName", parent: name, pattern: "^[a-zA-Z_0-9-]*$")
+            try self.inputSourceConfig?.forEach {
+                try $0.validate(name: "\(name).inputSourceConfig[]")
+            }
+            try self.validate(self.inputSourceConfig, name: "inputSourceConfig", parent: name, max: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 512)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case idMappingWorkflowProperties = "idMappingWorkflowProperties"
+            case inputSourceConfig = "inputSourceConfig"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct UpdateIdNamespaceOutput: AWSDecodableShape {
+        /// The timestamp of when the ID namespace was created.
+        public let createdAt: Date
+        /// The description of the ID namespace.
+        public let description: String?
+        /// Determines the properties of IdMappingWorkflow where this IdNamespace can be used as a Source or a Target.
+        public let idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowProperties]?
+        /// The Amazon Resource Name (ARN) of the ID namespace.
+        public let idNamespaceArn: String
+        /// The name of the ID namespace.
+        public let idNamespaceName: String
+        /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
+        public let inputSourceConfig: [IdNamespaceInputSource]?
+        /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access the resources defined in this IdNamespace on your behalf as part of a workflow run.
+        public let roleArn: String?
+        /// The type of ID namespace. There are two types: SOURCE and TARGET. The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow.  The TARGET contains a configuration of targetId to which all sourceIds will resolve to.
+        public let type: IdNamespaceType
+        /// The timestamp of when the ID namespace was last updated.
+        public let updatedAt: Date
+
+        public init(createdAt: Date, description: String? = nil, idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowProperties]? = nil, idNamespaceArn: String, idNamespaceName: String, inputSourceConfig: [IdNamespaceInputSource]? = nil, roleArn: String? = nil, type: IdNamespaceType, updatedAt: Date) {
+            self.createdAt = createdAt
+            self.description = description
+            self.idMappingWorkflowProperties = idMappingWorkflowProperties
+            self.idNamespaceArn = idNamespaceArn
+            self.idNamespaceName = idNamespaceName
+            self.inputSourceConfig = inputSourceConfig
+            self.roleArn = roleArn
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case description = "description"
+            case idMappingWorkflowProperties = "idMappingWorkflowProperties"
+            case idNamespaceArn = "idNamespaceArn"
+            case idNamespaceName = "idNamespaceName"
+            case inputSourceConfig = "inputSourceConfig"
+            case roleArn = "roleArn"
+            case type = "type"
+            case updatedAt = "updatedAt"
         }
     }
 

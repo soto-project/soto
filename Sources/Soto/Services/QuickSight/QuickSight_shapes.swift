@@ -105,6 +105,7 @@ extension QuickSight {
         case name = "Name"
         case password = "Password"
         case port = "Port"
+        case productType = "ProductType"
         case roleArn = "RoleArn"
         case secretArn = "SecretArn"
         case username = "Username"
@@ -1127,6 +1128,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum PurchaseMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case autoPurchase = "AUTO_PURCHASE"
+        case manual = "MANUAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RadarChartAxesRangeScale: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case independent = "INDEPENDENT"
@@ -1219,8 +1226,11 @@ extension QuickSight {
 
     public enum Role: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case admin = "ADMIN"
+        case adminPro = "ADMIN_PRO"
         case author = "AUTHOR"
+        case authorPro = "AUTHOR_PRO"
         case reader = "READER"
+        case readerPro = "READER_PRO"
         public var description: String { return self.rawValue }
     }
 
@@ -1570,8 +1580,11 @@ extension QuickSight {
 
     public enum UserRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case admin = "ADMIN"
+        case adminPro = "ADMIN_PRO"
         case author = "AUTHOR"
+        case authorPro = "AUTHOR_PRO"
         case reader = "READER"
+        case readerPro = "READER_PRO"
         case restrictedAuthor = "RESTRICTED_AUTHOR"
         case restrictedReader = "RESTRICTED_READER"
         public var description: String { return self.rawValue }
@@ -2645,30 +2658,54 @@ extension QuickSight {
         public let dashboard: AnonymousUserDashboardEmbeddingConfiguration?
         /// The type of embedding experience. In this case, Amazon QuickSight visuals.
         public let dashboardVisual: AnonymousUserDashboardVisualEmbeddingConfiguration?
+        /// The Generative Q&A experience that you want to use for anonymous user embedding.
+        public let generativeQnA: AnonymousUserGenerativeQnAEmbeddingConfiguration?
         /// The Q search bar that you want to use for anonymous user embedding.
         public let qSearchBar: AnonymousUserQSearchBarEmbeddingConfiguration?
 
-        public init(dashboard: AnonymousUserDashboardEmbeddingConfiguration? = nil, dashboardVisual: AnonymousUserDashboardVisualEmbeddingConfiguration? = nil, qSearchBar: AnonymousUserQSearchBarEmbeddingConfiguration? = nil) {
+        public init(dashboard: AnonymousUserDashboardEmbeddingConfiguration? = nil, dashboardVisual: AnonymousUserDashboardVisualEmbeddingConfiguration? = nil, generativeQnA: AnonymousUserGenerativeQnAEmbeddingConfiguration? = nil, qSearchBar: AnonymousUserQSearchBarEmbeddingConfiguration? = nil) {
             self.dashboard = dashboard
             self.dashboardVisual = dashboardVisual
+            self.generativeQnA = generativeQnA
             self.qSearchBar = qSearchBar
         }
 
         public func validate(name: String) throws {
             try self.dashboard?.validate(name: "\(name).dashboard")
             try self.dashboardVisual?.validate(name: "\(name).dashboardVisual")
+            try self.generativeQnA?.validate(name: "\(name).generativeQnA")
             try self.qSearchBar?.validate(name: "\(name).qSearchBar")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dashboard = "Dashboard"
             case dashboardVisual = "DashboardVisual"
+            case generativeQnA = "GenerativeQnA"
             case qSearchBar = "QSearchBar"
         }
     }
 
+    public struct AnonymousUserGenerativeQnAEmbeddingConfiguration: AWSEncodableShape {
+        /// The Amazon QuickSight Q topic ID of the new reader experience topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders the Generative Q&A experience with this new reader experience topic pre selected. The Amazon Resource Name (ARN) of this Q new reader experience topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request fails with an InvalidParameterValueException error.
+        public let initialTopicId: String
+
+        public init(initialTopicId: String) {
+            self.initialTopicId = initialTopicId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.initialTopicId, name: "initialTopicId", parent: name, max: 2048)
+            try self.validate(self.initialTopicId, name: "initialTopicId", parent: name, min: 1)
+            try self.validate(self.initialTopicId, name: "initialTopicId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initialTopicId = "InitialTopicId"
+        }
+    }
+
     public struct AnonymousUserQSearchBarEmbeddingConfiguration: AWSEncodableShape {
-        /// The QuickSight Q topic ID of the topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders the Q search bar with this topic pre-selected. The Amazon Resource Name (ARN) of this Q topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
+        /// The Amazon QuickSight Q topic ID of the legacy topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders the Q search bar with this legacy topic pre-selected. The Amazon Resource Name (ARN) of this Q legacy topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request fails with an InvalidParameterValueException error.
         public let initialTopicId: String
 
         public init(initialTopicId: String) {
@@ -3943,6 +3980,23 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
             case vpcConnectionIds = "VPCConnectionIds"
+        }
+    }
+
+    public struct AssetBundleImportJobWarning: AWSDecodableShape {
+        /// The ARN of the resource that the warning occurred for.
+        public let arn: String?
+        /// A description of the warning that occurred during an Asset Bundle import job.
+        public let message: String?
+
+        public init(arn: String? = nil, message: String? = nil) {
+            self.arn = arn
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case message = "Message"
         }
     }
 
@@ -5337,18 +5391,22 @@ extension QuickSight {
         public let column: ColumnIdentifier
         /// The configuration for a CategoryFilter.
         public let configuration: CategoryFilterConfiguration
+        /// The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.
+        public let defaultFilterControlConfiguration: DefaultFilterControlConfiguration?
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
         public let filterId: String
 
-        public init(column: ColumnIdentifier, configuration: CategoryFilterConfiguration, filterId: String) {
+        public init(column: ColumnIdentifier, configuration: CategoryFilterConfiguration, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil, filterId: String) {
             self.column = column
             self.configuration = configuration
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.filterId = filterId
         }
 
         public func validate(name: String) throws {
             try self.column.validate(name: "\(name).column")
             try self.configuration.validate(name: "\(name).configuration")
+            try self.defaultFilterControlConfiguration?.validate(name: "\(name).defaultFilterControlConfiguration")
             try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
             try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
             try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
@@ -5357,6 +5415,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case column = "Column"
             case configuration = "Configuration"
+            case defaultFilterControlConfiguration = "DefaultFilterControlConfiguration"
             case filterId = "FilterId"
         }
     }
@@ -6493,12 +6552,16 @@ extension QuickSight {
         public let accountName: String
         /// The name of your Active Directory. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account.
         public let activeDirectoryName: String?
-        /// The admin group associated with your Active Directory or IAM Identity Center account. This field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Amazon QuickSight account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
+        /// The admin group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminProGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Amazon QuickSight account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
         public let adminGroup: [String]?
+        /// The admin pro group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Amazon QuickSight account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
+        public let adminProGroup: [String]?
         /// The method that you want to use to authenticate your Amazon QuickSight account. If you choose ACTIVE_DIRECTORY, provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory. If you choose IAM_IDENTITY_CENTER, provide an AdminGroup associated with your IAM Identity Center account.
         public let authenticationMethod: AuthenticationMethodOption
         /// The author group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
         public let authorGroup: [String]?
+        /// The author pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
+        public let authorProGroup: [String]?
         /// The Amazon Web Services account ID of the account that you're using to create your Amazon QuickSight account.
         public let awsAccountId: String
         /// A 10-digit phone number for the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
@@ -6506,7 +6569,7 @@ extension QuickSight {
         /// The ID of the Active Directory that is associated with your Amazon QuickSight account.
         public let directoryId: String?
         /// The edition of Amazon QuickSight that you want your account to have. Currently, you can choose from ENTERPRISE or ENTERPRISE_AND_Q. If you choose ENTERPRISE_AND_Q, the following parameters are required:    FirstName     LastName     EmailAddress     ContactNumber
-        public let edition: Edition
+        public let edition: Edition?
         /// The email address of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
         public let emailAddress: String?
         /// The first name of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
@@ -6519,15 +6582,19 @@ extension QuickSight {
         public let notificationEmail: String
         /// The reader group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
         public let readerGroup: [String]?
+        /// The reader pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see Using IAM Identity Center with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see Using Active Directory with Amazon QuickSight Enterprise Edition in the Amazon QuickSight User Guide.
+        public let readerProGroup: [String]?
         /// The realm of the Active Directory that is associated with your Amazon QuickSight account. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account.
         public let realm: String?
 
-        public init(accountName: String, activeDirectoryName: String? = nil, adminGroup: [String]? = nil, authenticationMethod: AuthenticationMethodOption, authorGroup: [String]? = nil, awsAccountId: String, contactNumber: String? = nil, directoryId: String? = nil, edition: Edition, emailAddress: String? = nil, firstName: String? = nil, iamIdentityCenterInstanceArn: String? = nil, lastName: String? = nil, notificationEmail: String, readerGroup: [String]? = nil, realm: String? = nil) {
+        public init(accountName: String, activeDirectoryName: String? = nil, adminGroup: [String]? = nil, adminProGroup: [String]? = nil, authenticationMethod: AuthenticationMethodOption, authorGroup: [String]? = nil, authorProGroup: [String]? = nil, awsAccountId: String, contactNumber: String? = nil, directoryId: String? = nil, edition: Edition? = nil, emailAddress: String? = nil, firstName: String? = nil, iamIdentityCenterInstanceArn: String? = nil, lastName: String? = nil, notificationEmail: String, readerGroup: [String]? = nil, readerProGroup: [String]? = nil, realm: String? = nil) {
             self.accountName = accountName
             self.activeDirectoryName = activeDirectoryName
             self.adminGroup = adminGroup
+            self.adminProGroup = adminProGroup
             self.authenticationMethod = authenticationMethod
             self.authorGroup = authorGroup
+            self.authorProGroup = authorProGroup
             self.awsAccountId = awsAccountId
             self.contactNumber = contactNumber
             self.directoryId = directoryId
@@ -6538,6 +6605,7 @@ extension QuickSight {
             self.lastName = lastName
             self.notificationEmail = notificationEmail
             self.readerGroup = readerGroup
+            self.readerProGroup = readerProGroup
             self.realm = realm
         }
 
@@ -6547,18 +6615,21 @@ extension QuickSight {
             try container.encode(self.accountName, forKey: .accountName)
             try container.encodeIfPresent(self.activeDirectoryName, forKey: .activeDirectoryName)
             try container.encodeIfPresent(self.adminGroup, forKey: .adminGroup)
+            try container.encodeIfPresent(self.adminProGroup, forKey: .adminProGroup)
             try container.encode(self.authenticationMethod, forKey: .authenticationMethod)
             try container.encodeIfPresent(self.authorGroup, forKey: .authorGroup)
+            try container.encodeIfPresent(self.authorProGroup, forKey: .authorProGroup)
             request.encodePath(self.awsAccountId, key: "AwsAccountId")
             try container.encodeIfPresent(self.contactNumber, forKey: .contactNumber)
             try container.encodeIfPresent(self.directoryId, forKey: .directoryId)
-            try container.encode(self.edition, forKey: .edition)
+            try container.encodeIfPresent(self.edition, forKey: .edition)
             try container.encodeIfPresent(self.emailAddress, forKey: .emailAddress)
             try container.encodeIfPresent(self.firstName, forKey: .firstName)
             try container.encodeIfPresent(self.iamIdentityCenterInstanceArn, forKey: .iamIdentityCenterInstanceArn)
             try container.encodeIfPresent(self.lastName, forKey: .lastName)
             try container.encode(self.notificationEmail, forKey: .notificationEmail)
             try container.encodeIfPresent(self.readerGroup, forKey: .readerGroup)
+            try container.encodeIfPresent(self.readerProGroup, forKey: .readerProGroup)
             try container.encodeIfPresent(self.realm, forKey: .realm)
         }
 
@@ -6575,8 +6646,10 @@ extension QuickSight {
             case accountName = "AccountName"
             case activeDirectoryName = "ActiveDirectoryName"
             case adminGroup = "AdminGroup"
+            case adminProGroup = "AdminProGroup"
             case authenticationMethod = "AuthenticationMethod"
             case authorGroup = "AuthorGroup"
+            case authorProGroup = "AuthorProGroup"
             case contactNumber = "ContactNumber"
             case directoryId = "DirectoryId"
             case edition = "Edition"
@@ -6586,6 +6659,7 @@ extension QuickSight {
             case lastName = "LastName"
             case notificationEmail = "NotificationEmail"
             case readerGroup = "ReaderGroup"
+            case readerProGroup = "ReaderProGroup"
             case realm = "Realm"
         }
     }
@@ -11006,6 +11080,149 @@ extension QuickSight {
         }
     }
 
+    public struct DefaultDateTimePickerControlOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The display options of a control.
+        public let displayOptions: DateTimePickerControlDisplayOptions?
+        /// The date time picker type of the DefaultDateTimePickerControlOptions. Choose one of the following options:    SINGLE_VALUED: The filter condition is a fixed date.    DATE_RANGE: The filter condition is a date time range.
+        public let type: SheetControlDateTimePickerType?
+
+        public init(displayOptions: DateTimePickerControlDisplayOptions? = nil, type: SheetControlDateTimePickerType? = nil) {
+            self.displayOptions = displayOptions
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayOptions = "DisplayOptions"
+            case type = "Type"
+        }
+    }
+
+    public struct DefaultFilterControlConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The control option for the DefaultFilterControlConfiguration.
+        public let controlOptions: DefaultFilterControlOptions
+        /// The title of the DefaultFilterControlConfiguration. This title is shared by all controls that are tied to this filter.
+        public let title: String
+
+        public init(controlOptions: DefaultFilterControlOptions, title: String) {
+            self.controlOptions = controlOptions
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.controlOptions.validate(name: "\(name).controlOptions")
+            try self.validate(self.title, name: "title", parent: name, max: 2048)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case controlOptions = "ControlOptions"
+            case title = "Title"
+        }
+    }
+
+    public struct DefaultFilterControlOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The default options that correspond to the filter control type of a DateTimePicker.
+        public let defaultDateTimePickerOptions: DefaultDateTimePickerControlOptions?
+        /// The default options that correspond to the Dropdown filter control type.
+        public let defaultDropdownOptions: DefaultFilterDropDownControlOptions?
+        /// The default options that correspond to the List filter control type.
+        public let defaultListOptions: DefaultFilterListControlOptions?
+        /// The default options that correspond to the RelativeDateTime filter control type.
+        public let defaultRelativeDateTimeOptions: DefaultRelativeDateTimeControlOptions?
+        /// The default options that correspond to the Slider filter control type.
+        public let defaultSliderOptions: DefaultSliderControlOptions?
+        /// The default options that correspond to the TextArea filter control type.
+        public let defaultTextAreaOptions: DefaultTextAreaControlOptions?
+        /// The default options that correspond to the TextField filter control type.
+        public let defaultTextFieldOptions: DefaultTextFieldControlOptions?
+
+        public init(defaultDateTimePickerOptions: DefaultDateTimePickerControlOptions? = nil, defaultDropdownOptions: DefaultFilterDropDownControlOptions? = nil, defaultListOptions: DefaultFilterListControlOptions? = nil, defaultRelativeDateTimeOptions: DefaultRelativeDateTimeControlOptions? = nil, defaultSliderOptions: DefaultSliderControlOptions? = nil, defaultTextAreaOptions: DefaultTextAreaControlOptions? = nil, defaultTextFieldOptions: DefaultTextFieldControlOptions? = nil) {
+            self.defaultDateTimePickerOptions = defaultDateTimePickerOptions
+            self.defaultDropdownOptions = defaultDropdownOptions
+            self.defaultListOptions = defaultListOptions
+            self.defaultRelativeDateTimeOptions = defaultRelativeDateTimeOptions
+            self.defaultSliderOptions = defaultSliderOptions
+            self.defaultTextAreaOptions = defaultTextAreaOptions
+            self.defaultTextFieldOptions = defaultTextFieldOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultDateTimePickerOptions?.validate(name: "\(name).defaultDateTimePickerOptions")
+            try self.defaultDropdownOptions?.validate(name: "\(name).defaultDropdownOptions")
+            try self.defaultListOptions?.validate(name: "\(name).defaultListOptions")
+            try self.defaultRelativeDateTimeOptions?.validate(name: "\(name).defaultRelativeDateTimeOptions")
+            try self.defaultSliderOptions?.validate(name: "\(name).defaultSliderOptions")
+            try self.defaultTextAreaOptions?.validate(name: "\(name).defaultTextAreaOptions")
+            try self.defaultTextFieldOptions?.validate(name: "\(name).defaultTextFieldOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultDateTimePickerOptions = "DefaultDateTimePickerOptions"
+            case defaultDropdownOptions = "DefaultDropdownOptions"
+            case defaultListOptions = "DefaultListOptions"
+            case defaultRelativeDateTimeOptions = "DefaultRelativeDateTimeOptions"
+            case defaultSliderOptions = "DefaultSliderOptions"
+            case defaultTextAreaOptions = "DefaultTextAreaOptions"
+            case defaultTextFieldOptions = "DefaultTextFieldOptions"
+        }
+    }
+
+    public struct DefaultFilterDropDownControlOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The display options of a control.
+        public let displayOptions: DropDownControlDisplayOptions?
+        /// A list of selectable values that are used in a control.
+        public let selectableValues: FilterSelectableValues?
+        /// The type of the FilterDropDownControl. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from a dropdown menu.    SINGLE_SELECT: The user can select a single entry from a dropdown menu.
+        public let type: SheetControlListType?
+
+        public init(displayOptions: DropDownControlDisplayOptions? = nil, selectableValues: FilterSelectableValues? = nil, type: SheetControlListType? = nil) {
+            self.displayOptions = displayOptions
+            self.selectableValues = selectableValues
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.selectableValues?.validate(name: "\(name).selectableValues")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayOptions = "DisplayOptions"
+            case selectableValues = "SelectableValues"
+            case type = "Type"
+        }
+    }
+
+    public struct DefaultFilterListControlOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The display options of a control.
+        public let displayOptions: ListControlDisplayOptions?
+        /// A list of selectable values that are used in a control.
+        public let selectableValues: FilterSelectableValues?
+        /// The type of the DefaultFilterListControlOptions. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from the list.    SINGLE_SELECT: The user can select a single entry from the list.
+        public let type: SheetControlListType?
+
+        public init(displayOptions: ListControlDisplayOptions? = nil, selectableValues: FilterSelectableValues? = nil, type: SheetControlListType? = nil) {
+            self.displayOptions = displayOptions
+            self.selectableValues = selectableValues
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.selectableValues?.validate(name: "\(name).selectableValues")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayOptions = "DisplayOptions"
+            case selectableValues = "SelectableValues"
+            case type = "Type"
+        }
+    }
+
     public struct DefaultFormatting: AWSEncodableShape & AWSDecodableShape {
         /// The display format. Valid values for this structure are AUTO, PERCENT, CURRENCY, NUMBER, DATE, and STRING.
         public let displayFormat: DisplayFormat?
@@ -11104,6 +11321,23 @@ extension QuickSight {
         }
     }
 
+    public struct DefaultRelativeDateTimeControlOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The display options of a control.
+        public let displayOptions: RelativeDateTimeControlDisplayOptions?
+
+        public init(displayOptions: RelativeDateTimeControlDisplayOptions? = nil) {
+            self.displayOptions = displayOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayOptions = "DisplayOptions"
+        }
+    }
+
     public struct DefaultSectionBasedLayoutConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Determines the screen canvas size options for a section-based layout.
         public let canvasSizeOptions: SectionBasedLayoutCanvasSizeOptions
@@ -11114,6 +11348,79 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case canvasSizeOptions = "CanvasSizeOptions"
+        }
+    }
+
+    public struct DefaultSliderControlOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The display options of a control.
+        public let displayOptions: SliderControlDisplayOptions?
+        /// The larger value that is displayed at the right of the slider.
+        public let maximumValue: Double
+        /// The smaller value that is displayed at the left of the slider.
+        public let minimumValue: Double
+        /// The number of increments that the slider bar is divided into.
+        public let stepSize: Double
+        /// The type of the DefaultSliderControlOptions. Choose one of the following options:    SINGLE_POINT: Filter against(equals) a single data point.    RANGE: Filter data that is in a specified range.
+        public let type: SheetControlSliderType?
+
+        public init(displayOptions: SliderControlDisplayOptions? = nil, maximumValue: Double, minimumValue: Double, stepSize: Double, type: SheetControlSliderType? = nil) {
+            self.displayOptions = displayOptions
+            self.maximumValue = maximumValue
+            self.minimumValue = minimumValue
+            self.stepSize = stepSize
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayOptions = "DisplayOptions"
+            case maximumValue = "MaximumValue"
+            case minimumValue = "MinimumValue"
+            case stepSize = "StepSize"
+            case type = "Type"
+        }
+    }
+
+    public struct DefaultTextAreaControlOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The delimiter that is used to separate the lines in text.
+        public let delimiter: String?
+        /// The display options of a control.
+        public let displayOptions: TextAreaControlDisplayOptions?
+
+        public init(delimiter: String? = nil, displayOptions: TextAreaControlDisplayOptions? = nil) {
+            self.delimiter = delimiter
+            self.displayOptions = displayOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delimiter, name: "delimiter", parent: name, max: 2048)
+            try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delimiter = "Delimiter"
+            case displayOptions = "DisplayOptions"
+        }
+    }
+
+    public struct DefaultTextFieldControlOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The display options of a control.
+        public let displayOptions: TextFieldControlDisplayOptions?
+
+        public init(displayOptions: TextFieldControlDisplayOptions? = nil) {
+            self.displayOptions = displayOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayOptions = "DisplayOptions"
         }
     }
 
@@ -13312,8 +13619,10 @@ extension QuickSight {
         public let rollbackErrors: [AssetBundleImportJobError]?
         /// The HTTP status of the response.
         public let status: Int?
+        /// An array of warning records that describe all permitted errors that are encountered during the import job.
+        public let warnings: [AssetBundleImportJobWarning]?
 
-        public init(arn: String? = nil, assetBundleImportJobId: String? = nil, assetBundleImportSource: AssetBundleImportSourceDescription? = nil, awsAccountId: String? = nil, createdTime: Date? = nil, errors: [AssetBundleImportJobError]? = nil, failureAction: AssetBundleImportFailureAction? = nil, jobStatus: AssetBundleImportJobStatus? = nil, overrideParameters: AssetBundleImportJobOverrideParameters? = nil, overridePermissions: AssetBundleImportJobOverridePermissions? = nil, overrideTags: AssetBundleImportJobOverrideTags? = nil, overrideValidationStrategy: AssetBundleImportJobOverrideValidationStrategy? = nil, requestId: String? = nil, rollbackErrors: [AssetBundleImportJobError]? = nil, status: Int? = nil) {
+        public init(arn: String? = nil, assetBundleImportJobId: String? = nil, assetBundleImportSource: AssetBundleImportSourceDescription? = nil, awsAccountId: String? = nil, createdTime: Date? = nil, errors: [AssetBundleImportJobError]? = nil, failureAction: AssetBundleImportFailureAction? = nil, jobStatus: AssetBundleImportJobStatus? = nil, overrideParameters: AssetBundleImportJobOverrideParameters? = nil, overridePermissions: AssetBundleImportJobOverridePermissions? = nil, overrideTags: AssetBundleImportJobOverrideTags? = nil, overrideValidationStrategy: AssetBundleImportJobOverrideValidationStrategy? = nil, requestId: String? = nil, rollbackErrors: [AssetBundleImportJobError]? = nil, status: Int? = nil, warnings: [AssetBundleImportJobWarning]? = nil) {
             self.arn = arn
             self.assetBundleImportJobId = assetBundleImportJobId
             self.assetBundleImportSource = assetBundleImportSource
@@ -13329,6 +13638,7 @@ extension QuickSight {
             self.requestId = requestId
             self.rollbackErrors = rollbackErrors
             self.status = status
+            self.warnings = warnings
         }
 
         public init(from decoder: Decoder) throws {
@@ -13349,6 +13659,7 @@ extension QuickSight {
             self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
             self.rollbackErrors = try container.decodeIfPresent([AssetBundleImportJobError].self, forKey: .rollbackErrors)
             self.status = response.decodeStatus()
+            self.warnings = try container.decodeIfPresent([AssetBundleImportJobWarning].self, forKey: .warnings)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13366,6 +13677,7 @@ extension QuickSight {
             case overrideValidationStrategy = "OverrideValidationStrategy"
             case requestId = "RequestId"
             case rollbackErrors = "RollbackErrors"
+            case warnings = "Warnings"
         }
     }
 
@@ -16599,6 +16911,8 @@ extension QuickSight {
     }
 
     public struct FilterControl: AWSEncodableShape & AWSDecodableShape {
+        /// A control from a filter that is scoped across more than one sheet. This represents your filter control on a sheet
+        public let crossSheet: FilterCrossSheetControl?
         /// A control from a date filter that is used to specify date and time.
         public let dateTimePicker: FilterDateTimePickerControl?
         /// A control to display a dropdown list with buttons that are used to select a single value.
@@ -16614,7 +16928,8 @@ extension QuickSight {
         /// A control to display a text box that is used to enter a single entry.
         public let textField: FilterTextFieldControl?
 
-        public init(dateTimePicker: FilterDateTimePickerControl? = nil, dropdown: FilterDropDownControl? = nil, list: FilterListControl? = nil, relativeDateTime: FilterRelativeDateTimeControl? = nil, slider: FilterSliderControl? = nil, textArea: FilterTextAreaControl? = nil, textField: FilterTextFieldControl? = nil) {
+        public init(crossSheet: FilterCrossSheetControl? = nil, dateTimePicker: FilterDateTimePickerControl? = nil, dropdown: FilterDropDownControl? = nil, list: FilterListControl? = nil, relativeDateTime: FilterRelativeDateTimeControl? = nil, slider: FilterSliderControl? = nil, textArea: FilterTextAreaControl? = nil, textField: FilterTextFieldControl? = nil) {
+            self.crossSheet = crossSheet
             self.dateTimePicker = dateTimePicker
             self.dropdown = dropdown
             self.list = list
@@ -16625,6 +16940,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
+            try self.crossSheet?.validate(name: "\(name).crossSheet")
             try self.dateTimePicker?.validate(name: "\(name).dateTimePicker")
             try self.dropdown?.validate(name: "\(name).dropdown")
             try self.list?.validate(name: "\(name).list")
@@ -16635,6 +16951,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case crossSheet = "CrossSheet"
             case dateTimePicker = "DateTimePicker"
             case dropdown = "Dropdown"
             case list = "List"
@@ -16642,6 +16959,37 @@ extension QuickSight {
             case slider = "Slider"
             case textArea = "TextArea"
             case textField = "TextField"
+        }
+    }
+
+    public struct FilterCrossSheetControl: AWSEncodableShape & AWSDecodableShape {
+        /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
+        public let cascadingControlConfiguration: CascadingControlConfiguration?
+        /// The ID of the FilterCrossSheetControl.
+        public let filterControlId: String
+        /// The source filter ID of the FilterCrossSheetControl.
+        public let sourceFilterId: String
+
+        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, filterControlId: String, sourceFilterId: String) {
+            self.cascadingControlConfiguration = cascadingControlConfiguration
+            self.filterControlId = filterControlId
+            self.sourceFilterId = sourceFilterId
+        }
+
+        public func validate(name: String) throws {
+            try self.cascadingControlConfiguration?.validate(name: "\(name).cascadingControlConfiguration")
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, max: 512)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, min: 1)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, max: 512)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cascadingControlConfiguration = "CascadingControlConfiguration"
+            case filterControlId = "FilterControlId"
+            case sourceFilterId = "SourceFilterId"
         }
     }
 
@@ -16654,7 +17002,7 @@ extension QuickSight {
         public let sourceFilterId: String
         /// The title of the FilterDateTimePickerControl.
         public let title: String
-        /// The date time picker type of a FilterDateTimePickerControl. Choose one of the following options:    SINGLE_VALUED: The filter condition is a fixed date.    DATE_RANGE: The filter condition is a date time range.
+        /// The type of the FilterDropDownControl. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from a dropdown menu.    SINGLE_SELECT: The user can select a single entry from a dropdown menu.
         public let type: SheetControlDateTimePickerType?
 
         public init(displayOptions: DateTimePickerControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String, type: SheetControlDateTimePickerType? = nil) {
@@ -16822,7 +17170,7 @@ extension QuickSight {
         public let sourceFilterId: String
         /// The title of the FilterListControl.
         public let title: String
-        /// The type of FilterListControl. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from the list.    SINGLE_SELECT: The user can select a single entry from the list.
+        /// The type of the FilterListControl. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from the list.    SINGLE_SELECT: The user can select a single entry from the list.
         public let type: SheetControlListType?
 
         public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, displayOptions: ListControlDisplayOptions? = nil, filterControlId: String, selectableValues: FilterSelectableValues? = nil, sourceFilterId: String, title: String, type: SheetControlListType? = nil) {
@@ -17009,9 +17357,9 @@ extension QuickSight {
         public let displayOptions: SliderControlDisplayOptions?
         /// The ID of the FilterSliderControl.
         public let filterControlId: String
-        /// The smaller value that is displayed at the left of the slider.
-        public let maximumValue: Double
         /// The larger value that is displayed at the right of the slider.
+        public let maximumValue: Double
+        /// The smaller value that is displayed at the left of the slider.
         public let minimumValue: Double
         /// The source filter ID of the FilterSliderControl.
         public let sourceFilterId: String
@@ -17019,7 +17367,7 @@ extension QuickSight {
         public let stepSize: Double
         /// The title of the FilterSliderControl.
         public let title: String
-        /// The type of FilterSliderControl. Choose one of the following options:    SINGLE_POINT: Filter against(equals) a single data point.    RANGE: Filter data that is in a specified range.
+        /// The type of the FilterSliderControl. Choose one of the following options:    SINGLE_POINT: Filter against(equals) a single data point.    RANGE: Filter data that is in a specified range.
         public let type: SheetControlSliderType?
 
         public init(displayOptions: SliderControlDisplayOptions? = nil, filterControlId: String, maximumValue: Double, minimumValue: Double, sourceFilterId: String, stepSize: Double, title: String, type: SheetControlSliderType? = nil) {
@@ -17869,6 +18217,28 @@ extension QuickSight {
         }
     }
 
+    public struct GaugeChartColorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The background color configuration of a GaugeChartVisual.
+        public let backgroundColor: String?
+        /// The foreground color configuration of a GaugeChartVisual.
+        public let foregroundColor: String?
+
+        public init(backgroundColor: String? = nil, foregroundColor: String? = nil) {
+            self.backgroundColor = backgroundColor
+            self.foregroundColor = foregroundColor
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backgroundColor, name: "backgroundColor", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.validate(self.foregroundColor, name: "foregroundColor", parent: name, pattern: "^#[A-F0-9]{6}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backgroundColor = "BackgroundColor"
+            case foregroundColor = "ForegroundColor"
+        }
+    }
+
     public struct GaugeChartConditionalFormatting: AWSEncodableShape & AWSDecodableShape {
         /// Conditional formatting options of a GaugeChartVisual.
         public let conditionalFormattingOptions: [GaugeChartConditionalFormattingOption]?
@@ -17912,6 +18282,8 @@ extension QuickSight {
     }
 
     public struct GaugeChartConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The color configuration of a GaugeChartVisual.
+        public let colorConfiguration: GaugeChartColorConfiguration?
         /// The data label configuration of a GaugeChartVisual.
         public let dataLabels: DataLabelOptions?
         /// The field well configuration of a GaugeChartVisual.
@@ -17925,7 +18297,8 @@ extension QuickSight {
         /// The visual palette configuration of a GaugeChartVisual.
         public let visualPalette: VisualPalette?
 
-        public init(dataLabels: DataLabelOptions? = nil, fieldWells: GaugeChartFieldWells? = nil, gaugeChartOptions: GaugeChartOptions? = nil, interactions: VisualInteractionOptions? = nil, tooltipOptions: TooltipOptions? = nil, visualPalette: VisualPalette? = nil) {
+        public init(colorConfiguration: GaugeChartColorConfiguration? = nil, dataLabels: DataLabelOptions? = nil, fieldWells: GaugeChartFieldWells? = nil, gaugeChartOptions: GaugeChartOptions? = nil, interactions: VisualInteractionOptions? = nil, tooltipOptions: TooltipOptions? = nil, visualPalette: VisualPalette? = nil) {
+            self.colorConfiguration = colorConfiguration
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
             self.gaugeChartOptions = gaugeChartOptions
@@ -17935,6 +18308,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
+            try self.colorConfiguration?.validate(name: "\(name).colorConfiguration")
             try self.dataLabels?.validate(name: "\(name).dataLabels")
             try self.fieldWells?.validate(name: "\(name).fieldWells")
             try self.gaugeChartOptions?.validate(name: "\(name).gaugeChartOptions")
@@ -17943,6 +18317,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case colorConfiguration = "ColorConfiguration"
             case dataLabels = "DataLabels"
             case fieldWells = "FieldWells"
             case gaugeChartOptions = "GaugeChartOptions"
@@ -18185,7 +18560,7 @@ extension QuickSight {
         public let allowedDomains: [String]?
         /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
         public let awsAccountId: String
-        /// The experience you are embedding. For registered users, you can embed Amazon QuickSight dashboards, Amazon QuickSight visuals, the Amazon QuickSight Q search bar, or the entire Amazon QuickSight console.
+        /// The experience that you want to embed. For registered users, you can embed Amazon QuickSight dashboards, Amazon QuickSight visuals, the Amazon QuickSight Q search bar, the Amazon QuickSight Generative Q&A experience, or the entire Amazon QuickSight console.
         public let experienceConfiguration: RegisteredUserEmbeddingExperienceConfiguration
         /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
         public let sessionLifetimeInMinutes: Int64?
@@ -18228,7 +18603,7 @@ extension QuickSight {
     }
 
     public struct GenerateEmbedUrlForRegisteredUserResponse: AWSDecodableShape {
-        /// The embed URL for the Amazon QuickSight dashboard, visual, Q search bar, or console.
+        /// The embed URL for the Amazon QuickSight dashboard, visual, Q search bar, Generative Q&A experience, or console.
         public let embedUrl: String
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String
@@ -20541,7 +20916,7 @@ extension QuickSight {
             try self.series?.forEach {
                 try $0.validate(name: "\(name).series[]")
             }
-            try self.validate(self.series, name: "series", parent: name, max: 10)
+            try self.validate(self.series, name: "series", parent: name, max: 2000)
             try self.smallMultiplesOptions?.validate(name: "\(name).smallMultiplesOptions")
             try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
             try self.tooltip?.validate(name: "\(name).tooltip")
@@ -23719,6 +24094,8 @@ extension QuickSight {
         public let aggregationFunction: AggregationFunction?
         /// The column that the filter is applied to.
         public let column: ColumnIdentifier
+        /// The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.
+        public let defaultFilterControlConfiguration: DefaultFilterControlConfiguration?
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
         public let filterId: String
         /// The match operator that is used to determine if a filter should be applied.
@@ -23732,9 +24109,10 @@ extension QuickSight {
         /// The input value.
         public let value: Double?
 
-        public init(aggregationFunction: AggregationFunction? = nil, column: ColumnIdentifier, filterId: String, matchOperator: NumericEqualityMatchOperator, nullOption: FilterNullOption, parameterName: String? = nil, selectAllOptions: NumericFilterSelectAllOptions? = nil, value: Double? = nil) {
+        public init(aggregationFunction: AggregationFunction? = nil, column: ColumnIdentifier, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil, filterId: String, matchOperator: NumericEqualityMatchOperator, nullOption: FilterNullOption, parameterName: String? = nil, selectAllOptions: NumericFilterSelectAllOptions? = nil, value: Double? = nil) {
             self.aggregationFunction = aggregationFunction
             self.column = column
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.filterId = filterId
             self.matchOperator = matchOperator
             self.nullOption = nullOption
@@ -23746,6 +24124,7 @@ extension QuickSight {
         public func validate(name: String) throws {
             try self.aggregationFunction?.validate(name: "\(name).aggregationFunction")
             try self.column.validate(name: "\(name).column")
+            try self.defaultFilterControlConfiguration?.validate(name: "\(name).defaultFilterControlConfiguration")
             try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
             try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
             try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
@@ -23757,6 +24136,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case aggregationFunction = "AggregationFunction"
             case column = "Column"
+            case defaultFilterControlConfiguration = "DefaultFilterControlConfiguration"
             case filterId = "FilterId"
             case matchOperator = "MatchOperator"
             case nullOption = "NullOption"
@@ -23798,6 +24178,8 @@ extension QuickSight {
         public let aggregationFunction: AggregationFunction?
         /// The column that the filter is applied to.
         public let column: ColumnIdentifier
+        /// The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.
+        public let defaultFilterControlConfiguration: DefaultFilterControlConfiguration?
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
         public let filterId: String
         /// Determines whether the maximum value in the filter value range should be included in the filtered results.
@@ -23813,9 +24195,10 @@ extension QuickSight {
         /// Select all of the values. Null is not the assigned value of select all.    FILTER_ALL_VALUES
         public let selectAllOptions: NumericFilterSelectAllOptions?
 
-        public init(aggregationFunction: AggregationFunction? = nil, column: ColumnIdentifier, filterId: String, includeMaximum: Bool? = nil, includeMinimum: Bool? = nil, nullOption: FilterNullOption, rangeMaximum: NumericRangeFilterValue? = nil, rangeMinimum: NumericRangeFilterValue? = nil, selectAllOptions: NumericFilterSelectAllOptions? = nil) {
+        public init(aggregationFunction: AggregationFunction? = nil, column: ColumnIdentifier, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil, filterId: String, includeMaximum: Bool? = nil, includeMinimum: Bool? = nil, nullOption: FilterNullOption, rangeMaximum: NumericRangeFilterValue? = nil, rangeMinimum: NumericRangeFilterValue? = nil, selectAllOptions: NumericFilterSelectAllOptions? = nil) {
             self.aggregationFunction = aggregationFunction
             self.column = column
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.filterId = filterId
             self.includeMaximum = includeMaximum
             self.includeMinimum = includeMinimum
@@ -23828,6 +24211,7 @@ extension QuickSight {
         public func validate(name: String) throws {
             try self.aggregationFunction?.validate(name: "\(name).aggregationFunction")
             try self.column.validate(name: "\(name).column")
+            try self.defaultFilterControlConfiguration?.validate(name: "\(name).defaultFilterControlConfiguration")
             try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
             try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
             try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
@@ -23838,6 +24222,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case aggregationFunction = "AggregationFunction"
             case column = "Column"
+            case defaultFilterControlConfiguration = "DefaultFilterControlConfiguration"
             case filterId = "FilterId"
             case includeMaximum = "IncludeMaximum"
             case includeMinimum = "IncludeMinimum"
@@ -24396,9 +24781,9 @@ extension QuickSight {
     public struct ParameterSliderControl: AWSEncodableShape & AWSDecodableShape {
         /// The display options of a control.
         public let displayOptions: SliderControlDisplayOptions?
-        /// The smaller value that is displayed at the left of the slider.
-        public let maximumValue: Double
         /// The larger value that is displayed at the right of the slider.
+        public let maximumValue: Double
+        /// The smaller value that is displayed at the left of the slider.
         public let minimumValue: Double
         /// The ID of the ParameterSliderControl.
         public let parameterControlId: String
@@ -25036,7 +25421,7 @@ extension QuickSight {
             try self.conditionalFormattingOptions?.forEach {
                 try $0.validate(name: "\(name).conditionalFormattingOptions[]")
             }
-            try self.validate(self.conditionalFormattingOptions, name: "conditionalFormattingOptions", parent: name, max: 100)
+            try self.validate(self.conditionalFormattingOptions, name: "conditionalFormattingOptions", parent: name, max: 500)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -26450,7 +26835,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
         public let customFederationProviderUrl: String?
-        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   To add custom permissions to an existing user, use  UpdateUser instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Amazon QuickSight user.  Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
+        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   To add custom permissions to an existing user, use  UpdateUser instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Amazon QuickSight user.  Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader, admin pro, author pro, reader pro). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
         public let customPermissionsName: String?
         /// The email address of the user that you want to register.
         public let email: String
@@ -26460,10 +26845,7 @@ extension QuickSight {
         public let externalLoginId: String?
         /// The ARN of the IAM user or role that you are registering with Amazon QuickSight.
         public let iamArn: String?
-        /// Amazon QuickSight supports several ways of managing the identity of users. This
-        /// 			parameter accepts two values:    IAM: A user whose identity maps to an existing IAM user or role.
-        /// 				    QUICKSIGHT: A user whose identity is owned and managed internally by
-        /// 					Amazon QuickSight.
+        /// The identity type that your Amazon QuickSight account uses to manage the identity of users.
         public let identityType: IdentityType
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
@@ -26665,14 +27047,17 @@ extension QuickSight {
         public let dashboard: RegisteredUserDashboardEmbeddingConfiguration?
         /// The type of embedding experience. In this case, Amazon QuickSight visuals.
         public let dashboardVisual: RegisteredUserDashboardVisualEmbeddingConfiguration?
+        /// The configuration details for embedding the Generative Q&A experience. For more information about embedding the Generative Q&A experience, see Embedding Overview in the Amazon QuickSight User Guide.
+        public let generativeQnA: RegisteredUserGenerativeQnAEmbeddingConfiguration?
         /// The configuration details for embedding the Q search bar. For more information about embedding the Q search bar, see Embedding Overview in the Amazon QuickSight User Guide.
         public let qSearchBar: RegisteredUserQSearchBarEmbeddingConfiguration?
         /// The configuration details for providing each Amazon QuickSight console embedding experience. This can be used along with custom permissions to restrict access to certain features. For more information, see Customizing Access to the Amazon QuickSight Console in the Amazon QuickSight User Guide. Use  GenerateEmbedUrlForRegisteredUser  where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who accesses an embedded Amazon QuickSight console needs to belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use the  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding the Full Functionality of the Amazon QuickSight Console for Authenticated Users     Customizing Access to the Amazon QuickSight Console    For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
         public let quickSightConsole: RegisteredUserQuickSightConsoleEmbeddingConfiguration?
 
-        public init(dashboard: RegisteredUserDashboardEmbeddingConfiguration? = nil, dashboardVisual: RegisteredUserDashboardVisualEmbeddingConfiguration? = nil, qSearchBar: RegisteredUserQSearchBarEmbeddingConfiguration? = nil, quickSightConsole: RegisteredUserQuickSightConsoleEmbeddingConfiguration? = nil) {
+        public init(dashboard: RegisteredUserDashboardEmbeddingConfiguration? = nil, dashboardVisual: RegisteredUserDashboardVisualEmbeddingConfiguration? = nil, generativeQnA: RegisteredUserGenerativeQnAEmbeddingConfiguration? = nil, qSearchBar: RegisteredUserQSearchBarEmbeddingConfiguration? = nil, quickSightConsole: RegisteredUserQuickSightConsoleEmbeddingConfiguration? = nil) {
             self.dashboard = dashboard
             self.dashboardVisual = dashboardVisual
+            self.generativeQnA = generativeQnA
             self.qSearchBar = qSearchBar
             self.quickSightConsole = quickSightConsole
         }
@@ -26680,6 +27065,7 @@ extension QuickSight {
         public func validate(name: String) throws {
             try self.dashboard?.validate(name: "\(name).dashboard")
             try self.dashboardVisual?.validate(name: "\(name).dashboardVisual")
+            try self.generativeQnA?.validate(name: "\(name).generativeQnA")
             try self.qSearchBar?.validate(name: "\(name).qSearchBar")
             try self.quickSightConsole?.validate(name: "\(name).quickSightConsole")
         }
@@ -26687,13 +27073,33 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case dashboard = "Dashboard"
             case dashboardVisual = "DashboardVisual"
+            case generativeQnA = "GenerativeQnA"
             case qSearchBar = "QSearchBar"
             case quickSightConsole = "QuickSightConsole"
         }
     }
 
+    public struct RegisteredUserGenerativeQnAEmbeddingConfiguration: AWSEncodableShape {
+        /// The ID of the new Q reader experience topic that you want to make the starting topic in the Generative Q&A experience. You can find a topic ID by navigating to the Topics pane in the Amazon QuickSight application and opening a topic. The ID is in the URL for the topic that you open. If you don't specify an initial topic or you specify a legacy topic, a list of all shared new reader experience topics is shown in the Generative Q&A experience for your readers. When you select an initial new reader experience topic, you can specify whether or not readers are allowed to select other new reader experience topics from the available ones in the list.
+        public let initialTopicId: String?
+
+        public init(initialTopicId: String? = nil) {
+            self.initialTopicId = initialTopicId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.initialTopicId, name: "initialTopicId", parent: name, max: 2048)
+            try self.validate(self.initialTopicId, name: "initialTopicId", parent: name, min: 1)
+            try self.validate(self.initialTopicId, name: "initialTopicId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initialTopicId = "InitialTopicId"
+        }
+    }
+
     public struct RegisteredUserQSearchBarEmbeddingConfiguration: AWSEncodableShape {
-        /// The ID of the Q topic that you want to make the starting topic in the Q search bar. You can find a topic ID by navigating to the Topics pane in the Amazon QuickSight application and opening a topic. The ID is in the URL for the topic that you open. If you don't specify an initial topic, a list of all shared topics is shown in the Q bar for your readers. When you select an initial topic, you can specify whether or not readers are allowed to select other topics from the available ones in the list.
+        /// The ID of the legacy Q topic that you want to use as the starting topic in the Q search bar. To locate the topic ID of the topic that you want to use, open the Amazon QuickSight console, navigate to the Topics pane, and choose thre topic that you want to use. The TopicID is located in the URL of the topic that opens. When you select an initial topic, you can specify whether or not readers are allowed to select other topics from the list of available topics. If you don't specify an initial topic or if you specify a new reader experience topic, a list of all shared legacy topics is shown in the Q bar.
         public let initialTopicId: String?
 
         public init(initialTopicId: String? = nil) {
@@ -26807,6 +27213,8 @@ extension QuickSight {
         public let anchorDateConfiguration: AnchorDateConfiguration
         /// The column that the filter is applied to.
         public let column: ColumnIdentifier
+        /// The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.
+        public let defaultFilterControlConfiguration: DefaultFilterControlConfiguration?
         /// The configuration for the exclude period of the filter.
         public let excludePeriodConfiguration: ExcludePeriodConfiguration?
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
@@ -26824,9 +27232,10 @@ extension QuickSight {
         /// The level of time precision that is used to aggregate DateTime values.
         public let timeGranularity: TimeGranularity
 
-        public init(anchorDateConfiguration: AnchorDateConfiguration, column: ColumnIdentifier, excludePeriodConfiguration: ExcludePeriodConfiguration? = nil, filterId: String, minimumGranularity: TimeGranularity? = nil, nullOption: FilterNullOption, parameterName: String? = nil, relativeDateType: RelativeDateType, relativeDateValue: Int? = nil, timeGranularity: TimeGranularity) {
+        public init(anchorDateConfiguration: AnchorDateConfiguration, column: ColumnIdentifier, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil, excludePeriodConfiguration: ExcludePeriodConfiguration? = nil, filterId: String, minimumGranularity: TimeGranularity? = nil, nullOption: FilterNullOption, parameterName: String? = nil, relativeDateType: RelativeDateType, relativeDateValue: Int? = nil, timeGranularity: TimeGranularity) {
             self.anchorDateConfiguration = anchorDateConfiguration
             self.column = column
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.excludePeriodConfiguration = excludePeriodConfiguration
             self.filterId = filterId
             self.minimumGranularity = minimumGranularity
@@ -26840,6 +27249,7 @@ extension QuickSight {
         public func validate(name: String) throws {
             try self.anchorDateConfiguration.validate(name: "\(name).anchorDateConfiguration")
             try self.column.validate(name: "\(name).column")
+            try self.defaultFilterControlConfiguration?.validate(name: "\(name).defaultFilterControlConfiguration")
             try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
             try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
             try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
@@ -26851,6 +27261,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case anchorDateConfiguration = "AnchorDateConfiguration"
             case column = "Column"
+            case defaultFilterControlConfiguration = "DefaultFilterControlConfiguration"
             case excludePeriodConfiguration = "ExcludePeriodConfiguration"
             case filterId = "FilterId"
             case minimumGranularity = "MinimumGranularity"
@@ -30101,7 +30512,7 @@ extension QuickSight {
             try self.conditionalFormattingOptions?.forEach {
                 try $0.validate(name: "\(name).conditionalFormattingOptions[]")
             }
-            try self.validate(self.conditionalFormattingOptions, name: "conditionalFormattingOptions", parent: name, max: 100)
+            try self.validate(self.conditionalFormattingOptions, name: "conditionalFormattingOptions", parent: name, max: 500)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -31477,6 +31888,8 @@ extension QuickSight {
     public struct TimeEqualityFilter: AWSEncodableShape & AWSDecodableShape {
         /// The column that the filter is applied to.
         public let column: ColumnIdentifier
+        /// The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.
+        public let defaultFilterControlConfiguration: DefaultFilterControlConfiguration?
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
         public let filterId: String
         /// The parameter whose value should be used for the filter value. This field is mutually exclusive to Value and RollingDate.
@@ -31488,8 +31901,9 @@ extension QuickSight {
         /// The value of a TimeEquality filter. This field is mutually exclusive to RollingDate and ParameterName.
         public let value: Date?
 
-        public init(column: ColumnIdentifier, filterId: String, parameterName: String? = nil, rollingDate: RollingDateConfiguration? = nil, timeGranularity: TimeGranularity? = nil, value: Date? = nil) {
+        public init(column: ColumnIdentifier, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil, filterId: String, parameterName: String? = nil, rollingDate: RollingDateConfiguration? = nil, timeGranularity: TimeGranularity? = nil, value: Date? = nil) {
             self.column = column
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.filterId = filterId
             self.parameterName = parameterName
             self.rollingDate = rollingDate
@@ -31499,6 +31913,7 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.column.validate(name: "\(name).column")
+            try self.defaultFilterControlConfiguration?.validate(name: "\(name).defaultFilterControlConfiguration")
             try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
             try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
             try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
@@ -31510,6 +31925,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case column = "Column"
+            case defaultFilterControlConfiguration = "DefaultFilterControlConfiguration"
             case filterId = "FilterId"
             case parameterName = "ParameterName"
             case rollingDate = "RollingDate"
@@ -31550,6 +31966,8 @@ extension QuickSight {
     public struct TimeRangeFilter: AWSEncodableShape & AWSDecodableShape {
         /// The column that the filter is applied to.
         public let column: ColumnIdentifier
+        /// The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.
+        public let defaultFilterControlConfiguration: DefaultFilterControlConfiguration?
         /// The exclude period of the time range filter.
         public let excludePeriodConfiguration: ExcludePeriodConfiguration?
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
@@ -31567,8 +31985,9 @@ extension QuickSight {
         /// The level of time precision that is used to aggregate DateTime values.
         public let timeGranularity: TimeGranularity?
 
-        public init(column: ColumnIdentifier, excludePeriodConfiguration: ExcludePeriodConfiguration? = nil, filterId: String, includeMaximum: Bool? = nil, includeMinimum: Bool? = nil, nullOption: FilterNullOption, rangeMaximumValue: TimeRangeFilterValue? = nil, rangeMinimumValue: TimeRangeFilterValue? = nil, timeGranularity: TimeGranularity? = nil) {
+        public init(column: ColumnIdentifier, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil, excludePeriodConfiguration: ExcludePeriodConfiguration? = nil, filterId: String, includeMaximum: Bool? = nil, includeMinimum: Bool? = nil, nullOption: FilterNullOption, rangeMaximumValue: TimeRangeFilterValue? = nil, rangeMinimumValue: TimeRangeFilterValue? = nil, timeGranularity: TimeGranularity? = nil) {
             self.column = column
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.excludePeriodConfiguration = excludePeriodConfiguration
             self.filterId = filterId
             self.includeMaximum = includeMaximum
@@ -31581,6 +32000,7 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.column.validate(name: "\(name).column")
+            try self.defaultFilterControlConfiguration?.validate(name: "\(name).defaultFilterControlConfiguration")
             try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
             try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
             try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
@@ -31590,6 +32010,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case column = "Column"
+            case defaultFilterControlConfiguration = "DefaultFilterControlConfiguration"
             case excludePeriodConfiguration = "ExcludePeriodConfiguration"
             case filterId = "FilterId"
             case includeMaximum = "IncludeMaximum"
@@ -31681,6 +32102,8 @@ extension QuickSight {
         public let aggregationSortConfigurations: [AggregationSortConfiguration]
         /// The column that the filter is applied to.
         public let column: ColumnIdentifier
+        /// The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.
+        public let defaultFilterControlConfiguration: DefaultFilterControlConfiguration?
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
         public let filterId: String
         /// The number of items to include in the top bottom filter results.
@@ -31690,9 +32113,10 @@ extension QuickSight {
         /// The level of time precision that is used to aggregate DateTime values.
         public let timeGranularity: TimeGranularity?
 
-        public init(aggregationSortConfigurations: [AggregationSortConfiguration], column: ColumnIdentifier, filterId: String, limit: Int? = nil, parameterName: String? = nil, timeGranularity: TimeGranularity? = nil) {
+        public init(aggregationSortConfigurations: [AggregationSortConfiguration], column: ColumnIdentifier, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil, filterId: String, limit: Int? = nil, parameterName: String? = nil, timeGranularity: TimeGranularity? = nil) {
             self.aggregationSortConfigurations = aggregationSortConfigurations
             self.column = column
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.filterId = filterId
             self.limit = limit
             self.parameterName = parameterName
@@ -31705,6 +32129,7 @@ extension QuickSight {
             }
             try self.validate(self.aggregationSortConfigurations, name: "aggregationSortConfigurations", parent: name, max: 100)
             try self.column.validate(name: "\(name).column")
+            try self.defaultFilterControlConfiguration?.validate(name: "\(name).defaultFilterControlConfiguration")
             try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
             try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
             try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
@@ -31716,6 +32141,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case aggregationSortConfigurations = "AggregationSortConfigurations"
             case column = "Column"
+            case defaultFilterControlConfiguration = "DefaultFilterControlConfiguration"
             case filterId = "FilterId"
             case limit = "Limit"
             case parameterName = "ParameterName"
@@ -32422,17 +32848,21 @@ extension QuickSight {
         public let name: String?
         /// The ID for the topic. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String?
+        /// The user experience version of the topic.
+        public let userExperienceVersion: TopicUserExperienceVersion?
 
-        public init(arn: String? = nil, name: String? = nil, topicId: String? = nil) {
+        public init(arn: String? = nil, name: String? = nil, topicId: String? = nil, userExperienceVersion: TopicUserExperienceVersion? = nil) {
             self.arn = arn
             self.name = name
             self.topicId = topicId
+            self.userExperienceVersion = userExperienceVersion
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case name = "Name"
             case topicId = "TopicId"
+            case userExperienceVersion = "UserExperienceVersion"
         }
     }
 
@@ -34816,6 +35246,58 @@ extension QuickSight {
         }
     }
 
+    public struct UpdateSPICECapacityConfigurationRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the SPICE configuration that you want to update.
+        public let awsAccountId: String
+        /// Determines how SPICE capacity can be purchased. The following options are available.     MANUAL: SPICE capacity can only be purchased manually.    AUTO_PURCHASE: Extra SPICE capacity is automatically purchased on your behalf as needed. SPICE capacity can also be purchased manually with this option.
+        public let purchaseMode: PurchaseMode
+
+        public init(awsAccountId: String, purchaseMode: PurchaseMode) {
+            self.awsAccountId = awsAccountId
+            self.purchaseMode = purchaseMode
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.purchaseMode, forKey: .purchaseMode)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case purchaseMode = "PurchaseMode"
+        }
+    }
+
+    public struct UpdateSPICECapacityConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+        }
+    }
+
     public struct UpdateTemplateAliasRequest: AWSEncodableShape {
         /// The alias of the template that you want to update. If you name a specific alias, you update
         /// 			the version that the alias points to. You can specify the latest version of the template
@@ -35615,7 +36097,7 @@ extension QuickSight {
         /// The Amazon QuickSight role of the user. The role can be one of the
         /// 			following default security cohorts:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and
         /// 					dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight
-        /// 					settings.   The name of the Amazon QuickSight role is invisible to the user except for the console
+        /// 					settings.    READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q Business, can build stories with Amazon Q, and can generate executive summaries from dashboards.    AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.    ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.   The name of the Amazon QuickSight role is invisible to the user except for the console
         /// 	        screens dealing with permissions.
         public let role: UserRole
         /// A flag that you use to indicate that you want to remove all custom permissions from this user. Using this parameter resets the user to the state it was in before a custom permissions profile was applied. This parameter defaults to NULL and it doesn't accept any other value.
@@ -35881,7 +36363,7 @@ extension QuickSight {
         public let identityType: IdentityType?
         /// The principal ID of the user.
         public let principalId: String?
-        /// The Amazon QuickSight role for the user. The user role can be one of the following:.    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon Amazon QuickSight settings.    RESTRICTED_READER: This role isn't currently available for use.    RESTRICTED_AUTHOR: This role isn't currently available for use.
+        /// The Amazon QuickSight role for the user. The user role can be one of the following:.    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon Amazon QuickSight settings.    READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q Business, can build stories with Amazon Q, and can generate executive summaries from dashboards.    AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.    ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.    RESTRICTED_READER: This role isn't currently available for use.    RESTRICTED_AUTHOR: This role isn't currently available for use.
         public let role: UserRole?
         /// The user's user name. This value is required if you are registering a user that will be managed in Amazon QuickSight. In the output, the value for UserName is N/A when the value for IdentityType is IAM and the corresponding IAM user is deleted.
         public let userName: String?
