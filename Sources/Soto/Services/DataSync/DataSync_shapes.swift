@@ -300,6 +300,7 @@ extension DataSync {
     }
 
     public enum TaskExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelling = "CANCELLING"
         case error = "ERROR"
         case launching = "LAUNCHING"
         case preparing = "PREPARING"

@@ -103,6 +103,7 @@ extension Lambda {
     }
 
     public enum LastUpdateStatusReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creating = "Creating"
         case disabledKMSKey = "DisabledKMSKey"
         case efsMountConnectivityError = "EFSMountConnectivityError"
         case efsMountFailure = "EFSMountFailure"

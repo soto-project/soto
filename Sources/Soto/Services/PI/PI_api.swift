@@ -392,6 +392,7 @@ extension PI.GetResourceMetricsRequest: AWSPaginateToken {
 extension PI.ListAvailableResourceDimensionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> PI.ListAvailableResourceDimensionsRequest {
         return .init(
+            authorizedActions: self.authorizedActions,
             identifier: self.identifier,
             maxResults: self.maxResults,
             metrics: self.metrics,

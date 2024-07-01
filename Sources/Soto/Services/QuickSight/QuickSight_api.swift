@@ -1075,6 +1075,19 @@ public struct QuickSight: AWSService {
         )
     }
 
+    /// Describes all customer managed key registrations in a Amazon QuickSight account.
+    @Sendable
+    public func describeKeyRegistration(_ input: DescribeKeyRegistrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeKeyRegistrationResponse {
+        return try await self.client.execute(
+            operation: "DescribeKeyRegistration", 
+            path: "/accounts/{AwsAccountId}/key-registration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Describes the current namespace.
     @Sendable
     public func describeNamespace(_ input: DescribeNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNamespaceResponse {
@@ -2156,6 +2169,19 @@ public struct QuickSight: AWSService {
         return try await self.client.execute(
             operation: "UpdateIpRestriction", 
             path: "/accounts/{AwsAccountId}/ip-restriction", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates a customer managed key in a Amazon QuickSight account.
+    @Sendable
+    public func updateKeyRegistration(_ input: UpdateKeyRegistrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKeyRegistrationResponse {
+        return try await self.client.execute(
+            operation: "UpdateKeyRegistration", 
+            path: "/accounts/{AwsAccountId}/key-registration", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 

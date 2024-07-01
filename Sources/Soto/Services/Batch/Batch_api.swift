@@ -280,6 +280,19 @@ public struct Batch: AWSService {
         )
     }
 
+    /// Provides a list of the first 100 RUNNABLE jobs associated to a single job queue.
+    @Sendable
+    public func getJobQueueSnapshot(_ input: GetJobQueueSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobQueueSnapshotResponse {
+        return try await self.client.execute(
+            operation: "GetJobQueueSnapshot", 
+            path: "/v1/getjobqueuesnapshot", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a list of Batch jobs. You must specify only one of the following items:   A job queue ID to return a list of jobs in that job queue   A multi-node parallel job ID to return a list of nodes for that job   An array job ID to return a list of the children for that job   You can filter the results by job status with the jobStatus parameter. If you don't specify a status, only RUNNING jobs are returned.
     @Sendable
     public func listJobs(_ input: ListJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobsResponse {

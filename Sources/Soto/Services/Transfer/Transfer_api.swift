@@ -76,6 +76,7 @@ public struct Transfer: AWSService {
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
             "ca-central-1": "transfer-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "transfer-fips.ca-west-1.amazonaws.com",
             "us-east-1": "transfer-fips.us-east-1.amazonaws.com",
             "us-east-2": "transfer-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "transfer-fips.us-gov-east-1.amazonaws.com",

@@ -75,6 +75,7 @@ public struct Kendra: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "ca-central-1": "kendra-fips.ca-central-1.amazonaws.com",
             "us-east-1": "kendra-fips.us-east-1.amazonaws.com",
             "us-east-2": "kendra-fips.us-east-2.amazonaws.com",
             "us-gov-west-1": "kendra-fips.us-gov-west-1.amazonaws.com",

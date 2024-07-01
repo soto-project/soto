@@ -248,7 +248,7 @@ public struct MedicalImaging: AWSService {
         )
     }
 
-    /// Search image sets based on defined input attributes.   SearchImageSets accepts a single search  query parameter and returns a paginated response of all image sets that have the  matching criteria. All range queries must be input as (lowerBound, upperBound).  SearchImageSets uses the updatedAt field for sorting  in decreasing order from latest to oldest.
+    /// Search image sets based on defined input attributes.   SearchImageSets accepts a single search query parameter and returns a paginated response of all image sets that have the matching criteria. All date range queries must be input as (lowerBound, upperBound). By default, SearchImageSets uses the updatedAt field for sorting  in descending order from newest to oldest.
     @Sendable
     public func searchImageSets(_ input: SearchImageSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchImageSetsResponse {
         return try await self.client.execute(
@@ -386,7 +386,7 @@ extension MedicalImaging {
         )
     }
 
-    /// Search image sets based on defined input attributes.   SearchImageSets accepts a single search  query parameter and returns a paginated response of all image sets that have the  matching criteria. All range queries must be input as (lowerBound, upperBound).  SearchImageSets uses the updatedAt field for sorting  in decreasing order from latest to oldest.
+    /// Search image sets based on defined input attributes.   SearchImageSets accepts a single search query parameter and returns a paginated response of all image sets that have the matching criteria. All date range queries must be input as (lowerBound, upperBound). By default, SearchImageSets uses the updatedAt field for sorting  in descending order from newest to oldest.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

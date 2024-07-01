@@ -1134,6 +1134,8 @@ extension IoTFleetWise.ListVehiclesInFleetRequest: AWSPaginateToken {
 extension IoTFleetWise.ListVehiclesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTFleetWise.ListVehiclesRequest {
         return .init(
+            attributeNames: self.attributeNames,
+            attributeValues: self.attributeValues,
             maxResults: self.maxResults,
             modelManifestArn: self.modelManifestArn,
             nextToken: token

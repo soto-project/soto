@@ -86,9 +86,6 @@ public struct RAM: AWSService {
             "us-east-2": "ram-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "ram.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "ram.us-gov-west-1.amazonaws.com",
-            "us-iso-east-1": "ram-fips.us-iso-east-1.c2s.ic.gov",
-            "us-iso-west-1": "ram-fips.us-iso-west-1.c2s.ic.gov",
-            "us-isob-east-1": "ram-fips.us-isob-east-1.sc2s.sgov.gov",
             "us-west-1": "ram-fips.us-west-1.amazonaws.com",
             "us-west-2": "ram-fips.us-west-2.amazonaws.com"
         ])
