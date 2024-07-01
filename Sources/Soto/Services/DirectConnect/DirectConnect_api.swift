@@ -82,6 +82,8 @@ public struct DirectConnect: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "ca-central-1": "directconnect-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "directconnect-fips.ca-west-1.amazonaws.com",
             "us-east-1": "directconnect-fips.us-east-1.amazonaws.com",
             "us-east-2": "directconnect-fips.us-east-2.amazonaws.com",
             "us-west-1": "directconnect-fips.us-west-1.amazonaws.com",

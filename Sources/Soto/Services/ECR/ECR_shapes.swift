@@ -146,6 +146,7 @@ extension ECR {
         case dockerHub = "docker-hub"
         case ecrPublic = "ecr-public"
         case gitHubContainerRegistry = "github-container-registry"
+        case gitLabContainerRegistry = "gitlab-container-registry"
         case k8s = "k8s"
         case quay = "quay"
         public var description: String { return self.rawValue }
@@ -500,7 +501,7 @@ extension ECR {
         public let registryId: String?
         /// The name of the upstream registry.
         public let upstreamRegistry: UpstreamRegistry?
-        /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR Public (ecr-public) - public.ecr.aws    Docker Hub (docker-hub) - registry-1.docker.io    Quay (quay) - quay.io    Kubernetes (k8s) - registry.k8s.io    GitHub Container Registry (github-container-registry) - ghcr.io    Microsoft Azure Container Registry (azure-container-registry) - .azurecr.io
+        /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR Public (ecr-public) - public.ecr.aws    Docker Hub (docker-hub) - registry-1.docker.io    Quay (quay) - quay.io    Kubernetes (k8s) - registry.k8s.io    GitHub Container Registry (github-container-registry) - ghcr.io    Microsoft Azure Container Registry (azure-container-registry) - .azurecr.io    GitLab Container Registry (gitlab-container-registry) - registry.gitlab.com
         public let upstreamRegistryUrl: String
 
         public init(credentialArn: String? = nil, ecrRepositoryPrefix: String, registryId: String? = nil, upstreamRegistry: UpstreamRegistry? = nil, upstreamRegistryUrl: String) {

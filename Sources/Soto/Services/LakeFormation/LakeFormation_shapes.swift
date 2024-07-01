@@ -1437,6 +1437,23 @@ extension LakeFormation {
         }
     }
 
+    public struct GetDataLakePrincipalRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetDataLakePrincipalResponse: AWSDecodableShape {
+        /// A unique identifier of the invoking principal.
+        public let identity: String?
+
+        public init(identity: String? = nil) {
+            self.identity = identity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identity = "Identity"
+        }
+    }
+
     public struct GetDataLakeSettingsRequest: AWSEncodableShape {
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?

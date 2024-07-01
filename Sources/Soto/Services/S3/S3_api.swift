@@ -233,7 +233,7 @@ public struct S3: AWSService {
     public func completeMultipartUpload(_ input: CompleteMultipartUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CompleteMultipartUploadOutput {
         return try await self.client.execute(
             operation: "CompleteMultipartUpload", 
-            path: "/{Bucket}/{Key+}?x-id=CompleteMultipartUpload", 
+            path: "/{Bucket}/{Key+}", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -274,7 +274,7 @@ public struct S3: AWSService {
     public func createMultipartUpload(_ input: CreateMultipartUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMultipartUploadOutput {
         return try await self.client.execute(
             operation: "CreateMultipartUpload", 
-            path: "/{Bucket}/{Key+}?uploads&x-id=CreateMultipartUpload", 
+            path: "/{Bucket}/{Key+}?uploads", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -499,7 +499,7 @@ public struct S3: AWSService {
     public func deleteObjects(_ input: DeleteObjectsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteObjectsOutput {
         return try await self.client.execute(
             operation: "DeleteObjects", 
-            path: "/{Bucket}?delete&x-id=DeleteObjects", 
+            path: "/{Bucket}?delete", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -1414,7 +1414,7 @@ public struct S3: AWSService {
     public func restoreObject(_ input: RestoreObjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreObjectOutput {
         return try await self.client.execute(
             operation: "RestoreObject", 
-            path: "/{Bucket}/{Key+}?restore&x-id=RestoreObject", 
+            path: "/{Bucket}/{Key+}?restore", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -1427,7 +1427,7 @@ public struct S3: AWSService {
     public func selectObjectContent(_ input: SelectObjectContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SelectObjectContentOutput {
         return try await self.client.execute(
             operation: "SelectObjectContent", 
-            path: "/{Bucket}/{Key+}?select&select-type=2&x-id=SelectObjectContent", 
+            path: "/{Bucket}/{Key+}?select&select-type=2", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -1467,7 +1467,7 @@ public struct S3: AWSService {
     public func writeGetObjectResponse(_ input: WriteGetObjectResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
             operation: "WriteGetObjectResponse", 
-            path: "/WriteGetObjectResponse?x-id=WriteGetObjectResponse", 
+            path: "/WriteGetObjectResponse", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 

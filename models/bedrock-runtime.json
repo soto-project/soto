@@ -14,6 +14,23 @@
                 "smithy.api#httpError": 403
             }
         },
+        "com.amazonaws.bedrockruntime#AdditionalModelResponseFieldPaths": {
+            "type": "list",
+            "member": {
+                "target": "smithy.api#String",
+                "traits": {
+                    "smithy.api#length": {
+                        "min": 1,
+                        "max": 256
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "max": 10
+                }
+            }
+        },
         "com.amazonaws.bedrockruntime#AmazonBedrockFrontendService": {
             "type": "service",
             "version": "2023-09-30",
@@ -700,6 +717,20 @@
                 }
             }
         },
+        "com.amazonaws.bedrockruntime#AnyToolChoice": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#documentation": "<p>The model must request at least one tool (no text is generated). For example, <code>{\"any\" : {}}</code>.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#AutoToolChoice": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#documentation": "<p>The Model automatically decides if a tool should be called or whether to generate text instead.\n         For example, <code>{\"auto\" : {}}</code>.</p>"
+            }
+        },
         "com.amazonaws.bedrockruntime#Body": {
             "type": "blob",
             "traits": {
@@ -707,6 +738,1000 @@
                     "max": 25000000
                 },
                 "smithy.api#sensitive": {}
+            }
+        },
+        "com.amazonaws.bedrockruntime#ContentBlock": {
+            "type": "union",
+            "members": {
+                "text": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Text to include in the message.</p>"
+                    }
+                },
+                "image": {
+                    "target": "com.amazonaws.bedrockruntime#ImageBlock",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Image to include in the message. </p>\n         <note>\n            <p>This field is only supported by Anthropic Claude 3 models.</p>\n         </note>"
+                    }
+                },
+                "document": {
+                    "target": "com.amazonaws.bedrockruntime#DocumentBlock",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A document to include in the message.</p>"
+                    }
+                },
+                "toolUse": {
+                    "target": "com.amazonaws.bedrockruntime#ToolUseBlock",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about a tool use request from a model. </p>"
+                    }
+                },
+                "toolResult": {
+                    "target": "com.amazonaws.bedrockruntime#ToolResultBlock",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The result for a tool request that a model makes.</p>"
+                    }
+                },
+                "guardContent": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailConverseContentBlock",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Contains the content to assess with the guardrail. If you don't specify\n            <code>guardContent</code> in a call to the Converse API, the guardrail (if passed in the\n         Converse API) assesses the entire message.</p>\n         <p>For more information, see  <i>Use a guardrail with the Converse API</i> in the <i>Amazon Bedrock User Guide</i>.\n\n      </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A block of content for a message that you pass to, or receive from, a model with the Converse API (<a>Converse</a> and <a>ConverseStream</a>).</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ContentBlockDelta": {
+            "type": "union",
+            "members": {
+                "text": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The content text.</p>"
+                    }
+                },
+                "toolUse": {
+                    "target": "com.amazonaws.bedrockruntime#ToolUseBlockDelta",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about a tool that the model is requesting to use.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A bock of content in a streaming response.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ContentBlockDeltaEvent": {
+            "type": "structure",
+            "members": {
+                "delta": {
+                    "target": "com.amazonaws.bedrockruntime#ContentBlockDelta",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The delta for a content block delta event.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "contentBlockIndex": {
+                    "target": "com.amazonaws.bedrockruntime#NonNegativeInteger",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The block index for a content block delta event. </p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The content block delta event.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ContentBlockStart": {
+            "type": "union",
+            "members": {
+                "toolUse": {
+                    "target": "com.amazonaws.bedrockruntime#ToolUseBlockStart",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about a tool that the model is requesting to use.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Content block start information.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ContentBlockStartEvent": {
+            "type": "structure",
+            "members": {
+                "start": {
+                    "target": "com.amazonaws.bedrockruntime#ContentBlockStart",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Start information about a content block start event.  </p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "contentBlockIndex": {
+                    "target": "com.amazonaws.bedrockruntime#NonNegativeInteger",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The index for a content block start event.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Content block start event.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ContentBlockStopEvent": {
+            "type": "structure",
+            "members": {
+                "contentBlockIndex": {
+                    "target": "com.amazonaws.bedrockruntime#NonNegativeInteger",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The index for a content block.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A content block stop event.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ContentBlocks": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockruntime#ContentBlock"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ConversationRole": {
+            "type": "enum",
+            "members": {
+                "USER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "user"
+                    }
+                },
+                "ASSISTANT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "assistant"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#ConversationalModelId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 2048
+                },
+                "smithy.api#pattern": "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$"
+            }
+        },
+        "com.amazonaws.bedrockruntime#Converse": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.bedrockruntime#ConverseRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.bedrockruntime#ConverseResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.bedrockruntime#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockruntime#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockruntime#ModelErrorException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockruntime#ModelNotReadyException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockruntime#ModelTimeoutException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockruntime#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockruntime#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockruntime#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Sends messages to the specified Amazon Bedrock model. <code>Converse</code> provides\n         a consistent interface that works with all models that\n         support messages. This allows you to write code once and use it with different models.\n         Should a model have unique inference parameters, you can also pass those unique parameters\n         to the model.</p>\n         <p>For information about the Converse API, see <i>Use the Converse API</i> in the <i>Amazon Bedrock User Guide</i>.\n            To use a guardrail, see  <i>Use a guardrail with the Converse API</i> in the <i>Amazon Bedrock User Guide</i>.\n            To use a tool with a model, see <i>Tool use (Function calling)</i> in the <i>Amazon Bedrock User Guide</i>\n         </p>\n         <p>For example code, see <i>Converse API examples</i> in the <i>Amazon Bedrock User Guide</i>.\n      </p>\n         <p>This operation requires permission for the <code>bedrock:InvokeModel</code> action. </p>",
+                "smithy.api#http": {
+                    "code": 200,
+                    "method": "POST",
+                    "uri": "/model/{modelId}/converse"
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#ConverseMetrics": {
+            "type": "structure",
+            "members": {
+                "latencyMs": {
+                    "target": "smithy.api#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The latency of the call to <code>Converse</code>, in milliseconds.\n         </p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Metrics for a call to <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html\">Converse</a>.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ConverseOutput": {
+            "type": "union",
+            "members": {
+                "message": {
+                    "target": "com.amazonaws.bedrockruntime#Message",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The message that the model generates.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The output from a call to <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html\">Converse</a>.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ConverseRequest": {
+            "type": "structure",
+            "members": {
+                "modelId": {
+                    "target": "com.amazonaws.bedrockruntime#ConversationalModelId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier for the model that you want to call.</p>\n         <p>The <code>modelId</code> to provide depends on the type of model that you use:</p>\n         <ul>\n            <li>\n               <p>If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns\">Amazon Bedrock base model IDs (on-demand throughput)</a> in the Amazon Bedrock User Guide.</p>\n            </li>\n            <li>\n               <p>If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html\">Run inference using a Provisioned Throughput</a> in the Amazon Bedrock User Guide.</p>\n            </li>\n            <li>\n               <p>If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html\">Use a custom model in Amazon Bedrock</a> in the Amazon Bedrock User Guide.</p>\n            </li>\n         </ul>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "messages": {
+                    "target": "com.amazonaws.bedrockruntime#Messages",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The messages that you want to send to the model.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "system": {
+                    "target": "com.amazonaws.bedrockruntime#SystemContentBlocks",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A system prompt to pass to the model.</p>"
+                    }
+                },
+                "inferenceConfig": {
+                    "target": "com.amazonaws.bedrockruntime#InferenceConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Inference parameters to pass to the model. <code>Converse</code> supports a base\n         set of inference parameters. If you need to pass additional parameters that the model\n         supports, use the <code>additionalModelRequestFields</code> request field.</p>"
+                    }
+                },
+                "toolConfig": {
+                    "target": "com.amazonaws.bedrockruntime#ToolConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration information for the tools that the model can use when generating a response. </p>\n         <note>\n            <p>This field is only supported by Anthropic Claude 3, Cohere Command R, Cohere Command R+, and Mistral Large models.</p>\n         </note>"
+                    }
+                },
+                "guardrailConfig": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration information for a guardrail that you want to use in the request. </p>"
+                    }
+                },
+                "additionalModelRequestFields": {
+                    "target": "smithy.api#Document",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Additional inference parameters that the model supports, beyond the\n         base set of inference parameters that <code>Converse</code> supports in the <code>inferenceConfig</code>\n         field. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html\">Model parameters</a>.</p>"
+                    }
+                },
+                "additionalModelResponseFieldPaths": {
+                    "target": "com.amazonaws.bedrockruntime#AdditionalModelResponseFieldPaths",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Additional model parameters field paths to return in the\n         response. <code>Converse</code> returns the requested fields as a JSON Pointer object in the\n         <code>additionalModelResponseFields</code> field. The following is example JSON for <code>additionalModelResponseFieldPaths</code>.</p>\n         <p>\n            <code>[\n         \"/stop_sequence\"\n         ]</code>\n         </p>\n         <p>For information about the JSON Pointer syntax, see the\n         <a href=\"https://datatracker.ietf.org/doc/html/rfc6901\">Internet Engineering Task Force (IETF)</a> documentation.</p>\n         <p>\n            <code>Converse</code> rejects an empty JSON Pointer or incorrectly structured\n         JSON Pointer with a <code>400</code> error code. if the JSON Pointer is valid, but the requested\n         field is not in the model response, it is ignored by <code>Converse</code>.</p>",
+                        "smithy.api#length": {
+                            "max": 10
+                        }
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.bedrockruntime#ConverseResponse": {
+            "type": "structure",
+            "members": {
+                "output": {
+                    "target": "com.amazonaws.bedrockruntime#ConverseOutput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The result from the call to <code>Converse</code>.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "stopReason": {
+                    "target": "com.amazonaws.bedrockruntime#StopReason",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The reason why the model stopped generating output.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "usage": {
+                    "target": "com.amazonaws.bedrockruntime#TokenUsage",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The total number of tokens used in the call to <code>Converse</code>. The total includes\n         the tokens input to the model and the tokens generated by the model.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "metrics": {
+                    "target": "com.amazonaws.bedrockruntime#ConverseMetrics",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Metrics for the call to <code>Converse</code>.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "additionalModelResponseFields": {
+                    "target": "smithy.api#Document",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Additional fields in the response that are unique to the model. </p>"
+                    }
+                },
+                "trace": {
+                    "target": "com.amazonaws.bedrockruntime#ConverseTrace",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A trace object that contains information about the Guardrail behavior.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.bedrockruntime#ConverseStream": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.bedrockruntime#ConverseStreamRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.bedrockruntime#ConverseStreamResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.bedrockruntime#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockruntime#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockruntime#ModelErrorException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockruntime#ModelNotReadyException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockruntime#ModelTimeoutException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockruntime#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockruntime#ThrottlingException"
+                },
+                {
+                    "target": "com.amazonaws.bedrockruntime#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Sends messages to the specified Amazon Bedrock model and returns\n         the response in a stream. <code>ConverseStream</code> provides a consistent API\n         that works with all Amazon Bedrock models that support messages.\n         This allows you to write code once and use it with different models. Should a\n         model have unique inference parameters, you can also pass those unique parameters to the\n         model. </p>\n         <p>To find out if a model supports streaming, call <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetFoundationModel.html\">GetFoundationModel</a>\n         and check the <code>responseStreamingSupported</code> field in the response.</p>\n         <p>For information about the Converse API, see <i>Use the Converse API</i> in the <i>Amazon Bedrock User Guide</i>.\n         To use a guardrail, see  <i>Use a guardrail with the Converse API</i> in the <i>Amazon Bedrock User Guide</i>.\n         To use a tool with a model, see <i>Tool use (Function calling)</i> in the <i>Amazon Bedrock User Guide</i>\n         </p>\n         <p>For example code, see <i>Conversation streaming example</i> in the <i>Amazon Bedrock User Guide</i>.\n      </p>\n         <p>This operation requires permission for the <code>bedrock:InvokeModelWithResponseStream</code> action.</p>",
+                "smithy.api#http": {
+                    "code": 200,
+                    "method": "POST",
+                    "uri": "/model/{modelId}/converse-stream"
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#ConverseStreamMetadataEvent": {
+            "type": "structure",
+            "members": {
+                "usage": {
+                    "target": "com.amazonaws.bedrockruntime#TokenUsage",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Usage information for the conversation stream event.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "metrics": {
+                    "target": "com.amazonaws.bedrockruntime#ConverseStreamMetrics",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The metrics for the conversation stream metadata event.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "trace": {
+                    "target": "com.amazonaws.bedrockruntime#ConverseStreamTrace",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The trace object in the response from <a>ConverseStream</a> that contains information about the guardrail behavior.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A conversation stream metadata event.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ConverseStreamMetrics": {
+            "type": "structure",
+            "members": {
+                "latencyMs": {
+                    "target": "smithy.api#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The latency for the streaming request, in milliseconds.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Metrics for the stream.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ConverseStreamOutput": {
+            "type": "union",
+            "members": {
+                "messageStart": {
+                    "target": "com.amazonaws.bedrockruntime#MessageStartEvent",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Message start information.</p>"
+                    }
+                },
+                "contentBlockStart": {
+                    "target": "com.amazonaws.bedrockruntime#ContentBlockStartEvent",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Start information for a content block.</p>"
+                    }
+                },
+                "contentBlockDelta": {
+                    "target": "com.amazonaws.bedrockruntime#ContentBlockDeltaEvent",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The messages output content block delta.</p>"
+                    }
+                },
+                "contentBlockStop": {
+                    "target": "com.amazonaws.bedrockruntime#ContentBlockStopEvent",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Stop information for a content block.</p>"
+                    }
+                },
+                "messageStop": {
+                    "target": "com.amazonaws.bedrockruntime#MessageStopEvent",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Message stop information.</p>"
+                    }
+                },
+                "metadata": {
+                    "target": "com.amazonaws.bedrockruntime#ConverseStreamMetadataEvent",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Metadata for the converse output stream.</p>"
+                    }
+                },
+                "internalServerException": {
+                    "target": "com.amazonaws.bedrockruntime#InternalServerException",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An internal server error occurred. Retry your request.</p>"
+                    }
+                },
+                "modelStreamErrorException": {
+                    "target": "com.amazonaws.bedrockruntime#ModelStreamErrorException",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A streaming error occurred. Retry your request.</p>"
+                    }
+                },
+                "validationException": {
+                    "target": "com.amazonaws.bedrockruntime#ValidationException",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Input validation failed. Check your request parameters and retry the request.</p>"
+                    }
+                },
+                "throttlingException": {
+                    "target": "com.amazonaws.bedrockruntime#ThrottlingException",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The number of requests exceeds the limit. Resubmit your request later.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The messages output stream</p>",
+                "smithy.api#streaming": {}
+            }
+        },
+        "com.amazonaws.bedrockruntime#ConverseStreamRequest": {
+            "type": "structure",
+            "members": {
+                "modelId": {
+                    "target": "com.amazonaws.bedrockruntime#ConversationalModelId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID for the model.</p>\n         <p>The <code>modelId</code> to provide depends on the type of model that you use:</p>\n         <ul>\n            <li>\n               <p>If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns\">Amazon Bedrock base model IDs (on-demand throughput)</a> in the Amazon Bedrock User Guide.</p>\n            </li>\n            <li>\n               <p>If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html\">Run inference using a Provisioned Throughput</a> in the Amazon Bedrock User Guide.</p>\n            </li>\n            <li>\n               <p>If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html\">Use a custom model in Amazon Bedrock</a> in the Amazon Bedrock User Guide.</p>\n            </li>\n         </ul>",
+                        "smithy.api#httpLabel": {},
+                        "smithy.api#required": {}
+                    }
+                },
+                "messages": {
+                    "target": "com.amazonaws.bedrockruntime#Messages",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The messages that you want to send to the model.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "system": {
+                    "target": "com.amazonaws.bedrockruntime#SystemContentBlocks",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A system prompt to send to the model.</p>"
+                    }
+                },
+                "inferenceConfig": {
+                    "target": "com.amazonaws.bedrockruntime#InferenceConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Inference parameters to pass to the model. <code>ConverseStream</code> supports a base\n         set of inference parameters. If you need to pass additional parameters that the model\n         supports, use the <code>additionalModelRequestFields</code> request field.</p>"
+                    }
+                },
+                "toolConfig": {
+                    "target": "com.amazonaws.bedrockruntime#ToolConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration information for the tools that the model can use when generating a response.</p>\n         <note>\n            <p>This field is only supported by Anthropic Claude 3 models.</p>\n         </note>"
+                    }
+                },
+                "guardrailConfig": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailStreamConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration information for a guardrail that you want to use in the request. </p>"
+                    }
+                },
+                "additionalModelRequestFields": {
+                    "target": "smithy.api#Document",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Additional inference parameters that the model supports, beyond the\n         base set of inference parameters that <code>ConverseStream</code> supports in the <code>inferenceConfig</code>\n         field.</p>"
+                    }
+                },
+                "additionalModelResponseFieldPaths": {
+                    "target": "com.amazonaws.bedrockruntime#AdditionalModelResponseFieldPaths",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Additional model parameters field paths to return in the\n         response. <code>ConverseStream</code> returns the requested fields as a JSON Pointer object in the\n         <code>additionalModelResponseFields</code> field. The following is example JSON for <code>additionalModelResponseFieldPaths</code>.</p>\n         <p>\n            <code>[\n         \"/stop_sequence\"\n         ]</code>\n         </p>\n         <p>For information about the JSON Pointer syntax, see the\n         <a href=\"https://datatracker.ietf.org/doc/html/rfc6901\">Internet Engineering Task Force (IETF)</a> documentation.</p>\n         <p>\n            <code>ConverseStream</code> rejects an empty JSON Pointer or incorrectly structured\n         JSON Pointer with a <code>400</code> error code. if the JSON Pointer is valid, but the requested\n         field is not in the model response, it is ignored by <code>ConverseStream</code>.</p>",
+                        "smithy.api#length": {
+                            "max": 10
+                        }
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.bedrockruntime#ConverseStreamResponse": {
+            "type": "structure",
+            "members": {
+                "stream": {
+                    "target": "com.amazonaws.bedrockruntime#ConverseStreamOutput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The output stream that the model generated.</p>",
+                        "smithy.api#httpPayload": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.bedrockruntime#ConverseStreamTrace": {
+            "type": "structure",
+            "members": {
+                "guardrail": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailTraceAssessment",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The guardrail trace object. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The trace object in a response from <a>ConverseStream</a>. Currently, you can only trace guardrails.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ConverseTrace": {
+            "type": "structure",
+            "members": {
+                "guardrail": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailTraceAssessment",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The guardrail trace object. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The trace object in a response from <a>Converse</a>. Currently, you can only trace guardrails.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#DocumentBlock": {
+            "type": "structure",
+            "members": {
+                "format": {
+                    "target": "com.amazonaws.bedrockruntime#DocumentFormat",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The format of a document, or its extension.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "name": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A name for the document.</p>",
+                        "smithy.api#length": {
+                            "min": 1,
+                            "max": 200
+                        },
+                        "smithy.api#required": {}
+                    }
+                },
+                "source": {
+                    "target": "com.amazonaws.bedrockruntime#DocumentSource",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Contains the content of the document.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A document to include in a message when sending a <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html\">Converse</a> or <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html\">ConverseStream</a> request. You can include up to 5 documents in a request. The maximum document size is 50 MB.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#DocumentFormat": {
+            "type": "enum",
+            "members": {
+                "PDF": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "pdf"
+                    }
+                },
+                "CSV": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "csv"
+                    }
+                },
+                "DOC": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "doc"
+                    }
+                },
+                "DOCX": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "docx"
+                    }
+                },
+                "XLS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "xls"
+                    }
+                },
+                "XLSX": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "xlsx"
+                    }
+                },
+                "HTML": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "html"
+                    }
+                },
+                "TXT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "txt"
+                    }
+                },
+                "MD": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "md"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#DocumentSource": {
+            "type": "union",
+            "members": {
+                "bytes": {
+                    "target": "smithy.api#Blob",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A base64-encoded string of a UTF-8 encoded file, that is the document to include in the message.</p>",
+                        "smithy.api#length": {
+                            "min": 1
+                        }
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains the content of the document included in a message when sending a <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html\">Converse</a> or <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html\">ConverseStream</a> request or in the response.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailAssessment": {
+            "type": "structure",
+            "members": {
+                "topicPolicy": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailTopicPolicyAssessment",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The topic policy.</p>"
+                    }
+                },
+                "contentPolicy": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailContentPolicyAssessment",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The content policy.</p>"
+                    }
+                },
+                "wordPolicy": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailWordPolicyAssessment",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The word policy.</p>"
+                    }
+                },
+                "sensitiveInformationPolicy": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailSensitiveInformationPolicyAssessment",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The sensitive information policy.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A behavior assessment of the guardrail policies used in a call to the Converse API. </p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailAssessmentList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockruntime#GuardrailAssessment"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailAssessmentListMap": {
+            "type": "map",
+            "key": {
+                "target": "smithy.api#String"
+            },
+            "value": {
+                "target": "com.amazonaws.bedrockruntime#GuardrailAssessmentList"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailAssessmentMap": {
+            "type": "map",
+            "key": {
+                "target": "smithy.api#String"
+            },
+            "value": {
+                "target": "com.amazonaws.bedrockruntime#GuardrailAssessment"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailConfiguration": {
+            "type": "structure",
+            "members": {
+                "guardrailIdentifier": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailIdentifier",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier for the guardrail.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "guardrailVersion": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailVersion",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The version of the guardrail.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "trace": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailTrace",
+                    "traits": {
+                        "smithy.api#default": "disabled",
+                        "smithy.api#documentation": "<p>The trace behavior for the guardrail.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration information for a guardrail that you use with the <a>Converse</a> action.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailContentFilter": {
+            "type": "structure",
+            "members": {
+                "type": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailContentFilterType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The guardrail type.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "confidence": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailContentFilterConfidence",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The guardrail confidence.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "action": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailContentPolicyAction",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The guardrail action.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The content filter for a guardrail.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailContentFilterConfidence": {
+            "type": "enum",
+            "members": {
+                "NONE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "NONE"
+                    }
+                },
+                "LOW": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "LOW"
+                    }
+                },
+                "MEDIUM": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "MEDIUM"
+                    }
+                },
+                "HIGH": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "HIGH"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailContentFilterList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockruntime#GuardrailContentFilter"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailContentFilterType": {
+            "type": "enum",
+            "members": {
+                "INSULTS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "INSULTS"
+                    }
+                },
+                "HATE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "HATE"
+                    }
+                },
+                "SEXUAL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SEXUAL"
+                    }
+                },
+                "VIOLENCE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VIOLENCE"
+                    }
+                },
+                "MISCONDUCT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "MISCONDUCT"
+                    }
+                },
+                "PROMPT_ATTACK": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "PROMPT_ATTACK"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailContentPolicyAction": {
+            "type": "enum",
+            "members": {
+                "BLOCKED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "BLOCKED"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailContentPolicyAssessment": {
+            "type": "structure",
+            "members": {
+                "filters": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailContentFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The content policy filters.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>An assessment of a content policy for a guardrail.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailConverseContentBlock": {
+            "type": "union",
+            "members": {
+                "text": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailConverseTextBlock",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The text to guard.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p/>\n         <p>A content block for selective guarding with the Converse API (<a>Converse</a> and <a>ConverseStream</a>).\n      </p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailConverseTextBlock": {
+            "type": "structure",
+            "members": {
+                "text": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The text that you want to guard.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A text block that contains text that you want to assess with a guardrail. For more information, see <a>GuardrailConverseContentBlock</a>.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailCustomWord": {
+            "type": "structure",
+            "members": {
+                "match": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The match for the custom word.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "action": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailWordPolicyAction",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The action for the custom word.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A custom word configured in a guardrail.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailCustomWordList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockruntime#GuardrailCustomWord"
             }
         },
         "com.amazonaws.bedrockruntime#GuardrailIdentifier": {
@@ -718,15 +1743,689 @@
                 "smithy.api#pattern": "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$"
             }
         },
+        "com.amazonaws.bedrockruntime#GuardrailManagedWord": {
+            "type": "structure",
+            "members": {
+                "match": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The match for the managed word.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "type": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailManagedWordType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The type for the managed word.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "action": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailWordPolicyAction",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The action for the managed word.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A managed word configured in a guardrail.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailManagedWordList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockruntime#GuardrailManagedWord"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailManagedWordType": {
+            "type": "enum",
+            "members": {
+                "PROFANITY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "PROFANITY"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailOutputText": {
+            "type": "string"
+        },
+        "com.amazonaws.bedrockruntime#GuardrailPiiEntityFilter": {
+            "type": "structure",
+            "members": {
+                "match": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The PII entity filter match.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "type": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailPiiEntityType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The PII entity filter type.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "action": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailSensitiveInformationPolicyAction",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The PII entity filter action.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A Personally Identifiable Information (PII) entity configured in a guardrail.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailPiiEntityFilterList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockruntime#GuardrailPiiEntityFilter"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailPiiEntityType": {
+            "type": "enum",
+            "members": {
+                "ADDRESS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ADDRESS"
+                    }
+                },
+                "AGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AGE"
+                    }
+                },
+                "AWS_ACCESS_KEY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AWS_ACCESS_KEY"
+                    }
+                },
+                "AWS_SECRET_KEY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AWS_SECRET_KEY"
+                    }
+                },
+                "CA_HEALTH_NUMBER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CA_HEALTH_NUMBER"
+                    }
+                },
+                "CA_SOCIAL_INSURANCE_NUMBER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CA_SOCIAL_INSURANCE_NUMBER"
+                    }
+                },
+                "CREDIT_DEBIT_CARD_CVV": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CREDIT_DEBIT_CARD_CVV"
+                    }
+                },
+                "CREDIT_DEBIT_CARD_EXPIRY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CREDIT_DEBIT_CARD_EXPIRY"
+                    }
+                },
+                "CREDIT_DEBIT_CARD_NUMBER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CREDIT_DEBIT_CARD_NUMBER"
+                    }
+                },
+                "DRIVER_ID": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DRIVER_ID"
+                    }
+                },
+                "EMAIL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EMAIL"
+                    }
+                },
+                "INTERNATIONAL_BANK_ACCOUNT_NUMBER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+                    }
+                },
+                "IP_ADDRESS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "IP_ADDRESS"
+                    }
+                },
+                "LICENSE_PLATE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "LICENSE_PLATE"
+                    }
+                },
+                "MAC_ADDRESS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "MAC_ADDRESS"
+                    }
+                },
+                "NAME": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "NAME"
+                    }
+                },
+                "PASSWORD": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "PASSWORD"
+                    }
+                },
+                "PHONE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "PHONE"
+                    }
+                },
+                "PIN": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "PIN"
+                    }
+                },
+                "SWIFT_CODE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SWIFT_CODE"
+                    }
+                },
+                "UK_NATIONAL_HEALTH_SERVICE_NUMBER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+                    }
+                },
+                "UK_NATIONAL_INSURANCE_NUMBER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "UK_NATIONAL_INSURANCE_NUMBER"
+                    }
+                },
+                "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
+                    }
+                },
+                "URL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "URL"
+                    }
+                },
+                "USERNAME": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "USERNAME"
+                    }
+                },
+                "US_BANK_ACCOUNT_NUMBER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "US_BANK_ACCOUNT_NUMBER"
+                    }
+                },
+                "US_BANK_ROUTING_NUMBER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "US_BANK_ROUTING_NUMBER"
+                    }
+                },
+                "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+                    }
+                },
+                "US_PASSPORT_NUMBER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "US_PASSPORT_NUMBER"
+                    }
+                },
+                "US_SOCIAL_SECURITY_NUMBER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "US_SOCIAL_SECURITY_NUMBER"
+                    }
+                },
+                "VEHICLE_IDENTIFICATION_NUMBER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "VEHICLE_IDENTIFICATION_NUMBER"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailRegexFilter": {
+            "type": "structure",
+            "members": {
+                "name": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The regex filter name.</p>"
+                    }
+                },
+                "match": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The regesx filter match.</p>"
+                    }
+                },
+                "regex": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The regex query.</p>"
+                    }
+                },
+                "action": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailSensitiveInformationPolicyAction",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The region filter action.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A Regex filter configured in a guardrail.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailRegexFilterList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockruntime#GuardrailRegexFilter"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailSensitiveInformationPolicyAction": {
+            "type": "enum",
+            "members": {
+                "ANONYMIZED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ANONYMIZED"
+                    }
+                },
+                "BLOCKED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "BLOCKED"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailSensitiveInformationPolicyAssessment": {
+            "type": "structure",
+            "members": {
+                "piiEntities": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailPiiEntityFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The PII entities in the assessment.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "regexes": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailRegexFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The regex queries in the assessment.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The assessment for aPersonally Identifiable Information (PII) policy. </p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailStreamConfiguration": {
+            "type": "structure",
+            "members": {
+                "guardrailIdentifier": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailIdentifier",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier for the guardrail.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "guardrailVersion": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailVersion",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The version of the guardrail.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "trace": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailTrace",
+                    "traits": {
+                        "smithy.api#default": "disabled",
+                        "smithy.api#documentation": "<p>The trace behavior for the guardrail.</p>"
+                    }
+                },
+                "streamProcessingMode": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailStreamProcessingMode",
+                    "traits": {
+                        "smithy.api#default": "sync",
+                        "smithy.api#documentation": "<p>The processing mode. </p>\n         <p>The processing mode. For more information, see <i>Configure streaming response behavior</i> in the <i>Amazon Bedrock User Guide</i>.\n      </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration information for a guardrail that you use with the <a>ConverseStream</a> action.\n            </p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailStreamProcessingMode": {
+            "type": "enum",
+            "members": {
+                "SYNC": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "sync"
+                    }
+                },
+                "ASYNC": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "async"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailTopic": {
+            "type": "structure",
+            "members": {
+                "name": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name for the guardrail.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "type": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailTopicType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The type behavior that the guardrail should perform when the model detects the topic.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "action": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailTopicPolicyAction",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The action the guardrail should take when it intervenes on a topic.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about a topic guardrail.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailTopicList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockruntime#GuardrailTopic"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailTopicPolicyAction": {
+            "type": "enum",
+            "members": {
+                "BLOCKED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "BLOCKED"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailTopicPolicyAssessment": {
+            "type": "structure",
+            "members": {
+                "topics": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailTopicList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The topics in the assessment.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A behavior assessment of a topic policy.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailTopicType": {
+            "type": "enum",
+            "members": {
+                "DENY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DENY"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailTrace": {
+            "type": "enum",
+            "members": {
+                "ENABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "enabled"
+                    }
+                },
+                "DISABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "disabled"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailTraceAssessment": {
+            "type": "structure",
+            "members": {
+                "modelOutput": {
+                    "target": "com.amazonaws.bedrockruntime#ModelOutputs",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The output from the model.</p>"
+                    }
+                },
+                "inputAssessment": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailAssessmentMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The input assessment.</p>"
+                    }
+                },
+                "outputAssessments": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailAssessmentListMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>the output assessments.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A Top level guardrail trace object. For more information, see <a>ConverseTrace</a>.</p>"
+            }
+        },
         "com.amazonaws.bedrockruntime#GuardrailVersion": {
             "type": "string",
             "traits": {
                 "smithy.api#pattern": "^(([1-9][0-9]{0,7})|(DRAFT))$"
             }
         },
+        "com.amazonaws.bedrockruntime#GuardrailWordPolicyAction": {
+            "type": "enum",
+            "members": {
+                "BLOCKED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "BLOCKED"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#GuardrailWordPolicyAssessment": {
+            "type": "structure",
+            "members": {
+                "customWords": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailCustomWordList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Custom words in the assessment.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "managedWordLists": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailManagedWordList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Managed word lists in the assessment.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The word policy assessment.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ImageBlock": {
+            "type": "structure",
+            "members": {
+                "format": {
+                    "target": "com.amazonaws.bedrockruntime#ImageFormat",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The format of the image.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "source": {
+                    "target": "com.amazonaws.bedrockruntime#ImageSource",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The source for the image.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Image content for a message.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ImageFormat": {
+            "type": "enum",
+            "members": {
+                "PNG": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "png"
+                    }
+                },
+                "JPEG": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "jpeg"
+                    }
+                },
+                "GIF": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "gif"
+                    }
+                },
+                "WEBP": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "webp"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#ImageSource": {
+            "type": "union",
+            "members": {
+                "bytes": {
+                    "target": "smithy.api#Blob",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The raw image bytes for the image. If you use an AWS SDK, you don't need to base64 encode the image bytes.</p>",
+                        "smithy.api#length": {
+                            "min": 1
+                        }
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The source for an image.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#InferenceConfiguration": {
+            "type": "structure",
+            "members": {
+                "maxTokens": {
+                    "target": "smithy.api#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of tokens to allow in the generated response. The default value is\n         the maximum allowed value for the model that you are using. For more information, see\n            <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html\">Inference parameters for foundation models</a>. </p>",
+                        "smithy.api#range": {
+                            "min": 1
+                        }
+                    }
+                },
+                "temperature": {
+                    "target": "smithy.api#Float",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The likelihood of the model selecting higher-probability options while generating a\n         response. A lower value makes the model more likely to choose higher-probability options,\n         while a higher value makes the model more likely to choose lower-probability\n         options.</p>\n         <p>The default value is the default value for the model that\n         you are using. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html\">Inference parameters for foundation\n            models</a>. </p>",
+                        "smithy.api#range": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    }
+                },
+                "topP": {
+                    "target": "smithy.api#Float",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The percentage of most-likely candidates that the model considers for the next token. For\n         example, if you choose a value of 0.8 for <code>topP</code>, the model selects from the top 80% of the\n         probability distribution of tokens that could be next in the sequence.</p>\n         <p>The default value is the default value for the model that you are using. For more information, see\n         <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html\">Inference parameters for foundation models</a>. </p>",
+                        "smithy.api#range": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    }
+                },
+                "stopSequences": {
+                    "target": "com.amazonaws.bedrockruntime#NonEmptyStringList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of stop sequences. A stop sequence is a sequence of characters that causes the\n         model to stop generating the response. </p>",
+                        "smithy.api#length": {
+                            "max": 4
+                        }
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Base inference parameters to pass to a model in a call to <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html\">Converse</a> or <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html\">ConverseStream</a>. For more information,\n         see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html\">Inference parameters for foundation models</a>.</p>\n         <p>If you need to pass additional parameters that the model\n         supports, use the <code>additionalModelRequestFields</code> request field in the call to <code>Converse</code>\n         or <code>ConverseStream</code>.\n         For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html\">Model parameters</a>.</p>"
+            }
+        },
         "com.amazonaws.bedrockruntime#InferenceResource": {
             "type": "resource",
             "operations": [
+                {
+                    "target": "com.amazonaws.bedrockruntime#Converse"
+                },
+                {
+                    "target": "com.amazonaws.bedrockruntime#ConverseStream"
+                },
                 {
                     "target": "com.amazonaws.bedrockruntime#InvokeModel"
                 },
@@ -810,7 +2509,7 @@
                 "body": {
                     "target": "com.amazonaws.bedrockruntime#Body",
                     "traits": {
-                        "smithy.api#documentation": "<p>The prompt and inference parameters in the format specified in the <code>contentType</code> in the header. To see the format and content of the request and response bodies for different models, refer to <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html\">Inference parameters</a>. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html\">Run inference</a> in the Bedrock User Guide.</p>",
+                        "smithy.api#documentation": "<p>The prompt and inference parameters in the format specified in the <code>contentType</code> in the header. You must provide the body in JSON format. To see the format and content of the request and response bodies for different models, refer to <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html\">Inference parameters</a>. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html\">Run inference</a> in the Bedrock User Guide.</p>",
                         "smithy.api#httpPayload": {},
                         "smithy.api#required": {}
                     }
@@ -818,7 +2517,7 @@
                 "contentType": {
                     "target": "com.amazonaws.bedrockruntime#MimeType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The MIME type of the input data in the request. The default value is\n            <code>application/json</code>.</p>",
+                        "smithy.api#documentation": "<p>The MIME type of the input data in the request. You must specify\n            <code>application/json</code>.</p>",
                         "smithy.api#httpHeader": "Content-Type"
                     }
                 },
@@ -942,7 +2641,7 @@
                 "body": {
                     "target": "com.amazonaws.bedrockruntime#Body",
                     "traits": {
-                        "smithy.api#documentation": "<p>The prompt and inference parameters in the format specified in the <code>contentType</code> in the header. To see the format and content of the request and response bodies for different models, refer to <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html\">Inference parameters</a>. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html\">Run inference</a> in the Bedrock User Guide.</p>",
+                        "smithy.api#documentation": "<p>The prompt and inference parameters in the format specified in the <code>contentType</code> in the header. You must provide the body in JSON format. To see the format and content of the request and response bodies for different models, refer to <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html\">Inference parameters</a>. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html\">Run inference</a> in the Bedrock User Guide.</p>",
                         "smithy.api#httpPayload": {},
                         "smithy.api#required": {}
                     }
@@ -950,7 +2649,7 @@
                 "contentType": {
                     "target": "com.amazonaws.bedrockruntime#MimeType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The MIME type of the input data in the request. The default value is\n            <code>application/json</code>.</p>",
+                        "smithy.api#documentation": "<p>The MIME type of the input data in the request. You must specify\n            <code>application/json</code>.</p>",
                         "smithy.api#httpHeader": "Content-Type"
                     }
                 },
@@ -1019,6 +2718,70 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.bedrockruntime#Message": {
+            "type": "structure",
+            "members": {
+                "role": {
+                    "target": "com.amazonaws.bedrockruntime#ConversationRole",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The role that the message plays in the message.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "content": {
+                    "target": "com.amazonaws.bedrockruntime#ContentBlocks",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The message content.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A message input, or returned from, a call to <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html\">Converse</a> or <a href=\"https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html\">ConverseStream</a>.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#MessageStartEvent": {
+            "type": "structure",
+            "members": {
+                "role": {
+                    "target": "com.amazonaws.bedrockruntime#ConversationRole",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The role for the message.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The start of a message.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#MessageStopEvent": {
+            "type": "structure",
+            "members": {
+                "stopReason": {
+                    "target": "com.amazonaws.bedrockruntime#StopReason",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The reason why the model stopped generating output.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "additionalModelResponseFields": {
+                    "target": "smithy.api#Document",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The additional model response fields.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The stop event for a message.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#Messages": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockruntime#Message"
+            }
+        },
         "com.amazonaws.bedrockruntime#MimeType": {
             "type": "string"
         },
@@ -1058,6 +2821,12 @@
                 "smithy.api#documentation": "<p>The model specified in the request is not ready to serve inference requests.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 429
+            }
+        },
+        "com.amazonaws.bedrockruntime#ModelOutputs": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockruntime#GuardrailOutputText"
             }
         },
         "com.amazonaws.bedrockruntime#ModelStreamErrorException": {
@@ -1102,6 +2871,28 @@
             "type": "string",
             "traits": {
                 "smithy.api#pattern": "^[\\s\\S]*$"
+            }
+        },
+        "com.amazonaws.bedrockruntime#NonEmptyString": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#NonEmptyStringList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockruntime#NonEmptyString"
+            }
+        },
+        "com.amazonaws.bedrockruntime#NonNegativeInteger": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 0
+                }
             }
         },
         "com.amazonaws.bedrockruntime#PartBody": {
@@ -1199,6 +2990,21 @@
                 "smithy.api#httpError": 400
             }
         },
+        "com.amazonaws.bedrockruntime#SpecificToolChoice": {
+            "type": "structure",
+            "members": {
+                "name": {
+                    "target": "com.amazonaws.bedrockruntime#ToolName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the tool that the model must request. </p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The model must request a specific tool.  For example, <code>{\"tool\" : {\"name\" : \"Your tool name\"}}</code>.</p>\n         <note>\n            <p>This field is only supported by Anthropic Claude 3 models.</p>\n         </note>"
+            }
+        },
         "com.amazonaws.bedrockruntime#StatusCode": {
             "type": "integer",
             "traits": {
@@ -1206,6 +3012,73 @@
                     "min": 100,
                     "max": 599
                 }
+            }
+        },
+        "com.amazonaws.bedrockruntime#StopReason": {
+            "type": "enum",
+            "members": {
+                "END_TURN": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "end_turn"
+                    }
+                },
+                "TOOL_USE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "tool_use"
+                    }
+                },
+                "MAX_TOKENS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "max_tokens"
+                    }
+                },
+                "STOP_SEQUENCE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "stop_sequence"
+                    }
+                },
+                "GUARDRAIL_INTERVENED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "guardrail_intervened"
+                    }
+                },
+                "CONTENT_FILTERED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "content_filtered"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#SystemContentBlock": {
+            "type": "union",
+            "members": {
+                "text": {
+                    "target": "com.amazonaws.bedrockruntime#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A system prompt for the model. </p>"
+                    }
+                },
+                "guardContent": {
+                    "target": "com.amazonaws.bedrockruntime#GuardrailConverseContentBlock",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A content block to assess with the guardrail. Use with the Converse API (<a>Converse</a> and <a>ConverseStream</a>). </p>\n         <p>For more information, see <i>Use a guardrail with the Converse\n            API</i> in the <i>Amazon Bedrock User Guide</i>.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A system content block.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#SystemContentBlocks": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockruntime#SystemContentBlock"
             }
         },
         "com.amazonaws.bedrockruntime#ThrottlingException": {
@@ -1219,6 +3092,325 @@
                 "smithy.api#documentation": "<p>The number of requests exceeds the limit. Resubmit your request later.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 429
+            }
+        },
+        "com.amazonaws.bedrockruntime#TokenUsage": {
+            "type": "structure",
+            "members": {
+                "inputTokens": {
+                    "target": "smithy.api#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The number of tokens sent in the request to the model.</p>",
+                        "smithy.api#range": {
+                            "min": 0
+                        },
+                        "smithy.api#required": {}
+                    }
+                },
+                "outputTokens": {
+                    "target": "smithy.api#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The number of tokens that the model generated for the request.</p>",
+                        "smithy.api#range": {
+                            "min": 0
+                        },
+                        "smithy.api#required": {}
+                    }
+                },
+                "totalTokens": {
+                    "target": "smithy.api#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The total of input tokens and tokens generated by the model.</p>",
+                        "smithy.api#range": {
+                            "min": 0
+                        },
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The tokens used in a message API inference call. </p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#Tool": {
+            "type": "union",
+            "members": {
+                "toolSpec": {
+                    "target": "com.amazonaws.bedrockruntime#ToolSpecification",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The specfication for the tool.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about a tool that you can use with the Converse API.  </p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ToolChoice": {
+            "type": "union",
+            "members": {
+                "auto": {
+                    "target": "com.amazonaws.bedrockruntime#AutoToolChoice",
+                    "traits": {
+                        "smithy.api#documentation": "<p>(Default). The Model automatically decides if a tool should be called or whether to generate text instead. </p>"
+                    }
+                },
+                "any": {
+                    "target": "com.amazonaws.bedrockruntime#AnyToolChoice",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The model must request at least one tool (no text is generated).</p>"
+                    }
+                },
+                "tool": {
+                    "target": "com.amazonaws.bedrockruntime#SpecificToolChoice",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Model must request the specified tool.  Only supported by Anthropic Claude 3 models. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Determines which tools the model should request in a call to <code>Converse</code> or <code>ConverseStream</code>.\n         <code>ToolChoice</code> is only supported by\n      Anthropic Claude 3 models and by Mistral AI Mistral Large.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ToolConfiguration": {
+            "type": "structure",
+            "members": {
+                "tools": {
+                    "target": "com.amazonaws.bedrockruntime#Tools",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An array of tools that you want to pass to a model.</p>",
+                        "smithy.api#length": {
+                            "min": 1
+                        },
+                        "smithy.api#required": {}
+                    }
+                },
+                "toolChoice": {
+                    "target": "com.amazonaws.bedrockruntime#ToolChoice",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If supported by model, forces the model to request a tool.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration information for the tools that you pass to a model.</p>\n         <note>\n            <p>This field is only supported by Anthropic Claude 3, Cohere Command R, Cohere Command R+, and Mistral Large models.</p>\n         </note>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ToolInputSchema": {
+            "type": "union",
+            "members": {
+                "json": {
+                    "target": "smithy.api#Document",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The JSON schema for the tool. For more information, see <a href=\"https://json-schema.org/understanding-json-schema/reference\">JSON Schema Reference</a>.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The schema for the tool. The top level schema type must be <code>object</code>. </p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ToolName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 64
+                },
+                "smithy.api#pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ToolResultBlock": {
+            "type": "structure",
+            "members": {
+                "toolUseId": {
+                    "target": "com.amazonaws.bedrockruntime#ToolUseId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the tool request that this is the result for.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "content": {
+                    "target": "com.amazonaws.bedrockruntime#ToolResultContentBlocks",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The content for tool result content block.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "status": {
+                    "target": "com.amazonaws.bedrockruntime#ToolResultStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status for the tool result content block.</p>\n         <note>\n            <p>This field is only supported Anthropic Claude 3 models.</p>\n         </note>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A tool result block that contains the results for a tool request that\n      the model previously made.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ToolResultContentBlock": {
+            "type": "union",
+            "members": {
+                "json": {
+                    "target": "smithy.api#Document",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A tool result that is JSON format data.</p>"
+                    }
+                },
+                "text": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A tool result that is text.</p>"
+                    }
+                },
+                "image": {
+                    "target": "com.amazonaws.bedrockruntime#ImageBlock",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A tool result that is an image.</p>\n         <note>\n            <p>This field is only supported by Anthropic Claude 3 models.</p>\n         </note>"
+                    }
+                },
+                "document": {
+                    "target": "com.amazonaws.bedrockruntime#DocumentBlock",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A tool result that is a document.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The tool result content block.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ToolResultContentBlocks": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockruntime#ToolResultContentBlock"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ToolResultStatus": {
+            "type": "enum",
+            "members": {
+                "SUCCESS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "success"
+                    }
+                },
+                "ERROR": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "error"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.bedrockruntime#ToolSpecification": {
+            "type": "structure",
+            "members": {
+                "name": {
+                    "target": "com.amazonaws.bedrockruntime#ToolName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name for the tool.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "description": {
+                    "target": "com.amazonaws.bedrockruntime#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The description for the tool.</p>"
+                    }
+                },
+                "inputSchema": {
+                    "target": "com.amazonaws.bedrockruntime#ToolInputSchema",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The input schema for the tool in JSON format.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The specification for the tool.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ToolUseBlock": {
+            "type": "structure",
+            "members": {
+                "toolUseId": {
+                    "target": "com.amazonaws.bedrockruntime#ToolUseId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID for the tool request.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "name": {
+                    "target": "com.amazonaws.bedrockruntime#ToolName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the tool that the model wants to use.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "input": {
+                    "target": "smithy.api#Document",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The input to pass to the tool. </p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A tool use content block. Contains information about a tool that the model\n      is requesting be run., The model uses the result from the tool to generate a response. </p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ToolUseBlockDelta": {
+            "type": "structure",
+            "members": {
+                "input": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The input for a requested tool.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The delta for a tool use block.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ToolUseBlockStart": {
+            "type": "structure",
+            "members": {
+                "toolUseId": {
+                    "target": "com.amazonaws.bedrockruntime#ToolUseId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID for the tool request.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "name": {
+                    "target": "com.amazonaws.bedrockruntime#ToolName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the tool that the model is requesting to use.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The start of a tool use block.</p>"
+            }
+        },
+        "com.amazonaws.bedrockruntime#ToolUseId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 64
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9_-]+$"
+            }
+        },
+        "com.amazonaws.bedrockruntime#Tools": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockruntime#Tool"
             }
         },
         "com.amazonaws.bedrockruntime#Trace": {

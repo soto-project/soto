@@ -268,6 +268,12 @@ extension QBusiness {
         public var description: String { return self.rawValue }
     }
 
+    public enum QAppsControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReadAccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "ALLOW"
         case deny = "DENY"
@@ -1224,7 +1230,7 @@ extension QBusiness {
         public let andAllFilters: [AttributeFilter]?
         /// Returns true when a document contains all the specified document attributes or metadata fields. Supported for the following document attribute value types: stringListValue.
         public let containsAll: DocumentAttribute?
-        /// Returns true when a document contains any of the specified document attributes or metadata fields. Supported for the following document attribute value types: dateValue, longValue, stringListValue and stringValue.
+        /// Returns true when a document contains any of the specified document attributes or metadata fields. Supported for the following document attribute value types: stringListValue.
         public let containsAny: DocumentAttribute?
         /// Performs an equals operation on two document attributes or metadata fields. Supported for the following document attribute value types: dateValue, longValue, stringListValue and stringValue.
         public let equalsTo: DocumentAttribute?
@@ -1659,7 +1665,7 @@ extension QBusiness {
         public let clientToken: String?
         /// The identifier of the Amazon Q Business conversation.
         public let conversationId: String?
-        /// The identifier of the previous end user text input message in a conversation.
+        /// The identifier of the previous system message in a conversation.
         public let parentMessageId: String?
         /// The groups that a user associated with the chat input belongs to.
         public let userGroups: [String]?
@@ -1884,18 +1890,21 @@ extension QBusiness {
         public let encryptionConfiguration: EncryptionConfiguration?
         ///  The Amazon Resource Name (ARN) of the IAM Identity Center instance you are either creating for—or connecting to—your Amazon Q Business application.
         public let identityCenterInstanceArn: String?
+        /// An option to allow end users to create and use Amazon Q Apps in the web experience.
+        public let qAppsConfiguration: QAppsConfiguration?
         ///  The Amazon Resource Name (ARN) of an IAM role with permissions to access your Amazon CloudWatch logs and metrics.
         public let roleArn: String?
         /// A list of key-value pairs that identify or categorize your Amazon Q Business application. You can also use tags to help control access to the application. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
         public let tags: [Tag]?
 
-        public init(attachmentsConfiguration: AttachmentsConfiguration? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, displayName: String, encryptionConfiguration: EncryptionConfiguration? = nil, identityCenterInstanceArn: String? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
+        public init(attachmentsConfiguration: AttachmentsConfiguration? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, displayName: String, encryptionConfiguration: EncryptionConfiguration? = nil, identityCenterInstanceArn: String? = nil, qAppsConfiguration: QAppsConfiguration? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.attachmentsConfiguration = attachmentsConfiguration
             self.clientToken = clientToken
             self.description = description
             self.displayName = displayName
             self.encryptionConfiguration = encryptionConfiguration
             self.identityCenterInstanceArn = identityCenterInstanceArn
+            self.qAppsConfiguration = qAppsConfiguration
             self.roleArn = roleArn
             self.tags = tags
         }
@@ -1927,6 +1936,7 @@ extension QBusiness {
             case displayName = "displayName"
             case encryptionConfiguration = "encryptionConfiguration"
             case identityCenterInstanceArn = "identityCenterInstanceArn"
+            case qAppsConfiguration = "qAppsConfiguration"
             case roleArn = "roleArn"
             case tags = "tags"
         }
@@ -2071,7 +2081,7 @@ extension QBusiness {
         public let displayName: String
         /// A list of key-value pairs that identify or categorize the index. You can also use tags to help control access to the index. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
         public let tags: [Tag]?
-        /// The index type that's suitable for your needs. For more information on what's included in each type of index or index tier, see Amazon Q Business tiers.
+        /// The index type that's suitable for your needs. For more information on what's included in each type of index, see Amazon Q Business tiers.
         public let type: IndexType?
 
         public init(applicationId: String, capacityConfiguration: IndexCapacityConfiguration? = nil, clientToken: String? = CreateIndexRequest.idempotencyToken(), description: String? = nil, displayName: String, tags: [Tag]? = nil, type: IndexType? = nil) {
@@ -3388,6 +3398,8 @@ extension QBusiness {
         public let error: ErrorDetail?
         /// The Amazon Resource Name (ARN) of the AWS IAM Identity Center instance attached to your Amazon Q Business application.
         public let identityCenterApplicationArn: String?
+        /// Settings for whether end users can create and use Amazon Q Apps in the web experience.
+        public let qAppsConfiguration: QAppsConfiguration?
         /// The Amazon Resource Name (ARN) of the IAM with permissions to access your CloudWatch logs and metrics.
         public let roleArn: String?
         /// The status of the Amazon Q Business application.
@@ -3395,7 +3407,7 @@ extension QBusiness {
         /// The Unix timestamp when the Amazon Q Business application was last updated.
         public let updatedAt: Date?
 
-        public init(applicationArn: String? = nil, applicationId: String? = nil, attachmentsConfiguration: AppliedAttachmentsConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, error: ErrorDetail? = nil, identityCenterApplicationArn: String? = nil, roleArn: String? = nil, status: ApplicationStatus? = nil, updatedAt: Date? = nil) {
+        public init(applicationArn: String? = nil, applicationId: String? = nil, attachmentsConfiguration: AppliedAttachmentsConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, error: ErrorDetail? = nil, identityCenterApplicationArn: String? = nil, qAppsConfiguration: QAppsConfiguration? = nil, roleArn: String? = nil, status: ApplicationStatus? = nil, updatedAt: Date? = nil) {
             self.applicationArn = applicationArn
             self.applicationId = applicationId
             self.attachmentsConfiguration = attachmentsConfiguration
@@ -3405,6 +3417,7 @@ extension QBusiness {
             self.encryptionConfiguration = encryptionConfiguration
             self.error = error
             self.identityCenterApplicationArn = identityCenterApplicationArn
+            self.qAppsConfiguration = qAppsConfiguration
             self.roleArn = roleArn
             self.status = status
             self.updatedAt = updatedAt
@@ -3420,6 +3433,7 @@ extension QBusiness {
             case encryptionConfiguration = "encryptionConfiguration"
             case error = "error"
             case identityCenterApplicationArn = "identityCenterApplicationArn"
+            case qAppsConfiguration = "qAppsConfiguration"
             case roleArn = "roleArn"
             case status = "status"
             case updatedAt = "updatedAt"
@@ -5413,6 +5427,19 @@ extension QBusiness {
         public init() {}
     }
 
+    public struct QAppsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Status information about whether end users can create and use Amazon Q Apps in the web experience.
+        public let qAppsControlMode: QAppsControlMode
+
+        public init(qAppsControlMode: QAppsControlMode) {
+            self.qAppsControlMode = qAppsControlMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qAppsControlMode = "qAppsControlMode"
+        }
+    }
+
     public struct Retriever: AWSDecodableShape {
         /// The identifier of the Amazon Q Business application using the retriever.
         public let applicationId: String?
@@ -5939,15 +5966,18 @@ extension QBusiness {
         public let displayName: String?
         ///  The Amazon Resource Name (ARN) of the IAM Identity Center instance you are either creating for—or connecting to—your Amazon Q Business application.
         public let identityCenterInstanceArn: String?
+        /// An option to allow end users to create and use Amazon Q Apps in the web experience.
+        public let qAppsConfiguration: QAppsConfiguration?
         /// An Amazon Web Services Identity and Access Management (IAM) role that gives Amazon Q Business permission to access Amazon CloudWatch logs and metrics.
         public let roleArn: String?
 
-        public init(applicationId: String, attachmentsConfiguration: AttachmentsConfiguration? = nil, description: String? = nil, displayName: String? = nil, identityCenterInstanceArn: String? = nil, roleArn: String? = nil) {
+        public init(applicationId: String, attachmentsConfiguration: AttachmentsConfiguration? = nil, description: String? = nil, displayName: String? = nil, identityCenterInstanceArn: String? = nil, qAppsConfiguration: QAppsConfiguration? = nil, roleArn: String? = nil) {
             self.applicationId = applicationId
             self.attachmentsConfiguration = attachmentsConfiguration
             self.description = description
             self.displayName = displayName
             self.identityCenterInstanceArn = identityCenterInstanceArn
+            self.qAppsConfiguration = qAppsConfiguration
             self.roleArn = roleArn
         }
 
@@ -5959,6 +5989,7 @@ extension QBusiness {
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.displayName, forKey: .displayName)
             try container.encodeIfPresent(self.identityCenterInstanceArn, forKey: .identityCenterInstanceArn)
+            try container.encodeIfPresent(self.qAppsConfiguration, forKey: .qAppsConfiguration)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
         }
 
@@ -5983,6 +6014,7 @@ extension QBusiness {
             case description = "description"
             case displayName = "displayName"
             case identityCenterInstanceArn = "identityCenterInstanceArn"
+            case qAppsConfiguration = "qAppsConfiguration"
             case roleArn = "roleArn"
         }
     }

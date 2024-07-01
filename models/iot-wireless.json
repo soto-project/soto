@@ -4479,6 +4479,12 @@
                     "traits": {
                         "smithy.api#enumValue": "Successful"
                     }
+                },
+                "Device_exist_in_conflict_fuota_task": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Device_exist_in_conflict_fuota_task"
+                    }
                 }
             },
             "traits": {
@@ -10157,6 +10163,18 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "DeviceSNR"
+                    }
+                },
+                "DeviceRoamingRSSI": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DeviceRoamingRSSI"
+                    }
+                },
+                "DeviceRoamingSNR": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DeviceRoamingSNR"
                     }
                 },
                 "DeviceUplinkCount": {

@@ -123,7 +123,7 @@ public struct SSOOIDC: AWSService {
         )
     }
 
-    /// Creates and returns access and refresh tokens for clients and applications that are authenticated using IAM entities. The access token can be used to fetch short-term credentials for the assigned AWS accounts or to access application APIs using bearer authentication.
+    /// Creates and returns access and refresh tokens for clients and applications that are authenticated using IAM entities. The access token can be used to fetch short-term credentials for the assigned Amazon Web Services accounts or to access application APIs using bearer authentication.
     @Sendable
     public func createTokenWithIAM(_ input: CreateTokenWithIAMRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTokenWithIAMResponse {
         return try await self.client.execute(

@@ -75,6 +75,7 @@ public struct ChimeSDKMeetings: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "ca-central-1": "meetings-chime-fips.ca-central-1.amazonaws.com",
             "us-east-1": "meetings-chime-fips.us-east-1.amazonaws.com",
             "us-gov-east-1": "meetings-chime-fips.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "meetings-chime-fips.us-gov-west-1.amazonaws.com",

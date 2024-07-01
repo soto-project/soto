@@ -57,6 +57,8 @@ public struct KinesisVideo: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-09-30",
             endpoint: endpoint,
+            serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: KinesisVideoErrorType.self,
             xmlNamespace: "https://kinesisvideo.amazonaws.com/doc/2017-09-30/",
             middleware: middleware,
@@ -67,8 +69,20 @@ public struct KinesisVideo: AWSService {
     }
 
 
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "us-gov-east-1": "kinesisvideo-fips.us-gov-east-1.amazonaws.com",
+        "us-gov-west-1": "kinesisvideo-fips.us-gov-west-1.amazonaws.com"
+    ]}
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-gov-east-1": "kinesisvideo-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "kinesisvideo-fips.us-gov-west-1.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

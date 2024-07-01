@@ -123,6 +123,7 @@ extension IoTTwinMaker {
     public enum PropertyUpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case create = "CREATE"
         case delete = "DELETE"
+        case resetValue = "RESET_VALUE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
