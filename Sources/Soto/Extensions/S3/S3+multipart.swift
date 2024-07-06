@@ -20,7 +20,7 @@ import NIOPosix
 import SotoCore
 
 extension S3ErrorType {
-    public enum multipart: Error {
+    public enum MultipartError: Error {
         /// CreateMultipartUpload did not return an uploadId
         case noUploadId
         /// Copy Source in multipartCopy has no content length
@@ -77,7 +77,7 @@ extension S3 {
         )
         let object = try await headObject(headRequest, logger: logger)
         guard let contentLength = object.contentLength, contentLength > 0 else {
-            throw S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero")
+            throw S3ErrorType.MultipartError.downloadEmpty(message: "Content length is unexpectedly zero")
         }
 
         try await withThrowingTaskGroup(of: (Int, ByteBuffer).self) { group in
@@ -392,7 +392,7 @@ extension S3 {
         let request: CreateMultipartUploadRequest = .init(acl: input.acl, bucket: input.bucket, cacheControl: input.cacheControl, contentDisposition: input.contentDisposition, contentEncoding: input.contentEncoding, contentLanguage: input.contentLanguage, contentType: input.contentType, expectedBucketOwner: input.expectedBucketOwner, expires: input.expires, grantFullControl: input.grantFullControl, grantRead: input.grantRead, grantReadACP: input.grantReadACP, grantWriteACP: input.grantWriteACP, key: input.key, metadata: input.metadata, objectLockLegalHoldStatus: input.objectLockLegalHoldStatus, objectLockMode: input.objectLockMode, objectLockRetainUntilDate: input.objectLockRetainUntilDate, requestPayer: input.requestPayer, serverSideEncryption: input.serverSideEncryption, sseCustomerAlgorithm: input.sseCustomerAlgorithm, sseCustomerKey: input.sseCustomerKey, sseCustomerKeyMD5: input.sseCustomerKeyMD5, ssekmsEncryptionContext: input.ssekmsEncryptionContext, ssekmsKeyId: input.ssekmsKeyId, storageClass: input.storageClass, tagging: input.tagging, websiteRedirectLocation: input.websiteRedirectLocation)
         let uploadResponse = try await createMultipartUpload(request, logger: logger)
         guard let uploadId = uploadResponse.uploadId else {
-            throw S3ErrorType.multipart.noUploadId
+            throw S3ErrorType.MultipartError.noUploadId
         }
 
         do {
@@ -470,7 +470,7 @@ extension S3 {
         // initialize multipart upload
         let upload = try await createMultipartUpload(input, logger: logger)
         guard let uploadId = upload.uploadId else {
-            throw S3ErrorType.multipart.noUploadId
+            throw S3ErrorType.MultipartError.noUploadId
         }
 
         do {
@@ -502,12 +502,12 @@ extension S3 {
             guard abortOnFail else {
                 // if error is MultipartUploadError then we have completed uploading some parts and should include that in the error
                 if let error = error as? MultipartUploadError {
-                    throw S3ErrorType.multipart.abortedUpload(
+                    throw S3ErrorType.MultipartError.abortedUpload(
                         resumeRequest: .init(uploadRequest: input, uploadId: uploadId, completedParts: error.completedParts),
                         error: error.error
                     )
                 } else {
-                    throw S3ErrorType.multipart.abortedUpload(
+                    throw S3ErrorType.MultipartError.abortedUpload(
                         resumeRequest: .init(uploadRequest: input, uploadId: uploadId, completedParts: []),
                         error: error
                     )
@@ -619,12 +619,12 @@ extension S3 {
             guard abortOnFail else {
                 // if error is MultipartUploadError then we have completed uploading some parts and should include that in the error
                 if let error = error as? MultipartUploadError {
-                    throw S3ErrorType.multipart.abortedUpload(
+                    throw S3ErrorType.MultipartError.abortedUpload(
                         resumeRequest: .init(uploadRequest: uploadRequest, uploadId: input.uploadId, completedParts: error.completedParts),
                         error: error.error
                     )
                 } else {
-                    throw S3ErrorType.multipart.abortedUpload(
+                    throw S3ErrorType.MultipartError.abortedUpload(
                         resumeRequest: .init(uploadRequest: uploadRequest, uploadId: input.uploadId, completedParts: []),
                         error: error
                     )
