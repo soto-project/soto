@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -4508,6 +4508,8 @@ extension MediaConvert {
         public let clientCache: CmafClientCache?
         /// Specification to use (RFC-6381 or the default RFC-4281) during m3u8 playlist generation.
         public let codecSpecification: CmafCodecSpecification?
+        /// Specify whether MediaConvert generates I-frame only video segments for DASH trick play, also known as trick mode. When specified, the I-frame only video segments are included within an additional AdaptationSet in your DASH output manifest. To generate I-frame only video segments: Enter a name as a text string, up to 256 character long. This name is appended to the end of this output group's base filename, that you specify as part of your destination URI, and used for the I-frame only video segment files. You may also include format identifiers. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs To not generate I-frame only video segments: Leave blank.
+        public let dashIFrameTrickPlayNameModifier: String?
         /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
         public let dashManifestStyle: DashManifestStyle?
         /// Use Destination to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
@@ -4555,11 +4557,12 @@ extension MediaConvert {
         /// When you enable Precise segment duration in DASH manifests, your DASH manifest shows precise segment durations. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When this feature isn't enabled, the segment durations in your DASH manifest are approximate. The segment duration information appears in the duration attribute of the SegmentTemplate element.
         public let writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation?
 
-        public init(additionalManifests: [CmafAdditionalManifest]? = nil, baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, dashManifestStyle: DashManifestStyle? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, imageBasedTrickPlay: CmafImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: CmafImageBasedTrickPlaySettings? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdManifestBandwidthType: CmafMpdManifestBandwidthType? = nil, mpdProfile: CmafMpdProfile? = nil, ptsOffsetHandlingForBFrames: CmafPtsOffsetHandlingForBFrames? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: CmafSegmentLengthControl? = nil, streamInfResolution: CmafStreamInfResolution? = nil, targetDurationCompatibilityMode: CmafTargetDurationCompatibilityMode? = nil, videoCompositionOffsets: CmafVideoCompositionOffsets? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil, writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation? = nil) {
+        public init(additionalManifests: [CmafAdditionalManifest]? = nil, baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, dashIFrameTrickPlayNameModifier: String? = nil, dashManifestStyle: DashManifestStyle? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, imageBasedTrickPlay: CmafImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: CmafImageBasedTrickPlaySettings? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdManifestBandwidthType: CmafMpdManifestBandwidthType? = nil, mpdProfile: CmafMpdProfile? = nil, ptsOffsetHandlingForBFrames: CmafPtsOffsetHandlingForBFrames? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: CmafSegmentLengthControl? = nil, streamInfResolution: CmafStreamInfResolution? = nil, targetDurationCompatibilityMode: CmafTargetDurationCompatibilityMode? = nil, videoCompositionOffsets: CmafVideoCompositionOffsets? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil, writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation? = nil) {
             self.additionalManifests = additionalManifests
             self.baseUrl = baseUrl
             self.clientCache = clientCache
             self.codecSpecification = codecSpecification
+            self.dashIFrameTrickPlayNameModifier = dashIFrameTrickPlayNameModifier
             self.dashManifestStyle = dashManifestStyle
             self.destination = destination
             self.destinationSettings = destinationSettings
@@ -4589,6 +4592,8 @@ extension MediaConvert {
             try self.additionalManifests?.forEach {
                 try $0.validate(name: "\(name).additionalManifests[]")
             }
+            try self.validate(self.dashIFrameTrickPlayNameModifier, name: "dashIFrameTrickPlayNameModifier", parent: name, max: 256)
+            try self.validate(self.dashIFrameTrickPlayNameModifier, name: "dashIFrameTrickPlayNameModifier", parent: name, min: 1)
             try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
@@ -4606,6 +4611,7 @@ extension MediaConvert {
             case baseUrl = "baseUrl"
             case clientCache = "clientCache"
             case codecSpecification = "codecSpecification"
+            case dashIFrameTrickPlayNameModifier = "dashIFrameTrickPlayNameModifier"
             case dashManifestStyle = "dashManifestStyle"
             case destination = "destination"
             case destinationSettings = "destinationSettings"
@@ -5209,6 +5215,8 @@ extension MediaConvert {
         public let audioChannelConfigSchemeIdUri: DashIsoGroupAudioChannelConfigSchemeIdUri?
         /// A partial URI prefix that will be put in the manifest (.mpd) file at the top level BaseURL element. Can be used if streams are delivered from a different URL than the manifest file.
         public let baseUrl: String?
+        /// Specify whether MediaConvert generates I-frame only video segments for DASH trick play, also known as trick mode. When specified, the I-frame only video segments are included within an additional AdaptationSet in your DASH output manifest. To generate I-frame only video segments: Enter a name as a text string, up to 256 character long. This name is appended to the end of this output group's base filename, that you specify as part of your destination URI, and used for the I-frame only video segment files. You may also include format identifiers. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs To not generate I-frame only video segments: Leave blank.
+        public let dashIFrameTrickPlayNameModifier: String?
         /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
         public let dashManifestStyle: DashManifestStyle?
         /// Use Destination to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
@@ -5246,10 +5254,11 @@ extension MediaConvert {
         /// If you get an HTTP error in the 400 range when you play back your DASH output, enable this setting and run your transcoding job again. When you enable this setting, the service writes precise segment durations in the DASH manifest. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When you don't enable this setting, the service writes approximate segment durations in your DASH manifest.
         public let writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation?
 
-        public init(additionalManifests: [DashAdditionalManifest]? = nil, audioChannelConfigSchemeIdUri: DashIsoGroupAudioChannelConfigSchemeIdUri? = nil, baseUrl: String? = nil, dashManifestStyle: DashManifestStyle? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, imageBasedTrickPlay: DashIsoImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: DashIsoImageBasedTrickPlaySettings? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdManifestBandwidthType: DashIsoMpdManifestBandwidthType? = nil, mpdProfile: DashIsoMpdProfile? = nil, ptsOffsetHandlingForBFrames: DashIsoPtsOffsetHandlingForBFrames? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: DashIsoSegmentLengthControl? = nil, videoCompositionOffsets: DashIsoVideoCompositionOffsets? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
+        public init(additionalManifests: [DashAdditionalManifest]? = nil, audioChannelConfigSchemeIdUri: DashIsoGroupAudioChannelConfigSchemeIdUri? = nil, baseUrl: String? = nil, dashIFrameTrickPlayNameModifier: String? = nil, dashManifestStyle: DashManifestStyle? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, imageBasedTrickPlay: DashIsoImageBasedTrickPlay? = nil, imageBasedTrickPlaySettings: DashIsoImageBasedTrickPlaySettings? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdManifestBandwidthType: DashIsoMpdManifestBandwidthType? = nil, mpdProfile: DashIsoMpdProfile? = nil, ptsOffsetHandlingForBFrames: DashIsoPtsOffsetHandlingForBFrames? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, segmentLengthControl: DashIsoSegmentLengthControl? = nil, videoCompositionOffsets: DashIsoVideoCompositionOffsets? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
             self.additionalManifests = additionalManifests
             self.audioChannelConfigSchemeIdUri = audioChannelConfigSchemeIdUri
             self.baseUrl = baseUrl
+            self.dashIFrameTrickPlayNameModifier = dashIFrameTrickPlayNameModifier
             self.dashManifestStyle = dashManifestStyle
             self.destination = destination
             self.destinationSettings = destinationSettings
@@ -5274,6 +5283,8 @@ extension MediaConvert {
             try self.additionalManifests?.forEach {
                 try $0.validate(name: "\(name).additionalManifests[]")
             }
+            try self.validate(self.dashIFrameTrickPlayNameModifier, name: "dashIFrameTrickPlayNameModifier", parent: name, max: 256)
+            try self.validate(self.dashIFrameTrickPlayNameModifier, name: "dashIFrameTrickPlayNameModifier", parent: name, min: 1)
             try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
@@ -5290,6 +5301,7 @@ extension MediaConvert {
             case additionalManifests = "additionalManifests"
             case audioChannelConfigSchemeIdUri = "audioChannelConfigSchemeIdUri"
             case baseUrl = "baseUrl"
+            case dashIFrameTrickPlayNameModifier = "dashIFrameTrickPlayNameModifier"
             case dashManifestStyle = "dashManifestStyle"
             case destination = "destination"
             case destinationSettings = "destinationSettings"
@@ -7701,8 +7713,8 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.endTimecode, name: "endTimecode", parent: name, pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}$")
-            try self.validate(self.startTimecode, name: "startTimecode", parent: name, pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}$")
+            try self.validate(self.endTimecode, name: "endTimecode", parent: name, pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}(@[0-9]+(\\.[0-9]+)?(:[0-9]+)?)?$")
+            try self.validate(self.startTimecode, name: "startTimecode", parent: name, pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}(@[0-9]+(\\.[0-9]+)?(:[0-9]+)?)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7875,20 +7887,46 @@ extension MediaConvert {
     }
 
     public struct InputVideoGenerator: AWSEncodableShape & AWSDecodableShape {
-        /// Specify an integer value for Black video duration from 50 to 86400000 to generate a black video input for that many milliseconds. Required when you include Video generator.
+        /// Specify the number of audio channels to include in your video generator input. MediaConvert creates these audio channels as silent audio within a single audio track. Enter an integer from 1 to 32.
+        public let channels: Int?
+        /// Specify the duration, in milliseconds, for your video generator input.
+        /// Enter an integer from 50 to 86400000.
         public let duration: Int?
+        /// Specify the denominator of the fraction that represents the frame rate for your video generator input. When you do, you must also specify a value for Frame rate numerator. MediaConvert uses a default frame rate of 29.97 when you leave Frame rate numerator and Frame rate denominator blank.
+        public let framerateDenominator: Int?
+        /// Specify the numerator of the fraction that represents the frame rate for your video generator input. When you do, you must also specify a value for Frame rate denominator. MediaConvert uses a default frame rate of 29.97 when you leave Frame rate numerator and Frame rate denominator blank.
+        public let framerateNumerator: Int?
+        /// Specify the audio sample rate, in Hz, for the silent audio in your video generator input.
+        /// Enter an integer from 32000 to 48000.
+        public let sampleRate: Int?
 
-        public init(duration: Int? = nil) {
+        public init(channels: Int? = nil, duration: Int? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, sampleRate: Int? = nil) {
+            self.channels = channels
             self.duration = duration
+            self.framerateDenominator = framerateDenominator
+            self.framerateNumerator = framerateNumerator
+            self.sampleRate = sampleRate
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.channels, name: "channels", parent: name, max: 32)
+            try self.validate(self.channels, name: "channels", parent: name, min: 1)
             try self.validate(self.duration, name: "duration", parent: name, max: 86400000)
             try self.validate(self.duration, name: "duration", parent: name, min: 50)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 1001)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 60000)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
+            try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 48000)
+            try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 32000)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case channels = "channels"
             case duration = "duration"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case sampleRate = "sampleRate"
         }
     }
 
@@ -10002,6 +10040,7 @@ extension MediaConvert {
                 try $0.validate(name: "\(name).captionDescriptions[]")
             }
             try self.containerSettings?.validate(name: "\(name).containerSettings")
+            try self.validate(self.nameModifier, name: "nameModifier", parent: name, max: 256)
             try self.validate(self.nameModifier, name: "nameModifier", parent: name, min: 1)
             try self.videoDescription?.validate(name: "\(name).videoDescription")
         }
@@ -10679,6 +10718,65 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case framerate = "framerate"
+        }
+    }
+
+    public struct SearchJobsRequest: AWSEncodableShape {
+        /// Optional. Provide your input file URL or your partial input file name. The maximum length for an input file is 300 characters.
+        public let inputFile: String?
+        /// Optional. Number of jobs, up to twenty, that will be returned at one time.
+        public let maxResults: Int?
+        /// Optional. Use this string, provided with the response to a previous request, to request the next batch of jobs.
+        public let nextToken: String?
+        /// Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
+        public let order: Order?
+        /// Optional. Provide a queue name, or a queue ARN, to return only jobs from that queue.
+        public let queue: String?
+        /// Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or ERROR.
+        public let status: JobStatus?
+
+        public init(inputFile: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, order: Order? = nil, queue: String? = nil, status: JobStatus? = nil) {
+            self.inputFile = inputFile
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.order = order
+            self.queue = queue
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.inputFile, key: "inputFile")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.order, key: "order")
+            request.encodeQuery(self.queue, key: "queue")
+            request.encodeQuery(self.status, key: "status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct SearchJobsResponse: AWSDecodableShape {
+        /// List of jobs.
+        public let jobs: [Job]?
+        /// Use this string to request the next batch of jobs.
+        public let nextToken: String?
+
+        public init(jobs: [Job]? = nil, nextToken: String? = nil) {
+            self.jobs = jobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "jobs"
+            case nextToken = "nextToken"
         }
     }
 

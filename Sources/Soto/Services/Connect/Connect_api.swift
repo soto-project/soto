@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Connect service.
 ///
-/// Amazon Connect is a cloud-based contact center solution that you use to set up and manage a customer contact center and provide reliable customer engagement at any scale. Amazon Connect provides metrics and real-time reporting that enable you to optimize contact routing. You can also resolve customer issues more efficiently by getting customers in touch with the appropriate agents. There are limits to the number of Amazon Connect resources that you can create. There are also limits to the number of requests that you can make per second. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide. You can connect programmatically to an Amazon Web Services service by using an endpoint. For a list of Amazon Connect endpoints, see Amazon Connect Endpoints.
+///    Amazon Connect actions     Amazon Connect data types    Amazon Connect is a cloud-based contact center solution that you use to set up and manage a customer contact center and provide reliable customer engagement at any scale. Amazon Connect provides metrics and real-time reporting that enable you to optimize contact routing. You can also resolve customer issues more efficiently by getting customers in touch with the appropriate agents. There are limits to the number of Amazon Connect resources that you can create. There are also limits to the number of requests that you can make per second. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide. You can connect programmatically to an Amazon Web Services service by using an endpoint. For a list of Amazon Connect endpoints, see Amazon Connect Endpoints.
 public struct Connect: AWSService {
     // MARK: Member variables
 
@@ -342,7 +342,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Amazon Connect Administrator Guide.   You can call the SearchAvailablePhoneNumbers API for available phone numbers that you can claim. Call the DescribePhoneNumber API to verify the status of a previous ClaimPhoneNumber operation.  If you plan to claim and release numbers frequently during a 30 day period, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until 30 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers during any 30 day period. If you claim and release phone numbers using the UI or API during a rolling 30 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 30 days past the oldest number released has expired.  For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 30 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
+    /// Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Amazon Connect Administrator Guide.   You can call the SearchAvailablePhoneNumbers API for available phone numbers that you can claim. Call the DescribePhoneNumber API to verify the status of a previous ClaimPhoneNumber operation.  If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired.  For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     @Sendable
     public func claimPhoneNumber(_ input: ClaimPhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ClaimPhoneNumberResponse {
         return try await self.client.execute(
@@ -500,7 +500,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see Create prompts in the Amazon Connect Administrator's Guide.
+    /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see Create prompts in the Amazon Connect Administrator Guide.
     @Sendable
     public func createPrompt(_ input: CreatePromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePromptResponse {
         return try await self.client.execute(
@@ -1011,6 +1011,20 @@ public struct Connect: AWSService {
         )
     }
 
+    /// This API is in preview release for Amazon Connect and is subject to change. To
+    /// request access to this API, contact Amazon Web Services Support. Describes the target authentication profile.
+    @Sendable
+    public func describeAuthenticationProfile(_ input: DescribeAuthenticationProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAuthenticationProfileResponse {
+        return try await self.client.execute(
+            operation: "DescribeAuthenticationProfile", 
+            path: "/authentication-profiles/{InstanceId}/{AuthenticationProfileId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact.   Contact information remains available in Amazon Connect for 24 months, and then it is deleted. Only data from November 12, 2021, and later is returned by this API.
     @Sendable
     public func describeContact(_ input: DescribeContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContactResponse {
@@ -1037,7 +1051,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Describes the specified flow. You can also create and update flows using the Amazon Connect Flow language.
+    /// Describes the specified flow. You can also create and update flows using the Amazon Connect Flow language. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. Once a contact flow is published, $SAVED needs to be supplied to view saved content that has not been published. In the response, Status indicates the flow status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. SAVED does not initiate validation of the content. SAVED | PUBLISHED
     @Sendable
     public func describeContactFlow(_ input: DescribeContactFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContactFlowResponse {
         return try await self.client.execute(
@@ -1050,7 +1064,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Describes the specified flow module.
+    /// Describes the specified flow module. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. Once a contact flow is published, $SAVED needs to be supplied to view saved content that has not been published.
     @Sendable
     public func describeContactFlowModule(_ input: DescribeContactFlowModuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContactFlowModuleResponse {
         return try await self.client.execute(
@@ -1583,7 +1597,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals.  For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.
+    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals.  For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator Guide.
     @Sendable
     public func getMetricDataV2(_ input: GetMetricDataV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricDataV2Response {
         return try await self.client.execute(
@@ -1635,7 +1649,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Imports a claimed phone number from an external service, such as Amazon Pinpoint, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created.
+    /// Imports a claimed phone number from an external service, such as Amazon Pinpoint, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created.  Call the DescribePhoneNumber API to verify the status of a previous ImportPhoneNumber operation.   If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired.  By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired.  For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
     @Sendable
     public func importPhoneNumber(_ input: ImportPhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportPhoneNumberResponse {
         return try await self.client.execute(
@@ -1680,6 +1694,20 @@ public struct Connect: AWSService {
         return try await self.client.execute(
             operation: "ListApprovedOrigins", 
             path: "/instance/{InstanceId}/approved-origins", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. To
+    /// request access to this API, contact Amazon Web Services Support. Provides summary information about the authentication profiles in a specified Amazon Connect instance.
+    @Sendable
+    public func listAuthenticationProfiles(_ input: ListAuthenticationProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAuthenticationProfilesResponse {
+        return try await self.client.execute(
+            operation: "ListAuthenticationProfiles", 
+            path: "/authentication-profiles-summary/{InstanceId}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -2259,7 +2287,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed.  To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect admin website. After releasing a phone number, the phone number enters into a cooldown period of 30 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support.  If you plan to claim and release numbers frequently during a 30 day period, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until 30 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers during any 30 day period. If you claim and release phone numbers using the UI or API during a rolling 30 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 30 days past the oldest number released has expired.  For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 30 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
+    /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed.  To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support.  If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired.  For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     @Sendable
     public func releasePhoneNumber(_ input: ReleasePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -2317,6 +2345,32 @@ public struct Connect: AWSService {
         return try await self.client.execute(
             operation: "SearchAvailablePhoneNumbers", 
             path: "/phone-number/search-available", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Searches the flow modules in an Amazon Connect instance, with optional filtering.
+    @Sendable
+    public func searchContactFlowModules(_ input: SearchContactFlowModulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchContactFlowModulesResponse {
+        return try await self.client.execute(
+            operation: "SearchContactFlowModules", 
+            path: "/search-contact-flow-modules", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Searches the contact flows in an Amazon Connect instance, with optional filtering.
+    @Sendable
+    public func searchContactFlows(_ input: SearchContactFlowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchContactFlowsResponse {
+        return try await self.client.execute(
+            operation: "SearchContactFlows", 
+            path: "/search-contact-flows", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -2480,7 +2534,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Provides a pre-signed Amazon S3 URL in response for uploading your content.  You may only use this API to upload attachments to a Connect Case.
+    /// Provides a pre-signed Amazon S3 URL in response for uploading your content.  You may only use this API to upload attachments to an Amazon Connect Case.
     @Sendable
     public func startAttachedFileUpload(_ input: StartAttachedFileUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAttachedFileUploadResponse {
         return try await self.client.execute(
@@ -2493,7 +2547,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Amazon Connect Participant Service. When a new chat contact is successfully created, clients must subscribe to the participant’s connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS.  A 429 error occurs in the following situations:   API rate limit is exceeded. API TPS throttling returns a TooManyRequests exception.   The quota for concurrent active chats is exceeded. Active chat throttling returns a LimitExceededException.   If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web Services Support.  For more information about chat, see Chat in the Amazon Connect Administrator Guide.
+    /// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Amazon Connect Participant Service. When a new chat contact is successfully created, clients must subscribe to the participant’s connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS.  A 429 error occurs in the following situations:   API rate limit is exceeded. API TPS throttling returns a TooManyRequests exception.   The quota for concurrent active chats is exceeded. Active chat throttling returns a LimitExceededException.   If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web Services Support.  For more information about chat, see the following topics in the Amazon Connect Administrator Guide:     Concepts: Web and mobile messaging capabilities in Amazon Connect     Amazon Connect Chat security best practices
     @Sendable
     public func startChatContact(_ input: StartChatContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartChatContactResponse {
         return try await self.client.execute(
@@ -2532,7 +2586,7 @@ public struct Connect: AWSService {
         )
     }
 
-    ///  Initiates real-time message streaming for a new chat contact. For more information about message streaming, see Enable real-time chat message streaming in the Amazon Connect Administrator Guide.
+    ///  Initiates real-time message streaming for a new chat contact. For more information about message streaming, see Enable real-time chat message streaming in the Amazon Connect Administrator Guide. For more information about chat, see the following topics in the Amazon Connect Administrator Guide:     Concepts: Web and mobile messaging capabilities in Amazon Connect     Amazon Connect Chat security best practices
     @Sendable
     public func startContactStreaming(_ input: StartContactStreamingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartContactStreamingResponse {
         return try await self.client.execute(
@@ -2584,7 +2638,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Ends the specified contact. Use this API to stop queued callbacks. It does not work for voice contacts that use the following initiation methods:   DISCONNECT   TRANSFER   QUEUE_TRANSFER   Chat and task contacts can be terminated in any state, regardless of initiation method.
+    /// Ends the specified contact. Use this API to stop queued callbacks. It does not work for voice contacts that use the following initiation methods:   DISCONNECT   TRANSFER   QUEUE_TRANSFER   EXTERNAL_OUTBOUND   MONITOR   Chat and task contacts can be terminated in any state, regardless of initiation method.
     @Sendable
     public func stopContact(_ input: StopContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopContactResponse {
         return try await self.client.execute(
@@ -2727,6 +2781,20 @@ public struct Connect: AWSService {
         )
     }
 
+    /// This API is in preview release for Amazon Connect and is subject to change. To
+    /// request access to this API, contact Amazon Web Services Support. Updates the selected authentication profile.
+    @Sendable
+    public func updateAuthenticationProfile(_ input: UpdateAuthenticationProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "UpdateAuthenticationProfile", 
+            path: "/authentication-profiles/{InstanceId}/{AuthenticationProfileId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Adds or updates user-defined contact information associated with the specified contact. At least one field to be updated must be present in the request.  You can add or update user-defined contact information for both ongoing and completed contacts.
     @Sendable
     public func updateContact(_ input: UpdateContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactResponse {
@@ -2766,7 +2834,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Updates the specified flow. You can also create and update flows using the Amazon Connect Flow language.
+    /// Updates the specified flow. You can also create and update flows using the Amazon Connect Flow language. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. Once a contact flow is published, $SAVED needs to be supplied to view saved content that has not been published.
     @Sendable
     public func updateContactFlowContent(_ input: UpdateContactFlowContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactFlowContentResponse {
         return try await self.client.execute(
@@ -2792,7 +2860,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Updates specified flow module for the specified Amazon Connect instance.
+    /// Updates specified flow module for the specified Amazon Connect instance.  Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. Once a contact flow is published, $SAVED needs to be supplied to view saved content that has not been published.
     @Sendable
     public func updateContactFlowModuleContent(_ input: UpdateContactFlowModuleContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactFlowModuleContentResponse {
         return try await self.client.execute(
@@ -2831,7 +2899,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates routing priority and age on the contact (QueuePriority and QueueTimeAdjustmentInSeconds). These properties can be used to change a customer's position in the queue. For example, you can move a contact to the back of the queue by setting a lower routing priority relative to other contacts in queue; or you can move a contact to the front of the queue by increasing the routing age which will make the contact look artificially older and therefore higher up in the first-in-first-out routing order. Note that adjusting the routing age of a contact affects only its position in queue, and not its actual queue wait time as reported through metrics. These properties can also be updated by using the Set routing priority / age flow block.
+    /// Updates routing priority and age on the contact (QueuePriority and QueueTimeAdjustmentInSeconds). These properties can be used to change a customer's position in the queue. For example, you can move a contact to the back of the queue by setting a lower routing priority relative to other contacts in queue; or you can move a contact to the front of the queue by increasing the routing age which will make the contact look artificially older and therefore higher up in the first-in-first-out routing order. Note that adjusting the routing age of a contact affects only its position in queue, and not its actual queue wait time as reported through metrics. These properties can also be updated by using the Set routing priority / age flow block.  Either QueuePriority or QueueTimeAdjustmentInSeconds should be provided within the request body, but not both.
     @Sendable
     public func updateContactRoutingData(_ input: UpdateContactRoutingDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactRoutingDataResponse {
         return try await self.client.execute(
@@ -3385,7 +3453,7 @@ extension Connect {
         )
     }
 
-    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals.  For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.
+    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals.  For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -3438,6 +3506,26 @@ extension Connect {
             command: self.listApprovedOrigins,
             inputKey: \ListApprovedOriginsRequest.nextToken,
             outputKey: \ListApprovedOriginsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. To
+    /// request access to this API, contact Amazon Web Services Support. Provides summary information about the authentication profiles in a specified Amazon Connect instance.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAuthenticationProfilesPaginator(
+        _ input: ListAuthenticationProfilesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAuthenticationProfilesRequest, ListAuthenticationProfilesResponse> {
+        return .init(
+            input: input,
+            command: self.listAuthenticationProfiles,
+            inputKey: \ListAuthenticationProfilesRequest.nextToken,
+            outputKey: \ListAuthenticationProfilesResponse.nextToken,
             logger: logger
         )
     }
@@ -4221,6 +4309,44 @@ extension Connect {
         )
     }
 
+    /// Searches the flow modules in an Amazon Connect instance, with optional filtering.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func searchContactFlowModulesPaginator(
+        _ input: SearchContactFlowModulesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchContactFlowModulesRequest, SearchContactFlowModulesResponse> {
+        return .init(
+            input: input,
+            command: self.searchContactFlowModules,
+            inputKey: \SearchContactFlowModulesRequest.nextToken,
+            outputKey: \SearchContactFlowModulesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Searches the contact flows in an Amazon Connect instance, with optional filtering.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func searchContactFlowsPaginator(
+        _ input: SearchContactFlowsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchContactFlowsRequest, SearchContactFlowsResponse> {
+        return .init(
+            input: input,
+            command: self.searchContactFlows,
+            inputKey: \SearchContactFlowsRequest.nextToken,
+            outputKey: \SearchContactFlowsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Searches contacts in an Amazon Connect instance.
     /// Return PaginatorSequence for operation.
     ///
@@ -4500,6 +4626,16 @@ extension Connect.ListAgentStatusRequest: AWSPaginateToken {
 
 extension Connect.ListApprovedOriginsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListApprovedOriginsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Connect.ListAuthenticationProfilesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListAuthenticationProfilesRequest {
         return .init(
             instanceId: self.instanceId,
             maxResults: self.maxResults,
@@ -4950,6 +5086,30 @@ extension Connect.SearchAvailablePhoneNumbersRequest: AWSPaginateToken {
             phoneNumberPrefix: self.phoneNumberPrefix,
             phoneNumberType: self.phoneNumberType,
             targetArn: self.targetArn
+        )
+    }
+}
+
+extension Connect.SearchContactFlowModulesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.SearchContactFlowModulesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )
+    }
+}
+
+extension Connect.SearchContactFlowsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.SearchContactFlowsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
         )
     }
 }

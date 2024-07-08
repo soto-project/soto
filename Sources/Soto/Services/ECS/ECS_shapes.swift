@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -831,13 +831,17 @@ extension ECS {
     public struct ClusterConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The details of the execute command configuration.
         public let executeCommandConfiguration: ExecuteCommandConfiguration?
+        /// The details of the managed storage configuration.
+        public let managedStorageConfiguration: ManagedStorageConfiguration?
 
-        public init(executeCommandConfiguration: ExecuteCommandConfiguration? = nil) {
+        public init(executeCommandConfiguration: ExecuteCommandConfiguration? = nil, managedStorageConfiguration: ManagedStorageConfiguration? = nil) {
             self.executeCommandConfiguration = executeCommandConfiguration
+            self.managedStorageConfiguration = managedStorageConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case executeCommandConfiguration = "executeCommandConfiguration"
+            case managedStorageConfiguration = "managedStorageConfiguration"
         }
     }
 
@@ -2476,6 +2480,8 @@ extension ECS {
         /// 			stopped.  Once a service deployment has one or more successfully running tasks, the failed
         /// 				task count resets to zero and stops being evaluated.
         public let failedTasks: Int?
+        /// The Fargate ephemeral storage settings for the deployment.
+        public let fargateEphemeralStorage: DeploymentEphemeralStorage?
         /// The ID of the deployment.
         public let id: String?
         /// The launch type the tasks in the service are using. For more information, see Amazon ECS
@@ -2535,11 +2541,12 @@ extension ECS {
         /// 			must match the name from the task definition.
         public let volumeConfigurations: [ServiceVolumeConfiguration]?
 
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, createdAt: Date? = nil, desiredCount: Int? = nil, failedTasks: Int? = nil, id: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, platformFamily: String? = nil, platformVersion: String? = nil, rolloutState: DeploymentRolloutState? = nil, rolloutStateReason: String? = nil, runningCount: Int? = nil, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceConnectResources: [ServiceConnectServiceResource]? = nil, status: String? = nil, taskDefinition: String? = nil, updatedAt: Date? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, createdAt: Date? = nil, desiredCount: Int? = nil, failedTasks: Int? = nil, fargateEphemeralStorage: DeploymentEphemeralStorage? = nil, id: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, platformFamily: String? = nil, platformVersion: String? = nil, rolloutState: DeploymentRolloutState? = nil, rolloutStateReason: String? = nil, runningCount: Int? = nil, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceConnectResources: [ServiceConnectServiceResource]? = nil, status: String? = nil, taskDefinition: String? = nil, updatedAt: Date? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.createdAt = createdAt
             self.desiredCount = desiredCount
             self.failedTasks = failedTasks
+            self.fargateEphemeralStorage = fargateEphemeralStorage
             self.id = id
             self.launchType = launchType
             self.networkConfiguration = networkConfiguration
@@ -2562,6 +2569,7 @@ extension ECS {
             case createdAt = "createdAt"
             case desiredCount = "desiredCount"
             case failedTasks = "failedTasks"
+            case fargateEphemeralStorage = "fargateEphemeralStorage"
             case id = "id"
             case launchType = "launchType"
             case networkConfiguration = "networkConfiguration"
@@ -2731,6 +2739,19 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case type = "type"
+        }
+    }
+
+    public struct DeploymentEphemeralStorage: AWSDecodableShape {
+        /// Specify an Key Management Service key ID to encrypt the ephemeral storage for deployment.
+        public let kmsKeyId: String?
+
+        public init(kmsKeyId: String? = nil) {
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "kmsKeyId"
         }
     }
 
@@ -4727,6 +4748,23 @@ extension ECS {
         }
     }
 
+    public struct ManagedStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the Key Management Service key ID for the Fargate ephemeral storage.
+        public let fargateEphemeralStorageKmsKeyId: String?
+        /// Specify a Key Management Service key ID to encrypt the managed storage.
+        public let kmsKeyId: String?
+
+        public init(fargateEphemeralStorageKmsKeyId: String? = nil, kmsKeyId: String? = nil) {
+            self.fargateEphemeralStorageKmsKeyId = fargateEphemeralStorageKmsKeyId
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fargateEphemeralStorageKmsKeyId = "fargateEphemeralStorageKmsKeyId"
+            case kmsKeyId = "kmsKeyId"
+        }
+    }
+
     public struct MountPoint: AWSEncodableShape & AWSDecodableShape {
         /// The path on the container to mount the host volume at.
         public let containerPath: String?
@@ -5448,8 +5486,7 @@ extension ECS {
         /// 			response.
         public let requiresCompatibilities: [Compatibility]?
         /// The operating system that your tasks definitions run on. A platform family is
-        /// 			specified only for tasks using the Fargate launch type.  When you specify a task definition in a service, this value must match the
-        /// 				runtimePlatform value of the service.
+        /// 			specified only for tasks using the Fargate launch type.
         public let runtimePlatform: RuntimePlatform?
         /// The metadata that you apply to the task definition to help you categorize and organize
         /// 			them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
@@ -5585,13 +5622,12 @@ extension ECS {
     }
 
     public struct ResourceRequirement: AWSEncodableShape & AWSDecodableShape {
-        /// The type of resource to assign to a container. The supported values are
-        /// 				GPU or InferenceAccelerator.
+        /// The type of resource to assign to a container.
         public let type: ResourceType
-        /// The value for the specified resource type. If the GPU type is used, the value is the number of physical
-        /// 				GPUs the Amazon ECS container agent reserves for the container. The number
-        /// 			of GPUs that's reserved for all containers in a task can't exceed the number of
-        /// 			available GPUs on the container instance that the task is launched on. If the InferenceAccelerator type is used, the value matches
+        /// The value for the specified resource type. When the type is GPU, the value is the number of physical GPUs the
+        /// 			Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for
+        /// 			all containers in a task can't exceed the number of available GPUs on the container
+        /// 			instance that the task is launched on. When the type is InferenceAccelerator, the value matches
         /// 			the deviceName for an InferenceAccelerator specified in a task definition.
         public let value: String
 
@@ -6854,6 +6890,8 @@ extension ECS {
         public let ephemeralStorage: EphemeralStorage?
         /// The Unix timestamp for the time when the task execution stopped.
         public let executionStoppedAt: Date?
+        /// The Fargate ephemeral storage settings for the task.
+        public let fargateEphemeralStorage: TaskEphemeralStorage?
         /// The name of the task group that's associated with the task.
         public let group: String?
         /// The health status for the task. It's determined by the health of the essential
@@ -6935,7 +6973,7 @@ extension ECS {
         /// 			current.
         public let version: Int64?
 
-        public init(attachments: [Attachment]? = nil, attributes: [Attribute]? = nil, availabilityZone: String? = nil, capacityProviderName: String? = nil, clusterArn: String? = nil, connectivity: Connectivity? = nil, connectivityAt: Date? = nil, containerInstanceArn: String? = nil, containers: [Container]? = nil, cpu: String? = nil, createdAt: Date? = nil, desiredStatus: String? = nil, enableExecuteCommand: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionStoppedAt: Date? = nil, group: String? = nil, healthStatus: HealthStatus? = nil, inferenceAccelerators: [InferenceAccelerator]? = nil, lastStatus: String? = nil, launchType: LaunchType? = nil, memory: String? = nil, overrides: TaskOverride? = nil, platformFamily: String? = nil, platformVersion: String? = nil, pullStartedAt: Date? = nil, pullStoppedAt: Date? = nil, startedAt: Date? = nil, startedBy: String? = nil, stopCode: TaskStopCode? = nil, stoppedAt: Date? = nil, stoppedReason: String? = nil, stoppingAt: Date? = nil, tags: [Tag]? = nil, taskArn: String? = nil, taskDefinitionArn: String? = nil, version: Int64? = nil) {
+        public init(attachments: [Attachment]? = nil, attributes: [Attribute]? = nil, availabilityZone: String? = nil, capacityProviderName: String? = nil, clusterArn: String? = nil, connectivity: Connectivity? = nil, connectivityAt: Date? = nil, containerInstanceArn: String? = nil, containers: [Container]? = nil, cpu: String? = nil, createdAt: Date? = nil, desiredStatus: String? = nil, enableExecuteCommand: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionStoppedAt: Date? = nil, fargateEphemeralStorage: TaskEphemeralStorage? = nil, group: String? = nil, healthStatus: HealthStatus? = nil, inferenceAccelerators: [InferenceAccelerator]? = nil, lastStatus: String? = nil, launchType: LaunchType? = nil, memory: String? = nil, overrides: TaskOverride? = nil, platformFamily: String? = nil, platformVersion: String? = nil, pullStartedAt: Date? = nil, pullStoppedAt: Date? = nil, startedAt: Date? = nil, startedBy: String? = nil, stopCode: TaskStopCode? = nil, stoppedAt: Date? = nil, stoppedReason: String? = nil, stoppingAt: Date? = nil, tags: [Tag]? = nil, taskArn: String? = nil, taskDefinitionArn: String? = nil, version: Int64? = nil) {
             self.attachments = attachments
             self.attributes = attributes
             self.availabilityZone = availabilityZone
@@ -6951,6 +6989,7 @@ extension ECS {
             self.enableExecuteCommand = enableExecuteCommand
             self.ephemeralStorage = ephemeralStorage
             self.executionStoppedAt = executionStoppedAt
+            self.fargateEphemeralStorage = fargateEphemeralStorage
             self.group = group
             self.healthStatus = healthStatus
             self.inferenceAccelerators = inferenceAccelerators
@@ -6990,6 +7029,7 @@ extension ECS {
             case enableExecuteCommand = "enableExecuteCommand"
             case ephemeralStorage = "ephemeralStorage"
             case executionStoppedAt = "executionStoppedAt"
+            case fargateEphemeralStorage = "fargateEphemeralStorage"
             case group = "group"
             case healthStatus = "healthStatus"
             case inferenceAccelerators = "inferenceAccelerators"
@@ -7181,6 +7221,25 @@ extension ECS {
         }
     }
 
+    public struct TaskEphemeralStorage: AWSDecodableShape {
+        /// Specify an Key Management Service key ID to encrypt the ephemeral storage for the task.
+        public let kmsKeyId: String?
+        /// The total amount, in GiB, of the ephemeral storage to set for the task. The minimum
+        /// 			supported value is 20 GiB and the maximum supported value is  200
+        /// 			GiB.
+        public let sizeInGiB: Int?
+
+        public init(kmsKeyId: String? = nil, sizeInGiB: Int? = nil) {
+            self.kmsKeyId = kmsKeyId
+            self.sizeInGiB = sizeInGiB
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "kmsKeyId"
+            case sizeInGiB = "sizeInGiB"
+        }
+    }
+
     public struct TaskManagedEBSVolumeConfiguration: AWSEncodableShape {
         /// Indicates whether the volume should be encrypted. If no value is specified, encryption
         /// 			is turned on by default. This parameter maps 1:1 with the Encrypted
@@ -7355,6 +7414,8 @@ extension ECS {
         /// 			discovery registry, the externalId parameter contains the
         /// 				ECS_TASK_SET_EXTERNAL_ID Cloud Map attribute.
         public let externalId: String?
+        /// The Fargate ephemeral storage settings for the task set.
+        public let fargateEphemeralStorage: DeploymentEphemeralStorage?
         /// The ID of the task set.
         public let id: String?
         /// The launch type the tasks in the task set are using. For more information, see Amazon ECS
@@ -7417,12 +7478,13 @@ extension ECS {
         /// The Unix timestamp for the time when the task set was last updated.
         public let updatedAt: Date?
 
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clusterArn: String? = nil, computedDesiredCount: Int? = nil, createdAt: Date? = nil, externalId: String? = nil, id: String? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, platformFamily: String? = nil, platformVersion: String? = nil, runningCount: Int? = nil, scale: Scale? = nil, serviceArn: String? = nil, serviceRegistries: [ServiceRegistry]? = nil, stabilityStatus: StabilityStatus? = nil, stabilityStatusAt: Date? = nil, startedBy: String? = nil, status: String? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil, taskSetArn: String? = nil, updatedAt: Date? = nil) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clusterArn: String? = nil, computedDesiredCount: Int? = nil, createdAt: Date? = nil, externalId: String? = nil, fargateEphemeralStorage: DeploymentEphemeralStorage? = nil, id: String? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, pendingCount: Int? = nil, platformFamily: String? = nil, platformVersion: String? = nil, runningCount: Int? = nil, scale: Scale? = nil, serviceArn: String? = nil, serviceRegistries: [ServiceRegistry]? = nil, stabilityStatus: StabilityStatus? = nil, stabilityStatusAt: Date? = nil, startedBy: String? = nil, status: String? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil, taskSetArn: String? = nil, updatedAt: Date? = nil) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.clusterArn = clusterArn
             self.computedDesiredCount = computedDesiredCount
             self.createdAt = createdAt
             self.externalId = externalId
+            self.fargateEphemeralStorage = fargateEphemeralStorage
             self.id = id
             self.launchType = launchType
             self.loadBalancers = loadBalancers
@@ -7450,6 +7512,7 @@ extension ECS {
             case computedDesiredCount = "computedDesiredCount"
             case createdAt = "createdAt"
             case externalId = "externalId"
+            case fargateEphemeralStorage = "fargateEphemeralStorage"
             case id = "id"
             case launchType = "launchType"
             case loadBalancers = "loadBalancers"

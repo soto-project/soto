@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -4776,20 +4776,24 @@ extension QuickSight {
         public let content: BodySectionContent
         /// The configuration of a page break for a section.
         public let pageBreakConfiguration: SectionPageBreakConfiguration?
+        /// Describes the configurations that are required to declare a section as repeating.
+        public let repeatConfiguration: BodySectionRepeatConfiguration?
         /// The unique identifier of a body section.
         public let sectionId: String
         /// The style options of a body section.
         public let style: SectionStyle?
 
-        public init(content: BodySectionContent, pageBreakConfiguration: SectionPageBreakConfiguration? = nil, sectionId: String, style: SectionStyle? = nil) {
+        public init(content: BodySectionContent, pageBreakConfiguration: SectionPageBreakConfiguration? = nil, repeatConfiguration: BodySectionRepeatConfiguration? = nil, sectionId: String, style: SectionStyle? = nil) {
             self.content = content
             self.pageBreakConfiguration = pageBreakConfiguration
+            self.repeatConfiguration = repeatConfiguration
             self.sectionId = sectionId
             self.style = style
         }
 
         public func validate(name: String) throws {
             try self.content.validate(name: "\(name).content")
+            try self.repeatConfiguration?.validate(name: "\(name).repeatConfiguration")
             try self.validate(self.sectionId, name: "sectionId", parent: name, max: 512)
             try self.validate(self.sectionId, name: "sectionId", parent: name, min: 1)
             try self.validate(self.sectionId, name: "sectionId", parent: name, pattern: "^[\\w\\-]+$")
@@ -4798,6 +4802,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
             case pageBreakConfiguration = "PageBreakConfiguration"
+            case repeatConfiguration = "RepeatConfiguration"
             case sectionId = "SectionId"
             case style = "Style"
         }
@@ -4817,6 +4822,134 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case layout = "Layout"
+        }
+    }
+
+    public struct BodySectionDynamicCategoryDimensionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let column: ColumnIdentifier
+        /// Number of values to use from the column for repetition.
+        public let limit: Int?
+        /// Sort criteria on the column values that you use for repetition.
+        public let sortByMetrics: [ColumnSort]?
+
+        public init(column: ColumnIdentifier, limit: Int? = nil, sortByMetrics: [ColumnSort]? = nil) {
+            self.column = column
+            self.limit = limit
+            self.sortByMetrics = sortByMetrics
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.limit, name: "limit", parent: name, max: 1000)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.sortByMetrics?.forEach {
+                try $0.validate(name: "\(name).sortByMetrics[]")
+            }
+            try self.validate(self.sortByMetrics, name: "sortByMetrics", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case limit = "Limit"
+            case sortByMetrics = "SortByMetrics"
+        }
+    }
+
+    public struct BodySectionDynamicNumericDimensionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let column: ColumnIdentifier
+        /// Number of values to use from the column for repetition.
+        public let limit: Int?
+        /// Sort criteria on the column values that you use for repetition.
+        public let sortByMetrics: [ColumnSort]?
+
+        public init(column: ColumnIdentifier, limit: Int? = nil, sortByMetrics: [ColumnSort]? = nil) {
+            self.column = column
+            self.limit = limit
+            self.sortByMetrics = sortByMetrics
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.limit, name: "limit", parent: name, max: 1000)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.sortByMetrics?.forEach {
+                try $0.validate(name: "\(name).sortByMetrics[]")
+            }
+            try self.validate(self.sortByMetrics, name: "sortByMetrics", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case limit = "Limit"
+            case sortByMetrics = "SortByMetrics"
+        }
+    }
+
+    public struct BodySectionRepeatConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// List of BodySectionRepeatDimensionConfiguration values that describe the dataset column and constraints for the column used to repeat the contents of a section.
+        public let dimensionConfigurations: [BodySectionRepeatDimensionConfiguration]?
+        /// List of visuals to exclude from repetition in repeating sections. The visuals will render identically, and ignore the repeating configurations in all repeating instances.
+        public let nonRepeatingVisuals: [String]?
+        /// Page break configuration to apply for each repeating instance.
+        public let pageBreakConfiguration: BodySectionRepeatPageBreakConfiguration?
+
+        public init(dimensionConfigurations: [BodySectionRepeatDimensionConfiguration]? = nil, nonRepeatingVisuals: [String]? = nil, pageBreakConfiguration: BodySectionRepeatPageBreakConfiguration? = nil) {
+            self.dimensionConfigurations = dimensionConfigurations
+            self.nonRepeatingVisuals = nonRepeatingVisuals
+            self.pageBreakConfiguration = pageBreakConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensionConfigurations?.forEach {
+                try $0.validate(name: "\(name).dimensionConfigurations[]")
+            }
+            try self.validate(self.dimensionConfigurations, name: "dimensionConfigurations", parent: name, max: 3)
+            try self.nonRepeatingVisuals?.forEach {
+                try validate($0, name: "nonRepeatingVisuals[]", parent: name, max: 512)
+                try validate($0, name: "nonRepeatingVisuals[]", parent: name, min: 1)
+                try validate($0, name: "nonRepeatingVisuals[]", parent: name, pattern: "^[\\w\\-]+$")
+            }
+            try self.validate(self.nonRepeatingVisuals, name: "nonRepeatingVisuals", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionConfigurations = "DimensionConfigurations"
+            case nonRepeatingVisuals = "NonRepeatingVisuals"
+            case pageBreakConfiguration = "PageBreakConfiguration"
+        }
+    }
+
+    public struct BodySectionRepeatDimensionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Describes the Category dataset column and constraints around the dynamic values that will be used in repeating the section contents.
+        public let dynamicCategoryDimensionConfiguration: BodySectionDynamicCategoryDimensionConfiguration?
+        /// Describes the Numeric dataset column and constraints around the dynamic values used to repeat the  contents of a section.
+        public let dynamicNumericDimensionConfiguration: BodySectionDynamicNumericDimensionConfiguration?
+
+        public init(dynamicCategoryDimensionConfiguration: BodySectionDynamicCategoryDimensionConfiguration? = nil, dynamicNumericDimensionConfiguration: BodySectionDynamicNumericDimensionConfiguration? = nil) {
+            self.dynamicCategoryDimensionConfiguration = dynamicCategoryDimensionConfiguration
+            self.dynamicNumericDimensionConfiguration = dynamicNumericDimensionConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.dynamicCategoryDimensionConfiguration?.validate(name: "\(name).dynamicCategoryDimensionConfiguration")
+            try self.dynamicNumericDimensionConfiguration?.validate(name: "\(name).dynamicNumericDimensionConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamicCategoryDimensionConfiguration = "DynamicCategoryDimensionConfiguration"
+            case dynamicNumericDimensionConfiguration = "DynamicNumericDimensionConfiguration"
+        }
+    }
+
+    public struct BodySectionRepeatPageBreakConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let after: SectionAfterPageBreak?
+
+        public init(after: SectionAfterPageBreak? = nil) {
+            self.after = after
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case after = "After"
         }
     }
 
@@ -5444,6 +5577,30 @@ extension QuickSight {
             case customFilterConfiguration = "CustomFilterConfiguration"
             case customFilterListConfiguration = "CustomFilterListConfiguration"
             case filterListConfiguration = "FilterListConfiguration"
+        }
+    }
+
+    public struct CategoryInnerFilter: AWSEncodableShape & AWSDecodableShape {
+        public let column: ColumnIdentifier
+        public let configuration: CategoryFilterConfiguration
+        public let defaultFilterControlConfiguration: DefaultFilterControlConfiguration?
+
+        public init(column: ColumnIdentifier, configuration: CategoryFilterConfiguration, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil) {
+            self.column = column
+            self.configuration = configuration
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.defaultFilterControlConfiguration?.validate(name: "\(name).defaultFilterControlConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case configuration = "Configuration"
+            case defaultFilterControlConfiguration = "DefaultFilterControlConfiguration"
         }
     }
 
@@ -14966,6 +15123,58 @@ extension QuickSight {
         }
     }
 
+    public struct DescribeKeyRegistrationRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the customer managed key registration that you want to describe.
+        public let awsAccountId: String
+        /// Determines whether the request returns the default key only.
+        public let defaultKeyOnly: Bool?
+
+        public init(awsAccountId: String, defaultKeyOnly: Bool? = nil) {
+            self.awsAccountId = awsAccountId
+            self.defaultKeyOnly = defaultKeyOnly
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.defaultKeyOnly, key: "default-key-only")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeKeyRegistrationResponse: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account that contains the customer managed key registration specified in the request.
+        public let awsAccountId: String?
+        /// A list of RegisteredCustomerManagedKey objects in a Amazon QuickSight account.
+        public let keyRegistration: [RegisteredCustomerManagedKey]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(awsAccountId: String? = nil, keyRegistration: [RegisteredCustomerManagedKey]? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.awsAccountId = awsAccountId
+            self.keyRegistration = keyRegistration
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case keyRegistration = "KeyRegistration"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct DescribeNamespaceRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that contains the Amazon QuickSight namespace that you want to describe.
         public let awsAccountId: String
@@ -16465,6 +16674,31 @@ extension QuickSight {
         }
     }
 
+    public struct FailedKeyRegistrationEntry: AWSDecodableShape {
+        /// The ARN of the KMS key that failed to update.
+        public let keyArn: String?
+        /// A message that provides information about why a FailedKeyRegistrationEntry error occurred.
+        public let message: String
+        /// A boolean that indicates whether a FailedKeyRegistrationEntry resulted from user error. If the value of this property is True, the error was caused by user error. If the value of this property is False, the error occurred on the backend. If your job continues fail and with a False SenderFault value, contact Amazon Web Services Support.
+        public let senderFault: Bool
+        /// The HTTP status of a FailedKeyRegistrationEntry error.
+        public let statusCode: Int
+
+        public init(keyArn: String? = nil, message: String, senderFault: Bool, statusCode: Int) {
+            self.keyArn = keyArn
+            self.message = message
+            self.senderFault = senderFault
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyArn = "KeyArn"
+            case message = "Message"
+            case senderFault = "SenderFault"
+            case statusCode = "StatusCode"
+        }
+    }
+
     public struct FieldBasedTooltip: AWSEncodableShape & AWSDecodableShape {
         /// The visibility of Show aggregations.
         public let aggregationVisibility: Visibility?
@@ -16866,6 +17100,8 @@ extension QuickSight {
     public struct Filter: AWSEncodableShape & AWSDecodableShape {
         /// A CategoryFilter filters text values. For more information, see Adding text filters in the Amazon QuickSight User Guide.
         public let categoryFilter: CategoryFilter?
+        /// A NestedFilter filters data with a subset of data that is defined by the nested inner filter.
+        public let nestedFilter: NestedFilter?
         /// A NumericEqualityFilter filters numeric values that equal or do not equal a given numeric value.
         public let numericEqualityFilter: NumericEqualityFilter?
         /// A NumericRangeFilter filters numeric values that are either inside or outside a given numeric range.
@@ -16879,8 +17115,9 @@ extension QuickSight {
         /// A TopBottomFilter filters data to the top or bottom values for a given column.
         public let topBottomFilter: TopBottomFilter?
 
-        public init(categoryFilter: CategoryFilter? = nil, numericEqualityFilter: NumericEqualityFilter? = nil, numericRangeFilter: NumericRangeFilter? = nil, relativeDatesFilter: RelativeDatesFilter? = nil, timeEqualityFilter: TimeEqualityFilter? = nil, timeRangeFilter: TimeRangeFilter? = nil, topBottomFilter: TopBottomFilter? = nil) {
+        public init(categoryFilter: CategoryFilter? = nil, nestedFilter: NestedFilter? = nil, numericEqualityFilter: NumericEqualityFilter? = nil, numericRangeFilter: NumericRangeFilter? = nil, relativeDatesFilter: RelativeDatesFilter? = nil, timeEqualityFilter: TimeEqualityFilter? = nil, timeRangeFilter: TimeRangeFilter? = nil, topBottomFilter: TopBottomFilter? = nil) {
             self.categoryFilter = categoryFilter
+            self.nestedFilter = nestedFilter
             self.numericEqualityFilter = numericEqualityFilter
             self.numericRangeFilter = numericRangeFilter
             self.relativeDatesFilter = relativeDatesFilter
@@ -16891,6 +17128,7 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.categoryFilter?.validate(name: "\(name).categoryFilter")
+            try self.nestedFilter?.validate(name: "\(name).nestedFilter")
             try self.numericEqualityFilter?.validate(name: "\(name).numericEqualityFilter")
             try self.numericRangeFilter?.validate(name: "\(name).numericRangeFilter")
             try self.relativeDatesFilter?.validate(name: "\(name).relativeDatesFilter")
@@ -16901,6 +17139,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case categoryFilter = "CategoryFilter"
+            case nestedFilter = "NestedFilter"
             case numericEqualityFilter = "NumericEqualityFilter"
             case numericRangeFilter = "NumericRangeFilter"
             case relativeDatesFilter = "RelativeDatesFilter"
@@ -19944,6 +20183,23 @@ extension QuickSight {
             case requestSource = "RequestSource"
             case requestType = "RequestType"
             case rowInfo = "RowInfo"
+        }
+    }
+
+    public struct InnerFilter: AWSEncodableShape & AWSDecodableShape {
+        /// A CategoryInnerFilter filters text values for the NestedFilter.
+        public let categoryInnerFilter: CategoryInnerFilter?
+
+        public init(categoryInnerFilter: CategoryInnerFilter? = nil) {
+            self.categoryInnerFilter = categoryInnerFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.categoryInnerFilter?.validate(name: "\(name).categoryInnerFilter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoryInnerFilter = "CategoryInnerFilter"
         }
     }
 
@@ -23902,6 +24158,39 @@ extension QuickSight {
         }
     }
 
+    public struct NestedFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The column that the filter is applied to.
+        public let column: ColumnIdentifier
+        /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
+        public let filterId: String
+        /// A boolean condition to include or exclude the subset that is defined by the values of the nested inner filter.
+        public let includeInnerSet: Bool
+        /// The InnerFilter defines the subset of data to be used with the NestedFilter.
+        public let innerFilter: InnerFilter
+
+        public init(column: ColumnIdentifier, filterId: String, includeInnerSet: Bool, innerFilter: InnerFilter) {
+            self.column = column
+            self.filterId = filterId
+            self.includeInnerSet = includeInnerSet
+            self.innerFilter = innerFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+            try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
+            try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
+            try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.innerFilter.validate(name: "\(name).innerFilter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case filterId = "FilterId"
+            case includeInnerSet = "IncludeInnerSet"
+            case innerFilter = "InnerFilter"
+        }
+    }
+
     public struct NetworkInterface: AWSDecodableShape {
         /// The availability zone that the network interface resides in.
         public let availabilityZone: String?
@@ -26474,11 +26763,11 @@ extension QuickSight {
         /// A list of groups whose permissions will be granted to Amazon QuickSight to access the cluster. These permissions are combined with the permissions granted to Amazon QuickSight by the DatabaseUser. If you choose to include this parameter, the RoleArn must grant access to redshift:JoinGroup.
         public let databaseGroups: [String]?
         /// The user whose permissions and group memberships will be used by Amazon QuickSight to access the cluster. If this user already exists in your database, Amazon QuickSight is granted the same permissions that the user has. If the user doesn't exist, set the value of AutoCreateDatabaseUser to True to create a new user with PUBLIC permissions.
-        public let databaseUser: String
+        public let databaseUser: String?
         /// Use the RoleArn structure to allow Amazon QuickSight to call redshift:GetClusterCredentials on your cluster. The calling principal must have iam:PassRole access to pass the role to Amazon QuickSight. The role's trust policy must allow the Amazon QuickSight service principal to assume the role.
         public let roleArn: String
 
-        public init(autoCreateDatabaseUser: Bool? = nil, databaseGroups: [String]? = nil, databaseUser: String, roleArn: String) {
+        public init(autoCreateDatabaseUser: Bool? = nil, databaseGroups: [String]? = nil, databaseUser: String? = nil, roleArn: String) {
             self.autoCreateDatabaseUser = autoCreateDatabaseUser
             self.databaseGroups = databaseGroups
             self.databaseUser = databaseUser
@@ -26863,7 +27152,7 @@ extension QuickSight {
         /// The Amazon QuickSight role for the user. The user role can be one of the
         /// 			following:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and
         /// 					dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight
-        /// 					settings.    RESTRICTED_READER: This role isn't currently available for
+        /// 					settings.    READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Amazon QuickSight, can build stories with Amazon Q, and can generate executive summaries from dashboards.    AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.    ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.    RESTRICTED_READER: This role isn't currently available for
         /// 					use.    RESTRICTED_AUTHOR: This role isn't currently available for
         /// 					use.
         public let userRole: UserRole
@@ -26969,6 +27258,23 @@ extension QuickSight {
             case requestId = "RequestId"
             case user = "User"
             case userInvitationUrl = "UserInvitationUrl"
+        }
+    }
+
+    public struct RegisteredCustomerManagedKey: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether a RegisteredCustomerManagedKey is set as the default key for encryption and decryption use.
+        public let defaultKey: Bool?
+        /// The ARN of the KMS key that is registered to a Amazon QuickSight account for encryption and decryption use.
+        public let keyArn: String?
+
+        public init(defaultKey: Bool? = nil, keyArn: String? = nil) {
+            self.defaultKey = defaultKey
+            self.keyArn = keyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultKey = "DefaultKey"
+            case keyArn = "KeyArn"
         }
     }
 
@@ -30357,6 +30663,23 @@ extension QuickSight {
             case totalCellStyle = "TotalCellStyle"
             case totalsVisibility = "TotalsVisibility"
             case valueCellStyle = "ValueCellStyle"
+        }
+    }
+
+    public struct SuccessfulKeyRegistrationEntry: AWSDecodableShape {
+        /// The ARN of the KMS key that is associated with the SuccessfulKeyRegistrationEntry entry.
+        public let keyArn: String
+        /// The HTTP status of a SuccessfulKeyRegistrationEntry entry.
+        public let statusCode: Int
+
+        public init(keyArn: String, statusCode: Int) {
+            self.keyArn = keyArn
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyArn = "KeyArn"
+            case statusCode = "StatusCode"
         }
     }
 
@@ -35068,6 +35391,56 @@ extension QuickSight {
         }
     }
 
+    public struct UpdateKeyRegistrationRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the customer managed key registration that you want to update.
+        public let awsAccountId: String
+        /// A list of RegisteredCustomerManagedKey objects to be updated to the Amazon QuickSight account.
+        public let keyRegistration: [RegisteredCustomerManagedKey]
+
+        public init(awsAccountId: String, keyRegistration: [RegisteredCustomerManagedKey]) {
+            self.awsAccountId = awsAccountId
+            self.keyRegistration = keyRegistration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.keyRegistration, forKey: .keyRegistration)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyRegistration = "KeyRegistration"
+        }
+    }
+
+    public struct UpdateKeyRegistrationResponse: AWSDecodableShape {
+        /// A list of all customer managed key registrations that failed to update.
+        public let failedKeyRegistration: [FailedKeyRegistrationEntry]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// A list of all customer managed key registrations that were successfully updated.
+        public let successfulKeyRegistration: [SuccessfulKeyRegistrationEntry]?
+
+        public init(failedKeyRegistration: [FailedKeyRegistrationEntry]? = nil, requestId: String? = nil, successfulKeyRegistration: [SuccessfulKeyRegistrationEntry]? = nil) {
+            self.failedKeyRegistration = failedKeyRegistration
+            self.requestId = requestId
+            self.successfulKeyRegistration = successfulKeyRegistration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedKeyRegistration = "FailedKeyRegistration"
+            case requestId = "RequestId"
+            case successfulKeyRegistration = "SuccessfulKeyRegistration"
+        }
+    }
+
     public struct UpdatePublicSharingSettingsRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID associated with your Amazon QuickSight subscription.
         public let awsAccountId: String
@@ -36097,7 +36470,7 @@ extension QuickSight {
         /// The Amazon QuickSight role of the user. The role can be one of the
         /// 			following default security cohorts:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and
         /// 					dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight
-        /// 					settings.    READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q Business, can build stories with Amazon Q, and can generate executive summaries from dashboards.    AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.    ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.   The name of the Amazon QuickSight role is invisible to the user except for the console
+        /// 					settings.    READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Amazon QuickSight, can build stories with Amazon Q, and can generate executive summaries from dashboards.    AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.    ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.   The name of the Amazon QuickSight role is invisible to the user except for the console
         /// 	        screens dealing with permissions.
         public let role: UserRole
         /// A flag that you use to indicate that you want to remove all custom permissions from this user. Using this parameter resets the user to the state it was in before a custom permissions profile was applied. This parameter defaults to NULL and it doesn't accept any other value.
@@ -36363,7 +36736,7 @@ extension QuickSight {
         public let identityType: IdentityType?
         /// The principal ID of the user.
         public let principalId: String?
-        /// The Amazon QuickSight role for the user. The user role can be one of the following:.    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon Amazon QuickSight settings.    READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q Business, can build stories with Amazon Q, and can generate executive summaries from dashboards.    AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.    ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.    RESTRICTED_READER: This role isn't currently available for use.    RESTRICTED_AUTHOR: This role isn't currently available for use.
+        /// The Amazon QuickSight role for the user. The user role can be one of the following:.    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon Amazon QuickSight settings.    READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Amazon QuickSight, can build stories with Amazon Q, and can generate executive summaries from dashboards.    AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.    ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.    RESTRICTED_READER: This role isn't currently available for use.    RESTRICTED_AUTHOR: This role isn't currently available for use.
         public let role: UserRole?
         /// The user's user name. This value is required if you are registering a user that will be managed in Amazon QuickSight. In the output, the value for UserName is N/A when the value for IdentityType is IAM and the corresponding IAM user is deleted.
         public let userName: String?

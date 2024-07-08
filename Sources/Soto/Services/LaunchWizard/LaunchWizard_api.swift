@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -125,6 +125,19 @@ public struct LaunchWizard: AWSService {
         )
     }
 
+    /// Returns details for a given workload and deployment pattern, including the available specifications. You can use the ListWorkloads operation to discover the available workload names and the ListWorkloadDeploymentPatterns operation to discover the available deployment pattern names of a given workload.
+    @Sendable
+    public func getWorkloadDeploymentPattern(_ input: GetWorkloadDeploymentPatternInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkloadDeploymentPatternOutput {
+        return try await self.client.execute(
+            operation: "GetWorkloadDeploymentPattern", 
+            path: "/getWorkloadDeploymentPattern", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists the events of a deployment.
     @Sendable
     public func listDeploymentEvents(_ input: ListDeploymentEventsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeploymentEventsOutput {
@@ -151,7 +164,20 @@ public struct LaunchWizard: AWSService {
         )
     }
 
-    /// Lists the workload deployment patterns.
+    /// Lists the tags associated with a specified resource.
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the workload deployment patterns for a given workload name. You can use the ListWorkloads operation to discover the available workload names.
     @Sendable
     public func listWorkloadDeploymentPatterns(_ input: ListWorkloadDeploymentPatternsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkloadDeploymentPatternsOutput {
         return try await self.client.execute(
@@ -164,13 +190,39 @@ public struct LaunchWizard: AWSService {
         )
     }
 
-    /// Lists the workloads.
+    /// Lists the available workload names. You can use the ListWorkloadDeploymentPatterns operation to discover the available deployment patterns for a given workload.
     @Sendable
     public func listWorkloads(_ input: ListWorkloadsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkloadsOutput {
         return try await self.client.execute(
             operation: "ListWorkloads", 
             path: "/listWorkloads", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Adds the specified tags to the given resource.
+    @Sendable
+    public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Removes the specified tags from the given resource.
+    @Sendable
+    public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -229,7 +281,7 @@ extension LaunchWizard {
         )
     }
 
-    /// Lists the workload deployment patterns.
+    /// Lists the workload deployment patterns for a given workload name. You can use the ListWorkloads operation to discover the available workload names.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -248,7 +300,7 @@ extension LaunchWizard {
         )
     }
 
-    /// Lists the workloads.
+    /// Lists the available workload names. You can use the ListWorkloadDeploymentPatterns operation to discover the available deployment patterns for a given workload.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

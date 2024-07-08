@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -451,11 +451,24 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Create a hub.  Hub APIs are only callable through SageMaker Studio.
+    /// Create a hub.
     @Sendable
     public func createHub(_ input: CreateHubRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHubResponse {
         return try await self.client.execute(
             operation: "CreateHub", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Create a hub content reference in order to add a model in the JumpStart public hub to a private hub.
+    @Sendable
+    public func createHubContentReference(_ input: CreateHubContentReferenceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHubContentReferenceResponse {
+        return try await self.client.execute(
+            operation: "CreateHubContentReference", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -560,6 +573,19 @@ public struct SageMaker: AWSService {
     public func createLabelingJob(_ input: CreateLabelingJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLabelingJobResponse {
         return try await self.client.execute(
             operation: "CreateLabelingJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store. For more information, see Create an MLflow Tracking Server.
+    @Sendable
+    public func createMlflowTrackingServer(_ input: CreateMlflowTrackingServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMlflowTrackingServerResponse {
+        return try await self.client.execute(
+            operation: "CreateMlflowTrackingServer", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -737,6 +763,19 @@ public struct SageMaker: AWSService {
         )
     }
 
+    /// Returns a presigned URL that you can use to connect to the MLflow UI attached to your tracking server. For more information, see Launch the MLflow UI using a presigned URL.
+    @Sendable
+    public func createPresignedMlflowTrackingServerUrl(_ input: CreatePresignedMlflowTrackingServerUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePresignedMlflowTrackingServerUrlResponse {
+        return try await self.client.execute(
+            operation: "CreatePresignedMlflowTrackingServerUrl", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the SageMaker console, when you choose Open next to a notebook instance, SageMaker opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page. The IAM role or user used to call this API defines the permissions to access the notebook instance. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the notebook instance. You can restrict access to this API and to the URL that it returns to a list of IP addresses that you specify. Use the NotIpAddress condition operator and the aws:SourceIP condition context key to specify the list of IP addresses that you want to have access to the notebook instance. For more information, see Limit Access to a Notebook Instance by IP Address.  The URL that you get from a call to CreatePresignedNotebookInstanceUrl is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the Amazon Web Services console sign-in page.
     @Sendable
     public func createPresignedNotebookInstanceUrl(_ input: CreatePresignedNotebookInstanceUrlInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePresignedNotebookInstanceUrlOutput {
@@ -776,7 +815,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Creates a space used for real time collaboration in a domain.
+    /// Creates a private space or a space used for real time collaboration in a domain.
     @Sendable
     public func createSpace(_ input: CreateSpaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSpaceResponse {
         return try await self.client.execute(
@@ -1154,7 +1193,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Delete a hub.  Hub APIs are only callable through SageMaker Studio.
+    /// Delete a hub.
     @Sendable
     public func deleteHub(_ input: DeleteHubRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1167,11 +1206,24 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Delete the contents of a hub.  Hub APIs are only callable through SageMaker Studio.
+    /// Delete the contents of a hub.
     @Sendable
     public func deleteHubContent(_ input: DeleteHubContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
             operation: "DeleteHubContent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Delete a hub content reference in order to remove a model from a private hub.
+    @Sendable
+    public func deleteHubContentReference(_ input: DeleteHubContentReferenceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteHubContentReference", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1250,6 +1302,19 @@ public struct SageMaker: AWSService {
     public func deleteInferenceExperiment(_ input: DeleteInferenceExperimentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInferenceExperimentResponse {
         return try await self.client.execute(
             operation: "DeleteInferenceExperiment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an MLflow Tracking Server. For more information, see Clean up MLflow resources.
+    @Sendable
+    public func deleteMlflowTrackingServer(_ input: DeleteMlflowTrackingServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMlflowTrackingServerResponse {
+        return try await self.client.execute(
+            operation: "DeleteMlflowTrackingServer", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1505,7 +1570,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Use this operation to delete a workforce. If you want to create a new workforce in an Amazon Web Services Region where a workforce already exists, use this operation to delete the  existing workforce and then use CreateWorkforce to create a new workforce.  If a private workforce contains one or more work teams, you must use  the DeleteWorkteam operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you will recieve a ResourceInUse error.
+    /// Use this operation to delete a workforce. If you want to create a new workforce in an Amazon Web Services Region where a workforce already exists, use this operation to delete the  existing workforce and then use CreateWorkforce to create a new workforce.  If a private workforce contains one or more work teams, you must use  the DeleteWorkteam operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you will receive a ResourceInUse error.
     @Sendable
     public func deleteWorkforce(_ input: DeleteWorkforceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkforceResponse {
         return try await self.client.execute(
@@ -1648,7 +1713,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Retrieves information of an instance (also called a node interchangeably) of a SageMaker HyperPod cluster.
+    /// Retrieves information of a node (also called a instance interchangeably) of a SageMaker HyperPod cluster.
     @Sendable
     public func describeClusterNode(_ input: DescribeClusterNodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClusterNodeResponse {
         return try await self.client.execute(
@@ -1856,7 +1921,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Describe a hub.  Hub APIs are only callable through SageMaker Studio.
+    /// Describes a hub.
     @Sendable
     public func describeHub(_ input: DescribeHubRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeHubResponse {
         return try await self.client.execute(
@@ -1869,7 +1934,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Describe the content of a hub.  Hub APIs are only callable through SageMaker Studio.
+    /// Describe the content of a hub.
     @Sendable
     public func describeHubContent(_ input: DescribeHubContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeHubContentResponse {
         return try await self.client.execute(
@@ -1999,6 +2064,19 @@ public struct SageMaker: AWSService {
         )
     }
 
+    /// Returns information about an MLflow Tracking Server.
+    @Sendable
+    public func describeMlflowTrackingServer(_ input: DescribeMlflowTrackingServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMlflowTrackingServerResponse {
+        return try await self.client.execute(
+            operation: "DescribeMlflowTrackingServer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Describes a model that you created using the CreateModel API.
     @Sendable
     public func describeModel(_ input: DescribeModelInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeModelOutput {
@@ -2064,7 +2142,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Marketplace. To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
+    /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Marketplace.  If you provided a KMS Key ID when you created your model package, you will see the KMS Decrypt API call in your CloudTrail logs when you use this API.  To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
     @Sendable
     public func describeModelPackage(_ input: DescribeModelPackageInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeModelPackageOutput {
         return try await self.client.execute(
@@ -2324,7 +2402,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Gets information about a specific work team. You can see information such as the create date, the last updated date, membership information, and the work team's Amazon Resource Name (ARN).
+    /// Gets information about a specific work team. You can see information such as the creation date, the last updated date, membership information, and the work team's Amazon Resource Name (ARN).
     @Sendable
     public func describeWorkteam(_ input: DescribeWorkteamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkteamResponse {
         return try await self.client.execute(
@@ -2454,7 +2532,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Import hub content.  Hub APIs are only callable through SageMaker Studio.
+    /// Import hub content.
     @Sendable
     public func importHubContent(_ input: ImportHubContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportHubContentResponse {
         return try await self.client.execute(
@@ -2792,7 +2870,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// List hub content versions.  Hub APIs are only callable through SageMaker Studio.
+    /// List hub content versions.
     @Sendable
     public func listHubContentVersions(_ input: ListHubContentVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHubContentVersionsResponse {
         return try await self.client.execute(
@@ -2805,7 +2883,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// List the contents of a hub.  Hub APIs are only callable through SageMaker Studio.
+    /// List the contents of a hub.
     @Sendable
     public func listHubContents(_ input: ListHubContentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHubContentsResponse {
         return try await self.client.execute(
@@ -2818,7 +2896,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// List all existing hubs.  Hub APIs are only callable through SageMaker Studio.
+    /// List all existing hubs.
     @Sendable
     public func listHubs(_ input: ListHubsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHubsResponse {
         return try await self.client.execute(
@@ -2966,6 +3044,19 @@ public struct SageMaker: AWSService {
     public func listLineageGroups(_ input: ListLineageGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLineageGroupsResponse {
         return try await self.client.execute(
             operation: "ListLineageGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists all MLflow Tracking Servers.
+    @Sendable
+    public func listMlflowTrackingServers(_ input: ListMlflowTrackingServersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMlflowTrackingServersResponse {
+        return try await self.client.execute(
+            operation: "ListMlflowTrackingServers", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -3572,6 +3663,19 @@ public struct SageMaker: AWSService {
         )
     }
 
+    /// Programmatically start an MLflow Tracking Server.
+    @Sendable
+    public func startMlflowTrackingServer(_ input: StartMlflowTrackingServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMlflowTrackingServerResponse {
+        return try await self.client.execute(
+            operation: "StartMlflowTrackingServer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Starts a previously stopped monitoring schedule.  By default, when you successfully create a new schedule, the status of a monitoring schedule is scheduled.
     @Sendable
     public func startMonitoringSchedule(_ input: StartMonitoringScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3707,6 +3811,19 @@ public struct SageMaker: AWSService {
     public func stopLabelingJob(_ input: StopLabelingJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
             operation: "StopLabelingJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Programmatically stop an MLflow Tracking Server.
+    @Sendable
+    public func stopMlflowTrackingServer(_ input: StopMlflowTrackingServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopMlflowTrackingServerResponse {
+        return try await self.client.execute(
+            operation: "StopMlflowTrackingServer", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -3988,7 +4105,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Update a hub.  Hub APIs are only callable through SageMaker Studio.
+    /// Update a hub.
     @Sendable
     public func updateHub(_ input: UpdateHubRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateHubResponse {
         return try await self.client.execute(
@@ -4058,6 +4175,19 @@ public struct SageMaker: AWSService {
     public func updateInferenceExperiment(_ input: UpdateInferenceExperimentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInferenceExperimentResponse {
         return try await self.client.execute(
             operation: "UpdateInferenceExperiment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates properties of an existing MLflow Tracking Server.
+    @Sendable
+    public func updateMlflowTrackingServer(_ input: UpdateMlflowTrackingServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMlflowTrackingServerResponse {
+        return try await self.client.execute(
+            operation: "UpdateMlflowTrackingServer", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -4930,6 +5060,25 @@ extension SageMaker {
             command: self.listLineageGroups,
             inputKey: \ListLineageGroupsRequest.nextToken,
             outputKey: \ListLineageGroupsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists all MLflow Tracking Servers.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listMlflowTrackingServersPaginator(
+        _ input: ListMlflowTrackingServersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMlflowTrackingServersRequest, ListMlflowTrackingServersResponse> {
+        return .init(
+            input: input,
+            command: self.listMlflowTrackingServers,
+            inputKey: \ListMlflowTrackingServersRequest.nextToken,
+            outputKey: \ListMlflowTrackingServersResponse.nextToken,
             logger: logger
         )
     }
@@ -6173,6 +6322,21 @@ extension SageMaker.ListLineageGroupsRequest: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListMlflowTrackingServersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListMlflowTrackingServersRequest {
+        return .init(
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            maxResults: self.maxResults,
+            mlflowVersion: self.mlflowVersion,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            trackingServerStatus: self.trackingServerStatus
+        )
+    }
+}
+
 extension SageMaker.ListModelBiasJobDefinitionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SageMaker.ListModelBiasJobDefinitionsRequest {
         return .init(
@@ -6265,6 +6429,7 @@ extension SageMaker.ListModelPackageGroupsInput: AWSPaginateToken {
         return .init(
             creationTimeAfter: self.creationTimeAfter,
             creationTimeBefore: self.creationTimeBefore,
+            crossAccountFilterOption: self.crossAccountFilterOption,
             maxResults: self.maxResults,
             nameContains: self.nameContains,
             nextToken: token,

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -348,7 +348,7 @@ extension Amplify {
         ///  A list of custom resources that are linked to this branch.
         public let associatedResources: [String]?
         public let backend: Backend?
-        ///  The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
+        ///  The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.  This property is available to Amplify Gen 1 apps only. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
         public let backendEnvironmentArn: String?
         ///  The basic authorization credentials for a branch of an Amplify app. You must base64-encode the authorization credentials and provide them in the format user:password.
         public let basicAuthCredentials: String?
@@ -713,9 +713,9 @@ extension Amplify {
     public struct CreateBranchRequest: AWSEncodableShape {
         ///  The unique ID for an Amplify app.
         public let appId: String
-        /// The backend for a Branch of an Amplify app. Use for a backend created from an CloudFormation stack.
+        /// The backend for a Branch of an Amplify app. Use for a backend created from an CloudFormation stack. This field is available to Amplify Gen 2 apps only. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
         public let backend: Backend?
-        /// The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
+        /// The Amazon Resource Name (ARN) for a backend environment that is part of a Gen 1 Amplify app.  This field is available to Amplify Gen 1 apps only where the backend is created using Amplify Studio or the Amplify command line interface (CLI).
         public let backendEnvironmentArn: String?
         ///  The basic authorization credentials for the branch. You must base64-encode the authorization credentials and provide them in the format user:password.
         public let basicAuthCredentials: String?
@@ -2780,9 +2780,9 @@ extension Amplify {
     public struct UpdateBranchRequest: AWSEncodableShape {
         ///  The unique ID for an Amplify app.
         public let appId: String
-        /// The backend for a Branch of an Amplify app. Use for a backend created from an CloudFormation stack.
+        /// The backend for a Branch of an Amplify app. Use for a backend created from an CloudFormation stack. This field is available to Amplify Gen 2 apps only. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
         public let backend: Backend?
-        /// The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
+        /// The Amazon Resource Name (ARN) for a backend environment that is part of a Gen 1 Amplify app.  This field is available to Amplify Gen 1 apps only where the backend is created using Amplify Studio or the Amplify command line interface (CLI).
         public let backendEnvironmentArn: String?
         ///  The basic authorization credentials for the branch. You must base64-encode the authorization credentials and provide them in the format user:password.
         public let basicAuthCredentials: String?

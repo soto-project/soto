@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -214,6 +214,19 @@ public struct SsmSap: AWSService {
         )
     }
 
+    /// Returns a list of operations events. Available parameters include OperationID, as well as optional parameters MaxResults, NextToken, and Filters.
+    @Sendable
+    public func listOperationEvents(_ input: ListOperationEventsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOperationEventsOutput {
+        return try await self.client.execute(
+            operation: "ListOperationEvents", 
+            path: "/list-operation-events", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists the operations performed by AWS Systems Manager for SAP.
     @Sendable
     public func listOperations(_ input: ListOperationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOperationsOutput {
@@ -266,12 +279,38 @@ public struct SsmSap: AWSService {
         )
     }
 
+    /// Request is an operation which starts an application. Parameter ApplicationId is required.
+    @Sendable
+    public func startApplication(_ input: StartApplicationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartApplicationOutput {
+        return try await self.client.execute(
+            operation: "StartApplication", 
+            path: "/start-application", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Refreshes a registered application.
     @Sendable
     public func startApplicationRefresh(_ input: StartApplicationRefreshInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartApplicationRefreshOutput {
         return try await self.client.execute(
             operation: "StartApplicationRefresh", 
             path: "/start-application-refresh", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Request is an operation to stop an application. Parameter ApplicationId is required.  Parameters StopConnectedEntity and  IncludeEc2InstanceShutdown are optional.
+    @Sendable
+    public func stopApplication(_ input: StopApplicationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopApplicationOutput {
+        return try await self.client.execute(
+            operation: "StopApplication", 
+            path: "/stop-application", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -389,6 +428,25 @@ extension SsmSap {
         )
     }
 
+    /// Returns a list of operations events. Available parameters include OperationID, as well as optional parameters MaxResults, NextToken, and Filters.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listOperationEventsPaginator(
+        _ input: ListOperationEventsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListOperationEventsInput, ListOperationEventsOutput> {
+        return .init(
+            input: input,
+            command: self.listOperationEvents,
+            inputKey: \ListOperationEventsInput.nextToken,
+            outputKey: \ListOperationEventsOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists the operations performed by AWS Systems Manager for SAP.
     /// Return PaginatorSequence for operation.
     ///
@@ -436,6 +494,17 @@ extension SsmSap.ListDatabasesInput: AWSPaginateToken {
             componentId: self.componentId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension SsmSap.ListOperationEventsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SsmSap.ListOperationEventsInput {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            operationId: self.operationId
         )
     }
 }

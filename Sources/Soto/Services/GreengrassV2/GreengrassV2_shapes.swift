@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -123,6 +123,12 @@ extension GreengrassV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum IotEndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fips = "fips"
+        case standard = "standard"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LambdaEventSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case iotCore = "IOT_CORE"
         case pubSub = "PUB_SUB"
@@ -150,6 +156,12 @@ extension GreengrassV2 {
     public enum RecipeOutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "JSON"
         case yaml = "YAML"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3EndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case global = "GLOBAL"
+        case regional = "REGIONAL"
         public var description: String { return self.rawValue }
     }
 
@@ -500,13 +512,13 @@ extension GreengrassV2 {
 
     public struct ComponentDeploymentSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The version of the component.
-        public let componentVersion: String?
+        public let componentVersion: String
         /// The configuration updates to deploy for the component. You can define reset updates and merge updates. A reset updates the keys that you specify to the default configuration for the component. A merge updates the core device's component configuration with the keys and values that you specify. The IoT Greengrass Core software applies reset updates before it applies merge updates. For more information, see Update component configurations in the IoT Greengrass V2 Developer Guide.
         public let configurationUpdate: ComponentConfigurationUpdate?
         /// The system user and group that the IoT Greengrass Core software uses to run component processes on the core device. If you omit this parameter, the IoT Greengrass Core software uses the system user and group that you configure for the core device. For more information, see Configure the user and group that run components in the IoT Greengrass V2 Developer Guide.
         public let runWith: ComponentRunWith?
 
-        public init(componentVersion: String? = nil, configurationUpdate: ComponentConfigurationUpdate? = nil, runWith: ComponentRunWith? = nil) {
+        public init(componentVersion: String, configurationUpdate: ComponentConfigurationUpdate? = nil, runWith: ComponentRunWith? = nil) {
             self.componentVersion = componentVersion
             self.configurationUpdate = configurationUpdate
             self.runWith = runWith
@@ -1260,10 +1272,16 @@ extension GreengrassV2 {
         public let arn: String
         /// The name of the artifact. You can use the GetComponent operation to download the component recipe, which includes the URI of the artifact. The artifact name is the section of the URI after the scheme. For example, in the artifact URI greengrass:SomeArtifact.zip, the artifact name is SomeArtifact.zip.
         public let artifactName: String
+        /// Determines if the Amazon S3 URL returned is a FIPS pre-signed URL endpoint.  Specify fips if you want the returned Amazon S3 pre-signed URL to point to  an Amazon S3 FIPS endpoint. If you don't specify a value, the default is standard.
+        public let iotEndpointType: IotEndpointType?
+        /// Specifies the endpoint to use when getting Amazon S3 pre-signed URLs. All Amazon Web Services Regions except US East (N. Virginia) use REGIONAL in all cases. In the US East (N. Virginia) Region the default is GLOBAL, but you can change it to REGIONAL with this parameter.
+        public let s3EndpointType: S3EndpointType?
 
-        public init(arn: String, artifactName: String) {
+        public init(arn: String, artifactName: String, iotEndpointType: IotEndpointType? = nil, s3EndpointType: S3EndpointType? = nil) {
             self.arn = arn
             self.artifactName = artifactName
+            self.iotEndpointType = iotEndpointType
+            self.s3EndpointType = s3EndpointType
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1271,6 +1289,8 @@ extension GreengrassV2 {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.arn, key: "arn")
             request.encodePath(self.artifactName, key: "artifactName")
+            request.encodeHeader(self.iotEndpointType, key: "x-amz-iot-endpoint-type")
+            request.encodeQuery(self.s3EndpointType, key: "s3EndpointType")
         }
 
         public func validate(name: String) throws {
@@ -1506,7 +1526,7 @@ extension GreengrassV2 {
         public let componentVersion: String?
         /// Whether or not the component is a root component.
         public let isRoot: Bool?
-        /// The most recent deployment source that brought the component to the Greengrass core device. For a thing group deployment or thing deployment, the source will be the The ID of the deployment. and for local deployments it will be LOCAL.  Any deployment will attempt to reinstall currently broken components on the device, which will update the last installation source.
+        /// The most recent deployment source that brought the component to the Greengrass core device. For a thing group deployment or thing deployment, the source will be the ID of the last deployment that contained the component. For local deployments it will be LOCAL.  Any deployment will attempt to reinstall currently broken components on the device, which will update the last installation source.
         public let lastInstallationSource: String?
         /// The last time the Greengrass core device sent a message containing a component's state to the Amazon Web Services Cloud. A component does not need to see a state change for this field to update.
         public let lastReportedTimestamp: Date?
@@ -2093,7 +2113,7 @@ extension GreengrassV2 {
     public struct ListDeploymentsRequest: AWSEncodableShape {
         /// The filter for the list of deployments. Choose one of the following options:    ALL – The list includes all deployments.    LATEST_ONLY – The list includes only the latest revision of each deployment.   Default: LATEST_ONLY
         public let historyFilter: DeploymentHistoryFilter?
-        /// The maximum number of results to be returned per paginated request.
+        /// The maximum number of results to be returned per paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1020,7 +1020,7 @@ extension IoTFleetWise {
         public let postTriggerCollectionDuration: Int64?
         /// (Optional) A number indicating the priority of one campaign over another campaign for a certain vehicle or fleet. A campaign with the lowest value is deployed to vehicles before any other campaigns. If it's not specified, 0 is used.  Default: 0
         public let priority: Int?
-        /// (Optional) The Amazon Resource Name (ARN) of the signal catalog to associate with the campaign.
+        /// The Amazon Resource Name (ARN) of the signal catalog to associate with the campaign.
         public let signalCatalogArn: String
         /// (Optional) A list of information about signals to collect.
         public let signalsToCollect: [SignalInformation]?
@@ -3318,6 +3318,10 @@ extension IoTFleetWise {
     }
 
     public struct ListVehiclesRequest: AWSEncodableShape {
+        /// The fully qualified names of the attributes. For example, the fully qualified name of an attribute might be Vehicle.Body.Engine.Type.
+        public let attributeNames: [String]?
+        /// Static information about a vehicle attribute value in string format. For example:  "1.3 L R2"
+        public let attributeValues: [String]?
         ///  The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         ///  The Amazon Resource Name (ARN) of a vehicle model (model manifest). You can use this optional parameter to list only the vehicles created from a certain vehicle model.
@@ -3325,7 +3329,9 @@ extension IoTFleetWise {
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, modelManifestArn: String? = nil, nextToken: String? = nil) {
+        public init(attributeNames: [String]? = nil, attributeValues: [String]? = nil, maxResults: Int? = nil, modelManifestArn: String? = nil, nextToken: String? = nil) {
+            self.attributeNames = attributeNames
+            self.attributeValues = attributeValues
             self.maxResults = maxResults
             self.modelManifestArn = modelManifestArn
             self.nextToken = nextToken
@@ -3334,12 +3340,23 @@ extension IoTFleetWise {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.attributeNames, key: "attributeNames")
+            request.encodeQuery(self.attributeValues, key: "attributeValues")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.modelManifestArn, key: "modelManifestArn")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
+            try self.attributeNames?.forEach {
+                try validate($0, name: "attributeNames[]", parent: name, max: 150)
+                try validate($0, name: "attributeNames[]", parent: name, min: 1)
+                try validate($0, name: "attributeNames[]", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            }
+            try self.validate(self.attributeNames, name: "attributeNames", parent: name, max: 5)
+            try self.validate(self.attributeNames, name: "attributeNames", parent: name, min: 1)
+            try self.validate(self.attributeValues, name: "attributeValues", parent: name, max: 5)
+            try self.validate(self.attributeValues, name: "attributeValues", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)

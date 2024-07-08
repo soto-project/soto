@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -108,7 +108,9 @@ extension Resiliencehub {
     }
 
     public enum DifferenceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case added = "Added"
         case notEqual = "NotEqual"
+        case removed = "Removed"
         public var description: String { return self.rawValue }
     }
 
@@ -128,6 +130,7 @@ extension Resiliencehub {
     }
 
     public enum DriftType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case appComponentResiliencyComplianceStatus = "AppComponentResiliencyComplianceStatus"
         case applicationCompliance = "ApplicationCompliance"
         public var description: String { return self.rawValue }
     }
@@ -1102,7 +1105,7 @@ extension Resiliencehub {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[^\\x00-\\x1f\\x22]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[^\\x00-\\x1f\\x22]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[^\\x00-\\x1f\\x22]*$")
             }
@@ -1361,7 +1364,7 @@ extension Resiliencehub {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[^\\x00-\\x1f\\x22]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[^\\x00-\\x1f\\x22]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[^\\x00-\\x1f\\x22]*$")
             }
@@ -1434,7 +1437,7 @@ extension Resiliencehub {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[^\\x00-\\x1f\\x22]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[^\\x00-\\x1f\\x22]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[^\\x00-\\x1f\\x22]*$")
             }
@@ -2371,7 +2374,7 @@ extension Resiliencehub {
         public let eventType: EventType
         /// Unique name to identify an event subscription.
         public let name: String
-        /// Amazon Resource Name (ARN) of the Amazon Simple Notification Service topic. The format for this ARN is: arn:partition:sns:region:account:topic-name.  For more information about ARNs,
+        /// Amazon Resource Name (ARN) of the Amazon Simple Notification Service topic. The format for this ARN is: arn:partition:sns:region:account:topic-name. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let snsTopicArn: String?
 
@@ -2587,6 +2590,53 @@ extension Resiliencehub {
         private enum CodingKeys: String, CodingKey {
             case complianceDrifts = "complianceDrifts"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAppAssessmentResourceDriftsRequest: AWSEncodableShape {
+        /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
+        /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
+        /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
+        public let assessmentArn: String
+        /// Indicates the maximum number of drift results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+        public let maxResults: Int?
+        /// Null, or the token from a previous call to get the next set of results.
+        public let nextToken: String?
+
+        public init(assessmentArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.assessmentArn = assessmentArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assessmentArn, name: "assessmentArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentArn = "assessmentArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAppAssessmentResourceDriftsResponse: AWSDecodableShape {
+        /// Null, or the token from a previous call to get the next set of results.
+        public let nextToken: String?
+        /// Indicates all the resource drifts detected for an assessed entity.
+        public let resourceDrifts: [ResourceDrift]
+
+        public init(nextToken: String? = nil, resourceDrifts: [ResourceDrift]) {
+            self.nextToken = nextToken
+            self.resourceDrifts = resourceDrifts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case resourceDrifts = "resourceDrifts"
         }
     }
 
@@ -3121,7 +3171,7 @@ extension Resiliencehub {
         /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
         /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
-        public let assessmentArn: String
+        public let assessmentArn: String?
         /// Maximum number of results to include in the response. If more results exist than the specified
         /// MaxResults value, a token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?
@@ -3137,7 +3187,7 @@ extension Resiliencehub {
         /// Status of the action.
         public let status: [RecommendationTemplateStatus]?
 
-        public init(assessmentArn: String, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, recommendationTemplateArn: String? = nil, reverseOrder: Bool? = nil, status: [RecommendationTemplateStatus]? = nil) {
+        public init(assessmentArn: String? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, recommendationTemplateArn: String? = nil, reverseOrder: Bool? = nil, status: [RecommendationTemplateStatus]? = nil) {
             self.assessmentArn = assessmentArn
             self.maxResults = maxResults
             self.name = name
@@ -3564,7 +3614,7 @@ extension Resiliencehub {
         public let physicalResourceId: PhysicalResourceId
         /// The name of the resource.
         public let resourceName: String?
-        /// The type of resource.
+        /// Type of resource.
         public let resourceType: String
         /// Type of input source.
         public let sourceType: ResourceSourceType?
@@ -4056,6 +4106,37 @@ extension Resiliencehub {
         }
     }
 
+    public struct ResourceDrift: AWSDecodableShape {
+        /// Amazon Resource Name (ARN) of the application whose resources have drifted. The format for this ARN is:
+        /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
+        /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
+        public let appArn: String?
+        /// Version of the application whose resources have drifted.
+        public let appVersion: String?
+        /// Indicates if the resource was added or removed.
+        public let diffType: DifferenceType?
+        /// Reference identifier of the resource drift.
+        public let referenceId: String?
+        /// Identifier of the drifted resource.
+        public let resourceIdentifier: ResourceIdentifier?
+
+        public init(appArn: String? = nil, appVersion: String? = nil, diffType: DifferenceType? = nil, referenceId: String? = nil, resourceIdentifier: ResourceIdentifier? = nil) {
+            self.appArn = appArn
+            self.appVersion = appVersion
+            self.diffType = diffType
+            self.referenceId = referenceId
+            self.resourceIdentifier = resourceIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appArn = "appArn"
+            case appVersion = "appVersion"
+            case diffType = "diffType"
+            case referenceId = "referenceId"
+            case resourceIdentifier = "resourceIdentifier"
+        }
+    }
+
     public struct ResourceError: AWSDecodableShape {
         /// Identifier of the logical resource.
         public let logicalResourceId: String?
@@ -4094,22 +4175,39 @@ extension Resiliencehub {
         }
     }
 
+    public struct ResourceIdentifier: AWSDecodableShape {
+        /// Logical identifier of the drifted resource.
+        public let logicalResourceId: LogicalResourceId?
+        /// Type of the drifted resource.
+        public let resourceType: String?
+
+        public init(logicalResourceId: LogicalResourceId? = nil, resourceType: String? = nil) {
+            self.logicalResourceId = logicalResourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logicalResourceId = "logicalResourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct ResourceMapping: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the application this resource is mapped to.
+        /// Name of the application this resource is mapped to when the mappingType is AppRegistryApp.
         public let appRegistryAppName: String?
-        /// Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to.  This parameter accepts values in "eks-cluster/namespace" format.
+        /// Name of the Amazon Elastic Kubernetes Service cluster and namespace that this resource is mapped to when the mappingType is EKS.  This parameter accepts values in "eks-cluster/namespace" format.
         public let eksSourceName: String?
-        /// The name of the CloudFormation stack this resource is mapped to.
+        /// Name of the CloudFormation stack this resource is mapped to when the mappingType is CfnStack.
         public let logicalStackName: String?
-        /// Specifies the type of resource mapping.  AppRegistryApp  The resource is mapped to another application. The name of the application is contained in the appRegistryAppName property.  CfnStack  The resource is mapped to a CloudFormation stack. The name of the CloudFormation stack is contained in the logicalStackName property.  Resource  The resource is mapped to another resource. The name of the resource is contained in the resourceName property.  ResourceGroup  The resource is mapped to Resource Groups. The name of the resource group is contained in the resourceGroupName property.
+        /// Specifies the type of resource mapping.
         public let mappingType: ResourceMappingType
         /// Identifier of the physical resource.
         public let physicalResourceId: PhysicalResourceId
-        /// Name of the resource group that the resource is mapped to.
+        /// Name of the Resource Groups that this resource is mapped to when the mappingType is ResourceGroup.
         public let resourceGroupName: String?
-        /// Name of the resource that the resource is mapped to.
+        /// Name of the resource that this resource is mapped to when the mappingType is Resource.
         public let resourceName: String?
-        ///  The short name of the Terraform source.
+        /// Name of the Terraform source that this resource is mapped to when the mappingType is Terraform.
         public let terraformSourceName: String?
 
         public init(appRegistryAppName: String? = nil, eksSourceName: String? = nil, logicalStackName: String? = nil, mappingType: ResourceMappingType, physicalResourceId: PhysicalResourceId, resourceGroupName: String? = nil, resourceName: String? = nil, terraformSourceName: String? = nil) {
@@ -4166,13 +4264,13 @@ extension Resiliencehub {
     }
 
     public struct ScoringComponentResiliencyScore: AWSDecodableShape {
-        /// Number of recommendations that were excluded from the assessment. For example, if the Excluded count for Resilience Hub recommended Amazon CloudWatch alarms is 7, it indicates that 7 Amazon CloudWatch alarms are excluded from the assessment.
+        /// Number of recommendations that were excluded from the assessment. For example, if the excludedCount for Alarms coverage scoring component is 7, it indicates that 7 Amazon CloudWatch alarms are excluded from the assessment.
         public let excludedCount: Int64?
-        /// Number of issues that must be resolved to obtain the maximum possible score for the scoring component. For SOPs, alarms, and FIS experiments, these are the number of recommendations that must be implemented. For compliance, it is the number of Application Components that has breached the resiliency policy. For example, if the Outstanding count for Resilience Hub recommended Amazon CloudWatch alarms is 5, it indicates that 5 Amazon CloudWatch alarms must be fixed to achieve the maximum possible score.
+        /// Number of recommendations that must be implemented to obtain the maximum possible score for the scoring component. For SOPs, alarms, and tests, these are the number of recommendations that must be implemented. For compliance, these are the number of Application Components that have breached the resiliency policy. For example, if the outstandingCount for Alarms coverage scoring component is 5, it indicates that 5 Amazon CloudWatch alarms need to be implemented to achieve the maximum possible score.
         public let outstandingCount: Int64?
-        /// Maximum possible score that can be obtained for the scoring component. If the Possible score is 20 points, it indicates the maximum possible score you can achieve for your application when you run a new assessment after implementing all the Resilience Hub recommendations.
+        /// Maximum possible score that can be obtained for the scoring component.  For example, if the possibleScore is 20 points, it indicates the maximum possible score you can achieve for the scoring component when you run a new assessment after implementing all the Resilience Hub recommendations.
         public let possibleScore: Double?
-        /// Resiliency score of your application.
+        /// Resiliency score points given for the scoring component. The score is always less than or equal to the possibleScore.
         public let score: Double?
 
         public init(excludedCount: Int64? = nil, outstandingCount: Int64? = nil, possibleScore: Double? = nil, score: Double? = nil) {
@@ -4269,7 +4367,7 @@ extension Resiliencehub {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[^\\x00-\\x1f\\x22]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[^\\x00-\\x1f\\x22]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[^\\x00-\\x1f\\x22]*$")
             }
@@ -4322,7 +4420,7 @@ extension Resiliencehub {
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[^\\x00-\\x1f\\x22]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[^\\x00-\\x1f\\x22]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[^\\x00-\\x1f\\x22]*$")
             }
@@ -4462,7 +4560,7 @@ extension Resiliencehub {
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[^\\x00-\\x1f\\x22]+$")
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^[^\\x00-\\x1f\\x22]+$")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)

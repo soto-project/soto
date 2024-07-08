@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1859,11 +1859,26 @@ extension SESv2 {
         }
     }
 
+    public struct EventBridgeDestination: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon EventBridge bus to publish email events to. Only the default bus is supported.
+        public let eventBusArn: String
+
+        public init(eventBusArn: String) {
+            self.eventBusArn = eventBusArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventBusArn = "EventBusArn"
+        }
+    }
+
     public struct EventDestination: AWSDecodableShape {
         /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
         public let cloudWatchDestination: CloudWatchDestination?
         /// If true, the event destination is enabled. When the event destination is enabled, the specified event types are sent to the destinations in this EventDestinationDefinition. If false, the event destination is disabled. When the event destination is disabled, events aren't sent to the specified destinations.
         public let enabled: Bool?
+        /// An object that defines an Amazon EventBridge destination for email events. You can use Amazon EventBridge to send notifications when certain email events occur.
+        public let eventBridgeDestination: EventBridgeDestination?
         /// An object that defines an Amazon Kinesis Data Firehose destination for email events. You can use Amazon Kinesis Data Firehose to stream data to other services, such as Amazon S3 and Amazon Redshift.
         public let kinesisFirehoseDestination: KinesisFirehoseDestination?
         /// The types of events that Amazon SES sends to the specified event destinations.    SEND - The send request was successful and SES will attempt to deliver the message to the recipient’s mail server. (If account-level or global suppression is being used, SES will still count it as a send, but delivery is suppressed.)    REJECT - SES accepted the email, but determined that it contained a virus and didn’t attempt to deliver it to the recipient’s mail server.    BOUNCE - (Hard bounce) The recipient's mail server permanently rejected the email. (Soft bounces are only included when SES fails to deliver the email after retrying for a period of time.)    COMPLAINT - The email was successfully delivered to the recipient’s mail server, but the recipient marked it as spam.    DELIVERY - SES successfully delivered the email to the recipient's mail server.    OPEN - The recipient received the message and opened it in their email client.    CLICK - The recipient clicked one or more links in the email.    RENDERING_FAILURE - The email wasn't sent because of a template rendering issue. This event type can occur when template data is missing, or when there is a mismatch between template parameters and data. (This event type only occurs when you send email using the  SendTemplatedEmail or  SendBulkTemplatedEmail API operations.)     DELIVERY_DELAY - The email couldn't be delivered to the recipient’s mail server because a temporary issue occurred. Delivery delays can occur, for example, when the recipient's inbox is full, or when the receiving email server experiences a transient issue.    SUBSCRIPTION - The email was successfully delivered, but the recipient updated their subscription preferences by clicking on an unsubscribe link as part of your subscription management.
@@ -1872,12 +1887,13 @@ extension SESv2 {
         public let name: String
         /// An object that defines an Amazon Pinpoint project destination for email events. You can send email event data to a Amazon Pinpoint project to view metrics using the Transactional Messaging dashboards that are built in to Amazon Pinpoint. For more information, see Transactional Messaging Charts in the Amazon Pinpoint User Guide.
         public let pinpointDestination: PinpointDestination?
-        /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
+        /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notifications when certain email events occur.
         public let snsDestination: SnsDestination?
 
-        public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType], name: String, pinpointDestination: PinpointDestination? = nil, snsDestination: SnsDestination? = nil) {
+        public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, eventBridgeDestination: EventBridgeDestination? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType], name: String, pinpointDestination: PinpointDestination? = nil, snsDestination: SnsDestination? = nil) {
             self.cloudWatchDestination = cloudWatchDestination
             self.enabled = enabled
+            self.eventBridgeDestination = eventBridgeDestination
             self.kinesisFirehoseDestination = kinesisFirehoseDestination
             self.matchingEventTypes = matchingEventTypes
             self.name = name
@@ -1888,6 +1904,7 @@ extension SESv2 {
         private enum CodingKeys: String, CodingKey {
             case cloudWatchDestination = "CloudWatchDestination"
             case enabled = "Enabled"
+            case eventBridgeDestination = "EventBridgeDestination"
             case kinesisFirehoseDestination = "KinesisFirehoseDestination"
             case matchingEventTypes = "MatchingEventTypes"
             case name = "Name"
@@ -1901,18 +1918,21 @@ extension SESv2 {
         public let cloudWatchDestination: CloudWatchDestination?
         /// If true, the event destination is enabled. When the event destination is enabled, the specified event types are sent to the destinations in this EventDestinationDefinition. If false, the event destination is disabled. When the event destination is disabled, events aren't sent to the specified destinations.
         public let enabled: Bool?
+        /// An object that defines an Amazon EventBridge destination for email events. You can use Amazon EventBridge to send notifications when certain email events occur.
+        public let eventBridgeDestination: EventBridgeDestination?
         /// An object that defines an Amazon Kinesis Data Firehose destination for email events. You can use Amazon Kinesis Data Firehose to stream data to other services, such as Amazon S3 and Amazon Redshift.
         public let kinesisFirehoseDestination: KinesisFirehoseDestination?
         /// An array that specifies which events the Amazon SES API v2 should send to the destinations in this EventDestinationDefinition.
         public let matchingEventTypes: [EventType]?
         /// An object that defines an Amazon Pinpoint project destination for email events. You can send email event data to a Amazon Pinpoint project to view metrics using the Transactional Messaging dashboards that are built in to Amazon Pinpoint. For more information, see Transactional Messaging Charts in the Amazon Pinpoint User Guide.
         public let pinpointDestination: PinpointDestination?
-        /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
+        /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notifications when certain email events occur.
         public let snsDestination: SnsDestination?
 
-        public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, pinpointDestination: PinpointDestination? = nil, snsDestination: SnsDestination? = nil) {
+        public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, eventBridgeDestination: EventBridgeDestination? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType]? = nil, pinpointDestination: PinpointDestination? = nil, snsDestination: SnsDestination? = nil) {
             self.cloudWatchDestination = cloudWatchDestination
             self.enabled = enabled
+            self.eventBridgeDestination = eventBridgeDestination
             self.kinesisFirehoseDestination = kinesisFirehoseDestination
             self.matchingEventTypes = matchingEventTypes
             self.pinpointDestination = pinpointDestination
@@ -1922,6 +1942,7 @@ extension SESv2 {
         private enum CodingKeys: String, CodingKey {
             case cloudWatchDestination = "CloudWatchDestination"
             case enabled = "Enabled"
+            case eventBridgeDestination = "EventBridgeDestination"
             case kinesisFirehoseDestination = "KinesisFirehoseDestination"
             case matchingEventTypes = "MatchingEventTypes"
             case pinpointDestination = "PinpointDestination"

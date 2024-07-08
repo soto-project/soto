@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -385,6 +385,8 @@ extension Artifact {
     }
 
     public struct ReportSummary: AWSDecodableShape {
+        /// Acceptance type for report.
+        public let acceptanceType: AcceptanceType?
         /// ARN for the report resource.
         public let arn: String?
         /// Category for the report resource.
@@ -416,7 +418,8 @@ extension Artifact {
         /// Version for the report resource.
         public let version: Int64?
 
-        public init(arn: String? = nil, category: String? = nil, companyName: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, periodEnd: Date? = nil, periodStart: Date? = nil, productName: String? = nil, series: String? = nil, state: PublishedState? = nil, statusMessage: String? = nil, uploadState: UploadState? = nil, version: Int64? = nil) {
+        public init(acceptanceType: AcceptanceType? = nil, arn: String? = nil, category: String? = nil, companyName: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, periodEnd: Date? = nil, periodStart: Date? = nil, productName: String? = nil, series: String? = nil, state: PublishedState? = nil, statusMessage: String? = nil, uploadState: UploadState? = nil, version: Int64? = nil) {
+            self.acceptanceType = acceptanceType
             self.arn = arn
             self.category = category
             self.companyName = companyName
@@ -434,6 +437,7 @@ extension Artifact {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acceptanceType = "acceptanceType"
             case arn = "arn"
             case category = "category"
             case companyName = "companyName"

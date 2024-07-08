@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -2060,7 +2060,7 @@ extension S3 {
     }
 
     public struct CreateSessionOutput: AWSDecodableShape {
-        /// The established temporary security credentials  for the created session..
+        /// The established temporary security credentials for the created session.
         public let credentials: SessionCredentials
 
         public init(credentials: SessionCredentials) {
@@ -4662,6 +4662,19 @@ extension S3 {
         /// HeadObject returns only the metadata for an object. If the Range is satisfiable, only the ContentLength is affected in the response. If the Range is not satisfiable, S3 returns a 416 - Requested Range Not Satisfiable error.
         public let range: String?
         public let requestPayer: RequestPayer?
+        /// Sets the Cache-Control header of the response.
+        public let responseCacheControl: String?
+        /// Sets the Content-Disposition header of the response.
+        public let responseContentDisposition: String?
+        /// Sets the Content-Encoding header of the response.
+        public let responseContentEncoding: String?
+        /// Sets the Content-Language header of the response.
+        public let responseContentLanguage: String?
+        /// Sets the Content-Type header of the response.
+        public let responseContentType: String?
+        /// Sets the Expires header of the response.
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var responseExpires: Date?
         /// Specifies the algorithm to use when encrypting the object (for example, AES256).  This functionality is not supported for directory buckets.
         public let sseCustomerAlgorithm: String?
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.  This functionality is not supported for directory buckets.
@@ -4671,7 +4684,7 @@ extension S3 {
         /// Version ID used to reference a specific version of the object.  For directory buckets in this API operation, only the null value of the version ID is supported.
         public let versionId: String?
 
-        public init(bucket: String, checksumMode: ChecksumMode? = nil, expectedBucketOwner: String? = nil, ifMatch: String? = nil, ifModifiedSince: Date? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: Date? = nil, key: String, partNumber: Int? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, versionId: String? = nil) {
+        public init(bucket: String, checksumMode: ChecksumMode? = nil, expectedBucketOwner: String? = nil, ifMatch: String? = nil, ifModifiedSince: Date? = nil, ifNoneMatch: String? = nil, ifUnmodifiedSince: Date? = nil, key: String, partNumber: Int? = nil, range: String? = nil, requestPayer: RequestPayer? = nil, responseCacheControl: String? = nil, responseContentDisposition: String? = nil, responseContentEncoding: String? = nil, responseContentLanguage: String? = nil, responseContentType: String? = nil, responseExpires: Date? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.checksumMode = checksumMode
             self.expectedBucketOwner = expectedBucketOwner
@@ -4683,6 +4696,12 @@ extension S3 {
             self.partNumber = partNumber
             self.range = range
             self.requestPayer = requestPayer
+            self.responseCacheControl = responseCacheControl
+            self.responseContentDisposition = responseContentDisposition
+            self.responseContentEncoding = responseContentEncoding
+            self.responseContentLanguage = responseContentLanguage
+            self.responseContentType = responseContentType
+            self.responseExpires = responseExpires
             self.sseCustomerAlgorithm = sseCustomerAlgorithm
             self.sseCustomerKey = sseCustomerKey
             self.sseCustomerKeyMD5 = sseCustomerKeyMD5
@@ -4703,6 +4722,12 @@ extension S3 {
             request.encodeQuery(self.partNumber, key: "partNumber")
             request.encodeHeader(self.range, key: "Range")
             request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeQuery(self.responseCacheControl, key: "response-cache-control")
+            request.encodeQuery(self.responseContentDisposition, key: "response-content-disposition")
+            request.encodeQuery(self.responseContentEncoding, key: "response-content-encoding")
+            request.encodeQuery(self.responseContentLanguage, key: "response-content-language")
+            request.encodeQuery(self.responseContentType, key: "response-content-type")
+            request.encodeQuery(self._responseExpires, key: "response-expires")
             request.encodeHeader(self.sseCustomerAlgorithm, key: "x-amz-server-side-encryption-customer-algorithm")
             request.encodeHeader(self.sseCustomerKey, key: "x-amz-server-side-encryption-customer-key")
             request.encodeHeader(self.sseCustomerKeyMD5, key: "x-amz-server-side-encryption-customer-key-MD5")
@@ -4717,7 +4742,7 @@ extension S3 {
     }
 
     public struct IndexDocument: AWSEncodableShape & AWSDecodableShape {
-        /// A suffix that is appended to a request that is for a directory on the website endpoint (for example,if the suffix is index.html and you make a request to samplebucket/images/ the data that is returned will be for the object with the key name images/index.html) The suffix must not be empty and must not include a slash character.  Replacement must be made for object keys containing special characters (such as carriage returns) when using  XML requests. For more information, see  XML related object key constraints.
+        /// A suffix that is appended to a request that is for a directory on the website endpoint. (For example, if the suffix is index.html and you make a request to samplebucket/images/, the data that is returned will be for the object with the key name images/index.html.) The suffix must not be empty and must not include a slash character.  Replacement must be made for object keys containing special characters (such as carriage returns) when using  XML requests. For more information, see  XML related object key constraints.
         public let suffix: String
 
         public init(suffix: String) {
@@ -6211,7 +6236,7 @@ extension S3 {
     }
 
     public struct NoncurrentVersionExpiration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies how many newer noncurrent versions must exist before Amazon S3 can perform the associated action on a given version. If there are this many more recent noncurrent versions, Amazon S3 will take the associated action. For more information about noncurrent versions, see Lifecycle configuration elements in the Amazon S3 User Guide.
+        /// Specifies how many noncurrent versions Amazon S3 will retain. You can specify up to 100 noncurrent versions to retain. Amazon S3 will permanently delete any additional noncurrent versions beyond the specified number to retain. For more information about noncurrent versions, see Lifecycle configuration elements in the Amazon S3 User Guide.
         public let newerNoncurrentVersions: Int?
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. The value must be a non-zero positive integer. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon S3 User Guide.
         public let noncurrentDays: Int?
@@ -6228,7 +6253,7 @@ extension S3 {
     }
 
     public struct NoncurrentVersionTransition: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies how many newer noncurrent versions must exist before Amazon S3 can perform the associated action on a given version. If there are this many more recent noncurrent versions, Amazon S3 will take the associated action. For more information about noncurrent versions, see Lifecycle configuration elements in the Amazon S3 User Guide.
+        /// Specifies how many noncurrent versions Amazon S3 will retain in the same storage class before transitioning objects. You can specify up to 100 noncurrent versions to retain. Amazon S3 will transition any additional noncurrent versions beyond the specified number to retain. For more information about noncurrent versions, see Lifecycle configuration elements in the Amazon S3 User Guide.
         public let newerNoncurrentVersions: Int?
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates How Long an Object Has Been Noncurrent in the Amazon S3 User Guide.
         public let noncurrentDays: Int?

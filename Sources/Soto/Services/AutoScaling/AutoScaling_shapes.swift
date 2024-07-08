@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -787,7 +787,7 @@ extension AutoScaling {
         public let launchConfigurationName: String?
         /// The launch template for the instance.
         public let launchTemplate: LaunchTemplateSpecification?
-        /// The lifecycle state for the instance. The Quarantined state is not used. For information about lifecycle states, see Instance lifecycle in the Amazon EC2 Auto Scaling User Guide.  Valid values: Pending | Pending:Wait | Pending:Proceed | Quarantined | InService | Terminating | Terminating:Wait | Terminating:Proceed | Terminated | Detaching | Detached | EnteringStandby | Standby | Warmed:Pending | Warmed:Pending:Wait | Warmed:Pending:Proceed | Warmed:Terminating | Warmed:Terminating:Wait | Warmed:Terminating:Proceed | Warmed:Terminated | Warmed:Stopped | Warmed:Running
+        /// The lifecycle state for the instance. The Quarantined state is not used. For more information, see Amazon EC2 Auto Scaling instance lifecycle in the Amazon EC2 Auto Scaling User Guide.  Valid values: Pending | Pending:Wait | Pending:Proceed | Quarantined | InService | Terminating | Terminating:Wait | Terminating:Proceed | Terminated | Detaching | Detached | EnteringStandby | Standby | Warmed:Pending | Warmed:Pending:Wait | Warmed:Pending:Proceed | Warmed:Terminating | Warmed:Terminating:Wait | Warmed:Terminating:Proceed | Warmed:Terminated | Warmed:Stopped | Warmed:Running
         public let lifecycleState: String?
         /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
         public let protectedFromScaleIn: Bool?
@@ -1094,19 +1094,19 @@ extension AutoScaling {
         public let defaultInstanceWarmup: Int?
         /// The desired capacity is the initial capacity of the Auto Scaling group at the time of its creation and the capacity it attempts to maintain. It can scale beyond this capacity if you configure auto scaling. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
         public let desiredCapacity: Int?
-        /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
+        /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Create a mixed instances group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
         public let desiredCapacityType: String?
         /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. This is useful if your instances do not immediately pass their health checks after they enter the InService state. For more information, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Default: 0 seconds
         public let healthCheckGracePeriod: Int?
-        /// A comma-separated value string of one or more health check types. The valid values are EC2, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see Health checks for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
+        /// A comma-separated value string of one or more health check types. The valid values are EC2, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see Health checks for instances in an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
         public let healthCheckType: String?
-        /// The ID of the instance used to base the launch configuration on. If specified, Amazon EC2 Auto Scaling uses the configuration values from the specified instance to create a new launch configuration. To get the instance ID, use the Amazon EC2 DescribeInstances API operation. For more information, see Creating an Auto Scaling group using an EC2 instance in the Amazon EC2 Auto Scaling User Guide.
+        /// The ID of the instance used to base the launch configuration on. If specified, Amazon EC2 Auto Scaling uses the configuration values from the specified instance to create a new launch configuration. To get the instance ID, use the Amazon EC2 DescribeInstances API operation. For more information, see Create an Auto Scaling group using parameters from an existing instance in the Amazon EC2 Auto Scaling User Guide.
         public let instanceId: String?
         /// An instance maintenance policy. For more information, see Set instance maintenance policy in the Amazon EC2 Auto Scaling User Guide.
         public let instanceMaintenancePolicy: InstanceMaintenancePolicy?
         /// The name of the launch configuration to use to launch instances.  Conditional: You must specify either a launch template (LaunchTemplate or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).
         public let launchConfigurationName: String?
-        /// Information used to specify the launch template and version to use to launch instances.  Conditional: You must specify either a launch template (LaunchTemplate or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).  The launch template that is specified must be configured for use with an Auto Scaling group. For more information, see Creating a launch template for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
+        /// Information used to specify the launch template and version to use to launch instances.  Conditional: You must specify either a launch template (LaunchTemplate or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).  The launch template that is specified must be configured for use with an Auto Scaling group. For more information, see Create a launch template for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
         public let launchTemplate: LaunchTemplateSpecification?
         /// One or more lifecycle hooks to add to the Auto Scaling group before instances are launched.
         @OptionalCustomCoding<StandardArrayCoder<LifecycleHookSpecification>>
@@ -1114,7 +1114,7 @@ extension AutoScaling {
         /// A list of Classic Load Balancers associated with this Auto Scaling group. For Application Load Balancers, Network Load Balancers, and Gateway Load Balancers, specify the TargetGroupARNs property instead.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var loadBalancerNames: [String]?
-        /// The maximum amount of time, in seconds, that an instance can be in service. The default is null. If specified, the value must be either 0 or a number equal to or greater than 86,400 seconds (1 day). For more information, see Replacing Auto Scaling instances based on maximum instance lifetime in the Amazon EC2 Auto Scaling User Guide.
+        /// The maximum amount of time, in seconds, that an instance can be in service. The default is null. If specified, the value must be either 0 or a number equal to or greater than 86,400 seconds (1 day). For more information, see Replace Auto Scaling instances based on maximum instance lifetime in the Amazon EC2 Auto Scaling User Guide.
         public let maxInstanceLifetime: Int?
         /// The maximum size of the group.  With a mixed instances policy that uses instance weighting, Amazon EC2 Auto Scaling may need to go above MaxSize to meet your capacity requirements. In this event, Amazon EC2 Auto Scaling will never go above MaxSize by more than your largest instance weight (weights that define how many units each instance contributes to the desired capacity of the group).
         public let maxSize: Int?
@@ -1122,7 +1122,7 @@ extension AutoScaling {
         public let minSize: Int?
         /// The mixed instances policy. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
         public let mixedInstancesPolicy: MixedInstancesPolicy?
-        /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Using instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
+        /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
         public let newInstancesProtectedFromScaleIn: Bool?
         /// The name of the placement group into which to launch your instances. For more information, see Placement groups in the Amazon EC2 User Guide for Linux Instances.  A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
         public let placementGroup: String?
@@ -1134,7 +1134,7 @@ extension AutoScaling {
         /// The Amazon Resource Names (ARN) of the Elastic Load Balancing target groups to associate with the Auto Scaling group. Instances are registered as targets with the target groups. The target groups receive incoming traffic and route requests to one or more registered targets. For more information, see Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var targetGroupARNs: [String]?
-        /// A policy or a list of policies that are used to select the instance to terminate. These policies are executed in the order that you list them. For more information, see Work with Amazon EC2 Auto Scaling termination policies in the Amazon EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy | ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration | OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
+        /// A policy or a list of policies that are used to select the instance to terminate. These policies are executed in the order that you list them. For more information, see Configure termination policies for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy | ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration | OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var terminationPolicies: [String]?
         /// The list of traffic sources to attach to this Auto Scaling group. You can use any of the following as traffic sources for an Auto Scaling group: Classic Load Balancer, Application Load Balancer, Gateway Load Balancer, Network Load Balancer, and VPC Lattice.
@@ -1266,7 +1266,7 @@ extension AutoScaling {
     }
 
     public struct CreateLaunchConfigurationType: AWSEncodableShape {
-        /// Specifies whether to assign a public IPv4 address to the group's instances. If the instance is launched into a default subnet, the default is to assign a public IPv4 address, unless you disabled the option to assign a public IPv4 address on the subnet. If the instance is launched into a nondefault subnet, the default is not to assign a public IPv4 address, unless you enabled the option to assign a public IPv4 address on the subnet. If you specify true, each instance in the Auto Scaling group receives a unique public IPv4 address. For more information, see Launching Auto Scaling instances in a VPC in the Amazon EC2 Auto Scaling User Guide. If you specify this property, you must specify at least one subnet for VPCZoneIdentifier when you create your group.
+        /// Specifies whether to assign a public IPv4 address to the group's instances. If the instance is launched into a default subnet, the default is to assign a public IPv4 address, unless you disabled the option to assign a public IPv4 address on the subnet. If the instance is launched into a nondefault subnet, the default is not to assign a public IPv4 address, unless you enabled the option to assign a public IPv4 address on the subnet. If you specify true, each instance in the Auto Scaling group receives a unique public IPv4 address. For more information, see Provide network connectivity for your Auto Scaling instances using Amazon VPC in the Amazon EC2 Auto Scaling User Guide. If you specify this property, you must specify at least one subnet for VPCZoneIdentifier when you create your group.
         public let associatePublicIpAddress: Bool?
         /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see Block device mappings in the Amazon EC2 User Guide for Linux Instances.
         @OptionalCustomCoding<StandardArrayCoder<BlockDeviceMapping>>
@@ -1280,27 +1280,27 @@ extension AutoScaling {
         public let ebsOptimized: Bool?
         /// The name or the Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance. The instance profile contains the IAM role. For more information, see IAM role for applications that run on Amazon EC2 instances in the Amazon EC2 Auto Scaling User Guide.
         public let iamInstanceProfile: String?
-        /// The ID of the Amazon Machine Image (AMI) that was assigned during registration. For more information, see Finding a Linux AMI in the Amazon EC2 User Guide for Linux Instances. If you specify InstanceId, an ImageId is not required.
+        /// The ID of the Amazon Machine Image (AMI) that was assigned during registration. For more information, see Find a Linux AMI in the Amazon EC2 User Guide for Linux Instances. If you specify InstanceId, an ImageId is not required.
         public let imageId: String?
-        /// The ID of the instance to use to create the launch configuration. The new launch configuration derives attributes from the instance, except for the block device mapping. To create a launch configuration with a block device mapping or override any other instance attributes, specify them as part of the same request. For more information, see Creating a launch configuration using an EC2 instance in the Amazon EC2 Auto Scaling User Guide.
+        /// The ID of the instance to use to create the launch configuration. The new launch configuration derives attributes from the instance, except for the block device mapping. To create a launch configuration with a block device mapping or override any other instance attributes, specify them as part of the same request. For more information, see Create a launch configuration in the Amazon EC2 Auto Scaling User Guide.
         public let instanceId: String?
-        /// Controls whether instances in this group are launched with detailed (true) or basic (false) monitoring. The default value is true (enabled).  When detailed monitoring is enabled, Amazon CloudWatch generates metrics every minute and your account is charged a fee. When you disable detailed monitoring, CloudWatch generates metrics every 5 minutes. For more information, see Configure Monitoring for Auto Scaling Instances in the Amazon EC2 Auto Scaling User Guide.
+        /// Controls whether instances in this group are launched with detailed (true) or basic (false) monitoring. The default value is true (enabled).  When detailed monitoring is enabled, Amazon CloudWatch generates metrics every minute and your account is charged a fee. When you disable detailed monitoring, CloudWatch generates metrics every 5 minutes. For more information, see Configure monitoring for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide.
         public let instanceMonitoring: InstanceMonitoring?
         /// Specifies the instance type of the EC2 instance. For information about available instance types, see Available instance types in the Amazon EC2 User Guide for Linux Instances. If you specify InstanceId, an InstanceType is not required.
         public let instanceType: String?
         /// The ID of the kernel associated with the AMI.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User provided kernels in the Amazon EC2 User Guide for Linux Instances.
         public let kernelId: String?
-        /// The name of the key pair. For more information, see Amazon EC2 key pairs and Linux instances in the Amazon EC2 User Guide for Linux Instances.
+        /// The name of the key pair. For more information, see Amazon EC2 key pairs and Amazon EC2 instances in the Amazon EC2 User Guide for Linux Instances.
         public let keyName: String?
         /// The name of the launch configuration. This name must be unique per Region per account.
         public let launchConfigurationName: String?
-        /// The metadata options for the instances. For more information, see Configuring the Instance Metadata Options in the Amazon EC2 Auto Scaling User Guide.
+        /// The metadata options for the instances. For more information, see Configure the instance metadata options in the Amazon EC2 Auto Scaling User Guide.
         public let metadataOptions: InstanceMetadataOptions?
-        /// The tenancy of the instance, either default or dedicated. An instance with dedicated tenancy runs on isolated, single-tenant hardware and can only be launched into a VPC. To launch dedicated instances into a shared tenancy VPC (a VPC with the instance placement tenancy attribute set to default), you must set the value of this property to dedicated. For more information, see Configuring instance tenancy with Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. If you specify PlacementTenancy, you must specify at least one subnet for VPCZoneIdentifier when you create your group. Valid values: default | dedicated
+        /// The tenancy of the instance, either default or dedicated. An instance with dedicated tenancy runs on isolated, single-tenant hardware and can only be launched into a VPC. To launch dedicated instances into a shared tenancy VPC (a VPC with the instance placement tenancy attribute set to default), you must set the value of this property to dedicated. If you specify PlacementTenancy, you must specify at least one subnet for VPCZoneIdentifier when you create your group. Valid values: default | dedicated
         public let placementTenancy: String?
         /// The ID of the RAM disk to select.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User provided kernels in the Amazon EC2 User Guide for Linux Instances.
         public let ramdiskId: String?
-        /// A list that contains the security group IDs to assign to the instances in the Auto Scaling group. For more information, see Control traffic to resources using security groups in the Amazon Virtual Private Cloud User Guide.
+        /// A list that contains the security group IDs to assign to the instances in the Auto Scaling group. For more information, see Control traffic to your Amazon Web Services resources using security groups in the Amazon Virtual Private Cloud User Guide.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var securityGroups: [String]?
         /// The maximum hourly price to be paid for any Spot Instance launched to fulfill the request. Spot Instances are launched when the price you specify exceeds the current Spot price. For more information, see Request Spot Instances for fault-tolerant and flexible applications in the Amazon EC2 Auto Scaling User Guide. Valid Range: Minimum value of 0.001  When you change your maximum price by creating a new launch configuration, running instances will continue to run as long as the maximum price for those running instances is higher than the current Spot price.
@@ -2448,7 +2448,7 @@ extension AutoScaling {
     public struct DisableMetricsCollectionQuery: AWSEncodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
-        /// Identifies the metrics to disable. You can specify one or more of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity    If you omit this property, all metrics are disabled. For more information, see Auto Scaling group metrics in the Amazon EC2 Auto Scaling User Guide.
+        /// Identifies the metrics to disable. You can specify one or more of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity    If you omit this property, all metrics are disabled. For more information, see Amazon CloudWatch metrics for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var metrics: [String]?
 
@@ -2477,9 +2477,9 @@ extension AutoScaling {
     public struct Ebs: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether the volume is deleted on instance termination. For Amazon EC2 Auto Scaling, the default value is true.
         public let deleteOnTermination: Bool?
-        /// Specifies whether the volume should be encrypted. Encrypted EBS volumes can only be attached to instances that support Amazon EBS encryption. For more information, see Supported instance types. If your AMI uses encrypted volumes, you can also only launch it on supported instance types.  If you are creating a volume from a snapshot, you cannot create an unencrypted volume from an encrypted snapshot. Also, you cannot specify a KMS key ID when using a launch configuration. If you enable encryption by default, the EBS volumes that you create are always encrypted, either using the Amazon Web Services managed KMS key or a customer-managed KMS key, regardless of whether the snapshot was encrypted.  For more information, see Use Amazon Web Services KMS keys to encrypt Amazon EBS volumes in the Amazon EC2 Auto Scaling User Guide.
+        /// Specifies whether the volume should be encrypted. Encrypted EBS volumes can only be attached to instances that support Amazon EBS encryption. For more information, see Requirements for Amazon EBS encryption in the Amazon EBS User Guide. If your AMI uses encrypted volumes, you can also only launch it on supported instance types.  If you are creating a volume from a snapshot, you cannot create an unencrypted volume from an encrypted snapshot. Also, you cannot specify a KMS key ID when using a launch configuration. If you enable encryption by default, the EBS volumes that you create are always encrypted, either using the Amazon Web Services managed KMS key or a customer-managed KMS key, regardless of whether the snapshot was encrypted.  For more information, see Use Amazon Web Services KMS keys to encrypt Amazon EBS volumes in the Amazon EC2 Auto Scaling User Guide.
         public let encrypted: Bool?
-        /// The number of input/output (I/O) operations per second (IOPS) to provision for the volume. For gp3 and io1 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting.  The following are the supported values for each volume type:     gp3: 3,000-16,000 IOPS    io1: 100-64,000 IOPS   For io1 volumes, we guarantee 64,000 IOPS only for Instances built on the Nitro System. Other instance families guarantee performance up to 32,000 IOPS.   Iops is supported when the volume type is gp3 or io1 and required only when the volume type is io1. (Not used with standard, gp2, st1, or sc1 volumes.)
+        /// The number of input/output (I/O) operations per second (IOPS) to provision for the volume. For gp3 and io1 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting.  The following are the supported values for each volume type:     gp3: 3,000-16,000 IOPS    io1: 100-64,000 IOPS   For io1 volumes, we guarantee 64,000 IOPS only for Instances built on the Amazon Web Services Nitro System. Other instance families guarantee performance up to 32,000 IOPS.   Iops is supported when the volume type is gp3 or io1 and required only when the volume type is io1. (Not used with standard, gp2, st1, or sc1 volumes.)
         public let iops: Int?
         /// The snapshot ID of the volume to use. You must specify either a VolumeSize or a SnapshotId.
         public let snapshotId: String?
@@ -2487,7 +2487,7 @@ extension AutoScaling {
         public let throughput: Int?
         /// The volume size, in GiBs. The following are the supported volumes sizes for each volume type:     gp2 and gp3: 1-16,384    io1: 4-16,384    st1 and sc1: 125-16,384    standard: 1-1,024   You must specify either a SnapshotId or a VolumeSize. If you specify both SnapshotId and VolumeSize, the volume size must be equal or greater than the size of the snapshot.
         public let volumeSize: Int?
-        /// The volume type. For more information, see Amazon EBS volume types in the Amazon EC2 User Guide for Linux Instances. Valid values: standard | io1 | gp2 | st1 | sc1 | gp3
+        /// The volume type. For more information, see Amazon EBS volume types in the Amazon EBS User Guide. Valid values: standard | io1 | gp2 | st1 | sc1 | gp3
         public let volumeType: String?
 
         public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, snapshotId: String? = nil, throughput: Int? = nil, volumeSize: Int? = nil, volumeType: String? = nil) {
@@ -2530,7 +2530,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String?
         /// The frequency at which Amazon EC2 Auto Scaling sends aggregated data to CloudWatch. The only valid value is 1Minute.
         public let granularity: String?
-        /// Identifies the metrics to enable. You can specify one or more of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity    If you specify Granularity and don't specify any metrics, all metrics are enabled. For more information, see Auto Scaling group metrics in the Amazon EC2 Auto Scaling User Guide.
+        /// Identifies the metrics to enable. You can specify one or more of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity    If you specify Granularity and don't specify any metrics, all metrics are enabled. For more information, see Amazon CloudWatch metrics for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var metrics: [String]?
 
@@ -2564,7 +2564,7 @@ extension AutoScaling {
     public struct EnabledMetric: AWSDecodableShape {
         /// The granularity of the metric. The only valid value is 1Minute.
         public let granularity: String?
-        /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity    For more information, see Auto Scaling group metrics in the Amazon EC2 Auto Scaling User Guide.
+        /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity    For more information, see Amazon CloudWatch metrics for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
         public let metric: String?
 
         public init(granularity: String? = nil, metric: String? = nil) {
@@ -2821,7 +2821,7 @@ extension AutoScaling {
         public let launchConfigurationName: String?
         /// The launch template for the instance.
         public let launchTemplate: LaunchTemplateSpecification?
-        /// A description of the current lifecycle state. The Quarantined state is not used. For information about lifecycle states, see Instance lifecycle in the Amazon EC2 Auto Scaling User Guide.
+        /// A description of the current lifecycle state. The Quarantined state is not used. For more information, see Amazon EC2 Auto Scaling instance lifecycle in the Amazon EC2 Auto Scaling User Guide.
         public let lifecycleState: LifecycleState?
         /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
         public let protectedFromScaleIn: Bool?
@@ -3217,9 +3217,9 @@ extension AutoScaling {
     }
 
     public struct LaunchConfiguration: AWSDecodableShape {
-        /// Specifies whether to assign a public IPv4 address to the group's instances. If the instance is launched into a default subnet, the default is to assign a public IPv4 address, unless you disabled the option to assign a public IPv4 address on the subnet. If the instance is launched into a nondefault subnet, the default is not to assign a public IPv4 address, unless you enabled the option to assign a public IPv4 address on the subnet. For more information, see Launching Auto Scaling instances in a VPC in the Amazon EC2 Auto Scaling User Guide.
+        /// Specifies whether to assign a public IPv4 address to the group's instances. If the instance is launched into a default subnet, the default is to assign a public IPv4 address, unless you disabled the option to assign a public IPv4 address on the subnet. If the instance is launched into a nondefault subnet, the default is not to assign a public IPv4 address, unless you enabled the option to assign a public IPv4 address on the subnet. For more information, see Provide network connectivity for your Auto Scaling instances using Amazon VPC in the Amazon EC2 Auto Scaling User Guide.
         public let associatePublicIpAddress: Bool?
-        /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see Block Device Mapping in the Amazon EC2 User Guide for Linux Instances.
+        /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see Block device mappings in the Amazon EC2 User Guide for Linux Instances.
         @OptionalCustomCoding<StandardArrayCoder<BlockDeviceMapping>>
         public var blockDeviceMappings: [BlockDeviceMapping]?
         /// Available for backward compatibility.
@@ -3229,34 +3229,34 @@ extension AutoScaling {
         public var classicLinkVPCSecurityGroups: [String]?
         /// The creation date and time for the launch configuration.
         public let createdTime: Date?
-        /// Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). For more information, see Amazon EBS-Optimized Instances in the Amazon EC2 User Guide for Linux Instances.
+        /// Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). For more information, see Amazon EBS-optimized instances in the Amazon EC2 User Guide for Linux Instances.
         public let ebsOptimized: Bool?
         /// The name or the Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance. The instance profile contains the IAM role. For more information, see IAM role for applications that run on Amazon EC2 instances in the Amazon EC2 Auto Scaling User Guide.
         public let iamInstanceProfile: String?
         /// The ID of the Amazon Machine Image (AMI) to use to launch your EC2 instances. For more information, see Find a Linux AMI in the Amazon EC2 User Guide for Linux Instances.
         public let imageId: String?
-        /// Controls whether instances in this group are launched with detailed (true) or basic (false) monitoring. For more information, see Configure Monitoring for Auto Scaling Instances in the Amazon EC2 Auto Scaling User Guide.
+        /// Controls whether instances in this group are launched with detailed (true) or basic (false) monitoring. For more information, see Configure monitoring for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide.
         public let instanceMonitoring: InstanceMonitoring?
         /// The instance type for the instances. For information about available instance types, see Available instance types in the Amazon EC2 User Guide for Linux Instances.
         public let instanceType: String?
         /// The ID of the kernel associated with the AMI.
         public let kernelId: String?
-        /// The name of the key pair. For more information, see Amazon EC2 Key Pairs in the Amazon EC2 User Guide for Linux Instances.
+        /// The name of the key pair. For more information, see Amazon EC2 key pairs and Amazon EC2 instances in the Amazon EC2 User Guide for Linux Instances.
         public let keyName: String?
         /// The Amazon Resource Name (ARN) of the launch configuration.
         public let launchConfigurationARN: String?
         /// The name of the launch configuration.
         public let launchConfigurationName: String?
-        /// The metadata options for the instances. For more information, see Configuring the Instance Metadata Options in the Amazon EC2 Auto Scaling User Guide.
+        /// The metadata options for the instances. For more information, see Configure the instance metadata options in the Amazon EC2 Auto Scaling User Guide.
         public let metadataOptions: InstanceMetadataOptions?
-        /// The tenancy of the instance, either default or dedicated. An instance with dedicated tenancy runs on isolated, single-tenant hardware and can only be launched into a VPC. For more information, see Configuring instance tenancy with Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
+        /// The tenancy of the instance, either default or dedicated. An instance with dedicated tenancy runs on isolated, single-tenant hardware and can only be launched into a VPC.
         public let placementTenancy: String?
         /// The ID of the RAM disk associated with the AMI.
         public let ramdiskId: String?
-        /// A list that contains the security groups to assign to the instances in the Auto Scaling group. For more information, see Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.
+        /// A list that contains the security groups to assign to the instances in the Auto Scaling group. For more information, see Control traffic to your Amazon Web Services resources using security groups in the Amazon Virtual Private Cloud User Guide.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var securityGroups: [String]?
-        /// The maximum hourly price to be paid for any Spot Instance launched to fulfill the request. Spot Instances are launched when the price you specify exceeds the current Spot price. For more information, see Requesting Spot Instances in the Amazon EC2 Auto Scaling User Guide.
+        /// The maximum hourly price to be paid for any Spot Instance launched to fulfill the request. Spot Instances are launched when the price you specify exceeds the current Spot price. For more information, see Requesting Spot Instances for fault-tolerant and flexible applications in the Amazon EC2 Auto Scaling User Guide.
         public let spotPrice: String?
         /// The user data to make available to the launched EC2 instances. For more information, see Instance metadata and user data (Linux) and Instance metadata and user data (Windows). If you are using a command line tool, base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide base64-encoded text. User data is limited to 16 KB.
         public let userData: String?
@@ -3404,11 +3404,11 @@ extension AutoScaling {
     public struct LaunchTemplateOverrides: AWSEncodableShape & AWSDecodableShape {
         /// The instance requirements. Amazon EC2 Auto Scaling uses your specified requirements to identify instance types. Then, it uses your On-Demand and Spot allocation strategies to launch instances from these instance types. You can specify up to four separate sets of instance requirements per Auto Scaling group. This is useful for provisioning instances from different Amazon Machine Images (AMIs) in the same Auto Scaling group. To do this, create the AMIs and create a new launch template for each AMI. Then, create a compatible set of instance requirements for each launch template.   If you specify InstanceRequirements, you can't specify InstanceType.
         public let instanceRequirements: InstanceRequirements?
-        /// The instance type, such as m3.xlarge. You must specify an instance type that is supported in your requested Region and Availability Zones. For more information, see Instance types in the Amazon Elastic Compute Cloud User Guide. You can specify up to 40 instance types per Auto Scaling group.
+        /// The instance type, such as m3.xlarge. You must specify an instance type that is supported in your requested Region and Availability Zones. For more information, see Instance types in the Amazon EC2 User Guide for Linux Instances. You can specify up to 40 instance types per Auto Scaling group.
         public let instanceType: String?
         /// Provides a launch template for the specified instance type or set of instance requirements. For example, some instance types might require a launch template with a different AMI. If not provided, Amazon EC2 Auto Scaling uses the launch template that's specified in the LaunchTemplate definition. For more information, see Specifying a different launch template for an instance type in the Amazon EC2 Auto Scaling User Guide.  You can specify up to 20 launch templates per Auto Scaling group. The launch templates specified in the overrides and in the LaunchTemplate definition count towards this limit.
         public let launchTemplateSpecification: LaunchTemplateSpecification?
-        /// If you provide a list of instance types to use, you can specify the number of capacity units provided by each instance type in terms of virtual CPUs, memory, storage, throughput, or other relative performance characteristic. When a Spot or On-Demand Instance is launched, the capacity units count toward the desired capacity. Amazon EC2 Auto Scaling launches instances until the desired capacity is totally fulfilled, even if this results in an overage. For example, if there are two units remaining to fulfill capacity, and Amazon EC2 Auto Scaling can only launch an instance with a WeightedCapacity of five units, the instance is launched, and the desired capacity is exceeded by three units. For more information, see Configuring instance weighting for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Value must be in the range of 1–999. If you specify a value for WeightedCapacity for one instance type, you must specify a value for WeightedCapacity for all of them.  Every Auto Scaling group has three size parameters (DesiredCapacity, MaxSize, and MinSize). Usually, you set these sizes based on a specific number of instances. However, if you configure a mixed instances policy that defines weights for the instance types, you must specify these sizes with the same units that you use for weighting instances.
+        /// If you provide a list of instance types to use, you can specify the number of capacity units provided by each instance type in terms of virtual CPUs, memory, storage, throughput, or other relative performance characteristic. When a Spot or On-Demand Instance is launched, the capacity units count toward the desired capacity. Amazon EC2 Auto Scaling launches instances until the desired capacity is totally fulfilled, even if this results in an overage. For example, if there are two units remaining to fulfill capacity, and Amazon EC2 Auto Scaling can only launch an instance with a WeightedCapacity of five units, the instance is launched, and the desired capacity is exceeded by three units. For more information, see Configure an Auto Scaling group to use instance weights in the Amazon EC2 Auto Scaling User Guide. Value must be in the range of 1–999. If you specify a value for WeightedCapacity for one instance type, you must specify a value for WeightedCapacity for all of them.  Every Auto Scaling group has three size parameters (DesiredCapacity, MaxSize, and MinSize). Usually, you set these sizes based on a specific number of instances. However, if you configure a mixed instances policy that defines weights for the instance types, you must specify these sizes with the same units that you use for weighting instances.
         public let weightedCapacity: String?
 
         public init(instanceRequirements: InstanceRequirements? = nil, instanceType: String? = nil, launchTemplateSpecification: LaunchTemplateSpecification? = nil, weightedCapacity: String? = nil) {
@@ -3528,7 +3528,7 @@ extension AutoScaling {
         public let notificationMetadata: String?
         /// The Amazon Resource Name (ARN) of the notification target that Amazon EC2 Auto Scaling sends notifications to when an instance is in a wait state for the lifecycle hook. You can specify an Amazon SNS topic or an Amazon SQS queue.
         public let notificationTargetARN: String?
-        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target. For information about creating this role, see Configure a notification target for a lifecycle hook in the Amazon EC2 Auto Scaling User Guide. Valid only if the notification target is an Amazon SNS topic or an Amazon SQS queue.
+        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target. For information about creating this role, see Prepare to add a lifecycle hook to your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Valid only if the notification target is an Amazon SNS topic or an Amazon SQS queue.
         public let roleARN: String?
 
         public init(defaultResult: String? = nil, heartbeatTimeout: Int? = nil, lifecycleHookName: String? = nil, lifecycleTransition: String? = nil, notificationMetadata: String? = nil, notificationTargetARN: String? = nil, roleARN: String? = nil) {
@@ -3947,7 +3947,7 @@ extension AutoScaling {
     }
 
     public struct PredictiveScalingConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Defines the behavior that should be applied if the forecast capacity approaches or exceeds the maximum capacity of the Auto Scaling group. Defaults to HonorMaxCapacity if not specified. The following are possible values:    HonorMaxCapacity - Amazon EC2 Auto Scaling cannot scale out capacity higher than the maximum capacity. The maximum capacity is enforced as a hard limit.     IncreaseMaxCapacity - Amazon EC2 Auto Scaling can scale out capacity higher than the maximum capacity when the forecast capacity is close to or exceeds the maximum capacity. The upper limit is determined by the forecasted capacity and the value for MaxCapacityBuffer.
+        /// Defines the behavior that should be applied if the forecast capacity approaches or exceeds the maximum capacity of the Auto Scaling group. Defaults to HonorMaxCapacity if not specified. The following are possible values:    HonorMaxCapacity - Amazon EC2 Auto Scaling can't increase the maximum capacity of the group when the forecast capacity is close to or exceeds the maximum capacity.    IncreaseMaxCapacity - Amazon EC2 Auto Scaling can increase the maximum capacity of the group when the forecast capacity is close to or exceeds the maximum capacity. The upper limit is determined by the forecasted capacity and the value for MaxCapacityBuffer.    Use caution when allowing the maximum capacity to be automatically increased. This can lead to more instances being launched than intended if the increased maximum capacity is not monitored and managed. The increased maximum capacity then becomes the new normal maximum capacity for the Auto Scaling group until you manually update it. The maximum capacity does not automatically decrease back to the original maximum.
         public let maxCapacityBreachBehavior: PredictiveScalingMaxCapacityBreachBehavior?
         /// The size of the capacity buffer to use when the forecast capacity is close to or exceeds the maximum capacity. The value is specified as a percentage relative to the forecast capacity. For example, if the buffer is 10, this means a 10 percent buffer, such that if the forecast capacity is 50, and the maximum capacity is 40, then the effective maximum capacity is 55. If set to 0, Amazon EC2 Auto Scaling may scale capacity higher than the maximum capacity to equal but not exceed forecast capacity.  Required if the MaxCapacityBreachBehavior property is set to IncreaseMaxCapacity, and cannot be used otherwise.
         public let maxCapacityBuffer: Int?
@@ -4292,7 +4292,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String?
         /// A cooldown period, in seconds, that applies to a specific simple scaling policy. When a cooldown period is specified here, it overrides the default cooldown. Valid only if the policy type is SimpleScaling. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Default: None
         public let cooldown: Int?
-        /// Indicates whether the scaling policy is enabled or disabled. The default is enabled. For more information, see Disabling a scaling policy for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
+        /// Indicates whether the scaling policy is enabled or disabled. The default is enabled. For more information, see Disable a scaling policy for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
         public let enabled: Bool?
         ///  Not needed if the default instance warmup is defined for the group.  The estimated time, in seconds, until a newly launched instance can contribute to the CloudWatch metrics. This warm-up period applies to instances launched due to a specific target tracking or step scaling policy. When a warm-up period is specified here, it overrides the default instance warmup. Valid only if the policy type is TargetTrackingScaling or StepScaling.  The default is to use the value for the default instance warmup defined for the group. If default instance warmup is null, then EstimatedInstanceWarmup falls back to the value of default cooldown.
         public let estimatedInstanceWarmup: Int?
@@ -4526,7 +4526,7 @@ extension AutoScaling {
         public let autoRollback: Bool?
         /// (Optional) The amount of time, in seconds, to wait after a checkpoint before continuing. This property is optional, but if you specify a value for it, you must also specify a value for CheckpointPercentages. If you specify a value for CheckpointPercentages and not for CheckpointDelay, the CheckpointDelay defaults to 3600 (1 hour).
         public let checkpointDelay: Int?
-        /// (Optional) Threshold values for each checkpoint in ascending order. Each number must be unique. To replace all instances in the Auto Scaling group, the last number in the array must be 100. For usage examples, see Adding checkpoints to an instance refresh in the Amazon EC2 Auto Scaling User Guide.
+        /// (Optional) Threshold values for each checkpoint in ascending order. Each number must be unique. To replace all instances in the Auto Scaling group, the last number in the array must be 100. For usage examples, see Add checkpoints to an instance refresh in the Amazon EC2 Auto Scaling User Guide.
         @OptionalCustomCoding<StandardArrayCoder<Int>>
         public var checkpointPercentages: [Int]?
         /// A time period, in seconds, during which an instance refresh waits before moving on to replacing the next instance after a new instance enters the InService state. This property is not required for normal usage. Instead, use the DefaultInstanceWarmup property of the Auto Scaling group. The InstanceWarmup and DefaultInstanceWarmup properties work the same way. Only specify this property if you must override the DefaultInstanceWarmup property.  If you do not specify this property, the instance warmup by default is the value of the DefaultInstanceWarmup property, if defined (which is recommended in all cases), or the HealthCheckGracePeriod property otherwise.
@@ -4905,7 +4905,7 @@ extension AutoScaling {
         public let healthStatus: String?
         /// The ID of the instance.
         public let instanceId: String?
-        /// If the Auto Scaling group of the specified instance has a HealthCheckGracePeriod specified for the group, by default, this call respects the grace period. Set this to False, to have the call not respect the grace period associated with the group. For more information about the health check grace period, see CreateAutoScalingGroup in the Amazon EC2 Auto Scaling API Reference.
+        /// If the Auto Scaling group of the specified instance has a HealthCheckGracePeriod specified for the group, by default, this call respects the grace period. Set this to False, to have the call not respect the grace period associated with the group. For more information about the health check grace period, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
         public let shouldRespectGracePeriod: Bool?
 
         public init(healthStatus: String? = nil, instanceId: String? = nil, shouldRespectGracePeriod: Bool? = nil) {
@@ -5191,7 +5191,7 @@ extension AutoScaling {
             try self.validate(self.expression, name: "expression", parent: name, max: 2047)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
             try self.validate(self.expression, name: "expression", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
-            try self.validate(self.id, name: "id", parent: name, max: 255)
+            try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.label, name: "label", parent: name, max: 2047)
@@ -5355,11 +5355,11 @@ extension AutoScaling {
         public let defaultInstanceWarmup: Int?
         /// The desired capacity is the initial capacity of the Auto Scaling group after this operation completes and the capacity it attempts to maintain. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
         public let desiredCapacity: Int?
-        /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
+        /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Create a mixed instances group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
         public let desiredCapacityType: String?
         /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. This is useful if your instances do not immediately pass their health checks after they enter the InService state. For more information, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
         public let healthCheckGracePeriod: Int?
-        /// A comma-separated value string of one or more health check types. The valid values are EC2, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see Health checks for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
+        /// A comma-separated value string of one or more health check types. The valid values are EC2, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see Health checks for instances in an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
         public let healthCheckType: String?
         /// An instance maintenance policy. For more information, see Set instance maintenance policy in the Amazon EC2 Auto Scaling User Guide.
         public let instanceMaintenancePolicy: InstanceMaintenancePolicy?
@@ -5375,13 +5375,13 @@ extension AutoScaling {
         public let minSize: Int?
         /// The mixed instances policy. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
         public let mixedInstancesPolicy: MixedInstancesPolicy?
-        /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Using instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
+        /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
         public let newInstancesProtectedFromScaleIn: Bool?
         /// The name of an existing placement group into which to launch your instances. For more information, see Placement groups in the Amazon EC2 User Guide for Linux Instances.  A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
         public let placementGroup: String?
         /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
         public let serviceLinkedRoleARN: String?
-        /// A policy or a list of policies that are used to select the instances to terminate. The policies are executed in the order that you list them. For more information, see Work with Amazon EC2 Auto Scaling termination policies in the Amazon EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy | ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration | OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
+        /// A policy or a list of policies that are used to select the instances to terminate. The policies are executed in the order that you list them. For more information, see Configure termination policies for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy | ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration | OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var terminationPolicies: [String]?
         /// A comma-separated list of subnet IDs for a virtual private cloud (VPC). If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify must reside in those Availability Zones.

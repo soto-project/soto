@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -54,6 +54,16 @@ extension Location {
         public var description: String { return self.rawValue }
     }
 
+    public enum ForecastedGeofenceEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// This event type signifies that a device is forecasted to enter the geofence
+        case enter = "ENTER"
+        /// This event type signifies that a device is forecasted to exit the geofence
+        case exit = "EXIT"
+        /// This event type signifies that a device is stationary in the geofence and an exit/enter cannot be forecasted
+        case idle = "IDLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IntendedUse: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Indicates that results of the operation are for single use, e.g., displaying results on a map or presenting options to users.
         case singleUse = "SingleUse"
@@ -95,6 +105,12 @@ extension Location {
         case positionsNotFound = "PositionsNotFound"
         case routeNotFound = "RouteNotFound"
         case routeTooLong = "RouteTooLong"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpeedUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kilometersPerHour = "KilometersPerHour"
+        case milesPerHour = "MilesPerHour"
         public var description: String { return self.rawValue }
     }
 
@@ -154,7 +170,7 @@ extension Location {
             try self.allowActions.forEach {
                 try validate($0, name: "allowActions[]", parent: name, max: 200)
                 try validate($0, name: "allowActions[]", parent: name, min: 5)
-                try validate($0, name: "allowActions[]", parent: name, pattern: "^geo:\\w*\\*?$")
+                try validate($0, name: "allowActions[]", parent: name, pattern: "^(geo|geo-routes|geo-places|geo-maps):\\w*\\*?$")
             }
             try self.allowReferers?.forEach {
                 try validate($0, name: "allowReferers[]", parent: name, max: 253)
@@ -162,7 +178,7 @@ extension Location {
             }
             try self.allowResources.forEach {
                 try validate($0, name: "allowResources[]", parent: name, max: 1600)
-                try validate($0, name: "allowResources[]", parent: name, pattern: "^arn(:[a-z0-9]+([.-][a-z0-9]+)*):geo(:([a-z0-9]+([.-][a-z0-9]+)*))(:[0-9]+):((\\*)|([-a-z]+[/][*-._\\w]+))$")
+                try validate($0, name: "allowResources[]", parent: name, pattern: "(^arn(:[a-z0-9]+([.-][a-z0-9]+)*):geo(:([a-z0-9]+([.-][a-z0-9]+)*))(:[0-9]+):((\\*)|([-a-z]+[/][*-._\\w]+))$)|(^arn(:[a-z0-9]+([.-][a-z0-9]+)*):(geo-routes|geo-places|geo-maps)(:((\\*)|([a-z0-9]+([.-][a-z0-9]+)*)))::((provider[\\/][*-._\\w]+))$)")
             }
         }
 
@@ -541,7 +557,7 @@ extension Location {
         public let geofenceId: String
         /// Associates one of more properties with the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
         public let geofenceProperties: [String: String]?
-        /// Contains the details of the position of the geofence. Can be either a  polygon or a circle. Including both will return a validation error.  Each  geofence polygon can have a maximum of 1,000 vertices.
+        /// Contains the details to specify the position of the geofence. Can be a polygon, a circle or a polygon encoded in Geobuf format. Including multiple selections will return a validation error.  The  geofence polygon format supports a maximum of 1,000 vertices. The Geofence geobuf format supports a maximum of 100,000 vertices.
         public let geometry: GeofenceGeometry
 
         public init(geofenceId: String, geofenceProperties: [String: String]? = nil, geometry: GeofenceGeometry) {
@@ -987,6 +1003,25 @@ extension Location {
         }
     }
 
+    public struct CellSignals: AWSEncodableShape {
+        /// Information about the Long-Term Evolution (LTE) network the device is connected to.
+        public let lteCellDetails: [LteCellDetails]
+
+        public init(lteCellDetails: [LteCellDetails]) {
+            self.lteCellDetails = lteCellDetails
+        }
+
+        public func validate(name: String) throws {
+            try self.lteCellDetails.forEach {
+                try $0.validate(name: "\(name).lteCellDetails[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lteCellDetails = "LteCellDetails"
+        }
+    }
+
     public struct Circle: AWSEncodableShape & AWSDecodableShape {
         /// A single point geometry, specifying the center of the circle, using WGS 84 coordinates, in the form [longitude, latitude].
         public let center: [Double]
@@ -1014,7 +1049,7 @@ extension Location {
         public let collectionName: String
         /// An optional description for the geofence collection.
         public let description: String?
-        /// A key identifier for an  Amazon Web Services  KMS customer managed key. Enter a key ID, key ARN, alias name, or alias ARN.
+        /// A key identifier for an Amazon Web Services KMS customer managed key. Enter a key ID, key ARN, alias name, or alias ARN.
         ///
         public let kmsKeyId: String?
         /// No longer used. If included, the only allowed value is RequestBasedUsage.
@@ -1710,7 +1745,7 @@ extension Location {
         public let description: String
         /// The number of geofences in the geofence collection.
         public let geofenceCount: Int?
-        /// A key identifier for an  Amazon Web Services  KMS customer managed key assigned to the Amazon Location resource
+        /// A key identifier for an Amazon Web Services KMS customer managed key assigned to the Amazon Location resource
         public let kmsKeyId: String?
         /// No longer used. Always returns RequestBasedUsage.
         public let pricingPlan: PricingPlan?
@@ -2249,6 +2284,52 @@ extension Location {
         }
     }
 
+    public struct DeviceState: AWSEncodableShape {
+        public let accuracy: PositionalAccuracy?
+        /// The cellular network infrastructure that the device is connected to.
+        public let cellSignals: CellSignals?
+        /// The device identifier.
+        public let deviceId: String
+        /// The device's Ipv4 address.
+        public let ipv4Address: String?
+        /// The last known device position.
+        public let position: [Double]
+        /// The timestamp at which the device's position was determined. Uses  ISO 8601  format: YYYY-MM-DDThh:mm:ss.sssZ.
+        @CustomCoding<ISO8601DateCoder>
+        public var sampleTime: Date
+        /// The Wi-Fi access points the device is using.
+        public let wiFiAccessPoints: [WiFiAccessPoint]?
+
+        public init(accuracy: PositionalAccuracy? = nil, cellSignals: CellSignals? = nil, deviceId: String, ipv4Address: String? = nil, position: [Double], sampleTime: Date, wiFiAccessPoints: [WiFiAccessPoint]? = nil) {
+            self.accuracy = accuracy
+            self.cellSignals = cellSignals
+            self.deviceId = deviceId
+            self.ipv4Address = ipv4Address
+            self.position = position
+            self.sampleTime = sampleTime
+            self.wiFiAccessPoints = wiFiAccessPoints
+        }
+
+        public func validate(name: String) throws {
+            try self.cellSignals?.validate(name: "\(name).cellSignals")
+            try self.validate(self.deviceId, name: "deviceId", parent: name, max: 100)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, min: 1)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "^[-._\\p{L}\\p{N}]+$")
+            try self.validate(self.position, name: "position", parent: name, max: 2)
+            try self.validate(self.position, name: "position", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accuracy = "Accuracy"
+            case cellSignals = "CellSignals"
+            case deviceId = "DeviceId"
+            case ipv4Address = "Ipv4Address"
+            case position = "Position"
+            case sampleTime = "SampleTime"
+            case wiFiAccessPoints = "WiFiAccessPoints"
+        }
+    }
+
     public struct DisassociateTrackerConsumerRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) for the geofence collection to be disassociated from the tracker resource. Used when you need to specify a resource across all Amazon Web Services.    Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer
         public let consumerArn: String
@@ -2282,19 +2363,165 @@ extension Location {
         public init() {}
     }
 
+    public struct ForecastGeofenceEventsDeviceState: AWSEncodableShape {
+        /// The device's position.
+        public let position: [Double]
+        /// The device's speed.
+        public let speed: Double?
+
+        public init(position: [Double], speed: Double? = nil) {
+            self.position = position
+            self.speed = speed
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.position, name: "position", parent: name, max: 2)
+            try self.validate(self.position, name: "position", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case position = "Position"
+            case speed = "Speed"
+        }
+    }
+
+    public struct ForecastGeofenceEventsRequest: AWSEncodableShape {
+        /// The name of the geofence collection.
+        public let collectionName: String
+        /// The device's state, including current position and speed.
+        public let deviceState: ForecastGeofenceEventsDeviceState
+        /// The distance unit used for the NearestDistance property returned in a forecasted event. The measurement system must match for DistanceUnit and SpeedUnit; if Kilometers is specified for DistanceUnit, then SpeedUnit must be KilometersPerHour.  Default Value: Kilometers
+        public let distanceUnit: DistanceUnit?
+        /// An optional limit for the number of resources returned in a single call. Default value: 20
+        public let maxResults: Int?
+        /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page. Default value: null
+        public let nextToken: String?
+        /// The speed unit for the device captured by the device state. The measurement system must match for DistanceUnit and SpeedUnit; if Kilometers is specified for DistanceUnit, then SpeedUnit must be KilometersPerHour. Default Value: KilometersPerHour.
+        public let speedUnit: SpeedUnit?
+        /// Specifies the time horizon in minutes for the forecasted events.
+        public let timeHorizonMinutes: Double?
+
+        public init(collectionName: String, deviceState: ForecastGeofenceEventsDeviceState, distanceUnit: DistanceUnit? = nil, maxResults: Int? = nil, nextToken: String? = nil, speedUnit: SpeedUnit? = nil, timeHorizonMinutes: Double? = nil) {
+            self.collectionName = collectionName
+            self.deviceState = deviceState
+            self.distanceUnit = distanceUnit
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.speedUnit = speedUnit
+            self.timeHorizonMinutes = timeHorizonMinutes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collectionName, key: "CollectionName")
+            try container.encode(self.deviceState, forKey: .deviceState)
+            try container.encodeIfPresent(self.distanceUnit, forKey: .distanceUnit)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.speedUnit, forKey: .speedUnit)
+            try container.encodeIfPresent(self.timeHorizonMinutes, forKey: .timeHorizonMinutes)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collectionName, name: "collectionName", parent: name, max: 100)
+            try self.validate(self.collectionName, name: "collectionName", parent: name, min: 1)
+            try self.validate(self.collectionName, name: "collectionName", parent: name, pattern: "^[-._\\w]+$")
+            try self.deviceState.validate(name: "\(name).deviceState")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 60000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceState = "DeviceState"
+            case distanceUnit = "DistanceUnit"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case speedUnit = "SpeedUnit"
+            case timeHorizonMinutes = "TimeHorizonMinutes"
+        }
+    }
+
+    public struct ForecastGeofenceEventsResponse: AWSDecodableShape {
+        /// The distance unit for the forecasted events.
+        public let distanceUnit: DistanceUnit
+        /// The list of forecasted events.
+        public let forecastedEvents: [ForecastedEvent]
+        /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.
+        public let nextToken: String?
+        /// The speed unit for the forecasted events.
+        public let speedUnit: SpeedUnit
+
+        public init(distanceUnit: DistanceUnit, forecastedEvents: [ForecastedEvent], nextToken: String? = nil, speedUnit: SpeedUnit) {
+            self.distanceUnit = distanceUnit
+            self.forecastedEvents = forecastedEvents
+            self.nextToken = nextToken
+            self.speedUnit = speedUnit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distanceUnit = "DistanceUnit"
+            case forecastedEvents = "ForecastedEvents"
+            case nextToken = "NextToken"
+            case speedUnit = "SpeedUnit"
+        }
+    }
+
+    public struct ForecastedEvent: AWSDecodableShape {
+        /// The forecasted event identifier.
+        public let eventId: String
+        /// The event type, forecasting three states for which a device can be in relative to a geofence:  ENTER: If a device is outside of a geofence, but would breach the fence if the device is moving at its current speed within time horizon window.  EXIT: If a device is inside of a geofence, but would breach the fence if the device is moving at its current speed within time horizon window.  IDLE: If a device is inside of a geofence, and the device is not moving.
+        public let eventType: ForecastedGeofenceEventType
+        /// The forecasted time the device will breach the geofence in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var forecastedBreachTime: Date?
+        /// The geofence identifier pertaining to the forecasted event.
+        public let geofenceId: String
+        /// The geofence properties.
+        public let geofenceProperties: [String: String]?
+        /// Indicates if the device is located within the geofence.
+        public let isDeviceInGeofence: Bool
+        /// The closest distance from the device's position to the geofence.
+        public let nearestDistance: Double
+
+        public init(eventId: String, eventType: ForecastedGeofenceEventType, forecastedBreachTime: Date? = nil, geofenceId: String, geofenceProperties: [String: String]? = nil, isDeviceInGeofence: Bool, nearestDistance: Double) {
+            self.eventId = eventId
+            self.eventType = eventType
+            self.forecastedBreachTime = forecastedBreachTime
+            self.geofenceId = geofenceId
+            self.geofenceProperties = geofenceProperties
+            self.isDeviceInGeofence = isDeviceInGeofence
+            self.nearestDistance = nearestDistance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventId = "EventId"
+            case eventType = "EventType"
+            case forecastedBreachTime = "ForecastedBreachTime"
+            case geofenceId = "GeofenceId"
+            case geofenceProperties = "GeofenceProperties"
+            case isDeviceInGeofence = "IsDeviceInGeofence"
+            case nearestDistance = "NearestDistance"
+        }
+    }
+
     public struct GeofenceGeometry: AWSEncodableShape & AWSDecodableShape {
         /// A circle on the earth, as defined by a center point and a radius.
         public let circle: Circle?
+        /// Geobuf is a compact binary encoding for geographic data that provides lossless compression of GeoJSON polygons. The Geobuf must be Base64-encoded. A polygon in Geobuf format can have up to 100,000 vertices.
+        public let geobuf: AWSBase64Data?
         /// A polygon is a list of linear rings which are each made up of a list of vertices. Each vertex is a 2-dimensional point of the form: [longitude, latitude]. This is represented as an array of doubles of length 2 (so [double, double]). An array of 4 or more vertices, where the first and last vertex are the same (to form a closed boundary), is called a linear ring. The linear ring vertices must be listed in counter-clockwise order around the ring’s interior. The linear ring is represented as an array of vertices, or an array of arrays of doubles ([[double, double], ...]). A geofence consists of a single linear ring. To allow for future expansion, the Polygon parameter takes an array of linear rings, which is represented as an array of arrays of arrays of doubles ([[[double, double], ...], ...]). A linear ring for use in geofences can consist of between 4 and 1,000 vertices.
         public let polygon: [[[Double]]]?
 
-        public init(circle: Circle? = nil, polygon: [[[Double]]]? = nil) {
+        public init(circle: Circle? = nil, geobuf: AWSBase64Data? = nil, polygon: [[[Double]]]? = nil) {
             self.circle = circle
+            self.geobuf = geobuf
             self.polygon = polygon
         }
 
         public func validate(name: String) throws {
             try self.circle?.validate(name: "\(name).circle")
+            try self.validate(self.geobuf, name: "geobuf", parent: name, max: 600000)
             try self.polygon?.forEach {
                 try validate($0, name: "polygon[]", parent: name, min: 4)
             }
@@ -2303,6 +2530,7 @@ extension Location {
 
         private enum CodingKeys: String, CodingKey {
             case circle = "Circle"
+            case geobuf = "Geobuf"
             case polygon = "Polygon"
         }
     }
@@ -2418,7 +2646,7 @@ extension Location {
         public let position: [Double]
         /// The properties associated with the position.
         public let positionProperties: [String: String]?
-        /// The timestamp for when the tracker resource received the device position in  ISO 8601  format: YYYY-MM-DDThh:mm:ss.sssZ.
+        /// The timestamp for when the tracker resource received the device position. Uses  ISO 8601  format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var receivedTime: Date
         /// The timestamp at which the device's position was determined. Uses  ISO 8601  format: YYYY-MM-DDThh:mm:ss.sssZ.
@@ -2510,7 +2738,7 @@ extension Location {
     }
 
     public struct GetMapGlyphsRequest: AWSEncodableShape {
-        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid font stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold | Arial Unicode MS Bold | Arial Unicode MS Regular    Valid font stacks for HERE Technologies styles:   VectorHereContrast – Fira  GO Regular | Fira GO Bold    VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite –  Fira GO Italic | Fira GO Map |  Fira GO Map Bold | Noto Sans CJK JP Bold |  Noto Sans CJK JP Light |  Noto Sans CJK JP Regular    Valid font stacks for GrabMaps styles:   VectorGrabStandardLight, VectorGrabStandardDark –  Noto Sans Regular | Noto Sans Medium | Noto Sans Bold    Valid font stacks for Open Data styles:   VectorOpenDataStandardLight, VectorOpenDataStandardDark, VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark –  Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold |  Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic |  Amazon Ember Condensed RC Regular,Noto Sans Regular |  Amazon Ember Condensed RC Bold,Noto Sans Bold | Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic  Condensed Bold | Amazon Ember Bold,Noto Sans Bold,Noto Sans Arabic Bold | Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic  Regular | Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Arabic  Condensed Regular | Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium     The fonts used by the Open Data map styles are combined fonts that use Amazon Ember for most glyphs but Noto Sans  for glyphs unsupported by Amazon Ember.
+        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid font stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies styles:   VectorHereContrast – Fira  GO Regular | Fira GO Bold    VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite –  Fira GO Italic | Fira GO Map |  Fira GO Map Bold | Noto Sans CJK JP Bold |  Noto Sans CJK JP Light |  Noto Sans CJK JP Regular    Valid font stacks for GrabMaps styles:   VectorGrabStandardLight, VectorGrabStandardDark –  Noto Sans Regular | Noto Sans Medium | Noto Sans Bold    Valid font stacks for Open Data styles:   VectorOpenDataStandardLight, VectorOpenDataStandardDark, VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark –  Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold |  Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic |  Amazon Ember Condensed RC Regular,Noto Sans Regular |  Amazon Ember Condensed RC Bold,Noto Sans Bold | Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic  Condensed Bold | Amazon Ember Bold,Noto Sans Bold,Noto Sans Arabic Bold | Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic  Regular | Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Arabic  Condensed Regular | Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium     The fonts used by the Open Data map styles are combined fonts that use Amazon Ember for most glyphs but Noto Sans  for glyphs unsupported by Amazon Ember.
         public let fontStack: String
         /// A Unicode range of characters to download glyphs for. Each response will contain 256 characters. For example, 0–255 includes all characters from range U+0000 to 00FF. Must be aligned to multiples of 256.
         public let fontUnicodeRange: String
@@ -2756,7 +2984,7 @@ extension Location {
         public let key: String?
         /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
         public let language: String?
-        /// The identifier of the place to find. While you can use PlaceID in subsequent requests,  PlaceID is not intended to be a permanent  identifier and the ID can change between consecutive API calls.  Please see the following PlaceID behaviour for each data provider:   Esri: Place IDs will change every quarter at a minimum. The typical time period for these changes would be March, June, September, and December. Place IDs might also change between the typical quarterly change but that will be much less frequent.   HERE: We recommend  that you cache data for no longer than a week  to keep your data data fresh. You can  assume that less than 1% ID shifts will release over release which is approximately 1 - 2 times per week.   Grab:  Place IDs can expire or become invalid in the following situations.   Data operations: The POI may be removed from Grab POI database by Grab Map Ops based on the ground-truth, such as being closed in the real world, being detected as a duplicate POI, or having incorrect information. Grab will synchronize data to the Waypoint environment on weekly basis.   Interpolated POI: Interpolated POI is a temporary POI generated in real time when serving a request,  and it will be marked as derived in the place.result_type field in the response.  The information of interpolated POIs will be retained for at least 30 days, which means that within 30 days, you are able to obtain POI details by  Place ID from Place Details API. After 30 days, the interpolated POIs(both Place ID and details) may expire and inaccessible from the Places Details API.
+        /// The identifier of the place to find.
         public let placeId: String
 
         public init(indexName: String, key: String? = nil, language: String? = nil, placeId: String) {
@@ -2797,6 +3025,31 @@ extension Location {
 
         private enum CodingKeys: String, CodingKey {
             case place = "Place"
+        }
+    }
+
+    public struct InferredState: AWSDecodableShape {
+        /// The level of certainty of the inferred position.
+        public let accuracy: PositionalAccuracy?
+        /// The distance between the inferred position and the device's self-reported position.
+        public let deviationDistance: Double?
+        /// The device position inferred by the provided position, IP address, cellular signals, and Wi-Fi- access points.
+        public let position: [Double]?
+        /// Indicates if a proxy was used.
+        public let proxyDetected: Bool
+
+        public init(accuracy: PositionalAccuracy? = nil, deviationDistance: Double? = nil, position: [Double]? = nil, proxyDetected: Bool) {
+            self.accuracy = accuracy
+            self.deviationDistance = deviationDistance
+            self.position = position
+            self.proxyDetected = proxyDetected
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accuracy = "Accuracy"
+            case deviationDistance = "DeviationDistance"
+            case position = "Position"
+            case proxyDetected = "ProxyDetected"
         }
     }
 
@@ -3080,7 +3333,7 @@ extension Location {
             try self.validate(self.collectionName, name: "collectionName", parent: name, max: 100)
             try self.validate(self.collectionName, name: "collectionName", parent: name, min: 1)
             try self.validate(self.collectionName, name: "collectionName", parent: name, pattern: "^[-._\\w]+$")
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 60000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -3609,14 +3862,141 @@ extension Location {
         }
     }
 
+    public struct LteCellDetails: AWSEncodableShape {
+        /// The E-UTRAN Cell Identifier (ECI).
+        public let cellId: Int
+        /// The LTE local identification information (local ID).
+        public let localId: LteLocalId?
+        /// The Mobile Country Code (MCC).
+        public let mcc: Int
+        /// The Mobile Network Code (MNC)
+        public let mnc: Int
+        /// The network measurements.
+        public let networkMeasurements: [LteNetworkMeasurements]?
+        /// Indicates whether the LTE object is capable of supporting NR (new radio).
+        public let nrCapable: Bool?
+        /// Signal power of the reference signal received, measured in decibel-milliwatts (dBm).
+        public let rsrp: Int?
+        /// Signal quality of the reference Signal received, measured in decibels (dB).
+        public let rsrq: Float?
+        /// LTE Tracking Area Code (TAC).
+        public let tac: Int?
+        /// Timing Advance (TA).
+        public let timingAdvance: Int?
+
+        public init(cellId: Int = 0, localId: LteLocalId? = nil, mcc: Int, mnc: Int, networkMeasurements: [LteNetworkMeasurements]? = nil, nrCapable: Bool? = nil, rsrp: Int? = nil, rsrq: Float? = nil, tac: Int? = nil, timingAdvance: Int? = nil) {
+            self.cellId = cellId
+            self.localId = localId
+            self.mcc = mcc
+            self.mnc = mnc
+            self.networkMeasurements = networkMeasurements
+            self.nrCapable = nrCapable
+            self.rsrp = rsrp
+            self.rsrq = rsrq
+            self.tac = tac
+            self.timingAdvance = timingAdvance
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cellId, name: "cellId", parent: name, max: 268435455)
+            try self.validate(self.cellId, name: "cellId", parent: name, min: 0)
+            try self.localId?.validate(name: "\(name).localId")
+            try self.networkMeasurements?.forEach {
+                try $0.validate(name: "\(name).networkMeasurements[]")
+            }
+            try self.validate(self.rsrp, name: "rsrp", parent: name, max: -44)
+            try self.validate(self.rsrp, name: "rsrp", parent: name, min: -140)
+            try self.validate(self.rsrq, name: "rsrq", parent: name, max: -3.0)
+            try self.validate(self.rsrq, name: "rsrq", parent: name, min: -19.5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cellId = "CellId"
+            case localId = "LocalId"
+            case mcc = "Mcc"
+            case mnc = "Mnc"
+            case networkMeasurements = "NetworkMeasurements"
+            case nrCapable = "NrCapable"
+            case rsrp = "Rsrp"
+            case rsrq = "Rsrq"
+            case tac = "Tac"
+            case timingAdvance = "TimingAdvance"
+        }
+    }
+
+    public struct LteLocalId: AWSEncodableShape {
+        /// E-UTRA (Evolved Universal Terrestrial Radio Access) absolute radio frequency channel number (EARFCN).
+        public let earfcn: Int
+        /// Physical Cell ID (PCI).
+        public let pci: Int
+
+        public init(earfcn: Int = 0, pci: Int = 0) {
+            self.earfcn = earfcn
+            self.pci = pci
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.earfcn, name: "earfcn", parent: name, max: 262143)
+            try self.validate(self.earfcn, name: "earfcn", parent: name, min: 0)
+            try self.validate(self.pci, name: "pci", parent: name, max: 503)
+            try self.validate(self.pci, name: "pci", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case earfcn = "Earfcn"
+            case pci = "Pci"
+        }
+    }
+
+    public struct LteNetworkMeasurements: AWSEncodableShape {
+        /// E-UTRAN Cell Identifier (ECI).
+        public let cellId: Int
+        /// E-UTRA (Evolved Universal Terrestrial Radio Access) absolute radio frequency channel number (EARFCN).
+        public let earfcn: Int
+        /// Physical Cell ID (PCI).
+        public let pci: Int
+        /// Signal power of the reference signal received, measured in dBm (decibel-milliwatts).
+        public let rsrp: Int?
+        /// Signal quality of the reference Signal received, measured in decibels (dB).
+        public let rsrq: Float?
+
+        public init(cellId: Int = 0, earfcn: Int = 0, pci: Int = 0, rsrp: Int? = nil, rsrq: Float? = nil) {
+            self.cellId = cellId
+            self.earfcn = earfcn
+            self.pci = pci
+            self.rsrp = rsrp
+            self.rsrq = rsrq
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cellId, name: "cellId", parent: name, max: 268435455)
+            try self.validate(self.cellId, name: "cellId", parent: name, min: 0)
+            try self.validate(self.earfcn, name: "earfcn", parent: name, max: 262143)
+            try self.validate(self.earfcn, name: "earfcn", parent: name, min: 0)
+            try self.validate(self.pci, name: "pci", parent: name, max: 503)
+            try self.validate(self.pci, name: "pci", parent: name, min: 0)
+            try self.validate(self.rsrp, name: "rsrp", parent: name, max: -44)
+            try self.validate(self.rsrp, name: "rsrp", parent: name, min: -140)
+            try self.validate(self.rsrq, name: "rsrq", parent: name, max: -3.0)
+            try self.validate(self.rsrq, name: "rsrq", parent: name, min: -19.5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cellId = "CellId"
+            case earfcn = "Earfcn"
+            case pci = "Pci"
+            case rsrp = "Rsrp"
+            case rsrq = "Rsrq"
+        }
+    }
+
     public struct MapConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom layers, you can enable layer(s), such as POI layer for the VectorEsriNavigation style.
-        /// Default is unset.  Currenlty only VectorEsriNavigation supports CustomLayers.
-        /// For more information, see Custom Layers.
+        /// Default is unset.  Not all map resources or styles support custom layers. See Custom Layers for more information.
         public let customLayers: [String]?
         /// Specifies the political view for the style. Leave unset to not use a political  view, or, for styles that support specific political views, you can choose a view,  such as IND for the Indian view. Default is unset.  Not all map resources or styles support political view styles. See  Political  views  for more information.
         public let politicalView: String?
-        /// Specifies the map style selected from an available data provider. Valid Esri map styles:    VectorEsriNavigation – The Esri Navigation map style, which provides a detailed basemap for the world symbolized with a  custom navigation map style that's designed for use during the day in mobile devices. It also includes a richer set of places,  such as shops, services, restaurants, attractions, and other points of interest.  Enable the POI layer by setting it in CustomLayers to leverage the additional places data.     RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.     VectorEsriLightGrayCanvas – The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your thematic content.     VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.    VectorEsriStreets – The Esri Street Map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.    VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.    Valid HERE Technologies map styles:    VectorHereExplore – A default HERE map style containing a  neutral, global map and its features including roads, buildings, landmarks,  and water features. It also now includes a fully designed map of Japan.    RasterHereExploreSatellite – A global map containing high resolution satellite imagery.    HybridHereExploreSatellite – A global map displaying the road  network, street names, and city labels over satellite imagery. This style  will automatically retrieve both raster and vector tiles, and your charges  will be based on total tiles retrieved.  Hybrid styles use both vector and raster tiles when rendering the  map that you see. This means that more tiles are retrieved than when using  either vector or raster tiles alone. Your charges will include all tiles  retrieved.     VectorHereContrast – The HERE Contrast (Berlin) map style is a  high contrast detailed base map of the world that blends 3D and 2D rendering.  The VectorHereContrast style has been renamed from  VectorHereBerlin.  VectorHereBerlin has been deprecated, but will continue to work in  applications that use it.     VectorHereExploreTruck – A global map containing truck  restrictions and attributes (e.g. width / height / HAZMAT) symbolized with  highlighted segments and icons on top of HERE Explore to support use cases  within transport and logistics.   Valid GrabMaps map styles:    VectorGrabStandardLight – The Grab Standard Light  map style provides a basemap with detailed land use coloring,  area names, roads, landmarks, and points of interest covering  Southeast Asia.    VectorGrabStandardDark – The Grab Standard Dark  map style provides a dark variation of the standard basemap  covering Southeast Asia.    Grab provides maps only for countries in Southeast Asia, and is only available  in the Asia Pacific (Singapore) Region (ap-southeast-1). For more information, see GrabMaps countries and area covered.  Valid Open Data map styles:    VectorOpenDataStandardLight – The Open Data Standard Light  map style provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads,  minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries.    VectorOpenDataStandardDark – Open Data Standard Dark is a dark-themed map style that provides a detailed basemap for the world  suitable for website and mobile application use. The map includes highways  major roads, minor roads, railways, water features, cities, parks,  landmarks, building footprints, and administrative boundaries.    VectorOpenDataVisualizationLight – The Open Data  Visualization Light map style is a light-themed style with muted colors and fewer features that aids in understanding overlaid data.    VectorOpenDataVisualizationDark – The Open Data  Visualization Dark map style is a dark-themed style with muted colors and fewer features that aids in understanding overlaid data.
+        /// Specifies the map style selected from an available data provider. Valid Esri map styles:    VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.     RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.     VectorEsriLightGrayCanvas – The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your thematic content.     VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.    VectorEsriStreets – The Esri Street Map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.    VectorEsriNavigation – The Esri Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.   Valid HERE Technologies map styles:    VectorHereContrast – The HERE Contrast (Berlin) map style is a  high contrast detailed base map of the world that blends 3D and 2D rendering.  The VectorHereContrast style has been renamed from  VectorHereBerlin.  VectorHereBerlin has been deprecated, but will continue to work in  applications that use it.     VectorHereExplore – A default HERE map style containing a  neutral, global map and its features including roads, buildings, landmarks,  and water features. It also now includes a fully designed map of Japan.    VectorHereExploreTruck – A global map containing truck  restrictions and attributes (e.g. width / height / HAZMAT) symbolized with  highlighted segments and icons on top of HERE Explore to support use cases  within transport and logistics.    RasterHereExploreSatellite – A global map containing high resolution satellite imagery.    HybridHereExploreSatellite – A global map displaying the road  network, street names, and city labels over satellite imagery. This style  will automatically retrieve both raster and vector tiles, and your charges  will be based on total tiles retrieved.  Hybrid styles use both vector and raster tiles when rendering the  map that you see. This means that more tiles are retrieved than when using  either vector or raster tiles alone. Your charges will include all tiles  retrieved.    Valid GrabMaps map styles:    VectorGrabStandardLight – The Grab Standard Light  map style provides a basemap with detailed land use coloring,  area names, roads, landmarks, and points of interest covering  Southeast Asia.    VectorGrabStandardDark – The Grab Standard Dark  map style provides a dark variation of the standard basemap  covering Southeast Asia.    Grab provides maps only for countries in Southeast Asia, and is only available  in the Asia Pacific (Singapore) Region (ap-southeast-1). For more information, see GrabMaps countries and area covered.  Valid Open Data map styles:    VectorOpenDataStandardLight – The Open Data Standard Light  map style provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads,  minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries.    VectorOpenDataStandardDark – Open Data Standard Dark is a dark-themed map style that provides a detailed basemap for the world  suitable for website and mobile application use. The map includes highways  major roads, minor roads, railways, water features, cities, parks,  landmarks, building footprints, and administrative boundaries.    VectorOpenDataVisualizationLight – The Open Data  Visualization Light map style is a light-themed style with muted colors and fewer features that aids in understanding overlaid data.    VectorOpenDataVisualizationDark – The Open Data  Visualization Dark map style is a dark-themed style with muted colors and fewer features that aids in understanding overlaid data.
         public let style: String
 
         public init(customLayers: [String]? = nil, politicalView: String? = nil, style: String) {
@@ -3649,8 +4029,7 @@ extension Location {
 
     public struct MapConfigurationUpdate: AWSEncodableShape {
         /// Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom layers, you can enable layer(s), such as POI layer for the VectorEsriNavigation style.
-        /// Default is unset.  Currenlty only VectorEsriNavigation supports CustomLayers.
-        /// For more information, see Custom Layers.
+        /// Default is unset.  Not all map resources or styles support custom layers. See Custom Layers for more information.
         public let customLayers: [String]?
         /// Specifies the political view for the style. Set to an empty string to not use a political view, or, for styles that support specific political views, you can choose a  view, such as IND for the Indian view.  Not all map resources or styles support political view styles. See  Political  views  for more information.
         public let politicalView: String?
@@ -3699,7 +4078,7 @@ extension Location {
         public let region: String?
         /// The name for a street or a road to identify a location. For example, Main Street.
         public let street: String?
-        /// An area that's part of a larger municipality. For example, Blissville  is a submunicipality in the Queen County in New York.  This property is only returned for a place index that uses Esri as a data provider. The property is represented as a district.  For more information about data providers, see Amazon Location Service data providers.
+        /// An area that's part of a larger municipality. For example, Blissville   is a submunicipality in the Queen County in New York.  This property supported by Esri and OpenData. The Esri property is district, and the OpenData property is borough.
         public let subMunicipality: String?
         /// A county, or an area that's part of a larger region. For example, Metro Vancouver.
         public let subRegion: String?
@@ -3707,9 +4086,9 @@ extension Location {
         public let supplementalCategories: [String]?
         /// The time zone in which the Place is located. Returned only when using HERE or Grab as the selected partner.
         public let timeZone: TimeZone?
-        /// For addresses with multiple units, the unit identifier. Can include numbers and letters, for example 3B or Unit 123.  This property is returned only for a place index that uses Esri or Grab as a data provider. It is  not returned for SearchPlaceIndexForPosition.
+        /// For addresses with multiple units, the unit identifier. Can include numbers and letters, for example 3B or Unit 123.  Returned only for a place index that uses Esri or Grab as a data provider. Is  not returned for SearchPlaceIndexForPosition.
         public let unitNumber: String?
-        /// For addresses with a UnitNumber, the type of unit. For example, Apartment.  This property is returned only for a place index that uses Esri as a data provider.
+        /// For addresses with a UnitNumber, the type of unit. For example, Apartment.  Returned only for a place index that uses Esri as a data provider.
         public let unitType: String?
 
         public init(addressNumber: String? = nil, categories: [String]? = nil, country: String? = nil, geometry: PlaceGeometry, interpolated: Bool? = nil, label: String? = nil, municipality: String? = nil, neighborhood: String? = nil, postalCode: String? = nil, region: String? = nil, street: String? = nil, subMunicipality: String? = nil, subRegion: String? = nil, supplementalCategories: [String]? = nil, timeZone: TimeZone? = nil, unitNumber: String? = nil, unitType: String? = nil) {
@@ -3786,7 +4165,7 @@ extension Location {
         public let geofenceId: String
         /// Associates one of more properties with the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
         public let geofenceProperties: [String: String]?
-        /// Contains the details to specify the position of the geofence. Can be either a  polygon or a circle. Including both will return a validation error.  Each  geofence polygon can have a maximum of 1,000 vertices.
+        /// Contains the details to specify the position of the geofence. Can be a polygon, a circle or a polygon encoded in Geobuf format. Including multiple selections will return a validation error.  The  geofence polygon format supports a maximum of 1,000 vertices. The Geofence Geobuf format supports a maximum of 100,000 vertices.
         public let geometry: GeofenceGeometry
 
         public init(collectionName: String, geofenceId: String, geofenceProperties: [String: String]? = nil, geometry: GeofenceGeometry) {
@@ -3907,7 +4286,7 @@ extension Location {
     public struct SearchForSuggestionsResult: AWSDecodableShape {
         /// The Amazon Location categories that describe the Place. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service Developer  Guide.
         public let categories: [String]?
-        /// The unique identifier of the Place. You can use this with the GetPlace operation to find the place again later, or to get full information for the Place. The GetPlace request must use the same PlaceIndex  resource as the SearchPlaceIndexForSuggestions that generated the Place  ID.  For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers.  While you can use PlaceID in subsequent requests,  PlaceID is not intended to be a permanent  identifier and the ID can change between consecutive API calls.  Please see the following PlaceID behaviour for each data provider:   Esri: Place IDs will change every quarter at a minimum. The typical time period for these changes would be March, June, September, and December. Place IDs might also change between the typical quarterly change but that will be much less frequent.   HERE: We recommend  that you cache data for no longer than a week  to keep your data data fresh. You can  assume that less than 1% ID shifts will release over release which is approximately 1 - 2 times per week.   Grab:  Place IDs can expire or become invalid in the following situations.   Data operations: The POI may be removed from Grab POI database by Grab Map Ops based on the ground-truth, such as being closed in the real world, being detected as a duplicate POI, or having incorrect information. Grab will synchronize data to the Waypoint environment on weekly basis.   Interpolated POI: Interpolated POI is a temporary POI generated in real time when serving a request,  and it will be marked as derived in the place.result_type field in the response.  The information of interpolated POIs will be retained for at least 30 days, which means that within 30 days, you are able to obtain POI details by  Place ID from Place Details API. After 30 days, the interpolated POIs(both Place ID and details) may expire and inaccessible from the Places Details API.
+        /// The unique identifier of the Place. You can use this with the GetPlace operation to find the place again later, or to get full information for the Place. The GetPlace request must use the same PlaceIndex  resource as the SearchPlaceIndexForSuggestions that generated the Place  ID.  For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers.
         public let placeId: String?
         /// Categories from the data provider that describe the Place that are not mapped to any Amazon Location categories.
         public let supplementalCategories: [String]?
@@ -4103,6 +4482,8 @@ extension Location {
             try self.validate(self.filterCategories, name: "filterCategories", parent: name, max: 5)
             try self.validate(self.filterCategories, name: "filterCategories", parent: name, min: 1)
             try self.filterCountries?.forEach {
+                try validate($0, name: "filterCountries[]", parent: name, max: 3)
+                try validate($0, name: "filterCountries[]", parent: name, min: 3)
                 try validate($0, name: "filterCountries[]", parent: name, pattern: "^[A-Z]{3}$")
             }
             try self.validate(self.filterCountries, name: "filterCountries", parent: name, max: 100)
@@ -4241,6 +4622,8 @@ extension Location {
             try self.validate(self.filterCategories, name: "filterCategories", parent: name, max: 5)
             try self.validate(self.filterCategories, name: "filterCategories", parent: name, min: 1)
             try self.filterCountries?.forEach {
+                try validate($0, name: "filterCountries[]", parent: name, max: 3)
+                try validate($0, name: "filterCountries[]", parent: name, min: 3)
                 try validate($0, name: "filterCountries[]", parent: name, pattern: "^[A-Z]{3}$")
             }
             try self.validate(self.filterCountries, name: "filterCountries", parent: name, max: 100)
@@ -4942,6 +5325,89 @@ extension Location {
             case trackerArn = "TrackerArn"
             case trackerName = "TrackerName"
             case updateTime = "UpdateTime"
+        }
+    }
+
+    public struct VerifyDevicePositionRequest: AWSEncodableShape {
+        /// The device's state, including position, IP address, cell signals and Wi-Fi access points.
+        public let deviceState: DeviceState
+        /// The distance unit for the verification request. Default Value: Kilometers
+        public let distanceUnit: DistanceUnit?
+        /// The name of the tracker resource to be associated with verification request.
+        public let trackerName: String
+
+        public init(deviceState: DeviceState, distanceUnit: DistanceUnit? = nil, trackerName: String) {
+            self.deviceState = deviceState
+            self.distanceUnit = distanceUnit
+            self.trackerName = trackerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.deviceState, forKey: .deviceState)
+            try container.encodeIfPresent(self.distanceUnit, forKey: .distanceUnit)
+            request.encodePath(self.trackerName, key: "TrackerName")
+        }
+
+        public func validate(name: String) throws {
+            try self.deviceState.validate(name: "\(name).deviceState")
+            try self.validate(self.trackerName, name: "trackerName", parent: name, max: 100)
+            try self.validate(self.trackerName, name: "trackerName", parent: name, min: 1)
+            try self.validate(self.trackerName, name: "trackerName", parent: name, pattern: "^[-._\\w]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceState = "DeviceState"
+            case distanceUnit = "DistanceUnit"
+        }
+    }
+
+    public struct VerifyDevicePositionResponse: AWSDecodableShape {
+        /// The device identifier.
+        public let deviceId: String
+        /// The distance unit for the verification response.
+        public let distanceUnit: DistanceUnit
+        /// The inferred state of the device, given the provided position, IP address, cellular signals, and Wi-Fi- access points.
+        public let inferredState: InferredState
+        /// The timestamp for when the tracker resource received the device position in  ISO 8601  format: YYYY-MM-DDThh:mm:ss.sssZ.
+        @CustomCoding<ISO8601DateCoder>
+        public var receivedTime: Date
+        /// The timestamp at which the device's position was determined. Uses  ISO 8601  format: YYYY-MM-DDThh:mm:ss.sssZ.
+        @CustomCoding<ISO8601DateCoder>
+        public var sampleTime: Date
+
+        public init(deviceId: String, distanceUnit: DistanceUnit, inferredState: InferredState, receivedTime: Date, sampleTime: Date) {
+            self.deviceId = deviceId
+            self.distanceUnit = distanceUnit
+            self.inferredState = inferredState
+            self.receivedTime = receivedTime
+            self.sampleTime = sampleTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceId = "DeviceId"
+            case distanceUnit = "DistanceUnit"
+            case inferredState = "InferredState"
+            case receivedTime = "ReceivedTime"
+            case sampleTime = "SampleTime"
+        }
+    }
+
+    public struct WiFiAccessPoint: AWSEncodableShape {
+        /// Medium access control address (Mac).
+        public let macAddress: String
+        /// Received signal strength (dBm) of the WLAN measurement data.
+        public let rss: Int
+
+        public init(macAddress: String, rss: Int) {
+            self.macAddress = macAddress
+            self.rss = rss
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case macAddress = "MacAddress"
+            case rss = "Rss"
         }
     }
 }

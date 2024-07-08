@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -25,6 +25,18 @@ import Foundation
 
 extension NetworkManager {
     // MARK: Enums
+
+    public enum AttachmentErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case maximumNoEncapLimitExceeded = "MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED"
+        case subnetDuplicatedInAvailabilityZone = "SUBNET_DUPLICATED_IN_AVAILABILITY_ZONE"
+        case subnetNoFreeAddresses = "SUBNET_NO_FREE_ADDRESSES"
+        case subnetNoIpv6Cidrs = "SUBNET_NO_IPV6_CIDRS"
+        case subnetNotFound = "SUBNET_NOT_FOUND"
+        case subnetUnsupportedAvailabilityZone = "SUBNET_UNSUPPORTED_AVAILABILITY_ZONE"
+        case vpcNotFound = "VPC_NOT_FOUND"
+        case vpnConnectionNotFound = "VPN_CONNECTION_NOT_FOUND"
+        public var description: String { return self.rawValue }
+    }
 
     public enum AttachmentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
@@ -80,6 +92,7 @@ extension NetworkManager {
         case coreNetworkConfiguration = "CORE_NETWORK_CONFIGURATION"
         case coreNetworkEdge = "CORE_NETWORK_EDGE"
         case coreNetworkSegment = "CORE_NETWORK_SEGMENT"
+        case networkFunctionGroup = "NETWORK_FUNCTION_GROUP"
         case segmentActionsConfiguration = "SEGMENT_ACTIONS_CONFIGURATION"
         case segmentsConfiguration = "SEGMENTS_CONFIGURATION"
         public var description: String { return self.rawValue }
@@ -90,6 +103,16 @@ extension NetworkManager {
         case deleted = "DELETED"
         case deleting = "DELETING"
         case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectPeerErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case edgeLocationNoFreeIps = "EDGE_LOCATION_NO_FREE_IPS"
+        case edgeLocationPeerDuplicate = "EDGE_LOCATION_PEER_DUPLICATE"
+        case invalidInsideCidrBlock = "INVALID_INSIDE_CIDR_BLOCK"
+        case ipOutsideSubnetCidrRange = "IP_OUTSIDE_SUBNET_CIDR_RANGE"
+        case noAssociatedCidrBlock = "NO_ASSOCIATED_CIDR_BLOCK"
+        case subnetNotFound = "SUBNET_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -175,6 +198,16 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum PeeringErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case edgeLocationPeerDuplicate = "EDGE_LOCATION_PEER_DUPLICATE"
+        case internalError = "INTERNAL_ERROR"
+        case invalidTransitGatewayState = "INVALID_TRANSIT_GATEWAY_STATE"
+        case missingRequiredPermissions = "MISSING_PERMISSIONS"
+        case transitGatewayNotFound = "TRANSIT_GATEWAY_NOT_FOUND"
+        case transitGatewayPeersLimitExceeded = "TRANSIT_GATEWAY_PEERS_LIMIT_EXCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PeeringState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case creating = "CREATING"
@@ -224,6 +257,7 @@ extension NetworkManager {
 
     public enum RouteTableType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case coreNetworkSegment = "CORE_NETWORK_SEGMENT"
+        case networkFunctionGroup = "NETWORK_FUNCTION_GROUP"
         case transitGatewayRouteTable = "TRANSIT_GATEWAY_ROUTE_TABLE"
         public var description: String { return self.rawValue }
     }
@@ -231,6 +265,18 @@ extension NetworkManager {
     public enum RouteType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `static` = "STATIC"
         case propagated = "PROPAGATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SegmentActionServiceInsertion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sendTo = "send-to"
+        case sendVia = "send-via"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SendViaMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualHop = "dual-hop"
+        case singleHop = "single-hop"
         public var description: String { return self.rawValue }
     }
 
@@ -579,8 +625,14 @@ extension NetworkManager {
         public let createdAt: Date?
         /// The Region where the edge is located.
         public let edgeLocation: String?
+        /// Describes the error associated with the attachment request.
+        public let lastModificationErrors: [AttachmentError]?
+        /// The name of the network function group.
+        public let networkFunctionGroupName: String?
         /// The ID of the attachment account owner.
         public let ownerAccountId: String?
+        /// Describes a proposed change to a network function group associated with the attachment.
+        public let proposedNetworkFunctionGroupChange: ProposedNetworkFunctionGroupChange?
         /// The attachment to move from one segment to another.
         public let proposedSegmentChange: ProposedSegmentChange?
         /// The attachment resource ARN.
@@ -594,7 +646,7 @@ extension NetworkManager {
         /// The timestamp when the attachment was last updated.
         public let updatedAt: Date?
 
-        public init(attachmentId: String? = nil, attachmentPolicyRuleNumber: Int? = nil, attachmentType: AttachmentType? = nil, coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, ownerAccountId: String? = nil, proposedSegmentChange: ProposedSegmentChange? = nil, resourceArn: String? = nil, segmentName: String? = nil, state: AttachmentState? = nil, tags: [Tag]? = nil, updatedAt: Date? = nil) {
+        public init(attachmentId: String? = nil, attachmentPolicyRuleNumber: Int? = nil, attachmentType: AttachmentType? = nil, coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, lastModificationErrors: [AttachmentError]? = nil, networkFunctionGroupName: String? = nil, ownerAccountId: String? = nil, proposedNetworkFunctionGroupChange: ProposedNetworkFunctionGroupChange? = nil, proposedSegmentChange: ProposedSegmentChange? = nil, resourceArn: String? = nil, segmentName: String? = nil, state: AttachmentState? = nil, tags: [Tag]? = nil, updatedAt: Date? = nil) {
             self.attachmentId = attachmentId
             self.attachmentPolicyRuleNumber = attachmentPolicyRuleNumber
             self.attachmentType = attachmentType
@@ -602,7 +654,10 @@ extension NetworkManager {
             self.coreNetworkId = coreNetworkId
             self.createdAt = createdAt
             self.edgeLocation = edgeLocation
+            self.lastModificationErrors = lastModificationErrors
+            self.networkFunctionGroupName = networkFunctionGroupName
             self.ownerAccountId = ownerAccountId
+            self.proposedNetworkFunctionGroupChange = proposedNetworkFunctionGroupChange
             self.proposedSegmentChange = proposedSegmentChange
             self.resourceArn = resourceArn
             self.segmentName = segmentName
@@ -619,13 +674,41 @@ extension NetworkManager {
             case coreNetworkId = "CoreNetworkId"
             case createdAt = "CreatedAt"
             case edgeLocation = "EdgeLocation"
+            case lastModificationErrors = "LastModificationErrors"
+            case networkFunctionGroupName = "NetworkFunctionGroupName"
             case ownerAccountId = "OwnerAccountId"
+            case proposedNetworkFunctionGroupChange = "ProposedNetworkFunctionGroupChange"
             case proposedSegmentChange = "ProposedSegmentChange"
             case resourceArn = "ResourceArn"
             case segmentName = "SegmentName"
             case state = "State"
             case tags = "Tags"
             case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct AttachmentError: AWSDecodableShape {
+        /// The error code for the attachment request.
+        public let code: AttachmentErrorCode?
+        /// The message associated with the error code.
+        public let message: String?
+        /// The ID of the attachment request.
+        public let requestId: String?
+        /// The ARN of the requested attachment resource.
+        public let resourceArn: String?
+
+        public init(code: AttachmentErrorCode? = nil, message: String? = nil, requestId: String? = nil, resourceArn: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
+            case resourceArn = "ResourceArn"
         }
     }
 
@@ -706,20 +789,23 @@ extension NetworkManager {
         public let createdAt: Date?
         /// The Connect peer Regions where edges are located.
         public let edgeLocation: String?
+        /// Describes the error associated with the attachment request.
+        public let lastModificationErrors: [ConnectPeerError]?
         /// The state of the Connect peer.
         public let state: ConnectPeerState?
-        /// The subnet ARN for the Connect peer.
+        /// The subnet ARN for the Connect peer. This only applies only when the protocol is NO_ENCAP.
         public let subnetArn: String?
         /// The list of key-value tags associated with the Connect peer.
         public let tags: [Tag]?
 
-        public init(configuration: ConnectPeerConfiguration? = nil, connectAttachmentId: String? = nil, connectPeerId: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, state: ConnectPeerState? = nil, subnetArn: String? = nil, tags: [Tag]? = nil) {
+        public init(configuration: ConnectPeerConfiguration? = nil, connectAttachmentId: String? = nil, connectPeerId: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, lastModificationErrors: [ConnectPeerError]? = nil, state: ConnectPeerState? = nil, subnetArn: String? = nil, tags: [Tag]? = nil) {
             self.configuration = configuration
             self.connectAttachmentId = connectAttachmentId
             self.connectPeerId = connectPeerId
             self.coreNetworkId = coreNetworkId
             self.createdAt = createdAt
             self.edgeLocation = edgeLocation
+            self.lastModificationErrors = lastModificationErrors
             self.state = state
             self.subnetArn = subnetArn
             self.tags = tags
@@ -732,6 +818,7 @@ extension NetworkManager {
             case coreNetworkId = "CoreNetworkId"
             case createdAt = "CreatedAt"
             case edgeLocation = "EdgeLocation"
+            case lastModificationErrors = "LastModificationErrors"
             case state = "State"
             case subnetArn = "SubnetArn"
             case tags = "Tags"
@@ -818,6 +905,31 @@ extension NetworkManager {
             case insideCidrBlocks = "InsideCidrBlocks"
             case peerAddress = "PeerAddress"
             case `protocol` = "Protocol"
+        }
+    }
+
+    public struct ConnectPeerError: AWSDecodableShape {
+        /// The error code for the Connect peer request.
+        public let code: ConnectPeerErrorCode?
+        /// The message associated with the error code.
+        public let message: String?
+        /// The ID of the Connect peer request.
+        public let requestId: String?
+        /// The ARN of the requested Connect peer resource.
+        public let resourceArn: String?
+
+        public init(code: ConnectPeerErrorCode? = nil, message: String? = nil, requestId: String? = nil, resourceArn: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
+            case resourceArn = "ResourceArn"
         }
     }
 
@@ -949,6 +1061,8 @@ extension NetworkManager {
         public let edges: [CoreNetworkEdge]?
         /// The ID of the global network that your core network is a part of.
         public let globalNetworkId: String?
+        /// The network function groups associated with a core network.
+        public let networkFunctionGroups: [CoreNetworkNetworkFunctionGroup]?
         /// The segments within a core network.
         public let segments: [CoreNetworkSegment]?
         /// The current state of a core network.
@@ -956,13 +1070,14 @@ extension NetworkManager {
         /// The list of key-value tags associated with a core network.
         public let tags: [Tag]?
 
-        public init(coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, description: String? = nil, edges: [CoreNetworkEdge]? = nil, globalNetworkId: String? = nil, segments: [CoreNetworkSegment]? = nil, state: CoreNetworkState? = nil, tags: [Tag]? = nil) {
+        public init(coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, description: String? = nil, edges: [CoreNetworkEdge]? = nil, globalNetworkId: String? = nil, networkFunctionGroups: [CoreNetworkNetworkFunctionGroup]? = nil, segments: [CoreNetworkSegment]? = nil, state: CoreNetworkState? = nil, tags: [Tag]? = nil) {
             self.coreNetworkArn = coreNetworkArn
             self.coreNetworkId = coreNetworkId
             self.createdAt = createdAt
             self.description = description
             self.edges = edges
             self.globalNetworkId = globalNetworkId
+            self.networkFunctionGroups = networkFunctionGroups
             self.segments = segments
             self.state = state
             self.tags = tags
@@ -975,6 +1090,7 @@ extension NetworkManager {
             case description = "Description"
             case edges = "Edges"
             case globalNetworkId = "GlobalNetworkId"
+            case networkFunctionGroups = "NetworkFunctionGroups"
             case segments = "Segments"
             case state = "State"
             case tags = "Tags"
@@ -1054,13 +1170,16 @@ extension NetworkManager {
         public let cidr: String?
         /// The edge location for the core network change event.
         public let edgeLocation: String?
+        /// The changed network function group name.
+        public let networkFunctionGroupName: String?
         /// The segment name if the change event is associated with a segment.
         public let segmentName: String?
 
-        public init(attachmentId: String? = nil, cidr: String? = nil, edgeLocation: String? = nil, segmentName: String? = nil) {
+        public init(attachmentId: String? = nil, cidr: String? = nil, edgeLocation: String? = nil, networkFunctionGroupName: String? = nil, segmentName: String? = nil) {
             self.attachmentId = attachmentId
             self.cidr = cidr
             self.edgeLocation = edgeLocation
+            self.networkFunctionGroupName = networkFunctionGroupName
             self.segmentName = segmentName
         }
 
@@ -1068,6 +1187,7 @@ extension NetworkManager {
             case attachmentId = "AttachmentId"
             case cidr = "Cidr"
             case edgeLocation = "EdgeLocation"
+            case networkFunctionGroupName = "NetworkFunctionGroupName"
             case segmentName = "SegmentName"
         }
     }
@@ -1083,18 +1203,24 @@ extension NetworkManager {
         public let edgeLocations: [String]?
         /// The inside IP addresses used for core network change values.
         public let insideCidrBlocks: [String]?
+        /// The network function group name if the change event is associated with a network function group.
+        public let networkFunctionGroupName: String?
         /// The names of the segments in a core network.
         public let segmentName: String?
+        /// Describes the service insertion action.
+        public let serviceInsertionActions: [ServiceInsertionAction]?
         /// The shared segments for a core network change value.
         public let sharedSegments: [String]?
 
-        public init(asn: Int64? = nil, cidr: String? = nil, destinationIdentifier: String? = nil, edgeLocations: [String]? = nil, insideCidrBlocks: [String]? = nil, segmentName: String? = nil, sharedSegments: [String]? = nil) {
+        public init(asn: Int64? = nil, cidr: String? = nil, destinationIdentifier: String? = nil, edgeLocations: [String]? = nil, insideCidrBlocks: [String]? = nil, networkFunctionGroupName: String? = nil, segmentName: String? = nil, serviceInsertionActions: [ServiceInsertionAction]? = nil, sharedSegments: [String]? = nil) {
             self.asn = asn
             self.cidr = cidr
             self.destinationIdentifier = destinationIdentifier
             self.edgeLocations = edgeLocations
             self.insideCidrBlocks = insideCidrBlocks
+            self.networkFunctionGroupName = networkFunctionGroupName
             self.segmentName = segmentName
+            self.serviceInsertionActions = serviceInsertionActions
             self.sharedSegments = sharedSegments
         }
 
@@ -1104,7 +1230,9 @@ extension NetworkManager {
             case destinationIdentifier = "DestinationIdentifier"
             case edgeLocations = "EdgeLocations"
             case insideCidrBlocks = "InsideCidrBlocks"
+            case networkFunctionGroupName = "NetworkFunctionGroupName"
             case segmentName = "SegmentName"
+            case serviceInsertionActions = "ServiceInsertionActions"
             case sharedSegments = "SharedSegments"
         }
     }
@@ -1127,6 +1255,58 @@ extension NetworkManager {
             case asn = "Asn"
             case edgeLocation = "EdgeLocation"
             case insideCidrBlocks = "InsideCidrBlocks"
+        }
+    }
+
+    public struct CoreNetworkNetworkFunctionGroup: AWSDecodableShape {
+        /// The core network edge locations.
+        public let edgeLocations: [String]?
+        /// The name of the network function group.
+        public let name: String?
+        /// The segments associated with the network function group.
+        public let segments: ServiceInsertionSegments?
+
+        public init(edgeLocations: [String]? = nil, name: String? = nil, segments: ServiceInsertionSegments? = nil) {
+            self.edgeLocations = edgeLocations
+            self.name = name
+            self.segments = segments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case edgeLocations = "EdgeLocations"
+            case name = "Name"
+            case segments = "Segments"
+        }
+    }
+
+    public struct CoreNetworkNetworkFunctionGroupIdentifier: AWSEncodableShape {
+        /// The ID of the core network.
+        public let coreNetworkId: String?
+        /// The location for the core network edge.
+        public let edgeLocation: String?
+        /// The network function group name.
+        public let networkFunctionGroupName: String?
+
+        public init(coreNetworkId: String? = nil, edgeLocation: String? = nil, networkFunctionGroupName: String? = nil) {
+            self.coreNetworkId = coreNetworkId
+            self.edgeLocation = edgeLocation
+            self.networkFunctionGroupName = networkFunctionGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, max: 63)
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, min: 1)
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.networkFunctionGroupName, name: "networkFunctionGroupName", parent: name, max: 256)
+            try self.validate(self.networkFunctionGroupName, name: "networkFunctionGroupName", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkId = "CoreNetworkId"
+            case edgeLocation = "EdgeLocation"
+            case networkFunctionGroupName = "NetworkFunctionGroupName"
         }
     }
 
@@ -1376,19 +1556,19 @@ extension NetworkManager {
     }
 
     public struct CreateConnectPeerRequest: AWSEncodableShape {
-        /// The Connect peer BGP options.
+        /// The Connect peer BGP options. This only applies only when the protocol is GRE.
         public let bgpOptions: BgpOptions?
         /// The client token associated with the request.
         public let clientToken: String?
         /// The ID of the connection attachment.
         public let connectAttachmentId: String
-        /// A Connect peer core network address.
+        /// A Connect peer core network address. This only applies only when the protocol is GRE.
         public let coreNetworkAddress: String?
         /// The inside IP addresses used for BGP peering.
         public let insideCidrBlocks: [String]?
         /// The Connect peer address.
         public let peerAddress: String
-        /// The subnet ARN for the Connect peer.
+        /// The subnet ARN for the Connect peer. This only applies only when the protocol is NO_ENCAP.
         public let subnetArn: String?
         /// The tags associated with the peer request.
         public let tags: [Tag]?
@@ -2830,6 +3010,23 @@ extension NetworkManager {
         }
     }
 
+    public struct EdgeOverride: AWSDecodableShape {
+        /// The list of edge locations.
+        public let edgeSets: [[String]]?
+        /// The edge that should be used when overriding the current edge order.
+        public let useEdge: String?
+
+        public init(edgeSets: [[String]]? = nil, useEdge: String? = nil) {
+            self.edgeSets = edgeSets
+            self.useEdge = useEdge
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case edgeSets = "EdgeSets"
+            case useEdge = "UseEdge"
+        }
+    }
+
     public struct ExecuteCoreNetworkChangeSetRequest: AWSEncodableShape {
         /// The ID of a core network.
         public let coreNetworkId: String
@@ -3513,7 +3710,7 @@ extension NetworkManager {
         public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
-        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    connection     device     link     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
+        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    attachment     connect-peer     connection     core-network     device     link     peering     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
         public let resourceType: String?
 
         public init(globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, resourceType: String? = nil) {
@@ -3580,7 +3777,7 @@ extension NetworkManager {
         public let registeredGatewayArn: String?
         /// The ARN of the gateway.
         public let resourceArn: String?
-        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    connection     device     link     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
+        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    attachment     connect-peer     connection     core-network     device     link     peering     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
         public let resourceType: String?
 
         public init(accountId: String? = nil, awsRegion: String? = nil, coreNetworkId: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
@@ -3669,7 +3866,7 @@ extension NetworkManager {
         public let registeredGatewayArn: String?
         /// The ARN of the resource.
         public let resourceArn: String?
-        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon - The definition model is Connection.    dx-gateway - The definition model is DirectConnectGateway.    dx-vif - The definition model is VirtualInterface.   The following are the supported resource types for Network Manager:    connection - The definition model is Connection.    device - The definition model is Device.    link - The definition model is Link.    site - The definition model is Site.   The following are the supported resource types for Amazon VPC:    customer-gateway - The definition model is CustomerGateway.    transit-gateway - The definition model is TransitGateway.    transit-gateway-attachment - The definition model is TransitGatewayAttachment.    transit-gateway-connect-peer - The definition model is TransitGatewayConnectPeer.    transit-gateway-route-table - The definition model is TransitGatewayRouteTable.    vpn-connection - The definition model is VpnConnection.
+        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    attachment     connect-peer     connection     core-network     device     link     peering     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
         public let resourceType: String?
 
         public init(accountId: String? = nil, awsRegion: String? = nil, coreNetworkId: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
@@ -3880,7 +4077,7 @@ extension NetworkManager {
         public let registeredGatewayArn: String?
         /// The ARN of the resource.
         public let resourceArn: String?
-        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    connection     device     link     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
+        /// The resource type. The following are the supported resource types:    connect-peer     transit-gateway-connect-peer     vpn-connection
         public let resourceType: String?
 
         public init(accountId: String? = nil, awsRegion: String? = nil, coreNetworkId: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
@@ -4851,6 +5048,19 @@ extension NetworkManager {
         }
     }
 
+    public struct NetworkFunctionGroup: AWSDecodableShape {
+        /// The name of the network function group.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
     public struct NetworkResource: AWSDecodableShape {
         /// The Amazon Web Services account ID.
         public let accountId: String?
@@ -4870,7 +5080,7 @@ extension NetworkManager {
         public let resourceArn: String?
         /// The ID of the resource.
         public let resourceId: String?
-        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    connection     device     link     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
+        /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    attachment     connect-peer     connection     core-network     device     link     peering     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
         public let resourceType: String?
         /// The tags.
         public let tags: [Tag]?
@@ -4988,6 +5198,8 @@ extension NetworkManager {
         public let coreNetworkAttachmentId: String?
         /// The edge location for the network destination.
         public let edgeLocation: String?
+        /// The network function group name associated with the destination.
+        public let networkFunctionGroupName: String?
         /// The ID of the resource.
         public let resourceId: String?
         /// The resource type.
@@ -4997,9 +5209,10 @@ extension NetworkManager {
         /// The ID of the transit gateway attachment.
         public let transitGatewayAttachmentId: String?
 
-        public init(coreNetworkAttachmentId: String? = nil, edgeLocation: String? = nil, resourceId: String? = nil, resourceType: String? = nil, segmentName: String? = nil, transitGatewayAttachmentId: String? = nil) {
+        public init(coreNetworkAttachmentId: String? = nil, edgeLocation: String? = nil, networkFunctionGroupName: String? = nil, resourceId: String? = nil, resourceType: String? = nil, segmentName: String? = nil, transitGatewayAttachmentId: String? = nil) {
             self.coreNetworkAttachmentId = coreNetworkAttachmentId
             self.edgeLocation = edgeLocation
+            self.networkFunctionGroupName = networkFunctionGroupName
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.segmentName = segmentName
@@ -5009,6 +5222,7 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case coreNetworkAttachmentId = "CoreNetworkAttachmentId"
             case edgeLocation = "EdgeLocation"
+            case networkFunctionGroupName = "NetworkFunctionGroupName"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
             case segmentName = "SegmentName"
@@ -5116,6 +5330,8 @@ extension NetworkManager {
         public let createdAt: Date?
         /// The edge location for the peer.
         public let edgeLocation: String?
+        /// Describes the error associated with the Connect peer request.
+        public let lastModificationErrors: [PeeringError]?
         /// The ID of the account owner.
         public let ownerAccountId: String?
         /// The ID of the peering attachment.
@@ -5129,11 +5345,12 @@ extension NetworkManager {
         /// The list of key-value tags associated with the peering.
         public let tags: [Tag]?
 
-        public init(coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, ownerAccountId: String? = nil, peeringId: String? = nil, peeringType: PeeringType? = nil, resourceArn: String? = nil, state: PeeringState? = nil, tags: [Tag]? = nil) {
+        public init(coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, lastModificationErrors: [PeeringError]? = nil, ownerAccountId: String? = nil, peeringId: String? = nil, peeringType: PeeringType? = nil, resourceArn: String? = nil, state: PeeringState? = nil, tags: [Tag]? = nil) {
             self.coreNetworkArn = coreNetworkArn
             self.coreNetworkId = coreNetworkId
             self.createdAt = createdAt
             self.edgeLocation = edgeLocation
+            self.lastModificationErrors = lastModificationErrors
             self.ownerAccountId = ownerAccountId
             self.peeringId = peeringId
             self.peeringType = peeringType
@@ -5147,11 +5364,75 @@ extension NetworkManager {
             case coreNetworkId = "CoreNetworkId"
             case createdAt = "CreatedAt"
             case edgeLocation = "EdgeLocation"
+            case lastModificationErrors = "LastModificationErrors"
             case ownerAccountId = "OwnerAccountId"
             case peeringId = "PeeringId"
             case peeringType = "PeeringType"
             case resourceArn = "ResourceArn"
             case state = "State"
+            case tags = "Tags"
+        }
+    }
+
+    public struct PeeringError: AWSDecodableShape {
+        /// The error code for the peering request.
+        public let code: PeeringErrorCode?
+        /// The message associated with the error code.
+        public let message: String?
+        /// Provides additional information about missing permissions for the peering error.
+        public let missingPermissionsContext: PermissionsErrorContext?
+        /// The ID of the Peering request.
+        public let requestId: String?
+        /// The ARN of the requested peering resource.
+        public let resourceArn: String?
+
+        public init(code: PeeringErrorCode? = nil, message: String? = nil, missingPermissionsContext: PermissionsErrorContext? = nil, requestId: String? = nil, resourceArn: String? = nil) {
+            self.code = code
+            self.message = message
+            self.missingPermissionsContext = missingPermissionsContext
+            self.requestId = requestId
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case missingPermissionsContext = "MissingPermissionsContext"
+            case requestId = "RequestId"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct PermissionsErrorContext: AWSDecodableShape {
+        /// The missing permissions.
+        public let missingPermission: String?
+
+        public init(missingPermission: String? = nil) {
+            self.missingPermission = missingPermission
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case missingPermission = "MissingPermission"
+        }
+    }
+
+    public struct ProposedNetworkFunctionGroupChange: AWSDecodableShape {
+        /// The proposed new attachment policy rule number for the network function group.
+        public let attachmentPolicyRuleNumber: Int?
+        /// The proposed name change for the network function group name.
+        public let networkFunctionGroupName: String?
+        /// The list of proposed changes to the key-value tags associated with the network function group.
+        public let tags: [Tag]?
+
+        public init(attachmentPolicyRuleNumber: Int? = nil, networkFunctionGroupName: String? = nil, tags: [Tag]? = nil) {
+            self.attachmentPolicyRuleNumber = attachmentPolicyRuleNumber
+            self.networkFunctionGroupName = networkFunctionGroupName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentPolicyRuleNumber = "AttachmentPolicyRuleNumber"
+            case networkFunctionGroupName = "NetworkFunctionGroupName"
             case tags = "Tags"
         }
     }
@@ -5545,25 +5826,72 @@ extension NetworkManager {
     }
 
     public struct RouteTableIdentifier: AWSEncodableShape {
+        /// The route table identifier associated with the network function group.
+        public let coreNetworkNetworkFunctionGroup: CoreNetworkNetworkFunctionGroupIdentifier?
         /// The segment edge in a core network.
         public let coreNetworkSegmentEdge: CoreNetworkSegmentEdgeIdentifier?
         /// The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456".
         public let transitGatewayRouteTableArn: String?
 
-        public init(coreNetworkSegmentEdge: CoreNetworkSegmentEdgeIdentifier? = nil, transitGatewayRouteTableArn: String? = nil) {
+        public init(coreNetworkNetworkFunctionGroup: CoreNetworkNetworkFunctionGroupIdentifier? = nil, coreNetworkSegmentEdge: CoreNetworkSegmentEdgeIdentifier? = nil, transitGatewayRouteTableArn: String? = nil) {
+            self.coreNetworkNetworkFunctionGroup = coreNetworkNetworkFunctionGroup
             self.coreNetworkSegmentEdge = coreNetworkSegmentEdge
             self.transitGatewayRouteTableArn = transitGatewayRouteTableArn
         }
 
         public func validate(name: String) throws {
+            try self.coreNetworkNetworkFunctionGroup?.validate(name: "\(name).coreNetworkNetworkFunctionGroup")
             try self.coreNetworkSegmentEdge?.validate(name: "\(name).coreNetworkSegmentEdge")
             try self.validate(self.transitGatewayRouteTableArn, name: "transitGatewayRouteTableArn", parent: name, max: 500)
             try self.validate(self.transitGatewayRouteTableArn, name: "transitGatewayRouteTableArn", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case coreNetworkNetworkFunctionGroup = "CoreNetworkNetworkFunctionGroup"
             case coreNetworkSegmentEdge = "CoreNetworkSegmentEdge"
             case transitGatewayRouteTableArn = "TransitGatewayRouteTableArn"
+        }
+    }
+
+    public struct ServiceInsertionAction: AWSDecodableShape {
+        /// The action the service insertion takes for traffic.  send-via sends east-west traffic between attachments.  send-to sends north-south traffic to the  security appliance, and then from that to either the Internet or to an on-premesis  location.
+        public let action: SegmentActionServiceInsertion?
+        /// Describes the mode packets take for the send-via action. This is not used when the action is send-to. dual-hop packets traverse attachments in both the source to the destination core network edges. This mode requires that an inspection attachment must be present in all Regions of the service insertion-enabled segments.  For single-hop, packets traverse a single intermediate inserted attachment. You can use EdgeOverride to specify a specific edge to use.
+        public let mode: SendViaMode?
+        /// The list of network function groups and any edge overrides for the chosen service insertion action. Used for both send-to or send-via.
+        public let via: Via?
+        /// The list of destination segments if the service insertion action is send-via.
+        public let whenSentTo: WhenSentTo?
+
+        public init(action: SegmentActionServiceInsertion? = nil, mode: SendViaMode? = nil, via: Via? = nil, whenSentTo: WhenSentTo? = nil) {
+            self.action = action
+            self.mode = mode
+            self.via = via
+            self.whenSentTo = whenSentTo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case mode = "Mode"
+            case via = "Via"
+            case whenSentTo = "WhenSentTo"
+        }
+    }
+
+    public struct ServiceInsertionSegments: AWSDecodableShape {
+        /// The list of segments associated with the send-to action.
+        public let sendTo: [String]?
+        /// The list of segments associated with the send-via action.
+        public let sendVia: [String]?
+
+        public init(sendTo: [String]? = nil, sendVia: [String]? = nil) {
+            self.sendTo = sendTo
+            self.sendVia = sendVia
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sendTo = "SendTo"
+            case sendVia = "SendVia"
         }
     }
 
@@ -6397,6 +6725,23 @@ extension NetworkManager {
         }
     }
 
+    public struct Via: AWSDecodableShape {
+        /// The list of network function groups associated with the service insertion action.
+        public let networkFunctionGroups: [NetworkFunctionGroup]?
+        /// Describes any edge overrides. An edge override is a specific edge to be used for traffic.
+        public let withEdgeOverrides: [EdgeOverride]?
+
+        public init(networkFunctionGroups: [NetworkFunctionGroup]? = nil, withEdgeOverrides: [EdgeOverride]? = nil) {
+            self.networkFunctionGroups = networkFunctionGroups
+            self.withEdgeOverrides = withEdgeOverrides
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkFunctionGroups = "NetworkFunctionGroups"
+            case withEdgeOverrides = "WithEdgeOverrides"
+        }
+    }
+
     public struct VpcAttachment: AWSDecodableShape {
         /// Provides details about the VPC attachment.
         public let attachment: Attachment?
@@ -6432,6 +6777,19 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case applianceModeSupport = "ApplianceModeSupport"
             case ipv6Support = "Ipv6Support"
+        }
+    }
+
+    public struct WhenSentTo: AWSDecodableShape {
+        /// The list of destination segments when the service insertion action is send-to.
+        public let whenSentToSegmentsList: [String]?
+
+        public init(whenSentToSegmentsList: [String]? = nil) {
+            self.whenSentToSegmentsList = whenSentToSegmentsList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case whenSentToSegmentsList = "WhenSentToSegmentsList"
         }
     }
 }

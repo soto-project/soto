@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -864,7 +864,7 @@ extension CloudFront {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Method" }
 
         /// A complex type that contains the HTTP methods that you want CloudFront to cache responses
-        /// 			to.
+        /// 			to. Valid values for CachedMethods include GET, HEAD, and OPTIONS, depending on which caching option you choose. For more information, see the preceding section.
         @CustomCoding<ArrayCoder<_ItemsEncoding, Method>>
         public var items: [Method]
         /// The number of HTTP methods for which you want CloudFront to cache responses. Valid values

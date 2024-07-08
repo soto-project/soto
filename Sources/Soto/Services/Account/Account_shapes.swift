@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -33,6 +33,12 @@ extension Account {
         public var description: String { return self.rawValue }
     }
 
+    public enum PrimaryEmailUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accepted = "ACCEPTED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RegionOptStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case disabling = "DISABLING"
@@ -43,6 +49,47 @@ extension Account {
     }
 
     // MARK: Shapes
+
+    public struct AcceptPrimaryEmailUpdateRequest: AWSEncodableShape {
+        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned. This operation can only be called from the management account or the delegated administrator account of an organization for a member account.  The management account can't specify its own AccountId.
+        public let accountId: String
+        /// The OTP code sent to the PrimaryEmail specified on the StartPrimaryEmailUpdate API call.
+        public let otp: String
+        /// The new primary email address for use with the specified account. This must match the PrimaryEmail from the StartPrimaryEmailUpdate API call.
+        public let primaryEmail: String
+
+        public init(accountId: String, otp: String, primaryEmail: String) {
+            self.accountId = accountId
+            self.otp = otp
+            self.primaryEmail = primaryEmail
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.otp, name: "otp", parent: name, pattern: "^[a-zA-Z0-9]{6}$")
+            try self.validate(self.primaryEmail, name: "primaryEmail", parent: name, max: 64)
+            try self.validate(self.primaryEmail, name: "primaryEmail", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case otp = "Otp"
+            case primaryEmail = "PrimaryEmail"
+        }
+    }
+
+    public struct AcceptPrimaryEmailUpdateResponse: AWSDecodableShape {
+        /// Retrieves the status of the accepted primary email update request.
+        public let status: PrimaryEmailUpdateStatus?
+
+        public init(status: PrimaryEmailUpdateStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
 
     public struct AlternateContact: AWSDecodableShape {
         /// The type of alternate contact.
@@ -94,7 +141,7 @@ extension Account {
         public let phoneNumber: String
         /// The postal code of the primary contact address.
         public let postalCode: String
-        /// The state or region of the primary contact address. This field is required in selected countries.
+        /// The state or region of the primary contact address. If the mailing address is within the United States (US), the value in this field can be either a two character state code (for example, NJ) or the full state name (for example, New Jersey). This field is required in the following countries: US, CA, GB, DE, JP, IN, and BR.
         public let stateOrRegion: String?
         /// The URL of the website associated with the primary contact information, if any.
         public let websiteUrl: String?
@@ -180,7 +227,7 @@ extension Account {
     }
 
     public struct DisableRegionRequest: AWSEncodableShape {
-        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
         public let accountId: String?
         /// Specifies the Region-code for a given Region name (for example, af-south-1). When you disable a Region, Amazon Web Services performs actions to deactivate that Region in your account, such as destroying IAM resources in the Region. This process takes a few minutes for most accounts, but this can take several hours. You cannot enable the Region until the disabling process is fully completed.
         public let regionName: String
@@ -203,7 +250,7 @@ extension Account {
     }
 
     public struct EnableRegionRequest: AWSEncodableShape {
-        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
         public let accountId: String?
         /// Specifies the Region-code for a given Region name (for example, af-south-1). When you enable a Region, Amazon Web Services performs actions to prepare your account in that Region, such as distributing your IAM resources to the Region. This process takes a few minutes for most accounts, but it can take several hours. You cannot use the Region until this process is complete. Furthermore, you cannot disable the Region until the enabling process is fully completed.
         public let regionName: String
@@ -260,7 +307,7 @@ extension Account {
     }
 
     public struct GetContactInformationRequest: AWSEncodableShape {
-        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
         public let accountId: String?
 
         public init(accountId: String? = nil) {
@@ -289,8 +336,38 @@ extension Account {
         }
     }
 
+    public struct GetPrimaryEmailRequest: AWSEncodableShape {
+        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned. This operation can only be called from the management account or the delegated administrator account of an organization for a member account.  The management account can't specify its own AccountId.
+        public let accountId: String
+
+        public init(accountId: String) {
+            self.accountId = accountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+        }
+    }
+
+    public struct GetPrimaryEmailResponse: AWSDecodableShape {
+        /// Retrieves the primary email address associated with the specified account.
+        public let primaryEmail: String?
+
+        public init(primaryEmail: String? = nil) {
+            self.primaryEmail = primaryEmail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case primaryEmail = "PrimaryEmail"
+        }
+    }
+
     public struct GetRegionOptStatusRequest: AWSEncodableShape {
-        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
         public let accountId: String?
         /// Specifies the Region-code for a given Region name (for example, af-south-1). This function will return the status of whatever Region you pass into this parameter.
         public let regionName: String
@@ -330,7 +407,7 @@ extension Account {
     }
 
     public struct ListRegionsRequest: AWSEncodableShape {
-        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
         public let accountId: String?
         /// The total number of items to return in the command’s output. If the total number of items available is more than the value specified, a NextToken is provided in the command’s output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the Amazon Web Services CLI. For usage examples, see Pagination in the Amazon Web Services Command Line Interface User Guide.
         public let maxResults: Int?
@@ -423,7 +500,7 @@ extension Account {
     }
 
     public struct PutContactInformationRequest: AWSEncodableShape {
-        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
         public let accountId: String?
         /// Contains the details of the primary contact information associated with an Amazon Web Services account.
         public let contactInformation: ContactInformation
@@ -458,6 +535,42 @@ extension Account {
         private enum CodingKeys: String, CodingKey {
             case regionName = "RegionName"
             case regionOptStatus = "RegionOptStatus"
+        }
+    }
+
+    public struct StartPrimaryEmailUpdateRequest: AWSEncodableShape {
+        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned. This operation can only be called from the management account or the delegated administrator account of an organization for a member account.  The management account can't specify its own AccountId.
+        public let accountId: String
+        /// The new primary email address (also known as the root user email address) to use in the specified account.
+        public let primaryEmail: String
+
+        public init(accountId: String, primaryEmail: String) {
+            self.accountId = accountId
+            self.primaryEmail = primaryEmail
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.primaryEmail, name: "primaryEmail", parent: name, max: 64)
+            try self.validate(self.primaryEmail, name: "primaryEmail", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case primaryEmail = "PrimaryEmail"
+        }
+    }
+
+    public struct StartPrimaryEmailUpdateResponse: AWSDecodableShape {
+        /// The status of the primary email update request.
+        public let status: PrimaryEmailUpdateStatus?
+
+        public init(status: PrimaryEmailUpdateStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 }

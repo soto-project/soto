@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -218,6 +218,19 @@ extension GuardDuty {
         case deleted = "DELETED"
         case error = "ERROR"
         case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MalwareProtectionPlanStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case error = "ERROR"
+        case warning = "WARNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MalwareProtectionPlanTaggingActionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -1492,6 +1505,61 @@ extension GuardDuty {
         }
     }
 
+    public struct CreateMalwareProtectionPlanRequest: AWSEncodableShape {
+        /// Information about whether the tags will be added to the S3 object after scanning.
+        public let actions: MalwareProtectionPlanActions?
+        /// The idempotency token for the create request.
+        public let clientToken: String?
+        /// Information about the protected resource that is associated with the created  Malware Protection plan. Presently, S3Bucket is the only supported  protected resource.
+        public let protectedResource: CreateProtectedResource?
+        /// IAM role with permissions required to scan and add tags to the associated protected resource.
+        public let role: String?
+        /// Tags added to the Malware Protection plan resource.
+        public let tags: [String: String]?
+
+        public init(actions: MalwareProtectionPlanActions? = nil, clientToken: String? = CreateMalwareProtectionPlanRequest.idempotencyToken(), protectedResource: CreateProtectedResource? = nil, role: String? = nil, tags: [String: String]? = nil) {
+            self.actions = actions
+            self.clientToken = clientToken
+            self.protectedResource = protectedResource
+            self.role = role
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.protectedResource?.validate(name: "\(name).protectedResource")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case clientToken = "clientToken"
+            case protectedResource = "protectedResource"
+            case role = "role"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateMalwareProtectionPlanResponse: AWSDecodableShape {
+        /// A unique identifier associated with the Malware Protection plan resource.
+        public let malwareProtectionPlanId: String?
+
+        public init(malwareProtectionPlanId: String? = nil) {
+            self.malwareProtectionPlanId = malwareProtectionPlanId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case malwareProtectionPlanId = "malwareProtectionPlanId"
+        }
+    }
+
     public struct CreateMembersRequest: AWSEncodableShape {
         /// A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account.
         public let accountDetails: [AccountDetail]?
@@ -1535,6 +1603,23 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case unprocessedAccounts = "unprocessedAccounts"
+        }
+    }
+
+    public struct CreateProtectedResource: AWSEncodableShape & AWSDecodableShape {
+        /// Information about the protected S3 bucket resource.
+        public let s3Bucket: CreateS3BucketResource?
+
+        public init(s3Bucket: CreateS3BucketResource? = nil) {
+            self.s3Bucket = s3Bucket
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Bucket?.validate(name: "\(name).s3Bucket")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "s3Bucket"
         }
     }
 
@@ -1587,6 +1672,27 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case destinationId = "destinationId"
+        }
+    }
+
+    public struct CreateS3BucketResource: AWSEncodableShape & AWSDecodableShape {
+        /// Name of the S3 bucket.
+        public let bucketName: String?
+        /// Information about the specified object prefixes. The S3 object will be scanned only  if it belongs to any of the specified object prefixes.
+        public let objectPrefixes: [String]?
+
+        public init(bucketName: String? = nil, objectPrefixes: [String]? = nil) {
+            self.bucketName = bucketName
+            self.objectPrefixes = objectPrefixes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.objectPrefixes, name: "objectPrefixes", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case objectPrefixes = "objectPrefixes"
         }
     }
 
@@ -1990,6 +2096,23 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case unprocessedAccounts = "unprocessedAccounts"
         }
+    }
+
+    public struct DeleteMalwareProtectionPlanRequest: AWSEncodableShape {
+        /// A unique identifier associated with Malware Protection plan resource.
+        public let malwareProtectionPlanId: String
+
+        public init(malwareProtectionPlanId: String) {
+            self.malwareProtectionPlanId = malwareProtectionPlanId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.malwareProtectionPlanId, key: "malwareProtectionPlanId")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteMembersRequest: AWSEncodableShape {
@@ -3415,6 +3538,64 @@ extension GuardDuty {
         }
     }
 
+    public struct GetMalwareProtectionPlanRequest: AWSEncodableShape {
+        /// A unique identifier associated with Malware Protection plan resource.
+        public let malwareProtectionPlanId: String
+
+        public init(malwareProtectionPlanId: String) {
+            self.malwareProtectionPlanId = malwareProtectionPlanId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.malwareProtectionPlanId, key: "malwareProtectionPlanId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMalwareProtectionPlanResponse: AWSDecodableShape {
+        /// Information about whether the tags will be added to the S3 object after scanning.
+        public let actions: MalwareProtectionPlanActions?
+        /// Amazon Resource Name (ARN) of the protected resource.
+        public let arn: String?
+        /// The timestamp when the Malware Protection plan resource was created.
+        public let createdAt: Date?
+        /// Information about the protected resource that is associated with the created  Malware Protection plan. Presently, S3Bucket is the only supported  protected resource.
+        public let protectedResource: CreateProtectedResource?
+        /// IAM role that includes the permissions required to scan and  add tags to the associated protected resource.
+        public let role: String?
+        /// Malware Protection plan status.
+        public let status: MalwareProtectionPlanStatus?
+        /// Information about the issue code and message associated to the status of your Malware Protection plan.
+        public let statusReasons: [MalwareProtectionPlanStatusReason]?
+        /// Tags added to the Malware Protection plan resource.
+        public let tags: [String: String]?
+
+        public init(actions: MalwareProtectionPlanActions? = nil, arn: String? = nil, createdAt: Date? = nil, protectedResource: CreateProtectedResource? = nil, role: String? = nil, status: MalwareProtectionPlanStatus? = nil, statusReasons: [MalwareProtectionPlanStatusReason]? = nil, tags: [String: String]? = nil) {
+            self.actions = actions
+            self.arn = arn
+            self.createdAt = createdAt
+            self.protectedResource = protectedResource
+            self.role = role
+            self.status = status
+            self.statusReasons = statusReasons
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case protectedResource = "protectedResource"
+            case role = "role"
+            case status = "status"
+            case statusReasons = "statusReasons"
+            case tags = "tags"
+        }
+    }
+
     public struct GetMalwareScanSettingsRequest: AWSEncodableShape {
         /// The unique ID of the detector that the scan setting is associated with.
         public let detectorId: String
@@ -3986,6 +4167,23 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case unprocessedAccounts = "unprocessedAccounts"
+        }
+    }
+
+    public struct ItemPath: AWSDecodableShape {
+        /// The hash value of the infected resource.
+        public let hash: String?
+        /// The nested item path where the infected file was found.
+        public let nestedItemPath: String?
+
+        public init(hash: String? = nil, nestedItemPath: String? = nil) {
+            self.hash = hash
+            self.nestedItemPath = nestedItemPath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hash = "hash"
+            case nestedItemPath = "nestedItemPath"
         }
     }
 
@@ -4675,6 +4873,40 @@ extension GuardDuty {
         }
     }
 
+    public struct ListMalwareProtectionPlansRequest: AWSEncodableShape {
+        /// You can use this parameter when paginating results. Set the value  of this parameter to null on your first call to the list action.  For subsequent calls to the action, fill nextToken in the request  with the value of NextToken from the previous response to  continue listing data.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListMalwareProtectionPlansResponse: AWSDecodableShape {
+        /// A list of unique identifiers associated with each Malware Protection plan.
+        public let malwareProtectionPlans: [MalwareProtectionPlanSummary]?
+        /// You can use this parameter when paginating results. Set the value  of this parameter to null on your first call to the list action.  For subsequent calls to the action, fill nextToken in the request  with the value of NextToken from the previous response to  continue listing data.
+        public let nextToken: String?
+
+        public init(malwareProtectionPlans: [MalwareProtectionPlanSummary]? = nil, nextToken: String? = nil) {
+            self.malwareProtectionPlans = malwareProtectionPlans
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case malwareProtectionPlans = "malwareProtectionPlans"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListMembersRequest: AWSEncodableShape {
         /// The unique ID of the detector the member is associated with.
         public let detectorId: String
@@ -5002,6 +5234,75 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case scanEc2InstanceWithFindings = "scanEc2InstanceWithFindings"
+        }
+    }
+
+    public struct MalwareProtectionPlanActions: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the scanned S3 object will have tags about the scan result.
+        public let tagging: MalwareProtectionPlanTaggingAction?
+
+        public init(tagging: MalwareProtectionPlanTaggingAction? = nil) {
+            self.tagging = tagging
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagging = "tagging"
+        }
+    }
+
+    public struct MalwareProtectionPlanStatusReason: AWSDecodableShape {
+        /// Issue code.
+        public let code: String?
+        /// Issue message that specifies the reason. For information about potential troubleshooting steps, see Troubleshooting Malware Protection for S3 status issues in the  GuardDuty User Guide.
+        public let message: String?
+
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct MalwareProtectionPlanSummary: AWSDecodableShape {
+        /// A unique identifier associated with Malware Protection plan.
+        public let malwareProtectionPlanId: String?
+
+        public init(malwareProtectionPlanId: String? = nil) {
+            self.malwareProtectionPlanId = malwareProtectionPlanId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case malwareProtectionPlanId = "malwareProtectionPlanId"
+        }
+    }
+
+    public struct MalwareProtectionPlanTaggingAction: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether or not the tags will added.
+        public let status: MalwareProtectionPlanTaggingActionStatus?
+
+        public init(status: MalwareProtectionPlanTaggingActionStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct MalwareScanDetails: AWSDecodableShape {
+        /// Information about the detected threats associated with the generated GuardDuty finding.
+        public let threats: [Threat]?
+
+        public init(threats: [Threat]? = nil) {
+            self.threats = threats
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case threats = "threats"
         }
     }
 
@@ -6047,7 +6348,7 @@ extension GuardDuty {
     }
 
     public struct ResourceDetails: AWSDecodableShape {
-        /// InstanceArn that was scanned in the scan entry.
+        /// Instance ARN that was scanned in the scan entry.
         public let instanceArn: String?
 
         public init(instanceArn: String? = nil) {
@@ -6198,18 +6499,21 @@ extension GuardDuty {
         public let owner: Owner?
         /// Describes the public access policies that apply to the S3 bucket.
         public let publicAccess: PublicAccess?
+        /// Information about the S3 object that was scanned.
+        public let s3ObjectDetails: [S3ObjectDetail]?
         /// All tags attached to the S3 bucket
         public let tags: [Tag]?
         /// Describes whether the bucket is a source or destination bucket.
         public let type: String?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, defaultServerSideEncryption: DefaultServerSideEncryption? = nil, name: String? = nil, owner: Owner? = nil, publicAccess: PublicAccess? = nil, tags: [Tag]? = nil, type: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, defaultServerSideEncryption: DefaultServerSideEncryption? = nil, name: String? = nil, owner: Owner? = nil, publicAccess: PublicAccess? = nil, s3ObjectDetails: [S3ObjectDetail]? = nil, tags: [Tag]? = nil, type: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.defaultServerSideEncryption = defaultServerSideEncryption
             self.name = name
             self.owner = owner
             self.publicAccess = publicAccess
+            self.s3ObjectDetails = s3ObjectDetails
             self.tags = tags
             self.type = type
         }
@@ -6221,6 +6525,7 @@ extension GuardDuty {
             case name = "name"
             case owner = "owner"
             case publicAccess = "publicAccess"
+            case s3ObjectDetails = "s3ObjectDetails"
             case tags = "tags"
             case type = "type"
         }
@@ -6249,6 +6554,35 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case status = "status"
+        }
+    }
+
+    public struct S3ObjectDetail: AWSDecodableShape {
+        /// The entity tag is a hash of the S3 object. The ETag reflects changes only to the contents of  an object, and not its metadata.
+        public let eTag: String?
+        /// Hash of the threat detected in this finding.
+        public let hash: String?
+        /// Key of the S3 object.
+        public let key: String?
+        /// Amazon Resource Name (ARN) of the S3 object.
+        public let objectArn: String?
+        /// Version ID of the object.
+        public let versionId: String?
+
+        public init(eTag: String? = nil, hash: String? = nil, key: String? = nil, objectArn: String? = nil, versionId: String? = nil) {
+            self.eTag = eTag
+            self.hash = hash
+            self.key = key
+            self.objectArn = objectArn
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "eTag"
+            case hash = "hash"
+            case key = "key"
+            case objectArn = "objectArn"
+            case versionId = "versionId"
         }
     }
 
@@ -6422,7 +6756,7 @@ extension GuardDuty {
         public let filePath: String?
         /// The hash value of the infected file.
         public let hash: String?
-        /// EBS volume Arn details of the infected file.
+        /// EBS volume ARN details of the infected file.
         public let volumeArn: String?
 
         public init(fileName: String? = nil, filePath: String? = nil, hash: String? = nil, volumeArn: String? = nil) {
@@ -6582,6 +6916,8 @@ extension GuardDuty {
         public let evidence: Evidence?
         /// The name of the feature that generated a finding.
         public let featureName: String?
+        /// Returns details from the malware scan that generated a GuardDuty finding.
+        public let malwareScanDetails: MalwareScanDetails?
         /// The resource role information for this finding.
         public let resourceRole: String?
         /// Information about the process and any required context values for a specific finding
@@ -6591,7 +6927,7 @@ extension GuardDuty {
         /// Feedback that was submitted about the finding.
         public let userFeedback: String?
 
-        public init(action: Action? = nil, additionalInfo: ServiceAdditionalInfo? = nil, archived: Bool? = nil, count: Int? = nil, detection: Detection? = nil, detectorId: String? = nil, ebsVolumeScanDetails: EbsVolumeScanDetails? = nil, eventFirstSeen: String? = nil, eventLastSeen: String? = nil, evidence: Evidence? = nil, featureName: String? = nil, resourceRole: String? = nil, runtimeDetails: RuntimeDetails? = nil, serviceName: String? = nil, userFeedback: String? = nil) {
+        public init(action: Action? = nil, additionalInfo: ServiceAdditionalInfo? = nil, archived: Bool? = nil, count: Int? = nil, detection: Detection? = nil, detectorId: String? = nil, ebsVolumeScanDetails: EbsVolumeScanDetails? = nil, eventFirstSeen: String? = nil, eventLastSeen: String? = nil, evidence: Evidence? = nil, featureName: String? = nil, malwareScanDetails: MalwareScanDetails? = nil, resourceRole: String? = nil, runtimeDetails: RuntimeDetails? = nil, serviceName: String? = nil, userFeedback: String? = nil) {
             self.action = action
             self.additionalInfo = additionalInfo
             self.archived = archived
@@ -6603,6 +6939,7 @@ extension GuardDuty {
             self.eventLastSeen = eventLastSeen
             self.evidence = evidence
             self.featureName = featureName
+            self.malwareScanDetails = malwareScanDetails
             self.resourceRole = resourceRole
             self.runtimeDetails = runtimeDetails
             self.serviceName = serviceName
@@ -6621,6 +6958,7 @@ extension GuardDuty {
             case eventLastSeen = "eventLastSeen"
             case evidence = "evidence"
             case featureName = "featureName"
+            case malwareScanDetails = "malwareScanDetails"
             case resourceRole = "resourceRole"
             case runtimeDetails = "runtimeDetails"
             case serviceName = "serviceName"
@@ -6840,6 +7178,27 @@ extension GuardDuty {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct Threat: AWSDecodableShape {
+        /// Information about the nested item path and  hash of the protected resource.
+        public let itemPaths: [ItemPath]?
+        /// Name of the detected threat that caused GuardDuty to generate this finding.
+        public let name: String?
+        /// Source of the threat that generated this finding.
+        public let source: String?
+
+        public init(itemPaths: [ItemPath]? = nil, name: String? = nil, source: String? = nil) {
+            self.itemPaths = itemPaths
+            self.name = name
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case itemPaths = "itemPaths"
+            case name = "name"
+            case source = "source"
+        }
     }
 
     public struct ThreatDetectedByName: AWSDecodableShape {
@@ -7253,6 +7612,43 @@ extension GuardDuty {
         public init() {}
     }
 
+    public struct UpdateMalwareProtectionPlanRequest: AWSEncodableShape {
+        /// Information about whether the tags will be added to the S3 object after scanning.
+        public let actions: MalwareProtectionPlanActions?
+        /// A unique identifier associated with the Malware Protection plan.
+        public let malwareProtectionPlanId: String
+        /// Information about the protected resource that is associated  with the created Malware Protection plan. Presently, S3Bucket is the only supported protected resource.
+        public let protectedResource: UpdateProtectedResource?
+        /// IAM role with permissions required to scan and add tags to  the associated protected resource.
+        public let role: String?
+
+        public init(actions: MalwareProtectionPlanActions? = nil, malwareProtectionPlanId: String, protectedResource: UpdateProtectedResource? = nil, role: String? = nil) {
+            self.actions = actions
+            self.malwareProtectionPlanId = malwareProtectionPlanId
+            self.protectedResource = protectedResource
+            self.role = role
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.actions, forKey: .actions)
+            request.encodePath(self.malwareProtectionPlanId, key: "malwareProtectionPlanId")
+            try container.encodeIfPresent(self.protectedResource, forKey: .protectedResource)
+            try container.encodeIfPresent(self.role, forKey: .role)
+        }
+
+        public func validate(name: String) throws {
+            try self.protectedResource?.validate(name: "\(name).protectedResource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case protectedResource = "protectedResource"
+            case role = "role"
+        }
+    }
+
     public struct UpdateMalwareScanSettingsRequest: AWSEncodableShape {
         /// The unique ID of the detector that specifies the GuardDuty service where you want to update scan settings.
         public let detectorId: String
@@ -7412,6 +7808,23 @@ extension GuardDuty {
         public init() {}
     }
 
+    public struct UpdateProtectedResource: AWSEncodableShape {
+        /// Information about the protected S3 bucket resource.
+        public let s3Bucket: UpdateS3BucketResource?
+
+        public init(s3Bucket: UpdateS3BucketResource? = nil) {
+            self.s3Bucket = s3Bucket
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Bucket?.validate(name: "\(name).s3Bucket")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "s3Bucket"
+        }
+    }
+
     public struct UpdatePublishingDestinationRequest: AWSEncodableShape {
         /// The ID of the publishing destination to update.
         public let destinationId: String
@@ -7446,6 +7859,23 @@ extension GuardDuty {
 
     public struct UpdatePublishingDestinationResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateS3BucketResource: AWSEncodableShape {
+        /// Information about the specified object prefixes. The S3 object will be scanned only  if it belongs to any of the specified object prefixes.
+        public let objectPrefixes: [String]?
+
+        public init(objectPrefixes: [String]? = nil) {
+            self.objectPrefixes = objectPrefixes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.objectPrefixes, name: "objectPrefixes", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectPrefixes = "objectPrefixes"
+        }
     }
 
     public struct UpdateThreatIntelSetRequest: AWSEncodableShape {
@@ -7695,11 +8125,11 @@ extension GuardDuty {
         public let deviceName: String?
         /// EBS volume encryption type.
         public let encryptionType: String?
-        /// KMS key Arn used to encrypt the EBS volume.
+        /// KMS key ARN used to encrypt the EBS volume.
         public let kmsKeyArn: String?
-        /// Snapshot Arn of the EBS volume.
+        /// Snapshot ARN of the EBS volume.
         public let snapshotArn: String?
-        /// EBS volume Arn information.
+        /// EBS volume ARN information.
         public let volumeArn: String?
         /// EBS volume size in GB.
         public let volumeSizeInGB: Int?
@@ -7775,6 +8205,7 @@ public struct GuardDutyErrorType: AWSErrorType {
         case badRequestException = "BadRequestException"
         case conflictException = "ConflictException"
         case internalServerErrorException = "InternalServerErrorException"
+        case resourceNotFoundException = "ResourceNotFoundException"
     }
 
     private let error: Code
@@ -7803,6 +8234,8 @@ public struct GuardDutyErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// An internal server error exception object.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// The requested resource can't be found.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 
 extension GuardDutyErrorType: Equatable {

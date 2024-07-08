@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -19,9 +19,7 @@
 
 /// Service object for interacting with AWS OpsWorks service.
 ///
-/// AWS OpsWorks Welcome to the AWS OpsWorks Stacks API Reference. This guide provides descriptions, syntax, and usage examples for AWS OpsWorks Stacks actions and data types, including common parameters and error codes.  AWS OpsWorks Stacks is an application management service that provides an integrated experience for overseeing the complete application lifecycle. For information about this product, go to the AWS OpsWorks details page.
-///   SDKs and CLI  The most common way to use the AWS OpsWorks Stacks API is by using the AWS Command Line Interface (CLI) or by using one of the AWS SDKs to implement applications in your preferred language. For more information, see:    AWS CLI     AWS SDK for Java     AWS SDK for .NET     AWS SDK for PHP 2     AWS SDK for Ruby     AWS SDK for Node.js     AWS SDK for Python(Boto)
-///   Endpoints  AWS OpsWorks Stacks supports the following endpoints, all HTTPS. You must connect to one of the following endpoints. Stacks  can only be accessed or managed within the endpoint in which they are created.   opsworks.us-east-1.amazonaws.com   opsworks.us-east-2.amazonaws.com   opsworks.us-west-1.amazonaws.com   opsworks.us-west-2.amazonaws.com   opsworks.ca-central-1.amazonaws.com (API only; not available in the AWS console)   opsworks.eu-west-1.amazonaws.com   opsworks.eu-west-2.amazonaws.com   opsworks.eu-west-3.amazonaws.com   opsworks.eu-central-1.amazonaws.com   opsworks.ap-northeast-1.amazonaws.com   opsworks.ap-northeast-2.amazonaws.com   opsworks.ap-south-1.amazonaws.com   opsworks.ap-southeast-1.amazonaws.com   opsworks.ap-southeast-2.amazonaws.com   opsworks.sa-east-1.amazonaws.com    Chef Versions  When you call CreateStack, CloneStack, or UpdateStack we recommend you use the ConfigurationManager parameter to specify the Chef version. The recommended and default value for Linux stacks is currently 12. Windows stacks use Chef 12.2. For more information, see Chef Versions.  You can specify Chef 12, 11.10, or 11.4 for your Linux stack. We recommend migrating your existing Linux stacks to Chef 12 as soon as possible.
+/// OpsWorks Welcome to the OpsWorks Stacks API Reference. This guide provides descriptions, syntax,  and usage examples for OpsWorks Stacks actions and data types, including common parameters and error codes.  OpsWorks Stacks is an application management service that provides an integrated experience for managing the complete application lifecycle. For information about OpsWorks, see the OpsWorks information page.  SDKs and CLI  Use the OpsWorks Stacks API by using the Command Line Interface (CLI) or by using one of the  Amazon Web Services SDKs to implement applications in your preferred language. For more information, see:    CLI     SDK for Java     SDK for .NET     SDK for PHP     SDK for Ruby     Amazon Web Services SDK for Node.js     SDK for Python (Boto)     Endpoints  OpsWorks Stacks supports the following endpoints, all HTTPS. You must connect to one of the following endpoints.  Stacks can only be accessed or managed within the endpoint in which they are created.   opsworks.us-east-1.amazonaws.com   opsworks.us-east-2.amazonaws.com   opsworks.us-west-1.amazonaws.com   opsworks.us-west-2.amazonaws.com   opsworks.ca-central-1.amazonaws.com (API only; not available in the Amazon Web Services Management Console)   opsworks.eu-west-1.amazonaws.com   opsworks.eu-west-2.amazonaws.com   opsworks.eu-west-3.amazonaws.com   opsworks.eu-central-1.amazonaws.com   opsworks.ap-northeast-1.amazonaws.com   opsworks.ap-northeast-2.amazonaws.com   opsworks.ap-south-1.amazonaws.com   opsworks.ap-southeast-1.amazonaws.com   opsworks.ap-southeast-2.amazonaws.com   opsworks.sa-east-1.amazonaws.com    Chef Versions  When you call CreateStack, CloneStack, or UpdateStack we recommend you use the ConfigurationManager parameter to specify the Chef version. The recommended and default value for Linux stacks is currently 12. Windows stacks use Chef 12.2. For more information, see Chef Versions.  You can specify Chef 12, 11.10, or 11.4 for your Linux stack. We recommend migrating your existing Linux stacks  to Chef 12 as soon as possible.
 public struct OpsWorks: AWSService {
     // MARK: Member variables
 
@@ -77,7 +75,7 @@ public struct OpsWorks: AWSService {
 
     // MARK: API Calls
 
-    /// Assign a registered instance to a layer.   You can assign registered on-premises instances to any layer type.   You can assign registered Amazon EC2 instances only to custom layers.   You cannot use this action with instances that were created with AWS OpsWorks Stacks.    Required Permissions: To use this action, an AWS Identity and Access Management (IAM) user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    /// Assign a registered instance to a layer.   You can assign registered on-premises instances to any layer type.   You can assign registered Amazon EC2 instances only to custom layers.   You cannot use this action with instances that were created with OpsWorks Stacks.    Required Permissions: To use this action, an Identity and Access Management (IAM) user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     @Sendable
     public func assignInstance(_ input: AssignInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -90,7 +88,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Assigns one of the stack's registered Amazon EBS volumes to a specified instance. The volume must first be registered with the stack by calling RegisterVolume. After you register the volume, you must call UpdateVolume to specify a mount point before calling AssignVolume. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    /// Assigns one of the stack's registered Amazon EBS volumes to a specified instance. The volume must first be registered with the stack by calling RegisterVolume. After you register the volume, you must call UpdateVolume to specify a mount point before calling AssignVolume. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage  permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     @Sendable
     public func assignVolume(_ input: AssignVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -103,7 +101,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Associates one of the stack's registered Elastic IP addresses with a specified instance. The address must first be registered with the stack by calling RegisterElasticIp. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    /// Associates one of the stack's registered Elastic IP addresses with a specified instance. The address must first be registered with the stack by calling RegisterElasticIp. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a  Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     @Sendable
     public func associateElasticIp(_ input: AssociateElasticIpRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -116,7 +114,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Attaches an Elastic Load Balancing load balancer to a specified layer. AWS OpsWorks Stacks does not support  Application Load Balancer. You can only use Classic Load Balancer with AWS OpsWorks Stacks.  For more information, see Elastic Load Balancing.  You must create the Elastic Load Balancing instance separately, by using the Elastic Load Balancing console, API, or CLI. For more information, see  Elastic Load Balancing Developer Guide.   Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    /// Attaches an Elastic Load Balancing load balancer to a specified layer. OpsWorks Stacks does not support  Application Load Balancer. You can only use Classic Load Balancer with OpsWorks Stacks.  For more information, see Elastic Load Balancing.  You must create the Elastic Load Balancing instance separately, by using the Elastic Load Balancing console, API, or CLI. For more information, see the Elastic Load Balancing Developer Guide.   Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     @Sendable
     public func attachElasticLoadBalancer(_ input: AttachElasticLoadBalancerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -181,7 +179,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Creates a layer. For more information, see How to Create a Layer.  You should use CreateLayer for noncustom layer types such as PHP App Server only if the stack does not have an existing layer of that type. A stack can have at most one instance of each noncustom layer; if you attempt to create a second instance, CreateLayer fails. A stack can have an arbitrary number of custom layers, so you can call CreateLayer as many times as you like for that layer type.   Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    /// Creates a layer. For more information, see How to Create a Layer.  You should use CreateLayer for noncustom layer types such as  PHP App Server only if the stack does not have an existing layer of that type. A stack can have at most one instance of each noncustom layer; if you attempt to create a second instance, CreateLayer fails. A stack can have an arbitrary number of custom layers, so you can call CreateLayer as many times as you like for that layer type.   Required Permissions: To use this action, an IAM user must  have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     @Sendable
     public func createLayer(_ input: CreateLayerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLayerResult {
         return try await self.client.execute(
@@ -220,7 +218,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Deletes a specified app.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    /// Deletes a specified app.  Required Permissions: To use this action, an IAM user must have a  Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     @Sendable
     public func deleteApp(_ input: DeleteAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -233,7 +231,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Deletes a specified instance, which terminates the associated Amazon EC2 instance. You must stop an instance before you can delete it. For more information, see Deleting Instances.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    /// Deletes a specified instance, which terminates the associated Amazon EC2 instance. You must stop an instance before  you can delete it. For more information, see Deleting Instances.  Required Permissions: To use this action, an IAM user must have a Manage  permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     @Sendable
     public func deleteInstance(_ input: DeleteInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -246,7 +244,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Deletes a specified layer. You must first stop and then delete all associated instances or unassign registered instances. For more information, see How to Delete a Layer.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    /// Deletes a specified layer. You must first stop and then delete all associated instances or unassign registered instances. For more information, see How to Delete a Layer.  Required Permissions: To use this action, an IAM user must have a  Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     @Sendable
     public func deleteLayer(_ input: DeleteLayerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -272,7 +270,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Deletes a user profile.  Required Permissions: To use this action, an IAM user must have an attached policy that explicitly grants permissions. For more information about user permissions, see Managing User Permissions.
+    /// Deletes a user profile.  Required Permissions: To use this action, an IAM user must have an attached  policy that explicitly grants permissions. For more information about user permissions, see Managing User Permissions.
     @Sendable
     public func deleteUserProfile(_ input: DeleteUserProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -285,7 +283,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Deregisters a specified Amazon ECS cluster from a stack. For more information, see  Resource Management.    Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html.
+    /// Deregisters a specified Amazon ECS cluster from a stack. For more information, see  Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html.
     @Sendable
     public func deregisterEcsCluster(_ input: DeregisterEcsClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -298,7 +296,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Deregisters a specified Elastic IP address. The address can then be registered by another stack. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    /// Deregisters a specified Elastic IP address. The address can be registered by another stack after it is deregistered. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     @Sendable
     public func deregisterElasticIp(_ input: DeregisterElasticIpRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -311,7 +309,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Deregister a registered Amazon EC2 or on-premises instance. This action removes the  instance from the stack and returns it to your control. This action cannot be used with  instances that were created with AWS OpsWorks Stacks.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    /// Deregister an instance from OpsWorks Stacks. The instance can be a registered instance (Amazon EC2 or on-premises) or an instance created with OpsWorks.  This action removes the instance from the stack and returns it to your control.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     @Sendable
     public func deregisterInstance(_ input: DeregisterInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -350,7 +348,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Describes the available AWS OpsWorks Stacks agent versions. You must specify a stack ID or a configuration manager. DescribeAgentVersions returns a list of available agent versions for the specified stack or configuration manager.
+    /// Describes the available OpsWorks Stacks agent versions. You must specify a stack ID or a configuration manager. DescribeAgentVersions returns a list of available agent versions for the specified stack or configuration manager.
     @Sendable
     public func describeAgentVersions(_ input: DescribeAgentVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAgentVersionsResult {
         return try await self.client.execute(
@@ -363,7 +361,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Requests a description of a specified set of apps.  This call accepts only one resource-identifying parameter.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see Managing User Permissions.
+    /// Requests a description of a specified set of apps.  This call accepts only one resource-identifying parameter.   Required Permissions: To use this action, an IAM user must have a Show, Deploy,  or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see Managing User Permissions.
     @Sendable
     public func describeApps(_ input: DescribeAppsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppsResult {
         return try await self.client.execute(
@@ -402,7 +400,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Describes Amazon ECS clusters that are registered with a stack. If you specify only a stack ID, you can use the MaxResults and NextToken parameters to paginate the response. However, AWS OpsWorks Stacks currently supports only one cluster per layer, so the result set has a maximum of one element.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack or an attached policy that explicitly grants permission. For more information about user permissions, see Managing User Permissions. This call accepts only one resource-identifying parameter.
+    /// Describes Amazon ECS clusters that are registered with a stack. If you specify only a stack ID, you can use the MaxResults and NextToken parameters to paginate the response. However, OpsWorks Stacks currently supports only one cluster per layer, so the result set has a maximum of one element.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack or an attached policy that explicitly grants permission. For more information about user permissions, see Managing User Permissions. This call accepts only one resource-identifying parameter.
     @Sendable
     public func describeEcsClusters(_ input: DescribeEcsClustersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEcsClustersResult {
         return try await self.client.execute(
@@ -492,7 +490,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Describes the operating systems that are supported by AWS OpsWorks Stacks.
+    /// Describes the operating systems that are supported by OpsWorks Stacks.
     @Sendable
     public func describeOperatingSystems(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOperatingSystemsResponse {
         return try await self.client.execute(
@@ -543,7 +541,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Describes AWS OpsWorks Stacks service errors.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see Managing User Permissions. This call accepts only one resource-identifying parameter.
+    /// Describes OpsWorks Stacks service errors.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information about user permissions, see Managing User Permissions. This call accepts only one resource-identifying parameter.
     @Sendable
     public func describeServiceErrors(_ input: DescribeServiceErrorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServiceErrorsResult {
         return try await self.client.execute(
@@ -634,7 +632,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Detaches a specified Elastic Load Balancing instance from its layer.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    /// Detaches a specified Elastic Load Balancing instance from its layer.  Required Permissions: To use this action, an IAM user must have a Manage  permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     @Sendable
     public func detachElasticLoadBalancer(_ input: DetachElasticLoadBalancerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -738,7 +736,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Registers instances that were created outside of AWS OpsWorks Stacks with a specified stack.  We do not recommend using this action to register instances. The complete registration operation includes two tasks: installing the AWS OpsWorks Stacks agent on the instance, and registering the instance with the stack. RegisterInstance handles only the second step. You should instead use the AWS CLI register command, which performs the entire registration operation. For more information, see  Registering an Instance with an AWS OpsWorks Stacks Stack.  Registered instances have the same requirements as instances that are created by using the CreateInstance API.  For example, registered instances must be running a supported Linux-based operating system, and they must have a supported instance  type. For more information about requirements for instances that you want to register, see  Preparing the Instance.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    /// Registers instances that were created outside of OpsWorks Stacks with a specified stack.  We do not recommend using this action to register instances. The complete registration operation includes two tasks: installing the OpsWorks Stacks agent on the instance, and registering the instance with the stack. RegisterInstance handles only the second step. You should instead use the CLI register command, which performs the entire registration operation. For more information, see  Registering an Instance with an OpsWorks Stacks Stack.  Registered instances have the same requirements as instances that are created by using the CreateInstance  API.  For example, registered instances must be running a supported Linux-based operating system, and they must have a supported instance  type. For more information about requirements for instances that you want to register, see  Preparing the Instance.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     @Sendable
     public func registerInstance(_ input: RegisterInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterInstanceResult {
         return try await self.client.execute(
@@ -777,7 +775,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Specify the load-based auto scaling configuration for a specified layer. For more information, see Managing Load with Time-based and Load-based Instances.  To use load-based auto scaling, you must create a set of load-based auto scaling instances. Load-based auto scaling operates only on the instances from that set, so you must ensure that you have created enough instances to handle the maximum anticipated load.   Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    /// Specify the load-based auto scaling configuration for a specified layer. For more information, see Managing Load with Time-based and Load-based Instances.  To use load-based auto scaling, you must create a set of load-based auto scaling instances.  Load-based auto scaling operates only on the instances from that set, so you must ensure that you have created enough  instances to handle the maximum anticipated load.   Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     @Sendable
     public func setLoadBasedAutoScaling(_ input: SetLoadBasedAutoScalingRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -790,7 +788,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Specifies a user's permissions. For more information, see Security and Permissions.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    /// Specifies a user's permissions. For more information, see  Security and Permissions.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     @Sendable
     public func setPermission(_ input: SetPermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -868,7 +866,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Apply cost-allocation tags to a specified stack or layer in AWS OpsWorks Stacks. For more information about how tagging works, see Tags in the AWS OpsWorks User Guide.
+    /// Apply cost-allocation tags to a specified stack or layer in OpsWorks Stacks. For more information about how  tagging works, see Tags in the OpsWorks User Guide.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -881,7 +879,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Unassigns a registered instance from all layers that are using the instance.  The instance remains in the stack as an unassigned instance, and can be assigned to  another layer as needed. You cannot use this action with instances that were created  with AWS OpsWorks Stacks.  Required Permissions: To use this action, an IAM user must  have a Manage permissions level for the stack or an attached policy that explicitly  grants permissions. For more information about user permissions, see Managing User Permissions.
+    /// Unassigns a registered instance from all layers that are using the instance.  The instance remains in the stack as an unassigned instance, and can be assigned to  another layer as needed. You cannot use this action with instances that were created  with OpsWorks Stacks.  Required Permissions: To use this action, an IAM user must  have a Manage permissions level for the stack or an attached policy that explicitly  grants permissions. For more information about user permissions, see Managing User Permissions.
     @Sendable
     public func unassignInstance(_ input: UnassignInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1024,7 +1022,7 @@ public struct OpsWorks: AWSService {
         )
     }
 
-    /// Updates an Amazon EBS volume's name or mount point. For more information, see Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    /// Updates an Amazon EBS volume's name or mount point. For more information, see  Resource Management.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     @Sendable
     public func updateVolume(_ input: UpdateVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1051,7 +1049,7 @@ extension OpsWorks {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension OpsWorks {
-    /// Describes Amazon ECS clusters that are registered with a stack. If you specify only a stack ID, you can use the MaxResults and NextToken parameters to paginate the response. However, AWS OpsWorks Stacks currently supports only one cluster per layer, so the result set has a maximum of one element.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack or an attached policy that explicitly grants permission. For more information about user permissions, see Managing User Permissions. This call accepts only one resource-identifying parameter.
+    /// Describes Amazon ECS clusters that are registered with a stack. If you specify only a stack ID, you can use the MaxResults and NextToken parameters to paginate the response. However, OpsWorks Stacks currently supports only one cluster per layer, so the result set has a maximum of one element.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack or an attached policy that explicitly grants permission. For more information about user permissions, see Managing User Permissions. This call accepts only one resource-identifying parameter.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

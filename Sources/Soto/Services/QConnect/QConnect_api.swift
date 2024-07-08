@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -120,6 +120,19 @@ public struct QConnect: AWSService {
         )
     }
 
+    /// Creates an association between a content resource in a knowledge base and step-by-step guides. Step-by-step guides offer instructions to agents for resolving common customer issues. You create a content association to integrate Amazon Q in Connect and step-by-step guides.  After you integrate Amazon Q and step-by-step guides, when Amazon Q provides a recommendation to an agent based on the intent that it's detected, it also provides them with the option to start the step-by-step guide that you have associated with the content. Note the following limitations:   You can create only one content association for each content resource in a knowledge base.   You can associate a step-by-step guide with multiple content resources.   For more information, see Integrate Amazon Q in Connect with step-by-step guides in the Amazon Connect Administrator Guide.
+    @Sendable
+    public func createContentAssociation(_ input: CreateContentAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContentAssociationResponse {
+        return try await self.client.execute(
+            operation: "CreateContentAssociation", 
+            path: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}/associations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a knowledge base.  When using this API, you cannot reuse Amazon AppIntegrations DataIntegrations with external knowledge bases such as Salesforce and ServiceNow. If you do, you'll get an InvalidRequestException error.  For example, you're programmatically managing your external knowledge base, and you want to add or remove one of the fields that is being ingested from Salesforce. Do the following:   Call DeleteKnowledgeBase.   Call DeleteDataIntegration.   Call CreateDataIntegration to recreate the DataIntegration or a create different one.   Call CreateKnowledgeBase.
     @Sendable
     public func createKnowledgeBase(_ input: CreateKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKnowledgeBaseResponse {
@@ -198,6 +211,19 @@ public struct QConnect: AWSService {
         )
     }
 
+    /// Deletes the content association.  For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Amazon Connect Administrator Guide.
+    @Sendable
+    public func deleteContentAssociation(_ input: DeleteContentAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteContentAssociationResponse {
+        return try await self.client.execute(
+            operation: "DeleteContentAssociation", 
+            path: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}/associations/{contentAssociationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes the quick response import job.
     @Sendable
     public func deleteImportJob(_ input: DeleteImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteImportJobResponse {
@@ -269,6 +295,19 @@ public struct QConnect: AWSService {
         return try await self.client.execute(
             operation: "GetContent", 
             path: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns the content association. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Amazon Connect Administrator Guide.
+    @Sendable
+    public func getContentAssociation(_ input: GetContentAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContentAssociationResponse {
+        return try await self.client.execute(
+            operation: "GetContentAssociation", 
+            path: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}/associations/{contentAssociationId}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -374,6 +413,19 @@ public struct QConnect: AWSService {
         return try await self.client.execute(
             operation: "ListAssistants", 
             path: "/assistants", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the content associations. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Amazon Connect Administrator Guide.
+    @Sendable
+    public func listContentAssociations(_ input: ListContentAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContentAssociationsResponse {
+        return try await self.client.execute(
+            operation: "ListContentAssociations", 
+            path: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}/associations", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -694,6 +746,25 @@ extension QConnect {
         )
     }
 
+    /// Lists the content associations. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Amazon Connect Administrator Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listContentAssociationsPaginator(
+        _ input: ListContentAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListContentAssociationsRequest, ListContentAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listContentAssociations,
+            inputKey: \ListContentAssociationsRequest.nextToken,
+            outputKey: \ListContentAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists the content.
     /// Return PaginatorSequence for operation.
     ///
@@ -861,6 +932,17 @@ extension QConnect.ListAssistantAssociationsRequest: AWSPaginateToken {
 extension QConnect.ListAssistantsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QConnect.ListAssistantsRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension QConnect.ListContentAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> QConnect.ListContentAssociationsRequest {
+        return .init(
+            contentId: self.contentId,
+            knowledgeBaseId: self.knowledgeBaseId,
             maxResults: self.maxResults,
             nextToken: token
         )

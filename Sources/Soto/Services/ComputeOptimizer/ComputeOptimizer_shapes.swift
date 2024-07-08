@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -393,6 +393,69 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExportableRDSDBField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountId = "AccountId"
+        case currentDbInstanceClass = "CurrentDBInstanceClass"
+        case currentInstanceOnDemandHourlyPrice = "CurrentInstanceOnDemandHourlyPrice"
+        case currentStorageConfigurationAllocatedStorage = "CurrentStorageConfigurationAllocatedStorage"
+        case currentStorageConfigurationIops = "CurrentStorageConfigurationIOPS"
+        case currentStorageConfigurationMaxAllocatedStorage = "CurrentStorageConfigurationMaxAllocatedStorage"
+        case currentStorageConfigurationStorageThroughput = "CurrentStorageConfigurationStorageThroughput"
+        case currentStorageConfigurationStorageType = "CurrentStorageConfigurationStorageType"
+        case currentStorageOnDemandMonthlyPrice = "CurrentStorageOnDemandMonthlyPrice"
+        case effectiveRecommendationPreferencesCpuVendorArchitectures = "EffectiveRecommendationPreferencesCpuVendorArchitectures"
+        case effectiveRecommendationPreferencesEnhancedInfrastructureMetrics = "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
+        case effectiveRecommendationPreferencesLookbackPeriod = "EffectiveRecommendationPreferencesLookBackPeriod"
+        case effectiveRecommendationPreferencesSavingsEstimationMode = "EffectiveRecommendationPreferencesSavingsEstimationMode"
+        case engine = "Engine"
+        case engineVersion = "EngineVersion"
+        case idle = "Idle"
+        case instanceFinding = "InstanceFinding"
+        case instanceFindingReasonCodes = "InstanceFindingReasonCodes"
+        case instanceRecommendationOptionsDbInstanceClass = "InstanceRecommendationOptionsDBInstanceClass"
+        case instanceRecommendationOptionsEstimatedMonthlySavingsCurrency = "InstanceRecommendationOptionsEstimatedMonthlySavingsCurrency"
+        case instanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts = "InstanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
+        case instanceRecommendationOptionsEstimatedMonthlySavingsValue = "InstanceRecommendationOptionsEstimatedMonthlySavingsValue"
+        case instanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts = "InstanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
+        case instanceRecommendationOptionsInstanceOnDemandHourlyPrice = "InstanceRecommendationOptionsInstanceOnDemandHourlyPrice"
+        case instanceRecommendationOptionsPerformanceRisk = "InstanceRecommendationOptionsPerformanceRisk"
+        case instanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum = "InstanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
+        case instanceRecommendationOptionsRank = "InstanceRecommendationOptionsRank"
+        case instanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage = "InstanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
+        case instanceRecommendationOptionsSavingsOpportunityPercentage = "InstanceRecommendationOptionsSavingsOpportunityPercentage"
+        case lastRefreshTimestamp = "LastRefreshTimestamp"
+        case lookbackPeriodInDays = "LookbackPeriodInDays"
+        case multiAzDbInstance = "MultiAZDBInstance"
+        case resourceArn = "ResourceArn"
+        case storageFinding = "StorageFinding"
+        case storageFindingReasonCodes = "StorageFindingReasonCodes"
+        case storageRecommendationOptionsAllocatedStorage = "StorageRecommendationOptionsAllocatedStorage"
+        case storageRecommendationOptionsEstimatedMonthlySavingsCurrency = "StorageRecommendationOptionsEstimatedMonthlySavingsCurrency"
+        case storageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts = "StorageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
+        case storageRecommendationOptionsEstimatedMonthlySavingsValue = "StorageRecommendationOptionsEstimatedMonthlySavingsValue"
+        case storageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts = "StorageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
+        case storageRecommendationOptionsIops = "StorageRecommendationOptionsIOPS"
+        case storageRecommendationOptionsMaxAllocatedStorage = "StorageRecommendationOptionsMaxAllocatedStorage"
+        case storageRecommendationOptionsOnDemandMonthlyPrice = "StorageRecommendationOptionsOnDemandMonthlyPrice"
+        case storageRecommendationOptionsRank = "StorageRecommendationOptionsRank"
+        case storageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage = "StorageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
+        case storageRecommendationOptionsSavingsOpportunityPercentage = "StorageRecommendationOptionsSavingsOpportunityPercentage"
+        case storageRecommendationOptionsStorageThroughput = "StorageRecommendationOptionsStorageThroughput"
+        case storageRecommendationOptionsStorageType = "StorageRecommendationOptionsStorageType"
+        case tags = "Tags"
+        case utilizationMetricsCpuMaximum = "UtilizationMetricsCpuMaximum"
+        case utilizationMetricsDatabaseConnectionsMaximum = "UtilizationMetricsDatabaseConnectionsMaximum"
+        case utilizationMetricsEbsVolumeReadIopsMaximum = "UtilizationMetricsEBSVolumeReadIOPSMaximum"
+        case utilizationMetricsEbsVolumeReadThroughputMaximum = "UtilizationMetricsEBSVolumeReadThroughputMaximum"
+        case utilizationMetricsEbsVolumeStorageSpaceUtilizationMaximum = "UtilizationMetricsEBSVolumeStorageSpaceUtilizationMaximum"
+        case utilizationMetricsEbsVolumeWriteIopsMaximum = "UtilizationMetricsEBSVolumeWriteIOPSMaximum"
+        case utilizationMetricsEbsVolumeWriteThroughputMaximum = "UtilizationMetricsEBSVolumeWriteThroughputMaximum"
+        case utilizationMetricsMemoryMaximum = "UtilizationMetricsMemoryMaximum"
+        case utilizationMetricsNetworkReceiveThroughputMaximum = "UtilizationMetricsNetworkReceiveThroughputMaximum"
+        case utilizationMetricsNetworkTransmitThroughputMaximum = "UtilizationMetricsNetworkTransmitThroughputMaximum"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExportableVolumeField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "AccountId"
         case currentConfigurationRootVolume = "CurrentConfigurationRootVolume"
@@ -478,6 +541,12 @@ extension ComputeOptimizer {
     public enum FindingReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case memoryOverProvisioned = "MemoryOverprovisioned"
         case memoryUnderProvisioned = "MemoryUnderprovisioned"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Idle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `false` = "False"
+        case `true` = "True"
         public var description: String { return self.rawValue }
     }
 
@@ -715,6 +784,79 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
+    public enum RDSDBMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cpu = "CPU"
+        case databaseConnections = "DatabaseConnections"
+        case ebsVolumeReadIops = "EBSVolumeReadIOPS"
+        case ebsVolumeReadThroughput = "EBSVolumeReadThroughput"
+        case ebsVolumeStorageSpaceUtilization = "EBSVolumeStorageSpaceUtilization"
+        case ebsVolumeWriteIops = "EBSVolumeWriteIOPS"
+        case ebsVolumeWriteThroughput = "EBSVolumeWriteThroughput"
+        case memory = "Memory"
+        case networkReceiveThroughput = "NetworkReceiveThroughput"
+        case networkTransmitThroughput = "NetworkTransmitThroughput"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RDSDBMetricStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case average = "Average"
+        case maximum = "Maximum"
+        case minimum = "Minimum"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RDSDBRecommendationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case idle = "Idle"
+        case instanceFinding = "InstanceFinding"
+        case instanceFindingReasonCode = "InstanceFindingReasonCode"
+        case storageFinding = "StorageFinding"
+        case storageFindingReasonCode = "StorageFindingReasonCode"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RDSInstanceFinding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case optimized = "Optimized"
+        case overProvisioned = "Overprovisioned"
+        case underProvisioned = "Underprovisioned"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RDSInstanceFindingReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cpuOverProvisioned = "CPUOverprovisioned"
+        case cpuUnderProvisioned = "CPUUnderprovisioned"
+        case ebsIopsOverProvisioned = "EBSIOPSOverprovisioned"
+        case ebsThroughputOverProvisioned = "EBSThroughputOverprovisioned"
+        case ebsThroughputUnderProvisioned = "EBSThroughputUnderprovisioned"
+        case networkBandwidthOverProvisioned = "NetworkBandwidthOverprovisioned"
+        case networkBandwidthUnderProvisioned = "NetworkBandwidthUnderprovisioned"
+        case newEngineVersionAvailable = "NewEngineVersionAvailable"
+        case newGenerationDbInstanceClassAvailable = "NewGenerationDBInstanceClassAvailable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RDSSavingsEstimationModeSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case costExplorerRightsizing = "CostExplorerRightsizing"
+        case costOptimizationHub = "CostOptimizationHub"
+        case publicPricing = "PublicPricing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RDSStorageFinding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case optimized = "Optimized"
+        case overProvisioned = "Overprovisioned"
+        case underProvisioned = "Underprovisioned"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RDSStorageFindingReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ebsVolumeAllocatedStorageUnderProvisioned = "EBSVolumeAllocatedStorageUnderprovisioned"
+        case ebsVolumeIopsOverProvisioned = "EBSVolumeIOPSOverprovisioned"
+        case ebsVolumeThroughputOverProvisioned = "EBSVolumeThroughputOverprovisioned"
+        case ebsVolumeThroughputUnderProvisioned = "EBSVolumeThroughputUnderprovisioned"
+        case newGenerationStorageTypeAvailable = "NewGenerationStorageTypeAvailable"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecommendationPreferenceName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enhancedInfrastructureMetrics = "EnhancedInfrastructureMetrics"
         case externalMetricsPreference = "ExternalMetricsPreference"
@@ -732,6 +874,8 @@ extension ComputeOptimizer {
         case ecsService = "EcsService"
         case lambdaFunction = "LambdaFunction"
         case license = "License"
+        case rdsDbInstance = "RdsDBInstance"
+        case rdsDbInstanceStorage = "RdsDBInstanceStorage"
         public var description: String { return self.rawValue }
     }
 
@@ -743,6 +887,7 @@ extension ComputeOptimizer {
         case lambdaFunction = "LambdaFunction"
         case license = "License"
         case notApplicable = "NotApplicable"
+        case rdsDbInstance = "RdsDBInstance"
         public var description: String { return self.rawValue }
     }
 
@@ -1039,10 +1184,39 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct DBStorageConfiguration: AWSDecodableShape {
+        ///  The size of the RDS storage in gigabytes (GB).
+        public let allocatedStorage: Int?
+        ///  The provisioned IOPs of the RDS storage.
+        public let iops: Int?
+        ///  The maximum limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the RDS instance.
+        public let maxAllocatedStorage: Int?
+        ///  The storage throughput of the RDS storage.
+        public let storageThroughput: Int?
+        ///  The type of RDS storage.
+        public let storageType: String?
+
+        public init(allocatedStorage: Int? = nil, iops: Int? = nil, maxAllocatedStorage: Int? = nil, storageThroughput: Int? = nil, storageType: String? = nil) {
+            self.allocatedStorage = allocatedStorage
+            self.iops = iops
+            self.maxAllocatedStorage = maxAllocatedStorage
+            self.storageThroughput = storageThroughput
+            self.storageType = storageType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedStorage = "allocatedStorage"
+            case iops = "iops"
+            case maxAllocatedStorage = "maxAllocatedStorage"
+            case storageThroughput = "storageThroughput"
+            case storageType = "storageType"
+        }
+    }
+
     public struct DeleteRecommendationPreferencesRequest: AWSEncodableShape {
         /// The name of the recommendation preference to delete.
         public let recommendationPreferenceNames: [RecommendationPreferenceName]
-        /// The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.  The valid values for this parameter are Ec2Instance and AutoScalingGroup.
+        /// The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
         public let resourceType: ResourceType
         /// An object that describes the scope of the recommendation preference to delete. You can delete recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.
         public let scope: Scope?
@@ -1497,7 +1671,7 @@ extension ComputeOptimizer {
     }
 
     public struct EffectiveRecommendationPreferences: AWSDecodableShape {
-        /// Describes the CPU vendor and architecture for an instance or Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:   A GetEC2InstanceRecommendations or GetAutoScalingGroupRecommendations request, Compute Optimizer returns recommendations that consist of Graviton2 instance types only.   A GetEC2RecommendationProjectedMetrics request, Compute Optimizer returns projected utilization metrics for Graviton2 instance type recommendations only.   A ExportEC2InstanceRecommendations or ExportAutoScalingGroupRecommendations request, Compute Optimizer exports recommendations that consist of Graviton2 instance types only.
+        /// Describes the CPU vendor and architecture for an instance or Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:   A GetEC2InstanceRecommendations or GetAutoScalingGroupRecommendations request, Compute Optimizer returns recommendations that consist of Graviton instance types only.   A GetEC2RecommendationProjectedMetrics request, Compute Optimizer returns projected utilization metrics for Graviton instance type recommendations only.   A ExportEC2InstanceRecommendations or ExportAutoScalingGroupRecommendations request, Compute Optimizer exports recommendations that consist of Graviton instance types only.
         public let cpuVendorArchitectures: [CpuVendorArchitecture]?
         /// Describes the activation status of the enhanced infrastructure metrics preference. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied to recommendations. For more information, see Enhanced infrastructure metrics in the Compute Optimizer User Guide.
         public let enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics?
@@ -1870,6 +2044,57 @@ extension ComputeOptimizer {
 
     public struct ExportLicenseRecommendationsResponse: AWSDecodableShape {
         ///  The identification number of the export job.  To view the status of an export job, use the DescribeRecommendationExportJobs  action and specify the job ID.
+        public let jobId: String?
+        public let s3Destination: S3Destination?
+
+        public init(jobId: String? = nil, s3Destination: S3Destination? = nil) {
+            self.jobId = jobId
+            self.s3Destination = s3Destination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case s3Destination = "s3Destination"
+        }
+    }
+
+    public struct ExportRDSDatabaseRecommendationsRequest: AWSEncodableShape {
+        ///  The Amazon Web Services account IDs for the export Amazon RDS recommendations.  If your account is the management account or the delegated administrator  of an organization, use this parameter to specify the member account you want to  export recommendations to. This parameter can't be specified together with the include member accounts  parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omitted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
+        public let accountIds: [String]?
+        /// The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
+        public let fieldsToExport: [ExportableRDSDBField]?
+        ///  The format of the export file.   The CSV file is the only export file format currently supported.
+        public let fileFormat: FileFormat?
+        ///  An array of objects to specify a filter that exports a more specific set of  Amazon RDS recommendations.
+        public let filters: [RDSDBRecommendationFilter]?
+        /// If your account is the management account or the delegated administrator of an organization, this parameter indicates whether to include recommendations for resources in all member accounts of the organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see Compute Optimizer and Amazon Web Services Organizations trusted access in the Compute Optimizer User Guide. If this parameter is omitted, recommendations for member accounts of the  organization aren't included in the export file. If this parameter or the account ID parameter is omitted, recommendations for  member accounts aren't included in the export.
+        public let includeMemberAccounts: Bool?
+        public let recommendationPreferences: RecommendationPreferences?
+        public let s3DestinationConfig: S3DestinationConfig
+
+        public init(accountIds: [String]? = nil, fieldsToExport: [ExportableRDSDBField]? = nil, fileFormat: FileFormat? = nil, filters: [RDSDBRecommendationFilter]? = nil, includeMemberAccounts: Bool? = nil, recommendationPreferences: RecommendationPreferences? = nil, s3DestinationConfig: S3DestinationConfig) {
+            self.accountIds = accountIds
+            self.fieldsToExport = fieldsToExport
+            self.fileFormat = fileFormat
+            self.filters = filters
+            self.includeMemberAccounts = includeMemberAccounts
+            self.recommendationPreferences = recommendationPreferences
+            self.s3DestinationConfig = s3DestinationConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case fieldsToExport = "fieldsToExport"
+            case fileFormat = "fileFormat"
+            case filters = "filters"
+            case includeMemberAccounts = "includeMemberAccounts"
+            case recommendationPreferences = "recommendationPreferences"
+            case s3DestinationConfig = "s3DestinationConfig"
+        }
+    }
+
+    public struct ExportRDSDatabaseRecommendationsResponse: AWSDecodableShape {
+        ///  The identification number of the export job.  To view the status of an export job, use the  DescribeRecommendationExportJobs action and specify the job ID.
         public let jobId: String?
         public let s3Destination: S3Destination?
 
@@ -2471,6 +2696,109 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct GetRDSDatabaseRecommendationProjectedMetricsRequest: AWSEncodableShape {
+        ///  The timestamp of the last projected metrics data point to return.
+        public let endTime: Date
+        ///  The granularity, in seconds, of the projected metrics data points.
+        public let period: Int
+        public let recommendationPreferences: RecommendationPreferences?
+        ///  The ARN that identifies the Amazon RDS.   The following is the format of the ARN:   arn:aws:rds:{region}:{accountId}:db:{resourceName}
+        public let resourceArn: String
+        ///  The timestamp of the first projected metrics data point to return.
+        public let startTime: Date
+        ///  The statistic of the projected metrics.
+        public let stat: MetricStatistic
+
+        public init(endTime: Date, period: Int = 0, recommendationPreferences: RecommendationPreferences? = nil, resourceArn: String, startTime: Date, stat: MetricStatistic) {
+            self.endTime = endTime
+            self.period = period
+            self.recommendationPreferences = recommendationPreferences
+            self.resourceArn = resourceArn
+            self.startTime = startTime
+            self.stat = stat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case period = "period"
+            case recommendationPreferences = "recommendationPreferences"
+            case resourceArn = "resourceArn"
+            case startTime = "startTime"
+            case stat = "stat"
+        }
+    }
+
+    public struct GetRDSDatabaseRecommendationProjectedMetricsResponse: AWSDecodableShape {
+        ///  An array of objects that describes the projected metrics.
+        public let recommendedOptionProjectedMetrics: [RDSDatabaseRecommendedOptionProjectedMetric]?
+
+        public init(recommendedOptionProjectedMetrics: [RDSDatabaseRecommendedOptionProjectedMetric]? = nil) {
+            self.recommendedOptionProjectedMetrics = recommendedOptionProjectedMetrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommendedOptionProjectedMetrics = "recommendedOptionProjectedMetrics"
+        }
+    }
+
+    public struct GetRDSDatabaseRecommendationsRequest: AWSEncodableShape {
+        ///  Return the Amazon RDS recommendations to the specified Amazon Web Services account IDs.  If your account is the management account or the delegated administrator  of an organization, use this parameter to return the Amazon RDS recommendations to specific member accounts. You can only specify one account ID per request.
+        public let accountIds: [String]?
+        ///  An array of objects to specify a filter that returns a more specific list of Amazon RDS recommendations.
+        public let filters: [RDSDBRecommendationFilter]?
+        /// The maximum number of Amazon RDS recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
+        public let maxResults: Int?
+        ///  The token to advance to the next page of Amazon RDS recommendations.
+        public let nextToken: String?
+        public let recommendationPreferences: RecommendationPreferences?
+        ///  The ARN that identifies the Amazon RDS.   The following is the format of the ARN:   arn:aws:rds:{region}:{accountId}:db:{resourceName}  The following is the format of a DB Cluster ARN:   arn:aws:rds:{region}:{accountId}:cluster:{resourceName}
+        public let resourceArns: [String]?
+
+        public init(accountIds: [String]? = nil, filters: [RDSDBRecommendationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, recommendationPreferences: RecommendationPreferences? = nil, resourceArns: [String]? = nil) {
+            self.accountIds = accountIds
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.recommendationPreferences = recommendationPreferences
+            self.resourceArns = resourceArns
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case recommendationPreferences = "recommendationPreferences"
+            case resourceArns = "resourceArns"
+        }
+    }
+
+    public struct GetRDSDatabaseRecommendationsResponse: AWSDecodableShape {
+        ///  An array of objects that describe errors of the request.
+        public let errors: [GetRecommendationError]?
+        ///  The token to advance to the next page of Amazon RDS recommendations.
+        public let nextToken: String?
+        ///  An array of objects that describe the Amazon RDS recommendations.
+        public let rdsDBRecommendations: [RDSDBRecommendation]?
+
+        public init(errors: [GetRecommendationError]? = nil, nextToken: String? = nil, rdsDBRecommendations: [RDSDBRecommendation]? = nil) {
+            self.errors = errors
+            self.nextToken = nextToken
+            self.rdsDBRecommendations = rdsDBRecommendations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case nextToken = "nextToken"
+            case rdsDBRecommendations = "rdsDBRecommendations"
+        }
+    }
+
     public struct GetRecommendationError: AWSDecodableShape {
         /// The error code.
         public let code: String?
@@ -2497,7 +2825,7 @@ extension ComputeOptimizer {
         public let maxResults: Int?
         /// The token to advance to the next page of recommendation preferences.
         public let nextToken: String?
-        /// The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.  The valid values for this parameter are Ec2Instance and AutoScalingGroup.
+        /// The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
         public let resourceType: ResourceType
         /// An object that describes the scope of the recommendation preference to return. You can return recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.
         public let scope: Scope?
@@ -2659,7 +2987,7 @@ extension ComputeOptimizer {
         public let effectiveRecommendationPreferences: EffectiveRecommendationPreferences?
         ///  An object that describes Compute Optimizer's integration status with your external metrics provider.
         public let externalMetricStatus: ExternalMetricStatus?
-        /// The finding classification of the instance. Findings for instances include:     Underprovisioned —An instance is considered under-provisioned when at least one specification of your instance, such as CPU, memory, or network, does not meet the performance requirements of your workload. Under-provisioned instances may lead to poor application performance.     Overprovisioned —An instance is considered over-provisioned when at least one specification of your instance, such as CPU, memory, or network, can be sized down while still meeting the performance requirements of your workload, and no specification is under-provisioned. Over-provisioned instances may lead to unnecessary infrastructure cost.     Optimized —An instance is considered optimized when all specifications of your instance, such as CPU, memory, and network, meet the performance requirements of your workload and is not over provisioned. For optimized resources, Compute Optimizer might recommend a new generation instance type.
+        /// The finding classification of the instance. Findings for instances include:     Underprovisioned —An instance is considered under-provisioned when at least one specification of your instance, such as CPU, memory, or network, does not meet the performance requirements of your workload. Under-provisioned instances may lead to poor application performance.     Overprovisioned —An instance is considered over-provisioned when at least one specification of your instance, such as CPU, memory, or network, can be sized down while still meeting the performance requirements of your workload, and no specification is under-provisioned. Over-provisioned instances may lead to unnecessary infrastructure cost.     Optimized —An instance is considered optimized when all specifications of your instance, such as CPU, memory, and network, meet the performance requirements of your workload and is not over provisioned. For optimized resources, Compute Optimizer might recommend a new generation instance type.    The valid values in your API responses appear as OVER_PROVISIONED, UNDER_PROVISIONED, or OPTIMIZED.
         public let finding: Finding?
         /// The reason for the finding classification of the instance. Finding reason codes for instances include:     CPUOverprovisioned — The instance’s CPU configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the CPUUtilization metric of the current instance during the look-back period.     CPUUnderprovisioned — The instance’s CPU configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better CPU performance. This is identified by analyzing the CPUUtilization metric of the current instance during the look-back period.     MemoryOverprovisioned — The instance’s memory configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the memory utilization metric of the current instance during the look-back period.     MemoryUnderprovisioned — The instance’s memory configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better memory performance. This is identified by analyzing the memory utilization metric of the current instance during the look-back period.  Memory utilization is analyzed only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling memory utilization with the Amazon CloudWatch Agent in the Compute Optimizer User Guide. On Linux instances, Compute Optimizer analyses the mem_used_percent metric in the CWAgent namespace, or the legacy MemoryUtilization metric in the System/Linux namespace. On Windows instances, Compute Optimizer analyses the Memory % Committed Bytes In Use metric in the CWAgent namespace.      EBSThroughputOverprovisioned — The instance’s EBS throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metrics of EBS volumes attached to the current instance during the look-back period.     EBSThroughputUnderprovisioned — The instance’s EBS throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS throughput performance. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metrics of EBS volumes attached to the current instance during the look-back period.     EBSIOPSOverprovisioned — The instance’s EBS IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metric of EBS volumes attached to the current instance during the look-back period.     EBSIOPSUnderprovisioned — The instance’s EBS IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS IOPS performance. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metric of EBS volumes attached to the current instance during the look-back period.     NetworkBandwidthOverprovisioned  — The instance’s network bandwidth configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period.     NetworkBandwidthUnderprovisioned  — The instance’s network bandwidth configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network bandwidth performance. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period. This finding reason happens when the NetworkIn or NetworkOut performance of an instance is impacted.     NetworkPPSOverprovisioned — The instance’s network PPS (packets per second) configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkPacketsIn and NetworkPacketsIn metrics of the current instance during the look-back period.     NetworkPPSUnderprovisioned — The instance’s network PPS (packets per second) configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network PPS performance. This is identified by analyzing the NetworkPacketsIn and NetworkPacketsIn metrics of the current instance during the look-back period.     DiskIOPSOverprovisioned — The instance’s disk IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the DiskReadOps and DiskWriteOps metrics of the current instance during the look-back period.     DiskIOPSUnderprovisioned — The instance’s disk IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk IOPS performance. This is identified by analyzing the DiskReadOps and DiskWriteOps metrics of the current instance during the look-back period.     DiskThroughputOverprovisioned — The instance’s disk throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the DiskReadBytes and DiskWriteBytes metrics of the current instance during the look-back period.     DiskThroughputUnderprovisioned — The instance’s disk throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk throughput performance. This is identified by analyzing the DiskReadBytes and DiskWriteBytes metrics of the current instance during the look-back period.    For more information about instance metrics, see List the available CloudWatch metrics for your instances in the Amazon Elastic Compute Cloud User Guide. For more information about EBS volume metrics, see Amazon CloudWatch metrics for Amazon EBS in the Amazon Elastic Compute Cloud User Guide.
         public let findingReasonCodes: [InstanceRecommendationFindingReasonCode]?
@@ -3254,7 +3582,7 @@ extension ComputeOptimizer {
         public let lookBackPeriod: LookBackPeriodPreference?
         ///  The preference to control which resource type values are considered when generating rightsizing recommendations.  You can specify this preference as a combination of include and exclude lists. You must specify either an  includeList or excludeList. If the preference is an empty set of resource type values,  an error occurs.   You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
         public let preferredResources: [PreferredResource]?
-        /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.  The valid values for this parameter are Ec2Instance and AutoScalingGroup.
+        /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
         public let resourceType: ResourceType
         ///  The status of the savings estimation mode preference to create or update.  Specify the AfterDiscounts status to activate the preference, or specify BeforeDiscounts to deactivate the preference. Only the account manager or delegated administrator of your organization can activate this preference. For more information, see  Savings estimation mode in the Compute Optimizer User Guide.
         public let savingsEstimationMode: SavingsEstimationMode?
@@ -3290,6 +3618,329 @@ extension ComputeOptimizer {
 
     public struct PutRecommendationPreferencesResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct RDSDBInstanceRecommendationOption: AWSDecodableShape {
+        ///  Describes the DB instance class recommendation option for your Amazon RDS instance.
+        public let dbInstanceClass: String?
+        ///  The performance risk of the RDS instance recommendation option.
+        public let performanceRisk: Double?
+        ///  An array of objects that describe the projected utilization metrics of the RDS instance recommendation option.
+        public let projectedUtilizationMetrics: [RDSDBUtilizationMetric]?
+        ///  The rank identifier of the RDS instance recommendation option.
+        public let rank: Int?
+        public let savingsOpportunity: SavingsOpportunity?
+        ///  Describes the savings opportunity for Amazon RDS recommendations or for the recommendation option.  Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts.  You can achieve this by implementing a given Compute Optimizer recommendation.
+        public let savingsOpportunityAfterDiscounts: RDSInstanceSavingsOpportunityAfterDiscounts?
+
+        public init(dbInstanceClass: String? = nil, performanceRisk: Double? = nil, projectedUtilizationMetrics: [RDSDBUtilizationMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil, savingsOpportunityAfterDiscounts: RDSInstanceSavingsOpportunityAfterDiscounts? = nil) {
+            self.dbInstanceClass = dbInstanceClass
+            self.performanceRisk = performanceRisk
+            self.projectedUtilizationMetrics = projectedUtilizationMetrics
+            self.rank = rank
+            self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbInstanceClass = "dbInstanceClass"
+            case performanceRisk = "performanceRisk"
+            case projectedUtilizationMetrics = "projectedUtilizationMetrics"
+            case rank = "rank"
+            case savingsOpportunity = "savingsOpportunity"
+            case savingsOpportunityAfterDiscounts = "savingsOpportunityAfterDiscounts"
+        }
+    }
+
+    public struct RDSDBRecommendation: AWSDecodableShape {
+        ///  The Amazon Web Services account ID of the Amazon RDS.
+        public let accountId: String?
+        ///  The DB instance class of the current RDS instance.
+        public let currentDBInstanceClass: String?
+        ///  The configuration of the current RDS storage.
+        public let currentStorageConfiguration: DBStorageConfiguration?
+        ///  Describes the effective recommendation preferences for Amazon RDS.
+        public let effectiveRecommendationPreferences: RDSEffectiveRecommendationPreferences?
+        ///  The engine of the RDS instance.
+        public let engine: String?
+        ///  The database engine version.
+        public let engineVersion: String?
+        ///  This indicates if the RDS instance is idle or not.
+        public let idle: Idle?
+        ///  The finding classification of an Amazon RDS instance.  Findings for Amazon RDS instance include:     Underprovisioned —  When Compute Optimizer detects that there’s not enough resource specifications, an Amazon RDS  is considered under-provisioned.     Overprovisioned —  When Compute Optimizer detects that there’s excessive resource specifications, an Amazon RDS  is considered over-provisioned.     Optimized —  When the specifications of your Amazon RDS instance meet the performance requirements  of your workload, the service is considered optimized.
+        public let instanceFinding: RDSInstanceFinding?
+        ///  The reason for the finding classification of an Amazon RDS instance.
+        public let instanceFindingReasonCodes: [RDSInstanceFindingReasonCode]?
+        ///  An array of objects that describe the recommendation options for the Amazon RDS instance.
+        public let instanceRecommendationOptions: [RDSDBInstanceRecommendationOption]?
+        ///  The timestamp of when the Amazon RDS recommendation was last generated.
+        public let lastRefreshTimestamp: Date?
+        ///  The number of days the Amazon RDS utilization metrics were analyzed.
+        public let lookbackPeriodInDays: Double?
+        ///  The ARN of the current Amazon RDS.   The following is the format of the ARN:   arn:aws:rds:{region}:{accountId}:db:{resourceName}
+        public let resourceArn: String?
+        ///  The finding classification of Amazon RDS storage.  Findings for Amazon RDS instance include:     Underprovisioned —  When Compute Optimizer detects that there’s not enough storage, an Amazon RDS  is considered under-provisioned.     Overprovisioned —  When Compute Optimizer detects that there’s excessive storage, an Amazon RDS  is considered over-provisioned.     Optimized —  When the storage of your Amazon RDS meet the performance requirements  of your workload, the service is considered optimized.
+        public let storageFinding: RDSStorageFinding?
+        ///  The reason for the finding classification of Amazon RDS storage.
+        public let storageFindingReasonCodes: [RDSStorageFindingReasonCode]?
+        ///  An array of objects that describe the recommendation options for Amazon RDS storage.
+        public let storageRecommendationOptions: [RDSDBStorageRecommendationOption]?
+        ///  A list of tags assigned to your Amazon RDS recommendations.
+        public let tags: [Tag]?
+        ///  An array of objects that describe the utilization metrics of the Amazon RDS.
+        public let utilizationMetrics: [RDSDBUtilizationMetric]?
+
+        public init(accountId: String? = nil, currentDBInstanceClass: String? = nil, currentStorageConfiguration: DBStorageConfiguration? = nil, effectiveRecommendationPreferences: RDSEffectiveRecommendationPreferences? = nil, engine: String? = nil, engineVersion: String? = nil, idle: Idle? = nil, instanceFinding: RDSInstanceFinding? = nil, instanceFindingReasonCodes: [RDSInstanceFindingReasonCode]? = nil, instanceRecommendationOptions: [RDSDBInstanceRecommendationOption]? = nil, lastRefreshTimestamp: Date? = nil, lookbackPeriodInDays: Double? = nil, resourceArn: String? = nil, storageFinding: RDSStorageFinding? = nil, storageFindingReasonCodes: [RDSStorageFindingReasonCode]? = nil, storageRecommendationOptions: [RDSDBStorageRecommendationOption]? = nil, tags: [Tag]? = nil, utilizationMetrics: [RDSDBUtilizationMetric]? = nil) {
+            self.accountId = accountId
+            self.currentDBInstanceClass = currentDBInstanceClass
+            self.currentStorageConfiguration = currentStorageConfiguration
+            self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
+            self.engine = engine
+            self.engineVersion = engineVersion
+            self.idle = idle
+            self.instanceFinding = instanceFinding
+            self.instanceFindingReasonCodes = instanceFindingReasonCodes
+            self.instanceRecommendationOptions = instanceRecommendationOptions
+            self.lastRefreshTimestamp = lastRefreshTimestamp
+            self.lookbackPeriodInDays = lookbackPeriodInDays
+            self.resourceArn = resourceArn
+            self.storageFinding = storageFinding
+            self.storageFindingReasonCodes = storageFindingReasonCodes
+            self.storageRecommendationOptions = storageRecommendationOptions
+            self.tags = tags
+            self.utilizationMetrics = utilizationMetrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case currentDBInstanceClass = "currentDBInstanceClass"
+            case currentStorageConfiguration = "currentStorageConfiguration"
+            case effectiveRecommendationPreferences = "effectiveRecommendationPreferences"
+            case engine = "engine"
+            case engineVersion = "engineVersion"
+            case idle = "idle"
+            case instanceFinding = "instanceFinding"
+            case instanceFindingReasonCodes = "instanceFindingReasonCodes"
+            case instanceRecommendationOptions = "instanceRecommendationOptions"
+            case lastRefreshTimestamp = "lastRefreshTimestamp"
+            case lookbackPeriodInDays = "lookbackPeriodInDays"
+            case resourceArn = "resourceArn"
+            case storageFinding = "storageFinding"
+            case storageFindingReasonCodes = "storageFindingReasonCodes"
+            case storageRecommendationOptions = "storageRecommendationOptions"
+            case tags = "tags"
+            case utilizationMetrics = "utilizationMetrics"
+        }
+    }
+
+    public struct RDSDBRecommendationFilter: AWSEncodableShape {
+        ///  The name of the filter.   Specify Finding to return recommendations with a specific finding classification.  You can filter your Amazon RDS recommendations by tag:key  and tag-key tags. A tag:key is a key and value combination of a tag assigned to your  Amazon RDS recommendations. Use the tag key in the filter name and the tag value  as the filter value. For example, to find all Amazon RDS service recommendations that have  a tag with the key of Owner and the value of TeamA,  specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your Amazon RDS recommendations. Use  this filter to find all of your Amazon RDS recommendations that have a tag with a  specific key. This doesn’t consider the tag value. For example, you can find  your Amazon RDS service recommendations with a tag key value of Owner or without any tag  keys assigned.
+        public let name: RDSDBRecommendationFilterName?
+        ///  The value of the filter.
+        public let values: [String]?
+
+        public init(name: RDSDBRecommendationFilterName? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case values = "values"
+        }
+    }
+
+    public struct RDSDBStorageRecommendationOption: AWSDecodableShape {
+        ///  The rank identifier of the RDS storage recommendation option.
+        public let rank: Int?
+        public let savingsOpportunity: SavingsOpportunity?
+        ///  Describes the savings opportunity for Amazon RDS storage recommendations or for the recommendation option.   Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
+        public let savingsOpportunityAfterDiscounts: RDSStorageSavingsOpportunityAfterDiscounts?
+        ///  The recommended storage configuration.
+        public let storageConfiguration: DBStorageConfiguration?
+
+        public init(rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil, savingsOpportunityAfterDiscounts: RDSStorageSavingsOpportunityAfterDiscounts? = nil, storageConfiguration: DBStorageConfiguration? = nil) {
+            self.rank = rank
+            self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
+            self.storageConfiguration = storageConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rank = "rank"
+            case savingsOpportunity = "savingsOpportunity"
+            case savingsOpportunityAfterDiscounts = "savingsOpportunityAfterDiscounts"
+            case storageConfiguration = "storageConfiguration"
+        }
+    }
+
+    public struct RDSDBUtilizationMetric: AWSDecodableShape {
+        ///  The name of the utilization metric.
+        public let name: RDSDBMetricName?
+        ///  The statistic of the utilization metric.  The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see Viewing resource recommendations in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the Amazon CloudWatch User Guide.
+        public let statistic: RDSDBMetricStatistic?
+        ///  The value of the utilization metric.
+        public let value: Double?
+
+        public init(name: RDSDBMetricName? = nil, statistic: RDSDBMetricStatistic? = nil, value: Double? = nil) {
+            self.name = name
+            self.statistic = statistic
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case statistic = "statistic"
+            case value = "value"
+        }
+    }
+
+    public struct RDSDatabaseProjectedMetric: AWSDecodableShape {
+        ///  The name of the projected metric.
+        public let name: RDSDBMetricName?
+        ///  The timestamps of the projected metric.
+        public let timestamps: [Date]?
+        ///  The values for the projected metric.
+        public let values: [Double]?
+
+        public init(name: RDSDBMetricName? = nil, timestamps: [Date]? = nil, values: [Double]? = nil) {
+            self.name = name
+            self.timestamps = timestamps
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case timestamps = "timestamps"
+            case values = "values"
+        }
+    }
+
+    public struct RDSDatabaseRecommendedOptionProjectedMetric: AWSDecodableShape {
+        ///  An array of objects that describe the projected metric.
+        public let projectedMetrics: [RDSDatabaseProjectedMetric]?
+        ///  The rank identifier of the RDS instance recommendation option.
+        public let rank: Int?
+        ///  The recommended DB instance class for the Amazon RDS.
+        public let recommendedDBInstanceClass: String?
+
+        public init(projectedMetrics: [RDSDatabaseProjectedMetric]? = nil, rank: Int? = nil, recommendedDBInstanceClass: String? = nil) {
+            self.projectedMetrics = projectedMetrics
+            self.rank = rank
+            self.recommendedDBInstanceClass = recommendedDBInstanceClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectedMetrics = "projectedMetrics"
+            case rank = "rank"
+            case recommendedDBInstanceClass = "recommendedDBInstanceClass"
+        }
+    }
+
+    public struct RDSEffectiveRecommendationPreferences: AWSDecodableShape {
+        ///  Describes the CPU vendor and architecture for Amazon RDS recommendations.
+        public let cpuVendorArchitectures: [CpuVendorArchitecture]?
+        /// Describes the activation status of the enhanced infrastructure metrics preference.  A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied to recommendations.  For more information, see Enhanced infrastructure metrics in the Compute Optimizer User Guide.
+        public let enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics?
+        ///  The number of days the utilization metrics of the Amazon RDS are analyzed.
+        public let lookBackPeriod: LookBackPeriodPreference?
+        ///  Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon RDS.
+        public let savingsEstimationMode: RDSSavingsEstimationMode?
+
+        public init(cpuVendorArchitectures: [CpuVendorArchitecture]? = nil, enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, lookBackPeriod: LookBackPeriodPreference? = nil, savingsEstimationMode: RDSSavingsEstimationMode? = nil) {
+            self.cpuVendorArchitectures = cpuVendorArchitectures
+            self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
+            self.lookBackPeriod = lookBackPeriod
+            self.savingsEstimationMode = savingsEstimationMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cpuVendorArchitectures = "cpuVendorArchitectures"
+            case enhancedInfrastructureMetrics = "enhancedInfrastructureMetrics"
+            case lookBackPeriod = "lookBackPeriod"
+            case savingsEstimationMode = "savingsEstimationMode"
+        }
+    }
+
+    public struct RDSInstanceEstimatedMonthlySavings: AWSDecodableShape {
+        ///  The currency of the estimated monthly savings.
+        public let currency: Currency?
+        ///  The value of the estimated monthly savings for Amazon RDS instances.
+        public let value: Double?
+
+        public init(currency: Currency? = nil, value: Double? = nil) {
+            self.currency = currency
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "currency"
+            case value = "value"
+        }
+    }
+
+    public struct RDSInstanceSavingsOpportunityAfterDiscounts: AWSDecodableShape {
+        ///  The estimated monthly savings possible by adopting Compute Optimizer’s Amazon RDS instance recommendations.  This includes any applicable Savings Plans discounts.
+        public let estimatedMonthlySavings: RDSInstanceEstimatedMonthlySavings?
+        ///  The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s  Amazon RDS instance recommendations. This includes any applicable Savings Plans discounts.
+        public let savingsOpportunityPercentage: Double?
+
+        public init(estimatedMonthlySavings: RDSInstanceEstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedMonthlySavings = "estimatedMonthlySavings"
+            case savingsOpportunityPercentage = "savingsOpportunityPercentage"
+        }
+    }
+
+    public struct RDSSavingsEstimationMode: AWSDecodableShape {
+        ///  Describes the source for calculating the savings opportunity for Amazon RDS.
+        public let source: RDSSavingsEstimationModeSource?
+
+        public init(source: RDSSavingsEstimationModeSource? = nil) {
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "source"
+        }
+    }
+
+    public struct RDSStorageEstimatedMonthlySavings: AWSDecodableShape {
+        ///  The currency of the estimated monthly savings.
+        public let currency: Currency?
+        ///  The value of the estimated monthly savings for Amazon RDS storage.
+        public let value: Double?
+
+        public init(currency: Currency? = nil, value: Double? = nil) {
+            self.currency = currency
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "currency"
+            case value = "value"
+        }
+    }
+
+    public struct RDSStorageSavingsOpportunityAfterDiscounts: AWSDecodableShape {
+        ///  The estimated monthly savings possible by adopting Compute Optimizer’s Amazon RDS storage recommendations. This includes any applicable Savings Plans discounts.
+        public let estimatedMonthlySavings: RDSStorageEstimatedMonthlySavings?
+        ///  The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s  Amazon RDS storage recommendations. This includes any applicable Savings Plans discounts.
+        public let savingsOpportunityPercentage: Double?
+
+        public init(estimatedMonthlySavings: RDSStorageEstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedMonthlySavings = "estimatedMonthlySavings"
+            case savingsOpportunityPercentage = "savingsOpportunityPercentage"
+        }
     }
 
     public struct ReasonCodeSummary: AWSDecodableShape {
@@ -3347,7 +3998,7 @@ extension ComputeOptimizer {
     }
 
     public struct RecommendationPreferences: AWSEncodableShape {
-        /// Specifies the CPU vendor and architecture for Amazon EC2 instance and Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:   A GetEC2InstanceRecommendations or GetAutoScalingGroupRecommendations request, Compute Optimizer returns recommendations that consist of Graviton2 instance types only.   A GetEC2RecommendationProjectedMetrics request, Compute Optimizer returns projected utilization metrics for Graviton2 instance type recommendations only.   A ExportEC2InstanceRecommendations or ExportAutoScalingGroupRecommendations request, Compute Optimizer exports recommendations that consist of Graviton2 instance types only.
+        /// Specifies the CPU vendor and architecture for Amazon EC2 instance and Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:   A GetEC2InstanceRecommendations or GetAutoScalingGroupRecommendations request, Compute Optimizer returns recommendations that consist of Graviton instance types only.   A GetEC2RecommendationProjectedMetrics request, Compute Optimizer returns projected utilization metrics for Graviton instance type recommendations only.   A ExportEC2InstanceRecommendations or ExportAutoScalingGroupRecommendations request, Compute Optimizer exports recommendations that consist of Graviton instance types only.
         public let cpuVendorArchitectures: [CpuVendorArchitecture]?
 
         public init(cpuVendorArchitectures: [CpuVendorArchitecture]? = nil) {

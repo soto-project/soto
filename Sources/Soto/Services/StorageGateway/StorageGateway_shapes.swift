@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -34,6 +34,12 @@ extension StorageGateway {
         case networkError = "NETWORK_ERROR"
         case timeout = "TIMEOUT"
         case unknownError = "UNKNOWN_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomaticUpdatePolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allVersions = "ALL_VERSIONS"
+        case emergencyVersionsOnly = "EMERGENCY_VERSIONS_ONLY"
         public var description: String { return self.rawValue }
     }
 
@@ -100,6 +106,7 @@ extension StorageGateway {
     public enum SMBSecurityStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clientSpecified = "ClientSpecified"
         case mandatoryEncryption = "MandatoryEncryption"
+        case mandatoryEncryptionNoAes128 = "MandatoryEncryptionNoAes128"
         case mandatorySigning = "MandatorySigning"
         public var description: String { return self.rawValue }
     }
@@ -119,9 +126,9 @@ extension StorageGateway {
         public let gatewayName: String
         /// A value that indicates the Amazon Web Services Region where you want to store your data. The gateway Amazon Web Services Region specified must be the same Amazon Web Services Region as the Amazon Web Services Region in your Host header in the request. For more information about available Amazon Web Services Regions and endpoints for Storage Gateway, see  Storage Gateway endpoints and quotas in the Amazon Web Services General Reference. Valid Values: See  Storage Gateway endpoints and quotas in the Amazon Web Services General Reference.
         public let gatewayRegion: String
-        /// A value that indicates the time zone you want to set for the gateway. The time zone is of the format "GMT-hr:mm" or "GMT+hr:mm". For example, GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule.
+        /// A value that indicates the time zone you want to set for the gateway. The time zone is of the format "GMT", "GMT-hr:mm", or "GMT+hr:mm". For example, GMT indicates Greenwich Mean Time without any offset. GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule.
         public let gatewayTimezone: String
-        /// A value that defines the type of gateway to activate. The type specified is critical to all later functions of the gateway and cannot be changed after activation. The default value is CACHED. Valid Values: STORED | CACHED | VTL | VTL_SNOW | FILE_S3 | FILE_FSX_SMB
+        /// A value that defines the type of gateway to activate. The type specified is critical to all later functions of the gateway and cannot be changed after activation. The default value is CACHED. Valid Values: STORED | CACHED | VTL | FILE_S3 | FILE_FSX_SMB
         public let gatewayType: String?
         /// The value that indicates the type of medium changer to use for tape gateway. This field is optional. Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402
         public let mediumChangerType: String?
@@ -2230,7 +2237,7 @@ extension StorageGateway {
         public let gatewayTimezone: String?
         /// The type of the gateway.
         public let gatewayType: String?
-        /// The type of hardware or software platform on which the gateway is running.
+        /// The type of hardware or software platform on which the gateway is running.  Tape Gateway is no longer available on Snow Family devices.
         public let hostEnvironment: HostEnvironment?
         /// A unique identifier for the specific instance of the host platform running the gateway. This value is only available for certain host environments, and its format depends on the host environment type.
         public let hostEnvironmentId: String?
@@ -2318,7 +2325,7 @@ extension StorageGateway {
     }
 
     public struct DescribeMaintenanceStartTimeOutput: AWSDecodableShape {
-        /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month and 28 represents the last day of the month.
+        /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month. It is not possible to set the maintenance schedule to start on days 29 through 31.
         public let dayOfMonth: Int?
         /// An ordinal number between 0 and 6 that represents the day of the week, where 0 represents Sunday and 6 represents Saturday. The day of week is in the time zone of the gateway.
         public let dayOfWeek: Int?
@@ -2327,15 +2334,18 @@ extension StorageGateway {
         public let hourOfDay: Int?
         /// The minute component of the maintenance start time represented as mm, where mm is the minute (0 to 59). The minute of the hour is in the time zone of the gateway.
         public let minuteOfHour: Int?
+        /// A set of variables indicating the software update preferences for the gateway. Includes AutomaticUpdatePolicy field with the following inputs:  ALL_VERSIONS - Enables regular gateway maintenance updates.  EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates.
+        public let softwareUpdatePreferences: SoftwareUpdatePreferences?
         /// A value that indicates the time zone that is set for the gateway. The start time and day of week specified should be in the time zone of the gateway.
         public let timezone: String?
 
-        public init(dayOfMonth: Int? = nil, dayOfWeek: Int? = nil, gatewayARN: String? = nil, hourOfDay: Int? = nil, minuteOfHour: Int? = nil, timezone: String? = nil) {
+        public init(dayOfMonth: Int? = nil, dayOfWeek: Int? = nil, gatewayARN: String? = nil, hourOfDay: Int? = nil, minuteOfHour: Int? = nil, softwareUpdatePreferences: SoftwareUpdatePreferences? = nil, timezone: String? = nil) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
             self.gatewayARN = gatewayARN
             self.hourOfDay = hourOfDay
             self.minuteOfHour = minuteOfHour
+            self.softwareUpdatePreferences = softwareUpdatePreferences
             self.timezone = timezone
         }
 
@@ -2345,6 +2355,7 @@ extension StorageGateway {
             case gatewayARN = "GatewayARN"
             case hourOfDay = "HourOfDay"
             case minuteOfHour = "MinuteOfHour"
+            case softwareUpdatePreferences = "SoftwareUpdatePreferences"
             case timezone = "Timezone"
         }
     }
@@ -2448,7 +2459,7 @@ extension StorageGateway {
         public let smbGuestPasswordSet: Bool?
         /// A list of Active Directory users and groups that have special permissions for SMB file shares on the gateway.
         public let smbLocalGroups: SMBLocalGroups?
-        /// The type of security strategy that was specified for file gateway.    ClientSpecified: If you use this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment. Only supported for S3 File Gateways.    MandatorySigning: If you use this option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer.    MandatoryEncryption: If you use this option, file gateway only allows connections from SMBv3 clients that have encryption enabled. This option is highly recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer.
+        /// The type of security strategy that was specified for file gateway.    ClientSpecified: If you choose this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment. Supported only for S3 File Gateway.    MandatorySigning: If you choose this option, File Gateway only allows connections from SMBv2 or SMBv3 clients that have signing turned on. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008, or later.     MandatoryEncryption: If you choose this option, File Gateway only allows connections from SMBv3 clients that have encryption turned on. Both 256-bit and 128-bit algorithms are allowed. This option is recommended for environments that handle sensitive data. It works with SMB clients on Microsoft Windows 8, Windows Server 2012, or later.    MandatoryEncryptionNoAes128: If you choose this option, File Gateway only allows connections from SMBv3 clients that use 256-bit AES encryption algorithms. 128-bit algorithms are not allowed. This option is recommended for environments that handle sensitive data. It works with SMB clients on Microsoft Windows 8, Windows Server 2012, or later.
         public let smbSecurityStrategy: SMBSecurityStrategy?
 
         public init(activeDirectoryStatus: ActiveDirectoryStatus? = nil, domainName: String? = nil, fileSharesVisible: Bool? = nil, gatewayARN: String? = nil, smbGuestPasswordSet: Bool? = nil, smbLocalGroups: SMBLocalGroups? = nil, smbSecurityStrategy: SMBSecurityStrategy? = nil) {
@@ -3152,7 +3163,7 @@ extension StorageGateway {
         public let gatewayOperationalState: String?
         /// The type of the gateway.
         public let gatewayType: String?
-        /// The type of hardware or software platform on which the gateway is running.
+        /// The type of hardware or software platform on which the gateway is running.  Tape Gateway is no longer available on Snow Family devices.
         public let hostEnvironment: HostEnvironment?
         /// A unique identifier for the specific instance of the host platform running the gateway. This value is only available for certain host environments, and its format depends on the host environment type.
         public let hostEnvironmentId: String?
@@ -3944,7 +3955,7 @@ extension StorageGateway {
     public struct RefreshCacheInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the file share you want to refresh.
         public let fileShareARN: String
-        /// A comma-separated list of the paths of folders to refresh in the cache. The default is ["/"]. The default refreshes objects and folders at the root of the Amazon S3 bucket. If Recursive is set to true, the entire S3 bucket that the file share has access to is refreshed.
+        /// A comma-separated list of the paths of folders to refresh in the cache. The default is ["/"]. The default refreshes objects and folders at the root of the Amazon S3 bucket. If Recursive is set to true, the entire S3 bucket that the file share has access to is refreshed. Do not include / when specifying folder names. For example, you would specify samplefolder rather than samplefolder/.
         public let folderList: [String]?
         /// A value that specifies whether to recursively refresh folders in the cache. The refresh includes folders that were in the cache the last time the gateway listed the folder's contents. If this value set to true, each folder that is listed in FolderList is recursively updated. Otherwise, subfolders listed in FolderList are not refreshed. Only objects that are in folders listed directly under FolderList are found and used for the update. The default is true. Valid Values: true | false
         public let recursive: Bool?
@@ -4368,6 +4379,19 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct SoftwareUpdatePreferences: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the automatic update policy for a gateway.  ALL_VERSIONS - Enables regular gateway maintenance updates.  EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates.
+        public let automaticUpdatePolicy: AutomaticUpdatePolicy?
+
+        public init(automaticUpdatePolicy: AutomaticUpdatePolicy? = nil) {
+            self.automaticUpdatePolicy = automaticUpdatePolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automaticUpdatePolicy = "AutomaticUpdatePolicy"
         }
     }
 
@@ -4932,7 +4956,7 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that you want to use to monitor and log events in the gateway. For more information, see What is Amazon CloudWatch Logs?
         public let cloudWatchLogGroupARN: String?
         public let gatewayARN: String
-        /// Specifies the size of the gateway's metadata cache.
+        /// Specifies the size of the gateway's metadata cache. This setting impacts gateway performance and hardware recommendations. For more information, see Performance guidance for gateways with multiple file shares in the Amazon S3 File Gateway User Guide.
         public let gatewayCapacity: GatewayCapacity?
         public let gatewayName: String?
         /// A value that indicates the time zone of the gateway.
@@ -5012,22 +5036,25 @@ extension StorageGateway {
     }
 
     public struct UpdateMaintenanceStartTimeInput: AWSEncodableShape {
-        /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month and 28 represents the last day of the month.
+        /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month. It is not possible to set the maintenance schedule to start on days 29 through 31.
         public let dayOfMonth: Int?
-        /// The day of the week component of the maintenance start time week represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6 Saturday.
+        /// The day of the week component of the maintenance start time week represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6 represents Saturday.
         public let dayOfWeek: Int?
         public let gatewayARN: String
         /// The hour component of the maintenance start time represented as hh, where hh is the hour (00 to 23). The hour of the day is in the time zone of the gateway.
-        public let hourOfDay: Int
+        public let hourOfDay: Int?
         /// The minute component of the maintenance start time represented as mm, where mm is the minute (00 to 59). The minute of the hour is in the time zone of the gateway.
-        public let minuteOfHour: Int
+        public let minuteOfHour: Int?
+        /// A set of variables indicating the software update preferences for the gateway. Includes AutomaticUpdatePolicy field with the following inputs:  ALL_VERSIONS - Enables regular gateway maintenance updates.  EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates.
+        public let softwareUpdatePreferences: SoftwareUpdatePreferences?
 
-        public init(dayOfMonth: Int? = nil, dayOfWeek: Int? = nil, gatewayARN: String, hourOfDay: Int, minuteOfHour: Int) {
+        public init(dayOfMonth: Int? = nil, dayOfWeek: Int? = nil, gatewayARN: String, hourOfDay: Int? = nil, minuteOfHour: Int? = nil, softwareUpdatePreferences: SoftwareUpdatePreferences? = nil) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
             self.gatewayARN = gatewayARN
             self.hourOfDay = hourOfDay
             self.minuteOfHour = minuteOfHour
+            self.softwareUpdatePreferences = softwareUpdatePreferences
         }
 
         public func validate(name: String) throws {
@@ -5049,6 +5076,7 @@ extension StorageGateway {
             case gatewayARN = "GatewayARN"
             case hourOfDay = "HourOfDay"
             case minuteOfHour = "MinuteOfHour"
+            case softwareUpdatePreferences = "SoftwareUpdatePreferences"
         }
     }
 
@@ -5368,7 +5396,7 @@ extension StorageGateway {
 
     public struct UpdateSMBSecurityStrategyInput: AWSEncodableShape {
         public let gatewayARN: String
-        /// Specifies the type of security strategy. ClientSpecified: if you use this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment. Supported only in S3 File Gateway. MandatorySigning: if you use this option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer. MandatoryEncryption: if you use this option, file gateway only allows connections from SMBv3 clients that have encryption enabled. This option is highly recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer.
+        /// Specifies the type of security strategy.  ClientSpecified: If you choose this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment. Supported only for S3 File Gateway.  MandatorySigning: If you choose this option, File Gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer.  MandatoryEncryption: If you choose this option, File Gateway only allows connections from SMBv3 clients that have encryption enabled. This option is recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer.  MandatoryEncryptionNoAes128: If you choose this option, File Gateway only allows connections from SMBv3 clients that use 256-bit AES encryption algorithms. 128-bit algorithms are not allowed. This option is recommended for environments that handle sensitive data. It works with SMB clients on Microsoft Windows 8, Windows Server 2012, or later.
         public let smbSecurityStrategy: SMBSecurityStrategy
 
         public init(gatewayARN: String, smbSecurityStrategy: SMBSecurityStrategy) {

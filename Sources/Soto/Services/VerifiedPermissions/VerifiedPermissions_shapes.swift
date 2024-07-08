@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -34,6 +34,12 @@ extension VerifiedPermissions {
 
     public enum OpenIdIssuer: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cognito = "COGNITO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyEffect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case forbid = "Forbid"
+        case permit = "Permit"
         public var description: String { return self.rawValue }
     }
 
@@ -139,6 +145,99 @@ extension VerifiedPermissions {
         }
     }
 
+    public enum Configuration: AWSEncodableShape, Sendable {
+        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the Amazon Resource Name (ARN) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
+        case cognitoUserPoolConfiguration(CognitoUserPoolConfiguration)
+        /// Contains configuration details of an OpenID Connect (OIDC) identity provider, or identity source, that Verified Permissions can use to generate entities from authenticated identities. It specifies the issuer URL, token type that you want to use, and policy store entity details. Example:"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}
+        case openIdConnectConfiguration(OpenIdConnectConfiguration)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .cognitoUserPoolConfiguration(let value):
+                try container.encode(value, forKey: .cognitoUserPoolConfiguration)
+            case .openIdConnectConfiguration(let value):
+                try container.encode(value, forKey: .openIdConnectConfiguration)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .cognitoUserPoolConfiguration(let value):
+                try value.validate(name: "\(name).cognitoUserPoolConfiguration")
+            case .openIdConnectConfiguration(let value):
+                try value.validate(name: "\(name).openIdConnectConfiguration")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cognitoUserPoolConfiguration = "cognitoUserPoolConfiguration"
+            case openIdConnectConfiguration = "openIdConnectConfiguration"
+        }
+    }
+
+    public enum ConfigurationDetail: AWSDecodableShape, Sendable {
+        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the Amazon Resource Name (ARN) of a Amazon Cognito user pool, the policy store entity that you want to assign to user groups, and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
+        case cognitoUserPoolConfiguration(CognitoUserPoolConfigurationDetail)
+        /// Contains configuration details of an OpenID Connect (OIDC) identity provider, or identity source, that Verified Permissions can use to generate entities from authenticated identities. It specifies the issuer URL, token type that you want to use, and policy store entity details. Example:"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}
+        case openIdConnectConfiguration(OpenIdConnectConfigurationDetail)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .cognitoUserPoolConfiguration:
+                let value = try container.decode(CognitoUserPoolConfigurationDetail.self, forKey: .cognitoUserPoolConfiguration)
+                self = .cognitoUserPoolConfiguration(value)
+            case .openIdConnectConfiguration:
+                let value = try container.decode(OpenIdConnectConfigurationDetail.self, forKey: .openIdConnectConfiguration)
+                self = .openIdConnectConfiguration(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cognitoUserPoolConfiguration = "cognitoUserPoolConfiguration"
+            case openIdConnectConfiguration = "openIdConnectConfiguration"
+        }
+    }
+
+    public enum ConfigurationItem: AWSDecodableShape, Sendable {
+        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the Amazon Resource Name (ARN) of a Amazon Cognito user pool, the policy store entity that you want to assign to user groups, and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
+        case cognitoUserPoolConfiguration(CognitoUserPoolConfigurationItem)
+        /// Contains configuration details of an OpenID Connect (OIDC) identity provider, or identity source, that Verified Permissions can use to generate entities from authenticated identities. It specifies the issuer URL, token type that you want to use, and policy store entity details. Example:"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}
+        case openIdConnectConfiguration(OpenIdConnectConfigurationItem)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .cognitoUserPoolConfiguration:
+                let value = try container.decode(CognitoUserPoolConfigurationItem.self, forKey: .cognitoUserPoolConfiguration)
+                self = .cognitoUserPoolConfiguration(value)
+            case .openIdConnectConfiguration:
+                let value = try container.decode(OpenIdConnectConfigurationItem.self, forKey: .openIdConnectConfiguration)
+                self = .openIdConnectConfiguration(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cognitoUserPoolConfiguration = "cognitoUserPoolConfiguration"
+            case openIdConnectConfiguration = "openIdConnectConfiguration"
+        }
+    }
+
     public enum EntityReference: AWSEncodableShape, Sendable {
         /// The identifier of the entity. It can consist of either an EntityType and EntityId, a principal, or a resource.
         case identifier(EntityIdentifier)
@@ -167,6 +266,99 @@ extension VerifiedPermissions {
         private enum CodingKeys: String, CodingKey {
             case identifier = "identifier"
             case unspecified = "unspecified"
+        }
+    }
+
+    public enum OpenIdConnectTokenSelection: AWSEncodableShape, Sendable {
+        /// The OIDC configuration for processing access tokens. Contains allowed audience claims, for example https://auth.example.com, and the claim that you want to map to the principal, for example sub.
+        case accessTokenOnly(OpenIdConnectAccessTokenConfiguration)
+        /// The OIDC configuration for processing identity (ID) tokens. Contains allowed client ID claims, for example 1example23456789, and the claim that you want to map to the principal, for example sub.
+        case identityTokenOnly(OpenIdConnectIdentityTokenConfiguration)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .accessTokenOnly(let value):
+                try container.encode(value, forKey: .accessTokenOnly)
+            case .identityTokenOnly(let value):
+                try container.encode(value, forKey: .identityTokenOnly)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .accessTokenOnly(let value):
+                try value.validate(name: "\(name).accessTokenOnly")
+            case .identityTokenOnly(let value):
+                try value.validate(name: "\(name).identityTokenOnly")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessTokenOnly = "accessTokenOnly"
+            case identityTokenOnly = "identityTokenOnly"
+        }
+    }
+
+    public enum OpenIdConnectTokenSelectionDetail: AWSDecodableShape, Sendable {
+        /// The OIDC configuration for processing access tokens. Contains allowed audience claims, for example https://auth.example.com, and the claim that you want to map to the principal, for example sub.
+        case accessTokenOnly(OpenIdConnectAccessTokenConfigurationDetail)
+        /// The OIDC configuration for processing identity (ID) tokens. Contains allowed client ID claims, for example 1example23456789, and the claim that you want to map to the principal, for example sub.
+        case identityTokenOnly(OpenIdConnectIdentityTokenConfigurationDetail)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .accessTokenOnly:
+                let value = try container.decode(OpenIdConnectAccessTokenConfigurationDetail.self, forKey: .accessTokenOnly)
+                self = .accessTokenOnly(value)
+            case .identityTokenOnly:
+                let value = try container.decode(OpenIdConnectIdentityTokenConfigurationDetail.self, forKey: .identityTokenOnly)
+                self = .identityTokenOnly(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessTokenOnly = "accessTokenOnly"
+            case identityTokenOnly = "identityTokenOnly"
+        }
+    }
+
+    public enum OpenIdConnectTokenSelectionItem: AWSDecodableShape, Sendable {
+        /// The OIDC configuration for processing access tokens. Contains allowed audience claims, for example https://auth.example.com, and the claim that you want to map to the principal, for example sub.
+        case accessTokenOnly(OpenIdConnectAccessTokenConfigurationItem)
+        /// The OIDC configuration for processing identity (ID) tokens. Contains allowed client ID claims, for example 1example23456789, and the claim that you want to map to the principal, for example sub.
+        case identityTokenOnly(OpenIdConnectIdentityTokenConfigurationItem)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .accessTokenOnly:
+                let value = try container.decode(OpenIdConnectAccessTokenConfigurationItem.self, forKey: .accessTokenOnly)
+                self = .accessTokenOnly(value)
+            case .identityTokenOnly:
+                let value = try container.decode(OpenIdConnectIdentityTokenConfigurationItem.self, forKey: .identityTokenOnly)
+                self = .identityTokenOnly(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessTokenOnly = "accessTokenOnly"
+            case identityTokenOnly = "identityTokenOnly"
         }
     }
 
@@ -260,6 +452,68 @@ extension VerifiedPermissions {
         private enum CodingKeys: String, CodingKey {
             case `static` = "static"
             case templateLinked = "templateLinked"
+        }
+    }
+
+    public enum UpdateConfiguration: AWSEncodableShape, Sendable {
+        /// Contains configuration details of a Amazon Cognito user pool.
+        case cognitoUserPoolConfiguration(UpdateCognitoUserPoolConfiguration)
+        /// Contains configuration details of an OpenID Connect (OIDC) identity provider, or identity source, that Verified Permissions can use to generate entities from authenticated identities. It specifies the issuer URL, token type that you want to use, and policy store entity details.
+        case openIdConnectConfiguration(UpdateOpenIdConnectConfiguration)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .cognitoUserPoolConfiguration(let value):
+                try container.encode(value, forKey: .cognitoUserPoolConfiguration)
+            case .openIdConnectConfiguration(let value):
+                try container.encode(value, forKey: .openIdConnectConfiguration)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .cognitoUserPoolConfiguration(let value):
+                try value.validate(name: "\(name).cognitoUserPoolConfiguration")
+            case .openIdConnectConfiguration(let value):
+                try value.validate(name: "\(name).openIdConnectConfiguration")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cognitoUserPoolConfiguration = "cognitoUserPoolConfiguration"
+            case openIdConnectConfiguration = "openIdConnectConfiguration"
+        }
+    }
+
+    public enum UpdateOpenIdConnectTokenSelection: AWSEncodableShape, Sendable {
+        /// The OIDC configuration for processing access tokens. Contains allowed audience claims, for example https://auth.example.com, and the claim that you want to map to the principal, for example sub.
+        case accessTokenOnly(UpdateOpenIdConnectAccessTokenConfiguration)
+        /// The OIDC configuration for processing identity (ID) tokens. Contains allowed client ID claims, for example 1example23456789, and the claim that you want to map to the principal, for example sub.
+        case identityTokenOnly(UpdateOpenIdConnectIdentityTokenConfiguration)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .accessTokenOnly(let value):
+                try container.encode(value, forKey: .accessTokenOnly)
+            case .identityTokenOnly(let value):
+                try container.encode(value, forKey: .identityTokenOnly)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .accessTokenOnly(let value):
+                try value.validate(name: "\(name).accessTokenOnly")
+            case .identityTokenOnly(let value):
+                try value.validate(name: "\(name).identityTokenOnly")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessTokenOnly = "accessTokenOnly"
+            case identityTokenOnly = "identityTokenOnly"
         }
     }
 
@@ -556,7 +810,7 @@ extension VerifiedPermissions {
     public struct CognitoUserPoolConfiguration: AWSEncodableShape {
         /// The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "ClientIds": ["&amp;ExampleCogClientId;"]
         public let clientIds: [String]?
-        /// The configuration of the user groups from an Amazon Cognito user pool identity source.
+        /// The type of entity that a policy store maps to groups from an Amazon Cognito user  pool identity source.
         public let groupConfiguration: CognitoGroupConfiguration?
         /// The Amazon Resource Name (ARN) of the Amazon Cognito user pool that contains the identities to be authorized. Example: "UserPoolArn": "arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5"
         public let userPoolArn: String
@@ -590,7 +844,7 @@ extension VerifiedPermissions {
     public struct CognitoUserPoolConfigurationDetail: AWSDecodableShape {
         /// The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "clientIds": ["&amp;ExampleCogClientId;"]
         public let clientIds: [String]
-        /// The configuration of the user groups from an Amazon Cognito user pool identity source.
+        /// The type of entity that a policy store maps to groups from an Amazon Cognito user  pool identity source.
         public let groupConfiguration: CognitoGroupConfigurationDetail?
         /// The OpenID Connect (OIDC) issuer ID of the Amazon Cognito user pool that contains the identities to be authorized. Example: "issuer": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_1a2b3c4d5"
         public let issuer: String
@@ -615,7 +869,7 @@ extension VerifiedPermissions {
     public struct CognitoUserPoolConfigurationItem: AWSDecodableShape {
         /// The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "clientIds": ["&amp;ExampleCogClientId;"]
         public let clientIds: [String]
-        /// The configuration of the user groups from an Amazon Cognito user pool identity source.
+        /// The type of entity that a policy store maps to groups from an Amazon Cognito user  pool identity source.
         public let groupConfiguration: CognitoGroupConfigurationItem?
         /// The OpenID Connect (OIDC) issuer ID of the Amazon Cognito user pool that contains the identities to be authorized. Example: "issuer": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_1a2b3c4d5"
         public let issuer: String
@@ -640,7 +894,7 @@ extension VerifiedPermissions {
     public struct CreateIdentitySourceInput: AWSEncodableShape {
         /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of  the value of ClientToken.
         public let clientToken: String?
-        /// Specifies the details required to communicate with the identity provider (IdP) associated with this identity source.  At this time, the only valid member of this structure is a Amazon Cognito user pool configuration. You must specify a UserPoolArn, and optionally, a ClientId.
+        /// Specifies the details required to communicate with the identity provider (IdP) associated with this identity source.
         public let configuration: Configuration
         /// Specifies the ID of the policy store in which you want to store this identity source. Only policies and requests made using this policy store can reference identities from the identity provider configured in the new identity source.
         public let policyStoreId: String
@@ -734,9 +988,16 @@ extension VerifiedPermissions {
     }
 
     public struct CreatePolicyOutput: AWSDecodableShape {
+        /// The action that a policy permits or forbids. For example,
+        /// {"actions": [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID": "SharePhoto",
+        /// "entityType": "PhotoFlash::Action"}]}.
+        public let actions: [ActionIdentifier]?
         /// The date and time the policy was originally created.
         @CustomCoding<ISO8601DateCoder>
         public var createdDate: Date
+        /// The effect of the decision that a policy returns to an authorization
+        /// request. For example, "effect": "Permit".
+        public let effect: PolicyEffect?
         /// The date and time the policy was last updated.
         @CustomCoding<ISO8601DateCoder>
         public var lastUpdatedDate: Date
@@ -751,8 +1012,10 @@ extension VerifiedPermissions {
         /// The resource specified in the new policy's scope. This response element isn't present when the resource isn't specified in the policy content.
         public let resource: EntityIdentifier?
 
-        public init(createdDate: Date, lastUpdatedDate: Date, policyId: String, policyStoreId: String, policyType: PolicyType, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
+        public init(actions: [ActionIdentifier]? = nil, createdDate: Date, effect: PolicyEffect? = nil, lastUpdatedDate: Date, policyId: String, policyStoreId: String, policyType: PolicyType, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
+            self.actions = actions
             self.createdDate = createdDate
+            self.effect = effect
             self.lastUpdatedDate = lastUpdatedDate
             self.policyId = policyId
             self.policyStoreId = policyStoreId
@@ -762,7 +1025,9 @@ extension VerifiedPermissions {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
             case createdDate = "createdDate"
+            case effect = "effect"
             case lastUpdatedDate = "lastUpdatedDate"
             case policyId = "policyId"
             case policyStoreId = "policyStoreId"
@@ -1048,7 +1313,7 @@ extension VerifiedPermissions {
         public let attributes: [String: AttributeValue]?
         /// The identifier of the entity.
         public let identifier: EntityIdentifier
-        /// The parents in the hierarchy that contains the entity.
+        /// The parent entities in the hierarchy that contains the entity. A principal or resource entity can be defined with at most 99 transitive parents per authorization request.  A transitive parent is an entity in the hierarchy of entities including all direct parents, and parents of parents. For example, a user can be a member of 91 groups if one of those groups is a member of eight groups, for a total of 100: one entity, 91 entity parents, and eight parents of parents.
         public let parents: [EntityIdentifier]?
 
         public init(attributes: [String: AttributeValue]? = nil, identifier: EntityIdentifier, parents: [EntityIdentifier]? = nil) {
@@ -1065,7 +1330,6 @@ extension VerifiedPermissions {
             try self.parents?.forEach {
                 try $0.validate(name: "\(name).parents[]")
             }
-            try self.validate(self.parents, name: "parents", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1191,11 +1455,18 @@ extension VerifiedPermissions {
     }
 
     public struct GetPolicyOutput: AWSDecodableShape {
+        /// The action that a policy permits or forbids. For example,
+        /// {"actions": [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID": "SharePhoto",
+        /// "entityType": "PhotoFlash::Action"}]}.
+        public let actions: [ActionIdentifier]?
         /// The date and time that the policy was originally created.
         @CustomCoding<ISO8601DateCoder>
         public var createdDate: Date
         /// The definition of the requested policy.
         public let definition: PolicyDefinitionDetail
+        /// The effect of the decision that a policy returns to an authorization
+        /// request. For example, "effect": "Permit".
+        public let effect: PolicyEffect?
         /// The date and time that the policy was last updated.
         @CustomCoding<ISO8601DateCoder>
         public var lastUpdatedDate: Date
@@ -1210,9 +1481,11 @@ extension VerifiedPermissions {
         /// The resource specified in the policy's scope. This element isn't included in the response when Resource isn't present in the policy content.
         public let resource: EntityIdentifier?
 
-        public init(createdDate: Date, definition: PolicyDefinitionDetail, lastUpdatedDate: Date, policyId: String, policyStoreId: String, policyType: PolicyType, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
+        public init(actions: [ActionIdentifier]? = nil, createdDate: Date, definition: PolicyDefinitionDetail, effect: PolicyEffect? = nil, lastUpdatedDate: Date, policyId: String, policyStoreId: String, policyType: PolicyType, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
+            self.actions = actions
             self.createdDate = createdDate
             self.definition = definition
+            self.effect = effect
             self.lastUpdatedDate = lastUpdatedDate
             self.policyId = policyId
             self.policyStoreId = policyStoreId
@@ -1222,8 +1495,10 @@ extension VerifiedPermissions {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
             case createdDate = "createdDate"
             case definition = "definition"
+            case effect = "effect"
             case lastUpdatedDate = "lastUpdatedDate"
             case policyId = "policyId"
             case policyStoreId = "policyStoreId"
@@ -1679,7 +1954,7 @@ extension VerifiedPermissions {
     public struct ListIdentitySourcesInput: AWSEncodableShape {
         /// Specifies characteristics of an identity source that you can use to limit the output to matching identity sources.
         public let filters: [IdentitySourceFilter]?
-        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 identity sources per response. You can specify a maximum of 200 identity sources per response.
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 identity sources per response. You can specify a maximum of 50 identity sources per response.
         public let maxResults: Int?
         /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
         public let nextToken: String?
@@ -1874,6 +2149,271 @@ extension VerifiedPermissions {
         }
     }
 
+    public struct OpenIdConnectAccessTokenConfiguration: AWSEncodableShape {
+        /// The access token aud claim values that you want to accept in your policy store. For example, https://myapp.example.com, https://myapp2.example.com.
+        public let audiences: [String]?
+        /// The claim that determines the principal in OIDC access tokens. For example, sub.
+        public let principalIdClaim: String?
+
+        public init(audiences: [String]? = nil, principalIdClaim: String? = nil) {
+            self.audiences = audiences
+            self.principalIdClaim = principalIdClaim
+        }
+
+        public func validate(name: String) throws {
+            try self.audiences?.forEach {
+                try validate($0, name: "audiences[]", parent: name, max: 255)
+                try validate($0, name: "audiences[]", parent: name, min: 1)
+            }
+            try self.validate(self.audiences, name: "audiences", parent: name, max: 255)
+            try self.validate(self.audiences, name: "audiences", parent: name, min: 1)
+            try self.validate(self.principalIdClaim, name: "principalIdClaim", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audiences = "audiences"
+            case principalIdClaim = "principalIdClaim"
+        }
+    }
+
+    public struct OpenIdConnectAccessTokenConfigurationDetail: AWSDecodableShape {
+        /// The access token aud claim values that you want to accept in your policy store. For example, https://myapp.example.com, https://myapp2.example.com.
+        public let audiences: [String]?
+        /// The claim that determines the principal in OIDC access tokens. For example, sub.
+        public let principalIdClaim: String?
+
+        public init(audiences: [String]? = nil, principalIdClaim: String? = nil) {
+            self.audiences = audiences
+            self.principalIdClaim = principalIdClaim
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audiences = "audiences"
+            case principalIdClaim = "principalIdClaim"
+        }
+    }
+
+    public struct OpenIdConnectAccessTokenConfigurationItem: AWSDecodableShape {
+        /// The access token aud claim values that you want to accept in your policy store. For example, https://myapp.example.com, https://myapp2.example.com.
+        public let audiences: [String]?
+        /// The claim that determines the principal in OIDC access tokens. For example, sub.
+        public let principalIdClaim: String?
+
+        public init(audiences: [String]? = nil, principalIdClaim: String? = nil) {
+            self.audiences = audiences
+            self.principalIdClaim = principalIdClaim
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audiences = "audiences"
+            case principalIdClaim = "principalIdClaim"
+        }
+    }
+
+    public struct OpenIdConnectConfiguration: AWSEncodableShape {
+        /// A descriptive string that you want to prefix to user entities from your OIDC identity provider. For example, if you set an entityIdPrefix of MyOIDCProvider, you can reference principals in your policies in the format MyCorp::User::MyOIDCProvider|Carlos.
+        public let entityIdPrefix: String?
+        /// The claim in OIDC identity provider tokens that indicates a user's group membership, and the entity type that you want to map it to. For example, this object can map the contents of a groups claim to MyCorp::UserGroup.
+        public let groupConfiguration: OpenIdConnectGroupConfiguration?
+        /// The issuer URL of an OIDC identity provider. This URL must have an OIDC discovery endpoint at the path .well-known/openid-configuration.
+        public let issuer: String
+        /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source.
+        public let tokenSelection: OpenIdConnectTokenSelection
+
+        public init(entityIdPrefix: String? = nil, groupConfiguration: OpenIdConnectGroupConfiguration? = nil, issuer: String, tokenSelection: OpenIdConnectTokenSelection) {
+            self.entityIdPrefix = entityIdPrefix
+            self.groupConfiguration = groupConfiguration
+            self.issuer = issuer
+            self.tokenSelection = tokenSelection
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entityIdPrefix, name: "entityIdPrefix", parent: name, max: 100)
+            try self.validate(self.entityIdPrefix, name: "entityIdPrefix", parent: name, min: 1)
+            try self.groupConfiguration?.validate(name: "\(name).groupConfiguration")
+            try self.validate(self.issuer, name: "issuer", parent: name, max: 2048)
+            try self.validate(self.issuer, name: "issuer", parent: name, min: 1)
+            try self.validate(self.issuer, name: "issuer", parent: name, pattern: "^https://.*$")
+            try self.tokenSelection.validate(name: "\(name).tokenSelection")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityIdPrefix = "entityIdPrefix"
+            case groupConfiguration = "groupConfiguration"
+            case issuer = "issuer"
+            case tokenSelection = "tokenSelection"
+        }
+    }
+
+    public struct OpenIdConnectConfigurationDetail: AWSDecodableShape {
+        /// A descriptive string that you want to prefix to user entities from your OIDC identity provider. For example, if you set an entityIdPrefix of MyOIDCProvider, you can reference principals in your policies in the format MyCorp::User::MyOIDCProvider|Carlos.
+        public let entityIdPrefix: String?
+        /// The claim in OIDC identity provider tokens that indicates a user's group membership, and the entity type that you want to map it to. For example, this object can map the contents of a groups claim to MyCorp::UserGroup.
+        public let groupConfiguration: OpenIdConnectGroupConfigurationDetail?
+        /// The issuer URL of an OIDC identity provider. This URL must have an OIDC discovery endpoint at the path .well-known/openid-configuration.
+        public let issuer: String
+        /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source.
+        public let tokenSelection: OpenIdConnectTokenSelectionDetail
+
+        public init(entityIdPrefix: String? = nil, groupConfiguration: OpenIdConnectGroupConfigurationDetail? = nil, issuer: String, tokenSelection: OpenIdConnectTokenSelectionDetail) {
+            self.entityIdPrefix = entityIdPrefix
+            self.groupConfiguration = groupConfiguration
+            self.issuer = issuer
+            self.tokenSelection = tokenSelection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityIdPrefix = "entityIdPrefix"
+            case groupConfiguration = "groupConfiguration"
+            case issuer = "issuer"
+            case tokenSelection = "tokenSelection"
+        }
+    }
+
+    public struct OpenIdConnectConfigurationItem: AWSDecodableShape {
+        /// A descriptive string that you want to prefix to user entities from your OIDC identity provider. For example, if you set an entityIdPrefix of MyOIDCProvider, you can reference principals in your policies in the format MyCorp::User::MyOIDCProvider|Carlos.
+        public let entityIdPrefix: String?
+        /// The claim in OIDC identity provider tokens that indicates a user's group membership, and the entity type that you want to map it to. For example, this object can map the contents of a groups claim to MyCorp::UserGroup.
+        public let groupConfiguration: OpenIdConnectGroupConfigurationItem?
+        /// The issuer URL of an OIDC identity provider. This URL must have an OIDC discovery endpoint at the path .well-known/openid-configuration.
+        public let issuer: String
+        /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source.
+        public let tokenSelection: OpenIdConnectTokenSelectionItem
+
+        public init(entityIdPrefix: String? = nil, groupConfiguration: OpenIdConnectGroupConfigurationItem? = nil, issuer: String, tokenSelection: OpenIdConnectTokenSelectionItem) {
+            self.entityIdPrefix = entityIdPrefix
+            self.groupConfiguration = groupConfiguration
+            self.issuer = issuer
+            self.tokenSelection = tokenSelection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityIdPrefix = "entityIdPrefix"
+            case groupConfiguration = "groupConfiguration"
+            case issuer = "issuer"
+            case tokenSelection = "tokenSelection"
+        }
+    }
+
+    public struct OpenIdConnectGroupConfiguration: AWSEncodableShape {
+        /// The token claim that you want Verified Permissions to interpret as group membership. For example, groups.
+        public let groupClaim: String
+        /// The policy store entity type that you want to map your users' group claim to. For example, MyCorp::UserGroup. A group entity type is an entity that can have a user entity type as a member.
+        public let groupEntityType: String
+
+        public init(groupClaim: String, groupEntityType: String) {
+            self.groupClaim = groupClaim
+            self.groupEntityType = groupEntityType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupClaim, name: "groupClaim", parent: name, min: 1)
+            try self.validate(self.groupEntityType, name: "groupEntityType", parent: name, max: 200)
+            try self.validate(self.groupEntityType, name: "groupEntityType", parent: name, min: 1)
+            try self.validate(self.groupEntityType, name: "groupEntityType", parent: name, pattern: "^([_a-zA-Z][_a-zA-Z0-9]*::)*[_a-zA-Z][_a-zA-Z0-9]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupClaim = "groupClaim"
+            case groupEntityType = "groupEntityType"
+        }
+    }
+
+    public struct OpenIdConnectGroupConfigurationDetail: AWSDecodableShape {
+        /// The token claim that you want Verified Permissions to interpret as group membership. For example, groups.
+        public let groupClaim: String
+        /// The policy store entity type that you want to map your users' group claim to. For example, MyCorp::UserGroup. A group entity type is an entity that can have a user entity type as a member.
+        public let groupEntityType: String
+
+        public init(groupClaim: String, groupEntityType: String) {
+            self.groupClaim = groupClaim
+            self.groupEntityType = groupEntityType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupClaim = "groupClaim"
+            case groupEntityType = "groupEntityType"
+        }
+    }
+
+    public struct OpenIdConnectGroupConfigurationItem: AWSDecodableShape {
+        /// The token claim that you want Verified Permissions to interpret as group membership. For example, groups.
+        public let groupClaim: String
+        /// The policy store entity type that you want to map your users' group claim to. For example, MyCorp::UserGroup. A group entity type is an entity that can have a user entity type as a member.
+        public let groupEntityType: String
+
+        public init(groupClaim: String, groupEntityType: String) {
+            self.groupClaim = groupClaim
+            self.groupEntityType = groupEntityType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupClaim = "groupClaim"
+            case groupEntityType = "groupEntityType"
+        }
+    }
+
+    public struct OpenIdConnectIdentityTokenConfiguration: AWSEncodableShape {
+        /// The ID token audience, or client ID, claim values that you want to accept in your policy store from an OIDC identity provider. For example, 1example23456789, 2example10111213.
+        public let clientIds: [String]?
+        /// The claim that determines the principal in OIDC access tokens. For example, sub.
+        public let principalIdClaim: String?
+
+        public init(clientIds: [String]? = nil, principalIdClaim: String? = nil) {
+            self.clientIds = clientIds
+            self.principalIdClaim = principalIdClaim
+        }
+
+        public func validate(name: String) throws {
+            try self.clientIds?.forEach {
+                try validate($0, name: "clientIds[]", parent: name, max: 255)
+                try validate($0, name: "clientIds[]", parent: name, min: 1)
+                try validate($0, name: "clientIds[]", parent: name, pattern: "^.*$")
+            }
+            try self.validate(self.clientIds, name: "clientIds", parent: name, max: 1000)
+            try self.validate(self.principalIdClaim, name: "principalIdClaim", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientIds = "clientIds"
+            case principalIdClaim = "principalIdClaim"
+        }
+    }
+
+    public struct OpenIdConnectIdentityTokenConfigurationDetail: AWSDecodableShape {
+        /// The ID token audience, or client ID, claim values that you want to accept in your policy store from an OIDC identity provider. For example, 1example23456789, 2example10111213.
+        public let clientIds: [String]?
+        /// The claim that determines the principal in OIDC access tokens. For example, sub.
+        public let principalIdClaim: String?
+
+        public init(clientIds: [String]? = nil, principalIdClaim: String? = nil) {
+            self.clientIds = clientIds
+            self.principalIdClaim = principalIdClaim
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientIds = "clientIds"
+            case principalIdClaim = "principalIdClaim"
+        }
+    }
+
+    public struct OpenIdConnectIdentityTokenConfigurationItem: AWSDecodableShape {
+        /// The ID token audience, or client ID, claim values that you want to accept in your policy store from an OIDC identity provider. For example, 1example23456789, 2example10111213.
+        public let clientIds: [String]?
+        /// The claim that determines the principal in OIDC access tokens. For example, sub.
+        public let principalIdClaim: String?
+
+        public init(clientIds: [String]? = nil, principalIdClaim: String? = nil) {
+            self.clientIds = clientIds
+            self.principalIdClaim = principalIdClaim
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientIds = "clientIds"
+            case principalIdClaim = "principalIdClaim"
+        }
+    }
+
     public struct PolicyFilter: AWSEncodableShape {
         /// Filters the output to only template-linked policies that were instantiated from the specified policy template.
         public let policyTemplateId: String?
@@ -1908,11 +2448,18 @@ extension VerifiedPermissions {
     }
 
     public struct PolicyItem: AWSDecodableShape {
+        /// The action that a policy permits or forbids. For example,
+        /// {"actions": [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID": "SharePhoto",
+        /// "entityType": "PhotoFlash::Action"}]}.
+        public let actions: [ActionIdentifier]?
         /// The date and time the policy was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdDate: Date
         /// The policy definition of an item in the list of policies returned.
         public let definition: PolicyDefinitionItem
+        /// The effect of the decision that a policy returns to an authorization
+        /// request. For example, "effect": "Permit".
+        public let effect: PolicyEffect?
         /// The date and time the policy was most recently updated.
         @CustomCoding<ISO8601DateCoder>
         public var lastUpdatedDate: Date
@@ -1927,9 +2474,11 @@ extension VerifiedPermissions {
         /// The resource associated with the policy.
         public let resource: EntityIdentifier?
 
-        public init(createdDate: Date, definition: PolicyDefinitionItem, lastUpdatedDate: Date, policyId: String, policyStoreId: String, policyType: PolicyType, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
+        public init(actions: [ActionIdentifier]? = nil, createdDate: Date, definition: PolicyDefinitionItem, effect: PolicyEffect? = nil, lastUpdatedDate: Date, policyId: String, policyStoreId: String, policyType: PolicyType, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
+            self.actions = actions
             self.createdDate = createdDate
             self.definition = definition
+            self.effect = effect
             self.lastUpdatedDate = lastUpdatedDate
             self.policyId = policyId
             self.policyStoreId = policyStoreId
@@ -1939,8 +2488,10 @@ extension VerifiedPermissions {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
             case createdDate = "createdDate"
             case definition = "definition"
+            case effect = "effect"
             case lastUpdatedDate = "lastUpdatedDate"
             case policyId = "policyId"
             case policyStoreId = "policyStoreId"
@@ -2305,6 +2856,119 @@ extension VerifiedPermissions {
         }
     }
 
+    public struct UpdateOpenIdConnectAccessTokenConfiguration: AWSEncodableShape {
+        /// The access token aud claim values that you want to accept in your policy store. For example, https://myapp.example.com, https://myapp2.example.com.
+        public let audiences: [String]?
+        /// The claim that determines the principal in OIDC access tokens. For example, sub.
+        public let principalIdClaim: String?
+
+        public init(audiences: [String]? = nil, principalIdClaim: String? = nil) {
+            self.audiences = audiences
+            self.principalIdClaim = principalIdClaim
+        }
+
+        public func validate(name: String) throws {
+            try self.audiences?.forEach {
+                try validate($0, name: "audiences[]", parent: name, max: 255)
+                try validate($0, name: "audiences[]", parent: name, min: 1)
+            }
+            try self.validate(self.audiences, name: "audiences", parent: name, max: 255)
+            try self.validate(self.audiences, name: "audiences", parent: name, min: 1)
+            try self.validate(self.principalIdClaim, name: "principalIdClaim", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audiences = "audiences"
+            case principalIdClaim = "principalIdClaim"
+        }
+    }
+
+    public struct UpdateOpenIdConnectConfiguration: AWSEncodableShape {
+        /// A descriptive string that you want to prefix to user entities from your OIDC identity provider. For example, if you set an entityIdPrefix of MyOIDCProvider, you can reference principals in your policies in the format MyCorp::User::MyOIDCProvider|Carlos.
+        public let entityIdPrefix: String?
+        /// The claim in OIDC identity provider tokens that indicates a user's group membership, and the entity type that you want to map it to. For example, this object can map the contents of a groups claim to MyCorp::UserGroup.
+        public let groupConfiguration: UpdateOpenIdConnectGroupConfiguration?
+        /// The issuer URL of an OIDC identity provider. This URL must have an OIDC discovery endpoint at the path .well-known/openid-configuration.
+        public let issuer: String
+        /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source.
+        public let tokenSelection: UpdateOpenIdConnectTokenSelection
+
+        public init(entityIdPrefix: String? = nil, groupConfiguration: UpdateOpenIdConnectGroupConfiguration? = nil, issuer: String, tokenSelection: UpdateOpenIdConnectTokenSelection) {
+            self.entityIdPrefix = entityIdPrefix
+            self.groupConfiguration = groupConfiguration
+            self.issuer = issuer
+            self.tokenSelection = tokenSelection
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entityIdPrefix, name: "entityIdPrefix", parent: name, max: 100)
+            try self.validate(self.entityIdPrefix, name: "entityIdPrefix", parent: name, min: 1)
+            try self.groupConfiguration?.validate(name: "\(name).groupConfiguration")
+            try self.validate(self.issuer, name: "issuer", parent: name, max: 2048)
+            try self.validate(self.issuer, name: "issuer", parent: name, min: 1)
+            try self.validate(self.issuer, name: "issuer", parent: name, pattern: "^https://.*$")
+            try self.tokenSelection.validate(name: "\(name).tokenSelection")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityIdPrefix = "entityIdPrefix"
+            case groupConfiguration = "groupConfiguration"
+            case issuer = "issuer"
+            case tokenSelection = "tokenSelection"
+        }
+    }
+
+    public struct UpdateOpenIdConnectGroupConfiguration: AWSEncodableShape {
+        /// The token claim that you want Verified Permissions to interpret as group membership. For example, groups.
+        public let groupClaim: String
+        /// The policy store entity type that you want to map your users' group claim to. For example, MyCorp::UserGroup. A group entity type is an entity that can have a user entity type as a member.
+        public let groupEntityType: String
+
+        public init(groupClaim: String, groupEntityType: String) {
+            self.groupClaim = groupClaim
+            self.groupEntityType = groupEntityType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupClaim, name: "groupClaim", parent: name, min: 1)
+            try self.validate(self.groupEntityType, name: "groupEntityType", parent: name, max: 200)
+            try self.validate(self.groupEntityType, name: "groupEntityType", parent: name, min: 1)
+            try self.validate(self.groupEntityType, name: "groupEntityType", parent: name, pattern: "^([_a-zA-Z][_a-zA-Z0-9]*::)*[_a-zA-Z][_a-zA-Z0-9]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupClaim = "groupClaim"
+            case groupEntityType = "groupEntityType"
+        }
+    }
+
+    public struct UpdateOpenIdConnectIdentityTokenConfiguration: AWSEncodableShape {
+        /// The ID token audience, or client ID, claim values that you want to accept in your policy store from an OIDC identity provider. For example, 1example23456789, 2example10111213.
+        public let clientIds: [String]?
+        /// The claim that determines the principal in OIDC access tokens. For example, sub.
+        public let principalIdClaim: String?
+
+        public init(clientIds: [String]? = nil, principalIdClaim: String? = nil) {
+            self.clientIds = clientIds
+            self.principalIdClaim = principalIdClaim
+        }
+
+        public func validate(name: String) throws {
+            try self.clientIds?.forEach {
+                try validate($0, name: "clientIds[]", parent: name, max: 255)
+                try validate($0, name: "clientIds[]", parent: name, min: 1)
+                try validate($0, name: "clientIds[]", parent: name, pattern: "^.*$")
+            }
+            try self.validate(self.clientIds, name: "clientIds", parent: name, max: 1000)
+            try self.validate(self.principalIdClaim, name: "principalIdClaim", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientIds = "clientIds"
+            case principalIdClaim = "principalIdClaim"
+        }
+    }
+
     public struct UpdatePolicyInput: AWSEncodableShape {
         /// Specifies the updated policy content that you want to replace on the specified policy. The content must be valid Cedar policy language text. You can change only the following elements from the policy definition:   The action referenced by the policy.   Any conditional clauses, such as when or unless clauses.   You can't change the following elements:   Changing from static to templateLinked.   Changing the effect of the policy from permit or forbid.   The principal referenced by the policy.   The resource referenced by the policy.
         public let definition: UpdatePolicyDefinition
@@ -2337,9 +3001,16 @@ extension VerifiedPermissions {
     }
 
     public struct UpdatePolicyOutput: AWSDecodableShape {
+        /// The action that a policy permits or forbids. For example,
+        /// {"actions": [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID": "SharePhoto",
+        /// "entityType": "PhotoFlash::Action"}]}.
+        public let actions: [ActionIdentifier]?
         /// The date and time that the policy was originally created.
         @CustomCoding<ISO8601DateCoder>
         public var createdDate: Date
+        /// The effect of the decision that a policy returns to an authorization
+        /// request. For example, "effect": "Permit".
+        public let effect: PolicyEffect?
         /// The date and time that the policy was most recently updated.
         @CustomCoding<ISO8601DateCoder>
         public var lastUpdatedDate: Date
@@ -2354,8 +3025,10 @@ extension VerifiedPermissions {
         /// The resource specified in the policy's scope. This element isn't included in the response when Resource isn't present in the policy content.
         public let resource: EntityIdentifier?
 
-        public init(createdDate: Date, lastUpdatedDate: Date, policyId: String, policyStoreId: String, policyType: PolicyType, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
+        public init(actions: [ActionIdentifier]? = nil, createdDate: Date, effect: PolicyEffect? = nil, lastUpdatedDate: Date, policyId: String, policyStoreId: String, policyType: PolicyType, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
+            self.actions = actions
             self.createdDate = createdDate
+            self.effect = effect
             self.lastUpdatedDate = lastUpdatedDate
             self.policyId = policyId
             self.policyStoreId = policyStoreId
@@ -2365,7 +3038,9 @@ extension VerifiedPermissions {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
             case createdDate = "createdDate"
+            case effect = "effect"
             case lastUpdatedDate = "lastUpdatedDate"
             case policyId = "policyId"
             case policyStoreId = "policyStoreId"
@@ -2530,49 +3205,6 @@ extension VerifiedPermissions {
         }
     }
 
-    public struct Configuration: AWSEncodableShape {
-        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the Amazon Resource Name (ARN) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
-        public let cognitoUserPoolConfiguration: CognitoUserPoolConfiguration?
-
-        public init(cognitoUserPoolConfiguration: CognitoUserPoolConfiguration? = nil) {
-            self.cognitoUserPoolConfiguration = cognitoUserPoolConfiguration
-        }
-
-        public func validate(name: String) throws {
-            try self.cognitoUserPoolConfiguration?.validate(name: "\(name).cognitoUserPoolConfiguration")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cognitoUserPoolConfiguration = "cognitoUserPoolConfiguration"
-        }
-    }
-
-    public struct ConfigurationDetail: AWSDecodableShape {
-        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the Amazon Resource Name (ARN) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
-        public let cognitoUserPoolConfiguration: CognitoUserPoolConfigurationDetail?
-
-        public init(cognitoUserPoolConfiguration: CognitoUserPoolConfigurationDetail? = nil) {
-            self.cognitoUserPoolConfiguration = cognitoUserPoolConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cognitoUserPoolConfiguration = "cognitoUserPoolConfiguration"
-        }
-    }
-
-    public struct ConfigurationItem: AWSDecodableShape {
-        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the Amazon Resource Name (ARN) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
-        public let cognitoUserPoolConfiguration: CognitoUserPoolConfigurationItem?
-
-        public init(cognitoUserPoolConfiguration: CognitoUserPoolConfigurationItem? = nil) {
-            self.cognitoUserPoolConfiguration = cognitoUserPoolConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cognitoUserPoolConfiguration = "cognitoUserPoolConfiguration"
-        }
-    }
-
     public struct ContextDefinition: AWSEncodableShape & AWSDecodableShape {
         /// An list of attributes that are needed to successfully evaluate an authorization request. Each attribute in this array must include a map of a data type and its value. Example: "contextMap":{"&lt;KeyName1&gt;":{"boolean":true},"&lt;KeyName2&gt;":{"long":1234}}
         public let contextMap: [String: AttributeValue]?
@@ -2626,23 +3258,6 @@ extension VerifiedPermissions {
 
         private enum CodingKeys: String, CodingKey {
             case cedarJson = "cedarJson"
-        }
-    }
-
-    public struct UpdateConfiguration: AWSEncodableShape {
-        /// Contains configuration details of a Amazon Cognito user pool.
-        public let cognitoUserPoolConfiguration: UpdateCognitoUserPoolConfiguration?
-
-        public init(cognitoUserPoolConfiguration: UpdateCognitoUserPoolConfiguration? = nil) {
-            self.cognitoUserPoolConfiguration = cognitoUserPoolConfiguration
-        }
-
-        public func validate(name: String) throws {
-            try self.cognitoUserPoolConfiguration?.validate(name: "\(name).cognitoUserPoolConfiguration")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cognitoUserPoolConfiguration = "cognitoUserPoolConfiguration"
         }
     }
 

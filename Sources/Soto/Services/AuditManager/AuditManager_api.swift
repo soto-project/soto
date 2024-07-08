@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -525,7 +525,7 @@ public struct AuditManager: AWSService {
         )
     }
 
-    /// Gets a list of all of the Amazon Web Services that you can choose to include in your assessment. When you create an assessment, specify which of these services you want to include to narrow the assessment's scope.
+    /// Gets a list of the Amazon Web Services from which Audit Manager can collect evidence.  Audit Manager defines which Amazon Web Services are in scope for an assessment. Audit Manager infers this scope by examining the assessment’s controls and their data sources, and then mapping this information to one or more of the corresponding Amazon Web Services that are in this list.  For information about why it's no longer possible to specify services in scope manually, see I can't edit the services in scope for my assessment in the Troubleshooting section of the Audit Manager user guide.
     @Sendable
     public func getServicesInScope(_ input: GetServicesInScopeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServicesInScopeResponse {
         return try await self.client.execute(
@@ -616,7 +616,7 @@ public struct AuditManager: AWSService {
         )
     }
 
-    /// Lists the latest analytics data for control domains across all of your active assessments.   A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that control domain.
+    /// Lists the latest analytics data for control domains across all of your active assessments.  Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see  ListDomains in the Amazon Web Services Control Catalog API Reference.  A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that control domain.
     @Sendable
     public func listControlDomainInsights(_ input: ListControlDomainInsightsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListControlDomainInsightsResponse {
         return try await self.client.execute(
@@ -629,7 +629,7 @@ public struct AuditManager: AWSService {
         )
     }
 
-    /// Lists analytics data for control domains within a specified active assessment.  A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that domain.
+    /// Lists analytics data for control domains within a specified active assessment. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see  ListDomains in the Amazon Web Services Control Catalog API Reference.  A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that domain.
     @Sendable
     public func listControlDomainInsightsByAssessment(_ input: ListControlDomainInsightsByAssessmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListControlDomainInsightsByAssessmentResponse {
         return try await self.client.execute(
@@ -668,7 +668,7 @@ public struct AuditManager: AWSService {
         )
     }
 
-    ///  Returns a list of keywords that are pre-mapped to the specified control data source.
+    /// Returns a list of keywords that are pre-mapped to the specified control data source.
     @Sendable
     public func listKeywordsForDataSource(_ input: ListKeywordsForDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKeywordsForDataSourceResponse {
         return try await self.client.execute(
@@ -1093,7 +1093,7 @@ extension AuditManager {
         )
     }
 
-    /// Lists the latest analytics data for control domains across all of your active assessments.   A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that control domain.
+    /// Lists the latest analytics data for control domains across all of your active assessments.  Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see  ListDomains in the Amazon Web Services Control Catalog API Reference.  A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that control domain.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1112,7 +1112,7 @@ extension AuditManager {
         )
     }
 
-    /// Lists analytics data for control domains within a specified active assessment.  A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that domain.
+    /// Lists analytics data for control domains within a specified active assessment. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see  ListDomains in the Amazon Web Services Control Catalog API Reference.  A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that domain.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1169,7 +1169,7 @@ extension AuditManager {
         )
     }
 
-    ///  Returns a list of keywords that are pre-mapped to the specified control data source.
+    /// Returns a list of keywords that are pre-mapped to the specified control data source.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1345,6 +1345,7 @@ extension AuditManager.ListControlInsightsByControlDomainRequest: AWSPaginateTok
 extension AuditManager.ListControlsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> AuditManager.ListControlsRequest {
         return .init(
+            controlCatalogId: self.controlCatalogId,
             controlType: self.controlType,
             maxResults: self.maxResults,
             nextToken: token

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -29,6 +29,28 @@ extension AccessAnalyzer {
     public enum AccessCheckPolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case identityPolicy = "IDENTITY_POLICY"
         case resourcePolicy = "RESOURCE_POLICY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AccessCheckResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsDynamodbStream = "AWS::DynamoDB::Stream"
+        case awsDynamodbTable = "AWS::DynamoDB::Table"
+        case awsEFSFilesystem = "AWS::EFS::FileSystem"
+        case awsIAMAssumerolepolicydocument = "AWS::IAM::AssumeRolePolicyDocument"
+        case awsKMSKey = "AWS::KMS::Key"
+        case awsKinesisStream = "AWS::Kinesis::Stream"
+        case awsKinesisStreamconsumer = "AWS::Kinesis::StreamConsumer"
+        case awsLambdaFunction = "AWS::Lambda::Function"
+        case awsOpensearchserviceDomain = "AWS::OpenSearchService::Domain"
+        case awsS3Accesspoint = "AWS::S3::AccessPoint"
+        case awsS3Bucket = "AWS::S3::Bucket"
+        case awsS3Glacier = "AWS::S3::Glacier"
+        case awsS3ExpressDirectorybucket = "AWS::S3Express::DirectoryBucket"
+        case awsS3OutpostsAccesspoint = "AWS::S3Outposts::AccessPoint"
+        case awsS3OutpostsBucket = "AWS::S3Outposts::Bucket"
+        case awsSNSTopic = "AWS::SNS::Topic"
+        case awsSQSQueue = "AWS::SQS::Queue"
+        case awsSecretsmanagerSecret = "AWS::SecretsManager::Secret"
         public var description: String { return self.rawValue }
     }
 
@@ -69,6 +91,12 @@ extension AccessAnalyzer {
     }
 
     public enum CheckNoNewAccessResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fail = "FAIL"
+        case pass = "PASS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CheckNoPublicAccessResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fail = "FAIL"
         case pass = "PASS"
         public var description: String { return self.rawValue }
@@ -180,6 +208,17 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
+    public enum RecommendationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case unusedPermissionRecommendation = "UnusedPermissionRecommendation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendedRemediationAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createPolicy = "CREATE_POLICY"
+        case detachPolicy = "DETACH_POLICY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsDynamodbStream = "AWS::DynamoDB::Stream"
         case awsDynamodbTable = "AWS::DynamoDB::Table"
@@ -197,6 +236,13 @@ extension AccessAnalyzer {
         case awsSNSTopic = "AWS::SNS::Topic"
         case awsSQSQueue = "AWS::SQS::Queue"
         case awsSecretsmanagerSecret = "AWS::SecretsManager::Secret"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -560,14 +606,24 @@ extension AccessAnalyzer {
 
     public struct Access: AWSEncodableShape {
         /// A list of actions for the access permissions. Any strings that can be used as an action in an IAM policy can be used in the list of actions to check.
-        public let actions: [String]
+        public let actions: [String]?
+        /// A list of resources for the access permissions. Any strings that can be used as a resource in an IAM policy can be used in the list of resources to check.
+        public let resources: [String]?
 
-        public init(actions: [String]) {
+        public init(actions: [String]? = nil, resources: [String]? = nil) {
             self.actions = actions
+            self.resources = resources
+        }
+
+        public func validate(name: String) throws {
+            try self.resources?.forEach {
+                try validate($0, name: "resources[]", parent: name, max: 2048)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case actions = "actions"
+            case resources = "resources"
         }
     }
 
@@ -922,7 +978,7 @@ extension AccessAnalyzer {
     }
 
     public struct CheckAccessNotGrantedRequest: AWSEncodableShape {
-        /// An access object containing the permissions that shouldn't be granted by the specified policy.
+        /// An access object containing the permissions that shouldn't be granted by the specified policy. If only actions are specified, IAM Access Analyzer checks for access of the actions on all resources in the policy. If only resources are specified, then IAM Access Analyzer checks which actions have access to the specified resources. If both actions and resources are specified, then IAM Access Analyzer checks which of the specified actions have access to the specified resources.
         public let access: [Access]
         /// The JSON policy document to use as the content for the policy.
         public let policyDocument: String
@@ -933,6 +989,12 @@ extension AccessAnalyzer {
             self.access = access
             self.policyDocument = policyDocument
             self.policyType = policyType
+        }
+
+        public func validate(name: String) throws {
+            try self.access.forEach {
+                try $0.validate(name: "\(name).access[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -993,6 +1055,44 @@ extension AccessAnalyzer {
         public let result: CheckNoNewAccessResult?
 
         public init(message: String? = nil, reasons: [ReasonSummary]? = nil, result: CheckNoNewAccessResult? = nil) {
+            self.message = message
+            self.reasons = reasons
+            self.result = result
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reasons = "reasons"
+            case result = "result"
+        }
+    }
+
+    public struct CheckNoPublicAccessRequest: AWSEncodableShape {
+        /// The JSON policy document to evaluate for public access.
+        public let policyDocument: String
+        /// The type of resource to evaluate for public access. For example, to check for public access to Amazon S3 buckets, you can choose AWS::S3::Bucket for the resource type. For resource types not supported as valid values, IAM Access Analyzer will return an error.
+        public let resourceType: AccessCheckResourceType
+
+        public init(policyDocument: String, resourceType: AccessCheckResourceType) {
+            self.policyDocument = policyDocument
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "policyDocument"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct CheckNoPublicAccessResponse: AWSDecodableShape {
+        /// The message indicating whether the specified policy allows public access to resources.
+        public let message: String?
+        /// A list of reasons why the specified resource policy grants public access for the resource type.
+        public let reasons: [ReasonSummary]?
+        /// The result of the check for public access to the specified resource type. If the result is PASS, the policy doesn't allow public access to the specified resource type. If the result is FAIL, the policy might allow public access to the specified resource type.
+        public let result: CheckNoPublicAccessResult?
+
+        public init(message: String? = nil, reasons: [ReasonSummary]? = nil, result: CheckNoPublicAccessResult? = nil) {
             self.message = message
             self.reasons = reasons
             self.result = result
@@ -1622,6 +1722,31 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct GenerateFindingRecommendationRequest: AWSEncodableShape {
+        /// The ARN of the analyzer used to generate the finding recommendation.
+        public let analyzerArn: String
+        /// The unique ID for the finding recommendation.
+        public let id: String
+
+        public init(analyzerArn: String, id: String) {
+            self.analyzerArn = analyzerArn
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.analyzerArn, key: "analyzerArn")
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct GeneratedPolicy: AWSDecodableShape {
         /// The text to use as the content for the new policy. The policy is created using the CreatePolicy action.
         public let policy: String
@@ -1826,6 +1951,82 @@ extension AccessAnalyzer {
 
         private enum CodingKeys: String, CodingKey {
             case archiveRule = "archiveRule"
+        }
+    }
+
+    public struct GetFindingRecommendationRequest: AWSEncodableShape {
+        /// The ARN of the analyzer used to generate the finding recommendation.
+        public let analyzerArn: String
+        /// The unique ID for the finding recommendation.
+        public let id: String
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A token used for pagination of results returned.
+        public let nextToken: String?
+
+        public init(analyzerArn: String, id: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.analyzerArn = analyzerArn
+            self.id = id
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.analyzerArn, key: "analyzerArn")
+            request.encodePath(self.id, key: "id")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFindingRecommendationResponse: AWSDecodableShape {
+        /// The time at which the retrieval of the finding recommendation was completed.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var completedAt: Date?
+        /// Detailed information about the reason that the retrieval of a recommendation for the finding failed.
+        public let error: RecommendationError?
+        /// A token used for pagination of results returned.
+        public let nextToken: String?
+        /// The type of recommendation for the finding.
+        public let recommendationType: RecommendationType
+        /// A group of recommended steps for the finding.
+        public let recommendedSteps: [RecommendedStep]?
+        /// The ARN of the resource of the finding.
+        public let resourceArn: String
+        /// The time at which the retrieval of the finding recommendation was started.
+        @CustomCoding<ISO8601DateCoder>
+        public var startedAt: Date
+        /// The status of the retrieval of the finding recommendation.
+        public let status: Status
+
+        public init(completedAt: Date? = nil, error: RecommendationError? = nil, nextToken: String? = nil, recommendationType: RecommendationType, recommendedSteps: [RecommendedStep]? = nil, resourceArn: String, startedAt: Date, status: Status) {
+            self.completedAt = completedAt
+            self.error = error
+            self.nextToken = nextToken
+            self.recommendationType = recommendationType
+            self.recommendedSteps = recommendedSteps
+            self.resourceArn = resourceArn
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedAt = "completedAt"
+            case error = "error"
+            case nextToken = "nextToken"
+            case recommendationType = "recommendationType"
+            case recommendedSteps = "recommendedSteps"
+            case resourceArn = "resourceArn"
+            case startedAt = "startedAt"
+            case status = "status"
         }
     }
 
@@ -2723,6 +2924,23 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct RecommendationError: AWSDecodableShape {
+        /// The error code for a failed retrieval of a recommendation for a finding.
+        public let code: String
+        /// The error message for a failed retrieval of a recommendation for a finding.
+        public let message: String
+
+        public init(code: String, message: String) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct S3AccessPointConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The access point or multi-region access point policy.
         public let accessPointPolicy: String?
@@ -3181,7 +3399,7 @@ extension AccessAnalyzer {
     public struct UnusedPermissionDetails: AWSDecodableShape {
         /// A list of unused actions for which the unused access finding was generated.
         public let actions: [UnusedAction]?
-        /// The time at which the permission last accessed.
+        /// The time at which the permission was last accessed.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastAccessed: Date?
         /// The namespace of the Amazon Web Services service that contains the unused actions.
@@ -3197,6 +3415,32 @@ extension AccessAnalyzer {
             case actions = "actions"
             case lastAccessed = "lastAccessed"
             case serviceNamespace = "serviceNamespace"
+        }
+    }
+
+    public struct UnusedPermissionsRecommendedStep: AWSDecodableShape {
+        /// If the recommended action for the unused permissions finding is to detach a policy, the ID of an existing policy to be detached.
+        public let existingPolicyId: String?
+        /// The time at which the existing policy for the unused permissions finding was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var policyUpdatedAt: Date?
+        /// A recommendation of whether to create or detach a policy for an unused permissions finding.
+        public let recommendedAction: RecommendedRemediationAction
+        /// If the recommended action for the unused permissions finding is to replace the existing policy, the contents of the recommended policy to replace the policy specified in the existingPolicyId field.
+        public let recommendedPolicy: String?
+
+        public init(existingPolicyId: String? = nil, policyUpdatedAt: Date? = nil, recommendedAction: RecommendedRemediationAction, recommendedPolicy: String? = nil) {
+            self.existingPolicyId = existingPolicyId
+            self.policyUpdatedAt = policyUpdatedAt
+            self.recommendedAction = recommendedAction
+            self.recommendedPolicy = recommendedPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case existingPolicyId = "existingPolicyId"
+            case policyUpdatedAt = "policyUpdatedAt"
+            case recommendedAction = "recommendedAction"
+            case recommendedPolicy = "recommendedPolicy"
         }
     }
 
@@ -3419,6 +3663,19 @@ extension AccessAnalyzer {
 
         private enum CodingKeys: String, CodingKey {
             case accountIds = "accountIds"
+        }
+    }
+
+    public struct RecommendedStep: AWSDecodableShape {
+        /// A recommended step for an unused permissions finding.
+        public let unusedPermissionsRecommendedStep: UnusedPermissionsRecommendedStep?
+
+        public init(unusedPermissionsRecommendedStep: UnusedPermissionsRecommendedStep? = nil) {
+            self.unusedPermissionsRecommendedStep = unusedPermissionsRecommendedStep
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unusedPermissionsRecommendedStep = "unusedPermissionsRecommendedStep"
         }
     }
 }

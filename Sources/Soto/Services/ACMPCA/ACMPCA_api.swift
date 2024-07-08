@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -372,8 +372,8 @@ public struct ACMPCA: AWSService {
     /// 					certificate, if any, that your root CA signed must be next to last. The
     /// 					subordinate certificate signed by the preceding subordinate CA must come next,
     /// 					and so on until your chain is built.    The chain must be PEM-encoded.   The maximum allowed size of a certificate is 32 KB.   The maximum allowed size of a certificate chain is 2 MB.    Enforcement of Critical Constraints  Amazon Web Services Private CA allows the following extensions to be marked critical in the imported CA
-    /// 			certificate or chain.   Basic constraints (must be marked critical)   Subject alternative names   Key usage   Extended key usage   Authority key identifier   Subject key identifier   Issuer alternative name   Subject directory attributes   Subject information access   Certificate policies   Policy mappings   Inhibit anyPolicy   Amazon Web Services Private CA rejects the following extensions when they are marked critical in an
-    /// 			imported CA certificate or chain.   Name constraints   Policy constraints   CRL distribution points   Authority information access   Freshest CRL   Any other extension
+    /// 			certificate or chain.   Authority key identifier   Basic constraints (must be marked critical)   Certificate policies   Extended key usage   Inhibit anyPolicy   Issuer alternative name   Key usage   Name constraints   Policy mappings   Subject alternative name   Subject directory attributes   Subject key identifier   Subject information access   Amazon Web Services Private CA rejects the following extensions when they are marked critical in an
+    /// 			imported CA certificate or chain.   Authority information access   CRL distribution points   Freshest CRL   Policy constraints   Amazon Web Services Private Certificate Authority will also reject any other extension marked as critical not contained on the preceding list of allowed extensions.
     @Sendable
     public func importCertificateAuthorityCertificate(_ input: ImportCertificateAuthorityCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -712,6 +712,7 @@ extension ACMPCA {
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("auditReportStatus", expected: "SUCCESS")),
                 .init(state: .failure, matcher: try! JMESPathMatcher("auditReportStatus", expected: "FAILED")),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("AccessDeniedException")),
             ],
             minDelayTime: .seconds(3),
             command: self.describeCertificateAuthorityAuditReport
@@ -728,6 +729,7 @@ extension ACMPCA {
             acceptors: [
                 .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("RequestInProgressException")),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("AccessDeniedException")),
             ],
             minDelayTime: .seconds(3),
             command: self.getCertificateAuthorityCsr
@@ -744,6 +746,7 @@ extension ACMPCA {
             acceptors: [
                 .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("RequestInProgressException")),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("AccessDeniedException")),
             ],
             minDelayTime: .seconds(1),
             command: self.getCertificate

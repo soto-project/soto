@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -86,6 +86,7 @@ public struct S3Control: AWSService {
         "ap-southeast-3": "s3-control.ap-southeast-3.amazonaws.com",
         "ap-southeast-4": "s3-control.ap-southeast-4.amazonaws.com",
         "ca-central-1": "s3-control.ca-central-1.amazonaws.com",
+        "ca-west-1": "s3-control.ca-west-1.amazonaws.com",
         "cn-north-1": "s3-control.cn-north-1.amazonaws.com.cn",
         "cn-northwest-1": "s3-control.cn-northwest-1.amazonaws.com.cn",
         "eu-central-1": "s3-control.eu-central-1.amazonaws.com",
@@ -127,6 +128,7 @@ public struct S3Control: AWSService {
             "ap-southeast-3": "s3-control.dualstack.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "s3-control.dualstack.ap-southeast-4.amazonaws.com",
             "ca-central-1": "s3-control.dualstack.ca-central-1.amazonaws.com",
+            "ca-west-1": "s3-control.dualstack.ca-west-1.amazonaws.com",
             "cn-north-1": "s3-control.dualstack.cn-north-1.amazonaws.com.cn",
             "cn-northwest-1": "s3-control.dualstack.cn-northwest-1.amazonaws.com.cn",
             "eu-central-1": "s3-control.dualstack.eu-central-1.amazonaws.com",
@@ -150,6 +152,7 @@ public struct S3Control: AWSService {
         ]),
         [.dualstack, .fips]: .init(endpoints: [
             "ca-central-1": "s3-control-fips.dualstack.ca-central-1.amazonaws.com",
+            "ca-west-1": "s3-control-fips.dualstack.ca-west-1.amazonaws.com",
             "us-east-1": "s3-control-fips.dualstack.us-east-1.amazonaws.com",
             "us-east-2": "s3-control-fips.dualstack.us-east-2.amazonaws.com",
             "us-gov-east-1": "s3-control-fips.dualstack.us-gov-east-1.amazonaws.com",
@@ -159,6 +162,7 @@ public struct S3Control: AWSService {
         ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "s3-control-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "s3-control-fips.ca-west-1.amazonaws.com",
             "us-east-1": "s3-control-fips.us-east-1.amazonaws.com",
             "us-east-2": "s3-control-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "s3-control-fips.us-gov-east-1.amazonaws.com",

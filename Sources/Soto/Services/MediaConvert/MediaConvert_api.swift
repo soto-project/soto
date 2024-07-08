@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -220,7 +220,7 @@ public struct MediaConvert: AWSService {
         )
     }
 
-    /// Send an request with an empty body to the regional API endpoint to get your account API endpoint.
+    /// Send a request with an empty body to the regional API endpoint to get your account API endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send your requests directly to the regional endpoint instead.
     @available(*, deprecated, message: "DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.")
     @Sendable
     public func describeEndpoints(_ input: DescribeEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointsResponse {
@@ -390,6 +390,19 @@ public struct MediaConvert: AWSService {
         )
     }
 
+    /// Retrieve a JSON array that includes job details for up to twenty of your most recent jobs. Optionally filter results further according to input file, queue, or status. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
+    @Sendable
+    public func searchJobs(_ input: SearchJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchJobsResponse {
+        return try await self.client.execute(
+            operation: "SearchJobs", 
+            path: "/2017-08-29/search", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -469,7 +482,7 @@ extension MediaConvert {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MediaConvert {
-    /// Send an request with an empty body to the regional API endpoint to get your account API endpoint.
+    /// Send a request with an empty body to the regional API endpoint to get your account API endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send your requests directly to the regional endpoint instead.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -564,6 +577,25 @@ extension MediaConvert {
             logger: logger
         )
     }
+
+    /// Retrieve a JSON array that includes job details for up to twenty of your most recent jobs. Optionally filter results further according to input file, queue, or status. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func searchJobsPaginator(
+        _ input: SearchJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchJobsRequest, SearchJobsResponse> {
+        return .init(
+            input: input,
+            command: self.searchJobs,
+            inputKey: \SearchJobsRequest.nextToken,
+            outputKey: \SearchJobsResponse.nextToken,
+            logger: logger
+        )
+    }
 }
 
 extension MediaConvert.DescribeEndpointsRequest: AWSPaginateToken {
@@ -619,6 +651,19 @@ extension MediaConvert.ListQueuesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             order: self.order
+        )
+    }
+}
+
+extension MediaConvert.SearchJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> MediaConvert.SearchJobsRequest {
+        return .init(
+            inputFile: self.inputFile,
+            maxResults: self.maxResults,
+            nextToken: token,
+            order: self.order,
+            queue: self.queue,
+            status: self.status
         )
     }
 }

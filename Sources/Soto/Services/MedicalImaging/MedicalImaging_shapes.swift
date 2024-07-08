@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1442,6 +1442,8 @@ extension MedicalImaging {
         public let dataAccessRoleArn: String
         /// The data store identifier.
         public let datastoreId: String
+        /// The account ID of the source S3 bucket owner.
+        public let inputOwnerAccountId: String?
         /// The input prefix path for the S3 bucket that contains the DICOM files to be imported.
         public let inputS3Uri: String
         /// The import job name.
@@ -1449,10 +1451,11 @@ extension MedicalImaging {
         /// The output prefix of the S3 bucket to upload the results of the DICOM import job.
         public let outputS3Uri: String
 
-        public init(clientToken: String = StartDICOMImportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, inputS3Uri: String, jobName: String? = nil, outputS3Uri: String) {
+        public init(clientToken: String = StartDICOMImportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, inputOwnerAccountId: String? = nil, inputS3Uri: String, jobName: String? = nil, outputS3Uri: String) {
             self.clientToken = clientToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
+            self.inputOwnerAccountId = inputOwnerAccountId
             self.inputS3Uri = inputS3Uri
             self.jobName = jobName
             self.outputS3Uri = outputS3Uri
@@ -1464,6 +1467,7 @@ extension MedicalImaging {
             try container.encode(self.clientToken, forKey: .clientToken)
             try container.encode(self.dataAccessRoleArn, forKey: .dataAccessRoleArn)
             request.encodePath(self.datastoreId, key: "datastoreId")
+            try container.encodeIfPresent(self.inputOwnerAccountId, forKey: .inputOwnerAccountId)
             try container.encode(self.inputS3Uri, forKey: .inputS3Uri)
             try container.encodeIfPresent(self.jobName, forKey: .jobName)
             try container.encode(self.outputS3Uri, forKey: .outputS3Uri)
@@ -1477,6 +1481,9 @@ extension MedicalImaging {
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$")
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, pattern: "^[0-9a-z]{32}$")
+            try self.validate(self.inputOwnerAccountId, name: "inputOwnerAccountId", parent: name, max: 12)
+            try self.validate(self.inputOwnerAccountId, name: "inputOwnerAccountId", parent: name, min: 12)
+            try self.validate(self.inputOwnerAccountId, name: "inputOwnerAccountId", parent: name, pattern: "^\\d+$")
             try self.validate(self.inputS3Uri, name: "inputS3Uri", parent: name, max: 1024)
             try self.validate(self.inputS3Uri, name: "inputS3Uri", parent: name, min: 1)
             try self.validate(self.inputS3Uri, name: "inputS3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
@@ -1491,6 +1498,7 @@ extension MedicalImaging {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case dataAccessRoleArn = "dataAccessRoleArn"
+            case inputOwnerAccountId = "inputOwnerAccountId"
             case inputS3Uri = "inputS3Uri"
             case jobName = "jobName"
             case outputS3Uri = "outputS3Uri"

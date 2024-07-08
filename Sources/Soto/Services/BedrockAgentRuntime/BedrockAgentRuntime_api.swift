@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -74,7 +74,7 @@ public struct BedrockAgentRuntime: AWSService {
 
     // MARK: API Calls
 
-    /// Sends a prompt for the agent to process and respond to. Use return control event type for function calling.  The CLI doesn't support InvokeAgent.    To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   End a conversation by setting endSession to true.   In the sessionState object, you can include attributes for the session or prompt or parameters returned from the action group.   Use return control event type for function calling.   The response is returned in the bytes field of the chunk object.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   Errors are also surfaced in the response.
+    ///  The CLI doesn't support InvokeAgent.  Sends a prompt for the agent to process and respond to. Note the following fields for the request:   To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   End a conversation by setting endSession to true.   In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.   The response is returned in the bytes field of the chunk object.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the returnControl field.   Errors are also surfaced in the response.
     @Sendable
     public func invokeAgent(_ input: InvokeAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeAgentResponse {
         return try await self.client.execute(

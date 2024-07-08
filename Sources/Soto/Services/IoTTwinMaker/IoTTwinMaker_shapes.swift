@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -123,6 +123,7 @@ extension IoTTwinMaker {
     public enum PropertyUpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case create = "CREATE"
         case delete = "DELETE"
+        case resetValue = "RESET_VALUE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
     }

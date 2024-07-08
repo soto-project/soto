@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -84,6 +84,7 @@ public struct SSOOIDC: AWSService {
         "ap-southeast-3": "oidc.ap-southeast-3.amazonaws.com",
         "ap-southeast-4": "oidc.ap-southeast-4.amazonaws.com",
         "ca-central-1": "oidc.ca-central-1.amazonaws.com",
+        "ca-west-1": "oidc.ca-west-1.amazonaws.com",
         "cn-north-1": "oidc.cn-north-1.amazonaws.com.cn",
         "cn-northwest-1": "oidc.cn-northwest-1.amazonaws.com.cn",
         "eu-central-1": "oidc.eu-central-1.amazonaws.com",
@@ -123,7 +124,7 @@ public struct SSOOIDC: AWSService {
         )
     }
 
-    /// Creates and returns access and refresh tokens for clients and applications that are authenticated using IAM entities. The access token can be used to fetch short-term credentials for the assigned AWS accounts or to access application APIs using bearer authentication.
+    /// Creates and returns access and refresh tokens for clients and applications that are authenticated using IAM entities. The access token can be used to fetch short-term credentials for the assigned Amazon Web Services accounts or to access application APIs using bearer authentication.
     @Sendable
     public func createTokenWithIAM(_ input: CreateTokenWithIAMRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTokenWithIAMResponse {
         return try await self.client.execute(

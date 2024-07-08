@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -82,6 +82,8 @@ public struct DirectConnect: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "ca-central-1": "directconnect-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "directconnect-fips.ca-west-1.amazonaws.com",
             "us-east-1": "directconnect-fips.us-east-1.amazonaws.com",
             "us-east-2": "directconnect-fips.us-east-2.amazonaws.com",
             "us-west-1": "directconnect-fips.us-west-1.amazonaws.com",
@@ -104,7 +106,7 @@ public struct DirectConnect: AWSService {
         )
     }
 
-    /// Deprecated. Use AllocateHostedConnection instead. Creates a hosted connection on an interconnect. Allocates a VLAN number and a specified amount of bandwidth for use by a hosted connection on the specified interconnect.  Intended for use by Direct Connect Partners only.
+    ///  Deprecated. Use AllocateHostedConnection instead.  Creates a hosted connection on an interconnect. Allocates a VLAN number and a specified amount of bandwidth for use by a hosted connection on the specified interconnect.  Intended for use by Direct Connect Partners only.
     @Sendable
     public func allocateConnectionOnInterconnect(_ input: AllocateConnectionOnInterconnectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Connection {
         return try await self.client.execute(
@@ -364,7 +366,7 @@ public struct DirectConnect: AWSService {
         )
     }
 
-    /// Creates a link aggregation group (LAG) with the specified number of bundled physical dedicated connections between the customer network and a specific Direct Connect location. A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple interfaces, enabling you to treat them as a single  interface. All connections in a LAG must use the same bandwidth (either 1Gbps or 10Gbps) and must terminate at the same Direct Connect endpoint. You can have up to 10 dedicated connections per LAG. Regardless of this limit, if you request more connections for the LAG than Direct Connect can allocate on a single endpoint, no LAG is created. You can specify an existing physical dedicated connection or interconnect to include in the LAG (which counts towards the total number of connections). Doing so interrupts the current physical dedicated connection, and re-establishes them as a member of the LAG. The LAG will be created on the same Direct Connect endpoint to which the dedicated connection terminates. Any virtual interfaces associated with the dedicated connection are automatically disassociated and re-associated with the LAG. The connection ID does not change. If the Amazon Web Services account used to create a LAG is a registered Direct Connect Partner, the LAG is  automatically enabled to host sub-connections. For a LAG owned by a partner, any associated virtual  interfaces cannot be directly configured.
+    /// Creates a link aggregation group (LAG) with the specified number of bundled physical dedicated connections between the customer network and a specific Direct Connect location. A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple interfaces, enabling you to treat them as a single  interface. All connections in a LAG must use the same bandwidth (either 1Gbps, 10Gbps, 100Gbps, or 400Gbps) and must terminate at the same Direct Connect endpoint. You can have up to 10 dedicated connections per location. Regardless of this limit, if you request more connections for the LAG than Direct Connect can allocate on a single endpoint, no LAG is created.. You can specify an existing physical dedicated connection or interconnect to include in the LAG (which counts towards the total number of connections). Doing so interrupts the current physical dedicated connection, and re-establishes them as a member of the LAG. The LAG will be created on the same Direct Connect endpoint to which the dedicated connection terminates. Any virtual interfaces associated with the dedicated connection are automatically disassociated and re-associated with the LAG. The connection ID does not change. If the Amazon Web Services account used to create a LAG is a registered Direct Connect Partner, the LAG is  automatically enabled to host sub-connections. For a LAG owned by a partner, any associated virtual  interfaces cannot be directly configured.
     @Sendable
     public func createLag(_ input: CreateLagRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Lag {
         return try await self.client.execute(
@@ -377,7 +379,7 @@ public struct DirectConnect: AWSService {
         )
     }
 
-    /// Creates a private virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic. A private virtual interface can be connected to either a Direct Connect gateway or a Virtual Private Gateway (VGW). Connecting the private virtual interface to a Direct Connect gateway enables the possibility for connecting to multiple  VPCs, including VPCs in different Amazon Web Services Regions. Connecting the private virtual interface  to a VGW only provides access to a single VPC within the same Region. Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating  the connection disrupts network connectivity for all virtual interfaces associated with  the connection for up to 30 seconds. To check whether your connection supports jumbo  frames, call DescribeConnections. To check whether your virtual  interface supports jumbo frames, call DescribeVirtualInterfaces.
+    /// Creates a private virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic. A private virtual interface can be connected to either a Direct Connect gateway or a Virtual Private Gateway (VGW). Connecting the private virtual interface to a Direct Connect gateway enables the possibility for connecting to multiple  VPCs, including VPCs in different Amazon Web Services Regions. Connecting the private virtual interface  to a VGW only provides access to a single VPC within the same Region. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating  the connection disrupts network connectivity for all virtual interfaces associated with  the connection for up to 30 seconds. To check whether your connection supports jumbo  frames, call DescribeConnections. To check whether your virtual  interface supports jumbo frames, call DescribeVirtualInterfaces.
     @Sendable
     public func createPrivateVirtualInterface(_ input: CreatePrivateVirtualInterfaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VirtualInterface {
         return try await self.client.execute(
@@ -520,7 +522,7 @@ public struct DirectConnect: AWSService {
         )
     }
 
-    /// Deprecated. Use DescribeLoa instead. Gets the LOA-CFA for a connection. The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that your APN partner or service provider uses when establishing your cross connect to Amazon Web Services at the colocation facility. For more information, see Requesting Cross Connects at Direct Connect Locations in the Direct Connect User Guide.
+    ///  Deprecated. Use DescribeLoa instead.  Gets the LOA-CFA for a connection. The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that your APN partner or service provider uses when establishing your cross connect to Amazon Web Services at the colocation facility. For more information, see Requesting Cross Connects at Direct Connect Locations in the Direct Connect User Guide.
     @Sendable
     public func describeConnectionLoa(_ input: DescribeConnectionLoaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConnectionLoaResponse {
         return try await self.client.execute(
@@ -546,7 +548,7 @@ public struct DirectConnect: AWSService {
         )
     }
 
-    /// Deprecated. Use DescribeHostedConnections instead. Lists the connections that have been provisioned on the specified interconnect.  Intended for use by Direct Connect Partners only.
+    ///  Deprecated. Use DescribeHostedConnections instead.  Lists the connections that have been provisioned on the specified interconnect.  Intended for use by Direct Connect Partners only.
     @Sendable
     public func describeConnectionsOnInterconnect(_ input: DescribeConnectionsOnInterconnectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Connections {
         return try await self.client.execute(
@@ -636,7 +638,7 @@ public struct DirectConnect: AWSService {
         )
     }
 
-    /// Deprecated. Use DescribeLoa instead. Gets the LOA-CFA for the specified interconnect. The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is used when establishing your cross connect to Amazon Web Services at the colocation facility. For more information, see Requesting Cross Connects at Direct Connect Locations in the Direct Connect User Guide.
+    ///  Deprecated. Use DescribeLoa instead.  Gets the LOA-CFA for the specified interconnect. The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is used when establishing your cross connect to Amazon Web Services at the colocation facility. For more information, see Requesting Cross Connects at Direct Connect Locations in the Direct Connect User Guide.
     @Sendable
     public func describeInterconnectLoa(_ input: DescribeInterconnectLoaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInterconnectLoaResponse {
         return try await self.client.execute(
@@ -726,7 +728,7 @@ public struct DirectConnect: AWSService {
         )
     }
 
-    /// Lists the virtual private gateways owned by the Amazon Web Services account. You can create one or more Direct Connect private virtual interfaces linked to a virtual private gateway.
+    ///  Deprecated. Use DescribeVpnGateways instead. See DescribeVPNGateways in the Amazon Elastic Compute Cloud API Reference.  Lists the virtual private gateways owned by the Amazon Web Services account. You can create one or more Direct Connect private virtual interfaces linked to a virtual private gateway.
     @Sendable
     public func describeVirtualGateways(logger: Logger = AWSClient.loggingDisabled) async throws -> VirtualGateways {
         return try await self.client.execute(
@@ -894,7 +896,7 @@ public struct DirectConnect: AWSService {
         )
     }
 
-    /// Updates the specified attributes of the specified virtual private interface. Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating  the connection disrupts network connectivity for all virtual interfaces associated with  the connection for up to 30 seconds. To check whether your connection supports jumbo  frames, call DescribeConnections. To check whether your virtual  interface supports jumbo frames, call DescribeVirtualInterfaces.
+    /// Updates the specified attributes of the specified virtual private interface. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating  the connection disrupts network connectivity for all virtual interfaces associated with  the connection for up to 30 seconds. To check whether your connection supports jumbo  frames, call DescribeConnections. To check whether your virtual  interface supports jumbo frames, call DescribeVirtualInterfaces.
     @Sendable
     public func updateVirtualInterfaceAttributes(_ input: UpdateVirtualInterfaceAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VirtualInterface {
         return try await self.client.execute(

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -67,6 +67,8 @@ extension VPCLattice {
         case http = "HTTP"
         /// Indicates HTTPS protocol
         case https = "HTTPS"
+        /// Indicates TLS_PASSTHROUGH protocol
+        case tlsPassthrough = "TLS_PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
@@ -121,6 +123,8 @@ extension VPCLattice {
         case http = "HTTP"
         /// Indicates HTTPS protocol
         case https = "HTTPS"
+        /// Indicates TCP protocol
+        case tcp = "TCP"
         public var description: String { return self.rawValue }
     }
 
@@ -177,11 +181,11 @@ extension VPCLattice {
     }
 
     public enum HeaderMatchType: AWSEncodableShape & AWSDecodableShape, Sendable {
-        /// Specifies a contains type match.
+        /// A contains type match.
         case contains(String)
-        /// Specifies an exact type match.
+        /// An exact type match.
         case exact(String)
-        /// Specifies a prefix type match. Matches the value with the prefix.
+        /// A prefix type match. Matches the value with the prefix.
         case prefix(String)
 
         public init(from decoder: Decoder) throws {
@@ -294,7 +298,7 @@ extension VPCLattice {
     }
 
     public enum RuleAction: AWSEncodableShape & AWSDecodableShape, Sendable {
-        ///  Describes the rule action that returns a custom HTTP response.
+        /// The fixed response action. The rule returns a custom HTTP response.
         case fixedResponse(FixedResponseAction)
         /// The forward action. Traffic that matches the rule is forwarded to the specified target groups.
         case forward(ForwardAction)
@@ -517,13 +521,13 @@ extension VPCLattice {
     public struct CreateListenerRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
         public let clientToken: String?
-        /// The action for the default rule. Each listener has a default rule. Each rule consists of a priority, one or more actions, and one or more conditions. The default rule is the rule that's used if no other rules match. Each rule must include exactly one of the following types of actions: forward or fixed-response, and it must be the last action to be performed.
+        /// The action for the default rule. Each listener has a default rule. The default rule is used  if no other rules match.
         public let defaultAction: RuleAction
         /// The name of the listener. A listener name must be unique within a service. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
         public let name: String
         /// The listener port. You can specify a value from 1 to 65535. For HTTP, the default is 80. For HTTPS, the default is 443.
         public let port: Int?
-        /// The listener protocol HTTP or HTTPS.
+        /// The listener protocol.
         public let `protocol`: ListenerProtocol
         /// The ID or Amazon Resource Name (ARN) of the service.
         public let serviceIdentifier: String
@@ -702,7 +706,7 @@ extension VPCLattice {
     }
 
     public struct CreateRuleResponse: AWSDecodableShape {
-        /// The rule action. Each rule must include exactly one of the following types of actions: forward or fixed-response, and it must be the last action to be performed.
+        /// The rule action.
         public let action: RuleAction?
         /// The Amazon Resource Name (ARN) of the rule.
         public let arn: String?
@@ -853,7 +857,7 @@ extension VPCLattice {
         public let dnsEntry: DnsEntry?
         /// The ID of the association.
         public let id: String?
-        /// The operation's status.
+        /// The association status.
         public let status: ServiceNetworkServiceAssociationStatus?
 
         public init(arn: String? = nil, createdBy: String? = nil, customDomainName: String? = nil, dnsEntry: DnsEntry? = nil, id: String? = nil, status: ServiceNetworkServiceAssociationStatus? = nil) {
@@ -936,7 +940,7 @@ extension VPCLattice {
         public let id: String?
         /// The IDs of the security groups.
         public let securityGroupIds: [String]?
-        /// The operation's status.
+        /// The association status.
         public let status: ServiceNetworkVpcAssociationStatus?
 
         public init(arn: String? = nil, createdBy: String? = nil, id: String? = nil, securityGroupIds: [String]? = nil, status: ServiceNetworkVpcAssociationStatus? = nil) {
@@ -1023,7 +1027,7 @@ extension VPCLattice {
         public let id: String?
         /// The name of the service.
         public let name: String?
-        /// The status. If the status is CREATE_FAILED, you will have to delete and recreate the service.
+        /// The status. If the status is CREATE_FAILED, you must delete and recreate the service.
         public let status: ServiceStatus?
 
         public init(arn: String? = nil, authType: AuthType? = nil, certificateArn: String? = nil, customDomainName: String? = nil, dnsEntry: DnsEntry? = nil, id: String? = nil, name: String? = nil, status: ServiceStatus? = nil) {
@@ -1052,7 +1056,7 @@ extension VPCLattice {
     public struct CreateTargetGroupRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
         public let clientToken: String?
-        /// The target group configuration. If type is set to LAMBDA, this parameter doesn't apply.
+        /// The target group configuration.
         public let config: TargetGroupConfig?
         /// The name of the target group. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a  hyphen as the first or last character, or immediately after another hyphen.
         public let name: String
@@ -1097,13 +1101,13 @@ extension VPCLattice {
     public struct CreateTargetGroupResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the target group.
         public let arn: String?
-        /// The target group configuration. If type is set to LAMBDA, this parameter doesn't apply.
+        /// The target group configuration.
         public let config: TargetGroupConfig?
         /// The ID of the target group.
         public let id: String?
         /// The name of the target group.
         public let name: String?
-        /// The operation's status. You can retry the operation if the status is CREATE_FAILED. However, if you retry it while the status is CREATE_IN_PROGRESS, there is no change in the status.
+        /// The status. You can retry the operation if the status is CREATE_FAILED.  However, if you retry it while the status is CREATE_IN_PROGRESS, there is  no change in the status.
         public let status: TargetGroupStatus?
         /// The type of target group.
         public let type: TargetGroupType?
@@ -1338,7 +1342,7 @@ extension VPCLattice {
         public let arn: String?
         /// The ID of the association.
         public let id: String?
-        /// The operation's status. You can retry the operation if the status is DELETE_FAILED. However, if you retry it when the status is DELETE_IN_PROGRESS, there is no change in the status.
+        /// The status. You can retry the operation if the status is DELETE_FAILED.  However, if you retry it when the status is DELETE_IN_PROGRESS, there is no  change in the status.
         public let status: ServiceNetworkServiceAssociationStatus?
 
         public init(arn: String? = nil, id: String? = nil, status: ServiceNetworkServiceAssociationStatus? = nil) {
@@ -1382,7 +1386,7 @@ extension VPCLattice {
         public let arn: String?
         /// The ID of the association.
         public let id: String?
-        /// The status. You can retry the operation if the status is DELETE_FAILED. However, if you retry it when the status is DELETE_IN_PROGRESS, there is no change in the status.
+        /// The status. You can retry the operation if the status is DELETE_FAILED. However, if you retry it while the status is DELETE_IN_PROGRESS, there is no change in the status.
         public let status: ServiceNetworkVpcAssociationStatus?
 
         public init(arn: String? = nil, id: String? = nil, status: ServiceNetworkVpcAssociationStatus? = nil) {
@@ -1575,7 +1579,7 @@ extension VPCLattice {
     }
 
     public struct ForwardAction: AWSEncodableShape & AWSDecodableShape {
-        /// The target groups. Traffic matching the rule is forwarded to the specified target groups. With forward actions, you can assign a weight that controls the prioritization and selection of each target group. This means that requests are distributed to individual target groups based on their weights. For example, if two target groups have the same weight, each target group receives half of the traffic. The default value is 1. This means that if only one target group is provided, there is no need to set the weight; 100% of traffic will go to that target group.
+        /// The target groups. Traffic matching the rule is forwarded to the specified target groups. With forward actions, you can assign a weight that controls the prioritization and selection of each target group. This means that requests are distributed to individual target groups based on their weights. For example, if two target groups have the same weight, each target group receives half of the traffic. The default value is 1. This means that if only one target group is provided, there is no need to set the weight; 100% of the traffic goes to that target group.
         public let targetGroups: [WeightedTargetGroup]
 
         public init(targetGroups: [WeightedTargetGroup]) {
@@ -1586,7 +1590,7 @@ extension VPCLattice {
             try self.targetGroups.forEach {
                 try $0.validate(name: "\(name).targetGroups[]")
             }
-            try self.validate(self.targetGroups, name: "targetGroups", parent: name, max: 2)
+            try self.validate(self.targetGroups, name: "targetGroups", parent: name, max: 10)
             try self.validate(self.targetGroups, name: "targetGroups", parent: name, min: 1)
         }
 
@@ -1689,7 +1693,7 @@ extension VPCLattice {
         public var lastUpdatedAt: Date?
         /// The auth policy.
         public let policy: String?
-        /// The state of the auth policy. The auth policy is only active when the auth type is set to Amazon Web Services_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the auth type is NONE, then any auth policy you provide will remain inactive. For more information, see Create a service network in the Amazon VPC Lattice User Guide.
+        /// The state of the auth policy. The auth policy is only active when the auth type is set to AWS_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the auth type is NONE, then any auth policy that you provide remains inactive. For more information, see Create a service network in the Amazon VPC Lattice User Guide.
         public let state: AuthPolicyState?
 
         public init(createdAt: Date? = nil, lastUpdatedAt: Date? = nil, policy: String? = nil, state: AuthPolicyState? = nil) {
@@ -1789,7 +1793,7 @@ extension VPCLattice {
     }
 
     public struct GetResourcePolicyRequest: AWSEncodableShape {
-        /// An IAM policy.
+        /// The Amazon Resource Name (ARN) of the service network or service.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -1812,7 +1816,7 @@ extension VPCLattice {
     }
 
     public struct GetResourcePolicyResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the service network or service.
+        /// An IAM policy.
         public let policy: String?
 
         public init(policy: String? = nil) {
@@ -2314,7 +2318,7 @@ extension VPCLattice {
     }
 
     public struct HeaderMatch: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether the match is case sensitive. Defaults to false.
+        /// Indicates whether the match is case sensitive.
         public let caseSensitive: Bool?
         /// The header match type.
         public let match: HeaderMatchType
@@ -2349,7 +2353,7 @@ extension VPCLattice {
         public let healthCheckTimeoutSeconds: Int?
         /// The number of consecutive successful health checks required before considering an unhealthy target healthy. The range is 2–10. The default is 5.
         public let healthyThresholdCount: Int?
-        /// The codes to use when checking for a successful response from a target. These are called Success codes in the console.
+        /// The codes to use when checking for a successful response from a target.
         public let matcher: Matcher?
         /// The destination for health checks on the targets. If the protocol version is HTTP/1.1 or HTTP/2, specify a valid URI (for example, /path?query). The default path is /. Health checks are not supported if the protocol version is gRPC, however, you can choose HTTP/1.1 or HTTP/2 and specify a valid URI.
         public let path: String?
@@ -2472,7 +2476,7 @@ extension VPCLattice {
     }
 
     public struct ListAccessLogSubscriptionsResponse: AWSDecodableShape {
-        /// The access log subscriptions.
+        /// Information about the access log subscriptions.
         public let items: [AccessLogSubscriptionSummary]
         /// A pagination token for the next page of results.
         public let nextToken: String?
@@ -2791,7 +2795,7 @@ extension VPCLattice {
     }
 
     public struct ListServicesResponse: AWSDecodableShape {
-        /// The services.
+        /// Information about the services.
         public let items: [ServiceSummary]?
         /// If there are additional results, a pagination token for the next page of results.
         public let nextToken: String?
@@ -2830,7 +2834,7 @@ extension VPCLattice {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// The tags.
+        /// Information about the tags.
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -2849,7 +2853,7 @@ extension VPCLattice {
         public let nextToken: String?
         /// The target group type.
         public let targetGroupType: TargetGroupType?
-        /// The ID or Amazon Resource Name (ARN) of the service.
+        /// The ID or Amazon Resource Name (ARN) of the VPC.
         public let vpcIdentifier: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, targetGroupType: TargetGroupType? = nil, vpcIdentifier: String? = nil) {
@@ -2905,7 +2909,7 @@ extension VPCLattice {
         public let nextToken: String?
         /// The ID or Amazon Resource Name (ARN) of the target group.
         public let targetGroupIdentifier: String
-        /// The targets to list.
+        /// The targets.
         public let targets: [Target]?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, targetGroupIdentifier: String, targets: [Target]? = nil) {
@@ -2999,7 +3003,7 @@ extension VPCLattice {
     }
 
     public struct PathMatch: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether the match is case sensitive. Defaults to false.
+        /// Indicates whether the match is case sensitive.
         public let caseSensitive: Bool?
         /// The type of path match.
         public let match: PathMatchType
@@ -3020,7 +3024,7 @@ extension VPCLattice {
     }
 
     public struct PutAuthPolicyRequest: AWSEncodableShape {
-        /// The auth policy.
+        /// The auth policy. The policy string in JSON must not contain newlines or blank lines.
         public let policy: String
         /// The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
         public let resourceIdentifier: String
@@ -3050,9 +3054,9 @@ extension VPCLattice {
     }
 
     public struct PutAuthPolicyResponse: AWSDecodableShape {
-        /// The auth policy.
+        /// The auth policy. The policy string in JSON must not contain newlines or blank lines.
         public let policy: String?
-        /// The state of the auth policy. The auth policy is only active when the auth type is set to Amazon Web Services_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the Auth type is NONE, then, any auth policy you provide will remain inactive. For more information, see Create a service network in the Amazon VPC Lattice User Guide.
+        /// The state of the auth policy. The auth policy is only active when the auth type is set to AWS_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the Auth type is NONE, then, any auth policy that you provide remains inactive. For more information, see Create a service network in the Amazon VPC Lattice User Guide.
         public let state: AuthPolicyState?
 
         public init(policy: String? = nil, state: AuthPolicyState? = nil) {
@@ -3067,7 +3071,7 @@ extension VPCLattice {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-        /// An IAM policy.
+        /// An IAM policy. The policy string in JSON must not contain newlines or blank lines.
         public let policy: String
         /// The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
         public let resourceArn: String
@@ -3159,14 +3163,14 @@ extension VPCLattice {
         public var createdAt: Date?
         /// The ID of the rule.
         public let id: String?
-        /// Indicates whether this is the default rule. Listener rules are created when you create a listener. Each listener has a default rule for checking connection requests.
+        /// Indicates whether this is the default listener rule.
         public let isDefault: Bool?
         /// The date and time that the listener rule was last updated, specified in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
         /// The name of the rule.
         public let name: String?
-        ///  The priority of the rule.
+        /// The priority of the rule.
         public let priority: Int?
 
         public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, isDefault: Bool? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, priority: Int? = nil) {
@@ -3247,7 +3251,7 @@ extension VPCLattice {
     }
 
     public struct RuleUpdateSuccess: AWSDecodableShape {
-        /// The action for the default rule.
+        /// The action for the rule.
         public let action: RuleAction?
         /// The Amazon Resource Name (ARN) of the listener.
         public let arn: String?
@@ -3291,9 +3295,9 @@ extension VPCLattice {
         public var createdAt: Date?
         /// The account that created the association.
         public let createdBy: String?
-        ///  The custom domain name of the service.
+        /// The custom domain name of the service.
         public let customDomainName: String?
-        /// DNS information about the service.
+        /// The DNS information.
         public let dnsEntry: DnsEntry?
         /// The ID of the association.
         public let id: String?
@@ -3441,9 +3445,9 @@ extension VPCLattice {
         /// The date and time that the service was created, specified in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
-        ///  The custom domain name of the service.
+        /// The custom domain name of the service.
         public let customDomainName: String?
-        /// DNS information about the service.
+        /// The DNS information.
         public let dnsEntry: DnsEntry?
         /// The ID of the service.
         public let id: String?
@@ -3517,7 +3521,7 @@ extension VPCLattice {
     }
 
     public struct Target: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the target. If the target type of the target group is INSTANCE, this is an instance ID. If the target type is IP , this is an IP address. If the target type is LAMBDA, this is the ARN of the Lambda function. If the target type is ALB, this is the ARN of the Application Load Balancer.
+        /// The ID of the target. If the target group type is INSTANCE, this is an instance ID. If the target group type is IP, this is an IP address. If the target group type is LAMBDA, this is the ARN of a Lambda function. If the target group type  is ALB, this is the ARN of an Application Load Balancer.
         public let id: String
         /// The port on which the target is listening. For HTTP, the default is 80. For HTTPS, the default is 443.
         public let port: Int?
@@ -3543,7 +3547,7 @@ extension VPCLattice {
         public let failureCode: String?
         /// The failure message.
         public let failureMessage: String?
-        /// The ID of the target. If the target type of the target group is INSTANCE, this is an instance ID. If the target type is IP , this is an IP address. If the target type is LAMBDA, this is the ARN of the Lambda function. If the target type is ALB, this is the ARN of the Application Load Balancer.
+        /// The ID of the target. If the target group type is INSTANCE, this is an instance ID. If the target group type is IP, this is an IP address. If the target group type is LAMBDA, this is the ARN of a Lambda function. If the target group type is ALB, this is the ARN of an Application Load Balancer.
         public let id: String?
         /// The port on which the target is listening. This parameter doesn't apply if the target is a Lambda function.
         public let port: Int?
@@ -3564,19 +3568,19 @@ extension VPCLattice {
     }
 
     public struct TargetGroupConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The health check configuration.
+        /// The health check configuration. Not supported if the target group type is LAMBDA or ALB.
         public let healthCheck: HealthCheckConfig?
-        /// The type of IP address used for the target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
+        /// The type of IP address used for the target group. Supported only if the target group type is IP. The default is IPV4.
         public let ipAddressType: IpAddressType?
-        /// Lambda event structure version
+        /// The version of the event structure that your Lambda function receives.  Supported only if the target group type is LAMBDA. The default is V1.
         public let lambdaEventStructureVersion: LambdaEventStructureVersion?
-        /// The port on which the targets are listening. For HTTP, the default is 80. For HTTPS, the default is 443
+        /// The port on which the targets are listening. For HTTP, the default is 80. For HTTPS, the default is 443. Not supported if the target group type is LAMBDA.
         public let port: Int?
-        /// The protocol to use for routing traffic to the targets. Default is the protocol of a target group.
+        /// The protocol to use for routing traffic to the targets. The default is the protocol of the target group. Not supported if the target group type is LAMBDA.
         public let `protocol`: TargetGroupProtocol?
-        /// The protocol version. Default value is HTTP1.
+        /// The protocol version. The default is HTTP1. Not supported if the target group type is LAMBDA.
         public let protocolVersion: TargetGroupProtocolVersion?
-        /// The ID of the VPC.
+        /// The ID of the VPC. Not supported if the target group type is LAMBDA.
         public let vpcIdentifier: String?
 
         public init(healthCheck: HealthCheckConfig? = nil, ipAddressType: IpAddressType? = nil, lambdaEventStructureVersion: LambdaEventStructureVersion? = nil, port: Int? = nil, protocol: TargetGroupProtocol? = nil, protocolVersion: TargetGroupProtocolVersion? = nil, vpcIdentifier: String? = nil) {
@@ -3617,9 +3621,9 @@ extension VPCLattice {
         public var createdAt: Date?
         /// The ID of the target group.
         public let id: String?
-        /// The type of IP address used for the target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
+        /// The type of IP address used for the target group. The possible values are IPV4 and IPV6. This is an optional parameter. If not specified, the default is IPV4.
         public let ipAddressType: IpAddressType?
-        /// Lambda event structure version
+        /// The version of the event structure that your Lambda function receives. Supported only if the target group type is LAMBDA.
         public let lambdaEventStructureVersion: LambdaEventStructureVersion?
         /// The date and time that the target group was last updated, specified in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -3630,7 +3634,7 @@ extension VPCLattice {
         public let port: Int?
         /// The protocol of the target group.
         public let `protocol`: TargetGroupProtocol?
-        /// The list of Amazon Resource Names (ARNs) of the service.
+        /// The Amazon Resource Names (ARNs) of the service.
         public let serviceArns: [String]?
         /// The status.
         public let status: TargetGroupStatus?
@@ -3673,13 +3677,13 @@ extension VPCLattice {
     }
 
     public struct TargetSummary: AWSDecodableShape {
-        /// The ID of the target. If the target type of the target group is INSTANCE, this is an instance ID. If the target type is IP , this is an IP address. If the target type is LAMBDA, this is the ARN of the Lambda function. If the target type is ALB, this is the ARN of the Application Load Balancer.
+        /// The ID of the target. If the target group type is INSTANCE, this is an instance ID. If the target group type is IP, this is an IP address. If the target group type is LAMBDA, this is the ARN of a Lambda function. If the target type is ALB, this is the ARN of an Application Load Balancer.
         public let id: String?
         /// The port on which the target is listening.
         public let port: Int?
         /// The code for why the target status is what it is.
         public let reasonCode: String?
-        /// The status of the target.    Draining: The target is being deregistered. No new connections will be sent to this target while current connections are being drained. Default draining time is 5 minutes.    Unavailable: Health checks are unavailable for the target group.    Healthy: The target is healthy.     Unhealthy: The target is unhealthy.    Initial: Initial health checks on the target are being performed.    Unused: Target group is not used in a service.
+        /// The status of the target.    DRAINING: The target is being deregistered. No new connections are sent to this target while current connections are being drained. The default draining time is 5 minutes.    UNAVAILABLE: Health checks are unavailable for the target group.    HEALTHY: The target is healthy.    UNHEALTHY: The target is unhealthy.    INITIAL: Initial health checks on the target are being performed.    UNUSED: Target group is not used in a service.
         public let status: TargetStatus?
 
         public init(id: String? = nil, port: Int? = nil, reasonCode: String? = nil, status: TargetStatus? = nil) {
@@ -4020,7 +4024,7 @@ extension VPCLattice {
     }
 
     public struct UpdateServiceNetworkVpcAssociationRequest: AWSEncodableShape {
-        /// The IDs of the security groups. Once you add a security group, it cannot be removed.
+        /// The IDs of the security groups.
         public let securityGroupIds: [String]
         /// The ID or Amazon Resource Name (ARN) of the association.
         public let serviceNetworkVpcAssociationIdentifier: String
@@ -4217,7 +4221,7 @@ extension VPCLattice {
     public struct WeightedTargetGroup: AWSEncodableShape & AWSDecodableShape {
         /// The ID or Amazon Resource Name (ARN) of the target group.
         public let targetGroupIdentifier: String
-        /// Only required if you specify multiple target groups for a forward action. The "weight" determines how requests are distributed to the target group. For example, if you specify two target groups, each with a weight of 10, each target group receives half the requests. If you specify two target groups, one with a weight of 10 and the other with a weight of 20, the target group with a weight of 20 receives twice as many requests as the other target group. If there's only one target group specified, then the default value is 100.
+        /// Only required if you specify multiple target groups for a forward action. The weight determines how requests are distributed to the target group. For example, if you specify two target groups, each with a weight of 10, each target group receives half the requests. If you specify two target groups, one with a weight of 10 and the other with a weight of 20, the target group with a weight of 20 receives twice as many requests as the other target group. If there's only one target group specified, then the default value is 100.
         public let weight: Int?
 
         public init(targetGroupIdentifier: String, weight: Int? = nil) {

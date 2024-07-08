@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -101,10 +101,12 @@ extension ACMPCA {
         case ecSecp384R1 = "EC_secp384r1"
         case rsa2048 = "RSA_2048"
         case rsa4096 = "RSA_4096"
+        case sm2 = "SM2"
         public var description: String { return self.rawValue }
     }
 
     public enum KeyStorageSecurityStandard: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ccpcLevel1OrHigher = "CCPC_LEVEL_1_OR_HIGHER"
         case fips1402Level2OrHigher = "FIPS_140_2_LEVEL_2_OR_HIGHER"
         case fips1402Level3OrHigher = "FIPS_140_2_LEVEL_3_OR_HIGHER"
         public var description: String { return self.rawValue }
@@ -146,6 +148,7 @@ extension ACMPCA {
         case sha384withrsa = "SHA384WITHRSA"
         case sha512withecdsa = "SHA512WITHECDSA"
         case sha512withrsa = "SHA512WITHRSA"
+        case sm3withsm2 = "SM3WITHSM2"
         public var description: String { return self.rawValue }
     }
 

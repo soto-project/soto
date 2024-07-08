@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -371,6 +371,7 @@ extension Lightsail {
     public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dualstack = "dualstack"
         case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
@@ -551,6 +552,7 @@ extension Lightsail {
     public enum NetworkProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "all"
         case icmp = "icmp"
+        case icmpv6 = "icmpv6"
         case tcp = "tcp"
         case udp = "udp"
         public var description: String { return self.rawValue }
@@ -1360,7 +1362,7 @@ extension Lightsail {
     public struct Blueprint: AWSDecodableShape {
         /// Virtual computer blueprints that are supported by Lightsail for Research.  This parameter only applies to Lightsail for Research resources.
         public let appCategory: AppCategory?
-        /// The ID for the virtual private server image (app_wordpress_4_4 or app_lamp_7_0).
+        /// The ID for the virtual private server image (app_wordpress_x_x or app_lamp_x_x).
         public let blueprintId: String?
         /// The description of the blueprint.
         public let description: String?
@@ -1572,13 +1574,13 @@ extension Lightsail {
     }
 
     public struct Bundle: AWSDecodableShape {
-        /// The bundle ID (micro_1_0).
+        /// The bundle ID (micro_x_x).
         public let bundleId: String?
         /// The number of vCPUs included in the bundle (2).
         public let cpuCount: Int?
         /// The size of the SSD (30).
         public let diskSizeInGb: Int?
-        /// The Amazon EC2 instance type (t2.micro).
+        /// The instance type (micro).
         public let instanceType: String?
         /// A Boolean value indicating whether the bundle is active.
         public let isActive: Bool?
@@ -3143,13 +3145,13 @@ extension Lightsail {
         public let attachedDiskMapping: [String: [DiskMap]]?
         /// The Availability Zone where you want to create your instances. Use the following formatting: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.
         public let availabilityZone: String
-        /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (micro_1_0).
+        /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (micro_x_x).
         public let bundleId: String
         /// The names for your new instances.
         public let instanceNames: [String]
         /// The name of the instance snapshot on which you are basing your new instances. Use the get instance snapshots operation to return information about your existing snapshots. Constraint:   This parameter cannot be defined together with the source instance name parameter. The instance snapshot name and source instance name parameters are mutually exclusive.
         public let instanceSnapshotName: String?
-        /// The IP address type for the instance. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
+        /// The IP address type for the instance. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
         public let ipAddressType: IpAddressType?
         /// The name for your key pair.
         public let keyPairName: String?
@@ -3227,15 +3229,15 @@ extension Lightsail {
         public let addOns: [AddOnRequest]?
         /// The Availability Zone in which to create your instance. Use the following format: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.
         public let availabilityZone: String
-        /// The ID for a virtual private server image (app_wordpress_4_4 or app_lamp_7_0). Use the get blueprints operation to return a list of available images (or blueprints).  Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing instances and are not necessarily available to create new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases.
+        /// The ID for a virtual private server image (app_wordpress_x_x or app_lamp_x_x). Use the get blueprints operation to return a list of available images (or blueprints).  Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing instances and are not necessarily available to create new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases.
         public let blueprintId: String
-        /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (micro_1_0).
+        /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (medium_x_x).
         public let bundleId: String
         /// (Discontinued) The name for your custom image.  In releases prior to June 12, 2017, this parameter was ignored by the API. It is now discontinued.
         public let customImageName: String?
         /// The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstInstance","MySecondInstance"]
         public let instanceNames: [String]
-        /// The IP address type for the instance. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
+        /// The IP address type for the instance. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
         public let ipAddressType: IpAddressType?
         /// The name of your key pair.
         public let keyPairName: String?
@@ -3365,7 +3367,7 @@ extension Lightsail {
         public let healthCheckPath: String?
         /// The instance port where you're creating your load balancer.
         public let instancePort: Int
-        /// The IP address type for the load balancer. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
+        /// The IP address type for the load balancer. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
         public let ipAddressType: IpAddressType?
         /// The name of your load balancer.
         public let loadBalancerName: String
@@ -7529,17 +7531,17 @@ extension Lightsail {
         public let addOns: [AddOn]?
         /// The Amazon Resource Name (ARN) of the instance (arn:aws:lightsail:us-east-2:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE).
         public let arn: String?
-        /// The blueprint ID (os_amlinux_2016_03).
+        /// The blueprint ID (amazon_linux_2023).
         public let blueprintId: String?
-        /// The friendly name of the blueprint (Amazon Linux).
+        /// The friendly name of the blueprint (Amazon Linux 2023).
         public let blueprintName: String?
-        /// The bundle for the instance (micro_1_0).
+        /// The bundle for the instance (micro_x_x).
         public let bundleId: String?
         /// The timestamp when the instance was created (1479734909.17) in Unix time format.
         public let createdAt: Date?
         /// The size of the vCPU and the amount of RAM for the instance.
         public let hardware: InstanceHardware?
-        /// The IP address type of the instance. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
+        /// The IP address type of the instance. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6.
         public let ipAddressType: IpAddressType?
         /// The IPv6 addresses of the instance.
         public let ipv6Addresses: [String]?
@@ -7549,7 +7551,7 @@ extension Lightsail {
         public let location: ResourceLocation?
         /// The metadata options for the Amazon Lightsail instance.
         public let metadataOptions: InstanceMetadataOptions?
-        /// The name the user gave the instance (Amazon_Linux-1GB-Ohio-1).
+        /// The name the user gave the instance (Amazon_Linux_2023-1).
         public let name: String?
         /// Information about the public ports and monthly data transfer rates for the instance.
         public let networking: InstanceNetworking?
@@ -7813,7 +7815,7 @@ extension Lightsail {
         public let fromPort: Int?
         /// The IPv6 address, or range of IPv6 addresses (in CIDR notation) that are allowed to connect to an instance through the ports, and the protocol. Only devices with an IPv6 address can connect to an instance through IPv6; otherwise, IPv4 should be used.  The cidrs parameter lists the IPv4 addresses that are allowed to connect to an instance.  For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
         public let ipv6Cidrs: [String]?
-        /// The IP protocol name. The name can be one of the following:    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.    icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached. When you specify icmp as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.
+        /// The IP protocol name. The name can be one of the following:    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.    icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached. When you specify icmp as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.    icmp6 - Internet Control Message Protocol (ICMP) for IPv6. When you specify icmp6 as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.
         public let `protocol`: NetworkProtocol?
         /// The last port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - The ICMP code for IPv4 addresses. For example, specify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia.   ICMPv6 - The ICMP code for IPv6 addresses. For example, specify 128 as the fromPort (ICMPv6 type), and 0 as toPort (ICMPv6 code). For more information, see Internet Control Message Protocol for IPv6.
         public let toPort: Int?
@@ -7854,7 +7856,7 @@ extension Lightsail {
         public let fromPort: Int?
         /// The IPv6 address, or range of IPv6 addresses (in CIDR notation) that are allowed to connect to an instance through the ports, and the protocol. Only devices with an IPv6 address can connect to an instance through IPv6; otherwise, IPv4 should be used.  The cidrs parameter lists the IPv4 addresses that are allowed to connect to an instance.  For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
         public let ipv6Cidrs: [String]?
-        /// The IP protocol name. The name can be one of the following:    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.    icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached. When you specify icmp as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.
+        /// The IP protocol name. The name can be one of the following:    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.    icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached. When you specify icmp as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.    icmp6 - Internet Control Message Protocol (ICMP) for IPv6. When you specify icmp6 as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.
         public let `protocol`: NetworkProtocol?
         /// Specifies whether the instance port is open or closed.  The port state for Lightsail instances is always open.
         public let state: PortState?
@@ -7889,9 +7891,9 @@ extension Lightsail {
         public let createdAt: Date?
         /// An array of disk objects containing information about all block storage disks.
         public let fromAttachedDisks: [Disk]?
-        /// The blueprint ID from which you created the snapshot (os_debian_8_3). A blueprint is a virtual private server (or instance) image used to create instances quickly.
+        /// The blueprint ID from which you created the snapshot (amazon_linux_2023). A blueprint is a virtual private server (or instance) image used to create instances quickly.
         public let fromBlueprintId: String?
-        /// The bundle ID from which you created the snapshot (micro_1_0).
+        /// The bundle ID from which you created the snapshot (micro_x_x).
         public let fromBundleId: String?
         /// The Amazon Resource Name (ARN) of the instance from which the snapshot was created (arn:aws:lightsail:us-east-2:123456789101:Instance/64b8404c-ccb1-430b-8daf-12345EXAMPLE).
         public let fromInstanceArn: String?
@@ -7956,9 +7958,9 @@ extension Lightsail {
     }
 
     public struct InstanceSnapshotInfo: AWSDecodableShape {
-        /// The blueprint ID from which the source instance (os_debian_8_3).
+        /// The blueprint ID from which the source instance (amazon_linux_2023).
         public let fromBlueprintId: String?
-        /// The bundle ID from which the source instance was created (micro_1_0).
+        /// The bundle ID from which the source instance was created (micro_x_x).
         public let fromBundleId: String?
         /// A list of objects describing the disks that were attached to the source instance.
         public let fromDiskInfo: [DiskInfo]?
@@ -8161,7 +8163,7 @@ extension Lightsail {
         public let instanceHealthSummary: [InstanceHealthSummary]?
         /// The port where the load balancer will direct traffic to your Lightsail instances. For HTTP traffic, it's port 80. For HTTPS traffic, it's port 443.
         public let instancePort: Int?
-        /// The IP address type of the load balancer. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
+        /// The IP address type of the load balancer. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6.
         public let ipAddressType: IpAddressType?
         /// The AWS Region where your load balancer was created (us-east-2a). Lightsail automatically creates your load balancer across Availability Zones.
         public let location: ResourceLocation?
@@ -8779,7 +8781,7 @@ extension Lightsail {
         public let fromPort: Int?
         /// The IPv6 address, or range of IPv6 addresses (in CIDR notation) that are allowed to connect to an instance through the ports, and the protocol. Only devices with an IPv6 address can connect to an instance through IPv6; otherwise, IPv4 should be used.  The cidrs parameter lists the IPv4 addresses that are allowed to connect to an instance.  For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
         public let ipv6Cidrs: [String]?
-        /// The IP protocol name. The name can be one of the following:    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.    icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached. When you specify icmp as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.
+        /// The IP protocol name. The name can be one of the following:    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.    icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached. When you specify icmp as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.    icmp6 - Internet Control Message Protocol (ICMP) for IPv6. When you specify icmp6 as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.
         public let `protocol`: NetworkProtocol?
         /// The last port in a range of open ports on an instance. Allowed ports:   TCP and UDP - 0 to 65535    ICMP - The ICMP code for IPv4 addresses. For example, specify 8 as the fromPort (ICMP type), and -1 as the toPort (ICMP code), to enable ICMP Ping. For more information, see Control Messages on Wikipedia.   ICMPv6 - The ICMP code for IPv6 addresses. For example, specify 128 as the fromPort (ICMPv6 type), and 0 as toPort (ICMPv6 code). For more information, see Internet Control Message Protocol for IPv6.
         public let toPort: Int?
@@ -9727,14 +9729,17 @@ extension Lightsail {
     }
 
     public struct SetIpAddressTypeRequest: AWSEncodableShape {
-        /// The IP address type to set for the specified resource. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
+        /// Required parameter to accept the instance bundle update when changing to, and from, IPv6-only.  An instance bundle will change when switching from dual-stack or ipv4, to ipv6. It also changes when switching from ipv6, to dual-stack or ipv4. You must include this parameter in the command to update the bundle. For example, if you switch from dual-stack to ipv6, the bundle will be updated, and billing for the IPv6-only instance bundle begins immediately.
+        public let acceptBundleUpdate: Bool?
+        /// The IP address type to set for the specified resource. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6.
         public let ipAddressType: IpAddressType
         /// The name of the resource for which to set the IP address type.
         public let resourceName: String
         /// The resource type. The resource values are Distribution, Instance, and LoadBalancer.  Distribution-related APIs are available only in the N. Virginia (us-east-1) Amazon Web Services Region. Set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit distributions.
         public let resourceType: ResourceType
 
-        public init(ipAddressType: IpAddressType, resourceName: String, resourceType: ResourceType) {
+        public init(acceptBundleUpdate: Bool? = nil, ipAddressType: IpAddressType, resourceName: String, resourceType: ResourceType) {
+            self.acceptBundleUpdate = acceptBundleUpdate
             self.ipAddressType = ipAddressType
             self.resourceName = resourceName
             self.resourceType = resourceType
@@ -9745,6 +9750,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acceptBundleUpdate = "acceptBundleUpdate"
             case ipAddressType = "ipAddressType"
             case resourceName = "resourceName"
             case resourceType = "resourceType"

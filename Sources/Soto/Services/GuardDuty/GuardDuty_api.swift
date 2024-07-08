@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -164,6 +164,19 @@ public struct GuardDuty: AWSService {
         )
     }
 
+    /// Creates a new Malware Protection plan for the protected resource. When you create a Malware Protection plan, the Amazon Web Services service terms for GuardDuty Malware Protection apply. For more information, see Amazon Web Services service terms for GuardDuty Malware Protection.
+    @Sendable
+    public func createMalwareProtectionPlan(_ input: CreateMalwareProtectionPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMalwareProtectionPlanResponse {
+        return try await self.client.execute(
+            operation: "CreateMalwareProtectionPlan", 
+            path: "/malware-protection-plan", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. As a delegated administrator, using CreateMembers will enable GuardDuty in  the added member accounts, with the exception of the organization delegated administrator account. A delegated administrator must enable GuardDuty  prior to being added as a member. When you use CreateMembers as an Organizations delegated  administrator, GuardDuty applies your organization's auto-enable settings to the member accounts in this request, irrespective of the accounts being new or existing members. For  more information about the existing auto-enable settings for your organization, see DescribeOrganizationConfiguration. If you disassociate a member account that was added by invitation, the member account details  obtained from this API, including the associated email addresses, will be retained.  This is done so that the delegated administrator can invoke the InviteMembers API without the need to invoke the CreateMembers API again. To  remove the details associated with a member account, the delegated administrator must invoke the  DeleteMembers API.  When the member accounts added through Organizations are later disassociated, you (administrator) can't invite them by calling the InviteMembers API. You can create an association with these member accounts again only by calling the CreateMembers API.
     @Sendable
     public func createMembers(_ input: CreateMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMembersResponse {
@@ -275,6 +288,19 @@ public struct GuardDuty: AWSService {
             operation: "DeleteInvitations", 
             path: "/invitation/delete", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the Malware Protection plan ID associated with the Malware Protection plan resource. Use this API only when you no longer want to protect the resource associated with this Malware Protection plan ID.
+    @Sendable
+    public func deleteMalwareProtectionPlan(_ input: DeleteMalwareProtectionPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteMalwareProtectionPlan", 
+            path: "/malware-protection-plan/{MalwareProtectionPlanId}", 
+            httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -529,6 +555,19 @@ public struct GuardDuty: AWSService {
         )
     }
 
+    /// Retrieves the Malware Protection plan details associated with a Malware Protection plan ID.
+    @Sendable
+    public func getMalwareProtectionPlan(_ input: GetMalwareProtectionPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMalwareProtectionPlanResponse {
+        return try await self.client.execute(
+            operation: "GetMalwareProtectionPlan", 
+            path: "/malware-protection-plan/{MalwareProtectionPlanId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns the details of the malware scan settings. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     @Sendable
     public func getMalwareScanSettings(_ input: GetMalwareScanSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMalwareScanSettingsResponse {
@@ -717,6 +756,19 @@ public struct GuardDuty: AWSService {
         return try await self.client.execute(
             operation: "ListInvitations", 
             path: "/invitation", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the Malware Protection plan IDs associated with the protected resources in your Amazon Web Services account.
+    @Sendable
+    public func listMalwareProtectionPlans(_ input: ListMalwareProtectionPlansRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMalwareProtectionPlansResponse {
+        return try await self.client.execute(
+            operation: "ListMalwareProtectionPlans", 
+            path: "/malware-protection-plan", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -913,6 +965,19 @@ public struct GuardDuty: AWSService {
             operation: "UpdateIPSet", 
             path: "/detector/{DetectorId}/ipset/{IpSetId}", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates an existing Malware Protection plan resource.
+    @Sendable
+    public func updateMalwareProtectionPlan(_ input: UpdateMalwareProtectionPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "UpdateMalwareProtectionPlan", 
+            path: "/malware-protection-plan/{MalwareProtectionPlanId}", 
+            httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1068,6 +1068,19 @@ public struct QuickSight: AWSService {
         return try await self.client.execute(
             operation: "DescribeIpRestriction", 
             path: "/accounts/{AwsAccountId}/ip-restriction", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describes all customer managed key registrations in a Amazon QuickSight account.
+    @Sendable
+    public func describeKeyRegistration(_ input: DescribeKeyRegistrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeKeyRegistrationResponse {
+        return try await self.client.execute(
+            operation: "DescribeKeyRegistration", 
+            path: "/accounts/{AwsAccountId}/key-registration", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -2156,6 +2169,19 @@ public struct QuickSight: AWSService {
         return try await self.client.execute(
             operation: "UpdateIpRestriction", 
             path: "/accounts/{AwsAccountId}/ip-restriction", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates a customer managed key in a Amazon QuickSight account.
+    @Sendable
+    public func updateKeyRegistration(_ input: UpdateKeyRegistrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKeyRegistrationResponse {
+        return try await self.client.execute(
+            operation: "UpdateKeyRegistration", 
+            path: "/accounts/{AwsAccountId}/key-registration", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -19,11 +19,9 @@
 
 /// Service object for interacting with AWS IVSRealTime service.
 ///
-///  Introduction  The Amazon Interactive Video Service (IVS) real-time API is REST compatible, using a standard HTTP
+/// The Amazon Interactive Video Service (IVS) real-time API is REST compatible, using a standard HTTP
 /// 	  API and an AWS EventBridge event stream for responses. JSON is used for both requests and responses,
-/// 	  including errors.  Terminology:   A stage  is a virtual space where participants can exchange video in real time.   A participant token is a token that authenticates a participant when they join a stage.   A participant object represents participants (people) in the stage and contains information about them. When a token is created, it includes a participant ID; when a participant uses that token to join a stage, the participant is associated with that participant ID. There is a 1:1 mapping between participant tokens and participants.   Server-side composition: The composition process composites participants of a stage into a single video and forwards it to a set of outputs (e.g., IVS channels). Composition endpoints support this process.   Server-side composition: A composition controls the look of the outputs, including how participants are positioned in the video.    Resources  The following resources contain information about your IVS live stream (see Getting Started with Amazon IVS Real-Time Streaming):    Stage — A stage is a virtual space where participants can exchange video in real time.    Tagging  A tag is a metadata label that you assign to an AWS resource. A tag comprises a key and a value, both set by you. For example, you might set a tag as topic:nature to label a particular video category. See Tagging AWS Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS stages has no service-specific constraints beyond what is documented there. Tags can help you identify and organize your AWS resources. For example, you can use the same tag for different resources to indicate that they are related. You can also use tags to manage access (see Access Tags). The Amazon IVS real-time API has these tag-related endpoints: TagResource, UntagResource, and ListTagsForResource. The following resource supports tagging: Stage. At most 50 tags can be applied to a resource.  Stages Endpoints     CreateParticipantToken — Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire.    CreateStage — Creates a new stage (and optionally participant tokens).    DeleteStage — Shuts down and deletes the specified stage (disconnecting all participants).    DisconnectParticipant — Disconnects a specified participant and revokes the participant permanently from a specified stage.    GetParticipant — Gets information about the specified participant token.    GetStage — Gets information for the specified stage.    GetStageSession — Gets information for the specified stage session.    ListParticipantEvents — Lists events for a specified participant that occurred during a specified stage session.    ListParticipants — Lists all participants in a specified stage session.    ListStages — Gets summary information about all stages in your account, in the AWS region where the API request is processed.    ListStageSessions — Gets all sessions for a specified stage.    UpdateStage — Updates a stage’s configuration.    Composition Endpoints     GetComposition — Gets information about the specified Composition resource.    ListCompositions — Gets summary information about all Compositions in your account, in the AWS region where the API request is processed.    StartComposition — Starts a Composition from a stage based on the configuration provided in the request.    StopComposition — Stops and deletes a Composition resource. Any broadcast from the Composition resource is stopped.    EncoderConfiguration Endpoints     CreateEncoderConfiguration — Creates an EncoderConfiguration object.    DeleteEncoderConfiguration — Deletes an EncoderConfiguration resource. Ensures that no Compositions are using this template; otherwise, returns an error.    GetEncoderConfiguration — Gets information about the specified EncoderConfiguration resource.    ListEncoderConfigurations — Gets summary information about all EncoderConfigurations in your account, in the AWS region where the API request is processed.    StorageConfiguration Endpoints     CreateStorageConfiguration — Creates a new storage configuration, used to enable
-/// 		recording to Amazon S3.    DeleteStorageConfiguration — Deletes the storage configuration for the specified ARN.    GetStorageConfiguration — Gets the storage configuration for the specified ARN.    ListStorageConfigurations — Gets summary information about all storage configurations in your
-/// 		account, in the AWS region where the API request is processed.    Tags Endpoints     ListTagsForResource — Gets information about AWS tags for the specified ARN.    TagResource — Adds or updates tags for the AWS resource with the specified ARN.    UntagResource — Removes tags from the resource with the specified ARN.
+/// 	  including errors.   Key Concepts     Stage — A virtual space where participants can exchange video in real time.    Participant token — A token that authenticates a participant when they join a stage.    Participant object — Represents participants (people) in the stage and contains information about them. When a token is created, it includes a participant ID; when a participant uses that token to join a stage, the participant is associated with that participant ID. There is a 1:1 mapping between participant tokens and participants.   For server-side composition:    Composition process — Composites participants of a stage into a single video and forwards it to a set of outputs (e.g., IVS channels). Composition endpoints support this process.    Composition — Controls the look of the outputs, including how participants are positioned in the video.   For more information about your IVS live stream, also see Getting Started with Amazon IVS Real-Time Streaming.  Tagging  A tag is a metadata label that you assign to an AWS resource. A tag comprises a key and a value, both set by you. For example, you might set a tag as topic:nature to label a particular video category. See Tagging AWS Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS stages has no service-specific constraints beyond what is documented there. Tags can help you identify and organize your AWS resources. For example, you can use the same tag for different resources to indicate that they are related. You can also use tags to manage access (see Access Tags). The Amazon IVS real-time API has these tag-related endpoints: TagResource, UntagResource, and ListTagsForResource. The following resource supports tagging: Stage. At most 50 tags can be applied to a resource.
 public struct IVSRealTime: AWSService {
     // MARK: Member variables
 
@@ -145,6 +143,20 @@ public struct IVSRealTime: AWSService {
         )
     }
 
+    /// Deletes the specified public key used to sign stage participant tokens.
+    /// 	  This invalidates future participant tokens generated using the key pair’s private key.
+    @Sendable
+    public func deletePublicKey(_ input: DeletePublicKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePublicKeyResponse {
+        return try await self.client.execute(
+            operation: "DeletePublicKey", 
+            path: "/DeletePublicKey", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Shuts down and deletes the specified stage (disconnecting all participants).
     @Sendable
     public func deleteStage(_ input: DeleteStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStageResponse {
@@ -225,6 +237,19 @@ public struct IVSRealTime: AWSService {
         )
     }
 
+    /// Gets information for the specified public key.
+    @Sendable
+    public func getPublicKey(_ input: GetPublicKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPublicKeyResponse {
+        return try await self.client.execute(
+            operation: "GetPublicKey", 
+            path: "/GetPublicKey", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets information for the specified stage.
     @Sendable
     public func getStage(_ input: GetStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStageResponse {
@@ -257,6 +282,19 @@ public struct IVSRealTime: AWSService {
         return try await self.client.execute(
             operation: "GetStorageConfiguration", 
             path: "/GetStorageConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Import a public key to be used for signing stage participant tokens.
+    @Sendable
+    public func importPublicKey(_ input: ImportPublicKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportPublicKeyResponse {
+        return try await self.client.execute(
+            operation: "ImportPublicKey", 
+            path: "/ImportPublicKey", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -309,6 +347,19 @@ public struct IVSRealTime: AWSService {
         return try await self.client.execute(
             operation: "ListParticipants", 
             path: "/ListParticipants", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets summary information about all public keys in your account, in the AWS region where the API request is processed.
+    @Sendable
+    public func listPublicKeys(_ input: ListPublicKeysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPublicKeysResponse {
+        return try await self.client.execute(
+            operation: "ListPublicKeys", 
+            path: "/ListPublicKeys", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -524,6 +575,25 @@ extension IVSRealTime {
         )
     }
 
+    /// Gets summary information about all public keys in your account, in the AWS region where the API request is processed.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listPublicKeysPaginator(
+        _ input: ListPublicKeysRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPublicKeysRequest, ListPublicKeysResponse> {
+        return .init(
+            input: input,
+            command: self.listPublicKeys,
+            inputKey: \ListPublicKeysRequest.nextToken,
+            outputKey: \ListPublicKeysResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Gets all sessions for a specified stage.
     /// Return PaginatorSequence for operation.
     ///
@@ -619,12 +689,22 @@ extension IVSRealTime.ListParticipantsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IVSRealTime.ListParticipantsRequest {
         return .init(
             filterByPublished: self.filterByPublished,
+            filterByRecordingState: self.filterByRecordingState,
             filterByState: self.filterByState,
             filterByUserId: self.filterByUserId,
             maxResults: self.maxResults,
             nextToken: token,
             sessionId: self.sessionId,
             stageArn: self.stageArn
+        )
+    }
+}
+
+extension IVSRealTime.ListPublicKeysRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IVSRealTime.ListPublicKeysRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

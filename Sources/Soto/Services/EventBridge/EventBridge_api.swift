@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -126,7 +126,7 @@ public struct EventBridge: AWSService {
         )
     }
 
-    /// Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Replayed events are not sent to an archive.
+    /// Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Replayed events are not sent to an archive.  Archives and schema discovery are not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:   You call  CreateArchive on an event bus set to use a customer managed key for encryption.   You call  CreateDiscoverer on an event bus set to use a customer managed key for encryption.   You call  UpdatedEventBus to set a customer managed key on an event bus with an archives or schema discovery enabled.   To enable archives or schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Data encryption in EventBridge in the Amazon EventBridge User Guide.
     @Sendable
     public func createArchive(_ input: CreateArchiveRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateArchiveResponse {
         return try await self.client.execute(
@@ -152,7 +152,7 @@ public struct EventBridge: AWSService {
         )
     }
 
-    /// Creates a global endpoint. Global endpoints improve your application's availability by making it regional-fault tolerant. To do this, you define a primary and secondary Region  with event buses in each Region. You also create a Amazon Route 53 health check that will tell EventBridge to route events to the secondary Region when an "unhealthy" state  is encountered and events will be routed back to the primary Region when the health check reports a "healthy" state.
+    /// Creates a global endpoint. Global endpoints improve your application's availability by making it regional-fault tolerant. To do this, you define a primary and secondary Region with event buses in each Region. You also create a Amazon Route 53 health check that will tell EventBridge to route events to the secondary Region when an "unhealthy" state is encountered and events will be routed back to the primary Region when the health check reports a "healthy" state.
     @Sendable
     public func createEndpoint(_ input: CreateEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEndpointResponse {
         return try await self.client.execute(
@@ -256,7 +256,7 @@ public struct EventBridge: AWSService {
         )
     }
 
-    /// Delete an existing global endpoint. For more information about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the Amazon EventBridge User Guide.
+    /// Delete an existing global endpoint. For more information about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the  Amazon EventBridge User Guide .
     @Sendable
     public func deleteEndpoint(_ input: DeleteEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEndpointResponse {
         return try await self.client.execute(
@@ -347,7 +347,7 @@ public struct EventBridge: AWSService {
         )
     }
 
-    /// Get the information about an existing global endpoint. For more information about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the Amazon EventBridge User Guide.
+    /// Get the information about an existing global endpoint. For more information about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the  Amazon EventBridge User Guide .
     @Sendable
     public func describeEndpoint(_ input: DescribeEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointResponse {
         return try await self.client.execute(
@@ -490,7 +490,7 @@ public struct EventBridge: AWSService {
         )
     }
 
-    /// List the global endpoints associated with this account. For more information about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the Amazon EventBridge User Guide.
+    /// List the global endpoints associated with this account. For more information about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the  Amazon EventBridge User Guide .
     @Sendable
     public func listEndpoints(_ input: ListEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEndpointsResponse {
         return try await self.client.execute(
@@ -620,7 +620,7 @@ public struct EventBridge: AWSService {
         )
     }
 
-    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. The maximum size for a PutEvents event entry is 256 KB. Entry size is calculated including the event and any necessary characters and keys of the JSON representation of the event.  To learn more, see Calculating PutEvents event entry size in the Amazon EventBridge User Guide  PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of 9,223,372,036,854,775,807.  PutEvents will only process nested JSON up to 1100 levels deep.
+    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. The maximum size for a PutEvents event entry is 256 KB. Entry size is calculated including the event and any necessary characters and keys of the JSON representation of the event. To learn more, see Calculating PutEvents event entry size in the  Amazon EventBridge User Guide   PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of 9,223,372,036,854,775,807.  PutEvents will only process nested JSON up to 1100 levels deep.
     @Sendable
     public func putEvents(_ input: PutEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEventsResponse {
         return try await self.client.execute(
@@ -633,7 +633,7 @@ public struct EventBridge: AWSService {
         )
     }
 
-    /// This is used by SaaS partners to write events to a customer's partner event bus. Amazon Web Services customers do not use this operation. For information on calculating event batch size, see  Calculating EventBridge PutEvents event entry size in the EventBridge User Guide.
+    /// This is used by SaaS partners to write events to a customer's partner event bus. Amazon Web Services customers do not use this operation. For information on calculating event batch size, see Calculating EventBridge PutEvents event entry size in the EventBridge User Guide.
     @Sendable
     public func putPartnerEvents(_ input: PutPartnerEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutPartnerEventsResponse {
         return try await self.client.execute(
@@ -672,7 +672,7 @@ public struct EventBridge: AWSService {
         )
     }
 
-    /// Adds the specified targets to the specified rule, or updates the targets if they are already associated with the rule. Targets are the resources that are invoked when a rule is triggered. The maximum number of entries per request is 10.  Each rule can have up to five (5) targets associated with it at one time.  For a list of services you can configure as targets for events, see EventBridge targets in the Amazon EventBridge User Guide. Creating rules with built-in targets is supported only in the Amazon Web Services Management Console. The built-in targets are:    Amazon EBS CreateSnapshot API call     Amazon EC2 RebootInstances API call     Amazon EC2 StopInstances API call     Amazon EC2 TerminateInstances API call    For some target types, PutTargets provides target-specific parameters. If the target is a Kinesis data stream, you can optionally specify which shard the event goes to by using the KinesisParameters argument. To invoke a command on multiple EC2 instances with one rule, you can use the RunCommandParameters field. To be able to make API calls against the resources that you own, Amazon EventBridge needs the appropriate permissions:      For Lambda and Amazon SNS resources, EventBridge relies on resource-based policies.   For EC2 instances, Kinesis Data Streams,  Step Functions state machines and API Gateway APIs, EventBridge relies on IAM roles that you specify in the RoleARN argument in PutTargets.   For more information, see Authentication and Access Control in the Amazon EventBridge User Guide. If another Amazon Web Services account is in the same region and has granted you permission (using PutPermission), you can send events to that account. Set that account's event bus as a target of the rules in your account. To send the matched events to the other account, specify that account's event bus as the Arn value when you run PutTargets. If your account sends events to another account, your account is charged for each sent event. Each event sent to another account is charged as a custom event. The account receiving the event is not charged. For more information, see Amazon EventBridge Pricing.   Input, InputPath, and InputTransformer are not available with PutTarget if the target is an event bus of a different Amazon Web Services  account.  If you are setting the event bus of another account as the target, and that account granted permission to your account through an organization instead of directly by the account ID, then you must specify a RoleArn with proper permissions in the Target structure. For more information, see Sending and Receiving Events Between Amazon Web Services Accounts in the Amazon EventBridge User Guide.  If you have an IAM role on a cross-account event bus target,  a PutTargets call without a role on the same target (same Id and Arn) will not remove the role.  For more information about enabling cross-account events, see PutPermission.  Input, InputPath, and InputTransformer are mutually exclusive and optional parameters of a target. When a rule is triggered due to a matched event:   If none of the following arguments are specified for a target, then the entire event is passed to the target in JSON format (unless the target is Amazon EC2 Run Command or Amazon ECS task, in which case nothing from the event is passed to the target).   If Input is specified in the form of valid JSON, then the matched event is overridden with this constant.   If InputPath is specified in the form of JSONPath (for example, $.detail), then only the part of the event specified in the path is passed to the target (for example, only the detail part of the event is passed).   If InputTransformer is specified, then one or more specified JSONPaths are extracted from the event and used as values in a template that you specify as the input to the target.   When you specify InputPath or InputTransformer, you must use JSON dot notation, not bracket notation. When you add targets to a rule and the associated rule triggers soon after, new or updated targets might not be immediately invoked. Allow a short period of time for changes to take effect. This action can partially fail if too many requests are made at the same time. If that happens, FailedEntryCount is non-zero in the response and each entry in FailedEntries provides the ID of the failed target and the error code.
+    /// Adds the specified targets to the specified rule, or updates the targets if they are already associated with the rule. Targets are the resources that are invoked when a rule is triggered. The maximum number of entries per request is 10.  Each rule can have up to five (5) targets associated with it at one time.  For a list of services you can configure as targets for events, see EventBridge targets in the  Amazon EventBridge User Guide . Creating rules with built-in targets is supported only in the Amazon Web Services Management Console. The built-in targets are:    Amazon EBS CreateSnapshot API call     Amazon EC2 RebootInstances API call     Amazon EC2 StopInstances API call     Amazon EC2 TerminateInstances API call    For some target types, PutTargets provides target-specific parameters. If the target is a Kinesis data stream, you can optionally specify which shard the event goes to by using the KinesisParameters argument. To invoke a command on multiple EC2 instances with one rule, you can use the RunCommandParameters field. To be able to make API calls against the resources that you own, Amazon EventBridge needs the appropriate permissions:    For Lambda and Amazon SNS resources, EventBridge relies on resource-based policies.   For EC2 instances, Kinesis Data Streams, Step Functions state machines and API Gateway APIs, EventBridge relies on IAM roles that you specify in the RoleARN argument in PutTargets.   For more information, see Authentication and Access Control in the  Amazon EventBridge User Guide . If another Amazon Web Services account is in the same region and has granted you permission (using PutPermission), you can send events to that account. Set that account's event bus as a target of the rules in your account. To send the matched events to the other account, specify that account's event bus as the Arn value when you run PutTargets. If your account sends events to another account, your account is charged for each sent event. Each event sent to another account is charged as a custom event. The account receiving the event is not charged. For more information, see Amazon EventBridge Pricing.   Input, InputPath, and InputTransformer are not available with PutTarget if the target is an event bus of a different Amazon Web Services account.  If you are setting the event bus of another account as the target, and that account granted permission to your account through an organization instead of directly by the account ID, then you must specify a RoleArn with proper permissions in the Target structure. For more information, see Sending and Receiving Events Between Amazon Web Services Accounts in the Amazon EventBridge User Guide.  If you have an IAM role on a cross-account event bus target, a PutTargets call without a role on the same target (same Id and Arn) will not remove the role.  For more information about enabling cross-account events, see PutPermission.  Input, InputPath, and InputTransformer are mutually exclusive and optional parameters of a target. When a rule is triggered due to a matched event:   If none of the following arguments are specified for a target, then the entire event is passed to the target in JSON format (unless the target is Amazon EC2 Run Command or Amazon ECS task, in which case nothing from the event is passed to the target).   If Input is specified in the form of valid JSON, then the matched event is overridden with this constant.   If InputPath is specified in the form of JSONPath (for example, $.detail), then only the part of the event specified in the path is passed to the target (for example, only the detail part of the event is passed).   If InputTransformer is specified, then one or more specified JSONPaths are extracted from the event and used as values in a template that you specify as the input to the target.   When you specify InputPath or InputTransformer, you must use JSON dot notation, not bracket notation. When you add targets to a rule and the associated rule triggers soon after, new or updated targets might not be immediately invoked. Allow a short period of time for changes to take effect. This action can partially fail if too many requests are made at the same time. If that happens, FailedEntryCount is non-zero in the response and each entry in FailedEntries provides the ID of the failed target and the error code.
     @Sendable
     public func putTargets(_ input: PutTargetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutTargetsResponse {
         return try await self.client.execute(
@@ -802,11 +802,24 @@ public struct EventBridge: AWSService {
         )
     }
 
-    /// Update an existing endpoint. For more information about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the Amazon EventBridge User Guide.
+    /// Update an existing endpoint. For more information about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the  Amazon EventBridge User Guide .
     @Sendable
     public func updateEndpoint(_ input: UpdateEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEndpointResponse {
         return try await self.client.execute(
             operation: "UpdateEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the specified event bus.
+    @Sendable
+    public func updateEventBus(_ input: UpdateEventBusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEventBusResponse {
+        return try await self.client.execute(
+            operation: "UpdateEventBus", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 

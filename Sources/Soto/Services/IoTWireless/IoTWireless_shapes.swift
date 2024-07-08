@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -118,6 +118,7 @@ extension IoTWireless {
     }
 
     public enum FuotaDeviceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deviceExistInConflictFuotaTask = "Device_exist_in_conflict_fuota_task"
         case fragAlgoUnsupported = "FragAlgo_unsupported"
         case fragIndexUnsupported = "FragIndex_unsupported"
         case initial = "Initial"
@@ -193,6 +194,8 @@ extension IoTWireless {
         case deviceJoinRequestCount = "DeviceJoinRequestCount"
         case deviceRSSI = "DeviceRSSI"
         case deviceRoamingDownlinkCount = "DeviceRoamingDownlinkCount"
+        case deviceRoamingRSSI = "DeviceRoamingRSSI"
+        case deviceRoamingSNR = "DeviceRoamingSNR"
         case deviceRoamingUplinkCount = "DeviceRoamingUplinkCount"
         case deviceSNR = "DeviceSNR"
         case deviceUplinkCount = "DeviceUplinkCount"

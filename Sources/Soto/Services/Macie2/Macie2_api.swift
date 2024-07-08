@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -103,6 +103,19 @@ public struct Macie2: AWSService {
             operation: "BatchGetCustomDataIdentifiers", 
             path: "/custom-data-identifiers/get", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Changes the status of automated sensitive data discovery for one or more accounts.
+    @Sendable
+    public func batchUpdateAutomatedDiscoveryAccounts(_ input: BatchUpdateAutomatedDiscoveryAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateAutomatedDiscoveryAccountsResponse {
+        return try await self.client.execute(
+            operation: "BatchUpdateAutomatedDiscoveryAccounts", 
+            path: "/automated-discovery/accounts", 
+            httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -434,7 +447,7 @@ public struct Macie2: AWSService {
         )
     }
 
-    /// Retrieves the configuration settings and status of automated sensitive data discovery for an account.
+    /// Retrieves the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
     @Sendable
     public func getAutomatedDiscoveryConfiguration(_ input: GetAutomatedDiscoveryConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutomatedDiscoveryConfigurationResponse {
         return try await self.client.execute(
@@ -707,6 +720,19 @@ public struct Macie2: AWSService {
         )
     }
 
+    /// Retrieves the status of automated sensitive data discovery for one or more accounts.
+    @Sendable
+    public func listAutomatedDiscoveryAccounts(_ input: ListAutomatedDiscoveryAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAutomatedDiscoveryAccountsResponse {
+        return try await self.client.execute(
+            operation: "ListAutomatedDiscoveryAccounts", 
+            path: "/automated-discovery/accounts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves a subset of information about one or more classification jobs.
     @Sendable
     public func listClassificationJobs(_ input: ListClassificationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClassificationJobsResponse {
@@ -772,7 +798,7 @@ public struct Macie2: AWSService {
         )
     }
 
-    /// Retrieves information about the Amazon Macie membership invitations that were received by an account.
+    /// Retrieves information about Amazon Macie membership invitations that were received by an account.
     @Sendable
     public func listInvitations(_ input: ListInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvitationsResponse {
         return try await self.client.execute(
@@ -824,7 +850,7 @@ public struct Macie2: AWSService {
         )
     }
 
-    /// Retrieves information about objects that were selected from an S3 bucket for automated sensitive data discovery.
+    /// Retrieves information about objects that Amazon Macie selected from an S3 bucket for automated sensitive data discovery.
     @Sendable
     public func listResourceProfileArtifacts(_ input: ListResourceProfileArtifactsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceProfileArtifactsResponse {
         return try await self.client.execute(
@@ -876,7 +902,7 @@ public struct Macie2: AWSService {
         )
     }
 
-    /// Creates or updates the configuration settings for storing data classification results.
+    /// Adds or updates the configuration settings for storing data classification results.
     @Sendable
     public func putClassificationExportConfiguration(_ input: PutClassificationExportConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutClassificationExportConfigurationResponse {
         return try await self.client.execute(
@@ -928,7 +954,7 @@ public struct Macie2: AWSService {
         )
     }
 
-    /// Tests a custom data identifier.
+    /// Tests criteria for a custom data identifier.
     @Sendable
     public func testCustomDataIdentifier(_ input: TestCustomDataIdentifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestCustomDataIdentifierResponse {
         return try await self.client.execute(
@@ -967,7 +993,7 @@ public struct Macie2: AWSService {
         )
     }
 
-    /// Enables or disables automated sensitive data discovery for an account.
+    /// Changes the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
     @Sendable
     public func updateAutomatedDiscoveryConfiguration(_ input: UpdateAutomatedDiscoveryConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAutomatedDiscoveryConfigurationResponse {
         return try await self.client.execute(
@@ -1181,6 +1207,25 @@ extension Macie2 {
         )
     }
 
+    /// Retrieves the status of automated sensitive data discovery for one or more accounts.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAutomatedDiscoveryAccountsPaginator(
+        _ input: ListAutomatedDiscoveryAccountsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAutomatedDiscoveryAccountsRequest, ListAutomatedDiscoveryAccountsResponse> {
+        return .init(
+            input: input,
+            command: self.listAutomatedDiscoveryAccounts,
+            inputKey: \ListAutomatedDiscoveryAccountsRequest.nextToken,
+            outputKey: \ListAutomatedDiscoveryAccountsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Retrieves a subset of information about one or more classification jobs.
     /// Return PaginatorSequence for operation.
     ///
@@ -1276,7 +1321,7 @@ extension Macie2 {
         )
     }
 
-    /// Retrieves information about the Amazon Macie membership invitations that were received by an account.
+    /// Retrieves information about Amazon Macie membership invitations that were received by an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1352,7 +1397,7 @@ extension Macie2 {
         )
     }
 
-    /// Retrieves information about objects that were selected from an S3 bucket for automated sensitive data discovery.
+    /// Retrieves information about objects that Amazon Macie selected from an S3 bucket for automated sensitive data discovery.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1455,6 +1500,16 @@ extension Macie2.GetUsageStatisticsRequest: AWSPaginateToken {
 extension Macie2.ListAllowListsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Macie2.ListAllowListsRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Macie2.ListAutomatedDiscoveryAccountsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Macie2.ListAutomatedDiscoveryAccountsRequest {
+        return .init(
+            accountIds: self.accountIds,
             maxResults: self.maxResults,
             nextToken: token
         )

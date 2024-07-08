@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -53,6 +53,12 @@ extension OSIS {
         case stopping = "STOPPING"
         case updateFailed = "UPDATE_FAILED"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcEndpointManagement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case customer = "CUSTOMER"
+        case service = "SERVICE"
         public var description: String { return self.rawValue }
     }
 
@@ -127,7 +133,7 @@ extension OSIS {
     }
 
     public struct CloudWatchLogDestination: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the CloudWatch Logs group to send pipeline logs to. You can specify an existing log group or create a new one. For example, /aws/OpenSearchService/IngestionService/my-pipeline.
+        /// The name of the CloudWatch Logs group to send pipeline logs to. You can specify an existing log group or create a new one. For example, /aws/vendedlogs/OpenSearchService/pipelines.
         public let logGroup: String
 
         public init(logGroup: String) {
@@ -247,7 +253,7 @@ extension OSIS {
     }
 
     public struct EncryptionAtRestOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the KMS key used to encrypt data-at-rest in OpenSearch Ingestion. By default, data is encrypted using an AWS owned key.
+        /// The ARN of the KMS key used to encrypt buffer data. By default, data is encrypted using an Amazon Web Services owned key.
         public let kmsKeyArn: String
 
         public init(kmsKeyArn: String) {
@@ -267,15 +273,23 @@ extension OSIS {
     public struct GetPipelineBlueprintRequest: AWSEncodableShape {
         /// The name of the blueprint to retrieve.
         public let blueprintName: String
+        /// The format format of the blueprint to retrieve.
+        public let format: String?
 
-        public init(blueprintName: String) {
+        public init(blueprintName: String, format: String? = nil) {
             self.blueprintName = blueprintName
+            self.format = format
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.blueprintName, key: "BlueprintName")
+            request.encodeQuery(self.format, key: "format")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.format, name: "format", parent: name, pattern: "^(YAML|JSON)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -284,13 +298,17 @@ extension OSIS {
     public struct GetPipelineBlueprintResponse: AWSDecodableShape {
         /// The requested blueprint in YAML format.
         public let blueprint: PipelineBlueprint?
+        /// The format of the blueprint.
+        public let format: String?
 
-        public init(blueprint: PipelineBlueprint? = nil) {
+        public init(blueprint: PipelineBlueprint? = nil, format: String? = nil) {
             self.blueprint = blueprint
+            self.format = format
         }
 
         private enum CodingKeys: String, CodingKey {
             case blueprint = "Blueprint"
+            case format = "Format"
         }
     }
 
@@ -331,7 +349,7 @@ extension OSIS {
     }
 
     public struct GetPipelineRequest: AWSEncodableShape {
-        /// The name of the pipeline to get information about.
+        /// The name of the pipeline.
         public let pipelineName: String
 
         public init(pipelineName: String) {
@@ -489,6 +507,8 @@ extension OSIS {
         public let bufferOptions: BufferOptions?
         /// The date and time when the pipeline was created.
         public let createdAt: Date?
+        /// Destinations to which the pipeline writes data.
+        public let destinations: [PipelineDestination]?
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
         /// The ingestion endpoints for the pipeline, which you can send data to.
         public let ingestEndpointUrls: [String]?
@@ -506,7 +526,7 @@ extension OSIS {
         public let pipelineConfigurationBody: String?
         /// The name of the pipeline.
         public let pipelineName: String?
-        /// A list of VPC endpoints that OpenSearch Ingestion has created to other AWS services.
+        /// A list of VPC endpoints that OpenSearch Ingestion has created to other Amazon Web Services services.
         public let serviceVpcEndpoints: [ServiceVpcEndpoint]?
         /// The current status of the pipeline.
         public let status: PipelineStatus?
@@ -516,10 +536,13 @@ extension OSIS {
         public let tags: [Tag]?
         /// The VPC interface endpoints that have access to the pipeline.
         public let vpcEndpoints: [VpcEndpoint]?
+        /// The VPC endpoint service name for the pipeline.
+        public let vpcEndpointService: String?
 
-        public init(bufferOptions: BufferOptions? = nil, createdAt: Date? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, ingestEndpointUrls: [String]? = nil, lastUpdatedAt: Date? = nil, logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineArn: String? = nil, pipelineConfigurationBody: String? = nil, pipelineName: String? = nil, serviceVpcEndpoints: [ServiceVpcEndpoint]? = nil, status: PipelineStatus? = nil, statusReason: PipelineStatusReason? = nil, tags: [Tag]? = nil, vpcEndpoints: [VpcEndpoint]? = nil) {
+        public init(bufferOptions: BufferOptions? = nil, createdAt: Date? = nil, destinations: [PipelineDestination]? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, ingestEndpointUrls: [String]? = nil, lastUpdatedAt: Date? = nil, logPublishingOptions: LogPublishingOptions? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineArn: String? = nil, pipelineConfigurationBody: String? = nil, pipelineName: String? = nil, serviceVpcEndpoints: [ServiceVpcEndpoint]? = nil, status: PipelineStatus? = nil, statusReason: PipelineStatusReason? = nil, tags: [Tag]? = nil, vpcEndpoints: [VpcEndpoint]? = nil, vpcEndpointService: String? = nil) {
             self.bufferOptions = bufferOptions
             self.createdAt = createdAt
+            self.destinations = destinations
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.ingestEndpointUrls = ingestEndpointUrls
             self.lastUpdatedAt = lastUpdatedAt
@@ -534,11 +557,13 @@ extension OSIS {
             self.statusReason = statusReason
             self.tags = tags
             self.vpcEndpoints = vpcEndpoints
+            self.vpcEndpointService = vpcEndpointService
         }
 
         private enum CodingKeys: String, CodingKey {
             case bufferOptions = "BufferOptions"
             case createdAt = "CreatedAt"
+            case destinations = "Destinations"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case ingestEndpointUrls = "IngestEndpointUrls"
             case lastUpdatedAt = "LastUpdatedAt"
@@ -553,36 +578,86 @@ extension OSIS {
             case statusReason = "StatusReason"
             case tags = "Tags"
             case vpcEndpoints = "VpcEndpoints"
+            case vpcEndpointService = "VpcEndpointService"
         }
     }
 
     public struct PipelineBlueprint: AWSDecodableShape {
         /// The name of the blueprint.
         public let blueprintName: String?
+        /// A description of the blueprint.
+        public let displayDescription: String?
+        /// The display name of the blueprint.
+        public let displayName: String?
         /// The YAML configuration of the blueprint.
         public let pipelineConfigurationBody: String?
+        /// The name of the service that the blueprint is associated with.
+        public let service: String?
+        /// The use case that the blueprint relates to.
+        public let useCase: String?
 
-        public init(blueprintName: String? = nil, pipelineConfigurationBody: String? = nil) {
+        public init(blueprintName: String? = nil, displayDescription: String? = nil, displayName: String? = nil, pipelineConfigurationBody: String? = nil, service: String? = nil, useCase: String? = nil) {
             self.blueprintName = blueprintName
+            self.displayDescription = displayDescription
+            self.displayName = displayName
             self.pipelineConfigurationBody = pipelineConfigurationBody
+            self.service = service
+            self.useCase = useCase
         }
 
         private enum CodingKeys: String, CodingKey {
             case blueprintName = "BlueprintName"
+            case displayDescription = "DisplayDescription"
+            case displayName = "DisplayName"
             case pipelineConfigurationBody = "PipelineConfigurationBody"
+            case service = "Service"
+            case useCase = "UseCase"
         }
     }
 
     public struct PipelineBlueprintSummary: AWSDecodableShape {
         /// The name of the blueprint.
         public let blueprintName: String?
+        /// A description of the blueprint.
+        public let displayDescription: String?
+        /// The display name of the blueprint.
+        public let displayName: String?
+        /// The name of the service that the blueprint is associated with.
+        public let service: String?
+        /// The use case that the blueprint relates to.
+        public let useCase: String?
 
-        public init(blueprintName: String? = nil) {
+        public init(blueprintName: String? = nil, displayDescription: String? = nil, displayName: String? = nil, service: String? = nil, useCase: String? = nil) {
             self.blueprintName = blueprintName
+            self.displayDescription = displayDescription
+            self.displayName = displayName
+            self.service = service
+            self.useCase = useCase
         }
 
         private enum CodingKeys: String, CodingKey {
             case blueprintName = "BlueprintName"
+            case displayDescription = "DisplayDescription"
+            case displayName = "DisplayName"
+            case service = "Service"
+            case useCase = "UseCase"
+        }
+    }
+
+    public struct PipelineDestination: AWSDecodableShape {
+        /// The endpoint receiving data from the pipeline.
+        public let endpoint: String?
+        /// The name of the service receiving data from the pipeline.
+        public let serviceName: String?
+
+        public init(endpoint: String? = nil, serviceName: String? = nil) {
+            self.endpoint = endpoint
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
+            case serviceName = "ServiceName"
         }
     }
 
@@ -602,6 +677,8 @@ extension OSIS {
     public struct PipelineSummary: AWSDecodableShape {
         /// The date and time when the pipeline was created.
         public let createdAt: Date?
+        /// A list of destinations to which the pipeline writes data.
+        public let destinations: [PipelineDestination]?
         /// The date and time when the pipeline was last updated.
         public let lastUpdatedAt: Date?
         /// The maximum pipeline capacity, in Ingestion Compute Units (ICUs).
@@ -618,8 +695,9 @@ extension OSIS {
         /// A list of tags associated with the given pipeline.
         public let tags: [Tag]?
 
-        public init(createdAt: Date? = nil, lastUpdatedAt: Date? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineArn: String? = nil, pipelineName: String? = nil, status: PipelineStatus? = nil, statusReason: PipelineStatusReason? = nil, tags: [Tag]? = nil) {
+        public init(createdAt: Date? = nil, destinations: [PipelineDestination]? = nil, lastUpdatedAt: Date? = nil, maxUnits: Int? = nil, minUnits: Int? = nil, pipelineArn: String? = nil, pipelineName: String? = nil, status: PipelineStatus? = nil, statusReason: PipelineStatusReason? = nil, tags: [Tag]? = nil) {
             self.createdAt = createdAt
+            self.destinations = destinations
             self.lastUpdatedAt = lastUpdatedAt
             self.maxUnits = maxUnits
             self.minUnits = minUnits
@@ -632,6 +710,7 @@ extension OSIS {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
+            case destinations = "Destinations"
             case lastUpdatedAt = "LastUpdatedAt"
             case maxUnits = "MaxUnits"
             case minUnits = "MinUnits"
@@ -646,7 +725,7 @@ extension OSIS {
     public struct ServiceVpcEndpoint: AWSDecodableShape {
         /// The name of the service for which a VPC endpoint was created.
         public let serviceName: VpcEndpointServiceName?
-        /// The ID of the VPC endpoint that was created.
+        /// The unique identifier of the VPC endpoint that was created.
         public let vpcEndpointId: String?
 
         public init(serviceName: VpcEndpointServiceName? = nil, vpcEndpointId: String? = nil) {
@@ -945,6 +1024,27 @@ extension OSIS {
         }
     }
 
+    public struct VpcAttachmentOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Whether a VPC is attached to the pipeline.
+        public let attachToVpc: Bool
+        /// The CIDR block to be reserved for OpenSearch Ingestion to create elastic network interfaces (ENIs).
+        public let cidrBlock: String?
+
+        public init(attachToVpc: Bool, cidrBlock: String? = nil) {
+            self.attachToVpc = attachToVpc
+            self.cidrBlock = cidrBlock
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cidrBlock, name: "cidrBlock", parent: name, pattern: "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[12]?[0-9])$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachToVpc = "AttachToVpc"
+            case cidrBlock = "CidrBlock"
+        }
+    }
+
     public struct VpcEndpoint: AWSDecodableShape {
         /// The unique identifier of the endpoint.
         public let vpcEndpointId: String?
@@ -971,10 +1071,16 @@ extension OSIS {
         public let securityGroupIds: [String]?
         /// A list of subnet IDs associated with the VPC endpoint.
         public let subnetIds: [String]
+        /// Options for attaching a VPC to a pipeline.
+        public let vpcAttachmentOptions: VpcAttachmentOptions?
+        /// Defines whether you or Amazon OpenSearch Ingestion service create and manage the VPC endpoint configured for the pipeline.
+        public let vpcEndpointManagement: VpcEndpointManagement?
 
-        public init(securityGroupIds: [String]? = nil, subnetIds: [String]) {
+        public init(securityGroupIds: [String]? = nil, subnetIds: [String], vpcAttachmentOptions: VpcAttachmentOptions? = nil, vpcEndpointManagement: VpcEndpointManagement? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
+            self.vpcAttachmentOptions = vpcAttachmentOptions
+            self.vpcEndpointManagement = vpcEndpointManagement
         }
 
         public func validate(name: String) throws {
@@ -992,11 +1098,14 @@ extension OSIS {
             }
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 12)
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
+            try self.vpcAttachmentOptions?.validate(name: "\(name).vpcAttachmentOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
             case securityGroupIds = "SecurityGroupIds"
             case subnetIds = "SubnetIds"
+            case vpcAttachmentOptions = "VpcAttachmentOptions"
+            case vpcEndpointManagement = "VpcEndpointManagement"
         }
     }
 }
@@ -1008,6 +1117,7 @@ public struct OSISErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
+        case disabledOperationException = "DisabledOperationException"
         case internalException = "InternalException"
         case invalidPaginationTokenException = "InvalidPaginationTokenException"
         case limitExceededException = "LimitExceededException"
@@ -1038,6 +1148,8 @@ public struct OSISErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The client attempted to remove a resource that is currently in use.
     public static var conflictException: Self { .init(.conflictException) }
+    /// Exception is thrown when an operation has been disabled.
+    public static var disabledOperationException: Self { .init(.disabledOperationException) }
     /// The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     public static var internalException: Self { .init(.internalException) }
     /// An invalid pagination token provided in the request.

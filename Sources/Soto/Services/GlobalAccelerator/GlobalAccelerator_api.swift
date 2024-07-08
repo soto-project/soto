@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -87,6 +87,7 @@ public struct GlobalAccelerator: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-08-08",
             endpoint: endpoint,
+            serviceEndpoints: Self.serviceEndpoints,
             errorType: GlobalAcceleratorErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -96,6 +97,10 @@ public struct GlobalAccelerator: AWSService {
     }
 
 
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "fips-us-west-2": "globalaccelerator-fips.us-west-2.amazonaws.com"
+    ]}
 
 
 

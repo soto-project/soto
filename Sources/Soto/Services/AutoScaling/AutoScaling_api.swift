@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -88,7 +88,7 @@ public struct AutoScaling: AWSService {
 
     // MARK: API Calls
 
-    /// Attaches one or more EC2 instances to the specified Auto Scaling group. When you attach instances, Amazon EC2 Auto Scaling increases the desired capacity of the group by the number of instances being attached. If the number of instances being attached plus the desired capacity of the group exceeds the maximum size of the group, the operation fails. If there is a Classic Load Balancer attached to your Auto Scaling group, the instances are also registered with the load balancer. If there are target groups attached to your Auto Scaling group, the instances are also registered with the target groups. For more information, see Attach EC2 instances to your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
+    /// Attaches one or more EC2 instances to the specified Auto Scaling group. When you attach instances, Amazon EC2 Auto Scaling increases the desired capacity of the group by the number of instances being attached. If the number of instances being attached plus the desired capacity of the group exceeds the maximum size of the group, the operation fails. If there is a Classic Load Balancer attached to your Auto Scaling group, the instances are also registered with the load balancer. If there are target groups attached to your Auto Scaling group, the instances are also registered with the target groups. For more information, see Detach or attach instances in the Amazon EC2 Auto Scaling User Guide.
     @Sendable
     public func attachInstances(_ input: AttachInstancesQuery, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -283,7 +283,7 @@ public struct AutoScaling: AWSService {
         )
     }
 
-    /// Deletes the specified scaling policy. Deleting either a step scaling policy or a simple scaling policy deletes the underlying alarm action, but does not delete the alarm, even if it no longer has an associated action. For more information, see Deleting a scaling policy in the Amazon EC2 Auto Scaling User Guide.
+    /// Deletes the specified scaling policy. Deleting either a step scaling policy or a simple scaling policy deletes the underlying alarm action, but does not delete the alarm, even if it no longer has an associated action. For more information, see Delete a scaling policy in the Amazon EC2 Auto Scaling User Guide.
     @Sendable
     public func deletePolicy(_ input: DeletePolicyType, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -512,7 +512,7 @@ public struct AutoScaling: AWSService {
         )
     }
 
-    /// Gets information about the scaling activities in the account and Region. When scaling events occur, you see a record of the scaling activity in the scaling activities. For more information, see Verifying a scaling activity for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. If the scaling event succeeds, the value of the StatusCode element in the response is Successful. If an attempt to launch instances failed, the StatusCode value is Failed or Cancelled and the StatusMessage element in the response indicates the cause of the failure. For help interpreting the StatusMessage, see Troubleshooting Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
+    /// Gets information about the scaling activities in the account and Region. When scaling events occur, you see a record of the scaling activity in the scaling activities. For more information, see Verify a scaling activity for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. If the scaling event succeeds, the value of the StatusCode element in the response is Successful. If an attempt to launch instances failed, the StatusCode value is Failed or Cancelled and the StatusMessage element in the response indicates the cause of the failure. For help interpreting the StatusMessage, see Troubleshooting Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
     @Sendable
     public func describeScalingActivities(_ input: DescribeScalingActivitiesType, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivitiesType {
         return try await self.client.execute(
@@ -563,7 +563,7 @@ public struct AutoScaling: AWSService {
         )
     }
 
-    /// Describes the termination policies supported by Amazon EC2 Auto Scaling. For more information, see Work with Amazon EC2 Auto Scaling termination policies in the Amazon EC2 Auto Scaling User Guide.
+    /// Describes the termination policies supported by Amazon EC2 Auto Scaling. For more information, see Configure termination policies for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
     @Sendable
     public func describeTerminationPolicyTypes(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTerminationPolicyTypesAnswer {
         return try await self.client.execute(
@@ -601,7 +601,7 @@ public struct AutoScaling: AWSService {
         )
     }
 
-    /// Removes one or more instances from the specified Auto Scaling group. After the instances are detached, you can manage them independent of the Auto Scaling group. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that are detached. If there is a Classic Load Balancer attached to the Auto Scaling group, the instances are deregistered from the load balancer. If there are target groups attached to the Auto Scaling group, the instances are deregistered from the target groups. For more information, see Detach EC2 instances from your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
+    /// Removes one or more instances from the specified Auto Scaling group. After the instances are detached, you can manage them independent of the Auto Scaling group. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that are detached. If there is a Classic Load Balancer attached to the Auto Scaling group, the instances are deregistered from the load balancer. If there are target groups attached to the Auto Scaling group, the instances are deregistered from the target groups. For more information, see Detach or attach instances in the Amazon EC2 Auto Scaling User Guide.
     @Sendable
     public func detachInstances(_ input: DetachInstancesQuery, logger: Logger = AWSClient.loggingDisabled) async throws -> DetachInstancesAnswer {
         return try await self.client.execute(
@@ -744,7 +744,7 @@ public struct AutoScaling: AWSService {
         )
     }
 
-    /// Configures an Auto Scaling group to send notifications when specified events take place. Subscribers to the specified topic can have messages delivered to an endpoint such as a web server or an email address. This configuration overwrites any existing configuration. For more information, see Getting Amazon SNS notifications when your Auto Scaling group scales in the Amazon EC2 Auto Scaling User Guide. If you exceed your maximum limit of SNS topics, which is 10 per Auto Scaling group, the call fails.
+    /// Configures an Auto Scaling group to send notifications when specified events take place. Subscribers to the specified topic can have messages delivered to an endpoint such as a web server or an email address. This configuration overwrites any existing configuration. For more information, see Amazon SNS notification options for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. If you exceed your maximum limit of SNS topics, which is 10 per Auto Scaling group, the call fails.
     @Sendable
     public func putNotificationConfiguration(_ input: PutNotificationConfigurationType, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -783,7 +783,7 @@ public struct AutoScaling: AWSService {
         )
     }
 
-    /// Creates or updates a warm pool for the specified Auto Scaling group. A warm pool is a pool of pre-initialized EC2 instances that sits alongside the Auto Scaling group. Whenever your application needs to scale out, the Auto Scaling group can draw on the warm pool to meet its new desired capacity. For more information and example configurations, see Warm pools for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. This operation must be called from the Region in which the Auto Scaling group was created. This operation cannot be called on an Auto Scaling group that has a mixed instances policy or a launch template or launch configuration that requests Spot Instances. You can view the instances in the warm pool using the DescribeWarmPool API call. If you are no longer using a warm pool, you can delete it by calling the DeleteWarmPool API.
+    /// Creates or updates a warm pool for the specified Auto Scaling group. A warm pool is a pool of pre-initialized EC2 instances that sits alongside the Auto Scaling group. Whenever your application needs to scale out, the Auto Scaling group can draw on the warm pool to meet its new desired capacity. This operation must be called from the Region in which the Auto Scaling group was created. You can view the instances in the warm pool using the DescribeWarmPool API call. If you are no longer using a warm pool, you can delete it by calling the DeleteWarmPool API. For more information, see Warm pools for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
     @Sendable
     public func putWarmPool(_ input: PutWarmPoolType, logger: Logger = AWSClient.loggingDisabled) async throws -> PutWarmPoolAnswer {
         return try await self.client.execute(
@@ -809,7 +809,7 @@ public struct AutoScaling: AWSService {
         )
     }
 
-    /// Resumes the specified suspended auto scaling processes, or all suspended process, for the specified Auto Scaling group. For more information, see Suspending and resuming scaling processes in the Amazon EC2 Auto Scaling User Guide.
+    /// Resumes the specified suspended auto scaling processes, or all suspended process, for the specified Auto Scaling group. For more information, see Suspend and resume Amazon EC2 Auto Scaling processes in the Amazon EC2 Auto Scaling User Guide.
     @Sendable
     public func resumeProcesses(_ input: ScalingProcessQuery, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -848,7 +848,7 @@ public struct AutoScaling: AWSService {
         )
     }
 
-    /// Sets the health status of the specified instance. For more information, see Health checks for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide.
+    /// Sets the health status of the specified instance. For more information, see Health checks for instances in an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
     @Sendable
     public func setInstanceHealth(_ input: SetInstanceHealthQuery, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -861,7 +861,7 @@ public struct AutoScaling: AWSService {
         )
     }
 
-    /// Updates the instance protection settings of the specified instances. This operation cannot be called on instances in a warm pool. For more information about preventing instances that are part of an Auto Scaling group from terminating on scale in, see Using instance scale-in protection in the Amazon EC2 Auto Scaling User Guide. If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call fails.
+    /// Updates the instance protection settings of the specified instances. This operation cannot be called on instances in a warm pool. For more information, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide. If you exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call fails.
     @Sendable
     public func setInstanceProtection(_ input: SetInstanceProtectionQuery, logger: Logger = AWSClient.loggingDisabled) async throws -> SetInstanceProtectionAnswer {
         return try await self.client.execute(
@@ -887,7 +887,7 @@ public struct AutoScaling: AWSService {
         )
     }
 
-    /// Suspends the specified auto scaling processes, or all processes, for the specified Auto Scaling group. If you suspend either the Launch or Terminate process types, it can prevent other process types from functioning properly. For more information, see Suspending and resuming scaling processes in the Amazon EC2 Auto Scaling User Guide. To resume processes that have been suspended, call the ResumeProcesses API.
+    /// Suspends the specified auto scaling processes, or all processes, for the specified Auto Scaling group. If you suspend either the Launch or Terminate process types, it can prevent other process types from functioning properly. For more information, see Suspend and resume Amazon EC2 Auto Scaling processes in the Amazon EC2 Auto Scaling User Guide. To resume processes that have been suspended, call the ResumeProcesses API.
     @Sendable
     public func suspendProcesses(_ input: ScalingProcessQuery, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -900,7 +900,7 @@ public struct AutoScaling: AWSService {
         )
     }
 
-    /// Terminates the specified instance and optionally adjusts the desired group size. This operation cannot be called on instances in a warm pool. This call simply makes a termination request. The instance is not terminated immediately. When an instance is terminated, the instance status changes to terminated. You can't connect to or start an instance after you've terminated it. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that are terminated.  By default, Amazon EC2 Auto Scaling balances instances across all Availability Zones. If you decrement the desired capacity, your Auto Scaling group can become unbalanced between Availability Zones. Amazon EC2 Auto Scaling tries to rebalance the group, and rebalancing might terminate instances in other zones. For more information, see Rebalancing activities in the Amazon EC2 Auto Scaling User Guide.
+    /// Terminates the specified instance and optionally adjusts the desired group size. This operation cannot be called on instances in a warm pool. This call simply makes a termination request. The instance is not terminated immediately. When an instance is terminated, the instance status changes to terminated. You can't connect to or start an instance after you've terminated it. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that are terminated.  By default, Amazon EC2 Auto Scaling balances instances across all Availability Zones. If you decrement the desired capacity, your Auto Scaling group can become unbalanced between Availability Zones. Amazon EC2 Auto Scaling tries to rebalance the group, and rebalancing might terminate instances in other zones. For more information, see Manual scaling in the Amazon EC2 Auto Scaling User Guide.
     @Sendable
     public func terminateInstanceInAutoScalingGroup(_ input: TerminateInstanceInAutoScalingGroupType, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivityType {
         return try await self.client.execute(
@@ -1092,7 +1092,7 @@ extension AutoScaling {
         )
     }
 
-    /// Gets information about the scaling activities in the account and Region. When scaling events occur, you see a record of the scaling activity in the scaling activities. For more information, see Verifying a scaling activity for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. If the scaling event succeeds, the value of the StatusCode element in the response is Successful. If an attempt to launch instances failed, the StatusCode value is Failed or Cancelled and the StatusMessage element in the response indicates the cause of the failure. For help interpreting the StatusMessage, see Troubleshooting Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
+    /// Gets information about the scaling activities in the account and Region. When scaling events occur, you see a record of the scaling activity in the scaling activities. For more information, see Verify a scaling activity for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. If the scaling event succeeds, the value of the StatusCode element in the response is Successful. If an attempt to launch instances failed, the StatusCode value is Failed or Cancelled and the StatusMessage element in the response indicates the cause of the failure. For help interpreting the StatusMessage, see Troubleshooting Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

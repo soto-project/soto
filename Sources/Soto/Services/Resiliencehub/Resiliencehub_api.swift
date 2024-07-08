@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -412,6 +412,19 @@ public struct Resiliencehub: AWSService {
         return try await self.client.execute(
             operation: "ListAppAssessmentComplianceDrifts", 
             path: "/list-app-assessment-compliance-drifts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Indicates the list of resource drifts that were detected while running an assessment.
+    @Sendable
+    public func listAppAssessmentResourceDrifts(_ input: ListAppAssessmentResourceDriftsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppAssessmentResourceDriftsResponse {
+        return try await self.client.execute(
+            operation: "ListAppAssessmentResourceDrifts", 
+            path: "/list-app-assessment-resource-drifts", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -835,6 +848,25 @@ extension Resiliencehub {
         )
     }
 
+    /// Indicates the list of resource drifts that were detected while running an assessment.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAppAssessmentResourceDriftsPaginator(
+        _ input: ListAppAssessmentResourceDriftsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAppAssessmentResourceDriftsRequest, ListAppAssessmentResourceDriftsResponse> {
+        return .init(
+            input: input,
+            command: self.listAppAssessmentResourceDrifts,
+            inputKey: \ListAppAssessmentResourceDriftsRequest.nextToken,
+            outputKey: \ListAppAssessmentResourceDriftsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists the assessments for an Resilience Hub application. You can use request parameters to refine the results for the response object.
     /// Return PaginatorSequence for operation.
     ///
@@ -1133,6 +1165,16 @@ extension Resiliencehub.ListAlarmRecommendationsRequest: AWSPaginateToken {
 
 extension Resiliencehub.ListAppAssessmentComplianceDriftsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Resiliencehub.ListAppAssessmentComplianceDriftsRequest {
+        return .init(
+            assessmentArn: self.assessmentArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Resiliencehub.ListAppAssessmentResourceDriftsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Resiliencehub.ListAppAssessmentResourceDriftsRequest {
         return .init(
             assessmentArn: self.assessmentArn,
             maxResults: self.maxResults,

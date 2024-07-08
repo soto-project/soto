@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -447,6 +447,8 @@ extension ChimeSDKMediaPipelines {
         public let filterPartialResults: Bool?
         /// Turns language identification on or off.
         public let identifyLanguage: Bool?
+        /// Turns language identification on or off for multiple languages.
+        public let identifyMultipleLanguages: Bool?
         /// The language code that represents the language spoken in your audio. If you're unsure of the language spoken in your audio, consider using IdentifyLanguage to enable automatic language identification. For a list of languages that real-time Call Analytics supports, see the Supported languages table  in the Amazon Transcribe Developer Guide.
         public let languageCode: CallAnalyticsLanguageCode?
         /// The name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the custom language model isn't applied.  There are no errors or warnings associated with a language mismatch. For more information, see Custom language models in the Amazon Transcribe Developer Guide.
@@ -472,12 +474,13 @@ extension ChimeSDKMediaPipelines {
         /// The names of the custom vocabulary or vocabularies used during transcription.
         public let vocabularyNames: String?
 
-        public init(contentIdentificationType: ContentType? = nil, contentRedactionType: ContentType? = nil, enablePartialResultsStabilization: Bool? = nil, filterPartialResults: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: CallAnalyticsLanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: CallAnalyticsLanguageCode? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
+        public init(contentIdentificationType: ContentType? = nil, contentRedactionType: ContentType? = nil, enablePartialResultsStabilization: Bool? = nil, filterPartialResults: Bool? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, languageCode: CallAnalyticsLanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: CallAnalyticsLanguageCode? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
             self.enablePartialResultsStabilization = enablePartialResultsStabilization
             self.filterPartialResults = filterPartialResults
             self.identifyLanguage = identifyLanguage
+            self.identifyMultipleLanguages = identifyMultipleLanguages
             self.languageCode = languageCode
             self.languageModelName = languageModelName
             self.languageOptions = languageOptions
@@ -522,6 +525,7 @@ extension ChimeSDKMediaPipelines {
             case enablePartialResultsStabilization = "EnablePartialResultsStabilization"
             case filterPartialResults = "FilterPartialResults"
             case identifyLanguage = "IdentifyLanguage"
+            case identifyMultipleLanguages = "IdentifyMultipleLanguages"
             case languageCode = "LanguageCode"
             case languageModelName = "LanguageModelName"
             case languageOptions = "LanguageOptions"
@@ -1158,11 +1162,11 @@ extension ChimeSDKMediaPipelines {
     public struct CreateMediaPipelineKinesisVideoStreamPoolRequest: AWSEncodableShape {
         /// The token assigned to the client making the request.
         public let clientRequestToken: String?
-        /// The name of the video stream pool.
+        /// The name of the pool.
         public let poolName: String
-        /// The configuration settings for the video stream.
+        /// The configuration settings for the stream.
         public let streamConfiguration: KinesisVideoStreamConfiguration
-        /// The tags assigned to the video stream pool.
+        /// The tags assigned to the stream pool.
         public let tags: [Tag]?
 
         public init(clientRequestToken: String? = CreateMediaPipelineKinesisVideoStreamPoolRequest.idempotencyToken(), poolName: String, streamConfiguration: KinesisVideoStreamConfiguration, tags: [Tag]? = nil) {
@@ -1196,7 +1200,7 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct CreateMediaPipelineKinesisVideoStreamPoolResponse: AWSDecodableShape {
-        /// The configuration for the Kinesis video stream pool.
+        /// The configuration for applying the streams to the pool.
         public let kinesisVideoStreamPoolConfiguration: KinesisVideoStreamPoolConfiguration?
 
         public init(kinesisVideoStreamPoolConfiguration: KinesisVideoStreamPoolConfiguration? = nil) {
@@ -1325,7 +1329,7 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct DeleteMediaPipelineKinesisVideoStreamPoolRequest: AWSEncodableShape {
-        /// The ID of the pool being deleted.
+        /// The unique identifier of the requested resource. Valid values include the name and ARN of the media pipeline Kinesis Video Stream pool.
         public let identifier: String
 
         public init(identifier: String) {
@@ -1458,7 +1462,7 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct GetMediaPipelineKinesisVideoStreamPoolRequest: AWSEncodableShape {
-        /// The ID of the video stream pool.
+        /// The unique identifier of the requested resource. Valid values include the name and ARN of the media pipeline Kinesis Video Stream pool.
         public let identifier: String
 
         public init(identifier: String) {
@@ -1879,7 +1883,7 @@ extension ChimeSDKMediaPipelines {
                 try $0.validate(name: "\(name).streams[]")
             }
             try self.validate(self.streams, name: "streams", parent: name, max: 2)
-            try self.validate(self.streams, name: "streams", parent: name, min: 2)
+            try self.validate(self.streams, name: "streams", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2704,7 +2708,7 @@ extension ChimeSDKMediaPipelines {
         public let mediaStreamType: MediaStreamType
         /// Specifies the number of streams that the sink can accept.
         public let reservedStreamCapacity: Int
-        /// The ARN of the media stream sink.
+        /// The ARN of the Kinesis Video Stream pool returned by the CreateMediaPipelineKinesisVideoStreamPool API.
         public let sinkArn: String
         /// The media stream sink's type.
         public let sinkType: MediaStreamPipelineSinkType
@@ -2733,7 +2737,7 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct MediaStreamSource: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the media stream source.
+        /// The ARN of the meeting.
         public let sourceArn: String
         /// The type of media stream source.
         public let sourceType: MediaPipelineSourceType
@@ -3531,7 +3535,7 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct UpdateMediaPipelineKinesisVideoStreamPoolRequest: AWSEncodableShape {
-        /// The ID of the video stream pool.
+        /// The unique identifier of the requested resource. Valid values include the name and ARN of the media pipeline Kinesis Video Stream pool.
         public let identifier: String
         /// The configuration settings for the video stream.
         public let streamConfiguration: KinesisVideoStreamConfigurationUpdate?

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -69,6 +69,12 @@ extension PaymentCryptographyData {
         case cfb8 = "CFB8"
         case ecb = "ECB"
         case ofb = "OFB"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KeyCheckValueAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ansiX924 = "ANSI_X9_24"
+        case cmac = "CMAC"
         public var description: String { return self.rawValue }
     }
 
@@ -738,7 +744,7 @@ extension PaymentCryptographyData {
             try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, pattern: "^[0-9a-fA-F]+$")
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
-            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.unpredictableNumber, name: "unpredictableNumber", parent: name, max: 8)
             try self.validate(self.unpredictableNumber, name: "unpredictableNumber", parent: name, min: 2)
             try self.validate(self.unpredictableNumber, name: "unpredictableNumber", parent: name, pattern: "^[0-9a-fA-F]+$")
@@ -846,13 +852,16 @@ extension PaymentCryptographyData {
         public let cipherText: String
         /// The encryption key type and attributes for ciphertext decryption.
         public let decryptionAttributes: EncryptionDecryptionAttributes
-        /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for ciphertext decryption.
+        /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for ciphertext decryption. When a WrappedKeyBlock is provided, this value will be the identifier to the key wrapping key. Otherwise, it is the key identifier used to perform the operation.
         public let keyIdentifier: String
+        /// The WrappedKeyBlock containing the encryption key for ciphertext decryption.
+        public let wrappedKey: WrappedKey?
 
-        public init(cipherText: String, decryptionAttributes: EncryptionDecryptionAttributes, keyIdentifier: String) {
+        public init(cipherText: String, decryptionAttributes: EncryptionDecryptionAttributes, keyIdentifier: String, wrappedKey: WrappedKey? = nil) {
             self.cipherText = cipherText
             self.decryptionAttributes = decryptionAttributes
             self.keyIdentifier = keyIdentifier
+            self.wrappedKey = wrappedKey
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -861,6 +870,7 @@ extension PaymentCryptographyData {
             try container.encode(self.cipherText, forKey: .cipherText)
             try container.encode(self.decryptionAttributes, forKey: .decryptionAttributes)
             request.encodePath(self.keyIdentifier, key: "KeyIdentifier")
+            try container.encodeIfPresent(self.wrappedKey, forKey: .wrappedKey)
         }
 
         public func validate(name: String) throws {
@@ -871,11 +881,13 @@ extension PaymentCryptographyData {
             try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, max: 322)
             try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, min: 7)
             try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.wrappedKey?.validate(name: "\(name).wrappedKey")
         }
 
         private enum CodingKeys: String, CodingKey {
             case cipherText = "CipherText"
             case decryptionAttributes = "DecryptionAttributes"
+            case wrappedKey = "WrappedKey"
         }
     }
 
@@ -1044,7 +1056,7 @@ extension PaymentCryptographyData {
             try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, pattern: "^[0-9a-fA-F]+$")
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
-            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.trackData, name: "trackData", parent: name, max: 160)
             try self.validate(self.trackData, name: "trackData", parent: name, min: 2)
             try self.validate(self.trackData, name: "trackData", parent: name, pattern: "^[0-9a-fA-F]+$")
@@ -1087,7 +1099,7 @@ extension PaymentCryptographyData {
             try self.validate(self.cardExpiryDate, name: "cardExpiryDate", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
-            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 3)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 3)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[0-9]+$")
@@ -1130,7 +1142,7 @@ extension PaymentCryptographyData {
             try self.validate(self.initializationVector, name: "initializationVector", parent: name, pattern: "^(?:[0-9a-fA-F]{16}|[0-9a-fA-F]{32})$")
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
-            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, max: 19)
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, min: 12)
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, pattern: "^[0-9]+$")
@@ -1152,15 +1164,18 @@ extension PaymentCryptographyData {
     public struct EncryptDataInput: AWSEncodableShape {
         /// The encryption key type and attributes for plaintext encryption.
         public let encryptionAttributes: EncryptionDecryptionAttributes
-        /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for plaintext encryption.
+        /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for plaintext encryption. When a WrappedKeyBlock is provided, this value will be the identifier to the key wrapping key. Otherwise, it is the key identifier used to perform the operation.
         public let keyIdentifier: String
         /// The plaintext to be encrypted.  For encryption using asymmetric keys, plaintext data length is constrained by encryption key strength that you define in KeyAlgorithm and padding type that you define in AsymmetricEncryptionAttributes. For more information, see Encrypt data in the Amazon Web Services Payment Cryptography User Guide.
         public let plainText: String
+        /// The WrappedKeyBlock containing the encryption key for plaintext encryption.
+        public let wrappedKey: WrappedKey?
 
-        public init(encryptionAttributes: EncryptionDecryptionAttributes, keyIdentifier: String, plainText: String) {
+        public init(encryptionAttributes: EncryptionDecryptionAttributes, keyIdentifier: String, plainText: String, wrappedKey: WrappedKey? = nil) {
             self.encryptionAttributes = encryptionAttributes
             self.keyIdentifier = keyIdentifier
             self.plainText = plainText
+            self.wrappedKey = wrappedKey
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1169,6 +1184,7 @@ extension PaymentCryptographyData {
             try container.encode(self.encryptionAttributes, forKey: .encryptionAttributes)
             request.encodePath(self.keyIdentifier, key: "KeyIdentifier")
             try container.encode(self.plainText, forKey: .plainText)
+            try container.encodeIfPresent(self.wrappedKey, forKey: .wrappedKey)
         }
 
         public func validate(name: String) throws {
@@ -1179,11 +1195,13 @@ extension PaymentCryptographyData {
             try self.validate(self.plainText, name: "plainText", parent: name, max: 4064)
             try self.validate(self.plainText, name: "plainText", parent: name, min: 16)
             try self.validate(self.plainText, name: "plainText", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
+            try self.wrappedKey?.validate(name: "\(name).wrappedKey")
         }
 
         private enum CodingKeys: String, CodingKey {
             case encryptionAttributes = "EncryptionAttributes"
             case plainText = "PlainText"
+            case wrappedKey = "WrappedKey"
         }
     }
 
@@ -1641,7 +1659,7 @@ extension PaymentCryptographyData {
         public func validate(name: String) throws {
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
-            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, max: 19)
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, min: 12)
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, pattern: "^[0-9]+$")
@@ -1662,19 +1680,25 @@ extension PaymentCryptographyData {
         public let cipherText: String
         /// The attributes and values for incoming ciphertext.
         public let incomingEncryptionAttributes: ReEncryptionAttributes
-        /// The keyARN of the encryption key of incoming ciphertext data.
+        /// The keyARN of the encryption key of incoming ciphertext data. When a WrappedKeyBlock is provided, this value will be the identifier to the key wrapping key. Otherwise, it is the key identifier used to perform the operation.
         public let incomingKeyIdentifier: String
+        /// The WrappedKeyBlock containing the encryption key of incoming ciphertext data.
+        public let incomingWrappedKey: WrappedKey?
         /// The attributes and values for outgoing ciphertext data after encryption by Amazon Web Services Payment Cryptography.
         public let outgoingEncryptionAttributes: ReEncryptionAttributes
         /// The keyARN of the encryption key of outgoing ciphertext data after encryption by Amazon Web Services Payment Cryptography.
         public let outgoingKeyIdentifier: String
+        /// The WrappedKeyBlock containing the encryption key of outgoing ciphertext data after encryption by Amazon Web Services Payment Cryptography.
+        public let outgoingWrappedKey: WrappedKey?
 
-        public init(cipherText: String, incomingEncryptionAttributes: ReEncryptionAttributes, incomingKeyIdentifier: String, outgoingEncryptionAttributes: ReEncryptionAttributes, outgoingKeyIdentifier: String) {
+        public init(cipherText: String, incomingEncryptionAttributes: ReEncryptionAttributes, incomingKeyIdentifier: String, incomingWrappedKey: WrappedKey? = nil, outgoingEncryptionAttributes: ReEncryptionAttributes, outgoingKeyIdentifier: String, outgoingWrappedKey: WrappedKey? = nil) {
             self.cipherText = cipherText
             self.incomingEncryptionAttributes = incomingEncryptionAttributes
             self.incomingKeyIdentifier = incomingKeyIdentifier
+            self.incomingWrappedKey = incomingWrappedKey
             self.outgoingEncryptionAttributes = outgoingEncryptionAttributes
             self.outgoingKeyIdentifier = outgoingKeyIdentifier
+            self.outgoingWrappedKey = outgoingWrappedKey
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1683,8 +1707,10 @@ extension PaymentCryptographyData {
             try container.encode(self.cipherText, forKey: .cipherText)
             try container.encode(self.incomingEncryptionAttributes, forKey: .incomingEncryptionAttributes)
             request.encodePath(self.incomingKeyIdentifier, key: "IncomingKeyIdentifier")
+            try container.encodeIfPresent(self.incomingWrappedKey, forKey: .incomingWrappedKey)
             try container.encode(self.outgoingEncryptionAttributes, forKey: .outgoingEncryptionAttributes)
             try container.encode(self.outgoingKeyIdentifier, forKey: .outgoingKeyIdentifier)
+            try container.encodeIfPresent(self.outgoingWrappedKey, forKey: .outgoingWrappedKey)
         }
 
         public func validate(name: String) throws {
@@ -1695,17 +1721,21 @@ extension PaymentCryptographyData {
             try self.validate(self.incomingKeyIdentifier, name: "incomingKeyIdentifier", parent: name, max: 322)
             try self.validate(self.incomingKeyIdentifier, name: "incomingKeyIdentifier", parent: name, min: 7)
             try self.validate(self.incomingKeyIdentifier, name: "incomingKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.incomingWrappedKey?.validate(name: "\(name).incomingWrappedKey")
             try self.outgoingEncryptionAttributes.validate(name: "\(name).outgoingEncryptionAttributes")
             try self.validate(self.outgoingKeyIdentifier, name: "outgoingKeyIdentifier", parent: name, max: 322)
             try self.validate(self.outgoingKeyIdentifier, name: "outgoingKeyIdentifier", parent: name, min: 7)
             try self.validate(self.outgoingKeyIdentifier, name: "outgoingKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.outgoingWrappedKey?.validate(name: "\(name).outgoingWrappedKey")
         }
 
         private enum CodingKeys: String, CodingKey {
             case cipherText = "CipherText"
             case incomingEncryptionAttributes = "IncomingEncryptionAttributes"
+            case incomingWrappedKey = "IncomingWrappedKey"
             case outgoingEncryptionAttributes = "OutgoingEncryptionAttributes"
             case outgoingKeyIdentifier = "OutgoingKeyIdentifier"
+            case outgoingWrappedKey = "OutgoingWrappedKey"
         }
     }
 
@@ -1744,7 +1774,7 @@ extension PaymentCryptographyData {
         public func validate(name: String) throws {
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
-            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, max: 19)
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, min: 12)
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, pattern: "^[0-9]+$")
@@ -1776,7 +1806,7 @@ extension PaymentCryptographyData {
             try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, pattern: "^[0-9a-fA-F]+$")
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
-            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, max: 19)
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, min: 12)
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, pattern: "^[0-9]+$")
@@ -1809,7 +1839,7 @@ extension PaymentCryptographyData {
             try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, pattern: "^[0-9a-fA-F]+$")
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
-            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, max: 19)
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, min: 12)
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, pattern: "^[0-9]+$")
@@ -1845,7 +1875,7 @@ extension PaymentCryptographyData {
             try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, pattern: "^[0-9a-fA-F]+$")
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
-            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, max: 19)
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, min: 12)
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, pattern: "^[0-9]+$")
@@ -1876,7 +1906,7 @@ extension PaymentCryptographyData {
         public func validate(name: String) throws {
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
             try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
-            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, max: 19)
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, min: 12)
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, pattern: "^[0-9]+$")
@@ -1920,25 +1950,31 @@ extension PaymentCryptographyData {
         public let encryptedPinBlock: String
         /// The attributes and values to use for incoming DUKPT encryption key for PIN block translation.
         public let incomingDukptAttributes: DukptDerivationAttributes?
-        /// The keyARN of the encryption key under which incoming PIN block data is encrypted. This key type can be PEK or BDK.
+        /// The keyARN of the encryption key under which incoming PIN block data is encrypted. This key type can be PEK or BDK. When a WrappedKeyBlock is provided, this value will be the identifier to the key wrapping key for PIN block. Otherwise, it is the key identifier used to perform the operation.
         public let incomingKeyIdentifier: String
         /// The format of the incoming PIN block data for translation within Amazon Web Services Payment Cryptography.
         public let incomingTranslationAttributes: TranslationIsoFormats
+        /// The WrappedKeyBlock containing the encryption key under which incoming PIN block data is encrypted.
+        public let incomingWrappedKey: WrappedKey?
         /// The attributes and values to use for outgoing DUKPT encryption key after PIN block translation.
         public let outgoingDukptAttributes: DukptDerivationAttributes?
         /// The keyARN of the encryption key for encrypting outgoing PIN block data. This key type can be PEK or BDK.
         public let outgoingKeyIdentifier: String
         /// The format of the outgoing PIN block data after translation by Amazon Web Services Payment Cryptography.
         public let outgoingTranslationAttributes: TranslationIsoFormats
+        /// The WrappedKeyBlock containing the encryption key for encrypting outgoing PIN block data.
+        public let outgoingWrappedKey: WrappedKey?
 
-        public init(encryptedPinBlock: String, incomingDukptAttributes: DukptDerivationAttributes? = nil, incomingKeyIdentifier: String, incomingTranslationAttributes: TranslationIsoFormats, outgoingDukptAttributes: DukptDerivationAttributes? = nil, outgoingKeyIdentifier: String, outgoingTranslationAttributes: TranslationIsoFormats) {
+        public init(encryptedPinBlock: String, incomingDukptAttributes: DukptDerivationAttributes? = nil, incomingKeyIdentifier: String, incomingTranslationAttributes: TranslationIsoFormats, incomingWrappedKey: WrappedKey? = nil, outgoingDukptAttributes: DukptDerivationAttributes? = nil, outgoingKeyIdentifier: String, outgoingTranslationAttributes: TranslationIsoFormats, outgoingWrappedKey: WrappedKey? = nil) {
             self.encryptedPinBlock = encryptedPinBlock
             self.incomingDukptAttributes = incomingDukptAttributes
             self.incomingKeyIdentifier = incomingKeyIdentifier
             self.incomingTranslationAttributes = incomingTranslationAttributes
+            self.incomingWrappedKey = incomingWrappedKey
             self.outgoingDukptAttributes = outgoingDukptAttributes
             self.outgoingKeyIdentifier = outgoingKeyIdentifier
             self.outgoingTranslationAttributes = outgoingTranslationAttributes
+            self.outgoingWrappedKey = outgoingWrappedKey
         }
 
         public func validate(name: String) throws {
@@ -1950,11 +1986,13 @@ extension PaymentCryptographyData {
             try self.validate(self.incomingKeyIdentifier, name: "incomingKeyIdentifier", parent: name, min: 7)
             try self.validate(self.incomingKeyIdentifier, name: "incomingKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
             try self.incomingTranslationAttributes.validate(name: "\(name).incomingTranslationAttributes")
+            try self.incomingWrappedKey?.validate(name: "\(name).incomingWrappedKey")
             try self.outgoingDukptAttributes?.validate(name: "\(name).outgoingDukptAttributes")
             try self.validate(self.outgoingKeyIdentifier, name: "outgoingKeyIdentifier", parent: name, max: 322)
             try self.validate(self.outgoingKeyIdentifier, name: "outgoingKeyIdentifier", parent: name, min: 7)
             try self.validate(self.outgoingKeyIdentifier, name: "outgoingKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
             try self.outgoingTranslationAttributes.validate(name: "\(name).outgoingTranslationAttributes")
+            try self.outgoingWrappedKey?.validate(name: "\(name).outgoingWrappedKey")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1962,9 +2000,11 @@ extension PaymentCryptographyData {
             case incomingDukptAttributes = "IncomingDukptAttributes"
             case incomingKeyIdentifier = "IncomingKeyIdentifier"
             case incomingTranslationAttributes = "IncomingTranslationAttributes"
+            case incomingWrappedKey = "IncomingWrappedKey"
             case outgoingDukptAttributes = "OutgoingDukptAttributes"
             case outgoingKeyIdentifier = "OutgoingKeyIdentifier"
             case outgoingTranslationAttributes = "OutgoingTranslationAttributes"
+            case outgoingWrappedKey = "OutgoingWrappedKey"
         }
     }
 
@@ -2290,7 +2330,7 @@ extension PaymentCryptographyData {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.pinVerificationKeyIndex, name: "pinVerificationKeyIndex", parent: name, max: 9)
+            try self.validate(self.pinVerificationKeyIndex, name: "pinVerificationKeyIndex", parent: name, max: 6)
             try self.validate(self.pinVerificationKeyIndex, name: "pinVerificationKeyIndex", parent: name, min: 0)
         }
 
@@ -2311,7 +2351,7 @@ extension PaymentCryptographyData {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.pinVerificationKeyIndex, name: "pinVerificationKeyIndex", parent: name, max: 9)
+            try self.validate(self.pinVerificationKeyIndex, name: "pinVerificationKeyIndex", parent: name, max: 6)
             try self.validate(self.pinVerificationKeyIndex, name: "pinVerificationKeyIndex", parent: name, min: 0)
             try self.validate(self.verificationValue, name: "verificationValue", parent: name, max: 12)
             try self.validate(self.verificationValue, name: "verificationValue", parent: name, min: 4)
@@ -2339,13 +2379,53 @@ extension PaymentCryptographyData {
             try self.validate(self.encryptedPinBlock, name: "encryptedPinBlock", parent: name, max: 32)
             try self.validate(self.encryptedPinBlock, name: "encryptedPinBlock", parent: name, min: 16)
             try self.validate(self.encryptedPinBlock, name: "encryptedPinBlock", parent: name, pattern: "^[0-9a-fA-F]+$")
-            try self.validate(self.pinVerificationKeyIndex, name: "pinVerificationKeyIndex", parent: name, max: 9)
+            try self.validate(self.pinVerificationKeyIndex, name: "pinVerificationKeyIndex", parent: name, max: 6)
             try self.validate(self.pinVerificationKeyIndex, name: "pinVerificationKeyIndex", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case encryptedPinBlock = "EncryptedPinBlock"
             case pinVerificationKeyIndex = "PinVerificationKeyIndex"
+        }
+    }
+
+    public struct WrappedKey: AWSEncodableShape {
+        /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
+        public let keyCheckValueAlgorithm: KeyCheckValueAlgorithm?
+        /// Parameter information of a WrappedKeyBlock for encryption key exchange.
+        public let wrappedKeyMaterial: WrappedKeyMaterial
+
+        public init(keyCheckValueAlgorithm: KeyCheckValueAlgorithm? = nil, wrappedKeyMaterial: WrappedKeyMaterial) {
+            self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
+            self.wrappedKeyMaterial = wrappedKeyMaterial
+        }
+
+        public func validate(name: String) throws {
+            try self.wrappedKeyMaterial.validate(name: "\(name).wrappedKeyMaterial")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyCheckValueAlgorithm = "KeyCheckValueAlgorithm"
+            case wrappedKeyMaterial = "WrappedKeyMaterial"
+        }
+    }
+
+    public struct WrappedKeyMaterial: AWSEncodableShape {
+        /// The TR-31 wrapped key block.
+        public let tr31KeyBlock: String?
+
+        public init(tr31KeyBlock: String? = nil) {
+            self.tr31KeyBlock = tr31KeyBlock
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tr31KeyBlock, name: "tr31KeyBlock", parent: name, max: 9984)
+            try self.validate(self.tr31KeyBlock, name: "tr31KeyBlock", parent: name, min: 56)
+            try self.validate(self.tr31KeyBlock, name: "tr31KeyBlock", parent: name, pattern: "^[0-9A-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tr31KeyBlock = "Tr31KeyBlock"
         }
     }
 }

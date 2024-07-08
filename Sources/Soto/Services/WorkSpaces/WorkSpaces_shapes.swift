@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -54,6 +54,12 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum ApplicationSettingsStatusEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssociationErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case insufficientDiskspace = "ValidationError.InsufficientDiskSpace"
         case insufficientMemory = "ValidationError.InsufficientMemory"
@@ -82,6 +88,11 @@ extension WorkSpaces {
         case notAssociated = "NOT_ASSOCIATED"
         case pendingAssociation = "PENDING_ASSOCIATION"
         case pendingDisassociation = "PENDING_DISASSOCIATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case saml = "SAML"
         public var description: String { return self.rawValue }
     }
 
@@ -180,6 +191,19 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum DescribeWorkspacesPoolsFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case poolname = "PoolName"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DescribeWorkspacesPoolsFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contains = "CONTAINS"
+        case equals = "EQUALS"
+        case notcontains = "NOTCONTAINS"
+        case notequals = "NOTEQUALS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImageAssociatedResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case application = "APPLICATION"
         public var description: String { return self.rawValue }
@@ -212,6 +236,7 @@ extension WorkSpaces {
 
     public enum OperatingSystemName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonLinux2 = "AMAZON_LINUX_2"
+        case rhel8 = "RHEL_8"
         case ubuntu1804 = "UBUNTU_18_04"
         case ubuntu2004 = "UBUNTU_20_04"
         case ubuntu2204 = "UBUNTU_22_04"
@@ -251,9 +276,32 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum SessionConnectionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case connected = "CONNECTED"
+        case notConnected = "NOT_CONNECTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StandbyWorkspaceRelationshipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case primary = "PRIMARY"
         case standby = "STANDBY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageConnectorStatusEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageConnectorTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case homeFolder = "HOME_FOLDER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamingExperiencePreferredProtocolEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case tcp = "TCP"
+        case udp = "UDP"
         public var description: String { return self.rawValue }
     }
 
@@ -266,6 +314,26 @@ extension WorkSpaces {
     public enum Tenancy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dedicated = "DEDICATED"
         case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserIdentityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsDirectoryService = "AWS_DIRECTORY_SERVICE"
+        case customerManaged = "CUSTOMER_MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserSettingActionEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case clipboardCopyFromLocalDevice = "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"
+        case clipboardCopyToLocalDevice = "CLIPBOARD_COPY_TO_LOCAL_DEVICE"
+        case printingToLocalDevice = "PRINTING_TO_LOCAL_DEVICE"
+        case smartCard = "SMART_CARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserSettingPermissionEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -306,6 +374,7 @@ extension WorkSpaces {
 
     public enum WorkspaceDirectoryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case adConnector = "AD_CONNECTOR"
+        case customerManaged = "CUSTOMER_MANAGED"
         case simpleAd = "SIMPLE_AD"
         public var description: String { return self.rawValue }
     }
@@ -381,6 +450,67 @@ extension WorkSpaces {
         case terminated = "TERMINATED"
         case terminating = "TERMINATING"
         case unhealthy = "UNHEALTHY"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case personal = "PERSONAL"
+        case pools = "POOLS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspacesPoolErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bundleNotFound = "BUNDLE_NOT_FOUND"
+        case defaultOuIsMissing = "DEFAULT_OU_IS_MISSING"
+        case directoryNotFound = "DIRECTORY_NOT_FOUND"
+        case domainJoinErrorAccessDenied = "DOMAIN_JOIN_ERROR_ACCESS_DENIED"
+        case domainJoinErrorDsMachineAccountQuotaExceeded = "DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED"
+        case domainJoinErrorFileNotFound = "DOMAIN_JOIN_ERROR_FILE_NOT_FOUND"
+        case domainJoinErrorInvalidParameter = "DOMAIN_JOIN_ERROR_INVALID_PARAMETER"
+        case domainJoinErrorLogonFailure = "DOMAIN_JOIN_ERROR_LOGON_FAILURE"
+        case domainJoinErrorMoreData = "DOMAIN_JOIN_ERROR_MORE_DATA"
+        case domainJoinErrorNoSuchDomain = "DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN"
+        case domainJoinErrorNotSupported = "DOMAIN_JOIN_ERROR_NOT_SUPPORTED"
+        case domainJoinErrorSecretActionPermissionIsMissing = "DOMAIN_JOIN_ERROR_SECRET_ACTION_PERMISSION_IS_MISSING"
+        case domainJoinErrorSecretDecryptionFailure = "DOMAIN_JOIN_ERROR_SECRET_DECRYPTION_FAILURE"
+        case domainJoinErrorSecretInvalid = "DOMAIN_JOIN_ERROR_SECRET_INVALID"
+        case domainJoinErrorSecretNotFound = "DOMAIN_JOIN_ERROR_SECRET_NOT_FOUND"
+        case domainJoinErrorSecretStateInvalid = "DOMAIN_JOIN_ERROR_SECRET_STATE_INVALID"
+        case domainJoinErrorSecretValueKeyNotFound = "DOMAIN_JOIN_ERROR_SECRET_VALUE_KEY_NOT_FOUND"
+        case domainJoinInternalServiceError = "DOMAIN_JOIN_INTERNAL_SERVICE_ERROR"
+        case domainJoinNerrInvalidWorkgroupName = "DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME"
+        case domainJoinNerrPasswordExpired = "DOMAIN_JOIN_NERR_PASSWORD_EXPIRED"
+        case domainJoinNerrWorkstationNotStarted = "DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED"
+        case iamServiceRoleIsMissing = "IAM_SERVICE_ROLE_IS_MISSING"
+        case iamServiceRoleMissingDescribeSecurityGroupsAction = "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION"
+        case iamServiceRoleMissingDescribeSubnetAction = "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION"
+        case iamServiceRoleMissingEniCreateAction = "IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION"
+        case iamServiceRoleMissingEniDeleteAction = "IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION"
+        case iamServiceRoleMissingEniDescribeAction = "IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION"
+        case igwNotAttached = "IGW_NOT_ATTACHED"
+        case imageNotFound = "IMAGE_NOT_FOUND"
+        case insufficientPermissionsError = "INSUFFICIENT_PERMISSIONS_ERROR"
+        case internalServiceError = "INTERNAL_SERVICE_ERROR"
+        case invalidSubnetConfiguration = "INVALID_SUBNET_CONFIGURATION"
+        case machineRoleIsMissing = "MACHINE_ROLE_IS_MISSING"
+        case networkInterfaceLimitExceeded = "NETWORK_INTERFACE_LIMIT_EXCEEDED"
+        case securityGroupsNotFound = "SECURITY_GROUPS_NOT_FOUND"
+        case stsDisabledInRegion = "STS_DISABLED_IN_REGION"
+        case subnetHasInsufficientIpAddresses = "SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES"
+        case subnetNotFound = "SUBNET_NOT_FOUND"
+        case workspacesPoolInstanceProvisioningFailure = "WORKSPACES_POOL_INSTANCE_PROVISIONING_FAILURE"
+        case workspacesPoolStopped = "WORKSPACES_POOL_STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspacesPoolState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case running = "RUNNING"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -486,6 +616,28 @@ extension WorkSpaces {
         }
     }
 
+    public struct ActiveDirectoryConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the domain.
+        public let domainName: String
+        /// Indicates the secret ARN on the service account.
+        public let serviceAccountSecretArn: String
+
+        public init(domainName: String, serviceAccountSecretArn: String) {
+            self.domainName = domainName
+            self.serviceAccountSecretArn = serviceAccountSecretArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
+            try self.validate(self.serviceAccountSecretArn, name: "serviceAccountSecretArn", parent: name, pattern: "^arn:aws[a-z-]{0,7}:secretsmanager:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:secret:[A-Za-z0-9][A-za-z0-9_/.-]{8,519}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case serviceAccountSecretArn = "ServiceAccountSecretArn"
+        }
+    }
+
     public struct ApplicationResourceAssociation: AWSDecodableShape {
         /// The identifier of the application.
         public let applicationId: String?
@@ -520,6 +672,49 @@ extension WorkSpaces {
             case lastUpdatedTime = "LastUpdatedTime"
             case state = "State"
             case stateReason = "StateReason"
+        }
+    }
+
+    public struct ApplicationSettingsRequest: AWSEncodableShape {
+        /// The path prefix for the S3 bucket where users’ persistent application settings are stored.  You can allow the same persistent application settings to be used across multiple pools by specifying  the same settings group for each pool.
+        public let settingsGroup: String?
+        /// Enables or disables persistent application settings for users during their pool sessions.
+        public let status: ApplicationSettingsStatusEnum
+
+        public init(settingsGroup: String? = nil, status: ApplicationSettingsStatusEnum) {
+            self.settingsGroup = settingsGroup
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.settingsGroup, name: "settingsGroup", parent: name, max: 100)
+            try self.validate(self.settingsGroup, name: "settingsGroup", parent: name, pattern: "^[A-Za-z0-9_./()!*'-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case settingsGroup = "SettingsGroup"
+            case status = "Status"
+        }
+    }
+
+    public struct ApplicationSettingsResponse: AWSDecodableShape {
+        /// The S3 bucket where users’ persistent application settings are stored. When persistent  application settings are enabled for the first time for an account in an Amazon Web Services Region,  an S3 bucket is created. The bucket is unique to the Amazon Web Services account and the Region.
+        public let s3BucketName: String?
+        /// The path prefix for the S3 bucket where users’ persistent application settings are stored.
+        public let settingsGroup: String?
+        /// Specifies whether persistent application settings are enabled for users during their pool sessions.
+        public let status: ApplicationSettingsStatusEnum
+
+        public init(s3BucketName: String? = nil, settingsGroup: String? = nil, status: ApplicationSettingsStatusEnum) {
+            self.s3BucketName = s3BucketName
+            self.settingsGroup = settingsGroup
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketName = "S3BucketName"
+            case settingsGroup = "SettingsGroup"
+            case status = "Status"
         }
     }
 
@@ -574,7 +769,7 @@ extension WorkSpaces {
         public func validate(name: String) throws {
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
-            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
             try self.groupIds.forEach {
                 try validate($0, name: "groupIds[]", parent: name, pattern: "^wsipg-[0-9a-z]{8,63}$")
             }
@@ -701,6 +896,48 @@ extension WorkSpaces {
             case lastUpdatedTime = "LastUpdatedTime"
             case state = "State"
             case stateReason = "StateReason"
+        }
+    }
+
+    public struct Capacity: AWSEncodableShape {
+        /// The desired number of user sessions for a multi-session pool.  This is not allowed for single-session pools.
+        public let desiredUserSessions: Int
+
+        public init(desiredUserSessions: Int) {
+            self.desiredUserSessions = desiredUserSessions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.desiredUserSessions, name: "desiredUserSessions", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredUserSessions = "DesiredUserSessions"
+        }
+    }
+
+    public struct CapacityStatus: AWSDecodableShape {
+        /// The number of user sessions currently being used for pool sessions. This only applies to multi-session pools.
+        public let activeUserSessions: Int
+        /// The total number of session slots that are available for a pool of WorkSpaces.
+        public let actualUserSessions: Int
+        /// The number of user sessions currently being used for pool sessions. This only applies to multi-session pools.
+        public let availableUserSessions: Int
+        /// The total number of sessions slots that are either running or pending. This  represents the total number of concurrent streaming sessions your pool can support  in a steady state.
+        public let desiredUserSessions: Int
+
+        public init(activeUserSessions: Int, actualUserSessions: Int, availableUserSessions: Int, desiredUserSessions: Int) {
+            self.activeUserSessions = activeUserSessions
+            self.actualUserSessions = actualUserSessions
+            self.availableUserSessions = availableUserSessions
+            self.desiredUserSessions = desiredUserSessions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeUserSessions = "ActiveUserSessions"
+            case actualUserSessions = "ActualUserSessions"
+            case availableUserSessions = "AvailableUserSessions"
+            case desiredUserSessions = "DesiredUserSessions"
         }
     }
 
@@ -987,7 +1224,7 @@ extension WorkSpaces {
             try self.validate(self.name, name: "name", parent: name, pattern: "^.*$")
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
             try self.validate(self.url, name: "url", parent: name, max: 1024)
             try self.validate(self.url, name: "url", parent: name, min: 1)
             try self.validate(self.url, name: "url", parent: name, pattern: "^(http|https)\\://\\S+$")
@@ -1358,6 +1595,77 @@ extension WorkSpaces {
         }
     }
 
+    public struct CreateWorkspacesPoolRequest: AWSEncodableShape {
+        /// Indicates the application settings of the pool.
+        public let applicationSettings: ApplicationSettingsRequest?
+        /// The identifier of the bundle for the pool.
+        public let bundleId: String
+        /// The user capacity of the pool.
+        public let capacity: Capacity
+        /// The pool description.
+        public let description: String
+        /// The identifier of the directory for the pool.
+        public let directoryId: String
+        /// The name of the pool.
+        public let poolName: String
+        /// The tags for the pool.
+        public let tags: [Tag]?
+        /// Indicates the timeout settings of the pool.
+        public let timeoutSettings: TimeoutSettings?
+
+        public init(applicationSettings: ApplicationSettingsRequest? = nil, bundleId: String, capacity: Capacity, description: String, directoryId: String, poolName: String, tags: [Tag]? = nil, timeoutSettings: TimeoutSettings? = nil) {
+            self.applicationSettings = applicationSettings
+            self.bundleId = bundleId
+            self.capacity = capacity
+            self.description = description
+            self.directoryId = directoryId
+            self.poolName = poolName
+            self.tags = tags
+            self.timeoutSettings = timeoutSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.applicationSettings?.validate(name: "\(name).applicationSettings")
+            try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
+            try self.capacity.validate(name: "\(name).capacity")
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9_./() -]+$")
+            try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
+            try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
+            try self.validate(self.poolName, name: "poolName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.timeoutSettings?.validate(name: "\(name).timeoutSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationSettings = "ApplicationSettings"
+            case bundleId = "BundleId"
+            case capacity = "Capacity"
+            case description = "Description"
+            case directoryId = "DirectoryId"
+            case poolName = "PoolName"
+            case tags = "Tags"
+            case timeoutSettings = "TimeoutSettings"
+        }
+    }
+
+    public struct CreateWorkspacesPoolResult: AWSDecodableShape {
+        /// Indicates the pool to create.
+        public let workspacesPool: WorkspacesPool?
+
+        public init(workspacesPool: WorkspacesPool? = nil) {
+            self.workspacesPool = workspacesPool
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspacesPool = "WorkspacesPool"
+        }
+    }
+
     public struct CreateWorkspacesRequest: AWSEncodableShape {
         /// The WorkSpaces to create. You can specify up to 25 WorkSpaces.
         public let workspaces: [WorkspaceRequest]
@@ -1503,15 +1811,18 @@ extension WorkSpaces {
         public let enableMaintenanceMode: Bool?
         /// Specifies whether the directory is enabled for Amazon WorkDocs.
         public let enableWorkDocs: Bool?
+        /// Indicates the IAM role ARN of the instance.
+        public let instanceIamRoleArn: String?
         /// Specifies whether WorkSpace users are local administrators on their WorkSpaces.
         public let userEnabledAsLocalAdministrator: Bool?
 
-        public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableMaintenanceMode: Bool? = nil, enableWorkDocs: Bool? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
+        public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableMaintenanceMode: Bool? = nil, enableWorkDocs: Bool? = nil, instanceIamRoleArn: String? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
             self.customSecurityGroupId = customSecurityGroupId
             self.defaultOu = defaultOu
             self.enableInternetAccess = enableInternetAccess
             self.enableMaintenanceMode = enableMaintenanceMode
             self.enableWorkDocs = enableWorkDocs
+            self.instanceIamRoleArn = instanceIamRoleArn
             self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
         }
 
@@ -1521,6 +1832,7 @@ extension WorkSpaces {
             case enableInternetAccess = "EnableInternetAccess"
             case enableMaintenanceMode = "EnableMaintenanceMode"
             case enableWorkDocs = "EnableWorkDocs"
+            case instanceIamRoleArn = "InstanceIamRoleArn"
             case userEnabledAsLocalAdministrator = "UserEnabledAsLocalAdministrator"
         }
     }
@@ -1576,7 +1888,7 @@ extension WorkSpaces {
             try self.validate(self.platforms, name: "platforms", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1606,7 +1918,7 @@ extension WorkSpaces {
             try self.validate(self.addInId, name: "addInId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1778,7 +2090,7 @@ extension WorkSpaces {
         public func validate(name: String) throws {
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
-            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2012,7 +2324,7 @@ extension WorkSpaces {
         public func validate(name: String) throws {
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2108,7 +2420,7 @@ extension WorkSpaces {
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2445,18 +2757,21 @@ extension WorkSpaces {
         public let limit: Int?
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
+        /// The names of the WorkSpace directories.
+        public let workspaceDirectoryNames: [String]?
 
-        public init(directoryIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
+        public init(directoryIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil, workspaceDirectoryNames: [String]? = nil) {
             self.directoryIds = directoryIds
             self.limit = limit
             self.nextToken = nextToken
+            self.workspaceDirectoryNames = workspaceDirectoryNames
         }
 
         public func validate(name: String) throws {
             try self.directoryIds?.forEach {
                 try validate($0, name: "directoryIds[]", parent: name, max: 65)
                 try validate($0, name: "directoryIds[]", parent: name, min: 10)
-                try validate($0, name: "directoryIds[]", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+                try validate($0, name: "directoryIds[]", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
             }
             try self.validate(self.directoryIds, name: "directoryIds", parent: name, max: 25)
             try self.validate(self.directoryIds, name: "directoryIds", parent: name, min: 1)
@@ -2464,12 +2779,18 @@ extension WorkSpaces {
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.workspaceDirectoryNames?.forEach {
+                try validate($0, name: "workspaceDirectoryNames[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.\\s-]{1,64}$")
+            }
+            try self.validate(self.workspaceDirectoryNames, name: "workspaceDirectoryNames", parent: name, max: 25)
+            try self.validate(self.workspaceDirectoryNames, name: "workspaceDirectoryNames", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case directoryIds = "DirectoryIds"
             case limit = "Limit"
             case nextToken = "NextToken"
+            case workspaceDirectoryNames = "WorkspaceDirectoryNames"
         }
     }
 
@@ -2672,6 +2993,148 @@ extension WorkSpaces {
         }
     }
 
+    public struct DescribeWorkspacesPoolSessionsRequest: AWSEncodableShape {
+        /// The maximum number of items to return.
+        public let limit: Int?
+        /// If you received a NextToken from a previous call that was paginated,  provide this token to receive the next set of results.
+        public let nextToken: String?
+        /// The identifier of the pool.
+        public let poolId: String
+        /// The identifier of the user.
+        public let userId: String?
+
+        public init(limit: Int? = nil, nextToken: String? = nil, poolId: String, userId: String? = nil) {
+            self.limit = limit
+            self.nextToken = nextToken
+            self.poolId = poolId
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.limit, name: "limit", parent: name, max: 50)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^wspool-[0-9a-z]{9}$")
+            try self.validate(self.userId, name: "userId", parent: name, max: 128)
+            try self.validate(self.userId, name: "userId", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case poolId = "PoolId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct DescribeWorkspacesPoolSessionsResult: AWSDecodableShape {
+        /// If you received a NextToken from a previous call that was paginated,  provide this token to receive the next set of results.
+        public let nextToken: String?
+        /// Describes the pool sessions.
+        public let sessions: [WorkspacesPoolSession]?
+
+        public init(nextToken: String? = nil, sessions: [WorkspacesPoolSession]? = nil) {
+            self.nextToken = nextToken
+            self.sessions = sessions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case sessions = "Sessions"
+        }
+    }
+
+    public struct DescribeWorkspacesPoolsFilter: AWSEncodableShape {
+        /// The name of the pool to filter.
+        public let name: DescribeWorkspacesPoolsFilterName
+        /// The operator values for filtering WorkSpaces Pools.
+        public let `operator`: DescribeWorkspacesPoolsFilterOperator
+        /// The values for filtering WorkSpaces Pools.
+        public let values: [String]
+
+        public init(name: DescribeWorkspacesPoolsFilterName, operator: DescribeWorkspacesPoolsFilterOperator, values: [String]) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 128)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_.-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 25)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `operator` = "Operator"
+            case values = "Values"
+        }
+    }
+
+    public struct DescribeWorkspacesPoolsRequest: AWSEncodableShape {
+        /// The filter conditions for the WorkSpaces Pool to return.
+        public let filters: [DescribeWorkspacesPoolsFilter]?
+        /// The maximum number of items to return.
+        public let limit: Int?
+        /// If you received a NextToken from a previous call that was paginated,  provide this token to receive the next set of results.
+        public let nextToken: String?
+        /// The identifier of the WorkSpaces Pools.
+        public let poolIds: [String]?
+
+        public init(filters: [DescribeWorkspacesPoolsFilter]? = nil, limit: Int? = nil, nextToken: String? = nil, poolIds: [String]? = nil) {
+            self.filters = filters
+            self.limit = limit
+            self.nextToken = nextToken
+            self.poolIds = poolIds
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 25)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.limit, name: "limit", parent: name, max: 25)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.poolIds?.forEach {
+                try validate($0, name: "poolIds[]", parent: name, pattern: "^wspool-[0-9a-z]{9}$")
+            }
+            try self.validate(self.poolIds, name: "poolIds", parent: name, max: 25)
+            try self.validate(self.poolIds, name: "poolIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case poolIds = "PoolIds"
+        }
+    }
+
+    public struct DescribeWorkspacesPoolsResult: AWSDecodableShape {
+        /// If you received a NextToken from a previous call that was paginated,  provide this token to receive the next set of results.
+        public let nextToken: String?
+        /// Information about the WorkSpaces Pools.
+        public let workspacesPools: [WorkspacesPool]?
+
+        public init(nextToken: String? = nil, workspacesPools: [WorkspacesPool]? = nil) {
+            self.nextToken = nextToken
+            self.workspacesPools = workspacesPools
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case workspacesPools = "WorkspacesPools"
+        }
+    }
+
     public struct DescribeWorkspacesRequest: AWSEncodableShape {
         /// The identifier of the bundle. All WorkSpaces that are created from this bundle are retrieved. You cannot combine this parameter with any other filter.
         public let bundleId: String?
@@ -2702,7 +3165,7 @@ extension WorkSpaces {
             try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
-            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
             try self.validate(self.limit, name: "limit", parent: name, max: 25)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -2782,7 +3245,7 @@ extension WorkSpaces {
         public func validate(name: String) throws {
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
-            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
             try self.groupIds.forEach {
                 try validate($0, name: "groupIds[]", parent: name, pattern: "^wsipg-[0-9a-z]{8,63}$")
             }
@@ -3033,7 +3496,7 @@ extension WorkSpaces {
             try self.deviceTypeWindows?.validate(name: "\(name).deviceTypeWindows")
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3447,7 +3910,7 @@ extension WorkSpaces {
             try self.certificateBasedAuthProperties?.validate(name: "\(name).certificateBasedAuthProperties")
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3503,7 +3966,7 @@ extension WorkSpaces {
         public func validate(name: String) throws {
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
             try self.samlProperties?.validate(name: "\(name).samlProperties")
         }
 
@@ -3532,7 +3995,7 @@ extension WorkSpaces {
         public func validate(name: String) throws {
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3542,6 +4005,34 @@ extension WorkSpaces {
     }
 
     public struct ModifySelfservicePermissionsResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct ModifyStreamingPropertiesRequest: AWSEncodableShape {
+        /// The identifier of the resource.
+        public let resourceId: String
+        /// The streaming properties to configure.
+        public let streamingProperties: StreamingProperties?
+
+        public init(resourceId: String, streamingProperties: StreamingProperties? = nil) {
+            self.resourceId = resourceId
+            self.streamingProperties = streamingProperties
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
+            try self.streamingProperties?.validate(name: "\(name).streamingProperties")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case streamingProperties = "StreamingProperties"
+        }
+    }
+
+    public struct ModifyStreamingPropertiesResult: AWSDecodableShape {
         public init() {}
     }
 
@@ -3559,7 +4050,7 @@ extension WorkSpaces {
         public func validate(name: String) throws {
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3586,7 +4077,7 @@ extension WorkSpaces {
         public func validate(name: String) throws {
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
             try self.workspaceCreationProperties.validate(name: "\(name).workspaceCreationProperties")
         }
 
@@ -3652,6 +4143,23 @@ extension WorkSpaces {
 
     public struct ModifyWorkspaceStateResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct NetworkAccessConfiguration: AWSDecodableShape {
+        /// The resource identifier of the elastic network interface that is attached to instances in your  VPC. All network interfaces have the eni-xxxxxxxx resource identifier.
+        public let eniId: String?
+        /// The private IP address of the elastic network interface that is attached to instances in your VPC.
+        public let eniPrivateIpAddress: String?
+
+        public init(eniId: String? = nil, eniPrivateIpAddress: String? = nil) {
+            self.eniId = eniId
+            self.eniPrivateIpAddress = eniPrivateIpAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eniId = "EniId"
+            case eniPrivateIpAddress = "EniPrivateIpAddress"
+        }
     }
 
     public struct OperatingSystem: AWSDecodableShape {
@@ -3795,32 +4303,48 @@ extension WorkSpaces {
     }
 
     public struct RegisterWorkspaceDirectoryRequest: AWSEncodableShape {
+        /// The active directory config of the directory.
+        public let activeDirectoryConfig: ActiveDirectoryConfig?
         /// The identifier of the directory. You cannot register a directory if it does not have a status of Active. If the directory does not have a status of Active, you will receive an InvalidResourceStateException error. If you have already registered the maximum number of directories that you can register with Amazon WorkSpaces, you will receive a ResourceLimitExceededException error. Deregister directories that you are not using for WorkSpaces, and try again.
-        public let directoryId: String
+        public let directoryId: String?
         /// Indicates whether self-service capabilities are enabled or disabled.
         public let enableSelfService: Bool?
         /// Indicates whether Amazon WorkDocs is enabled or disabled. If you have enabled this parameter and WorkDocs is not available in the Region, you will receive an OperationNotSupportedException error. Set EnableWorkDocs to disabled, and try again.
-        public let enableWorkDocs: Bool
+        public let enableWorkDocs: Bool?
         /// The identifiers of the subnets for your virtual private cloud (VPC). Make sure that the subnets are in supported Availability Zones. The subnets must also be in separate Availability Zones. If these conditions are not met, you will receive an OperationNotSupportedException error.
         public let subnetIds: [String]?
         /// The tags associated with the directory.
         public let tags: [Tag]?
         /// Indicates whether your WorkSpace directory is dedicated or shared. To use Bring Your Own License (BYOL) images, this value must be set to DEDICATED and your Amazon Web Services account must be enabled for BYOL. If your account has not been enabled for BYOL, you will receive an InvalidParameterValuesException error. For more information about BYOL images, see Bring Your Own Windows Desktop Images.
         public let tenancy: Tenancy?
+        /// The type of identity management the user is using.
+        public let userIdentityType: UserIdentityType?
+        /// Description of the directory to register.
+        public let workspaceDirectoryDescription: String?
+        /// The name of the directory to register.
+        public let workspaceDirectoryName: String?
+        /// Indicates whether the directory's WorkSpace type is personal or pools.
+        public let workspaceType: WorkspaceType?
 
-        public init(directoryId: String, enableSelfService: Bool? = nil, enableWorkDocs: Bool, subnetIds: [String]? = nil, tags: [Tag]? = nil, tenancy: Tenancy? = nil) {
+        public init(activeDirectoryConfig: ActiveDirectoryConfig? = nil, directoryId: String? = nil, enableSelfService: Bool? = nil, enableWorkDocs: Bool? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, tenancy: Tenancy? = nil, userIdentityType: UserIdentityType? = nil, workspaceDirectoryDescription: String? = nil, workspaceDirectoryName: String? = nil, workspaceType: WorkspaceType? = nil) {
+            self.activeDirectoryConfig = activeDirectoryConfig
             self.directoryId = directoryId
             self.enableSelfService = enableSelfService
             self.enableWorkDocs = enableWorkDocs
             self.subnetIds = subnetIds
             self.tags = tags
             self.tenancy = tenancy
+            self.userIdentityType = userIdentityType
+            self.workspaceDirectoryDescription = workspaceDirectoryDescription
+            self.workspaceDirectoryName = workspaceDirectoryName
+            self.workspaceType = workspaceType
         }
 
         public func validate(name: String) throws {
+            try self.activeDirectoryConfig?.validate(name: "\(name).activeDirectoryConfig")
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
-            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
             try self.subnetIds?.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, max: 24)
                 try validate($0, name: "subnetIds[]", parent: name, min: 15)
@@ -3830,20 +4354,40 @@ extension WorkSpaces {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.validate(self.workspaceDirectoryDescription, name: "workspaceDirectoryDescription", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]{1,255}$")
+            try self.validate(self.workspaceDirectoryName, name: "workspaceDirectoryName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.\\s-]{1,64}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeDirectoryConfig = "ActiveDirectoryConfig"
             case directoryId = "DirectoryId"
             case enableSelfService = "EnableSelfService"
             case enableWorkDocs = "EnableWorkDocs"
             case subnetIds = "SubnetIds"
             case tags = "Tags"
             case tenancy = "Tenancy"
+            case userIdentityType = "UserIdentityType"
+            case workspaceDirectoryDescription = "WorkspaceDirectoryDescription"
+            case workspaceDirectoryName = "WorkspaceDirectoryName"
+            case workspaceType = "WorkspaceType"
         }
     }
 
     public struct RegisterWorkspaceDirectoryResult: AWSDecodableShape {
-        public init() {}
+        /// The identifier of the directory.
+        public let directoryId: String?
+        /// The registration status of the WorkSpace directory.
+        public let state: WorkspaceDirectoryState?
+
+        public init(directoryId: String? = nil, state: WorkspaceDirectoryState? = nil) {
+            self.directoryId = directoryId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case state = "State"
+        }
     }
 
     public struct RejectAccountLinkInvitationRequest: AWSEncodableShape {
@@ -3954,9 +4498,9 @@ extension WorkSpaces {
 
     public struct RootStorage: AWSEncodableShape & AWSDecodableShape {
         /// The size of the root volume.
-        public let capacity: String?
+        public let capacity: String
 
-        public init(capacity: String? = nil) {
+        public init(capacity: String) {
             self.capacity = capacity
         }
 
@@ -4062,7 +4606,7 @@ extension WorkSpaces {
         public func validate(name: String) throws {
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
-            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
             try self.validate(self.primaryWorkspaceId, name: "primaryWorkspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -4116,6 +4660,27 @@ extension WorkSpaces {
         }
     }
 
+    public struct StartWorkspacesPoolRequest: AWSEncodableShape {
+        /// The identifier of the pool.
+        public let poolId: String
+
+        public init(poolId: String) {
+            self.poolId = poolId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^wspool-[0-9a-z]{9}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case poolId = "PoolId"
+        }
+    }
+
+    public struct StartWorkspacesPoolResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct StartWorkspacesRequest: AWSEncodableShape {
         /// The WorkSpaces to start. You can specify up to 25 WorkSpaces.
         public let startWorkspaceRequests: [StartRequest]
@@ -4167,6 +4732,27 @@ extension WorkSpaces {
         }
     }
 
+    public struct StopWorkspacesPoolRequest: AWSEncodableShape {
+        /// The identifier of the pool.
+        public let poolId: String
+
+        public init(poolId: String) {
+            self.poolId = poolId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^wspool-[0-9a-z]{9}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case poolId = "PoolId"
+        }
+    }
+
+    public struct StopWorkspacesPoolResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct StopWorkspacesRequest: AWSEncodableShape {
         /// The WorkSpaces to stop. You can specify up to 25 WorkSpaces.
         public let stopWorkspaceRequests: [StopRequest]
@@ -4198,6 +4784,52 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case failedRequests = "FailedRequests"
+        }
+    }
+
+    public struct StorageConnector: AWSEncodableShape & AWSDecodableShape {
+        /// The type of connector used to save user files.
+        public let connectorType: StorageConnectorTypeEnum
+        /// Indicates if the storage connetor is enabled or disabled.
+        public let status: StorageConnectorStatusEnum
+
+        public init(connectorType: StorageConnectorTypeEnum, status: StorageConnectorStatusEnum) {
+            self.connectorType = connectorType
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorType = "ConnectorType"
+            case status = "Status"
+        }
+    }
+
+    public struct StreamingProperties: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the storage connector used
+        public let storageConnectors: [StorageConnector]?
+        /// Indicates the type of preferred protocol for the streaming experience.
+        public let streamingExperiencePreferredProtocol: StreamingExperiencePreferredProtocolEnum?
+        /// Indicates the permission settings asscoiated with the user.
+        public let userSettings: [UserSetting]?
+
+        public init(storageConnectors: [StorageConnector]? = nil, streamingExperiencePreferredProtocol: StreamingExperiencePreferredProtocolEnum? = nil, userSettings: [UserSetting]? = nil) {
+            self.storageConnectors = storageConnectors
+            self.streamingExperiencePreferredProtocol = streamingExperiencePreferredProtocol
+            self.userSettings = userSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.storageConnectors, name: "storageConnectors", parent: name, min: 1)
+            try self.userSettings?.forEach {
+                try $0.validate(name: "\(name).userSettings[]")
+            }
+            try self.validate(self.userSettings, name: "userSettings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageConnectors = "StorageConnectors"
+            case streamingExperiencePreferredProtocol = "StreamingExperiencePreferredProtocol"
+            case userSettings = "UserSettings"
         }
     }
 
@@ -4241,6 +4873,50 @@ extension WorkSpaces {
         }
     }
 
+    public struct TerminateWorkspacesPoolRequest: AWSEncodableShape {
+        /// The identifier of the pool.
+        public let poolId: String
+
+        public init(poolId: String) {
+            self.poolId = poolId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^wspool-[0-9a-z]{9}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case poolId = "PoolId"
+        }
+    }
+
+    public struct TerminateWorkspacesPoolResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct TerminateWorkspacesPoolSessionRequest: AWSEncodableShape {
+        /// The identifier of the pool session.
+        public let sessionId: String
+
+        public init(sessionId: String) {
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 36)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 36)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct TerminateWorkspacesPoolSessionResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct TerminateWorkspacesRequest: AWSEncodableShape {
         /// The WorkSpaces to terminate. You can specify up to 25 WorkSpaces.
         public let terminateWorkspaceRequests: [TerminateRequest]
@@ -4275,6 +4951,36 @@ extension WorkSpaces {
         }
     }
 
+    public struct TimeoutSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the amount of time, in seconds, that a streaming session remains active after users disconnect.  If users try to reconnect to the streaming session after a disconnection or network interruption  within the time set, they are connected to their previous session. Otherwise, they are connected  to a new session with a new streaming instance.
+        public let disconnectTimeoutInSeconds: Int?
+        /// The amount of time in seconds a connection will stay active while idle.
+        public let idleDisconnectTimeoutInSeconds: Int?
+        /// Specifies the maximum amount of time, in seconds, that a streaming session can remain active.  If users are still connected to a streaming instance five minutes before this limit is reached,  they are prompted to save any open documents before being disconnected. After this time elapses,  the instance is terminated and replaced by a new instance.
+        public let maxUserDurationInSeconds: Int?
+
+        public init(disconnectTimeoutInSeconds: Int? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, maxUserDurationInSeconds: Int? = nil) {
+            self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
+            self.idleDisconnectTimeoutInSeconds = idleDisconnectTimeoutInSeconds
+            self.maxUserDurationInSeconds = maxUserDurationInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.disconnectTimeoutInSeconds, name: "disconnectTimeoutInSeconds", parent: name, max: 36000)
+            try self.validate(self.disconnectTimeoutInSeconds, name: "disconnectTimeoutInSeconds", parent: name, min: 60)
+            try self.validate(self.idleDisconnectTimeoutInSeconds, name: "idleDisconnectTimeoutInSeconds", parent: name, max: 36000)
+            try self.validate(self.idleDisconnectTimeoutInSeconds, name: "idleDisconnectTimeoutInSeconds", parent: name, min: 0)
+            try self.validate(self.maxUserDurationInSeconds, name: "maxUserDurationInSeconds", parent: name, max: 432000)
+            try self.validate(self.maxUserDurationInSeconds, name: "maxUserDurationInSeconds", parent: name, min: 600)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disconnectTimeoutInSeconds = "DisconnectTimeoutInSeconds"
+            case idleDisconnectTimeoutInSeconds = "IdleDisconnectTimeoutInSeconds"
+            case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
+        }
+    }
+
     public struct UpdateConnectClientAddInRequest: AWSEncodableShape {
         /// The identifier of the client add-in to update.
         public let addInId: String
@@ -4301,7 +5007,7 @@ extension WorkSpaces {
             try self.validate(self.name, name: "name", parent: name, pattern: "^.*$")
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
-            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
             try self.validate(self.url, name: "url", parent: name, max: 1024)
             try self.validate(self.url, name: "url", parent: name, min: 1)
             try self.validate(self.url, name: "url", parent: name, pattern: "^(http|https)\\://\\S+$")
@@ -4445,11 +5151,100 @@ extension WorkSpaces {
         public init() {}
     }
 
+    public struct UpdateWorkspacesPoolRequest: AWSEncodableShape {
+        /// The persistent application settings for users in the pool.
+        public let applicationSettings: ApplicationSettingsRequest?
+        /// The identifier of the bundle.
+        public let bundleId: String?
+        /// The desired capacity for the pool.
+        public let capacity: Capacity?
+        /// Describes the specified pool to update.
+        public let description: String?
+        /// The identifier of the directory.
+        public let directoryId: String?
+        /// The identifier of the specified pool to update.
+        public let poolId: String
+        /// Indicates the timeout settings of the specified pool.
+        public let timeoutSettings: TimeoutSettings?
+
+        public init(applicationSettings: ApplicationSettingsRequest? = nil, bundleId: String? = nil, capacity: Capacity? = nil, description: String? = nil, directoryId: String? = nil, poolId: String, timeoutSettings: TimeoutSettings? = nil) {
+            self.applicationSettings = applicationSettings
+            self.bundleId = bundleId
+            self.capacity = capacity
+            self.description = description
+            self.directoryId = directoryId
+            self.poolId = poolId
+            self.timeoutSettings = timeoutSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.applicationSettings?.validate(name: "\(name).applicationSettings")
+            try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
+            try self.capacity?.validate(name: "\(name).capacity")
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9_./() -]+$")
+            try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
+            try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
+            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^wspool-[0-9a-z]{9}$")
+            try self.timeoutSettings?.validate(name: "\(name).timeoutSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationSettings = "ApplicationSettings"
+            case bundleId = "BundleId"
+            case capacity = "Capacity"
+            case description = "Description"
+            case directoryId = "DirectoryId"
+            case poolId = "PoolId"
+            case timeoutSettings = "TimeoutSettings"
+        }
+    }
+
+    public struct UpdateWorkspacesPoolResult: AWSDecodableShape {
+        /// Describes the specified pool.
+        public let workspacesPool: WorkspacesPool?
+
+        public init(workspacesPool: WorkspacesPool? = nil) {
+            self.workspacesPool = workspacesPool
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspacesPool = "WorkspacesPool"
+        }
+    }
+
+    public struct UserSetting: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the type of action.
+        public let action: UserSettingActionEnum
+        /// Indicates the maximum character length for the specified user setting.
+        public let maximumLength: Int?
+        /// Indicates if the setting is enabled or disabled.
+        public let permission: UserSettingPermissionEnum
+
+        public init(action: UserSettingActionEnum, maximumLength: Int? = nil, permission: UserSettingPermissionEnum) {
+            self.action = action
+            self.maximumLength = maximumLength
+            self.permission = permission
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maximumLength, name: "maximumLength", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case maximumLength = "MaximumLength"
+            case permission = "Permission"
+        }
+    }
+
     public struct UserStorage: AWSEncodableShape & AWSDecodableShape {
         /// The size of the user volume.
-        public let capacity: String?
+        public let capacity: String
 
-        public init(capacity: String? = nil) {
+        public init(capacity: String) {
             self.capacity = capacity
         }
 
@@ -4739,15 +5534,18 @@ extension WorkSpaces {
         public let enableMaintenanceMode: Bool?
         /// Indicates whether Amazon WorkDocs is enabled for your WorkSpaces.  If WorkDocs is already enabled for a WorkSpaces directory and you disable it, new WorkSpaces launched in the directory will not have WorkDocs enabled. However, WorkDocs remains enabled for any existing WorkSpaces, unless you either disable users' access to WorkDocs or you delete the WorkDocs site. To disable users' access to WorkDocs, see Disabling Users in the Amazon WorkDocs Administration Guide. To delete a WorkDocs site, see Deleting a Site in the Amazon WorkDocs Administration Guide. If you enable WorkDocs on a directory that already has existing WorkSpaces, the existing WorkSpaces and any new WorkSpaces that are launched in the directory will have WorkDocs enabled.
         public let enableWorkDocs: Bool?
+        /// Indicates the IAM role ARN of the instance.
+        public let instanceIamRoleArn: String?
         /// Indicates whether users are local administrators of their WorkSpaces.
         public let userEnabledAsLocalAdministrator: Bool?
 
-        public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableMaintenanceMode: Bool? = nil, enableWorkDocs: Bool? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
+        public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableMaintenanceMode: Bool? = nil, enableWorkDocs: Bool? = nil, instanceIamRoleArn: String? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
             self.customSecurityGroupId = customSecurityGroupId
             self.defaultOu = defaultOu
             self.enableInternetAccess = enableInternetAccess
             self.enableMaintenanceMode = enableMaintenanceMode
             self.enableWorkDocs = enableWorkDocs
+            self.instanceIamRoleArn = instanceIamRoleArn
             self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
         }
 
@@ -4755,6 +5553,7 @@ extension WorkSpaces {
             try self.validate(self.customSecurityGroupId, name: "customSecurityGroupId", parent: name, max: 20)
             try self.validate(self.customSecurityGroupId, name: "customSecurityGroupId", parent: name, min: 11)
             try self.validate(self.customSecurityGroupId, name: "customSecurityGroupId", parent: name, pattern: "^(sg-([0-9a-f]{8}|[0-9a-f]{17}))$")
+            try self.validate(self.instanceIamRoleArn, name: "instanceIamRoleArn", parent: name, pattern: "^arn:aws[a-z-]{0,7}:[A-Za-z0-9][A-za-z0-9_/.-]{0,62}:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4763,11 +5562,14 @@ extension WorkSpaces {
             case enableInternetAccess = "EnableInternetAccess"
             case enableMaintenanceMode = "EnableMaintenanceMode"
             case enableWorkDocs = "EnableWorkDocs"
+            case instanceIamRoleArn = "InstanceIamRoleArn"
             case userEnabledAsLocalAdministrator = "UserEnabledAsLocalAdministrator"
         }
     }
 
     public struct WorkspaceDirectory: AWSDecodableShape {
+        /// Information about the Active Directory config.
+        public let activeDirectoryConfig: ActiveDirectoryConfig?
         /// The directory alias.
         public let alias: String?
         /// The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory for WorkSpaces login.
@@ -4782,6 +5584,8 @@ extension WorkSpaces {
         public let directoryType: WorkspaceDirectoryType?
         /// The IP addresses of the DNS servers for the directory.
         public let dnsIpAddresses: [String]?
+        /// The error message returned.
+        public let errorMessage: String?
         /// The identifier of the IAM role. This is the role that allows Amazon WorkSpaces to make calls to other services, such as Amazon EC2, on your behalf.
         public let iamRoleId: String?
         /// The identifiers of the IP access control groups associated with the directory.
@@ -4794,18 +5598,29 @@ extension WorkSpaces {
         public let selfservicePermissions: SelfservicePermissions?
         /// The state of the directory's registration with Amazon WorkSpaces. After a directory is deregistered, the DEREGISTERED state is returned very briefly before the directory metadata is cleaned up, so this state is rarely returned. To confirm that a directory is deregistered, check for the directory ID by using  DescribeWorkspaceDirectories. If the directory ID isn't returned, then the directory has been successfully deregistered.
         public let state: WorkspaceDirectoryState?
+        /// The streaming properties to configure.
+        public let streamingProperties: StreamingProperties?
         /// The identifiers of the subnets used with the directory.
         public let subnetIds: [String]?
         /// Specifies whether the directory is dedicated or shared. To use Bring Your Own License (BYOL), this value must be set to DEDICATED. For more information, see Bring Your Own Windows Desktop Images.
         public let tenancy: Tenancy?
+        /// Indicates the identity type of the specifired user.
+        public let userIdentityType: UserIdentityType?
         /// The devices and operating systems that users can use to access WorkSpaces.
         public let workspaceAccessProperties: WorkspaceAccessProperties?
         /// The default creation properties for all WorkSpaces in the directory.
         public let workspaceCreationProperties: DefaultWorkspaceCreationProperties?
+        /// The description of the WorkSpace directory
+        public let workspaceDirectoryDescription: String?
+        /// The name fo the WorkSpace directory.
+        public let workspaceDirectoryName: String?
         /// The identifier of the security group that is assigned to new WorkSpaces.
         public let workspaceSecurityGroupId: String?
+        /// Indicates whether the directory's WorkSpace type is personal or pools.
+        public let workspaceType: WorkspaceType?
 
-        public init(alias: String? = nil, certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, iamRoleId: String? = nil, ipGroupIds: [String]? = nil, registrationCode: String? = nil, samlProperties: SamlProperties? = nil, selfservicePermissions: SelfservicePermissions? = nil, state: WorkspaceDirectoryState? = nil, subnetIds: [String]? = nil, tenancy: Tenancy? = nil, workspaceAccessProperties: WorkspaceAccessProperties? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceSecurityGroupId: String? = nil) {
+        public init(activeDirectoryConfig: ActiveDirectoryConfig? = nil, alias: String? = nil, certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, errorMessage: String? = nil, iamRoleId: String? = nil, ipGroupIds: [String]? = nil, registrationCode: String? = nil, samlProperties: SamlProperties? = nil, selfservicePermissions: SelfservicePermissions? = nil, state: WorkspaceDirectoryState? = nil, streamingProperties: StreamingProperties? = nil, subnetIds: [String]? = nil, tenancy: Tenancy? = nil, userIdentityType: UserIdentityType? = nil, workspaceAccessProperties: WorkspaceAccessProperties? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceDirectoryDescription: String? = nil, workspaceDirectoryName: String? = nil, workspaceSecurityGroupId: String? = nil, workspaceType: WorkspaceType? = nil) {
+            self.activeDirectoryConfig = activeDirectoryConfig
             self.alias = alias
             self.certificateBasedAuthProperties = certificateBasedAuthProperties
             self.customerUserName = customerUserName
@@ -4813,20 +5628,27 @@ extension WorkSpaces {
             self.directoryName = directoryName
             self.directoryType = directoryType
             self.dnsIpAddresses = dnsIpAddresses
+            self.errorMessage = errorMessage
             self.iamRoleId = iamRoleId
             self.ipGroupIds = ipGroupIds
             self.registrationCode = registrationCode
             self.samlProperties = samlProperties
             self.selfservicePermissions = selfservicePermissions
             self.state = state
+            self.streamingProperties = streamingProperties
             self.subnetIds = subnetIds
             self.tenancy = tenancy
+            self.userIdentityType = userIdentityType
             self.workspaceAccessProperties = workspaceAccessProperties
             self.workspaceCreationProperties = workspaceCreationProperties
+            self.workspaceDirectoryDescription = workspaceDirectoryDescription
+            self.workspaceDirectoryName = workspaceDirectoryName
             self.workspaceSecurityGroupId = workspaceSecurityGroupId
+            self.workspaceType = workspaceType
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeDirectoryConfig = "ActiveDirectoryConfig"
             case alias = "Alias"
             case certificateBasedAuthProperties = "CertificateBasedAuthProperties"
             case customerUserName = "CustomerUserName"
@@ -4834,17 +5656,23 @@ extension WorkSpaces {
             case directoryName = "DirectoryName"
             case directoryType = "DirectoryType"
             case dnsIpAddresses = "DnsIpAddresses"
+            case errorMessage = "ErrorMessage"
             case iamRoleId = "IamRoleId"
             case ipGroupIds = "ipGroupIds"
             case registrationCode = "RegistrationCode"
             case samlProperties = "SamlProperties"
             case selfservicePermissions = "SelfservicePermissions"
             case state = "State"
+            case streamingProperties = "StreamingProperties"
             case subnetIds = "SubnetIds"
             case tenancy = "Tenancy"
+            case userIdentityType = "UserIdentityType"
             case workspaceAccessProperties = "WorkspaceAccessProperties"
             case workspaceCreationProperties = "WorkspaceCreationProperties"
+            case workspaceDirectoryDescription = "WorkspaceDirectoryDescription"
+            case workspaceDirectoryName = "WorkspaceDirectoryName"
             case workspaceSecurityGroupId = "WorkspaceSecurityGroupId"
+            case workspaceType = "WorkspaceType"
         }
     }
 
@@ -4978,7 +5806,7 @@ extension WorkSpaces {
             try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
-            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -5059,6 +5887,125 @@ extension WorkSpaces {
             case groupId = "groupId"
             case groupName = "groupName"
             case userRules = "userRules"
+        }
+    }
+
+    public struct WorkspacesPool: AWSDecodableShape {
+        /// The persistent application settings for users of the pool.
+        public let applicationSettings: ApplicationSettingsResponse?
+        /// The identifier of the bundle used by the pool.
+        public let bundleId: String
+        /// The capacity status for the pool
+        public let capacityStatus: CapacityStatus
+        /// The time the pool was created.
+        public let createdAt: Date
+        /// The description of the pool.
+        public let description: String?
+        /// The identifier of the directory used by the pool.
+        public let directoryId: String
+        /// The pool errors.
+        public let errors: [WorkspacesPoolError]?
+        /// The Amazon Resource Name (ARN) for the pool.
+        public let poolArn: String
+        /// The identifier of a pool.
+        public let poolId: String
+        /// The name of the pool,
+        public let poolName: String
+        /// The current state of the pool.
+        public let state: WorkspacesPoolState
+        /// The amount of time that a pool session remains active after users disconnect.  If they try to reconnect to the pool session after a disconnection or network interruption  within this time interval, they are connected to their previous session.  Otherwise, they are connected to a new session with a new pool instance.
+        public let timeoutSettings: TimeoutSettings?
+
+        public init(applicationSettings: ApplicationSettingsResponse? = nil, bundleId: String, capacityStatus: CapacityStatus, createdAt: Date, description: String? = nil, directoryId: String, errors: [WorkspacesPoolError]? = nil, poolArn: String, poolId: String, poolName: String, state: WorkspacesPoolState, timeoutSettings: TimeoutSettings? = nil) {
+            self.applicationSettings = applicationSettings
+            self.bundleId = bundleId
+            self.capacityStatus = capacityStatus
+            self.createdAt = createdAt
+            self.description = description
+            self.directoryId = directoryId
+            self.errors = errors
+            self.poolArn = poolArn
+            self.poolId = poolId
+            self.poolName = poolName
+            self.state = state
+            self.timeoutSettings = timeoutSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationSettings = "ApplicationSettings"
+            case bundleId = "BundleId"
+            case capacityStatus = "CapacityStatus"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case directoryId = "DirectoryId"
+            case errors = "Errors"
+            case poolArn = "PoolArn"
+            case poolId = "PoolId"
+            case poolName = "PoolName"
+            case state = "State"
+            case timeoutSettings = "TimeoutSettings"
+        }
+    }
+
+    public struct WorkspacesPoolError: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: WorkspacesPoolErrorCode?
+        /// The error message.
+        public let errorMessage: String?
+
+        public init(errorCode: WorkspacesPoolErrorCode? = nil, errorMessage: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
+    public struct WorkspacesPoolSession: AWSDecodableShape {
+        /// The authentication method. The user is authenticated using a  WorkSpaces Pools URL (API) or SAML 2.0 federation (SAML).
+        public let authenticationType: AuthenticationType?
+        /// Specifies whether a user is connected to the pool session.
+        public let connectionState: SessionConnectionState?
+        /// The time that the pool session ended.
+        public let expirationTime: Date?
+        /// The identifier for the instance hosting the session.
+        public let instanceId: String?
+        /// Describes the network details of the pool.
+        public let networkAccessConfiguration: NetworkAccessConfiguration?
+        /// The identifier of the pool.
+        public let poolId: String
+        /// The identifier of the session.
+        public let sessionId: String
+        /// The time that the pool sission started.
+        public let startTime: Date?
+        /// The identifier of the user.
+        public let userId: String
+
+        public init(authenticationType: AuthenticationType? = nil, connectionState: SessionConnectionState? = nil, expirationTime: Date? = nil, instanceId: String? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, poolId: String, sessionId: String, startTime: Date? = nil, userId: String) {
+            self.authenticationType = authenticationType
+            self.connectionState = connectionState
+            self.expirationTime = expirationTime
+            self.instanceId = instanceId
+            self.networkAccessConfiguration = networkAccessConfiguration
+            self.poolId = poolId
+            self.sessionId = sessionId
+            self.startTime = startTime
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationType = "AuthenticationType"
+            case connectionState = "ConnectionState"
+            case expirationTime = "ExpirationTime"
+            case instanceId = "InstanceId"
+            case networkAccessConfiguration = "NetworkAccessConfiguration"
+            case poolId = "PoolId"
+            case sessionId = "SessionId"
+            case startTime = "StartTime"
+            case userId = "UserId"
         }
     }
 }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -472,6 +472,20 @@ public struct Location: AWSService {
         )
     }
 
+    /// Evaluates device positions against geofence geometries from a given geofence collection. The event forecasts three states for which a device can be in relative to a geofence:  ENTER: If a device is outside of a geofence, but would breach the fence if the device is moving at its current speed within time horizon window.  EXIT: If a device is inside of a geofence, but would breach the fence if the device is moving at its current speed within time horizon window.  IDLE: If a device is inside of a geofence, and the device is not moving.
+    @Sendable
+    public func forecastGeofenceEvents(_ input: ForecastGeofenceEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ForecastGeofenceEventsResponse {
+        return try await self.client.execute(
+            operation: "ForecastGeofenceEvents", 
+            path: "/geofencing/v0/collections/{CollectionName}/forecast-geofence-events", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "geofencing.", 
+            logger: logger
+        )
+    }
+
     /// Retrieves a device's most recent position according to its sample time.  Device positions are deleted after 30 days.
     @Sendable
     public func getDevicePosition(_ input: GetDevicePositionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDevicePositionResponse {
@@ -500,7 +514,7 @@ public struct Location: AWSService {
         )
     }
 
-    /// Retrieves the geofence details from a geofence collection.
+    /// Retrieves the geofence details from a geofence collection.  The returned geometry will always match the geometry format used when the geofence was created.
     @Sendable
     public func getGeofence(_ input: GetGeofenceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGeofenceResponse {
         return try await self.client.execute(
@@ -891,6 +905,20 @@ public struct Location: AWSService {
             logger: logger
         )
     }
+
+    /// Verifies the integrity of the device's position by determining if it was reported behind a proxy, and by comparing it to an inferred position estimated based on the device's state.
+    @Sendable
+    public func verifyDevicePosition(_ input: VerifyDevicePositionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VerifyDevicePositionResponse {
+        return try await self.client.execute(
+            operation: "VerifyDevicePosition", 
+            path: "/tracking/v0/trackers/{TrackerName}/positions/verify", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "tracking.", 
+            logger: logger
+        )
+    }
 }
 
 extension Location {
@@ -906,6 +934,25 @@ extension Location {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Location {
+    /// Evaluates device positions against geofence geometries from a given geofence collection. The event forecasts three states for which a device can be in relative to a geofence:  ENTER: If a device is outside of a geofence, but would breach the fence if the device is moving at its current speed within time horizon window.  EXIT: If a device is inside of a geofence, but would breach the fence if the device is moving at its current speed within time horizon window.  IDLE: If a device is inside of a geofence, and the device is not moving.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func forecastGeofenceEventsPaginator(
+        _ input: ForecastGeofenceEventsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ForecastGeofenceEventsRequest, ForecastGeofenceEventsResponse> {
+        return .init(
+            input: input,
+            command: self.forecastGeofenceEvents,
+            inputKey: \ForecastGeofenceEventsRequest.nextToken,
+            outputKey: \ForecastGeofenceEventsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Retrieves the device position history from a tracker resource within a specified range of time.  Device positions are deleted after 30 days.
     /// Return PaginatorSequence for operation.
     ///
@@ -1093,6 +1140,20 @@ extension Location {
             inputKey: \ListTrackersRequest.nextToken,
             outputKey: \ListTrackersResponse.nextToken,
             logger: logger
+        )
+    }
+}
+
+extension Location.ForecastGeofenceEventsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Location.ForecastGeofenceEventsRequest {
+        return .init(
+            collectionName: self.collectionName,
+            deviceState: self.deviceState,
+            distanceUnit: self.distanceUnit,
+            maxResults: self.maxResults,
+            nextToken: token,
+            speedUnit: self.speedUnit,
+            timeHorizonMinutes: self.timeHorizonMinutes
         )
     }
 }

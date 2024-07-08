@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -87,7 +87,7 @@ public struct Grafana: AWSService {
 
     // MARK: API Calls
 
-    /// Assigns a Grafana Enterprise license to a workspace. Upgrading to Grafana Enterprise incurs additional fees. For more information, see Upgrade a workspace to Grafana Enterprise.
+    /// Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use ENTERPRISE for the licenseType, and pass in a valid Grafana Labs token for the grafanaToken. Upgrading to Grafana Enterprise incurs additional fees. For more information, see Upgrade a workspace to Grafana Enterprise.
     @Sendable
     public func associateLicense(_ input: AssociateLicenseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateLicenseResponse {
         return try await self.client.execute(
@@ -113,12 +113,38 @@ public struct Grafana: AWSService {
         )
     }
 
-    /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests.
+    /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests.  In workspaces compatible with Grafana version 9 or above, use workspace service  accounts instead of API keys. API keys will be removed in a future release.
     @Sendable
     public func createWorkspaceApiKey(_ input: CreateWorkspaceApiKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspaceApiKeyResponse {
         return try await self.client.execute(
             operation: "CreateWorkspaceApiKey", 
             path: "/workspaces/{workspaceId}/apikeys", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a service account for the workspace. A service account can be used to call  Grafana HTTP APIs, and run automated workloads. After creating the service account with the correct GrafanaRole for your use case, use  CreateWorkspaceServiceAccountToken to create a token that can be used to authenticate and authorize Grafana HTTP API calls. You can only create service accounts for workspaces that are compatible with Grafana version 9 and above.  For more information about service accounts, see Service accounts in  the Amazon Managed Grafana User Guide. For more information about the Grafana HTTP APIs, see Using Grafana HTTP  APIs in the Amazon Managed Grafana User Guide.
+    @Sendable
+    public func createWorkspaceServiceAccount(_ input: CreateWorkspaceServiceAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspaceServiceAccountResponse {
+        return try await self.client.execute(
+            operation: "CreateWorkspaceServiceAccount", 
+            path: "/workspaces/{workspaceId}/serviceaccounts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a token that can be used to authenticate and authorize Grafana HTTP API operations for the given workspace service  account. The service account acts as a user for the API operations, and defines the permissions that are used by the API.  When you create the service account token, you will receive a key that is used when calling Grafana APIs. Do not lose this key, as it will not be retrievable again. If you do lose the key, you can delete the token and recreate it to receive a  new key. This will disable the initial key.  Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    @Sendable
+    public func createWorkspaceServiceAccountToken(_ input: CreateWorkspaceServiceAccountTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspaceServiceAccountTokenResponse {
+        return try await self.client.execute(
+            operation: "CreateWorkspaceServiceAccountToken", 
+            path: "/workspaces/{workspaceId}/serviceaccounts/{serviceAccountId}/tokens", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -139,12 +165,38 @@ public struct Grafana: AWSService {
         )
     }
 
-    /// Deletes a Grafana API key for the workspace.
+    /// Deletes a Grafana API key for the workspace.  In workspaces compatible with Grafana version 9 or above, use workspace service  accounts instead of API keys. API keys will be removed in a future release.
     @Sendable
     public func deleteWorkspaceApiKey(_ input: DeleteWorkspaceApiKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkspaceApiKeyResponse {
         return try await self.client.execute(
             operation: "DeleteWorkspaceApiKey", 
             path: "/workspaces/{workspaceId}/apikeys/{keyName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a workspace service account from the workspace. This will delete any tokens created for the service account, as well. If the tokens are currently in use, the will fail to authenticate / authorize after they are  deleted. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    @Sendable
+    public func deleteWorkspaceServiceAccount(_ input: DeleteWorkspaceServiceAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkspaceServiceAccountResponse {
+        return try await self.client.execute(
+            operation: "DeleteWorkspaceServiceAccount", 
+            path: "/workspaces/{workspaceId}/serviceaccounts/{serviceAccountId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a token for the workspace service account. This will disable the key associated with the token. If any automation is currently  using the key, it will no longer be authenticated or authorized to perform actions with  the Grafana HTTP APIs. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    @Sendable
+    public func deleteWorkspaceServiceAccountToken(_ input: DeleteWorkspaceServiceAccountTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkspaceServiceAccountTokenResponse {
+        return try await self.client.execute(
+            operation: "DeleteWorkspaceServiceAccountToken", 
+            path: "/workspaces/{workspaceId}/serviceaccounts/{serviceAccountId}/tokens/{tokenId}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -236,6 +288,32 @@ public struct Grafana: AWSService {
         return try await self.client.execute(
             operation: "ListVersions", 
             path: "/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of tokens for a workspace service account.  This does not return the key for each token. You cannot access keys after they are created. To create a new key, delete the token and recreate it.  Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    @Sendable
+    public func listWorkspaceServiceAccountTokens(_ input: ListWorkspaceServiceAccountTokensRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkspaceServiceAccountTokensResponse {
+        return try await self.client.execute(
+            operation: "ListWorkspaceServiceAccountTokens", 
+            path: "/workspaces/{workspaceId}/serviceaccounts/{serviceAccountId}/tokens", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of service accounts for a workspace. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    @Sendable
+    public func listWorkspaceServiceAccounts(_ input: ListWorkspaceServiceAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkspaceServiceAccountsResponse {
+        return try await self.client.execute(
+            operation: "ListWorkspaceServiceAccounts", 
+            path: "/workspaces/{workspaceId}/serviceaccounts", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -386,6 +464,44 @@ extension Grafana {
         )
     }
 
+    /// Returns a list of tokens for a workspace service account.  This does not return the key for each token. You cannot access keys after they are created. To create a new key, delete the token and recreate it.  Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listWorkspaceServiceAccountTokensPaginator(
+        _ input: ListWorkspaceServiceAccountTokensRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListWorkspaceServiceAccountTokensRequest, ListWorkspaceServiceAccountTokensResponse> {
+        return .init(
+            input: input,
+            command: self.listWorkspaceServiceAccountTokens,
+            inputKey: \ListWorkspaceServiceAccountTokensRequest.nextToken,
+            outputKey: \ListWorkspaceServiceAccountTokensResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of service accounts for a workspace. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listWorkspaceServiceAccountsPaginator(
+        _ input: ListWorkspaceServiceAccountsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListWorkspaceServiceAccountsRequest, ListWorkspaceServiceAccountsResponse> {
+        return .init(
+            input: input,
+            command: self.listWorkspaceServiceAccounts,
+            inputKey: \ListWorkspaceServiceAccountsRequest.nextToken,
+            outputKey: \ListWorkspaceServiceAccountsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete information about one workspace, use DescribeWorkspace.
     /// Return PaginatorSequence for operation.
     ///
@@ -421,6 +537,27 @@ extension Grafana.ListPermissionsRequest: AWSPaginateToken {
 
 extension Grafana.ListVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Grafana.ListVersionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceId: self.workspaceId
+        )
+    }
+}
+
+extension Grafana.ListWorkspaceServiceAccountTokensRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Grafana.ListWorkspaceServiceAccountTokensRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceAccountId: self.serviceAccountId,
+            workspaceId: self.workspaceId
+        )
+    }
+}
+
+extension Grafana.ListWorkspaceServiceAccountsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Grafana.ListWorkspaceServiceAccountsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,

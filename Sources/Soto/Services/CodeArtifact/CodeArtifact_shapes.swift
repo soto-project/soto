@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -58,6 +58,7 @@ extension CodeArtifact {
     }
 
     public enum PackageFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cargo = "cargo"
         case generic = "generic"
         case maven = "maven"
         case npm = "npm"
@@ -155,7 +156,7 @@ extension CodeArtifact {
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include  dashes or spaces.
         public let domainOwner: String?
-        ///  The name of the external connection to add to the repository. The following values are supported:     public:npmjs - for the npm public repository.     public:nuget-org - for the NuGet Gallery.     public:pypi - for the Python Package Index.     public:maven-central - for Maven Central.     public:maven-googleandroid - for the Google Android repository.     public:maven-gradleplugins - for the Gradle plugins repository.     public:maven-commonsware - for the CommonsWare Android repository.     public:maven-clojars - for the Clojars repository.
+        ///  The name of the external connection to add to the repository. The following values are supported:     public:npmjs - for the npm public repository.     public:nuget-org - for the NuGet Gallery.     public:pypi - for the Python Package Index.     public:maven-central - for Maven Central.     public:maven-googleandroid - for the Google Android repository.     public:maven-gradleplugins - for the Gradle plugins repository.     public:maven-commonsware - for the CommonsWare Android repository.     public:maven-clojars - for the Clojars repository.     public:ruby-gems-org - for RubyGems.org.     public:crates-io - for Crates.io.
         public let externalConnection: String
         ///  The name of the repository to which the external connection is added.
         public let repository: String
@@ -212,7 +213,7 @@ extension CodeArtifact {
         public let associationType: PackageGroupAssociationType?
         /// A format that specifies the type of the associated package.
         public let format: PackageFormat?
-        /// The namespace of the associated package. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the associated package. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the associated package.
         public let package: String?
@@ -245,7 +246,7 @@ extension CodeArtifact {
         public let format: PackageFormat
         ///  Set to true to copy packages from repositories that are upstream from the source repository to the destination repository. The default setting is false. For more information, see Working with upstream repositories.
         public let includeFromUpstream: Bool?
-        /// The namespace of the package versions to be copied. The package component that specifies its namespace depends on its type. For example:  The namespace is required when copying package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package versions to be copied. The package component that specifies its namespace depends on its type. For example:  The namespace is required when copying package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the package that contains the versions to be copied.
         public let package: String
@@ -697,7 +698,7 @@ extension CodeArtifact {
         public let domainOwner: String?
         /// The format of the requested package to delete.
         public let format: PackageFormat
-        /// The namespace of the package to delete. The package component that specifies its namespace depends on its type. For example:  The namespace is required when deleting packages of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package to delete. The package component that specifies its namespace depends on its type. For example:  The namespace is required when deleting packages of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         /// The name of the package to delete.
         public let package: String
@@ -766,7 +767,7 @@ extension CodeArtifact {
         public let expectedStatus: PackageVersionStatus?
         ///  The format of the package versions to delete.
         public let format: PackageFormat
-        /// The namespace of the package versions to be deleted. The package component that specifies its namespace depends on its type. For example:  The namespace is required when deleting package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package versions to be deleted. The package component that specifies its namespace depends on its type. For example:  The namespace is required when deleting package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the package with the versions to delete.
         public let package: String
@@ -1052,7 +1053,7 @@ extension CodeArtifact {
         public let domainOwner: String?
         /// A format that specifies the type of the requested package.
         public let format: PackageFormat
-        /// The namespace of the requested package. The package component that specifies its namespace depends on its type. For example:  The namespace is required when requesting packages of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the requested package. The package component that specifies its namespace depends on its type. For example:  The namespace is required when requesting packages of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         /// The name of the requested package.
         public let package: String
@@ -1120,7 +1121,7 @@ extension CodeArtifact {
         public let domainOwner: String?
         ///  A format that specifies the type of the requested package version.
         public let format: PackageFormat
-        /// The namespace of the requested package version. The package component that specifies its  namespace depends on its type. For example:  The namespace is required when requesting package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the requested package version. The package component that specifies its  namespace depends on its type. For example:  The namespace is required when requesting package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the requested package version.
         public let package: String
@@ -1304,7 +1305,7 @@ extension CodeArtifact {
         public let expectedStatus: PackageVersionStatus?
         ///  A format that specifies the type of package versions you want to dispose.
         public let format: PackageFormat
-        /// The namespace of the package versions to be disposed. The package component that specifies its  namespace depends on its type. For example:  The namespace is required when disposing package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package versions to be disposed. The package component that specifies its  namespace depends on its type. For example:  The namespace is required when disposing package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the package with the versions you want to dispose.
         public let package: String
@@ -1499,7 +1500,7 @@ extension CodeArtifact {
         public let domainOwner: String?
         ///  The format of the package from which to get the associated package group.
         public let format: PackageFormat
-        /// The namespace of the package from which to get the associated package group. The package component that specifies its  namespace depends on its type. For example:  The namespace is required when getting associated package groups from packages of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package from which to get the associated package group. The package component that specifies its  namespace depends on its type. For example:  The namespace is required when getting associated package groups from packages of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The package from which to get the associated package group.
         public let package: String
@@ -1662,7 +1663,7 @@ extension CodeArtifact {
         public let domainOwner: String?
         ///  A format that specifies the type of the package version with the requested asset file.
         public let format: PackageFormat
-        /// The namespace of the package version with the requested asset file. The package component that specifies its  namespace depends on its type. For example:  The namespace is required when requesting assets from package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package version with the requested asset file. The package component that specifies its  namespace depends on its type. For example:  The namespace is required when requesting assets from package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the package that contains the requested asset.
         public let package: String
@@ -1766,7 +1767,7 @@ extension CodeArtifact {
         public let domainOwner: String?
         ///  A format that specifies the type of the package version with the requested readme file.
         public let format: PackageFormat
-        /// The namespace of the package version with the requested readme file. The package component that specifies its  namespace depends on its type. For example:  The namespace is required when requesting the readme from package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package version with the requested readme file. The package component that specifies its  namespace depends on its type. For example:  The namespace is required when requesting the readme from package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the package version that contains the requested readme file.
         public let package: String
@@ -1824,7 +1825,7 @@ extension CodeArtifact {
     public struct GetPackageVersionReadmeResult: AWSDecodableShape {
         ///  The format of the package with the requested readme file.
         public let format: PackageFormat?
-        /// The namespace of the package version with the requested readme file. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package version with the requested readme file. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the package that contains the returned readme file.
         public let package: String?
@@ -2234,7 +2235,7 @@ extension CodeArtifact {
         public let format: PackageFormat
         ///  The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The namespace of the package version that contains the requested package version assets. The package component that specifies its  namespace depends on its type. For example:  The namespace is required requesting assets from package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package version that contains the requested package version assets. The package component that specifies its  namespace depends on its type. For example:  The namespace is required requesting assets from package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -2305,7 +2306,7 @@ extension CodeArtifact {
         public let assets: [AssetSummary]?
         ///  The format of the package that contains the requested package version assets.
         public let format: PackageFormat?
-        /// The namespace of the package version that contains the requested package version assets. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package version that contains the requested package version assets. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -2344,7 +2345,7 @@ extension CodeArtifact {
         public let domainOwner: String?
         ///  The format of the package with the requested dependencies.
         public let format: PackageFormat
-        /// The namespace of the package version with the requested dependencies. The package component that specifies its  namespace depends on its type. For example:  The namespace is required when listing dependencies from package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package version with the requested dependencies. The package component that specifies its  namespace depends on its type. For example:  The namespace is required when listing dependencies from package versions of the following formats:   Maven       The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -2411,7 +2412,7 @@ extension CodeArtifact {
         public let dependencies: [PackageDependency]?
         ///  A format that specifies the type of the package that contains the returned dependencies.
         public let format: PackageFormat?
-        /// The namespace of the package version that contains the returned dependencies. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package version that contains the returned dependencies. The package component that specifies its  namespace depends on its type. For example:  The namespace is required when listing dependencies from package versions of the following formats:   Maven       The namespace of a Maven package version is its groupId.     The namespace of an npm package version is its scope.     Python and NuGet package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -2452,7 +2453,7 @@ extension CodeArtifact {
         public let format: PackageFormat
         ///  The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The namespace of the package that contains the requested package versions. The package component that specifies its  namespace depends on its type. For example:  The namespace is required when deleting package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package that contains the requested package versions. The package component that specifies its  namespace depends on its type. For example:  The namespace is required when deleting package versions of the following formats:   Maven   Swift   generic       The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -2528,7 +2529,7 @@ extension CodeArtifact {
         public let defaultDisplayVersion: String?
         ///  A format of the package.
         public let format: PackageFormat?
-        /// The namespace of the package that contains the requested package versions. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package that contains the requested package versions. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -2565,7 +2566,7 @@ extension CodeArtifact {
         public let format: PackageFormat?
         ///  The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The namespace prefix used to filter requested packages.  Only packages with a namespace that starts with the provided string value are returned.  Note that although this option is called --namespace and not --namespace-prefix, it has prefix-matching behavior. Each package format uses namespace as follows:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace prefix used to filter requested packages.  Only packages with a namespace that starts with the provided string value are returned.  Note that although this option is called --namespace and not --namespace-prefix, it has prefix-matching behavior. Each package format uses namespace as follows:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -2882,7 +2883,7 @@ extension CodeArtifact {
     public struct PackageDependency: AWSDecodableShape {
         ///  The type of a package dependency. The possible values depend on the package type.   npm: regular, dev, peer, optional    maven: optional, parent, compile, runtime, test, system, provided.  Note that parent is not a regular Maven dependency type; instead this is extracted from the  element if one is defined in the package version's POM file.    nuget: The dependencyType field is never set for NuGet packages.   pypi: Requires-Dist
         public let dependencyType: String?
-        /// The namespace of the package that this package depends on. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package that this package depends on. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the package that this package depends on.
         public let package: String?
@@ -2909,7 +2910,7 @@ extension CodeArtifact {
         public let format: PackageFormat?
         /// The name of the package.
         public let name: String?
-        /// The namespace of the package. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         /// The package origin configuration for the package.
         public let originConfiguration: PackageOriginConfiguration?
@@ -3130,7 +3131,7 @@ extension CodeArtifact {
     public struct PackageSummary: AWSDecodableShape {
         ///  The format of the package.
         public let format: PackageFormat?
-        /// The namespace of the package. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         /// A PackageOriginConfiguration  object that contains a PackageOriginRestrictions object  that contains information about the upstream and publish package origin restrictions.
         public let originConfiguration: PackageOriginConfiguration?
@@ -3161,7 +3162,7 @@ extension CodeArtifact {
         public let homePage: String?
         ///  Information about licenses associated with the package version.
         public let licenses: [LicenseInfo]?
-        /// The namespace of the package version. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package version. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         /// A PackageVersionOrigin object that contains  information about how the package version was added to the repository.
         public let origin: PackageVersionOrigin?
@@ -3454,7 +3455,7 @@ extension CodeArtifact {
         public let domainOwner: String?
         /// A format that specifies the type of the package to be updated.
         public let format: PackageFormat
-        /// The namespace of the package to be updated. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package to be updated. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         /// The name of the package to be updated.
         public let package: String
@@ -3981,7 +3982,7 @@ extension CodeArtifact {
         public let expectedStatus: PackageVersionStatus?
         ///  A format that specifies the type of the package with the statuses to update.
         public let format: PackageFormat
-        /// The namespace of the package version to be updated. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, and Ruby package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
+        /// The namespace of the package version to be updated. The package component that specifies its  namespace depends on its type. For example:    The namespace of a Maven package version is its groupId.     The namespace of an npm or Swift package version is its scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions  of those formats do not have a namespace.
         public let namespace: String?
         ///  The name of the package with the version statuses to update.
         public let package: String

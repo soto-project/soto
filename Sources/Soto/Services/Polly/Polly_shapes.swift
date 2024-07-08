@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -27,6 +27,7 @@ extension Polly {
     // MARK: Enums
 
     public enum Engine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case generative = "generative"
         case longForm = "long-form"
         case neural = "neural"
         case standard = "standard"
@@ -240,7 +241,7 @@ extension Polly {
     }
 
     public struct DescribeVoicesInput: AWSEncodableShape {
-        /// Specifies the engine (standard, neural or long-form) used by Amazon Polly when processing input text for speech synthesis.
+        /// Specifies the engine (standard, neural, long-form or generative) used by Amazon Polly when processing input text for speech synthesis.
         public let engine: Engine?
         /// Boolean value indicating whether to return any bilingual voices that use the specified language as an additional language. For instance, if you request all languages that use US English (es-US), and there is an Italian voice that speaks both Italian (it-IT) and US English, that voice will be included if you specify yes but not if you specify no.
         public let includeAdditionalLanguageCodes: Bool?
@@ -546,7 +547,7 @@ extension Polly {
     }
 
     public struct StartSpeechSynthesisTaskInput: AWSEncodableShape {
-        /// Specifies the engine (standard, neural or long-form) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
+        /// Specifies the engine (standard, neural, long-form or generative) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public let engine: Engine?
         /// Optional language code for the Speech Synthesis request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
         public let languageCode: LanguageCode?
@@ -558,7 +559,7 @@ extension Polly {
         public let outputS3BucketName: String
         /// The Amazon S3 key prefix for the output speech file.
         public let outputS3KeyPrefix: String?
-        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
         public let sampleRate: String?
         /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
         public let snsTopicArn: String?
@@ -593,7 +594,7 @@ extension Polly {
             try self.validate(self.lexiconNames, name: "lexiconNames", parent: name, max: 5)
             try self.validate(self.outputS3BucketName, name: "outputS3BucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
             try self.validate(self.outputS3KeyPrefix, name: "outputS3KeyPrefix", parent: name, pattern: "^[0-9a-zA-Z\\/\\!\\-_\\.\\*\\'\\(\\):;\\$@=+\\,\\?&]{0,800}$")
-            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\\d{12}:[a-zA-Z0-9_-]{1,256}$")
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\\d{12}:[a-zA-Z0-9_-]{1,251}([a-zA-Z0-9_-]{0,5}|\\.fifo)$")
             try self.validate(self.speechMarkTypes, name: "speechMarkTypes", parent: name, max: 4)
         }
 
@@ -629,7 +630,7 @@ extension Polly {
     public struct SynthesisTask: AWSDecodableShape {
         /// Timestamp for the time the synthesis task was started.
         public let creationTime: Date?
-        /// Specifies the engine (standard, neural or long-form) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
+        /// Specifies the engine (standard, neural, long-form or generative) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public let engine: Engine?
         /// Optional language code for a synthesis task. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
         public let languageCode: LanguageCode?
@@ -641,7 +642,7 @@ extension Polly {
         public let outputUri: String?
         /// Number of billable characters synthesized.
         public let requestCharacters: Int?
-        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
         public let sampleRate: String?
         /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
         public let snsTopicArn: String?
@@ -696,7 +697,7 @@ extension Polly {
     }
 
     public struct SynthesizeSpeechInput: AWSEncodableShape {
-        /// Specifies the engine (standard, neural or long-form) for Amazon Polly to use when processing input text for speech synthesis. For information on Amazon Polly voices and which voices are available for each engine, see Available Voices.  NTTS-only voices  When using NTTS-only voices such as Kevin (en-US), this parameter is required and must be set to neural. If the engine is not specified, or is set to standard, this will result in an error.   long-form-only voices  When using long-form-only voices such as Danielle (en-US), this parameter is required and must be set to long-form. If the engine is not specified, or is set to standard or neural, this will result in an error.  Type: String Valid Values: standard | neural | long-form  Required: Yes  Standard voices  For standard voices, this is not required; the engine parameter defaults to standard. If the engine is not specified, or is set to standard and an NTTS-only voice is selected, this will result in an error.
+        /// Specifies the engine (standard, neural, long-form, or generative) for Amazon Polly to use when processing input text for speech synthesis. Provide an engine that is supported by the voice you select. If you don't provide an engine, the standard engine is selected by default. If a chosen voice isn't supported by the standard engine, this will result in an error. For information on Amazon Polly voices and which voices are available for each engine, see Available Voices. Type: String Valid Values: standard | neural | long-form | generative  Required: Yes
         public let engine: Engine?
         /// Optional language code for the Synthesize Speech request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
         public let languageCode: LanguageCode?
@@ -704,7 +705,7 @@ extension Polly {
         public let lexiconNames: [String]?
         ///  The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.  When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.
         public let outputFormat: OutputFormat
-        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
         public let sampleRate: String?
         /// The type of speech marks returned for the input text.
         public let speechMarkTypes: [SpeechMarkType]?
@@ -787,7 +788,7 @@ extension Polly {
         public let languageName: String?
         /// Name of the voice (for example, Salli, Kendra, etc.). This provides a human readable voice name that you might display in your application.
         public let name: String?
-        /// Specifies which engines (standard, neural or long-form) are supported by a given voice.
+        /// Specifies which engines (standard, neural, long-form or generative) are supported by a given voice.
         public let supportedEngines: [Engine]?
 
         public init(additionalLanguageCodes: [LanguageCode]? = nil, gender: Gender? = nil, id: VoiceId? = nil, languageCode: LanguageCode? = nil, languageName: String? = nil, name: String? = nil, supportedEngines: [Engine]? = nil) {

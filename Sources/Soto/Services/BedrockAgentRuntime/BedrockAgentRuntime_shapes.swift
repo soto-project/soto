@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -35,6 +35,102 @@ extension BedrockAgentRuntime {
     public enum ExternalSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case byteContent = "BYTE_CONTENT"
         case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuadrailAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case intervened = "INTERVENED"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case intervened = "INTERVENED"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailContentFilterConfidence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailContentFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hate = "HATE"
+        case insults = "INSULTS"
+        case misconduct = "MISCONDUCT"
+        case promptAttack = "PROMPT_ATTACK"
+        case sexual = "SEXUAL"
+        case violence = "VIOLENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailContentPolicyAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blocked = "BLOCKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailManagedWordType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case profanity = "PROFANITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailPiiEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case address = "ADDRESS"
+        case age = "AGE"
+        case awsAccessKey = "AWS_ACCESS_KEY"
+        case awsSecretKey = "AWS_SECRET_KEY"
+        case caHealthNumber = "CA_HEALTH_NUMBER"
+        case caSocialInsuranceNumber = "CA_SOCIAL_INSURANCE_NUMBER"
+        case creditDebitCardCvv = "CREDIT_DEBIT_CARD_CVV"
+        case creditDebitCardExpiry = "CREDIT_DEBIT_CARD_EXPIRY"
+        case creditDebitCardNumber = "CREDIT_DEBIT_CARD_NUMBER"
+        case driverId = "DRIVER_ID"
+        case email = "EMAIL"
+        case internationalBankAccountNumber = "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+        case ipAddress = "IP_ADDRESS"
+        case licensePlate = "LICENSE_PLATE"
+        case macAddress = "MAC_ADDRESS"
+        case name = "NAME"
+        case password = "PASSWORD"
+        case phone = "PHONE"
+        case pin = "PIN"
+        case swiftCode = "SWIFT_CODE"
+        case ukNationalHealthServiceNumber = "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+        case ukNationalInsuranceNumber = "UK_NATIONAL_INSURANCE_NUMBER"
+        case ukUniqueTaxpayerReferenceNumber = "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
+        case url = "URL"
+        case usBankAccountNumber = "US_BANK_ACCOUNT_NUMBER"
+        case usBankRoutingNumber = "US_BANK_ROUTING_NUMBER"
+        case usIndividualTaxIdentificationNumber = "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+        case usPassportNumber = "US_PASSPORT_NUMBER"
+        case usSocialSecurityNumber = "US_SOCIAL_SECURITY_NUMBER"
+        case username = "USERNAME"
+        case vehicleIdentificationNumber = "VEHICLE_IDENTIFICATION_NUMBER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailSensitiveInformationPolicyAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case anonymized = "ANONYMIZED"
+        case blocked = "BLOCKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailTopicPolicyAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blocked = "BLOCKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailTopicType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailWordPolicyAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blocked = "BLOCKED"
         public var description: String { return self.rawValue }
     }
 
@@ -342,28 +438,32 @@ extension BedrockAgentRuntime {
     }
 
     public enum RetrievalFilter: AWSEncodableShape, Sendable {
-        /// Knowledge base data sources whose metadata attributes fulfill all the filter conditions inside this list are returned.
+        /// Knowledge base data sources are returned if their metadata attributes fulfill all the filter conditions inside this list.
         case andAll([RetrievalFilter])
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value matches the value in this object are returned.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value matches the value in this object. The following example would return data sources with an animal attribute whose value is cat:  "equals": { "key": "animal", "value": "cat" }
         case equals(FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value is greater than the value in this object are returned.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is greater than the value in this object. The following example would return data sources with an year attribute whose value is greater than 1989:  "greaterThan": { "key": "year", "value": 1989 }
         case greaterThan(FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value is greater than or equal to the value in this object are returned.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is greater than or equal to the value in this object. The following example would return data sources with an year attribute whose value is greater than or equal to 1989:  "greaterThanOrEquals": { "key": "year", "value": 1989 }
         case greaterThanOrEquals(FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value is in the list specified in the value in this object are returned.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is in the list specified in the value in this object. The following example would return data sources with an animal attribute that is either cat or dog:  "in": { "key": "animal", "value": ["cat", "dog"] }
         case `in`(FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value is less than the value in this object are returned.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is less than the value in this object. The following example would return data sources with an year attribute whose value is less than to 1989.  "lessThan": { "key": "year", "value": 1989 }
         case lessThan(FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value is less than or equal to the value in this object are returned.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is less than or equal to the value in this object. The following example would return data sources with an year attribute whose value is less than or equal to 1989.  "lessThanOrEquals": { "key": "year", "value": 1989 }
         case lessThanOrEquals(FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value doesn't match the value in this object are returned.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is a list that contains the value as one of its members. The following example would return data sources with an animals attribute that is a list containing a cat member (for example ["dog", "cat"]).  "listContains": { "key": "animals", "value": "cat" }
+        case listContains(FilterAttribute)
+        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value doesn't match the value in this object are returned. The following example would return data sources that don't contain an animal attribute whose value is cat.  "notEquals": { "key": "animal", "value": "cat" }
         case notEquals(FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value isn't in the list specified in the value in this object are returned.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value isn't in the list specified in the value in this object. The following example would return data sources whose animal attribute is neither cat nor dog.  "notIn": { "key": "animal", "value": ["cat", "dog"] }
         case notIn(FilterAttribute)
-        /// Knowledge base data sources whose metadata attributes fulfill at least one of the filter conditions inside this list are returned.
+        /// Knowledge base data sources are returned if their metadata attributes fulfill at least one of the filter conditions inside this list.
         case orAll([RetrievalFilter])
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value starts with the value in this object are returned. This filter is currently only supported for Amazon OpenSearch Serverless vector stores.
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value starts with the value in this object. This filter is currently only supported for Amazon OpenSearch Serverless vector stores. The following example would return data sources with an animal attribute starts with ca (for example, cat or camel).  "startsWith": { "key": "animal", "value": "ca" }
         case startsWith(FilterAttribute)
+        /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is one of the following:   A string that contains the value as a substring. The following example would return data sources with an animal attribute that contains the substring at (for example cat).  "stringContains": { "key": "animal", "value": "at" }    A list with a member that contains the value as a substring. The following example would return data sources with an animals attribute that is a list containing a member that contains the substring at (for example ["dog", "cat"]).  "stringContains": { "key": "animals", "value": "at" }
+        case stringContains(FilterAttribute)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -382,6 +482,8 @@ extension BedrockAgentRuntime {
                 try container.encode(value, forKey: .lessThan)
             case .lessThanOrEquals(let value):
                 try container.encode(value, forKey: .lessThanOrEquals)
+            case .listContains(let value):
+                try container.encode(value, forKey: .listContains)
             case .notEquals(let value):
                 try container.encode(value, forKey: .notEquals)
             case .notIn(let value):
@@ -390,6 +492,8 @@ extension BedrockAgentRuntime {
                 try container.encode(value, forKey: .orAll)
             case .startsWith(let value):
                 try container.encode(value, forKey: .startsWith)
+            case .stringContains(let value):
+                try container.encode(value, forKey: .stringContains)
             }
         }
 
@@ -413,6 +517,8 @@ extension BedrockAgentRuntime {
                 try value.validate(name: "\(name).lessThan")
             case .lessThanOrEquals(let value):
                 try value.validate(name: "\(name).lessThanOrEquals")
+            case .listContains(let value):
+                try value.validate(name: "\(name).listContains")
             case .notEquals(let value):
                 try value.validate(name: "\(name).notEquals")
             case .notIn(let value):
@@ -425,6 +531,8 @@ extension BedrockAgentRuntime {
                 try self.validate(value, name: "orAll", parent: name, min: 2)
             case .startsWith(let value):
                 try value.validate(name: "\(name).startsWith")
+            case .stringContains(let value):
+                try value.validate(name: "\(name).stringContains")
             }
         }
 
@@ -436,16 +544,20 @@ extension BedrockAgentRuntime {
             case `in` = "in"
             case lessThan = "lessThan"
             case lessThanOrEquals = "lessThanOrEquals"
+            case listContains = "listContains"
             case notEquals = "notEquals"
             case notIn = "notIn"
             case orAll = "orAll"
             case startsWith = "startsWith"
+            case stringContains = "stringContains"
         }
     }
 
     public enum Trace: AWSDecodableShape, Sendable {
         /// Contains information about the failure of the interaction.
         case failureTrace(FailureTrace)
+        /// The trace details for a trace defined in the Guardrail filter.
+        case guardrailTrace(GuardrailTrace)
         /// Details about the orchestration step, in which the agent determines the order in which actions are executed and which knowledge bases are retrieved.
         case orchestrationTrace(OrchestrationTrace)
         /// Details about the post-processing step, in which the agent shapes the response..
@@ -466,6 +578,9 @@ extension BedrockAgentRuntime {
             case .failureTrace:
                 let value = try container.decode(FailureTrace.self, forKey: .failureTrace)
                 self = .failureTrace(value)
+            case .guardrailTrace:
+                let value = try container.decode(GuardrailTrace.self, forKey: .guardrailTrace)
+                self = .guardrailTrace(value)
             case .orchestrationTrace:
                 let value = try container.decode(OrchestrationTrace.self, forKey: .orchestrationTrace)
                 self = .orchestrationTrace(value)
@@ -480,6 +595,7 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case failureTrace = "failureTrace"
+            case guardrailTrace = "guardrailTrace"
             case orchestrationTrace = "orchestrationTrace"
             case postProcessingTrace = "postProcessingTrace"
             case preProcessingTrace = "preProcessingTrace"
@@ -618,7 +734,7 @@ extension BedrockAgentRuntime {
         public let httpMethod: String?
         /// http status code from API execution response (for example: 200, 400, 500).
         public let httpStatusCode: Int?
-        /// The response body from the API operation. The key of the object is the content type. The response may be returned directly or from the Lambda function.
+        /// The response body from the API operation. The key of the object is the content type (currently, only TEXT is supported). The response may be returned directly or from the Lambda function.
         public let responseBody: [String: ContentBody]?
         /// Controls the final response state returned to end user when API/Function execution failed. When this state is FAILURE, the request would fail with dependency failure exception. When this state is REPROMPT, the API/function response will be sent to model for re-prompt
         public let responseState: ResponseState?
@@ -785,18 +901,35 @@ extension BedrockAgentRuntime {
     }
 
     public struct ExternalSourcesGenerationConfiguration: AWSEncodableShape {
+        ///  Additional model parameters and their corresponding values not included in the textInferenceConfig structure for an external source. Takes in custom model parameters specific to the language model being used.
+        public let additionalModelRequestFields: [String: String]?
+        /// The configuration details for the guardrail.
+        public let guardrailConfiguration: GuardrailConfiguration?
+        ///  Configuration settings for inference when using RetrieveAndGenerate to generate responses while using an external source.
+        public let inferenceConfig: InferenceConfig?
         /// Contain the textPromptTemplate string for the external source wrapper object.
         public let promptTemplate: PromptTemplate?
 
-        public init(promptTemplate: PromptTemplate? = nil) {
+        public init(additionalModelRequestFields: [String: String]? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfig? = nil, promptTemplate: PromptTemplate? = nil) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.guardrailConfiguration = guardrailConfiguration
+            self.inferenceConfig = inferenceConfig
             self.promptTemplate = promptTemplate
         }
 
         public func validate(name: String) throws {
+            try self.additionalModelRequestFields?.forEach {
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, max: 100)
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, min: 1)
+            }
+            try self.inferenceConfig?.validate(name: "\(name).inferenceConfig")
             try self.promptTemplate?.validate(name: "\(name).promptTemplate")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
+            case guardrailConfiguration = "guardrailConfiguration"
+            case inferenceConfig = "inferenceConfig"
             case promptTemplate = "promptTemplate"
         }
     }
@@ -933,7 +1066,7 @@ extension BedrockAgentRuntime {
         public let actionGroup: String
         /// The name of the function that was called.
         public let function: String?
-        /// The response from the function call using the parameters. The response may be returned directly or from the Lambda function.
+        /// The response from the function call using the parameters. The key of the object is the content type (currently, only TEXT is supported). The response may be returned directly or from the Lambda function.
         public let responseBody: [String: ContentBody]?
         /// Controls the final response state returned to end user when API/Function execution failed. When this state is FAILURE, the request would fail with dependency failure exception. When this state is REPROMPT, the API/function response will be sent to model for re-prompt
         public let responseState: ResponseState?
@@ -967,19 +1100,306 @@ extension BedrockAgentRuntime {
     }
 
     public struct GenerationConfiguration: AWSEncodableShape {
+        ///  Additional model parameters and corresponding values not included in the textInferenceConfig structure for a knowledge base. This allows users to provide custom model parameters specific to the language model being used.
+        public let additionalModelRequestFields: [String: String]?
+        /// The configuration details for the guardrail.
+        public let guardrailConfiguration: GuardrailConfiguration?
+        ///  Configuration settings for inference when using RetrieveAndGenerate to generate responses while using a knowledge base as a source.
+        public let inferenceConfig: InferenceConfig?
         /// Contains the template for the prompt that's sent to the model for response generation.
         public let promptTemplate: PromptTemplate?
 
-        public init(promptTemplate: PromptTemplate? = nil) {
+        public init(additionalModelRequestFields: [String: String]? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfig? = nil, promptTemplate: PromptTemplate? = nil) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.guardrailConfiguration = guardrailConfiguration
+            self.inferenceConfig = inferenceConfig
             self.promptTemplate = promptTemplate
         }
 
         public func validate(name: String) throws {
+            try self.additionalModelRequestFields?.forEach {
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, max: 100)
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, min: 1)
+            }
+            try self.inferenceConfig?.validate(name: "\(name).inferenceConfig")
             try self.promptTemplate?.validate(name: "\(name).promptTemplate")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
+            case guardrailConfiguration = "guardrailConfiguration"
+            case inferenceConfig = "inferenceConfig"
             case promptTemplate = "promptTemplate"
+        }
+    }
+
+    public struct GuardrailAssessment: AWSDecodableShape {
+        /// Content policy details of the Guardrail.
+        public let contentPolicy: GuardrailContentPolicyAssessment?
+        /// Sensitive Information policy details of Guardrail.
+        public let sensitiveInformationPolicy: GuardrailSensitiveInformationPolicyAssessment?
+        /// Topic policy details of the Guardrail.
+        public let topicPolicy: GuardrailTopicPolicyAssessment?
+        /// Word policy details of the Guardrail.
+        public let wordPolicy: GuardrailWordPolicyAssessment?
+
+        public init(contentPolicy: GuardrailContentPolicyAssessment? = nil, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicyAssessment? = nil, topicPolicy: GuardrailTopicPolicyAssessment? = nil, wordPolicy: GuardrailWordPolicyAssessment? = nil) {
+            self.contentPolicy = contentPolicy
+            self.sensitiveInformationPolicy = sensitiveInformationPolicy
+            self.topicPolicy = topicPolicy
+            self.wordPolicy = wordPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentPolicy = "contentPolicy"
+            case sensitiveInformationPolicy = "sensitiveInformationPolicy"
+            case topicPolicy = "topicPolicy"
+            case wordPolicy = "wordPolicy"
+        }
+    }
+
+    public struct GuardrailConfiguration: AWSEncodableShape {
+        /// The unique identifier for the guardrail.
+        public let guardrailId: String
+        /// The version of the guardrail.
+        public let guardrailVersion: String
+
+        public init(guardrailId: String, guardrailVersion: String) {
+            self.guardrailId = guardrailId
+            self.guardrailVersion = guardrailVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardrailId = "guardrailId"
+            case guardrailVersion = "guardrailVersion"
+        }
+    }
+
+    public struct GuardrailContentFilter: AWSDecodableShape {
+        /// The action placed on the content by the Guardrail filter.
+        public let action: GuardrailContentPolicyAction?
+        /// The confidence level regarding the content detected in the filter by the Guardrail.
+        public let confidence: GuardrailContentFilterConfidence?
+        /// The type of content detected in the filter by the Guardrail.
+        public let type: GuardrailContentFilterType?
+
+        public init(action: GuardrailContentPolicyAction? = nil, confidence: GuardrailContentFilterConfidence? = nil, type: GuardrailContentFilterType? = nil) {
+            self.action = action
+            self.confidence = confidence
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case confidence = "confidence"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailContentPolicyAssessment: AWSDecodableShape {
+        /// The filter details of the policy assessment used in the Guardrails filter.
+        public let filters: [GuardrailContentFilter]?
+
+        public init(filters: [GuardrailContentFilter]? = nil) {
+            self.filters = filters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+        }
+    }
+
+    public struct GuardrailCustomWord: AWSDecodableShape {
+        /// The action details for the custom word filter in the Guardrail.
+        public let action: GuardrailWordPolicyAction?
+        /// The match details for the custom word filter in the Guardrail.
+        public let match: String?
+
+        public init(action: GuardrailWordPolicyAction? = nil, match: String? = nil) {
+            self.action = action
+            self.match = match
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case match = "match"
+        }
+    }
+
+    public struct GuardrailManagedWord: AWSDecodableShape {
+        /// The action details for the managed word filter in the Guardrail.
+        public let action: GuardrailWordPolicyAction?
+        /// The match details for the managed word filter in the Guardrail.
+        public let match: String?
+        /// The type details for the managed word filter in the Guardrail.
+        public let type: GuardrailManagedWordType?
+
+        public init(action: GuardrailWordPolicyAction? = nil, match: String? = nil, type: GuardrailManagedWordType? = nil) {
+            self.action = action
+            self.match = match
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case match = "match"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailPiiEntityFilter: AWSDecodableShape {
+        /// The action of the Guardrail filter to identify and remove PII.
+        public let action: GuardrailSensitiveInformationPolicyAction?
+        /// The match to settings in the Guardrail filter to identify and remove PII.
+        public let match: String?
+        /// The type of PII the Guardrail filter has identified and removed.
+        public let type: GuardrailPiiEntityType?
+
+        public init(action: GuardrailSensitiveInformationPolicyAction? = nil, match: String? = nil, type: GuardrailPiiEntityType? = nil) {
+            self.action = action
+            self.match = match
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case match = "match"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailRegexFilter: AWSDecodableShape {
+        /// The action details for the regex filter used in the Guardrail.
+        public let action: GuardrailSensitiveInformationPolicyAction?
+        /// The match details for the regex filter used in the Guardrail.
+        public let match: String?
+        /// The name details for the regex filter used in the Guardrail.
+        public let name: String?
+        /// The regex details for the regex filter used in the Guardrail.
+        public let regex: String?
+
+        public init(action: GuardrailSensitiveInformationPolicyAction? = nil, match: String? = nil, name: String? = nil, regex: String? = nil) {
+            self.action = action
+            self.match = match
+            self.name = name
+            self.regex = regex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case match = "match"
+            case name = "name"
+            case regex = "regex"
+        }
+    }
+
+    public struct GuardrailSensitiveInformationPolicyAssessment: AWSDecodableShape {
+        /// The details of the PII entities used in the sensitive policy assessment for the Guardrail.
+        public let piiEntities: [GuardrailPiiEntityFilter]?
+        /// The details of the regexes used in the sensitive policy assessment for the Guardrail.
+        public let regexes: [GuardrailRegexFilter]?
+
+        public init(piiEntities: [GuardrailPiiEntityFilter]? = nil, regexes: [GuardrailRegexFilter]? = nil) {
+            self.piiEntities = piiEntities
+            self.regexes = regexes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case piiEntities = "piiEntities"
+            case regexes = "regexes"
+        }
+    }
+
+    public struct GuardrailTopic: AWSDecodableShape {
+        /// The action details on a specific topic in the Guardrail.
+        public let action: GuardrailTopicPolicyAction?
+        /// The name details on a specific topic in the Guardrail.
+        public let name: String?
+        /// The type details on a specific topic in the Guardrail.
+        public let type: GuardrailTopicType?
+
+        public init(action: GuardrailTopicPolicyAction? = nil, name: String? = nil, type: GuardrailTopicType? = nil) {
+            self.action = action
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailTopicPolicyAssessment: AWSDecodableShape {
+        /// The topic details of the policy assessment used in the Guardrail.
+        public let topics: [GuardrailTopic]?
+
+        public init(topics: [GuardrailTopic]? = nil) {
+            self.topics = topics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topics = "topics"
+        }
+    }
+
+    public struct GuardrailTrace: AWSDecodableShape {
+        /// The trace action details used with the Guardrail.
+        public let action: GuardrailAction?
+        /// The details of the input assessments used in the Guardrail Trace.
+        public let inputAssessments: [GuardrailAssessment]?
+        /// The details of the output assessments used in the Guardrail Trace.
+        public let outputAssessments: [GuardrailAssessment]?
+        /// The details of the trace Id used in the Guardrail Trace.
+        public let traceId: String?
+
+        public init(action: GuardrailAction? = nil, inputAssessments: [GuardrailAssessment]? = nil, outputAssessments: [GuardrailAssessment]? = nil, traceId: String? = nil) {
+            self.action = action
+            self.inputAssessments = inputAssessments
+            self.outputAssessments = outputAssessments
+            self.traceId = traceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case inputAssessments = "inputAssessments"
+            case outputAssessments = "outputAssessments"
+            case traceId = "traceId"
+        }
+    }
+
+    public struct GuardrailWordPolicyAssessment: AWSDecodableShape {
+        /// The custom word details for words defined in the Guardrail filter.
+        public let customWords: [GuardrailCustomWord]?
+        /// The managed word lists for words defined in the Guardrail filter.
+        public let managedWordLists: [GuardrailManagedWord]?
+
+        public init(customWords: [GuardrailCustomWord]? = nil, managedWordLists: [GuardrailManagedWord]? = nil) {
+            self.customWords = customWords
+            self.managedWordLists = managedWordLists
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customWords = "customWords"
+            case managedWordLists = "managedWordLists"
+        }
+    }
+
+    public struct InferenceConfig: AWSEncodableShape {
+        ///  Configuration settings specific to text generation while generating responses using RetrieveAndGenerate.
+        public let textInferenceConfig: TextInferenceConfig?
+
+        public init(textInferenceConfig: TextInferenceConfig? = nil) {
+            self.textInferenceConfig = textInferenceConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.textInferenceConfig?.validate(name: "\(name).textInferenceConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textInferenceConfig = "textInferenceConfig"
         }
     }
 
@@ -1058,11 +1478,11 @@ extension BedrockAgentRuntime {
         public let enableTrace: Bool?
         /// Specifies whether to end the session with the agent or not.
         public let endSession: Bool?
-        /// The prompt text to send the agent.
+        /// The prompt text to send the agent.  If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
         public let inputText: String?
         /// The unique identifier of the session. Use the same value across requests to continue the same conversation.
         public let sessionId: String
-        /// Contains parameters that specify various attributes of the session. For more information, see Control session context.
+        /// Contains parameters that specify various attributes of the session. For more information, see Control session context.  If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
         public let sessionState: SessionState?
 
         public init(agentAliasId: String, agentId: String, enableTrace: Bool? = nil, endSession: Bool? = nil, inputText: String? = nil, sessionId: String, sessionState: SessionState? = nil) {
@@ -1671,19 +2091,23 @@ extension BedrockAgentRuntime {
     public struct RetrieveAndGenerateResponse: AWSDecodableShape {
         /// A list of segments of the generated response that are based on sources in the knowledge base, alongside information about the sources.
         public let citations: [Citation]?
+        /// Specifies if there is a guardrail intervention in the response.
+        public let guardrailAction: GuadrailAction?
         /// Contains the response generated from querying the knowledge base.
         public let output: RetrieveAndGenerateOutput
         /// The unique identifier of the session. Reuse the same value to continue the same session with the knowledge base.
         public let sessionId: String
 
-        public init(citations: [Citation]? = nil, output: RetrieveAndGenerateOutput, sessionId: String) {
+        public init(citations: [Citation]? = nil, guardrailAction: GuadrailAction? = nil, output: RetrieveAndGenerateOutput, sessionId: String) {
             self.citations = citations
+            self.guardrailAction = guardrailAction
             self.output = output
             self.sessionId = sessionId
         }
 
         private enum CodingKeys: String, CodingKey {
             case citations = "citations"
+            case guardrailAction = "guardrailAction"
             case output = "output"
             case sessionId = "sessionId"
         }
@@ -1837,11 +2261,11 @@ extension BedrockAgentRuntime {
     }
 
     public struct SessionState: AWSEncodableShape {
-        /// The identifier of the invocation.
+        /// The identifier of the invocation of an action. This value must match the invocationId returned in the InvokeAgent response for the action whose results are provided in the returnControlInvocationResults field. For more information, see Return control to the agent developer and Control session context.
         public let invocationId: String?
         /// Contains attributes that persist across a prompt and the values of those attributes. These attributes replace the $prompt_session_attributes$ placeholder variable in the orchestration prompt template. For more information, see Prompt template placeholder variables.
         public let promptSessionAttributes: [String: String]?
-        /// Contains information about the results from the action group invocation.
+        /// Contains information about the results from the action group invocation. For more information, see Return control to the agent developer and Control session context.  If you include this field, the inputText field will be ignored.
         public let returnControlInvocationResults: [InvocationResultMember]?
         /// Contains attributes that persist across a session and the values of those attributes.
         public let sessionAttributes: [String: String]?
@@ -1880,6 +2304,41 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case end = "end"
             case start = "start"
+        }
+    }
+
+    public struct TextInferenceConfig: AWSEncodableShape {
+        /// The maximum number of tokens to generate in the output text. Do not use the minimum of 0 or the maximum of 65536. The limit values described here are arbitary values, for actual values consult the limits defined by your specific model.
+        public let maxTokens: Int?
+        /// A list of sequences of characters that, if generated, will cause the model to stop generating further tokens. Do not use a minimum length of 1 or a maximum length of 1000. The limit values described here are arbitary values, for actual values consult the limits defined by your specific model.
+        public let stopSequences: [String]?
+        ///  Controls the random-ness of text generated by the language model, influencing how much the model sticks to the most predictable next words versus exploring more surprising options. A lower temperature value (e.g. 0.2 or 0.3) makes model outputs more deterministic or predictable, while a higher temperature (e.g. 0.8 or 0.9) makes the outputs more creative or unpredictable.
+        public let temperature: Float?
+        ///  A probability distribution threshold which controls what the model considers for the set of possible next tokens. The model will only consider the top p% of the probability distribution when generating the next token.
+        public let topP: Float?
+
+        public init(maxTokens: Int? = nil, stopSequences: [String]? = nil, temperature: Float? = nil, topP: Float? = nil) {
+            self.maxTokens = maxTokens
+            self.stopSequences = stopSequences
+            self.temperature = temperature
+            self.topP = topP
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxTokens, name: "maxTokens", parent: name, max: 65536)
+            try self.validate(self.maxTokens, name: "maxTokens", parent: name, min: 0)
+            try self.validate(self.stopSequences, name: "stopSequences", parent: name, max: 4)
+            try self.validate(self.temperature, name: "temperature", parent: name, max: 1.0)
+            try self.validate(self.temperature, name: "temperature", parent: name, min: 0.0)
+            try self.validate(self.topP, name: "topP", parent: name, max: 1.0)
+            try self.validate(self.topP, name: "topP", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxTokens = "maxTokens"
+            case stopSequences = "stopSequences"
+            case temperature = "temperature"
+            case topP = "topP"
         }
     }
 

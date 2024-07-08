@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -253,8 +253,7 @@ public struct Budgets: AWSService {
         )
     }
 
-    /// 			Lists the budget names and notifications that are associated with an account.
-    ///
+    ///  Lists the budget names and notifications that are associated with an account.
     @Sendable
     public func describeBudgetNotificationsForAccount(_ input: DescribeBudgetNotificationsForAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBudgetNotificationsForAccountResponse {
         return try await self.client.execute(
@@ -324,6 +323,45 @@ public struct Budgets: AWSService {
     public func executeBudgetAction(_ input: ExecuteBudgetActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExecuteBudgetActionResponse {
         return try await self.client.execute(
             operation: "ExecuteBudgetAction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists tags associated with a budget or budget action resource.
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates tags for a budget or budget action resource.
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes tags associated with a budget or budget action resource.
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(
+            operation: "UntagResource", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -455,8 +493,7 @@ extension Budgets {
         )
     }
 
-    /// 			Lists the budget names and notifications that are associated with an account.
-    ///
+    ///  Lists the budget names and notifications that are associated with an account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

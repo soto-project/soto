@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -101,7 +101,7 @@ public struct EC2: AWSService {
 
     // MARK: API Calls
 
-    /// Accepts an Elastic IP address transfer. For more information, see Accept a transferred Elastic IP address in the Amazon Virtual Private Cloud User Guide.
+    /// Accepts an Elastic IP address transfer. For more information, see Accept a transferred Elastic IP address in the Amazon VPC User Guide.
     @Sendable
     public func acceptAddressTransfer(_ input: AcceptAddressTransferRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptAddressTransferResult {
         return try await self.client.execute(
@@ -205,7 +205,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Allocates an Elastic IP address to your Amazon Web Services account. After you allocate the Elastic IP address you can associate   it with an instance or network interface. After you release an Elastic IP address, it is released to the IP address  pool and can be allocated to a different Amazon Web Services account. You can allocate an Elastic IP address from an address pool owned by Amazon Web Services or from an address pool created  from a public IPv4 address range that you have brought to Amazon Web Services for use with your Amazon Web Services resources using bring your own  IP addresses (BYOIP). For more information, see Bring Your Own IP Addresses (BYOIP) in the Amazon Elastic Compute Cloud User Guide. If you release an Elastic IP address, you might be able to recover it. You cannot recover an Elastic IP address that you released after it is allocated to another Amazon Web Services account. To attempt to recover an Elastic IP address that you released, specify it in this operation. For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. You can allocate a carrier IP address which is a public IP address from a telecommunication carrier,  to a network interface which resides in a subnet in a Wavelength Zone (for example an EC2 instance).
+    /// Allocates an Elastic IP address to your Amazon Web Services account. After you allocate the Elastic IP address you can associate   it with an instance or network interface. After you release an Elastic IP address, it is released to the IP address  pool and can be allocated to a different Amazon Web Services account. You can allocate an Elastic IP address from an address pool owned by Amazon Web Services or from an address pool created  from a public IPv4 address range that you have brought to Amazon Web Services for use with your Amazon Web Services resources using bring your own  IP addresses (BYOIP). For more information, see Bring Your Own IP Addresses (BYOIP) in the Amazon EC2 User Guide. If you release an Elastic IP address, you might be able to recover it. You cannot recover an Elastic IP address that you released after it is allocated to another Amazon Web Services account. To attempt to recover an Elastic IP address that you released, specify it in this operation. For more information, see Elastic IP Addresses in the Amazon EC2 User Guide. You can allocate a carrier IP address which is a public IP address from a telecommunication carrier,  to a network interface which resides in a subnet in a Wavelength Zone (for example an EC2 instance).
     @Sendable
     public func allocateAddress(_ input: AllocateAddressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AllocateAddressResult {
         return try await self.client.execute(
@@ -258,7 +258,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Assigns one or more IPv6 addresses to the specified network interface. You can specify one or more specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from within the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a network interface as you can assign private IPv4 addresses, and the limit varies per instance type. For information, see IP Addresses Per Network Interface Per Instance Type in the Amazon Elastic Compute Cloud User Guide. You must specify either the IPv6 addresses or the IPv6 address count in the request.  You can optionally use Prefix Delegation on the network interface. You must specify either the IPV6 Prefix Delegation prefixes, or the IPv6 Prefix Delegation count. For information, see  Assigning prefixes to Amazon EC2 network interfaces in the Amazon Elastic Compute Cloud User Guide.
+    /// Assigns one or more IPv6 addresses to the specified network interface. You can specify one or more specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from within the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a network interface as you can assign private IPv4 addresses, and the limit varies per instance type. You must specify either the IPv6 addresses or the IPv6 address count in the request.  You can optionally use Prefix Delegation on the network interface. You must specify either the IPV6 Prefix Delegation prefixes, or the IPv6 Prefix Delegation count. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
     @Sendable
     public func assignIpv6Addresses(_ input: AssignIpv6AddressesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssignIpv6AddressesResult {
         return try await self.client.execute(
@@ -271,7 +271,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Assigns one or more secondary private IP addresses to the specified network interface. You can specify one or more specific secondary IP addresses, or you can specify the number  of secondary IP addresses to be automatically assigned within the subnet's CIDR block range.  The number of secondary IP addresses that you can assign to an instance varies by instance type. For information about instance types, see Instance Types in the Amazon Elastic Compute Cloud User Guide. For more information about  Elastic IP addresses, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. When you move a secondary private IP address to another network interface, any Elastic IP address  that is associated with the IP address is also moved. Remapping an IP address is an asynchronous operation. When you move an IP address from one network interface to another, check network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the remapping is complete. You must specify either the IP addresses or the IP address count in the request. You can optionally use Prefix Delegation on the network interface. You must specify either the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count. For information, see  Assigning prefixes to Amazon EC2 network interfaces in the Amazon Elastic Compute Cloud User Guide.
+    /// Assigns one or more secondary private IP addresses to the specified network interface. You can specify one or more specific secondary IP addresses, or you can specify the number  of secondary IP addresses to be automatically assigned within the subnet's CIDR block range.  The number of secondary IP addresses that you can assign to an instance varies by instance type. For more information about Elastic IP addresses, see Elastic IP Addresses in the Amazon EC2 User Guide. When you move a secondary private IP address to another network interface, any Elastic IP address  that is associated with the IP address is also moved. Remapping an IP address is an asynchronous operation. When you move an IP address from one network interface to another, check network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the remapping is complete. You must specify either the IP addresses or the IP address count in the request. You can optionally use Prefix Delegation on the network interface. You must specify either the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
     @Sendable
     public func assignPrivateIpAddresses(_ input: AssignPrivateIpAddressesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssignPrivateIpAddressesResult {
         return try await self.client.execute(
@@ -284,7 +284,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Assigns one or more private IPv4 addresses to a private NAT gateway. For more information, see  Work with NAT gateways in the Amazon VPC User Guide.
+    /// Assigns private IPv4 addresses to a private NAT gateway. For more information, see  Work with NAT gateways in the Amazon VPC User Guide.
     @Sendable
     public func assignPrivateNatGatewayAddress(_ input: AssignPrivateNatGatewayAddressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssignPrivateNatGatewayAddressResult {
         return try await self.client.execute(
@@ -323,7 +323,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Associates a set of DHCP options (that you've previously created) with the specified VPC, or associates no DHCP options with the VPC. After you associate the options with the VPC, any existing instances and all new instances that you launch in that VPC use the options. You don't need to restart or relaunch the instances. They automatically pick up the changes within a few hours, depending on how frequently the instance renews its DHCP lease. You can explicitly renew the lease using the operating system on the instance. For more information, see DHCP options sets in the Amazon VPC User Guide.
+    /// Associates a set of DHCP options (that you've previously created) with the specified VPC, or associates no DHCP options with the VPC. After you associate the options with the VPC, any existing instances and all new instances that you launch in that VPC use the options. You don't need to restart or relaunch the instances. They automatically pick up the changes within a few hours, depending on how frequently the instance renews its DHCP lease. You can explicitly renew the lease using the operating system on the instance. For more information, see DHCP option sets in the Amazon VPC User Guide.
     @Sendable
     public func associateDhcpOptions(_ input: AssociateDhcpOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -411,7 +411,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information,  see Work with NAT gateways in the Amazon VPC User Guide. By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjustment. For more information, see Elastic IP address quotas in the Amazon VPC User Guide.  When you associate an EIP or secondary EIPs with a public NAT gateway, the network border group of the EIPs must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same, the EIP will fail to associate. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information about network border groups and EIPs, see Allocate an Elastic IP address in the Amazon VPC User Guide.
+    /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information,  see Work with NAT gateways in the Amazon VPC User Guide. By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjustment.  For more information, see Elastic IP address quotas in the Amazon VPC User Guide.  When you associate an EIP or secondary EIPs with a public NAT gateway, the network border group of the EIPs must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same, the EIP will fail to associate. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information about network border groups and EIPs, see Allocate an Elastic IP address in the Amazon VPC User Guide.
     @Sendable
     public func associateNatGatewayAddress(_ input: AssociateNatGatewayAddressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateNatGatewayAddressResult {
         return try await self.client.execute(
@@ -489,7 +489,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Associates a branch network interface with a trunk network interface. Before you create the association, run the create-network-interface command and set --interface-type to trunk. You must also create a network interface for each branch network interface that you want to associate with the trunk network interface.
+    /// Associates a branch network interface with a trunk network interface. Before you create the association, use CreateNetworkInterface command and set the interface type to trunk. You must also create a network interface for  each branch network interface that you want to associate with the trunk  network interface.
     @Sendable
     public func associateTrunkInterface(_ input: AssociateTrunkInterfaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateTrunkInterfaceResult {
         return try await self.client.execute(
@@ -502,7 +502,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Associates a CIDR block with your VPC. You can associate a secondary IPv4 CIDR block, an Amazon-provided IPv6 CIDR block, or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses (BYOIP).  You must specify one of the following in the request: an IPv4 CIDR block, an IPv6 pool, or an Amazon-provided IPv6 CIDR block. For more information about associating CIDR blocks with your VPC and applicable restrictions, see IP addressing for your VPCs and subnets  in the Amazon VPC User Guide.
+    /// Associates a CIDR block with your VPC. You can associate a secondary IPv4 CIDR block, an Amazon-provided IPv6 CIDR block, or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses (BYOIP). You must specify one of the following in the request: an IPv4 CIDR block, an IPv6 pool, or an Amazon-provided IPv6 CIDR block. For more information about associating CIDR blocks with your VPC and applicable restrictions, see IP addressing for your VPCs and subnets  in the Amazon VPC User Guide.
     @Sendable
     public func associateVpcCidrBlock(_ input: AssociateVpcCidrBlockRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateVpcCidrBlockResult {
         return try await self.client.execute(
@@ -751,7 +751,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Cancels the specified Reserved Instance listing in the Reserved Instance Marketplace. For more information, see  Reserved Instance Marketplace  in the Amazon EC2 User Guide.
+    /// Cancels the specified Reserved Instance listing in the Reserved Instance Marketplace. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide.
     @Sendable
     public func cancelReservedInstancesListing(_ input: CancelReservedInstancesListingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelReservedInstancesListingResult {
         return try await self.client.execute(
@@ -829,7 +829,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy a snapshot within the same Region, from one Region to another, or from a Region to an Outpost.  You can't copy a snapshot from an Outpost to a Region, from one Outpost to another, or within  the same Outpost. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted.  	Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the  	snapshot copy operation. By default, encrypted snapshot copies use the default Key Management Service (KMS)  	KMS key; however, you can specify a different KMS key. To copy an encrypted  	snapshot that has been shared from another account, you must have permissions for the KMS key  	used to encrypt the snapshot. Snapshots copied to an Outpost are encrypted by default using the default 		encryption key for the Region, or a different key that you specify in the request using  		KmsKeyId. Outposts do not support unencrypted  	  snapshots. For more information,  			Amazon EBS local snapshots on Outposts in the Amazon EBS User Guide. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see Copy an Amazon EBS snapshot in the Amazon EBS User Guide.
+    /// Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy a snapshot within the same Region, from one Region to another, or from a Region to an Outpost.  You can't copy a snapshot from an Outpost to a Region, from one Outpost to another, or within  the same Outpost. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted.  	Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the  	snapshot copy operation. By default, encrypted snapshot copies use the default KMS key;  	however, you can specify a different KMS key. To copy an encrypted  	snapshot that has been shared from another account, you must have permissions for the KMS key  	used to encrypt the snapshot. Snapshots copied to an Outpost are encrypted by default using the default 		encryption key for the Region, or a different key that you specify in the request using  		KmsKeyId. Outposts do not support unencrypted  	  snapshots. For more information,  			Amazon EBS local snapshots on Outposts in the Amazon EBS User Guide. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see Copy an Amazon EBS snapshot in the Amazon EBS User Guide.
     @Sendable
     public func copySnapshot(_ input: CopySnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopySnapshotResult {
         return try await self.client.execute(
@@ -866,8 +866,9 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a Capacity Reservation Fleet. For more information, see Create a Capacity
-    /// 			Reservation Fleet in the Amazon EC2 User Guide.
+    /// Creates a Capacity Reservation Fleet. For more information, see Create a
+    /// 				Capacity Reservation Fleet in the
+    /// 			Amazon EC2 User Guide.
     @Sendable
     public func createCapacityReservationFleet(_ input: CreateCapacityReservationFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCapacityReservationFleetResult {
         return try await self.client.execute(
@@ -994,7 +995,7 @@ public struct EC2: AWSService {
 
     /// Creates a custom set of DHCP options. After you create a DHCP option set, you associate
     /// 	       it with a VPC. After you associate a DHCP option set with a VPC, all existing and newly
-    /// 	       launched instances in the VPC use this set of DHCP options. The following are the individual DHCP options you can specify. For more information, see  DHCP options sets  in the Amazon VPC User Guide.    domain-name - If you're using AmazonProvidedDNS in us-east-1,  specify ec2.internal. If you're using AmazonProvidedDNS in any other Region,  specify region.compute.internal. Otherwise, specify a custom domain name. This value is used to complete unqualified DNS hostnames. Some Linux operating systems accept multiple domain names separated by spaces. However, Windows and other Linux operating systems treat the value as a single domain, which results in unexpected behavior. If your DHCP option set is associated with a VPC that has instances running operating systems that treat the value as a single domain, specify only one domain name.    domain-name-servers - The IP addresses of up to four DNS servers, or AmazonProvidedDNS. To specify multiple domain name servers in a single parameter,  separate the IP addresses using commas. To have your instances receive custom DNS  hostnames as specified in domain-name, you must specify a custom DNS server.    ntp-servers - The IP addresses of up to eight Network Time Protocol (NTP) servers (four IPv4 addresses and four IPv6 addresses).    netbios-name-servers - The IP addresses of up to four NetBIOS name servers.    netbios-node-type - The NetBIOS node type (1, 2, 4, or 8). We recommend that you specify 2. Broadcast and multicast are not supported. For more information about  NetBIOS node types, see RFC 2132.    ipv6-address-preferred-lease-time - A value (in seconds, minutes, hours, or years) for how frequently a running instance with an IPv6 assigned to it goes through DHCPv6 lease renewal.  Acceptable values are between 140 and 2147483647 seconds (approximately 68 years). If no value is entered, the default lease time is 140 seconds. If you use long-term addressing for EC2 instances, you can increase the lease time and avoid frequent  lease renewal requests. Lease renewal typically occurs when half of the lease time has elapsed.
+    /// 	       launched instances in the VPC use this set of DHCP options. The following are the individual DHCP options you can specify. For more information, see  DHCP option sets  in the Amazon VPC User Guide.    domain-name - If you're using AmazonProvidedDNS in us-east-1,  specify ec2.internal. If you're using AmazonProvidedDNS in any other Region,  specify region.compute.internal. Otherwise, specify a custom domain name. This value is used to complete unqualified DNS hostnames. Some Linux operating systems accept multiple domain names separated by spaces. However, Windows and other Linux operating systems treat the value as a single domain, which results in unexpected behavior. If your DHCP option set is associated with a VPC that has instances running operating systems that treat the value as a single domain, specify only one domain name.    domain-name-servers - The IP addresses of up to four DNS servers, or AmazonProvidedDNS. To specify multiple domain name servers in a single parameter,  separate the IP addresses using commas. To have your instances receive custom DNS  hostnames as specified in domain-name, you must specify a custom DNS server.    ntp-servers - The IP addresses of up to eight Network Time Protocol (NTP) servers (four IPv4 addresses and four IPv6 addresses).    netbios-name-servers - The IP addresses of up to four NetBIOS name servers.    netbios-node-type - The NetBIOS node type (1, 2, 4, or 8). We recommend that you specify 2. Broadcast and multicast are not supported. For more information about  NetBIOS node types, see RFC 2132.    ipv6-address-preferred-lease-time - A value (in seconds, minutes, hours, or years) for how frequently a running instance with an IPv6 assigned to it goes through DHCPv6 lease renewal.  Acceptable values are between 140 and 2147483647 seconds (approximately 68 years). If no value is entered, the default lease time is 140 seconds. If you use long-term addressing for EC2 instances, you can increase the lease time and avoid frequent  lease renewal requests. Lease renewal typically occurs when half of the lease time has elapsed.
     @Sendable
     public func createDhcpOptions(_ input: CreateDhcpOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDhcpOptionsResult {
         return try await self.client.execute(
@@ -1036,7 +1037,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates one or more flow logs to capture information about IP traffic for a specific network interface, subnet, or VPC.  Flow log data for a monitored network interface is recorded as flow log records, which are log events  consisting of fields that describe the traffic flow. For more information, see  Flow log records  in the Amazon Virtual Private Cloud User Guide. When publishing to CloudWatch Logs, flow log records are published to a log group, and each network  interface has a unique log stream in the log group. When publishing to Amazon S3, flow log records for all  of the monitored network interfaces are published to a single log file object that is stored in the specified  bucket. For more information, see VPC Flow Logs in the Amazon Virtual Private Cloud User Guide.
+    /// Creates one or more flow logs to capture information about IP traffic for a specific network interface, subnet, or VPC.  Flow log data for a monitored network interface is recorded as flow log records, which are log events  consisting of fields that describe the traffic flow. For more information, see  Flow log records  in the Amazon VPC User Guide. When publishing to CloudWatch Logs, flow log records are published to a log group, and each network  interface has a unique log stream in the log group. When publishing to Amazon S3, flow log records for all  of the monitored network interfaces are published to a single log file object that is stored in the specified  bucket. For more information, see VPC Flow Logs  in the Amazon VPC User Guide.
     @Sendable
     public func createFlowLogs(_ input: CreateFlowLogsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFlowLogsResult {
         return try await self.client.execute(
@@ -1193,7 +1194,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify a launch template instead of providing the launch parameters in the request. For more information, see Launch an instance from a launch template in the Amazon Elastic Compute Cloud User Guide. To clone an existing launch template as the basis for a new launch template, use the  Amazon EC2 console. The API, SDKs, and CLI do not support cloning a template. For more  information, see Create a launch template from an existing launch template in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify a launch template instead of providing the launch parameters in the request. For more information, see Launch an instance from a launch template in the Amazon EC2 User Guide. To clone an existing launch template as the basis for a new launch template, use the  Amazon EC2 console. The API, SDKs, and CLI do not support cloning a template. For more  information, see Create a launch template from an existing launch template in the Amazon EC2 User Guide.
     @Sendable
     public func createLaunchTemplate(_ input: CreateLaunchTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLaunchTemplateResult {
         return try await self.client.execute(
@@ -1206,7 +1207,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a new version of a launch template. You must specify an existing launch template, either by name or ID. You can determine whether the new version inherits  parameters from a source version, and add or overwrite parameters as needed. Launch template versions are numbered in the order in which they are created. You can't specify, change, or replace the numbering of launch template versions. Launch templates are immutable; after you create a launch template, you can't modify it. Instead, you can create a new version of the launch template that includes the changes that you require. For more information, see Modify a launch template (manage launch template versions) in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates a new version of a launch template. You must specify an existing launch template, either by name or ID. You can determine whether the new version inherits  parameters from a source version, and add or overwrite parameters as needed. Launch template versions are numbered in the order in which they are created. You can't specify, change, or replace the numbering of launch template versions. Launch templates are immutable; after you create a launch template, you can't modify it. Instead, you can create a new version of the launch template that includes the changes that you require. For more information, see Modify a launch template (manage launch template versions) in the Amazon EC2 User Guide.
     @Sendable
     public func createLaunchTemplateVersion(_ input: CreateLaunchTemplateVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLaunchTemplateVersionResult {
         return try await self.client.execute(
@@ -1354,7 +1355,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a network interface in the specified subnet. The number of IP addresses you can assign to a network interface varies by instance type. For more information, see IP Addresses Per ENI Per Instance Type in the Amazon Virtual Private Cloud User Guide. For more information about network interfaces, see Elastic network interfaces  in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates a network interface in the specified subnet. The number of IP addresses you can assign to a network interface varies by instance type. For more information about network interfaces, see Elastic network interfaces  in the Amazon EC2 User Guide.
     @Sendable
     public func createNetworkInterface(_ input: CreateNetworkInterfaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNetworkInterfaceResult {
         return try await self.client.execute(
@@ -1406,7 +1407,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Replaces the EBS-backed root volume for a running instance with a new  volume that is restored to the original root volume's launch state, that is restored to a  specific snapshot taken from the original root volume, or that is restored from an AMI  that has the same key characteristics as that of the instance. For more information, see Replace a root volume in the Amazon Elastic Compute Cloud User Guide.
+    /// Replaces the EBS-backed root volume for a running instance with a new  volume that is restored to the original root volume's launch state, that is restored to a  specific snapshot taken from the original root volume, or that is restored from an AMI  that has the same key characteristics as that of the instance. For more information, see Replace a root volume in the Amazon EC2 User Guide.
     @Sendable
     public func createReplaceRootVolumeTask(_ input: CreateReplaceRootVolumeTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReplaceRootVolumeTaskResult {
         return try await self.client.execute(
@@ -1421,8 +1422,7 @@ public struct EC2: AWSService {
 
     /// Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance
     /// 			Marketplace. You can submit one Standard Reserved Instance listing at a time. To get a list of your
-    /// 			Standard Reserved Instances, you can use the DescribeReservedInstances operation.  Only Standard Reserved Instances can be sold in the Reserved Instance Marketplace.  Convertible Reserved Instances cannot be sold.  The Reserved Instance Marketplace matches sellers who want to resell Standard Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. To sell your Standard Reserved Instances, you must first register as a seller in the Reserved Instance Marketplace. After completing the registration process, you can create a Reserved Instance Marketplace listing of some or all of your Standard Reserved Instances, and specify the upfront price to receive for them. Your Standard Reserved Instance listings then become available for purchase. To view the details of your Standard Reserved Instance listing, you can use the DescribeReservedInstancesListings operation. For more information, see Reserved Instance Marketplace in the
-    /// 				Amazon EC2 User Guide.
+    /// 			Standard Reserved Instances, you can use the DescribeReservedInstances operation.  Only Standard Reserved Instances can be sold in the Reserved Instance Marketplace.  Convertible Reserved Instances cannot be sold.  The Reserved Instance Marketplace matches sellers who want to resell Standard Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. To sell your Standard Reserved Instances, you must first register as a seller in the Reserved Instance Marketplace. After completing the registration process, you can create a Reserved Instance Marketplace listing of some or all of your Standard Reserved Instances, and specify the upfront price to receive for them. Your Standard Reserved Instance listings then become available for purchase. To view the details of your Standard Reserved Instance listing, you can use the DescribeReservedInstancesListings operation. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide.
     @Sendable
     public func createReservedInstancesListing(_ input: CreateReservedInstancesListingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReservedInstancesListingResult {
         return try await self.client.execute(
@@ -1498,7 +1498,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for 	backups, to make copies of EBS volumes, and to save data before shutting down an 	instance. You can create snapshots of volumes in a Region and volumes on an Outpost. If you  	create a snapshot of a volume in a Region, the snapshot must be stored in the same  	Region as the volume. If you create a snapshot of a volume on an Outpost, the snapshot  	can be stored on the same Outpost as the volume, or in the Region for that Outpost. When a snapshot is created, any Amazon Web Services Marketplace product codes that are associated with the source volume are propagated to the snapshot. You can take a snapshot of an attached volume that is in use. However, snapshots only capture data that has been written to your Amazon EBS volume at the time the snapshot command is issued; this might exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the volume long enough to take a snapshot, your snapshot should be complete. However, if you cannot pause all file writes to the volume, you should unmount the volume from within the instance, issue the snapshot command, and then remount the volume to ensure a consistent and complete snapshot. You may remount and use your volume while the snapshot status is pending. When you create a snapshot for an EBS volume that serves as a root device, we recommend  that you stop the instance before taking the snapshot. Snapshots that are taken from encrypted volumes are automatically encrypted. Volumes that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and any associated snapshots always remain protected. You can tag your snapshots during creation. For more information, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Amazon Elastic Block Store and Amazon EBS encryption in the Amazon EBS User Guide.
+    /// Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for 	backups, to make copies of EBS volumes, and to save data before shutting down an 	instance. You can create snapshots of volumes in a Region and volumes on an Outpost. If you  	create a snapshot of a volume in a Region, the snapshot must be stored in the same  	Region as the volume. If you create a snapshot of a volume on an Outpost, the snapshot  	can be stored on the same Outpost as the volume, or in the Region for that Outpost. When a snapshot is created, any Amazon Web Services Marketplace product codes that are associated with the source volume are propagated to the snapshot. You can take a snapshot of an attached volume that is in use. However, snapshots only capture data that has been written to your Amazon EBS volume at the time the snapshot command is issued; this might exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the volume long enough to take a snapshot, your snapshot should be complete. However, if you cannot pause all file writes to the volume, you should unmount the volume from within the instance, issue the snapshot command, and then remount the volume to ensure a consistent and complete snapshot. You may remount and use your volume while the snapshot status is pending. When you create a snapshot for an EBS volume that serves as a root device, we recommend  that you stop the instance before taking the snapshot. Snapshots that are taken from encrypted volumes are automatically encrypted. Volumes that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and any associated snapshots always remain protected. You can tag your snapshots during creation. For more information, see Tag your Amazon EC2 resources in the Amazon EC2 User Guide. For more information, see Amazon EBS and Amazon EBS encryption in the Amazon EBS User Guide.
     @Sendable
     public func createSnapshot(_ input: CreateSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Snapshot {
         return try await self.client.execute(
@@ -1524,7 +1524,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs. You can create one data feed per Amazon Web Services account. For more information, see Spot Instance data feed  in the Amazon EC2 User Guide for Linux Instances.
+    /// Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs. You can create one data feed per Amazon Web Services account. For more information, see Spot Instance data feed  in the Amazon EC2 User Guide.
     @Sendable
     public func createSpotDatafeedSubscription(_ input: CreateSpotDatafeedSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSpotDatafeedSubscriptionResult {
         return try await self.client.execute(
@@ -1563,7 +1563,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a subnet CIDR reservation. For more information, see Subnet CIDR reservations  in the Amazon Virtual Private Cloud User Guide and Assign prefixes  to network interfaces in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates a subnet CIDR reservation. For more information, see Subnet CIDR reservations  in the Amazon VPC User Guide and Assign prefixes  to network interfaces in the Amazon EC2 User Guide.
     @Sendable
     public func createSubnetCidrReservation(_ input: CreateSubnetCidrReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSubnetCidrReservationResult {
         return try await self.client.execute(
@@ -1589,7 +1589,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a Traffic Mirror filter. A Traffic Mirror filter is a set of rules that defines the traffic to mirror. By default, no traffic is mirrored. To mirror traffic, use CreateTrafficMirrorFilterRule to add Traffic Mirror rules to the filter. The rules you add define what traffic gets mirrored. You can also use ModifyTrafficMirrorFilterNetworkServices to mirror supported network services.
+    /// Creates a Traffic Mirror filter. A Traffic Mirror filter is a set of rules that defines the traffic to mirror. By default, no traffic is mirrored. To mirror traffic, use CreateTrafficMirrorFilterRule  to add Traffic Mirror rules to the filter. The rules you add define what traffic gets mirrored.  You can also use ModifyTrafficMirrorFilterNetworkServices to mirror supported network services.
     @Sendable
     public func createTrafficMirrorFilter(_ input: CreateTrafficMirrorFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrafficMirrorFilterResult {
         return try await self.client.execute(
@@ -1667,7 +1667,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a Connect peer for a specified transit gateway Connect attachment between a transit gateway and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6). For more information, see Connect peers in the Transit Gateways Guide.
+    /// Creates a Connect peer for a specified transit gateway Connect attachment between a transit gateway and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6). For more information, see Connect peers in the Amazon Web Services Transit Gateways Guide.
     @Sendable
     public func createTransitGatewayConnectPeer(_ input: CreateTransitGatewayConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTransitGatewayConnectPeerResult {
         return try await self.client.execute(
@@ -1836,7 +1836,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates an EBS volume that can be attached to an instance in the same Availability Zone. You can create a new empty volume or restore a volume from an EBS snapshot. Any Amazon Web Services Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes. Encrypted volumes must be attached to instances that  support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically  encrypted. For more information, see Amazon EBS encryption in the Amazon EBS User Guide. You can tag your volumes during creation. For more information, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Create an Amazon EBS volume in the Amazon EBS User Guide.
+    /// Creates an EBS volume that can be attached to an instance in the same Availability Zone. You can create a new empty volume or restore a volume from an EBS snapshot. Any Amazon Web Services Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes. Encrypted volumes must be attached to instances that  support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically  encrypted. For more information, see Amazon EBS encryption in the Amazon EBS User Guide. You can tag your volumes during creation. For more information, see Tag your Amazon EC2 resources in the Amazon EC2 User Guide. For more information, see Create an Amazon EBS volume in the Amazon EBS User Guide.
     @Sendable
     public func createVolume(_ input: CreateVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Volume {
         return try await self.client.execute(
@@ -1877,7 +1877,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a connection notification for a specified VPC endpoint or VPC endpoint service. A connection notification notifies you of specific endpoint events. You must create an SNS topic to receive notifications. For more information, see Create a Topic in the Amazon Simple Notification Service Developer Guide. You can create a connection notification for interface endpoints only.
+    /// Creates a connection notification for a specified VPC endpoint or VPC endpoint service. A connection notification notifies you of specific endpoint events. You must create an SNS topic to receive notifications. For more information, see Creating an Amazon SNS topic in the Amazon SNS Developer Guide. You can create a connection notification for interface endpoints only.
     @Sendable
     public func createVpcEndpointConnectionNotification(_ input: CreateVpcEndpointConnectionNotificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVpcEndpointConnectionNotificationResult {
         return try await self.client.execute(
@@ -1906,7 +1906,7 @@ public struct EC2: AWSService {
 
     /// Requests a VPC peering connection between two VPCs: a requester VPC that you own and
     /// 		  an accepter VPC with which to create the connection. The accepter VPC can belong to
-    /// 		  another Amazon Web Services account and can be in a different Region to the requester VPC.  The requester VPC and accepter VPC cannot have overlapping CIDR blocks.  Limitations and rules apply to a VPC peering connection. For more information, see  the limitations section in the VPC Peering Guide.  The owner of the accepter VPC must accept the peering request to activate the peering connection. The VPC peering connection request expires after 7 days, after which it cannot be accepted or rejected. If you create a VPC peering connection request between VPCs with overlapping CIDR blocks, the VPC peering connection has a status of failed.
+    /// 		  another Amazon Web Services account and can be in a different Region to the requester VPC.  The requester VPC and accepter VPC cannot have overlapping CIDR blocks.  Limitations and rules apply to a VPC peering connection. For more information, see  the VPC peering limitations in the VPC Peering Guide.  The owner of the accepter VPC must accept the peering request to activate the peering connection. The VPC peering connection request expires after 7 days, after which it cannot be accepted or rejected. If you create a VPC peering connection request between VPCs with overlapping CIDR blocks, the VPC peering connection has a status of failed.
     @Sendable
     public func createVpcPeeringConnection(_ input: CreateVpcPeeringConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVpcPeeringConnectionResult {
         return try await self.client.execute(
@@ -2223,7 +2223,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Deletes one or more versions of a launch template. You can't delete the default version of a launch template; you must first assign a different version as the default. If the default version is the only version for the launch template, you must delete the entire launch template using DeleteLaunchTemplate. You can delete up to 200 launch template versions in a single request. To delete more than 200 versions in a single request, use DeleteLaunchTemplate, which deletes the launch template and all of its versions. For more information, see Delete a launch template version in the EC2 User Guide.
+    /// Deletes one or more versions of a launch template. You can't delete the default version of a launch template; you must first assign a different version as the default. If the default version is the only version for the launch template, you must delete the entire launch template using DeleteLaunchTemplate. You can delete up to 200 launch template versions in a single request. To delete more than 200 versions in a single request, use DeleteLaunchTemplate, which deletes the launch template and all of its versions. For more information, see Delete a launch template version in the Amazon EC2 User Guide.
     @Sendable
     public func deleteLaunchTemplateVersions(_ input: DeleteLaunchTemplateVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLaunchTemplateVersionsResult {
         return try await self.client.execute(
@@ -3051,7 +3051,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon Virtual Private Cloud User Guide. When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. After seven days, the transfer expires and ownership of the Elastic IP address returns to the source account. Accepted transfers are visible to the source account for three days after the transfers have been accepted.
+    /// Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon VPC User Guide. When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. After seven days, the transfer expires and ownership of the Elastic IP address returns to the source account. Accepted transfers are visible to the source account for three days after the transfers have been accepted.
     @Sendable
     public func describeAddressTransfers(_ input: DescribeAddressTransfersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAddressTransfersResult {
         return try await self.client.execute(
@@ -3103,7 +3103,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to you. If there is an event impacting a zone, you can use this request to view the state and any provided messages for that zone. For more information about Availability Zones, Local Zones, and Wavelength Zones, see Regions and zones  in the Amazon Elastic Compute Cloud User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to you. If there is an event impacting a zone, you can use this request to view the state and any provided messages for that zone. For more information about Availability Zones, Local Zones, and Wavelength Zones, see Regions and zones  in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeAvailabilityZones(_ input: DescribeAvailabilityZonesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAvailabilityZonesResult {
         return try await self.client.execute(
@@ -3208,7 +3208,7 @@ public struct EC2: AWSService {
         )
     }
 
-    ///  This action is deprecated.  Describes one or more of your linked EC2-Classic instances. This request only returns
+    ///  This action is deprecated.  Describes your linked EC2-Classic instances. This request only returns
     /// 			information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot
     /// 			use this request to return information about other instances.
     @Sendable
@@ -3328,7 +3328,9 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes one or more of your DHCP options sets. For more information, see DHCP options sets in the
+    /// Describes your DHCP option sets. The default is to describe all your DHCP option sets.
+    /// 		        Alternatively, you can specify specific DHCP option set IDs or filter the results to
+    /// 		        include only the DHCP option sets that match specific criteria. For more information, see DHCP option sets in the
     /// 				Amazon VPC User Guide.
     @Sendable
     public func describeDhcpOptions(_ input: DescribeDhcpOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDhcpOptionsResult {
@@ -3342,7 +3344,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes one or more of your egress-only internet gateways.
+    /// Describes your egress-only internet gateways. The default is to describe all your egress-only internet gateways.  Alternatively, you can specify specific egress-only internet gateway IDs or filter the results to include only the egress-only internet gateways that match specific criteria.
     @Sendable
     public func describeEgressOnlyInternetGateways(_ input: DescribeEgressOnlyInternetGatewaysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEgressOnlyInternetGatewaysResult {
         return try await self.client.execute(
@@ -3355,7 +3357,7 @@ public struct EC2: AWSService {
         )
     }
 
-    ///  Amazon Elastic Graphics reached end of life on January 8, 2024. For  workloads that require graphics acceleration, we recommend that you use Amazon EC2 G4ad,  G4dn, or G5 instances.  Describes the Elastic Graphics accelerator associated with your instances. For more information about Elastic Graphics, see Amazon Elastic Graphics.
+    ///  Amazon Elastic Graphics reached end of life on January 8, 2024. For workloads that require graphics acceleration,  we recommend that you use Amazon EC2 G4, G5, or G6 instances.  Describes the Elastic Graphics accelerator associated with your instances.
     @Sendable
     public func describeElasticGpus(_ input: DescribeElasticGpusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeElasticGpusResult {
         return try await self.client.execute(
@@ -3760,7 +3762,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes one or more of your internet gateways.
+    /// Describes your internet gateways. The default is to describe all your internet gateways.  Alternatively, you can specify specific internet gateway IDs or filter the results to include only the internet gateways that match specific criteria.
     @Sendable
     public func describeInternetGateways(_ input: DescribeInternetGatewaysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInternetGatewaysResult {
         return try await self.client.execute(
@@ -4034,7 +4036,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes one or more of your NAT gateways.
+    /// Describes your NAT gateways. The default is to describe all your NAT gateways.  Alternatively, you can specify specific NAT gateway IDs or filter the results to include only the NAT gateways that match specific criteria.
     @Sendable
     public func describeNatGateways(_ input: DescribeNatGatewaysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNatGatewaysResult {
         return try await self.client.execute(
@@ -4047,7 +4049,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes one or more of your network ACLs. For more information, see Network ACLs in the
+    /// Describes your network ACLs. The default is to describe all your network ACLs.  Alternatively, you can specify specific network ACL IDs or filter the results to include only the network ACLs that match specific criteria. For more information, see Network ACLs in the
     /// 				Amazon VPC User Guide.
     @Sendable
     public func describeNetworkAcls(_ input: DescribeNetworkAclsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNetworkAclsResult {
@@ -4204,7 +4206,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the Regions that are enabled for your account, or all Regions. For a list of the Regions supported by Amazon EC2, see  Amazon Elastic Compute Cloud endpoints and quotas. For information about enabling and disabling Regions for your account, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the Regions that are enabled for your account, or all Regions. For a list of the Regions supported by Amazon EC2, see Amazon EC2 service endpoints. For information about enabling and disabling Regions for your account, see Specify which Amazon Web Services Regions  your account can use in the Amazon Web Services Account Management Reference Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeRegions(_ input: DescribeRegionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRegionsResult {
         return try await self.client.execute(
@@ -4217,7 +4219,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes a root volume replacement task. For more information, see  Replace a root volume in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes a root volume replacement task. For more information, see  Replace a root volume in the Amazon EC2 User Guide.
     @Sendable
     public func describeReplaceRootVolumeTasks(_ input: DescribeReplaceRootVolumeTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplaceRootVolumeTasksResult {
         return try await self.client.execute(
@@ -4244,7 +4246,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes your account's Reserved Instance listings in the Reserved Instance Marketplace. The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to receive for them. Your Reserved Instances are then listed in the Reserved Instance Marketplace and are available for purchase. As a buyer, you specify the configuration of the Reserved Instance to purchase, and the Marketplace matches what you're searching for with what's available. The Marketplace first sells the lowest priced Reserved Instances to you, and continues to sell available Reserved Instance listings to you until your demand is met. You are charged based on the total price of all of the listings that you purchase. For more information, see Reserved Instance Marketplace  in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes your account's Reserved Instance listings in the Reserved Instance Marketplace. The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to receive for them. Your Reserved Instances are then listed in the Reserved Instance Marketplace and are available for purchase. As a buyer, you specify the configuration of the Reserved Instance to purchase, and the Marketplace matches what you're searching for with what's available. The Marketplace first sells the lowest priced Reserved Instances to you, and continues to sell available Reserved Instance listings to you until your demand is met. You are charged based on the total price of all of the listings that you purchase. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeReservedInstancesListings(_ input: DescribeReservedInstancesListingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservedInstancesListingsResult {
         return try await self.client.execute(
@@ -4257,7 +4259,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modify Reserved Instances in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeReservedInstancesModifications(_ input: DescribeReservedInstancesModificationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservedInstancesModificationsResult {
         return try await self.client.execute(
@@ -4270,8 +4272,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see Reserved Instance Marketplace
-    /// 				in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     public func describeReservedInstancesOfferings(_ input: DescribeReservedInstancesOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservedInstancesOfferingsResult {
         return try await self.client.execute(
@@ -4284,7 +4285,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes one or more of your route tables. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see Route tables in the
+    /// Describes your route tables. The default is to describe all your route tables.  Alternatively, you can specify specific route table IDs or filter the results to include only the route tables that match specific criteria. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see Route tables in the
     /// 				Amazon VPC User Guide.
     @Sendable
     public func describeRouteTables(_ input: DescribeRouteTablesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRouteTablesResult {
@@ -4402,7 +4403,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the data feed for Spot Instances. For more information, see Spot Instance data feed in the Amazon EC2 User Guide for Linux Instances.
+    /// Describes the data feed for Spot Instances. For more information, see Spot Instance data feed in the Amazon EC2 User Guide.
     @Sendable
     public func describeSpotDatafeedSubscription(_ input: DescribeSpotDatafeedSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSpotDatafeedSubscriptionResult {
         return try await self.client.execute(
@@ -4467,7 +4468,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the Spot price history. For more information, see Spot Instance pricing history in the Amazon EC2 User Guide for Linux Instances. When you specify a start and end time, the operation returns the prices of the instance types within that time range. It also returns the last price change before the start time, which is the effective price as of the start time.
+    /// Describes the Spot price history. For more information, see Spot Instance pricing history in the Amazon EC2 User Guide. When you specify a start and end time, the operation returns the prices of the instance types within that time range. It also returns the last price change before the start time, which is the effective price as of the start time.
     @Sendable
     public func describeSpotPriceHistory(_ input: DescribeSpotPriceHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSpotPriceHistoryResult {
         return try await self.client.execute(
@@ -4506,7 +4507,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes one or more of your subnets. For more information, see Subnets in the
+    /// Describes your subnets. The default is to describe all your subnets.  Alternatively, you can specify specific subnet IDs or filter the results to include only the subnets that match specific criteria. For more information, see Subnets in the
     /// 				Amazon VPC User Guide.
     @Sendable
     public func describeSubnets(_ input: DescribeSubnetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSubnetsResult {
@@ -4525,6 +4526,19 @@ public struct EC2: AWSService {
     public func describeTags(_ input: DescribeTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTagsResult {
         return try await self.client.execute(
             operation: "DescribeTags", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describe traffic mirror filters that determine the traffic that is mirrored.
+    @Sendable
+    public func describeTrafficMirrorFilterRules(_ input: DescribeTrafficMirrorFilterRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTrafficMirrorFilterRulesResult {
+        return try await self.client.execute(
+            operation: "DescribeTrafficMirrorFilterRules", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -4819,7 +4833,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most  recent modification request. You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. For more information, see Monitor the progress of volume modifications in the Amazon EBS User Guide.
+    /// Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most  recent modification request. For more information, see  Monitor the progress of volume modifications in the Amazon EBS User Guide.
     @Sendable
     public func describeVolumesModifications(_ input: DescribeVolumesModificationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVolumesModificationsResult {
         return try await self.client.execute(
@@ -4936,7 +4950,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes your VPC endpoints.
+    /// Describes your VPC endpoints. The default is to describe all your VPC endpoints.  Alternatively, you can specify specific VPC endpoint IDs or filter the results to include only the VPC endpoints that match specific criteria.
     @Sendable
     public func describeVpcEndpoints(_ input: DescribeVpcEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVpcEndpointsResult {
         return try await self.client.execute(
@@ -4949,7 +4963,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes one or more of your VPC peering connections.
+    /// Describes your VPC peering connections. The default is to describe all your VPC peering connections.  Alternatively, you can specify specific VPC peering connection IDs or filter the results to include only the VPC peering connections that match specific criteria.
     @Sendable
     public func describeVpcPeeringConnections(_ input: DescribeVpcPeeringConnectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVpcPeeringConnectionsResult {
         return try await self.client.execute(
@@ -4962,7 +4976,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes one or more of your VPCs.
+    /// Describes your VPCs. The default is to describe all your VPCs.  Alternatively, you can specify specific VPC IDs or filter the results to include only the VPCs that match specific criteria.
     @Sendable
     public func describeVpcs(_ input: DescribeVpcsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVpcsResult {
         return try await self.client.execute(
@@ -5083,7 +5097,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Disables Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon Virtual Private Cloud User Guide.
+    /// Disables Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon VPC User Guide.
     @Sendable
     public func disableAddressTransfer(_ input: DisableAddressTransferRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableAddressTransferResult {
         return try await self.client.execute(
@@ -5502,7 +5516,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Enables Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon Virtual Private Cloud User Guide.
+    /// Enables Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon VPC User Guide.
     @Sendable
     public func enableAddressTransfer(_ input: EnableAddressTransferRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableAddressTransferResult {
         return try await self.client.execute(
@@ -5793,7 +5807,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Exports routes from the specified transit gateway route table to the specified S3 bucket. By default, all routes are exported. Alternatively, you can filter by CIDR range. The routes are saved to the specified bucket in a JSON file. For more information, see Export Route Tables to Amazon S3 in Transit Gateways.
+    /// Exports routes from the specified transit gateway route table to the specified S3 bucket. By default, all routes are exported. Alternatively, you can filter by CIDR range. The routes are saved to the specified bucket in a JSON file. For more information, see Export route tables to Amazon S3 in the Amazon Web Services Transit Gateways Guide.
     @Sendable
     public func exportTransitGatewayRoutes(_ input: ExportTransitGatewayRoutesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportTransitGatewayRoutesResult {
         return try await self.client.execute(
@@ -6582,7 +6596,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Changes the opt-in status of the Local Zone and Wavelength Zone group for your account. Use  		DescribeAvailabilityZones to view the value for GroupName.
+    /// Changes the opt-in status of the specified zone group for your account.
     @Sendable
     public func modifyAvailabilityZoneGroup(_ input: ModifyAvailabilityZoneGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyAvailabilityZoneGroupResult {
         return try await self.client.execute(
@@ -6994,8 +7008,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Modifies the configuration of your Reserved Instances, such as the Availability Zone,  instance count, or instance type. The Reserved Instances to be modified must be identical,  except for Availability Zone, network platform, and instance type. For more information, see Modifying Reserved
-    /// 				Instances in the Amazon EC2 User Guide.
+    /// Modifies the configuration of your Reserved Instances, such as the Availability Zone,  instance count, or instance type. The Reserved Instances to be modified must be identical,  except for Availability Zone, network platform, and instance type. For more information, see Modify Reserved Instances in the Amazon EC2 User Guide.
     @Sendable
     public func modifyReservedInstances(_ input: ModifyReservedInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyReservedInstancesResult {
         return try await self.client.execute(
@@ -7242,7 +7255,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you might be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying EBS volumes, see Amazon EBS Elastic Volumes  in the Amazon EBS User Guide. When you complete a resize operation on your volume, you need to extend the volume's file-system size to take advantage of the new storage capacity. For more information, see Extend the file system. You can use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. You can also track the status of a modification using DescribeVolumesModifications. For information about tracking status changes using either method, see Monitor the progress of volume modifications. With previous-generation instance types, resizing an EBS volume might require detaching and reattaching the volume or stopping and restarting the instance. After modifying a volume, you must wait at least six hours and ensure that the volume  is in the in-use or available state before you can modify the same  volume. This is sometimes referred to as a cooldown period.
+    /// You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you might be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying EBS volumes, see Amazon EBS Elastic Volumes  in the Amazon EBS User Guide. When you complete a resize operation on your volume, you need to extend the volume's file-system size to take advantage of the new storage capacity. For more information, see Extend the file system. For more information, see Monitor the progress of volume modifications in the Amazon EBS User Guide. With previous-generation instance types, resizing an EBS volume might require detaching and reattaching the volume or stopping and restarting the instance. After modifying a volume, you must wait at least six hours and ensure that the volume  is in the in-use or available state before you can modify the same  volume. This is sometimes referred to as a cooldown period.
     @Sendable
     public func modifyVolume(_ input: ModifyVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyVolumeResult {
         return try await self.client.execute(
@@ -7466,7 +7479,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP  addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using AdvertiseByoipCidr. Amazon Web Services verifies that you own the address range and are authorized to advertise it.  You must ensure that the address range is registered to you and that you created an  RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range.  For more information, see Bring your own IP addresses (BYOIP) in the Amazon Elastic Compute Cloud User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. To monitor the status of an address range, use DescribeByoipCidrs.  To allocate an Elastic IP address from your IPv4 address pool, use AllocateAddress  with either the specific address from the address pool or the ID of the address pool.
+    /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP  addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using AdvertiseByoipCidr. Amazon Web Services verifies that you own the address range and are authorized to advertise it.  You must ensure that the address range is registered to you and that you created an  RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range.  For more information, see Bring your own IP addresses (BYOIP) in the Amazon EC2 User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. To monitor the status of an address range, use DescribeByoipCidrs.  To allocate an Elastic IP address from your IPv4 address pool, use AllocateAddress  with either the specific address from the address pool or the ID of the address pool.
     @Sendable
     public func provisionByoipCidr(_ input: ProvisionByoipCidrRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProvisionByoipCidrResult {
         return try await self.client.execute(
@@ -7547,7 +7560,7 @@ public struct EC2: AWSService {
 
     /// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower  hourly rate compared to On-Demand instance pricing. Use DescribeReservedInstancesOfferings to get a list of Reserved Instance offerings
     /// 			that match your specifications. After you've purchased a Reserved Instance, you can check for your
-    /// 			new Reserved Instance with DescribeReservedInstances. To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, the default is the current time. For more information, see Reserved Instances and  	   Reserved Instance Marketplace  	   in the Amazon EC2 User Guide.
+    /// 			new Reserved Instance with DescribeReservedInstances. To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, the default is the current time. For more information, see Reserved Instances and Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide.
     @Sendable
     public func purchaseReservedInstancesOffering(_ input: PurchaseReservedInstancesOfferingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PurchaseReservedInstancesOfferingResult {
         return try await self.client.execute(
@@ -7612,7 +7625,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Registers members (network interfaces) with the  transit gateway multicast group. A member is a network interface associated with a supported EC2 instance that receives multicast traffic. For information about supported instances, see Multicast Consideration in Amazon VPC Transit Gateways. After you add the members, use SearchTransitGatewayMulticastGroups to verify that the members were added to the  transit gateway multicast group.
+    /// Registers members (network interfaces) with the  transit gateway multicast group. A member is a network interface associated with a supported EC2 instance that receives multicast traffic. For more information, see Multicast on transit gateways in the Amazon Web Services Transit Gateways Guide. After you add the members, use SearchTransitGatewayMulticastGroups to verify that the members were added to the  transit gateway multicast group.
     @Sendable
     public func registerTransitGatewayMulticastGroupMembers(_ input: RegisterTransitGatewayMulticastGroupMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterTransitGatewayMulticastGroupMembersResult {
         return try await self.client.execute(
@@ -7625,7 +7638,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Registers sources (network interfaces) with the specified  transit gateway multicast group. A multicast source is a network interface attached to a supported instance that sends multicast traffic. For information about supported instances, see Multicast Considerations in Amazon VPC Transit Gateways. After you add the source, use SearchTransitGatewayMulticastGroups to verify that the source was added to the multicast group.
+    /// Registers sources (network interfaces) with the specified  transit gateway multicast group. A multicast source is a network interface attached to a supported instance that sends multicast traffic. For more information about supported instances, see Multicast on transit gateways in the Amazon Web Services Transit Gateways Guide. After you add the source, use SearchTransitGatewayMulticastGroups to verify that the source was added to the multicast group.
     @Sendable
     public func registerTransitGatewayMulticastGroupSources(_ input: RegisterTransitGatewayMulticastGroupSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterTransitGatewayMulticastGroupSourcesResult {
         return try await self.client.execute(
@@ -7868,7 +7881,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a Spot Instance request. For more information, see Spot Instance requests in the Amazon EC2 User Guide for Linux Instances.  We strongly discourage using the RequestSpotInstances API because it is a legacy API with no planned investment. For options for requesting Spot Instances, see Which is the best Spot request method to use? in the Amazon EC2 User Guide for Linux Instances.
+    /// Creates a Spot Instance request. For more information, see Work with Spot Instance in the Amazon EC2 User Guide.  We strongly discourage using the RequestSpotInstances API because it is a legacy API with no planned investment. For options for requesting Spot Instances, see Which is the best Spot request method to use? in the Amazon EC2 User Guide.
     @Sendable
     public func requestSpotInstances(_ input: RequestSpotInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RequestSpotInstancesResult {
         return try await self.client.execute(
@@ -7934,7 +7947,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Resets an attribute of an instance to its default value. To reset the kernel or ramdisk, the instance must be in a stopped state. To reset the sourceDestCheck, the instance can be either running or stopped. The sourceDestCheck attribute controls whether source/destination checking is enabled. The default value is true, which means checking is enabled. This value must be false for a NAT instance to perform NAT. For more information, see NAT Instances in the Amazon VPC User Guide.
+    /// Resets an attribute of an instance to its default value. To reset the kernel or ramdisk, the instance must be in a stopped state. To reset the sourceDestCheck, the instance can be either running or stopped. The sourceDestCheck attribute controls whether source/destination checking is enabled. The default value is true, which means checking is enabled. This value must be false for a NAT instance to perform NAT. For more information, see NAT instances in the Amazon VPC User Guide.
     @Sendable
     public func resetInstanceAttribute(_ input: ResetInstanceAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -8077,7 +8090,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Launches the specified number of instances using an AMI for which you have permissions. You can specify a number of options, or leave the default options. The following rules apply:   If you don't specify a subnet ID, we choose a default subnet from your default VPC for you. If you don't have a default VPC, you must specify a subnet ID in the request.   All instances have a network interface with a primary private IPv4 address. If you don't specify this address, we choose one from the IPv4 range of your subnet.   Not all instance types support IPv6 addresses. For more information, see Instance types.   If you don't specify a security group ID, we use the default security group. For more information, see Security groups.   If any of the AMIs have a product code attached for which the user has not subscribed, the request fails.   You can create a launch template, which is a resource that contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify the launch template instead of specifying the launch parameters. To ensure faster instance launches, break up large requests into smaller batches. For example, create five separate launch requests for 100 instances each instead of one launch request for 500 instances. An instance is ready for you to use when it's in the running state. You can check the state of your instance using DescribeInstances. You can tag instances and EBS volumes during launch, after launch, or both. For more information, see CreateTags and Tagging your Amazon EC2 resources. Linux instances have access to the public key of the key pair at boot. You can use this key to provide secure access to the instance. Amazon EC2 public images use this feature to provide secure access without passwords. For more information, see Key pairs. For troubleshooting, see What to do if an instance immediately terminates, and Troubleshooting connecting to your instance.
+    /// Launches the specified number of instances using an AMI for which you have permissions. You can specify a number of options, or leave the default options. The following rules apply:   If you don't specify a subnet ID, we choose a default subnet from your default VPC for you. If you don't have a default VPC, you must specify a subnet ID in the request.   All instances have a network interface with a primary private IPv4 address. If you don't specify this address, we choose one from the IPv4 range of your subnet.   Not all instance types support IPv6 addresses. For more information, see Instance types.   If you don't specify a security group ID, we use the default security group for the VPC. For more information, see Security groups.   If any of the AMIs have a product code attached for which the user has not subscribed, the request fails.   You can create a launch template, which is a resource that contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify the launch template instead of specifying the launch parameters. To ensure faster instance launches, break up large requests into smaller batches. For example, create five separate launch requests for 100 instances each instead of one launch request for 500 instances.  RunInstances is subject to both request rate limiting and resource rate limiting. For more information, see Request throttling. An instance is ready for you to use when it's in the running state. You can check the state of your instance using DescribeInstances. You can tag instances and EBS volumes during launch, after launch, or both. For more information, see CreateTags and Tagging your Amazon EC2 resources. Linux instances have access to the public key of the key pair at boot. You can use this key to provide secure access to the instance. Amazon EC2 public images use this feature to provide secure access without passwords. For more information, see Key pairs. For troubleshooting, see What to do if an instance immediately terminates, and Troubleshooting connecting to your instance.
     @Sendable
     public func runInstances(_ input: RunInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Reservation {
         return try await self.client.execute(
@@ -8090,7 +8103,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Launches the specified Scheduled Instances. Before you can launch a Scheduled Instance, you must purchase it and obtain an identifier using PurchaseScheduledInstances. You must launch a Scheduled Instance during its scheduled time period. You can't stop or reboot a Scheduled Instance,  but you can terminate it as needed. If you terminate a Scheduled Instance before the current scheduled time period ends,  you can launch it again after a few minutes. For more information, see Scheduled Instances in the Amazon EC2 User Guide.
+    /// Launches the specified Scheduled Instances. Before you can launch a Scheduled Instance, you must purchase it and obtain an identifier using PurchaseScheduledInstances. You must launch a Scheduled Instance during its scheduled time period. You can't stop or reboot a Scheduled Instance, but you can terminate it as needed. If you terminate a Scheduled Instance before the current scheduled time period ends, you can launch it again after a few minutes.
     @Sendable
     public func runScheduledInstances(_ input: RunScheduledInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RunScheduledInstancesResult {
         return try await self.client.execute(
@@ -8142,7 +8155,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Sends a diagnostic interrupt to the specified Amazon EC2 instance to trigger a kernel panic (on Linux instances), or a blue screen/stop error (on Windows instances). For instances based on Intel and AMD processors, the interrupt is received as a non-maskable interrupt (NMI). In general, the operating system crashes and reboots when a kernel panic or stop error is triggered. The operating system can also be configured to perform diagnostic tasks, such as generating a memory dump file, loading a secondary kernel, or obtaining a call trace. Before sending a diagnostic interrupt to your instance, ensure that its operating system is configured to perform the required diagnostic tasks. For more information about configuring your operating system to generate a crash dump when a kernel panic or stop error occurs, see Send a diagnostic interrupt (for advanced users) (Linux instances) or Send a diagnostic interrupt (for advanced users) (Windows instances).
+    /// Sends a diagnostic interrupt to the specified Amazon EC2 instance to trigger a kernel panic (on Linux instances), or a blue screen/stop error (on Windows instances). For instances based on Intel and AMD processors, the interrupt is received as a non-maskable interrupt (NMI). In general, the operating system crashes and reboots when a kernel panic or stop error is triggered. The operating system can also be configured to perform diagnostic tasks, such as generating a memory dump file, loading a secondary kernel, or obtaining a call trace. Before sending a diagnostic interrupt to your instance, ensure that its operating system is configured to perform the required diagnostic tasks. For more information about configuring your operating system to generate a crash dump when a kernel panic or stop error occurs, see Send a diagnostic interrupt (for advanced users) in the Amazon EC2 User Guide.
     @Sendable
     public func sendDiagnosticInterrupt(_ input: SendDiagnosticInterruptRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -8155,7 +8168,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. However, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Performing this operation on an instance that uses an instance store as its root device returns an error. If you attempt to start a T3 instance with host tenancy and the unlimited CPU credit option, the request fails. The unlimited CPU credit option is not supported on Dedicated Hosts. Before you start the instance, either change its CPU credit option to standard, or change its tenancy to default or dedicated. For more information, see Stop and start your instance in the Amazon EC2 User Guide.
+    /// Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. However, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Performing this operation on an instance that uses an instance store as its root device returns an error. If you attempt to start a T3 instance with host tenancy and the unlimited CPU credit option, the request fails. The unlimited CPU credit option is not supported on Dedicated Hosts. Before you start the instance, either change its CPU credit option to standard, or change its tenancy to default or dedicated. For more information, see Stop and start Amazon EC2 instances in the Amazon EC2 User Guide.
     @Sendable
     public func startInstances(_ input: StartInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartInstancesResult {
         return try await self.client.execute(
@@ -8207,7 +8220,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Stops an Amazon EBS-backed instance. For more information, see Stop and start your instance in the Amazon EC2 User Guide. You can use the Stop action to hibernate an instance if the instance is enabled for hibernation and it meets the hibernation prerequisites. For more information, see Hibernate your instance in the Amazon EC2 User Guide. We don't charge usage for a stopped instance, or data transfer fees; however, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. You can't stop or hibernate instance store-backed instances. You can't use the Stop action to hibernate Spot Instances, but you can specify that Amazon EC2 should hibernate Spot Instances when they are interrupted. For more information, see Hibernating interrupted Spot Instances in the Amazon EC2 User Guide. When you stop or hibernate an instance, we shut it down. You can restart your instance at any time. Before stopping or hibernating an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM, but hibernating an instance does preserve data stored in RAM. If an instance cannot hibernate successfully, a normal shutdown occurs. Stopping and hibernating an instance is different to rebooting or terminating it. For example, when you stop or hibernate an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, the root device and any other devices attached during the instance launch are automatically deleted. For more information about the differences between rebooting, stopping, hibernating, and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. When you stop an instance, we attempt to shut it down forcibly after a short while. If your instance appears stuck in the stopping state after a period of time, there may be an issue with the underlying host computer. For more information, see Troubleshoot stopping your instance in the Amazon EC2 User Guide.
+    /// Stops an Amazon EBS-backed instance. For more information, see Stop and start Amazon EC2 instances in the Amazon EC2 User Guide. You can use the Stop action to hibernate an instance if the instance is enabled for hibernation and it meets the hibernation prerequisites. For more information, see Hibernate your Amazon EC2 instance in the Amazon EC2 User Guide. We don't charge usage for a stopped instance, or data transfer fees; however, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. You can't stop or hibernate instance store-backed instances. You can't use the Stop action to hibernate Spot Instances, but you can specify that Amazon EC2 should hibernate Spot Instances when they are interrupted. For more information, see Hibernating interrupted Spot Instances in the Amazon EC2 User Guide. When you stop or hibernate an instance, we shut it down. You can restart your instance at any time. Before stopping or hibernating an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM, but hibernating an instance does preserve data stored in RAM. If an instance cannot hibernate successfully, a normal shutdown occurs. Stopping and hibernating an instance is different to rebooting or terminating it. For example, when you stop or hibernate an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, the root device and any other devices attached during the instance launch are automatically deleted. For more information about the differences between rebooting, stopping, hibernating, and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. When you stop an instance, we attempt to shut it down forcibly after a short while. If your instance appears stuck in the stopping state after a period of time, there may be an issue with the underlying host computer. For more information, see Troubleshoot stopping your instance in the Amazon EC2 User Guide.
     @Sendable
     public func stopInstances(_ input: StopInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopInstancesResult {
         return try await self.client.execute(
@@ -8370,7 +8383,7 @@ extension EC2 {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension EC2 {
-    /// Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon Virtual Private Cloud User Guide. When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. After seven days, the transfer expires and ownership of the Elastic IP address returns to the source account. Accepted transfers are visible to the source account for three days after the transfers have been accepted.
+    /// Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon VPC User Guide. When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. After seven days, the transfer expires and ownership of the Elastic IP address returns to the source account. Accepted transfers are visible to the source account for three days after the transfers have been accepted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -8523,7 +8536,7 @@ extension EC2 {
         )
     }
 
-    ///  This action is deprecated.  Describes one or more of your linked EC2-Classic instances. This request only returns
+    ///  This action is deprecated.  Describes your linked EC2-Classic instances. This request only returns
     /// 			information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot
     /// 			use this request to return information about other instances.
     /// Return PaginatorSequence for operation.
@@ -8659,7 +8672,9 @@ extension EC2 {
         )
     }
 
-    /// Describes one or more of your DHCP options sets. For more information, see DHCP options sets in the
+    /// Describes your DHCP option sets. The default is to describe all your DHCP option sets.
+    /// 		        Alternatively, you can specify specific DHCP option set IDs or filter the results to
+    /// 		        include only the DHCP option sets that match specific criteria. For more information, see DHCP option sets in the
     /// 				Amazon VPC User Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -8679,7 +8694,7 @@ extension EC2 {
         )
     }
 
-    /// Describes one or more of your egress-only internet gateways.
+    /// Describes your egress-only internet gateways. The default is to describe all your egress-only internet gateways.  Alternatively, you can specify specific egress-only internet gateway IDs or filter the results to include only the egress-only internet gateways that match specific criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9099,7 +9114,7 @@ extension EC2 {
         )
     }
 
-    /// Describes one or more of your internet gateways.
+    /// Describes your internet gateways. The default is to describe all your internet gateways.  Alternatively, you can specify specific internet gateway IDs or filter the results to include only the internet gateways that match specific criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9441,7 +9456,7 @@ extension EC2 {
         )
     }
 
-    /// Describes one or more of your NAT gateways.
+    /// Describes your NAT gateways. The default is to describe all your NAT gateways.  Alternatively, you can specify specific NAT gateway IDs or filter the results to include only the NAT gateways that match specific criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9460,7 +9475,7 @@ extension EC2 {
         )
     }
 
-    /// Describes one or more of your network ACLs. For more information, see Network ACLs in the
+    /// Describes your network ACLs. The default is to describe all your network ACLs.  Alternatively, you can specify specific network ACL IDs or filter the results to include only the network ACLs that match specific criteria. For more information, see Network ACLs in the
     /// 				Amazon VPC User Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -9651,7 +9666,7 @@ extension EC2 {
         )
     }
 
-    /// Describes a root volume replacement task. For more information, see  Replace a root volume in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes a root volume replacement task. For more information, see  Replace a root volume in the Amazon EC2 User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9670,7 +9685,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modify Reserved Instances in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9689,8 +9704,7 @@ extension EC2 {
         )
     }
 
-    /// Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see Reserved Instance Marketplace
-    /// 				in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see Sell in the Reserved Instance Marketplace in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9709,7 +9723,7 @@ extension EC2 {
         )
     }
 
-    /// Describes one or more of your route tables. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see Route tables in the
+    /// Describes your route tables. The default is to describe all your route tables.  Alternatively, you can specify specific route table IDs or filter the results to include only the route tables that match specific criteria. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see Route tables in the
     /// 				Amazon VPC User Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -9881,7 +9895,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the Spot price history. For more information, see Spot Instance pricing history in the Amazon EC2 User Guide for Linux Instances. When you specify a start and end time, the operation returns the prices of the instance types within that time range. It also returns the last price change before the start time, which is the effective price as of the start time.
+    /// Describes the Spot price history. For more information, see Spot Instance pricing history in the Amazon EC2 User Guide. When you specify a start and end time, the operation returns the prices of the instance types within that time range. It also returns the last price change before the start time, which is the effective price as of the start time.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9938,7 +9952,7 @@ extension EC2 {
         )
     }
 
-    /// Describes one or more of your subnets. For more information, see Subnets in the
+    /// Describes your subnets. The default is to describe all your subnets.  Alternatively, you can specify specific subnet IDs or filter the results to include only the subnets that match specific criteria. For more information, see Subnets in the
     /// 				Amazon VPC User Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -10376,7 +10390,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most  recent modification request. You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. For more information, see Monitor the progress of volume modifications in the Amazon EBS User Guide.
+    /// Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most  recent modification request. For more information, see  Monitor the progress of volume modifications in the Amazon EBS User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -10490,7 +10504,7 @@ extension EC2 {
         )
     }
 
-    /// Describes your VPC endpoints.
+    /// Describes your VPC endpoints. The default is to describe all your VPC endpoints.  Alternatively, you can specify specific VPC endpoint IDs or filter the results to include only the VPC endpoints that match specific criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -10509,7 +10523,7 @@ extension EC2 {
         )
     }
 
-    /// Describes one or more of your VPC peering connections.
+    /// Describes your VPC peering connections. The default is to describe all your VPC peering connections.  Alternatively, you can specify specific VPC peering connection IDs or filter the results to include only the VPC peering connections that match specific criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -10528,7 +10542,7 @@ extension EC2 {
         )
     }
 
-    /// Describes one or more of your VPCs.
+    /// Describes your VPCs. The default is to describe all your VPCs.  Alternatively, you can specify specific VPC IDs or filter the results to include only the VPCs that match specific criteria.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

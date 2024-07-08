@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -469,7 +469,7 @@ extension ACM {
         public let validationEmails: [String]?
         /// Specifies the domain validation method.
         public let validationMethod: ValidationMethod?
-        /// The validation status of the domain name. This can be one of the following values:    PENDING_VALIDATION     SUCCESS    FAILED
+        /// The validation status of the domain name. This can be one of the following values:    PENDING_VALIDATION     SUCCESS     FAILED
         public let validationStatus: DomainStatus?
 
         public init(domainName: String, resourceRecord: ResourceRecord? = nil, validationDomain: String? = nil, validationEmails: [String]? = nil, validationMethod: ValidationMethod? = nil, validationStatus: DomainStatus? = nil) {
@@ -934,7 +934,7 @@ extension ACM {
         public let domainValidationOptions: [DomainValidationOption]?
         /// Customer chosen string that can be used to distinguish between calls to RequestCertificate. Idempotency tokens time out after one hour. Therefore, if you call RequestCertificate multiple times with the same idempotency token within one hour, ACM recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, ACM recognizes that you are requesting multiple certificates.
         public let idempotencyToken: String?
-        /// Specifies the algorithm of the public and private key pair that your certificate uses to encrypt data. RSA is the default key algorithm for ACM certificates. Elliptic Curve Digital Signature Algorithm (ECDSA) keys are smaller, offering security comparable to RSA keys but with greater computing efficiency. However, ECDSA is not supported by all network clients. Some AWS services may require RSA keys, or only support ECDSA keys of a particular size, while others allow the use of either RSA and ECDSA keys to ensure that compatibility is not broken. Check the requirements for the AWS service where you plan to deploy your certificate. Default: RSA_2048
+        /// Specifies the algorithm of the public and private key pair that your certificate uses to encrypt data. RSA is the default key algorithm for ACM certificates. Elliptic Curve Digital Signature Algorithm (ECDSA) keys are smaller, offering security comparable to RSA keys but with greater computing efficiency. However, ECDSA is not supported by all network clients. Some Amazon Web Services services may require RSA keys, or only support ECDSA keys of a particular size, while others allow the use of either RSA and ECDSA keys to ensure that compatibility is not broken. Check the requirements for the Amazon Web Services service where you plan to deploy your certificate. For more information about selecting an algorithm, see Key algorithms.  Algorithms supported for an ACM certificate request include:     RSA_2048     EC_prime256v1     EC_secp384r1    Other listed algorithms are for imported certificates only.    When you request a private PKI certificate signed by a CA from Amazon Web Services Private CA, the specified signing algorithm family (RSA or ECDSA) must match the algorithm family of the CA's secret key.  Default: RSA_2048
         public let keyAlgorithm: KeyAlgorithm?
         /// Currently, you can use this parameter to specify whether to add the certificate to a certificate transparency log. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser. For more information, see Opting Out of Certificate Transparency Logging.
         public let options: CertificateOptions?

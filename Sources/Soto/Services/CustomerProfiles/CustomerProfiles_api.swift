@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS CustomerProfiles service.
 ///
-/// Amazon Connect Customer Profiles Amazon Connect Customer Profiles is a unified customer profile for your contact center that has pre-built connectors powered by AppFlow that make it easy to combine customer information from third party applications, such as Salesforce (CRM), ServiceNow (ITSM), and your enterprise resource planning (ERP), with contact history from your Amazon Connect contact center. If you're new to Amazon Connect, you might find it helpful to review the Amazon Connect Administrator Guide.
+/// Amazon Connect Customer Profiles Amazon Connect Customer Profiles is a unified customer profile for your contact center that has pre-built connectors powered by AppFlow that make it easy to combine customer information from third party applications, such as Salesforce (CRM), ServiceNow (ITSM), and your enterprise resource planning (ERP), with contact history from your Amazon Connect contact center.  For more information about the Amazon Connect Customer Profiles feature, see Use Customer Profiles in the Amazon Connect Administrator's Guide.
 public struct CustomerProfiles: AWSService {
     // MARK: Member variables
 
@@ -95,7 +95,7 @@ public struct CustomerProfiles: AWSService {
         )
     }
 
-    /// Creates a new calculated attribute definition. After creation, new object data ingested  into Customer Profiles will be included in the calculated attribute, which can be retrieved  for a profile using the GetCalculatedAttributeForProfile API.  Defining a calculated attribute makes it available for all profiles within a domain. Each  calculated attribute can only reference one ObjectType and at most, two fields  from that ObjectType.
+    /// Creates a new calculated attribute definition. After creation, new object data ingested into Customer Profiles will be included in the calculated attribute, which can be retrieved for a profile using the GetCalculatedAttributeForProfile API. Defining a calculated attribute makes it available for all profiles within a domain. Each calculated attribute can only reference one ObjectType and at most, two fields from that ObjectType.
     @Sendable
     public func createCalculatedAttributeDefinition(_ input: CreateCalculatedAttributeDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCalculatedAttributeDefinitionResponse {
         return try await self.client.execute(
@@ -108,7 +108,7 @@ public struct CustomerProfiles: AWSService {
         )
     }
 
-    /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain. Use this API or UpdateDomain to enable identity resolution: set Matching to true. To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply.
+    /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain. Use this API or UpdateDomain to enable identity resolution: set Matching to true. To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply.   It is not possible to associate a Customer Profiles domain with an Amazon Connect Instance directly from the API. If you would like to create a domain and associate a Customer Profiles domain, use the Amazon Connect admin website. For more information, see Enable Customer Profiles. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain.
     @Sendable
     public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDomainResponse {
         return try await self.client.execute(
@@ -121,7 +121,7 @@ public struct CustomerProfiles: AWSService {
         )
     }
 
-    /// Creates an event stream, which is a subscription to real-time events, such as when profiles are created and  updated through Amazon Connect Customer Profiles. Each event stream can be associated with only one Kinesis Data Stream destination in the same region and  Amazon Web Services account as the customer profiles domain
+    /// Creates an event stream, which is a subscription to real-time events, such as when profiles are created and updated through Amazon Connect Customer Profiles. Each event stream can be associated with only one Kinesis Data Stream destination in the same region and Amazon Web Services account as the customer profiles domain
     @Sendable
     public func createEventStream(_ input: CreateEventStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEventStreamResponse {
         return try await self.client.execute(
@@ -134,8 +134,7 @@ public struct CustomerProfiles: AWSService {
         )
     }
 
-    /// 	Creates an integration workflow. An integration workflow is an async process which ingests historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo.
-    ///
+    ///  Creates an integration workflow. An integration workflow is an async process which ingests historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo.
     @Sendable
     public func createIntegrationWorkflow(_ input: CreateIntegrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIntegrationWorkflowResponse {
         return try await self.client.execute(
@@ -161,7 +160,7 @@ public struct CustomerProfiles: AWSService {
         )
     }
 
-    /// Deletes an existing calculated attribute definition. Note that deleting a default calculated attribute  is possible, however once deleted, you will be unable to undo that action and will need to recreate it on  your own using the CreateCalculatedAttributeDefinition API if you want it back.
+    /// Deletes an existing calculated attribute definition. Note that deleting a default calculated attribute is possible, however once deleted, you will be unable to undo that action and will need to recreate it on your own using the CreateCalculatedAttributeDefinition API if you want it back.
     @Sendable
     public func deleteCalculatedAttributeDefinition(_ input: DeleteCalculatedAttributeDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCalculatedAttributeDefinitionResponse {
         return try await self.client.execute(
@@ -426,7 +425,7 @@ public struct CustomerProfiles: AWSService {
         )
     }
 
-    /// Returns a set of profiles that belong to the same matching group using the matchId or  profileId. You can also specify the type of matching that you want for finding similar profiles using  either RULE_BASED_MATCHING or ML_BASED_MATCHING.
+    /// Returns a set of profiles that belong to the same matching group using the matchId or profileId. You can also specify the type of matching that you want for finding similar profiles using either RULE_BASED_MATCHING or ML_BASED_MATCHING.
     @Sendable
     public func getSimilarProfiles(_ input: GetSimilarProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSimilarProfilesResponse {
         return try await self.client.execute(
@@ -725,7 +724,7 @@ public struct CustomerProfiles: AWSService {
         )
     }
 
-    /// Updates an existing calculated attribute definition. When updating the Conditions, note that increasing  the date range of a calculated attribute will not trigger inclusion of historical data greater than the  current date range.
+    /// Updates an existing calculated attribute definition. When updating the Conditions, note that increasing the date range of a calculated attribute will not trigger inclusion of historical data greater than the current date range.
     @Sendable
     public func updateCalculatedAttributeDefinition(_ input: UpdateCalculatedAttributeDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCalculatedAttributeDefinitionResponse {
         return try await self.client.execute(

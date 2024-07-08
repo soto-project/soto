@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -75,23 +75,33 @@ public struct Bedrock: AWSService {
         "bedrock-ap-south-1": "bedrock.ap-south-1.amazonaws.com",
         "bedrock-ap-southeast-1": "bedrock.ap-southeast-1.amazonaws.com",
         "bedrock-ap-southeast-2": "bedrock.ap-southeast-2.amazonaws.com",
+        "bedrock-ca-central-1": "bedrock.ca-central-1.amazonaws.com",
         "bedrock-eu-central-1": "bedrock.eu-central-1.amazonaws.com",
         "bedrock-eu-west-1": "bedrock.eu-west-1.amazonaws.com",
+        "bedrock-eu-west-2": "bedrock.eu-west-2.amazonaws.com",
         "bedrock-eu-west-3": "bedrock.eu-west-3.amazonaws.com",
+        "bedrock-fips-ca-central-1": "bedrock-fips.ca-central-1.amazonaws.com",
         "bedrock-fips-us-east-1": "bedrock-fips.us-east-1.amazonaws.com",
+        "bedrock-fips-us-gov-west-1": "bedrock-fips.us-gov-west-1.amazonaws.com",
         "bedrock-fips-us-west-2": "bedrock-fips.us-west-2.amazonaws.com",
         "bedrock-runtime-ap-northeast-1": "bedrock-runtime.ap-northeast-1.amazonaws.com",
         "bedrock-runtime-ap-south-1": "bedrock-runtime.ap-south-1.amazonaws.com",
         "bedrock-runtime-ap-southeast-1": "bedrock-runtime.ap-southeast-1.amazonaws.com",
         "bedrock-runtime-ap-southeast-2": "bedrock-runtime.ap-southeast-2.amazonaws.com",
+        "bedrock-runtime-ca-central-1": "bedrock-runtime.ca-central-1.amazonaws.com",
         "bedrock-runtime-eu-central-1": "bedrock-runtime.eu-central-1.amazonaws.com",
         "bedrock-runtime-eu-west-1": "bedrock-runtime.eu-west-1.amazonaws.com",
+        "bedrock-runtime-eu-west-2": "bedrock-runtime.eu-west-2.amazonaws.com",
         "bedrock-runtime-eu-west-3": "bedrock-runtime.eu-west-3.amazonaws.com",
+        "bedrock-runtime-fips-ca-central-1": "bedrock-runtime-fips.ca-central-1.amazonaws.com",
         "bedrock-runtime-fips-us-east-1": "bedrock-runtime-fips.us-east-1.amazonaws.com",
+        "bedrock-runtime-fips-us-gov-west-1": "bedrock-runtime-fips.us-gov-west-1.amazonaws.com",
         "bedrock-runtime-fips-us-west-2": "bedrock-runtime-fips.us-west-2.amazonaws.com",
+        "bedrock-runtime-sa-east-1": "bedrock-runtime.sa-east-1.amazonaws.com",
         "bedrock-runtime-us-east-1": "bedrock-runtime.us-east-1.amazonaws.com",
         "bedrock-runtime-us-gov-west-1": "bedrock-runtime.us-gov-west-1.amazonaws.com",
         "bedrock-runtime-us-west-2": "bedrock-runtime.us-west-2.amazonaws.com",
+        "bedrock-sa-east-1": "bedrock.sa-east-1.amazonaws.com",
         "bedrock-us-east-1": "bedrock.us-east-1.amazonaws.com",
         "bedrock-us-gov-west-1": "bedrock.us-gov-west-1.amazonaws.com",
         "bedrock-us-west-2": "bedrock.us-west-2.amazonaws.com"

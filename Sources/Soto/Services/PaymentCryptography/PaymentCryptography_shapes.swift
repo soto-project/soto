@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -548,9 +548,9 @@ extension PaymentCryptography {
             try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
             try self.validate(self.exportToken, name: "exportToken", parent: name, pattern: "^export-token-[0-9a-zA-Z]{16,64}$")
             try self.keyBlockHeaders?.validate(name: "\(name).keyBlockHeaders")
-            try self.validate(self.randomNonce, name: "randomNonce", parent: name, max: 16)
+            try self.validate(self.randomNonce, name: "randomNonce", parent: name, max: 32)
             try self.validate(self.randomNonce, name: "randomNonce", parent: name, min: 16)
-            try self.validate(self.randomNonce, name: "randomNonce", parent: name, pattern: "^[0-9A-F]+$")
+            try self.validate(self.randomNonce, name: "randomNonce", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
             try self.validate(self.wrappingKeyCertificate, name: "wrappingKeyCertificate", parent: name, max: 32768)
             try self.validate(self.wrappingKeyCertificate, name: "wrappingKeyCertificate", parent: name, min: 1)
             try self.validate(self.wrappingKeyCertificate, name: "wrappingKeyCertificate", parent: name, pattern: "^[^\\[;\\]<>]+$")
@@ -893,9 +893,9 @@ extension PaymentCryptography {
             try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, min: 7)
             try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
             try self.validate(self.importToken, name: "importToken", parent: name, pattern: "^import-token-[0-9a-zA-Z]{16,64}$")
-            try self.validate(self.randomNonce, name: "randomNonce", parent: name, max: 16)
+            try self.validate(self.randomNonce, name: "randomNonce", parent: name, max: 32)
             try self.validate(self.randomNonce, name: "randomNonce", parent: name, min: 16)
-            try self.validate(self.randomNonce, name: "randomNonce", parent: name, pattern: "^[0-9A-F]+$")
+            try self.validate(self.randomNonce, name: "randomNonce", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
             try self.validate(self.signingKeyCertificate, name: "signingKeyCertificate", parent: name, max: 32768)
             try self.validate(self.signingKeyCertificate, name: "signingKeyCertificate", parent: name, min: 1)
             try self.validate(self.signingKeyCertificate, name: "signingKeyCertificate", parent: name, pattern: "^[^\\[;\\]<>]+$")

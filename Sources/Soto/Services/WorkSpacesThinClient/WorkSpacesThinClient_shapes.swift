@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -120,6 +120,8 @@ extension WorkSpacesThinClient {
         public let desktopArn: String
         /// The URL for the identity provider login (only for environments that use AppStream 2.0).
         public let desktopEndpoint: String?
+        /// A map of the key-value pairs of the tag or tags to assign to the newly created devices for this environment.
+        public let deviceCreationTags: [String: String]?
         /// The Amazon Resource Name (ARN) of the Key Management Service key to use to encrypt the environment.
         public let kmsKeyArn: String?
         /// A specification for a time window to apply software updates.
@@ -133,11 +135,12 @@ extension WorkSpacesThinClient {
         /// A map of the key-value pairs of the tag or tags to assign to the resource.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateEnvironmentRequest.idempotencyToken(), desiredSoftwareSetId: String? = nil, desktopArn: String, desktopEndpoint: String? = nil, kmsKeyArn: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, name: String? = nil, softwareSetUpdateMode: SoftwareSetUpdateMode? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateEnvironmentRequest.idempotencyToken(), desiredSoftwareSetId: String? = nil, desktopArn: String, desktopEndpoint: String? = nil, deviceCreationTags: [String: String]? = nil, kmsKeyArn: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, name: String? = nil, softwareSetUpdateMode: SoftwareSetUpdateMode? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.desiredSoftwareSetId = desiredSoftwareSetId
             self.desktopArn = desktopArn
             self.desktopEndpoint = desktopEndpoint
+            self.deviceCreationTags = deviceCreationTags
             self.kmsKeyArn = kmsKeyArn
             self.maintenanceWindow = maintenanceWindow
             self.name = name
@@ -156,6 +159,14 @@ extension WorkSpacesThinClient {
             try self.validate(self.desktopEndpoint, name: "desktopEndpoint", parent: name, max: 1024)
             try self.validate(self.desktopEndpoint, name: "desktopEndpoint", parent: name, min: 1)
             try self.validate(self.desktopEndpoint, name: "desktopEndpoint", parent: name, pattern: "^(https:\\/\\/)[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,32}(:[0-9]{1,5})?(\\/.*)?$")
+            try self.deviceCreationTags?.forEach {
+                try validate($0.key, name: "deviceCreationTags.key", parent: name, max: 128)
+                try validate($0.key, name: "deviceCreationTags.key", parent: name, min: 1)
+                try validate($0.key, name: "deviceCreationTags.key", parent: name, pattern: "^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$")
+                try validate($0.value, name: "deviceCreationTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "deviceCreationTags[\"\($0.key)\"]", parent: name, pattern: "^[A-Za-z0-9 _=@:.+-/]+$")
+            }
+            try self.validate(self.deviceCreationTags, name: "deviceCreationTags", parent: name, max: 50)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:kms:[a-zA-Z0-9\\-]*:[0-9]{0,12}:key\\/[a-zA-Z0-9-]+$")
@@ -168,6 +179,7 @@ extension WorkSpacesThinClient {
             case desiredSoftwareSetId = "desiredSoftwareSetId"
             case desktopArn = "desktopArn"
             case desktopEndpoint = "desktopEndpoint"
+            case deviceCreationTags = "deviceCreationTags"
             case kmsKeyArn = "kmsKeyArn"
             case maintenanceWindow = "maintenanceWindow"
             case name = "name"
@@ -467,6 +479,8 @@ extension WorkSpacesThinClient {
         public let desktopEndpoint: String?
         /// The type of streaming desktop for the environment.
         public let desktopType: DesktopType?
+        /// "The tag keys and optional values for the newly created devices for this environment."
+        public let deviceCreationTags: [String: String]?
         /// The ID of the environment.
         public let id: String?
         /// The Amazon Resource Name (ARN) of the Key Management Service key used to encrypt the environment.
@@ -492,7 +506,7 @@ extension WorkSpacesThinClient {
         /// The timestamp of when the device was updated.
         public let updatedAt: Date?
 
-        public init(activationCode: String? = nil, arn: String? = nil, createdAt: Date? = nil, desiredSoftwareSetId: String? = nil, desktopArn: String? = nil, desktopEndpoint: String? = nil, desktopType: DesktopType? = nil, id: String? = nil, kmsKeyArn: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, pendingSoftwareSetVersion: String? = nil, registeredDevicesCount: Int? = nil, softwareSetComplianceStatus: EnvironmentSoftwareSetComplianceStatus? = nil, softwareSetUpdateMode: SoftwareSetUpdateMode? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
+        public init(activationCode: String? = nil, arn: String? = nil, createdAt: Date? = nil, desiredSoftwareSetId: String? = nil, desktopArn: String? = nil, desktopEndpoint: String? = nil, desktopType: DesktopType? = nil, deviceCreationTags: [String: String]? = nil, id: String? = nil, kmsKeyArn: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, pendingSoftwareSetVersion: String? = nil, registeredDevicesCount: Int? = nil, softwareSetComplianceStatus: EnvironmentSoftwareSetComplianceStatus? = nil, softwareSetUpdateMode: SoftwareSetUpdateMode? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.activationCode = activationCode
             self.arn = arn
             self.createdAt = createdAt
@@ -500,6 +514,7 @@ extension WorkSpacesThinClient {
             self.desktopArn = desktopArn
             self.desktopEndpoint = desktopEndpoint
             self.desktopType = desktopType
+            self.deviceCreationTags = deviceCreationTags
             self.id = id
             self.kmsKeyArn = kmsKeyArn
             self.maintenanceWindow = maintenanceWindow
@@ -522,6 +537,7 @@ extension WorkSpacesThinClient {
             case desktopArn = "desktopArn"
             case desktopEndpoint = "desktopEndpoint"
             case desktopType = "desktopType"
+            case deviceCreationTags = "deviceCreationTags"
             case id = "id"
             case kmsKeyArn = "kmsKeyArn"
             case maintenanceWindow = "maintenanceWindow"
@@ -1121,6 +1137,8 @@ extension WorkSpacesThinClient {
         public let desktopArn: String?
         /// The URL for the identity provider login (only for environments that use AppStream 2.0).
         public let desktopEndpoint: String?
+        /// A map of the key-value pairs of the tag or tags to assign to the newly created devices for this environment.
+        public let deviceCreationTags: [String: String]?
         /// The ID of the environment to update.
         public let id: String
         /// A specification for a time window to apply software updates.
@@ -1132,10 +1150,11 @@ extension WorkSpacesThinClient {
         /// An option to define if software updates should be applied within a maintenance window.
         public let softwareSetUpdateSchedule: SoftwareSetUpdateSchedule?
 
-        public init(desiredSoftwareSetId: String? = nil, desktopArn: String? = nil, desktopEndpoint: String? = nil, id: String, maintenanceWindow: MaintenanceWindow? = nil, name: String? = nil, softwareSetUpdateMode: SoftwareSetUpdateMode? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil) {
+        public init(desiredSoftwareSetId: String? = nil, desktopArn: String? = nil, desktopEndpoint: String? = nil, deviceCreationTags: [String: String]? = nil, id: String, maintenanceWindow: MaintenanceWindow? = nil, name: String? = nil, softwareSetUpdateMode: SoftwareSetUpdateMode? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil) {
             self.desiredSoftwareSetId = desiredSoftwareSetId
             self.desktopArn = desktopArn
             self.desktopEndpoint = desktopEndpoint
+            self.deviceCreationTags = deviceCreationTags
             self.id = id
             self.maintenanceWindow = maintenanceWindow
             self.name = name
@@ -1149,6 +1168,7 @@ extension WorkSpacesThinClient {
             try container.encodeIfPresent(self.desiredSoftwareSetId, forKey: .desiredSoftwareSetId)
             try container.encodeIfPresent(self.desktopArn, forKey: .desktopArn)
             try container.encodeIfPresent(self.desktopEndpoint, forKey: .desktopEndpoint)
+            try container.encodeIfPresent(self.deviceCreationTags, forKey: .deviceCreationTags)
             request.encodePath(self.id, key: "id")
             try container.encodeIfPresent(self.maintenanceWindow, forKey: .maintenanceWindow)
             try container.encodeIfPresent(self.name, forKey: .name)
@@ -1164,6 +1184,14 @@ extension WorkSpacesThinClient {
             try self.validate(self.desktopEndpoint, name: "desktopEndpoint", parent: name, max: 1024)
             try self.validate(self.desktopEndpoint, name: "desktopEndpoint", parent: name, min: 1)
             try self.validate(self.desktopEndpoint, name: "desktopEndpoint", parent: name, pattern: "^(https:\\/\\/)[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,32}(:[0-9]{1,5})?(\\/.*)?$")
+            try self.deviceCreationTags?.forEach {
+                try validate($0.key, name: "deviceCreationTags.key", parent: name, max: 128)
+                try validate($0.key, name: "deviceCreationTags.key", parent: name, min: 1)
+                try validate($0.key, name: "deviceCreationTags.key", parent: name, pattern: "^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$")
+                try validate($0.value, name: "deviceCreationTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "deviceCreationTags[\"\($0.key)\"]", parent: name, pattern: "^[A-Za-z0-9 _=@:.+-/]+$")
+            }
+            try self.validate(self.deviceCreationTags, name: "deviceCreationTags", parent: name, max: 50)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{9}$")
             try self.maintenanceWindow?.validate(name: "\(name).maintenanceWindow")
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9\\p{IsAlphabetic}+:,.@'\" -][0-9\\p{IsAlphabetic}+=:,.@'\" -]{0,63}$")
@@ -1173,6 +1201,7 @@ extension WorkSpacesThinClient {
             case desiredSoftwareSetId = "desiredSoftwareSetId"
             case desktopArn = "desktopArn"
             case desktopEndpoint = "desktopEndpoint"
+            case deviceCreationTags = "deviceCreationTags"
             case maintenanceWindow = "maintenanceWindow"
             case name = "name"
             case softwareSetUpdateMode = "softwareSetUpdateMode"

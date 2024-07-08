@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -83,6 +83,7 @@ public struct FMS: AWSService {
             "ap-southeast-1": "fms-fips.ap-southeast-1.amazonaws.com",
             "ap-southeast-2": "fms-fips.ap-southeast-2.amazonaws.com",
             "ca-central-1": "fms-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "fms-fips.ca-west-1.amazonaws.com",
             "eu-central-1": "fms-fips.eu-central-1.amazonaws.com",
             "eu-south-1": "fms-fips.eu-south-1.amazonaws.com",
             "eu-west-1": "fms-fips.eu-west-1.amazonaws.com",

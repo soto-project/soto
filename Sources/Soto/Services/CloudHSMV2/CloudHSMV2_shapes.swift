@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -44,6 +44,12 @@ extension CloudHSMV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ClusterMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fips = "FIPS"
+        case nonFips = "NON_FIPS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ClusterState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -69,6 +75,8 @@ extension CloudHSMV2 {
     // MARK: Shapes
 
     public struct Backup: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the backup.
+        public let backupArn: String?
         /// The identifier (ID) of the backup.
         public let backupId: String
         /// The state of the backup.
@@ -81,6 +89,10 @@ extension CloudHSMV2 {
         public let createTimestamp: Date?
         /// The date and time when the backup will be permanently deleted.
         public let deleteTimestamp: Date?
+        /// The HSM type used to create the backup.
+        public let hsmType: String?
+        /// The mode of the cluster that was backed up.
+        public let mode: ClusterMode?
         /// Specifies whether the service should exempt a backup from the retention policy for the cluster. True exempts  a backup from the retention policy. False means the service applies the backup retention policy defined at the cluster.
         public let neverExpires: Bool?
         /// The identifier (ID) of the source backup from which the new backup was copied.
@@ -92,13 +104,16 @@ extension CloudHSMV2 {
         /// The list of tags for the backup.
         public let tagList: [Tag]?
 
-        public init(backupId: String, backupState: BackupState? = nil, clusterId: String? = nil, copyTimestamp: Date? = nil, createTimestamp: Date? = nil, deleteTimestamp: Date? = nil, neverExpires: Bool? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, sourceRegion: String? = nil, tagList: [Tag]? = nil) {
+        public init(backupArn: String? = nil, backupId: String, backupState: BackupState? = nil, clusterId: String? = nil, copyTimestamp: Date? = nil, createTimestamp: Date? = nil, deleteTimestamp: Date? = nil, hsmType: String? = nil, mode: ClusterMode? = nil, neverExpires: Bool? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, sourceRegion: String? = nil, tagList: [Tag]? = nil) {
+            self.backupArn = backupArn
             self.backupId = backupId
             self.backupState = backupState
             self.clusterId = clusterId
             self.copyTimestamp = copyTimestamp
             self.createTimestamp = createTimestamp
             self.deleteTimestamp = deleteTimestamp
+            self.hsmType = hsmType
+            self.mode = mode
             self.neverExpires = neverExpires
             self.sourceBackup = sourceBackup
             self.sourceCluster = sourceCluster
@@ -107,12 +122,15 @@ extension CloudHSMV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case backupArn = "BackupArn"
             case backupId = "BackupId"
             case backupState = "BackupState"
             case clusterId = "ClusterId"
             case copyTimestamp = "CopyTimestamp"
             case createTimestamp = "CreateTimestamp"
             case deleteTimestamp = "DeleteTimestamp"
+            case hsmType = "HsmType"
+            case mode = "Mode"
             case neverExpires = "NeverExpires"
             case sourceBackup = "SourceBackup"
             case sourceCluster = "SourceCluster"
@@ -145,7 +163,7 @@ extension CloudHSMV2 {
     }
 
     public struct Certificates: AWSDecodableShape {
-        /// The HSM hardware certificate issued (signed) by AWS CloudHSM.
+        /// The HSM hardware certificate issued (signed) by CloudHSM.
         public let awsHardwareCertificate: String?
         /// The cluster certificate issued (signed) by the issuing certificate authority (CA) of the cluster's owner.
         public let clusterCertificate: String?
@@ -188,6 +206,8 @@ extension CloudHSMV2 {
         public let hsms: [Hsm]?
         /// The type of HSM that the cluster contains.
         public let hsmType: String?
+        /// The mode of the cluster.
+        public let mode: ClusterMode?
         /// The default password for the cluster's Pre-Crypto Officer (PRECO) user.
         public let preCoPassword: String?
         /// The identifier (ID) of the cluster's security group.
@@ -205,7 +225,7 @@ extension CloudHSMV2 {
         /// The identifier (ID) of the virtual private cloud (VPC) that contains the cluster.
         public let vpcId: String?
 
-        public init(backupPolicy: BackupPolicy? = nil, backupRetentionPolicy: BackupRetentionPolicy? = nil, certificates: Certificates? = nil, clusterId: String? = nil, createTimestamp: Date? = nil, hsms: [Hsm]? = nil, hsmType: String? = nil, preCoPassword: String? = nil, securityGroup: String? = nil, sourceBackupId: String? = nil, state: ClusterState? = nil, stateMessage: String? = nil, subnetMapping: [String: String]? = nil, tagList: [Tag]? = nil, vpcId: String? = nil) {
+        public init(backupPolicy: BackupPolicy? = nil, backupRetentionPolicy: BackupRetentionPolicy? = nil, certificates: Certificates? = nil, clusterId: String? = nil, createTimestamp: Date? = nil, hsms: [Hsm]? = nil, hsmType: String? = nil, mode: ClusterMode? = nil, preCoPassword: String? = nil, securityGroup: String? = nil, sourceBackupId: String? = nil, state: ClusterState? = nil, stateMessage: String? = nil, subnetMapping: [String: String]? = nil, tagList: [Tag]? = nil, vpcId: String? = nil) {
             self.backupPolicy = backupPolicy
             self.backupRetentionPolicy = backupRetentionPolicy
             self.certificates = certificates
@@ -213,6 +233,7 @@ extension CloudHSMV2 {
             self.createTimestamp = createTimestamp
             self.hsms = hsms
             self.hsmType = hsmType
+            self.mode = mode
             self.preCoPassword = preCoPassword
             self.securityGroup = securityGroup
             self.sourceBackupId = sourceBackupId
@@ -231,6 +252,7 @@ extension CloudHSMV2 {
             case createTimestamp = "CreateTimestamp"
             case hsms = "Hsms"
             case hsmType = "HsmType"
+            case mode = "Mode"
             case preCoPassword = "PreCoPassword"
             case securityGroup = "SecurityGroup"
             case sourceBackupId = "SourceBackupId"
@@ -289,18 +311,21 @@ extension CloudHSMV2 {
     public struct CreateClusterRequest: AWSEncodableShape {
         /// A policy that defines how the service retains backups.
         public let backupRetentionPolicy: BackupRetentionPolicy?
-        /// The type of HSM to use in the cluster. Currently the only allowed value is hsm1.medium.
+        /// The type of HSM to use in the cluster. The allowed values are hsm1.medium and hsm2m.medium.
         public let hsmType: String
-        /// The identifier (ID) of the cluster backup to restore. Use this value to restore the cluster from a backup instead of creating a new cluster. To find the backup ID, use DescribeBackups.
+        /// The mode to use in the cluster. The allowed values are FIPS and NON_FIPS.
+        public let mode: ClusterMode?
+        /// The identifier (ID) or the Amazon Resource Name (ARN) of the cluster backup to restore. Use this value to restore the cluster from a backup instead of creating a new cluster. To find the backup ID or ARN, use DescribeBackups. If using a backup in another account, the full ARN must be supplied.
         public let sourceBackupId: String?
         /// The identifiers (IDs) of the subnets where you are creating the cluster. You must specify at least one subnet. If you specify multiple subnets, they must meet the following criteria:   All subnets must be in the same virtual private cloud (VPC).   You can specify only one subnet per Availability Zone.
         public let subnetIds: [String]
         /// Tags to apply to the CloudHSM cluster during creation.
         public let tagList: [Tag]?
 
-        public init(backupRetentionPolicy: BackupRetentionPolicy? = nil, hsmType: String, sourceBackupId: String? = nil, subnetIds: [String], tagList: [Tag]? = nil) {
+        public init(backupRetentionPolicy: BackupRetentionPolicy? = nil, hsmType: String, mode: ClusterMode? = nil, sourceBackupId: String? = nil, subnetIds: [String], tagList: [Tag]? = nil) {
             self.backupRetentionPolicy = backupRetentionPolicy
             self.hsmType = hsmType
+            self.mode = mode
             self.sourceBackupId = sourceBackupId
             self.subnetIds = subnetIds
             self.tagList = tagList
@@ -308,8 +333,9 @@ extension CloudHSMV2 {
 
         public func validate(name: String) throws {
             try self.backupRetentionPolicy?.validate(name: "\(name).backupRetentionPolicy")
-            try self.validate(self.hsmType, name: "hsmType", parent: name, pattern: "^(hsm1\\.medium)$")
-            try self.validate(self.sourceBackupId, name: "sourceBackupId", parent: name, pattern: "^backup-[2-7a-zA-Z]{11,16}$")
+            try self.validate(self.hsmType, name: "hsmType", parent: name, max: 32)
+            try self.validate(self.hsmType, name: "hsmType", parent: name, pattern: "^((p|)hsm[0-9][a-z.]*\\.[a-zA-Z]+)$")
+            try self.validate(self.sourceBackupId, name: "sourceBackupId", parent: name, pattern: "^(arn:aws(-(us-gov))?:cloudhsm:([a-z]{2}(-(gov|isob|iso))?-(east|west|north|south|central){1,2}-[0-9]{1}):[0-9]{12}:backup/)?backup-[2-7a-zA-Z]{11,16}$")
             try self.subnetIds.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-[0-9a-fA-F]{8,17}$")
             }
@@ -325,6 +351,7 @@ extension CloudHSMV2 {
         private enum CodingKeys: String, CodingKey {
             case backupRetentionPolicy = "BackupRetentionPolicy"
             case hsmType = "HsmType"
+            case mode = "Mode"
             case sourceBackupId = "SourceBackupId"
             case subnetIds = "SubnetIds"
             case tagList = "TagList"
@@ -489,6 +516,40 @@ extension CloudHSMV2 {
         }
     }
 
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        /// Amazon Resource Name (ARN) of the resource from which the policy will be removed.
+        public let resourceArn: String?
+
+        public init(resourceArn: String? = nil) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-(us-gov))?:cloudhsm:([a-z]{2}(-(gov|isob|iso))?-(east|west|north|south|central){1,2}-[0-9]{1}):[0-9]{12}:(backup/backup|cluster/cluster|hsm/hsm)-[2-7a-zA-Z]{11,16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct DeleteResourcePolicyResponse: AWSDecodableShape {
+        /// The policy previously attached to the resource.
+        public let policy: String?
+        /// Amazon Resource Name (ARN) of the resource from which the policy was deleted.
+        public let resourceArn: String?
+
+        public init(policy: String? = nil, resourceArn: String? = nil) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
     public struct DescribeBackupsRequest: AWSEncodableShape {
         /// One or more filters to limit the items returned in the response. Use the backupIds filter to return only the specified backups. Specify backups by their backup identifier (ID). Use the sourceBackupIds filter to return only the backups created from a source backup. The sourceBackupID of a source backup is returned by the CopyBackupToRegion operation. Use the clusterIds filter to return only the backups for the specified clusters. Specify clusters by their cluster identifier (ID). Use the states filter to return only backups that match the specified state. Use the neverExpires filter to return backups filtered by the value in the neverExpires parameter. True returns all backups exempt from the backup retention policy. False returns all backups with a backup retention policy defined at the cluster.
         public let filters: [String: [String]]?
@@ -496,13 +557,17 @@ extension CloudHSMV2 {
         public let maxResults: Int?
         /// The NextToken value that you received in the previous response. Use this value to get more backups.
         public let nextToken: String?
+        /// Describe backups that are shared with you.  By default when using this option, the command returns backups that have been shared using a standard Resource Access Manager  resource share. In order for a backup that was shared using the PutResourcePolicy command to be returned, the share must be promoted to a  standard resource share using the RAM PromoteResourceShareCreatedFromPolicy API operation.
+        ///  For more information about sharing backups, see  Working with shared backups in the CloudHSM User Guide.
+        public let shared: Bool?
         /// Designates whether or not to sort the return backups by ascending chronological order of generation.
         public let sortAscending: Bool?
 
-        public init(filters: [String: [String]]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortAscending: Bool? = nil) {
+        public init(filters: [String: [String]]? = nil, maxResults: Int? = nil, nextToken: String? = nil, shared: Bool? = nil, sortAscending: Bool? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.shared = shared
             self.sortAscending = sortAscending
         }
 
@@ -510,6 +575,7 @@ extension CloudHSMV2 {
             try self.filters?.forEach {
                 try validate($0.key, name: "filters.key", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             }
+            try self.validate(self.filters, name: "filters", parent: name, max: 30)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 256)
@@ -520,6 +586,7 @@ extension CloudHSMV2 {
             case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case shared = "Shared"
             case sortAscending = "SortAscending"
         }
     }
@@ -559,6 +626,7 @@ extension CloudHSMV2 {
             try self.filters?.forEach {
                 try validate($0.key, name: "filters.key", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             }
+            try self.validate(self.filters, name: "filters", parent: name, max: 30)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 256)
@@ -611,6 +679,36 @@ extension CloudHSMV2 {
             case sourceBackup = "SourceBackup"
             case sourceCluster = "SourceCluster"
             case sourceRegion = "SourceRegion"
+        }
+    }
+
+    public struct GetResourcePolicyRequest: AWSEncodableShape {
+        /// Amazon Resource Name (ARN) of the resource to which a policy is attached.
+        public let resourceArn: String?
+
+        public init(resourceArn: String? = nil) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-(us-gov))?:cloudhsm:([a-z]{2}(-(gov|isob|iso))?-(east|west|north|south|central){1,2}-[0-9]{1}):[0-9]{12}:(backup/backup|cluster/cluster|hsm/hsm)-[2-7a-zA-Z]{11,16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct GetResourcePolicyResponse: AWSDecodableShape {
+        /// The policy attached to a resource.
+        public let policy: String?
+
+        public init(policy: String? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
         }
     }
 
@@ -671,9 +769,9 @@ extension CloudHSMV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "^cluster-[2-7a-zA-Z]{11,16}$")
-            try self.validate(self.signedCert, name: "signedCert", parent: name, max: 5000)
+            try self.validate(self.signedCert, name: "signedCert", parent: name, max: 20000)
             try self.validate(self.signedCert, name: "signedCert", parent: name, pattern: "^[a-zA-Z0-9+-/=\\s]*$")
-            try self.validate(self.trustAnchor, name: "trustAnchor", parent: name, max: 5000)
+            try self.validate(self.trustAnchor, name: "trustAnchor", parent: name, max: 20000)
             try self.validate(self.trustAnchor, name: "trustAnchor", parent: name, pattern: "^[a-zA-Z0-9+-/=\\s]*$")
         }
 
@@ -811,6 +909,46 @@ extension CloudHSMV2 {
 
         private enum CodingKeys: String, CodingKey {
             case cluster = "Cluster"
+        }
+    }
+
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
+        /// The policy you want to associate with a resource.  For an example policy, see  Working with shared backups in the CloudHSM User Guide
+        public let policy: String?
+        /// Amazon Resource Name (ARN) of the resource to which you want to attach a policy.
+        public let resourceArn: String?
+
+        public init(policy: String? = nil, resourceArn: String? = nil) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policy, name: "policy", parent: name, max: 20000)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-(us-gov))?:cloudhsm:([a-z]{2}(-(gov|isob|iso))?-(east|west|north|south|central){1,2}-[0-9]{1}):[0-9]{12}:(backup/backup|cluster/cluster|hsm/hsm)-[2-7a-zA-Z]{11,16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSDecodableShape {
+        /// The policy attached to a resource.
+        public let policy: String?
+        /// Amazon Resource Name (ARN) of the resource to which a policy is attached.
+        public let resourceArn: String?
+
+        public init(policy: String? = nil, resourceArn: String? = nil) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case resourceArn = "ResourceArn"
         }
     }
 
@@ -965,7 +1103,7 @@ public struct CloudHSMV2ErrorType: AWSErrorType {
 
     /// The request was rejected because the requester does not have permission to perform the requested operation.
     public static var cloudHsmAccessDeniedException: Self { .init(.cloudHsmAccessDeniedException) }
-    /// The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// The request was rejected because of an CloudHSM internal failure. The request can be retried.
     public static var cloudHsmInternalFailureException: Self { .init(.cloudHsmInternalFailureException) }
     /// The request was rejected because it is not a valid request.
     public static var cloudHsmInvalidRequestException: Self { .init(.cloudHsmInvalidRequestException) }

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1689,11 +1689,11 @@ extension Redshift {
         public let masterUserPassword: String?
         /// If true, Amazon Redshift will deploy the cluster in two Availability Zones (AZ).
         public let multiAZ: Bool?
-        /// The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge |  dc2.large | dc2.8xlarge |  ra3.xlplus |  ra3.4xlarge | ra3.16xlarge
+        /// The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values:  dc2.large | dc2.8xlarge |  ra3.xlplus |  ra3.4xlarge | ra3.16xlarge
         public let nodeType: String?
         /// The number of compute nodes in the cluster. This parameter is required when the ClusterType parameter is specified as multi-node.  For information about determining how many nodes you need, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  If you don't specify this parameter, you get a single-node cluster. When requesting a multi-node cluster, you must specify the number of nodes that you want in the cluster. Default: 1  Constraints: Value must be at least 1 and no more than 100.
         public let numberOfNodes: Int?
-        /// The port number on which the cluster accepts incoming connections. The cluster is accessible only via the JDBC and ODBC connection strings. Part of the connection string requires the port on which the cluster will listen for incoming connections. Default: 5439  Valid Values:    For clusters with ra3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster  with ra3 nodes, it isn't required that you change the port to these ranges.)   For clusters with ds2 or dc2 nodes - Select a port within the range 1150-65535.
+        /// The port number on which the cluster accepts incoming connections. The cluster is accessible only via the JDBC and ODBC connection strings. Part of the connection string requires the port on which the cluster will listen for incoming connections. Default: 5439  Valid Values:    For clusters with ra3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster  with ra3 nodes, it isn't required that you change the port to these ranges.)   For clusters with dc2 nodes - Select a port within the range 1150-65535.
         public let port: Int?
         /// The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. For more information about the time blocks for each region, see Maintenance Windows in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
@@ -6170,14 +6170,14 @@ extension Redshift {
         /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter.
         /// For more information about resizing clusters, go to
         /// Resizing Clusters in Amazon Redshift
-        /// in the Amazon Redshift Cluster Management Guide. Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge |  dc2.large | dc2.8xlarge |  ra3.xlplus |  ra3.4xlarge | ra3.16xlarge
+        /// in the Amazon Redshift Cluster Management Guide. Valid Values:  dc2.large | dc2.8xlarge |  ra3.xlplus |  ra3.4xlarge | ra3.16xlarge
         public let nodeType: String?
         /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter.
         /// For more information about resizing clusters, go to
         /// Resizing Clusters in Amazon Redshift
         /// in the Amazon Redshift Cluster Management Guide. Valid Values: Integer greater than 0.
         public let numberOfNodes: Int?
-        /// The option to change the port of an Amazon Redshift cluster. Valid Values:    For clusters with ra3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster  with ra3 nodes, it isn't required that you change the port to these ranges.)   For clusters with ds2 or dc2 nodes - Select a port within the range 1150-65535.
+        /// The option to change the port of an Amazon Redshift cluster. Valid Values:    For clusters with ra3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster  with ra3 nodes, it isn't required that you change the port to these ranges.)   For clusters with dc2 nodes - Select a port within the range 1150-65535.
         public let port: Int?
         /// The weekly time range (in UTC) during which system maintenance can occur, if necessary. If system maintenance is necessary during the window, it may result in an outage. This maintenance window change is made immediately. If the new maintenance window indicates the current time, there must be at least 120 minutes between the current time and end of the window in order to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi, for example wed:07:30-wed:08:00. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes.
         public let preferredMaintenanceWindow: String?
@@ -6805,7 +6805,7 @@ extension Redshift {
         public let estimatedDiskUtilizationPercent: Double?
         /// The category of the node configuration recommendation.
         public let mode: Mode?
-        /// The node type, such as, "ds2.8xlarge".
+        /// The node type, such as, "ra3.4xlarge".
         public let nodeType: String?
         /// The number of nodes.
         public let numberOfNodes: Int?
@@ -7527,7 +7527,7 @@ extension Redshift {
         public let sourceReservedNodeCount: Int?
         /// The identifier of the source reserved node.
         public let sourceReservedNodeId: String?
-        /// The source reserved-node type, for example ds2.xlarge.
+        /// The source reserved-node type, for example ra3.4xlarge.
         public let sourceReservedNodeType: String?
         /// The status of the reserved-node exchange request. Statuses include in-progress and requested.
         public let status: ReservedNodeExchangeStatusType?
@@ -7903,13 +7903,13 @@ extension Redshift {
         public let masterPasswordSecretKmsKeyId: String?
         /// If true, the snapshot will be restored to a cluster deployed in two Availability Zones.
         public let multiAZ: Bool?
-        /// The node type that the restored cluster will be provisioned with. Default: The node type of the cluster from which the snapshot was taken. You can modify this if you are using any DS node type. In that case, you can choose to restore into another DS node type of the same size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or ds1.xlarge into ds2.xlarge. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc1.large instance type into another dc1.large instance type or dc2.large instance type. You can't restore dc1.8xlarge to dc2.8xlarge. First restore to a dc1.8xlarge cluster, then resize to a dc2.8large cluster. For more information about node types, see  About Clusters and Nodes in the Amazon Redshift Cluster Management Guide.
+        /// The node type that the restored cluster will be provisioned with. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc2.large node type into another dc2 type. For more information about node types, see   About Clusters and Nodes in the Amazon Redshift Cluster Management Guide.
         public let nodeType: String?
         /// The number of nodes specified when provisioning the restored cluster.
         public let numberOfNodes: Int?
         /// The Amazon Web Services account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
         public let ownerAccount: String?
-        /// The port number on which the cluster accepts connections. Default: The same port as the original cluster. Valid values: For clusters with ds2 or dc2 nodes, must be within the range 1150-65535. For clusters with ra3 nodes, must be  within the ranges 5431-5455 or 8191-8215.
+        /// The port number on which the cluster accepts connections. Default: The same port as the original cluster. Valid values: For clusters with DC2 nodes, must be within the range 1150-65535. For clusters with ra3 nodes, must be  within the ranges 5431-5455 or 8191-8215.
         public let port: Int?
         /// The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi  Default: The value selected for the cluster from which the snapshot was taken. For more information about the time blocks for each region, see Maintenance Windows in Amazon Redshift Cluster Management Guide.  Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
@@ -8059,15 +8059,15 @@ extension Redshift {
     }
 
     public struct RestoreStatus: AWSDecodableShape {
-        /// The number of megabytes per second being transferred from the backup storage. Returns the average rate for a completed backup. This field is only updated when you restore to DC2 and DS2 node types.
+        /// The number of megabytes per second being transferred from the backup storage. Returns the average rate for a completed backup. This field is only updated when you restore to DC2 node types.
         public let currentRestoreRateInMegaBytesPerSecond: Double?
-        /// The amount of time an in-progress restore has been running, or the amount of time it took a completed restore to finish. This field is only updated when you restore to DC2 and DS2 node types.
+        /// The amount of time an in-progress restore has been running, or the amount of time it took a completed restore to finish. This field is only updated when you restore to DC2 node types.
         public let elapsedTimeInSeconds: Int64?
-        /// The estimate of the time remaining before the restore will complete. Returns 0 for a completed restore. This field is only updated when you restore to DC2 and DS2 node types.
+        /// The estimate of the time remaining before the restore will complete. Returns 0 for a completed restore. This field is only updated when you restore to DC2 node types.
         public let estimatedTimeToCompletionInSeconds: Int64?
-        /// The number of megabytes that have been transferred from snapshot storage. This field is only updated when you restore to DC2 and DS2 node types.
+        /// The number of megabytes that have been transferred from snapshot storage. This field is only updated when you restore to DC2 node types.
         public let progressInMegaBytes: Int64?
-        /// The size of the set of snapshot data used to restore the cluster. This field is only updated when you restore to DC2 and DS2 node types.
+        /// The size of the set of snapshot data used to restore the cluster. This field is only updated when you restore to DC2 node types.
         public let snapshotSizeInMegaBytes: Int64?
         /// The status of the restore action. Returns starting, restoring, completed, or failed.
         public let status: String?
@@ -8385,7 +8385,7 @@ extension Redshift {
         public let startTime: Date?
         /// The state of the scheduled action. For example, DISABLED.
         public let state: ScheduledActionState?
-        /// A JSON format string of the Amazon Redshift API operation with input parameters.  "{\"ResizeCluster\":{\"NodeType\":\"ds2.8xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}".
+        /// A JSON format string of the Amazon Redshift API operation with input parameters.  "{\"ResizeCluster\":{\"NodeType\":\"ra3.4xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}".
         public let targetAction: ScheduledActionType?
 
         public init(endTime: Date? = nil, iamRole: String? = nil, nextInvocations: [Date]? = nil, schedule: String? = nil, scheduledActionDescription: String? = nil, scheduledActionName: String? = nil, startTime: Date? = nil, state: ScheduledActionState? = nil, targetAction: ScheduledActionType? = nil) {

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -89,6 +89,12 @@ extension OpenSearch {
     public enum ConnectionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case direct = "DIRECT"
         case vpcEndpoint = "VPC_ENDPOINT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSourceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case disabled = "DISABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -717,14 +723,17 @@ extension OpenSearch {
         public let enabled: Bool?
         /// True if the internal user database is enabled.
         public let internalUserDatabaseEnabled: Bool?
+        /// Container for information about the JWT configuration of the Amazon OpenSearch Service.
+        public let jwtOptions: JWTOptionsOutput?
         /// Container for information about the SAML configuration for OpenSearch Dashboards.
         public let samlOptions: SAMLOptionsOutput?
 
-        public init(anonymousAuthDisableDate: Date? = nil, anonymousAuthEnabled: Bool? = nil, enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, samlOptions: SAMLOptionsOutput? = nil) {
+        public init(anonymousAuthDisableDate: Date? = nil, anonymousAuthEnabled: Bool? = nil, enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, jwtOptions: JWTOptionsOutput? = nil, samlOptions: SAMLOptionsOutput? = nil) {
             self.anonymousAuthDisableDate = anonymousAuthDisableDate
             self.anonymousAuthEnabled = anonymousAuthEnabled
             self.enabled = enabled
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
+            self.jwtOptions = jwtOptions
             self.samlOptions = samlOptions
         }
 
@@ -733,6 +742,7 @@ extension OpenSearch {
             case anonymousAuthEnabled = "AnonymousAuthEnabled"
             case enabled = "Enabled"
             case internalUserDatabaseEnabled = "InternalUserDatabaseEnabled"
+            case jwtOptions = "JWTOptions"
             case samlOptions = "SAMLOptions"
         }
     }
@@ -744,20 +754,24 @@ extension OpenSearch {
         public let enabled: Bool?
         /// True to enable the internal user database.
         public let internalUserDatabaseEnabled: Bool?
+        /// Container for information about the JWT configuration of the Amazon OpenSearch Service.
+        public let jwtOptions: JWTOptionsInput?
         /// Container for information about the master user.
         public let masterUserOptions: MasterUserOptions?
         /// Container for information about the SAML configuration for OpenSearch Dashboards.
         public let samlOptions: SAMLOptionsInput?
 
-        public init(anonymousAuthEnabled: Bool? = nil, enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, masterUserOptions: MasterUserOptions? = nil, samlOptions: SAMLOptionsInput? = nil) {
+        public init(anonymousAuthEnabled: Bool? = nil, enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, jwtOptions: JWTOptionsInput? = nil, masterUserOptions: MasterUserOptions? = nil, samlOptions: SAMLOptionsInput? = nil) {
             self.anonymousAuthEnabled = anonymousAuthEnabled
             self.enabled = enabled
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
+            self.jwtOptions = jwtOptions
             self.masterUserOptions = masterUserOptions
             self.samlOptions = samlOptions
         }
 
         public func validate(name: String) throws {
+            try self.jwtOptions?.validate(name: "\(name).jwtOptions")
             try self.masterUserOptions?.validate(name: "\(name).masterUserOptions")
             try self.samlOptions?.validate(name: "\(name).samlOptions")
         }
@@ -766,6 +780,7 @@ extension OpenSearch {
             case anonymousAuthEnabled = "AnonymousAuthEnabled"
             case enabled = "Enabled"
             case internalUserDatabaseEnabled = "InternalUserDatabaseEnabled"
+            case jwtOptions = "JWTOptions"
             case masterUserOptions = "MasterUserOptions"
             case samlOptions = "SAMLOptions"
         }
@@ -1800,17 +1815,21 @@ extension OpenSearch {
         public let description: String?
         /// The name of the data source.
         public let name: String?
+        /// The status of the data source.
+        public let status: DataSourceStatus?
 
-        public init(dataSourceType: DataSourceType? = nil, description: String? = nil, name: String? = nil) {
+        public init(dataSourceType: DataSourceType? = nil, description: String? = nil, name: String? = nil, status: DataSourceStatus? = nil) {
             self.dataSourceType = dataSourceType
             self.description = description
             self.name = name
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataSourceType = "DataSourceType"
             case description = "Description"
             case name = "Name"
+            case status = "Status"
         }
     }
 
@@ -3118,7 +3137,7 @@ extension OpenSearch {
         public let deleted: Bool?
         /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
         public let domainEndpointOptions: DomainEndpointOptions?
-        /// The DualStack Hosted Zone Id for the domain.
+        /// The dual stack hosted zone ID for the domain.
         public let domainEndpointV2HostedZoneId: String?
         /// Unique identifier for the domain.
         public let domainId: String
@@ -3518,17 +3537,21 @@ extension OpenSearch {
         public let description: String?
         /// The name of the data source.
         public let name: String?
+        /// The status of the data source.
+        public let status: DataSourceStatus?
 
-        public init(dataSourceType: DataSourceType? = nil, description: String? = nil, name: String? = nil) {
+        public init(dataSourceType: DataSourceType? = nil, description: String? = nil, name: String? = nil, status: DataSourceStatus? = nil) {
             self.dataSourceType = dataSourceType
             self.description = description
             self.name = name
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataSourceType = "DataSourceType"
             case description = "Description"
             case name = "Name"
+            case status = "Status"
         }
     }
 
@@ -3869,6 +3892,63 @@ extension OpenSearch {
             case instanceRole = "InstanceRole"
             case instanceType = "InstanceType"
             case warmEnabled = "WarmEnabled"
+        }
+    }
+
+    public struct JWTOptionsInput: AWSEncodableShape {
+        /// True to enable JWT authentication and authorization for a domain.
+        public let enabled: Bool?
+        /// Element of the JWT assertion used by the cluster to verify JWT signatures.
+        public let publicKey: String?
+        /// Element of the JWT assertion to use for roles.
+        public let rolesKey: String?
+        /// Element of the JWT assertion to use for the user name.
+        public let subjectKey: String?
+
+        public init(enabled: Bool? = nil, publicKey: String? = nil, rolesKey: String? = nil, subjectKey: String? = nil) {
+            self.enabled = enabled
+            self.publicKey = publicKey
+            self.rolesKey = rolesKey
+            self.subjectKey = subjectKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.rolesKey, name: "rolesKey", parent: name, max: 64)
+            try self.validate(self.rolesKey, name: "rolesKey", parent: name, min: 1)
+            try self.validate(self.subjectKey, name: "subjectKey", parent: name, max: 64)
+            try self.validate(self.subjectKey, name: "subjectKey", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case publicKey = "PublicKey"
+            case rolesKey = "RolesKey"
+            case subjectKey = "SubjectKey"
+        }
+    }
+
+    public struct JWTOptionsOutput: AWSDecodableShape {
+        /// True if JWT use is enabled.
+        public let enabled: Bool?
+        /// The key used to verify the signature of incoming JWT requests.
+        public let publicKey: String?
+        /// The key used for matching the JWT roles attribute.
+        public let rolesKey: String?
+        /// The key used for matching the JWT subject attribute.
+        public let subjectKey: String?
+
+        public init(enabled: Bool? = nil, publicKey: String? = nil, rolesKey: String? = nil, subjectKey: String? = nil) {
+            self.enabled = enabled
+            self.publicKey = publicKey
+            self.rolesKey = rolesKey
+            self.subjectKey = subjectKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case publicKey = "PublicKey"
+            case rolesKey = "RolesKey"
+            case subjectKey = "SubjectKey"
         }
     }
 
@@ -5539,12 +5619,15 @@ extension OpenSearch {
         public let domainName: String
         /// The name of the data source to modify.
         public let name: String
+        /// The status of the data source update.
+        public let status: DataSourceStatus?
 
-        public init(dataSourceType: DataSourceType, description: String? = nil, domainName: String, name: String) {
+        public init(dataSourceType: DataSourceType, description: String? = nil, domainName: String, name: String, status: DataSourceStatus? = nil) {
             self.dataSourceType = dataSourceType
             self.description = description
             self.domainName = domainName
             self.name = name
+            self.status = status
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -5554,6 +5637,7 @@ extension OpenSearch {
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.domainName, key: "DomainName")
             request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.status, forKey: .status)
         }
 
         public func validate(name: String) throws {
@@ -5571,6 +5655,7 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case dataSourceType = "DataSourceType"
             case description = "Description"
+            case status = "Status"
         }
     }
 

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -48,6 +48,31 @@ extension Macie2 {
         case `false` = "FALSE"
         case `true` = "TRUE"
         case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoEnableMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case new = "NEW"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomatedDiscoveryAccountStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomatedDiscoveryAccountUpdateErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountNotFound = "ACCOUNT_NOT_FOUND"
+        case accountPaused = "ACCOUNT_PAUSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomatedDiscoveryMonitoringStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case monitored = "MONITORED"
+        case notMonitored = "NOT_MONITORED"
         public var description: String { return self.rawValue }
     }
 
@@ -319,6 +344,7 @@ extension Macie2 {
 
     public enum SearchResourcesSimpleCriterionKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "ACCOUNT_ID"
+        case automatedDiscoveryMonitoringStatus = "AUTOMATED_DISCOVERY_MONITORING_STATUS"
         case s3BucketEffectivePermission = "S3_BUCKET_EFFECTIVE_PERMISSION"
         case s3BucketName = "S3_BUCKET_NAME"
         case s3BucketSharedAccess = "S3_BUCKET_SHARED_ACCESS"
@@ -684,6 +710,57 @@ extension Macie2 {
         }
     }
 
+    public struct AutomatedDiscoveryAccount: AWSDecodableShape {
+        /// The Amazon Web Services account ID for the account.
+        public let accountId: String?
+        /// The current status of automated sensitive data discovery for the account. Possible values are: ENABLED, perform automated sensitive data discovery activities for the account; and, DISABLED, don't perform automated sensitive data discovery activities for the account.
+        public let status: AutomatedDiscoveryAccountStatus?
+
+        public init(accountId: String? = nil, status: AutomatedDiscoveryAccountStatus? = nil) {
+            self.accountId = accountId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case status = "status"
+        }
+    }
+
+    public struct AutomatedDiscoveryAccountUpdate: AWSEncodableShape {
+        /// The Amazon Web Services account ID for the account.
+        public let accountId: String?
+        /// The new status of automated sensitive data discovery for the account. Valid values are: ENABLED, perform automated sensitive data discovery activities for the account; and, DISABLED, don't perform automated sensitive data discovery activities for the account.
+        public let status: AutomatedDiscoveryAccountStatus?
+
+        public init(accountId: String? = nil, status: AutomatedDiscoveryAccountStatus? = nil) {
+            self.accountId = accountId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case status = "status"
+        }
+    }
+
+    public struct AutomatedDiscoveryAccountUpdateError: AWSDecodableShape {
+        /// The Amazon Web Services account ID for the account that the request applied to.
+        public let accountId: String?
+        /// The error code for the error that caused the request to fail for the account (accountId). Possible values are: ACCOUNT_NOT_FOUND, the account doesn’t exist or you're not the Amazon Macie administrator for the account; and, ACCOUNT_PAUSED, Macie isn’t enabled for the account in the current Amazon Web Services Region.
+        public let errorCode: AutomatedDiscoveryAccountUpdateErrorCode?
+
+        public init(accountId: String? = nil, errorCode: AutomatedDiscoveryAccountUpdateErrorCode? = nil) {
+            self.accountId = accountId
+            self.errorCode = errorCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case errorCode = "errorCode"
+        }
+    }
+
     public struct AwsAccount: AWSDecodableShape {
         /// The unique identifier for the Amazon Web Services account.
         public let accountId: String?
@@ -775,6 +852,32 @@ extension Macie2 {
         private enum CodingKeys: String, CodingKey {
             case customDataIdentifiers = "customDataIdentifiers"
             case notFoundIdentifierIds = "notFoundIdentifierIds"
+        }
+    }
+
+    public struct BatchUpdateAutomatedDiscoveryAccountsRequest: AWSEncodableShape {
+        /// An array of objects, one for each account to change the status of automated sensitive data discovery for. Each object specifies the Amazon Web Services account ID for an account and a new status for that account.
+        public let accounts: [AutomatedDiscoveryAccountUpdate]?
+
+        public init(accounts: [AutomatedDiscoveryAccountUpdate]? = nil) {
+            self.accounts = accounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accounts = "accounts"
+        }
+    }
+
+    public struct BatchUpdateAutomatedDiscoveryAccountsResponse: AWSDecodableShape {
+        /// An array of objects, one for each account whose status wasn’t changed. Each object identifies the account and explains why the status of automated sensitive data discovery wasn’t changed for the account. This value is null if the request succeeded for all specified accounts.
+        public let errors: [AutomatedDiscoveryAccountUpdateError]?
+
+        public init(errors: [AutomatedDiscoveryAccountUpdateError]? = nil) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
         }
     }
 
@@ -962,6 +1065,8 @@ extension Macie2 {
         public let accountId: String?
         /// Specifies whether the bucket policy for the bucket requires server-side encryption of objects when objects are added to the bucket. Possible values are: FALSE - The bucket policy requires server-side encryption of new objects. PutObject requests must include a valid server-side encryption header. TRUE - The bucket doesn't have a bucket policy or it has a bucket policy that doesn't require server-side encryption of new objects. If a bucket policy exists, it doesn't require PutObject requests to include a valid server-side encryption header. UNKNOWN - Amazon Macie can't determine whether the bucket policy requires server-side encryption of new objects. Valid server-side encryption headers are: x-amz-server-side-encryption with a value of AES256 or aws:kms, and x-amz-server-side-encryption-customer-algorithm with a value of AES256.
         public let allowsUnencryptedObjectUploads: AllowsUnencryptedObjectUploads?
+        /// Specifies whether automated sensitive data discovery is currently configured to analyze objects in the bucket. Possible values are: MONITORED, the bucket is included in analyses; and, NOT_MONITORED, the bucket is excluded from analyses. If automated sensitive data discovery is disabled for your account, this value is NOT_MONITORED.
+        public let automatedDiscoveryMonitoringStatus: AutomatedDiscoveryMonitoringStatus?
         /// The Amazon Resource Name (ARN) of the bucket.
         public let bucketArn: String?
         /// The date and time, in UTC and extended ISO 8601 format, when the bucket was created. This value can also indicate when changes such as edits to the bucket's policy were most recently made to the bucket.
@@ -977,9 +1082,9 @@ extension Macie2 {
         public let errorCode: BucketMetadataErrorCode?
         /// A brief description of the error (errorCode) that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. This value is null if Macie was able to retrieve and process the information.
         public let errorMessage: String?
-        /// Specifies whether any one-time or recurring classification jobs are configured to analyze data in the bucket, and, if so, the details of the job that ran most recently.
+        /// Specifies whether any one-time or recurring classification jobs are configured to analyze objects in the bucket, and, if so, the details of the job that ran most recently.
         public let jobDetails: JobDetails?
-        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently analyzed data in the bucket while performing automated sensitive data discovery for your account. This value is null if automated sensitive data discovery is currently disabled for your account.
+        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently analyzed objects in the bucket while performing automated sensitive data discovery. This value is null if automated sensitive data discovery is disabled for your account.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastAutomatedDiscoveryTime: Date?
         /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently retrieved bucket or object metadata from Amazon S3 for the bucket.
@@ -995,7 +1100,7 @@ extension Macie2 {
         public let region: String?
         /// Specifies whether the bucket is configured to replicate one or more objects to buckets for other Amazon Web Services accounts and, if so, which accounts.
         public let replicationDetails: ReplicationDetails?
-        /// The sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive). This value is null if automated sensitive data discovery is currently disabled for your account.
+        /// The sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive).If automated sensitive data discovery has never been enabled for your account or it’s been disabled for your organization or your standalone account for more than 30 days, possible values are: 1, the bucket is empty; or, 50, the bucket stores objects but it’s been excluded from recent analyses.
         public let sensitivityScore: Int?
         /// The default server-side encryption settings for the bucket.
         public let serverSideEncryption: BucketServerSideEncryption?
@@ -1014,9 +1119,10 @@ extension Macie2 {
         /// Specifies whether versioning is enabled for the bucket.
         public let versioning: Bool?
 
-        public init(accountId: String? = nil, allowsUnencryptedObjectUploads: AllowsUnencryptedObjectUploads? = nil, bucketArn: String? = nil, bucketCreatedAt: Date? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, errorCode: BucketMetadataErrorCode? = nil, errorMessage: String? = nil, jobDetails: JobDetails? = nil, lastAutomatedDiscoveryTime: Date? = nil, lastUpdated: Date? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, publicAccess: BucketPublicAccess? = nil, region: String? = nil, replicationDetails: ReplicationDetails? = nil, sensitivityScore: Int? = nil, serverSideEncryption: BucketServerSideEncryption? = nil, sharedAccess: SharedAccess? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, tags: [KeyValuePair]? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil, versioning: Bool? = nil) {
+        public init(accountId: String? = nil, allowsUnencryptedObjectUploads: AllowsUnencryptedObjectUploads? = nil, automatedDiscoveryMonitoringStatus: AutomatedDiscoveryMonitoringStatus? = nil, bucketArn: String? = nil, bucketCreatedAt: Date? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, errorCode: BucketMetadataErrorCode? = nil, errorMessage: String? = nil, jobDetails: JobDetails? = nil, lastAutomatedDiscoveryTime: Date? = nil, lastUpdated: Date? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, publicAccess: BucketPublicAccess? = nil, region: String? = nil, replicationDetails: ReplicationDetails? = nil, sensitivityScore: Int? = nil, serverSideEncryption: BucketServerSideEncryption? = nil, sharedAccess: SharedAccess? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, tags: [KeyValuePair]? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil, versioning: Bool? = nil) {
             self.accountId = accountId
             self.allowsUnencryptedObjectUploads = allowsUnencryptedObjectUploads
+            self.automatedDiscoveryMonitoringStatus = automatedDiscoveryMonitoringStatus
             self.bucketArn = bucketArn
             self.bucketCreatedAt = bucketCreatedAt
             self.bucketName = bucketName
@@ -1046,6 +1152,7 @@ extension Macie2 {
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case allowsUnencryptedObjectUploads = "allowsUnencryptedObjectUploads"
+            case automatedDiscoveryMonitoringStatus = "automatedDiscoveryMonitoringStatus"
             case bucketArn = "bucketArn"
             case bucketCreatedAt = "bucketCreatedAt"
             case bucketName = "bucketName"
@@ -1384,11 +1491,11 @@ extension Macie2 {
         public let description: String?
         /// For a recurring job, specifies whether to analyze all existing, eligible objects immediately after the job is created (true). To analyze only those objects that are created or changed after you create the job and before the job's first scheduled run, set this value to false. If you configure the job to run only once, don't specify a value for this property.
         public let initialRun: Bool?
-        /// The schedule for running the job. Valid values are: ONE_TIME - Run the job only once. If you specify this value, don't specify a value for the scheduleFrequency property. SCHEDULED - Run the job on a daily, weekly, or monthly basis. If you specify this value, use the scheduleFrequency property to define the recurrence pattern for the job.
+        /// The schedule for running the job. Valid values are: ONE_TIME - Run the job only once. If you specify this value, don't specify a value for the scheduleFrequency property. SCHEDULED - Run the job on a daily, weekly, or monthly basis. If you specify this value, use the scheduleFrequency property to specify the recurrence pattern for the job.
         public let jobType: JobType?
         /// An array of unique identifiers, one for each managed data identifier for the job to include (use) or exclude (not use) when it analyzes data. Inclusion or exclusion depends on the managed data identifier selection type that you specify for the job (managedDataIdentifierSelector). To retrieve a list of valid values for this property, use the ListManagedDataIdentifiers operation.
         public let managedDataIdentifierIds: [String]?
-        /// The selection type to apply when determining which managed data identifiers the job uses to analyze data. Valid values are: ALL - Use all managed data identifiers. If you specify this value, don't specify any values for the managedDataIdentifierIds property. EXCLUDE - Use all managed data identifiers except the ones specified by the managedDataIdentifierIds property. INCLUDE - Use only the managed data identifiers specified by the managedDataIdentifierIds property. NONE - Don't use any managed data identifiers. If you specify this value, specify at least one value for the customDataIdentifierIds property and don't specify any values for the managedDataIdentifierIds property. RECOMMENDED (default) - Use the recommended set of managed data identifiers. If you specify this value, don't specify any values for the managedDataIdentifierIds property. If you don't specify a value for this property, the job uses the recommended set of managed data identifiers. If the job is a recurring job and you specify ALL or EXCLUDE, each job run automatically uses new managed data identifiers that are released. If you don't specify a value for this property or you specify RECOMMENDED for a recurring job, each job run automatically uses all the managed data identifiers that are in the recommended set when the run starts. For information about individual managed data identifiers or to determine which ones are in the recommended set, see Using managed data identifiers and Recommended managed data identifiers in the Amazon Macie User Guide.
+        /// The selection type to apply when determining which managed data identifiers the job uses to analyze data. Valid values are: ALL - Use all managed data identifiers. If you specify this value, don't specify any values for the managedDataIdentifierIds property. EXCLUDE - Use all managed data identifiers except the ones specified by the managedDataIdentifierIds property. INCLUDE - Use only the managed data identifiers specified by the managedDataIdentifierIds property. NONE - Don't use any managed data identifiers. If you specify this value, specify at least one value for the customDataIdentifierIds property and don't specify any values for the managedDataIdentifierIds property. RECOMMENDED (default) - Use the recommended set of managed data identifiers. If you specify this value, don't specify any values for the managedDataIdentifierIds property. If you don't specify a value for this property, the job uses the recommended set of managed data identifiers. If the job is a recurring job and you specify ALL or EXCLUDE, each job run automatically uses new managed data identifiers that are released. If you don't specify a value for this property or you specify RECOMMENDED for a recurring job, each job run automatically uses all the managed data identifiers that are in the recommended set when the run starts. To learn about individual managed data identifiers or determine which ones are in the recommended set, see Using managed data identifiers or Recommended managed data identifiers in the Amazon Macie User Guide.
         public let managedDataIdentifierSelector: ManagedDataIdentifierSelector?
         /// A custom name for the job. The name can contain as many as 500 characters.
         public let name: String?
@@ -2008,14 +2115,14 @@ extension Macie2 {
     }
 
     public struct DescribeClassificationJobResponse: AWSDecodableShape {
-        /// An array of unique identifiers, one for each allow list that the job uses when it analyzes data.
+        /// An array of unique identifiers, one for each allow list that the job is configured to use when it analyzes data.
         public let allowListIds: [String]?
         /// The token that was provided to ensure the idempotency of the request to create the job.
         public let clientToken: String?
         /// The date and time, in UTC and extended ISO 8601 format, when the job was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
-        /// An array of unique identifiers, one for each custom data identifier that the job uses when it analyzes data. This value is null if the job uses only managed data identifiers to analyze data.
+        /// An array of unique identifiers, one for each custom data identifier that the job is configured to use when it analyzes data. This value is null if the job is configured to use only managed data identifiers to analyze data.
         public let customDataIdentifierIds: [String]?
         /// The custom description of the job.
         public let description: String?
@@ -2036,7 +2143,7 @@ extension Macie2 {
         public var lastRunTime: Date?
         /// An array of unique identifiers, one for each managed data identifier that the job is explicitly configured to include (use) or exclude (not use) when it analyzes data. Inclusion or exclusion depends on the managed data identifier selection type specified for the job (managedDataIdentifierSelector).This value is null if the job's managed data identifier selection type is ALL, NONE, or RECOMMENDED.
         public let managedDataIdentifierIds: [String]?
-        /// The selection type that determines which managed data identifiers the job uses when it analyzes data. Possible values are: ALL - Use all managed data identifiers. EXCLUDE - Use all managed data identifiers except the ones specified by the managedDataIdentifierIds property. INCLUDE - Use only the managed data identifiers specified by the managedDataIdentifierIds property. NONE - Don't use any managed data identifiers. Use only custom data identifiers (customDataIdentifierIds). RECOMMENDED (default) - Use the recommended set of managed data identifiers. If this value is null, the job uses the recommended set of managed data identifiers. If the job is a recurring job and this value is ALL or EXCLUDE, each job run automatically uses new managed data identifiers that are released. If this value is null or RECOMMENDED for a recurring job, each job run uses all the managed data identifiers that are in the recommended set when the run starts. For information about individual managed data identifiers or to determine which ones are in the recommended set, see Using managed data identifiers and Recommended managed data identifiers in the Amazon Macie User Guide.
+        /// The selection type that determines which managed data identifiers the job uses when it analyzes data. Possible values are: ALL - Use all managed data identifiers. EXCLUDE - Use all managed data identifiers except the ones specified by the managedDataIdentifierIds property. INCLUDE - Use only the managed data identifiers specified by the managedDataIdentifierIds property. NONE - Don't use any managed data identifiers. Use only custom data identifiers (customDataIdentifierIds). RECOMMENDED (default) - Use the recommended set of managed data identifiers. If this value is null, the job uses the recommended set of managed data identifiers. If the job is a recurring job and this value is ALL or EXCLUDE, each job run automatically uses new managed data identifiers that are released. If this value is null or RECOMMENDED for a recurring job, each job run uses all the managed data identifiers that are in the recommended set when the run starts. To learn about individual managed data identifiers or determine which ones are in the recommended set, see Using managed data identifiers or Recommended managed data identifiers in the Amazon Macie User Guide.
         public let managedDataIdentifierSelector: ManagedDataIdentifierSelector?
         /// The custom name of the job.
         public let name: String?
@@ -2048,7 +2155,7 @@ extension Macie2 {
         public let scheduleFrequency: JobScheduleFrequency?
         /// The number of times that the job has run and processing statistics for the job's current run.
         public let statistics: Statistics?
-        /// A map of key-value pairs that specifies which tags (keys and values) are associated with the classification job.
+        /// A map of key-value pairs that specifies which tags (keys and values) are associated with the job.
         public let tags: [String: String]?
         /// If the current status of the job is USER_PAUSED, specifies when the job was paused and when the job or job run will expire and be cancelled if it isn't resumed. This value is present only if the value for jobStatus is USER_PAUSED.
         public let userPausedDetails: UserPausedDetails?
@@ -2426,9 +2533,9 @@ extension Macie2 {
     public struct FindingActor: AWSDecodableShape {
         /// The domain name of the device that the entity used to perform the action on the affected resource.
         public let domainDetails: DomainDetails?
-        /// The IP address of the device that the entity used to perform the action on the affected resource. This object also provides information such as the owner and geographic location for the IP address.
+        /// The IP address and related details about the device that the entity used to perform the action on the affected resource. The details can include information such as the owner and geographic location of the IP address.
         public let ipAddressDetails: IpAddressDetails?
-        /// The type and other characteristics of the entity that performed the action on the affected resource.
+        /// The type and other characteristics of the entity that performed the action on the affected resource. This value is null if the action was performed by an anonymous (unauthenticated) entity.
         public let userIdentity: UserIdentity?
 
         public init(domainDetails: DomainDetails? = nil, ipAddressDetails: IpAddressDetails? = nil, userIdentity: UserIdentity? = nil) {
@@ -2589,23 +2696,26 @@ extension Macie2 {
     }
 
     public struct GetAutomatedDiscoveryConfigurationResponse: AWSDecodableShape {
-        /// The unique identifier for the classification scope that's used when performing automated sensitive data discovery for the account. The classification scope specifies S3 buckets to exclude from automated sensitive data discovery.
+        /// Specifies whether automated sensitive data discovery is enabled automatically for accounts in the organization. Possible values are: ALL, enable it for all existing accounts and new member accounts; NEW, enable it only for new member accounts; and, NONE, don't enable it for any accounts.
+        public let autoEnableOrganizationMembers: AutoEnableMode?
+        /// The unique identifier for the classification scope that's used when performing automated sensitive data discovery. The classification scope specifies S3 buckets to exclude from analyses.
         public let classificationScopeId: String?
-        /// The date and time, in UTC and extended ISO 8601 format, when automated sensitive data discovery was most recently disabled for the account. This value is null if automated sensitive data discovery wasn't enabled and subsequently disabled for the account.
+        /// The date and time, in UTC and extended ISO 8601 format, when automated sensitive data discovery was most recently disabled. This value is null if automated sensitive data discovery is currently enabled.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var disabledAt: Date?
-        /// The date and time, in UTC and extended ISO 8601 format, when automated sensitive data discovery was initially enabled for the account. This value is null if automated sensitive data discovery has never been enabled for the account.
+        /// The date and time, in UTC and extended ISO 8601 format, when automated sensitive data discovery was initially enabled. This value is null if automated sensitive data discovery has never been enabled.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var firstEnabledAt: Date?
-        /// The date and time, in UTC and extended ISO 8601 format, when automated sensitive data discovery was most recently enabled or disabled for the account.
+        /// The date and time, in UTC and extended ISO 8601 format, when the configuration settings or status of automated sensitive data discovery was most recently changed.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
-        /// The unique identifier for the sensitivity inspection template that's used when performing automated sensitive data discovery for the account. The template specifies which allow lists, custom data identifiers, and managed data identifiers to use when analyzing data.
+        /// The unique identifier for the sensitivity inspection template that's used when performing automated sensitive data discovery. The template specifies which allow lists, custom data identifiers, and managed data identifiers to use when analyzing data.
         public let sensitivityInspectionTemplateId: String?
-        /// The current status of the automated sensitive data discovery configuration for the account. Possible values are: ENABLED, use the specified settings to perform automated sensitive data discovery activities for the account; and, DISABLED, don't perform automated sensitive data discovery activities for the account.
+        /// The current status of automated sensitive data discovery for the organization or account. Possible values are: ENABLED, use the specified settings to perform automated sensitive data discovery activities; and, DISABLED, don't perform automated sensitive data discovery activities.
         public let status: AutomatedDiscoveryStatus?
 
-        public init(classificationScopeId: String? = nil, disabledAt: Date? = nil, firstEnabledAt: Date? = nil, lastUpdatedAt: Date? = nil, sensitivityInspectionTemplateId: String? = nil, status: AutomatedDiscoveryStatus? = nil) {
+        public init(autoEnableOrganizationMembers: AutoEnableMode? = nil, classificationScopeId: String? = nil, disabledAt: Date? = nil, firstEnabledAt: Date? = nil, lastUpdatedAt: Date? = nil, sensitivityInspectionTemplateId: String? = nil, status: AutomatedDiscoveryStatus? = nil) {
+            self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
             self.classificationScopeId = classificationScopeId
             self.disabledAt = disabledAt
             self.firstEnabledAt = firstEnabledAt
@@ -2615,6 +2725,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoEnableOrganizationMembers = "autoEnableOrganizationMembers"
             case classificationScopeId = "classificationScopeId"
             case disabledAt = "disabledAt"
             case firstEnabledAt = "firstEnabledAt"
@@ -3265,9 +3376,9 @@ extension Macie2 {
     public struct GetSensitivityInspectionTemplateResponse: AWSDecodableShape {
         /// The custom description of the template.
         public let description: String?
-        /// The managed data identifiers that are explicitly excluded (not used) when analyzing data.
+        /// The managed data identifiers that are explicitly excluded (not used) when performing automated sensitive data discovery.
         public let excludes: SensitivityInspectionTemplateExcludes?
-        /// The allow lists, custom data identifiers, and managed data identifiers that are explicitly included (used) when analyzing data.
+        /// The allow lists, custom data identifiers, and managed data identifiers that are explicitly included (used) when performing automated sensitive data discovery.
         public let includes: SensitivityInspectionTemplateIncludes?
         /// The name of the template: automated-sensitive-data-discovery.
         public let name: String?
@@ -3545,11 +3656,11 @@ extension Macie2 {
     }
 
     public struct JobDetails: AWSDecodableShape {
-        /// Specifies whether any one-time or recurring jobs are configured to analyze data in the bucket. Possible values are: TRUE - The bucket is explicitly included in the bucket definition (S3BucketDefinitionForJob) for one or more jobs and at least one of those jobs has a status other than CANCELLED. Or the bucket matched the bucket criteria (S3BucketCriteriaForJob) for at least one job that previously ran. FALSE - The bucket isn't explicitly included in the bucket definition (S3BucketDefinitionForJob) for any jobs, all the jobs that explicitly include the bucket in their bucket definitions have a status of CANCELLED, or the bucket didn't match the bucket criteria (S3BucketCriteriaForJob) for any jobs that previously ran. UNKNOWN - An exception occurred when Amazon Macie attempted to retrieve job data for the bucket.
+        /// Specifies whether any one-time or recurring jobs are configured to analyze objects in the bucket. Possible values are: TRUE - The bucket is explicitly included in the bucket definition (S3BucketDefinitionForJob) for one or more jobs and at least one of those jobs has a status other than CANCELLED. Or the bucket matched the bucket criteria (S3BucketCriteriaForJob) for at least one job that previously ran. FALSE - The bucket isn't explicitly included in the bucket definition (S3BucketDefinitionForJob) for any jobs, all the jobs that explicitly include the bucket in their bucket definitions have a status of CANCELLED, or the bucket didn't match the bucket criteria (S3BucketCriteriaForJob) for any jobs that previously ran. UNKNOWN - An exception occurred when Amazon Macie attempted to retrieve job data for the bucket.
         public let isDefinedInJob: IsDefinedInJob?
-        /// Specifies whether any recurring jobs are configured to analyze data in the bucket. Possible values are: TRUE - The bucket is explicitly included in the bucket definition (S3BucketDefinitionForJob) for one or more recurring jobs or the bucket matches the bucket criteria (S3BucketCriteriaForJob) for one or more recurring jobs. At least one of those jobs has a status other than CANCELLED. FALSE - The bucket isn't explicitly included in the bucket definition (S3BucketDefinitionForJob) for any recurring jobs, the bucket doesn't match the bucket criteria (S3BucketCriteriaForJob) for any recurring jobs, or all the recurring jobs that are configured to analyze data in the bucket have a status of CANCELLED. UNKNOWN - An exception occurred when Amazon Macie attempted to retrieve job data for the bucket.
+        /// Specifies whether any recurring jobs are configured to analyze objects in the bucket. Possible values are: TRUE - The bucket is explicitly included in the bucket definition (S3BucketDefinitionForJob) for one or more recurring jobs or the bucket matches the bucket criteria (S3BucketCriteriaForJob) for one or more recurring jobs. At least one of those jobs has a status other than CANCELLED. FALSE - The bucket isn't explicitly included in the bucket definition (S3BucketDefinitionForJob) for any recurring jobs, the bucket doesn't match the bucket criteria (S3BucketCriteriaForJob) for any recurring jobs, or all the recurring jobs that are configured to analyze data in the bucket have a status of CANCELLED. UNKNOWN - An exception occurred when Amazon Macie attempted to retrieve job data for the bucket.
         public let isMonitoredByJob: IsMonitoredByJob?
-        /// The unique identifier for the job that ran most recently and is configured to analyze data in the bucket, either the latest run of a recurring job or the only run of a one-time job. This value is typically null if the value for the isDefinedInJob property is FALSE or UNKNOWN.
+        /// The unique identifier for the job that ran most recently and is configured to analyze objects in the bucket, either the latest run of a recurring job or the only run of a one-time job. This value is typically null if the value for the isDefinedInJob property is FALSE or UNKNOWN.
         public let lastJobId: String?
         /// The date and time, in UTC and extended ISO 8601 format, when the job (lastJobId) started. If the job is a recurring job, this value indicates when the most recent run started. This value is typically null if the value for the isDefinedInJob property is FALSE or UNKNOWN.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -3736,6 +3847,53 @@ extension Macie2 {
 
         private enum CodingKeys: String, CodingKey {
             case allowLists = "allowLists"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAutomatedDiscoveryAccountsRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID for each account, for as many as 50 accounts. To retrieve the status for multiple accounts, append the accountIds parameter and argument for each account, separated by an ampersand (&amp;). To retrieve the status for all the accounts in an organization, omit this parameter.
+        public let accountIds: [String]?
+        /// The maximum number of items to include in each page of a paginated response.
+        public let maxResults: Int?
+        /// The nextToken string that specifies which page of results to return in a paginated response.
+        public let nextToken: String?
+
+        public init(accountIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountIds = accountIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.accountIds, key: "accountIds")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAutomatedDiscoveryAccountsResponse: AWSDecodableShape {
+        /// An array of objects, one for each account specified in the request. Each object specifies the Amazon Web Services account ID for an account and the current status of automated sensitive data discovery for that account.
+        public let items: [AutomatedDiscoveryAccount]?
+        /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
+        public let nextToken: String?
+
+        public init(items: [AutomatedDiscoveryAccount]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
             case nextToken = "nextToken"
         }
     }
@@ -4335,6 +4493,8 @@ extension Macie2 {
     public struct MatchingBucket: AWSDecodableShape {
         /// The unique identifier for the Amazon Web Services account that owns the bucket.
         public let accountId: String?
+        /// Specifies whether automated sensitive data discovery is currently configured to analyze objects in the bucket. Possible values are: MONITORED, the bucket is included in analyses; and, NOT_MONITORED, the bucket is excluded from analyses. If automated sensitive data discovery is disabled for your account, this value is NOT_MONITORED.
+        public let automatedDiscoveryMonitoringStatus: AutomatedDiscoveryMonitoringStatus?
         /// The name of the bucket.
         public let bucketName: String?
         /// The total number of objects that Amazon Macie can analyze in the bucket. These objects use a supported storage class and have a file name extension for a supported file or storage format.
@@ -4347,14 +4507,14 @@ extension Macie2 {
         public let errorMessage: String?
         /// Specifies whether any one-time or recurring classification jobs are configured to analyze objects in the bucket, and, if so, the details of the job that ran most recently.
         public let jobDetails: JobDetails?
-        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently analyzed data in the bucket while performing automated sensitive data discovery for your account. This value is null if automated sensitive data discovery is currently disabled for your account.
+        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently analyzed objects in the bucket while performing automated sensitive data discovery. This value is null if automated sensitive data discovery is disabled for your account.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastAutomatedDiscoveryTime: Date?
         /// The total number of objects in the bucket.
         public let objectCount: Int64?
         /// The total number of objects in the bucket, grouped by server-side encryption type. This includes a grouping that reports the total number of objects that aren't encrypted or use client-side encryption.
         public let objectCountByEncryptionType: ObjectCountByEncryptionType?
-        /// The current sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive). This value is null if automated sensitive data discovery is currently disabled for your account.
+        /// The sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive).If automated sensitive data discovery has never been enabled for your account or it’s been disabled for your organization or your standalone account for more than 30 days, possible values are: 1, the bucket is empty; or, 50, the bucket stores objects but it’s been excluded from recent analyses.
         public let sensitivityScore: Int?
         /// The total storage size, in bytes, of the bucket. If versioning is enabled for the bucket, Amazon Macie calculates this value based on the size of the latest version of each object in the bucket. This value doesn't reflect the storage size of all versions of each object in the bucket.
         public let sizeInBytes: Int64?
@@ -4365,8 +4525,9 @@ extension Macie2 {
         /// The total storage size, in bytes, of the objects that Amazon Macie can't analyze in the bucket. These objects don't use a supported storage class or don't have a file name extension for a supported file or storage format.
         public let unclassifiableObjectSizeInBytes: ObjectLevelStatistics?
 
-        public init(accountId: String? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, errorCode: BucketMetadataErrorCode? = nil, errorMessage: String? = nil, jobDetails: JobDetails? = nil, lastAutomatedDiscoveryTime: Date? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, sensitivityScore: Int? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil) {
+        public init(accountId: String? = nil, automatedDiscoveryMonitoringStatus: AutomatedDiscoveryMonitoringStatus? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, errorCode: BucketMetadataErrorCode? = nil, errorMessage: String? = nil, jobDetails: JobDetails? = nil, lastAutomatedDiscoveryTime: Date? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, sensitivityScore: Int? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil) {
             self.accountId = accountId
+            self.automatedDiscoveryMonitoringStatus = automatedDiscoveryMonitoringStatus
             self.bucketName = bucketName
             self.classifiableObjectCount = classifiableObjectCount
             self.classifiableSizeInBytes = classifiableSizeInBytes
@@ -4385,6 +4546,7 @@ extension Macie2 {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
+            case automatedDiscoveryMonitoringStatus = "automatedDiscoveryMonitoringStatus"
             case bucketName = "bucketName"
             case classifiableObjectCount = "classifiableObjectCount"
             case classifiableSizeInBytes = "classifiableSizeInBytes"
@@ -4984,7 +5146,7 @@ extension Macie2 {
     }
 
     public struct S3Destination: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the bucket.
+        /// The name of the bucket. This must be the name of an existing general purpose bucket.
         public let bucketName: String?
         /// The path prefix to use in the path to the location in the bucket. This prefix specifies where to store classification results in the bucket.
         public let keyPrefix: String?
@@ -5220,7 +5382,7 @@ extension Macie2 {
         public let comparator: SearchResourcesComparator?
         /// The property to use in the condition.
         public let key: SearchResourcesSimpleCriterionKey?
-        /// An array that lists one or more values to use in the condition. If you specify multiple values, Amazon Macie uses OR logic to join the values. Valid values for each supported property (key) are: ACCOUNT_ID - A string that represents the unique identifier for the Amazon Web Services account that owns the resource. S3_BUCKET_EFFECTIVE_PERMISSION - A string that represents an enumerated value that Macie defines for the BucketPublicAccess.effectivePermission property of an S3 bucket. S3_BUCKET_NAME - A string that represents the name of an S3 bucket. S3_BUCKET_SHARED_ACCESS - A string that represents an enumerated value that Macie defines for the BucketMetadata.sharedAccess property of an S3 bucket. Values are case sensitive. Also, Macie doesn't support use of partial values or wildcard characters in values.
+        /// An array that lists one or more values to use in the condition. If you specify multiple values, Amazon Macie uses OR logic to join the values. Valid values for each supported property (key) are: ACCOUNT_ID - A string that represents the unique identifier for the Amazon Web Services account that owns the resource. AUTOMATED_DISCOVERY_MONITORING_STATUS - A string that represents an enumerated value that Macie defines for the BucketMetadata.automatedDiscoveryMonitoringStatus property of an S3 bucket. S3_BUCKET_EFFECTIVE_PERMISSION - A string that represents an enumerated value that Macie defines for the BucketPublicAccess.effectivePermission property of an S3 bucket. S3_BUCKET_NAME - A string that represents the name of an S3 bucket. S3_BUCKET_SHARED_ACCESS - A string that represents an enumerated value that Macie defines for the BucketMetadata.sharedAccess property of an S3 bucket. Values are case sensitive. Also, Macie doesn't support use of partial values or wildcard characters in values.
         public let values: [String]?
 
         public init(comparator: SearchResourcesComparator? = nil, key: SearchResourcesSimpleCriterionKey? = nil, values: [String]? = nil) {
@@ -5882,14 +6044,18 @@ extension Macie2 {
     }
 
     public struct UpdateAutomatedDiscoveryConfigurationRequest: AWSEncodableShape {
-        /// The new status of automated sensitive data discovery for the account. Valid values are: ENABLED, start or resume automated sensitive data discovery activities for the account; and, DISABLED, stop performing automated sensitive data discovery activities for the account. When you enable automated sensitive data discovery for the first time, Amazon Macie uses default configuration settings to determine which data sources to analyze and which managed data identifiers to use. To change these settings, use the UpdateClassificationScope and UpdateSensitivityInspectionTemplate operations, respectively. If you change the settings and subsequently disable the configuration, Amazon Macie retains your changes.
+        /// Specifies whether to automatically enable automated sensitive data discovery for accounts in the organization. Valid values are: ALL (default), enable it for all existing accounts and new member accounts; NEW, enable it only for new member accounts; and, NONE, don't enable it for any accounts. If you specify NEW or NONE, automated sensitive data discovery continues to be enabled for any existing accounts that it's currently enabled for. To enable or disable it for individual member accounts, specify NEW or NONE, and then enable or disable it for each account by using the BatchUpdateAutomatedDiscoveryAccounts operation.
+        public let autoEnableOrganizationMembers: AutoEnableMode?
+        /// The new status of automated sensitive data discovery for the organization or account. Valid values are: ENABLED, start or resume all automated sensitive data discovery activities; and, DISABLED, stop performing all automated sensitive data discovery activities. If you specify DISABLED for an administrator account, you also disable automated sensitive data discovery for all member accounts in the organization.
         public let status: AutomatedDiscoveryStatus?
 
-        public init(status: AutomatedDiscoveryStatus? = nil) {
+        public init(autoEnableOrganizationMembers: AutoEnableMode? = nil, status: AutomatedDiscoveryStatus? = nil) {
+            self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoEnableOrganizationMembers = "autoEnableOrganizationMembers"
             case status = "status"
         }
     }
@@ -6070,7 +6236,7 @@ extension Macie2 {
     }
 
     public struct UpdateOrganizationConfigurationRequest: AWSEncodableShape {
-        /// Specifies whether to enable Amazon Macie automatically for an account when the account is added to the organization in Organizations.
+        /// Specifies whether to enable Amazon Macie automatically for accounts that are added to the organization in Organizations.
         public let autoEnable: Bool?
 
         public init(autoEnable: Bool? = nil) {
@@ -6205,11 +6371,11 @@ extension Macie2 {
     public struct UpdateSensitivityInspectionTemplateRequest: AWSEncodableShape {
         /// A custom description of the template. The description can contain as many as 200 characters.
         public let description: String?
-        /// The managed data identifiers to explicitly exclude (not use) when analyzing data. To exclude an allow list or custom data identifier that's currently included by the template, update the values for the SensitivityInspectionTemplateIncludes.allowListIds and SensitivityInspectionTemplateIncludes.customDataIdentifierIds properties, respectively.
+        /// The managed data identifiers to explicitly exclude (not use) when performing automated sensitive data discovery. To exclude an allow list or custom data identifier that's currently included by the template, update the values for the SensitivityInspectionTemplateIncludes.allowListIds and SensitivityInspectionTemplateIncludes.customDataIdentifierIds properties, respectively.
         public let excludes: SensitivityInspectionTemplateExcludes?
         /// The unique identifier for the Amazon Macie resource that the request applies to.
         public let id: String
-        /// The allow lists, custom data identifiers, and managed data identifiers to explicitly include (use) when analyzing data.
+        /// The allow lists, custom data identifiers, and managed data identifiers to explicitly include (use) when performing automated sensitive data discovery.
         public let includes: SensitivityInspectionTemplateIncludes?
 
         public init(description: String? = nil, excludes: SensitivityInspectionTemplateExcludes? = nil, id: String, includes: SensitivityInspectionTemplateIncludes? = nil) {
@@ -6267,7 +6433,7 @@ extension Macie2 {
     public struct UsageRecord: AWSDecodableShape {
         /// The unique identifier for the Amazon Web Services account that the data applies to.
         public let accountId: String?
-        /// The date and time, in UTC and extended ISO 8601 format, when the free trial of automated sensitive data discovery started for the account. If the account is a member account in an organization, this value is the same as the value for the organization's Amazon Macie administrator account.
+        /// The date and time, in UTC and extended ISO 8601 format, when the free trial of automated sensitive data discovery started for the account. This value is null if automated sensitive data discovery hasn't been enabled for the account.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var automatedDiscoveryFreeTrialStartDate: Date?
         /// The date and time, in UTC and extended ISO 8601 format, when the Amazon Macie free trial started for the account.

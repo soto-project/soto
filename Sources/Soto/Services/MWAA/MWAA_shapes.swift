@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -152,7 +152,7 @@ extension MWAA {
         public let dagS3Path: String
         /// Defines whether the VPC endpoints configured for the environment are created, and managed, by the customer or by Amazon MWAA. If set to SERVICE, Amazon MWAA will create and manage the required VPC endpoints in your VPC. If set to CUSTOMER, you must create, and manage, the VPC endpoints for your VPC. If you choose to create an environment in a shared VPC, you must set this value to CUSTOMER. In a shared VPC deployment, the environment will remain in PENDING status until you create the VPC endpoints. If you do not take action to create the endpoints within 72 hours, the status will change to CREATE_FAILED. You can delete the failed environment and create a new one.
         public let endpointManagement: EndpointManagement?
-        /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large. For more information, see Amazon MWAA environment class.
+        /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, see Amazon MWAA environment class.
         public let environmentClass: String?
         /// The Amazon Resource Name (ARN) of the execution role for your environment. An execution role is an Amazon Web Services Identity and Access Management (IAM) role that grants MWAA permission to access Amazon Web Services services and resources used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see Amazon MWAA Execution role.
         public let executionRoleArn: String
@@ -160,8 +160,12 @@ extension MWAA {
         public let kmsKey: String?
         /// Defines the Apache Airflow logs to send to CloudWatch Logs.
         public let loggingConfiguration: LoggingConfigurationInput?
+        ///  The maximum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. For example, in scenarios where your workload requires network calls to the Apache Airflow REST API with a high transaction-per-second (TPS) rate, Amazon MWAA will increase the number of web servers up to the number set in MaxWebserers. As TPS rates decrease Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers.  Valid values: Accepts between 2 and 5. Defaults to 2.
+        public let maxWebservers: Int?
         /// The maximum number of workers that you want to run in your environment. MWAA scales the number of Apache Airflow workers up to the number you specify in the MaxWorkers field. For example, 20. When there are no more tasks running, and no more in the queue, MWAA disposes of the extra workers leaving the one worker that is included with your environment, or the number you specify in MinWorkers.
         public let maxWorkers: Int?
+        ///  The minimum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. As the transaction-per-second rate, and the network load, decrease, Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers.  Valid values: Accepts between 2 and 5. Defaults to 2.
+        public let minWebservers: Int?
         /// The minimum number of workers that you want to run in your environment. MWAA scales the number of Apache Airflow workers up to the number you specify in the MaxWorkers field. When there are no more tasks running, and no more in the queue, MWAA disposes of the extra workers leaving the worker count you specify in the MinWorkers field. For example, 2.
         public let minWorkers: Int?
         /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
@@ -191,7 +195,7 @@ extension MWAA {
         /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
         public let weeklyMaintenanceWindowStart: String?
 
-        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String, endpointManagement: EndpointManagement? = nil, environmentClass: String? = nil, executionRoleArn: String, kmsKey: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWorkers: Int? = nil, minWorkers: Int? = nil, name: String, networkConfiguration: NetworkConfiguration, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, sourceBucketArn: String, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, tags: [String: String]? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String, endpointManagement: EndpointManagement? = nil, environmentClass: String? = nil, executionRoleArn: String, kmsKey: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWebservers: Int? = nil, maxWorkers: Int? = nil, minWebservers: Int? = nil, minWorkers: Int? = nil, name: String, networkConfiguration: NetworkConfiguration, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, sourceBucketArn: String, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, tags: [String: String]? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
             self.dagS3Path = dagS3Path
@@ -200,7 +204,9 @@ extension MWAA {
             self.executionRoleArn = executionRoleArn
             self.kmsKey = kmsKey
             self.loggingConfiguration = loggingConfiguration
+            self.maxWebservers = maxWebservers
             self.maxWorkers = maxWorkers
+            self.minWebservers = minWebservers
             self.minWorkers = minWorkers
             self.name = name
             self.networkConfiguration = networkConfiguration
@@ -228,7 +234,9 @@ extension MWAA {
             try container.encode(self.executionRoleArn, forKey: .executionRoleArn)
             try container.encodeIfPresent(self.kmsKey, forKey: .kmsKey)
             try container.encodeIfPresent(self.loggingConfiguration, forKey: .loggingConfiguration)
+            try container.encodeIfPresent(self.maxWebservers, forKey: .maxWebservers)
             try container.encodeIfPresent(self.maxWorkers, forKey: .maxWorkers)
+            try container.encodeIfPresent(self.minWebservers, forKey: .minWebservers)
             try container.encodeIfPresent(self.minWorkers, forKey: .minWorkers)
             request.encodePath(self.name, key: "Name")
             try container.encode(self.networkConfiguration, forKey: .networkConfiguration)
@@ -268,7 +276,9 @@ extension MWAA {
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 1224)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(((arn:aws(-[a-z]+)?:kms:[a-z]{2}-[a-z]+-\\d:\\d+:)?key\\/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|(arn:aws(-[a-z]+)?:kms:[a-z]{2}-[a-z]+-\\d:\\d+:)?alias/.+)$")
+            try self.validate(self.maxWebservers, name: "maxWebservers", parent: name, min: 2)
             try self.validate(self.maxWorkers, name: "maxWorkers", parent: name, min: 1)
+            try self.validate(self.minWebservers, name: "minWebservers", parent: name, min: 2)
             try self.validate(self.minWorkers, name: "minWorkers", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -317,7 +327,9 @@ extension MWAA {
             case executionRoleArn = "ExecutionRoleArn"
             case kmsKey = "KmsKey"
             case loggingConfiguration = "LoggingConfiguration"
+            case maxWebservers = "MaxWebservers"
             case maxWorkers = "MaxWorkers"
+            case minWebservers = "MinWebservers"
             case minWorkers = "MinWorkers"
             case networkConfiguration = "NetworkConfiguration"
             case pluginsS3ObjectVersion = "PluginsS3ObjectVersion"
@@ -442,7 +454,7 @@ extension MWAA {
     public struct Environment: AWSDecodableShape {
         /// A list of key-value pairs containing the Apache Airflow configuration options attached to your environment. For more information, see Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2.
+        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1.
         public let airflowVersion: String?
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment.
         public let arn: String?
@@ -456,7 +468,7 @@ extension MWAA {
         public let databaseVpcEndpointService: String?
         /// Defines whether the VPC endpoints configured for the environment are created, and managed, by the customer or by Amazon MWAA. If set to SERVICE, Amazon MWAA will create and manage the required VPC endpoints in your VPC. If set to CUSTOMER, you must create, and manage, the VPC endpoints in your VPC.
         public let endpointManagement: EndpointManagement?
-        /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large. For more information, see Amazon MWAA environment class.
+        /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, see Amazon MWAA environment class.
         public let environmentClass: String?
         /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see Amazon MWAA Execution role.
         public let executionRoleArn: String?
@@ -466,8 +478,12 @@ extension MWAA {
         public let lastUpdate: LastUpdate?
         /// The Apache Airflow logs published to CloudWatch Logs.
         public let loggingConfiguration: LoggingConfiguration?
+        ///  The maximum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. For example, in scenarios where your workload requires network calls to the Apache Airflow REST API with a high transaction-per-second (TPS) rate, Amazon MWAA will increase the number of web servers up to the number set in MaxWebserers. As TPS rates decrease Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers.  Valid values: Accepts between 2 and 5. Defaults to 2.
+        public let maxWebservers: Int?
         /// The maximum number of workers that run in your environment. For example, 20.
         public let maxWorkers: Int?
+        ///  The minimum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. As the transaction-per-second rate, and the network load, decrease, Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers.  Valid values: Accepts between 2 and 5. Defaults to 2.
+        public let minWebservers: Int?
         /// The minimum number of workers that run in your environment. For example, 2.
         public let minWorkers: Int?
         /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
@@ -505,7 +521,7 @@ extension MWAA {
         /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. For example: TUE:03:30.
         public let weeklyMaintenanceWindowStart: String?
 
-        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, arn: String? = nil, celeryExecutorQueue: String? = nil, createdAt: Date? = nil, dagS3Path: String? = nil, databaseVpcEndpointService: String? = nil, endpointManagement: EndpointManagement? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, kmsKey: String? = nil, lastUpdate: LastUpdate? = nil, loggingConfiguration: LoggingConfiguration? = nil, maxWorkers: Int? = nil, minWorkers: Int? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, serviceRoleArn: String? = nil, sourceBucketArn: String? = nil, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, status: EnvironmentStatus? = nil, tags: [String: String]? = nil, webserverAccessMode: WebserverAccessMode? = nil, webserverUrl: String? = nil, webserverVpcEndpointService: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, arn: String? = nil, celeryExecutorQueue: String? = nil, createdAt: Date? = nil, dagS3Path: String? = nil, databaseVpcEndpointService: String? = nil, endpointManagement: EndpointManagement? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, kmsKey: String? = nil, lastUpdate: LastUpdate? = nil, loggingConfiguration: LoggingConfiguration? = nil, maxWebservers: Int? = nil, maxWorkers: Int? = nil, minWebservers: Int? = nil, minWorkers: Int? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, serviceRoleArn: String? = nil, sourceBucketArn: String? = nil, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, status: EnvironmentStatus? = nil, tags: [String: String]? = nil, webserverAccessMode: WebserverAccessMode? = nil, webserverUrl: String? = nil, webserverVpcEndpointService: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
             self.arn = arn
@@ -519,7 +535,9 @@ extension MWAA {
             self.kmsKey = kmsKey
             self.lastUpdate = lastUpdate
             self.loggingConfiguration = loggingConfiguration
+            self.maxWebservers = maxWebservers
             self.maxWorkers = maxWorkers
+            self.minWebservers = minWebservers
             self.minWorkers = minWorkers
             self.name = name
             self.networkConfiguration = networkConfiguration
@@ -554,7 +572,9 @@ extension MWAA {
             case kmsKey = "KmsKey"
             case lastUpdate = "LastUpdate"
             case loggingConfiguration = "LoggingConfiguration"
+            case maxWebservers = "MaxWebservers"
             case maxWorkers = "MaxWorkers"
+            case minWebservers = "MinWebservers"
             case minWorkers = "MinWorkers"
             case name = "Name"
             case networkConfiguration = "NetworkConfiguration"
@@ -1019,18 +1039,22 @@ extension MWAA {
     public struct UpdateEnvironmentInput: AWSEncodableShape {
         /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see Upgrading an Amazon MWAA environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2.
+        /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see Upgrading an Amazon MWAA environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1.
         public let airflowVersion: String?
         /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see Adding or updating DAGs.
         public let dagS3Path: String?
-        /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large. For more information, see Amazon MWAA environment class.
+        /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, see Amazon MWAA environment class.
         public let environmentClass: String?
         /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see Amazon MWAA Execution role.
         public let executionRoleArn: String?
         /// The Apache Airflow log types to send to CloudWatch Logs.
         public let loggingConfiguration: LoggingConfigurationInput?
+        ///  The maximum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. For example, in scenarios where your workload requires network calls to the Apache Airflow REST API with a high transaction-per-second (TPS) rate, Amazon MWAA will increase the number of web servers up to the number set in MaxWebserers. As TPS rates decrease Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers.  Valid values: Accepts between 2 and 5. Defaults to 2.
+        public let maxWebservers: Int?
         /// The maximum number of workers that you want to run in your environment. MWAA scales the number of Apache Airflow workers up to the number you specify in the MaxWorkers field. For example, 20. When there are no more tasks running, and no more in the queue, MWAA disposes of the extra workers leaving the one worker that is included with your environment, or the number you specify in MinWorkers.
         public let maxWorkers: Int?
+        ///  The minimum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. As the transaction-per-second rate, and the network load, decrease, Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers.  Valid values: Accepts between 2 and 5. Defaults to 2.
+        public let minWebservers: Int?
         /// The minimum number of workers that you want to run in your environment. MWAA scales the number of Apache Airflow workers up to the number you specify in the MaxWorkers field. When there are no more tasks running, and no more in the queue, MWAA disposes of the extra workers leaving the worker count you specify in the MinWorkers field. For example, 2.
         public let minWorkers: Int?
         /// The name of your Amazon MWAA environment. For example, MyMWAAEnvironment.
@@ -1058,14 +1082,16 @@ extension MWAA {
         /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
         public let weeklyMaintenanceWindowStart: String?
 
-        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWorkers: Int? = nil, minWorkers: Int? = nil, name: String, networkConfiguration: UpdateNetworkConfigurationInput? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, sourceBucketArn: String? = nil, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWebservers: Int? = nil, maxWorkers: Int? = nil, minWebservers: Int? = nil, minWorkers: Int? = nil, name: String, networkConfiguration: UpdateNetworkConfigurationInput? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, schedulers: Int? = nil, sourceBucketArn: String? = nil, startupScriptS3ObjectVersion: String? = nil, startupScriptS3Path: String? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
             self.dagS3Path = dagS3Path
             self.environmentClass = environmentClass
             self.executionRoleArn = executionRoleArn
             self.loggingConfiguration = loggingConfiguration
+            self.maxWebservers = maxWebservers
             self.maxWorkers = maxWorkers
+            self.minWebservers = minWebservers
             self.minWorkers = minWorkers
             self.name = name
             self.networkConfiguration = networkConfiguration
@@ -1090,7 +1116,9 @@ extension MWAA {
             try container.encodeIfPresent(self.environmentClass, forKey: .environmentClass)
             try container.encodeIfPresent(self.executionRoleArn, forKey: .executionRoleArn)
             try container.encodeIfPresent(self.loggingConfiguration, forKey: .loggingConfiguration)
+            try container.encodeIfPresent(self.maxWebservers, forKey: .maxWebservers)
             try container.encodeIfPresent(self.maxWorkers, forKey: .maxWorkers)
+            try container.encodeIfPresent(self.minWebservers, forKey: .minWebservers)
             try container.encodeIfPresent(self.minWorkers, forKey: .minWorkers)
             request.encodePath(self.name, key: "Name")
             try container.encodeIfPresent(self.networkConfiguration, forKey: .networkConfiguration)
@@ -1126,7 +1154,9 @@ extension MWAA {
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 1224)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.maxWebservers, name: "maxWebservers", parent: name, min: 2)
             try self.validate(self.maxWorkers, name: "maxWorkers", parent: name, min: 1)
+            try self.validate(self.minWebservers, name: "minWebservers", parent: name, min: 2)
             try self.validate(self.minWorkers, name: "minWorkers", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -1163,7 +1193,9 @@ extension MWAA {
             case environmentClass = "EnvironmentClass"
             case executionRoleArn = "ExecutionRoleArn"
             case loggingConfiguration = "LoggingConfiguration"
+            case maxWebservers = "MaxWebservers"
             case maxWorkers = "MaxWorkers"
+            case minWebservers = "MinWebservers"
             case minWorkers = "MinWorkers"
             case networkConfiguration = "NetworkConfiguration"
             case pluginsS3ObjectVersion = "PluginsS3ObjectVersion"
