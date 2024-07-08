@@ -169,7 +169,7 @@ extension S3Tests {
                     }
 
                     XCTFail("First multipartUpload was successful")
-                } catch S3ErrorType.multipart.abortedUpload(let resumeRequest, _) {
+                } catch S3ErrorType.MultipartError.abortedUpload(let resumeRequest, _) {
                     do {
                         _ = try await s3.resumeMultipartUpload(
                             resumeRequest,
@@ -181,7 +181,7 @@ extension S3Tests {
                             guard $0 < 0.95 else { throw CancelError() }
                             print("Progress \($0 * 100)")
                         }
-                    } catch S3ErrorType.multipart.abortedUpload(let resumeRequest, _) {
+                    } catch S3ErrorType.MultipartError.abortedUpload(let resumeRequest, _) {
                         _ = try await s3.resumeMultipartUpload(
                             resumeRequest,
                             partSize: 5 * 1024 * 1024,
