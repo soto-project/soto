@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -335,6 +335,8 @@ extension BedrockAgent {
         public let failureReasons: [String]?
         /// The foundation model used for orchestration by the agent.
         public let foundationModel: String?
+        /// The guardrails configuration assigned to the agent.
+        public let guardrailConfiguration: GuardrailConfiguration?
         /// The number of seconds for which Amazon Bedrock keeps information about a user's conversation with the agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
         public let idleSessionTTLInSeconds: Int
         /// Instructions that tell the agent what it should do and how it should interact with users.
@@ -350,7 +352,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
-        public init(agentArn: String, agentId: String, agentName: String, agentResourceRoleArn: String, agentStatus: AgentStatus, agentVersion: String, clientToken: String? = nil, createdAt: Date, customerEncryptionKeyArn: String? = nil, description: String? = nil, failureReasons: [String]? = nil, foundationModel: String? = nil, idleSessionTTLInSeconds: Int, instruction: String? = nil, preparedAt: Date? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, recommendedActions: [String]? = nil, updatedAt: Date) {
+        public init(agentArn: String, agentId: String, agentName: String, agentResourceRoleArn: String, agentStatus: AgentStatus, agentVersion: String, clientToken: String? = nil, createdAt: Date, customerEncryptionKeyArn: String? = nil, description: String? = nil, failureReasons: [String]? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int, instruction: String? = nil, preparedAt: Date? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, recommendedActions: [String]? = nil, updatedAt: Date) {
             self.agentArn = agentArn
             self.agentId = agentId
             self.agentName = agentName
@@ -363,6 +365,7 @@ extension BedrockAgent {
             self.description = description
             self.failureReasons = failureReasons
             self.foundationModel = foundationModel
+            self.guardrailConfiguration = guardrailConfiguration
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.instruction = instruction
             self.preparedAt = preparedAt
@@ -384,6 +387,7 @@ extension BedrockAgent {
             case description = "description"
             case failureReasons = "failureReasons"
             case foundationModel = "foundationModel"
+            case guardrailConfiguration = "guardrailConfiguration"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case instruction = "instruction"
             case preparedAt = "preparedAt"
@@ -677,17 +681,20 @@ extension BedrockAgent {
         public let agentStatus: AgentStatus
         /// The description of the agent.
         public let description: String?
+        /// The details of the guardrails configuration in the agent summary.
+        public let guardrailConfiguration: GuardrailConfiguration?
         /// The latest version of the agent.
         public let latestAgentVersion: String?
         /// The time at which the agent was last updated.
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
-        public init(agentId: String, agentName: String, agentStatus: AgentStatus, description: String? = nil, latestAgentVersion: String? = nil, updatedAt: Date) {
+        public init(agentId: String, agentName: String, agentStatus: AgentStatus, description: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, latestAgentVersion: String? = nil, updatedAt: Date) {
             self.agentId = agentId
             self.agentName = agentName
             self.agentStatus = agentStatus
             self.description = description
+            self.guardrailConfiguration = guardrailConfiguration
             self.latestAgentVersion = latestAgentVersion
             self.updatedAt = updatedAt
         }
@@ -697,6 +704,7 @@ extension BedrockAgent {
             case agentName = "agentName"
             case agentStatus = "agentStatus"
             case description = "description"
+            case guardrailConfiguration = "guardrailConfiguration"
             case latestAgentVersion = "latestAgentVersion"
             case updatedAt = "updatedAt"
         }
@@ -724,6 +732,8 @@ extension BedrockAgent {
         public let failureReasons: [String]?
         /// The foundation model that the version invokes.
         public let foundationModel: String?
+        /// The guardrails configuration assigned to the agent version.
+        public let guardrailConfiguration: GuardrailConfiguration?
         /// The number of seconds for which Amazon Bedrock keeps information about a user's conversation with the agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
         public let idleSessionTTLInSeconds: Int
         /// The instructions provided to the agent.
@@ -738,7 +748,7 @@ extension BedrockAgent {
         /// The version number.
         public let version: String
 
-        public init(agentArn: String, agentId: String, agentName: String, agentResourceRoleArn: String, agentStatus: AgentStatus, createdAt: Date, customerEncryptionKeyArn: String? = nil, description: String? = nil, failureReasons: [String]? = nil, foundationModel: String? = nil, idleSessionTTLInSeconds: Int, instruction: String? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, recommendedActions: [String]? = nil, updatedAt: Date, version: String) {
+        public init(agentArn: String, agentId: String, agentName: String, agentResourceRoleArn: String, agentStatus: AgentStatus, createdAt: Date, customerEncryptionKeyArn: String? = nil, description: String? = nil, failureReasons: [String]? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int, instruction: String? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, recommendedActions: [String]? = nil, updatedAt: Date, version: String) {
             self.agentArn = agentArn
             self.agentId = agentId
             self.agentName = agentName
@@ -749,6 +759,7 @@ extension BedrockAgent {
             self.description = description
             self.failureReasons = failureReasons
             self.foundationModel = foundationModel
+            self.guardrailConfiguration = guardrailConfiguration
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.instruction = instruction
             self.promptOverrideConfiguration = promptOverrideConfiguration
@@ -768,6 +779,7 @@ extension BedrockAgent {
             case description = "description"
             case failureReasons = "failureReasons"
             case foundationModel = "foundationModel"
+            case guardrailConfiguration = "guardrailConfiguration"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case instruction = "instruction"
             case promptOverrideConfiguration = "promptOverrideConfiguration"
@@ -789,16 +801,19 @@ extension BedrockAgent {
         public var createdAt: Date
         /// The description of the version of the agent.
         public let description: String?
+        /// The details of the guardrails configuration in the agent version summary.
+        public let guardrailConfiguration: GuardrailConfiguration?
         /// The time at which the version was last updated.
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
-        public init(agentName: String, agentStatus: AgentStatus, agentVersion: String, createdAt: Date, description: String? = nil, updatedAt: Date) {
+        public init(agentName: String, agentStatus: AgentStatus, agentVersion: String, createdAt: Date, description: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, updatedAt: Date) {
             self.agentName = agentName
             self.agentStatus = agentStatus
             self.agentVersion = agentVersion
             self.createdAt = createdAt
             self.description = description
+            self.guardrailConfiguration = guardrailConfiguration
             self.updatedAt = updatedAt
         }
 
@@ -808,6 +823,7 @@ extension BedrockAgent {
             case agentVersion = "agentVersion"
             case createdAt = "createdAt"
             case description = "description"
+            case guardrailConfiguration = "guardrailConfiguration"
             case updatedAt = "updatedAt"
         }
     }
@@ -869,6 +885,24 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case agentKnowledgeBase = "agentKnowledgeBase"
+        }
+    }
+
+    public struct BedrockEmbeddingModelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The dimensions details for the vector configuration used on the Bedrock embeddings model.
+        public let dimensions: Int?
+
+        public init(dimensions: Int? = nil) {
+            self.dimensions = dimensions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 4096)
+            try self.validate(self.dimensions, name: "dimensions", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "dimensions"
         }
     }
 
@@ -1070,6 +1104,8 @@ extension BedrockAgent {
         public let description: String?
         /// The foundation model to be used for orchestration by the agent you create.
         public let foundationModel: String?
+        /// The unique Guardrail configuration assigned to the agent when it is created.
+        public let guardrailConfiguration: GuardrailConfiguration?
         /// The number of seconds for which Amazon Bedrock keeps information about a user's conversation with the agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
         public let idleSessionTTLInSeconds: Int?
         /// Instructions that tell the agent what it should do and how it should interact with users.
@@ -1079,13 +1115,14 @@ extension BedrockAgent {
         /// Any tags that you want to attach to the agent.
         public let tags: [String: String]?
 
-        public init(agentName: String, agentResourceRoleArn: String? = nil, clientToken: String? = CreateAgentRequest.idempotencyToken(), customerEncryptionKeyArn: String? = nil, description: String? = nil, foundationModel: String? = nil, idleSessionTTLInSeconds: Int? = nil, instruction: String? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(agentName: String, agentResourceRoleArn: String? = nil, clientToken: String? = CreateAgentRequest.idempotencyToken(), customerEncryptionKeyArn: String? = nil, description: String? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int? = nil, instruction: String? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, tags: [String: String]? = nil) {
             self.agentName = agentName
             self.agentResourceRoleArn = agentResourceRoleArn
             self.clientToken = clientToken
             self.customerEncryptionKeyArn = customerEncryptionKeyArn
             self.description = description
             self.foundationModel = foundationModel
+            self.guardrailConfiguration = guardrailConfiguration
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.instruction = instruction
             self.promptOverrideConfiguration = promptOverrideConfiguration
@@ -1095,7 +1132,7 @@ extension BedrockAgent {
         public func validate(name: String) throws {
             try self.validate(self.agentName, name: "agentName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.validate(self.agentResourceRoleArn, name: "agentResourceRoleArn", parent: name, max: 2048)
-            try self.validate(self.agentResourceRoleArn, name: "agentResourceRoleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/(service-role/)?AmazonBedrockExecutionRoleForAgents_.+$")
+            try self.validate(self.agentResourceRoleArn, name: "agentResourceRoleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
@@ -1107,9 +1144,10 @@ extension BedrockAgent {
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, max: 2048)
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, min: 1)
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.guardrailConfiguration?.validate(name: "\(name).guardrailConfiguration")
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 3600)
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
-            try self.validate(self.instruction, name: "instruction", parent: name, max: 1200)
+            try self.validate(self.instruction, name: "instruction", parent: name, max: 4000)
             try self.validate(self.instruction, name: "instruction", parent: name, min: 40)
             try self.promptOverrideConfiguration?.validate(name: "\(name).promptOverrideConfiguration")
             try self.tags?.forEach {
@@ -1128,6 +1166,7 @@ extension BedrockAgent {
             case customerEncryptionKeyArn = "customerEncryptionKeyArn"
             case description = "description"
             case foundationModel = "foundationModel"
+            case guardrailConfiguration = "guardrailConfiguration"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case instruction = "instruction"
             case promptOverrideConfiguration = "promptOverrideConfiguration"
@@ -1715,6 +1754,23 @@ extension BedrockAgent {
         public init() {}
     }
 
+    public struct EmbeddingModelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The vector configuration details on the Bedrock embeddings model.
+        public let bedrockEmbeddingModelConfiguration: BedrockEmbeddingModelConfiguration?
+
+        public init(bedrockEmbeddingModelConfiguration: BedrockEmbeddingModelConfiguration? = nil) {
+            self.bedrockEmbeddingModelConfiguration = bedrockEmbeddingModelConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockEmbeddingModelConfiguration?.validate(name: "\(name).bedrockEmbeddingModelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockEmbeddingModelConfiguration = "bedrockEmbeddingModelConfiguration"
+        }
+    }
+
     public struct FixedSizeChunkingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The maximum number of tokens to include in a chunk.
         public let maxTokens: Int
@@ -2083,6 +2139,29 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case knowledgeBase = "knowledgeBase"
+        }
+    }
+
+    public struct GuardrailConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The guardrails identifier assigned to the guardrails configuration.
+        public let guardrailIdentifier: String?
+        /// The guardrails version assigned to the guardrails configuration.
+        public let guardrailVersion: String?
+
+        public init(guardrailIdentifier: String? = nil, guardrailVersion: String? = nil) {
+            self.guardrailIdentifier = guardrailIdentifier
+            self.guardrailVersion = guardrailVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([0-9]{1,8})|(DRAFT))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardrailIdentifier = "guardrailIdentifier"
+            case guardrailVersion = "guardrailVersion"
         }
     }
 
@@ -3158,7 +3237,7 @@ extension BedrockAgent {
     }
 
     public struct PromptConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see Prompt template placeholder variables.
+        /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see Prompt template placeholder variables. For more information, see Configure the prompt templates.
         public let basePromptTemplate: String?
         /// Contains inference parameters to use when the agent invokes a foundation model in the part of the agent sequence defined by the promptType. For more information, see Inference parameters for foundation models.
         public let inferenceConfiguration: InferenceConfiguration?
@@ -3197,7 +3276,7 @@ extension BedrockAgent {
     }
 
     public struct PromptOverrideConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the Lambda function to use when parsing the raw foundation model output in parts of the agent sequence. If you specify this field, at least one of the promptConfigurations must contain a parserMode value that is set to OVERRIDDEN.
+        /// The ARN of the Lambda function to use when parsing the raw foundation model output in parts of the agent sequence. If you specify this field, at least one of the promptConfigurations must contain a parserMode value that is set to OVERRIDDEN. For more information, see Parser Lambda function in Agents for Amazon Bedrock.
         public let overrideLambda: String?
         /// Contains configurations to override a prompt template in one part of an agent sequence. For more information, see Advanced prompts.
         public let promptConfigurations: [PromptConfiguration]
@@ -3839,6 +3918,8 @@ extension BedrockAgent {
         public let description: String?
         /// Specifies a new foundation model to be used for orchestration by the agent.
         public let foundationModel: String?
+        /// The unique Guardrail configuration assigned to the agent when it is updated.
+        public let guardrailConfiguration: GuardrailConfiguration?
         /// The number of seconds for which Amazon Bedrock keeps information about a user's conversation with the agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
         public let idleSessionTTLInSeconds: Int?
         /// Specifies new instructions that tell the agent what it should do and how it should interact with users.
@@ -3846,13 +3927,14 @@ extension BedrockAgent {
         /// Contains configurations to override prompts in different parts of an agent sequence. For more information, see Advanced prompts.
         public let promptOverrideConfiguration: PromptOverrideConfiguration?
 
-        public init(agentId: String, agentName: String, agentResourceRoleArn: String, customerEncryptionKeyArn: String? = nil, description: String? = nil, foundationModel: String? = nil, idleSessionTTLInSeconds: Int? = nil, instruction: String? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil) {
+        public init(agentId: String, agentName: String, agentResourceRoleArn: String, customerEncryptionKeyArn: String? = nil, description: String? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int? = nil, instruction: String? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil) {
             self.agentId = agentId
             self.agentName = agentName
             self.agentResourceRoleArn = agentResourceRoleArn
             self.customerEncryptionKeyArn = customerEncryptionKeyArn
             self.description = description
             self.foundationModel = foundationModel
+            self.guardrailConfiguration = guardrailConfiguration
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.instruction = instruction
             self.promptOverrideConfiguration = promptOverrideConfiguration
@@ -3867,6 +3949,7 @@ extension BedrockAgent {
             try container.encodeIfPresent(self.customerEncryptionKeyArn, forKey: .customerEncryptionKeyArn)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.foundationModel, forKey: .foundationModel)
+            try container.encodeIfPresent(self.guardrailConfiguration, forKey: .guardrailConfiguration)
             try container.encodeIfPresent(self.idleSessionTTLInSeconds, forKey: .idleSessionTTLInSeconds)
             try container.encodeIfPresent(self.instruction, forKey: .instruction)
             try container.encodeIfPresent(self.promptOverrideConfiguration, forKey: .promptOverrideConfiguration)
@@ -3876,7 +3959,7 @@ extension BedrockAgent {
             try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
             try self.validate(self.agentName, name: "agentName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.validate(self.agentResourceRoleArn, name: "agentResourceRoleArn", parent: name, max: 2048)
-            try self.validate(self.agentResourceRoleArn, name: "agentResourceRoleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/(service-role/)?AmazonBedrockExecutionRoleForAgents_.+$")
+            try self.validate(self.agentResourceRoleArn, name: "agentResourceRoleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+$")
             try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, min: 1)
             try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
@@ -3885,9 +3968,10 @@ extension BedrockAgent {
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, max: 2048)
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, min: 1)
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.guardrailConfiguration?.validate(name: "\(name).guardrailConfiguration")
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 3600)
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
-            try self.validate(self.instruction, name: "instruction", parent: name, max: 1200)
+            try self.validate(self.instruction, name: "instruction", parent: name, max: 4000)
             try self.validate(self.instruction, name: "instruction", parent: name, min: 40)
             try self.promptOverrideConfiguration?.validate(name: "\(name).promptOverrideConfiguration")
         }
@@ -3898,6 +3982,7 @@ extension BedrockAgent {
             case customerEncryptionKeyArn = "customerEncryptionKeyArn"
             case description = "description"
             case foundationModel = "foundationModel"
+            case guardrailConfiguration = "guardrailConfiguration"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case instruction = "instruction"
             case promptOverrideConfiguration = "promptOverrideConfiguration"
@@ -4075,19 +4160,24 @@ extension BedrockAgent {
     public struct VectorKnowledgeBaseConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the model used to create vector embeddings for the knowledge base.
         public let embeddingModelArn: String
+        /// The embeddings model configuration details for the vector model used in Knowledge Base.
+        public let embeddingModelConfiguration: EmbeddingModelConfiguration?
 
-        public init(embeddingModelArn: String) {
+        public init(embeddingModelArn: String, embeddingModelConfiguration: EmbeddingModelConfiguration? = nil) {
             self.embeddingModelArn = embeddingModelArn
+            self.embeddingModelConfiguration = embeddingModelConfiguration
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.embeddingModelArn, name: "embeddingModelArn", parent: name, max: 1011)
+            try self.validate(self.embeddingModelArn, name: "embeddingModelArn", parent: name, max: 2048)
             try self.validate(self.embeddingModelArn, name: "embeddingModelArn", parent: name, min: 20)
-            try self.validate(self.embeddingModelArn, name: "embeddingModelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))$")
+            try self.validate(self.embeddingModelArn, name: "embeddingModelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.embeddingModelConfiguration?.validate(name: "\(name).embeddingModelConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case embeddingModelArn = "embeddingModelArn"
+            case embeddingModelConfiguration = "embeddingModelConfiguration"
         }
     }
 

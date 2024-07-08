@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1942,7 +1942,7 @@ extension Firehose {
         /// The configuration of the HTTP endpoint selected as the destination.
         public let endpointConfiguration: HttpEndpointConfiguration
         public let processingConfiguration: ProcessingConfiguration?
-        /// The configuration of the requeste sent to the HTTP endpoint specified as the destination.
+        /// The configuration of the request sent to the HTTP endpoint that is specified as the destination.
         public let requestConfiguration: HttpEndpointRequestConfiguration?
         /// Describes the retry behavior in case Firehose is unable to deliver data to the specified HTTP endpoint destination, or if it doesn't receive a valid acknowledgment of receipt from the specified HTTP endpoint destination.
         public let retryOptions: HttpEndpointRetryOptions?
@@ -1951,8 +1951,10 @@ extension Firehose {
         /// Describes the S3 bucket backup options for the data that Firehose delivers to the HTTP endpoint destination. You can back up all documents (AllData) or only the documents that Firehose could not deliver to the specified HTTP endpoint destination (FailedDataOnly).
         public let s3BackupMode: HttpEndpointS3BackupMode?
         public let s3Configuration: S3DestinationConfiguration
+        ///  The configuration that defines how you access secrets for HTTP Endpoint destination.
+        public let secretsManagerConfiguration: SecretsManagerConfiguration?
 
-        public init(bufferingHints: HttpEndpointBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, endpointConfiguration: HttpEndpointConfiguration, processingConfiguration: ProcessingConfiguration? = nil, requestConfiguration: HttpEndpointRequestConfiguration? = nil, retryOptions: HttpEndpointRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: HttpEndpointS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration) {
+        public init(bufferingHints: HttpEndpointBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, endpointConfiguration: HttpEndpointConfiguration, processingConfiguration: ProcessingConfiguration? = nil, requestConfiguration: HttpEndpointRequestConfiguration? = nil, retryOptions: HttpEndpointRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: HttpEndpointS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, secretsManagerConfiguration: SecretsManagerConfiguration? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.endpointConfiguration = endpointConfiguration
@@ -1962,6 +1964,7 @@ extension Firehose {
             self.roleARN = roleARN
             self.s3BackupMode = s3BackupMode
             self.s3Configuration = s3Configuration
+            self.secretsManagerConfiguration = secretsManagerConfiguration
         }
 
         public func validate(name: String) throws {
@@ -1975,6 +1978,7 @@ extension Firehose {
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
             try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
             try self.s3Configuration.validate(name: "\(name).s3Configuration")
+            try self.secretsManagerConfiguration?.validate(name: "\(name).secretsManagerConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1987,6 +1991,7 @@ extension Firehose {
             case roleARN = "RoleARN"
             case s3BackupMode = "S3BackupMode"
             case s3Configuration = "S3Configuration"
+            case secretsManagerConfiguration = "SecretsManagerConfiguration"
         }
     }
 
@@ -2006,8 +2011,10 @@ extension Firehose {
         /// Describes the S3 bucket backup options for the data that Kinesis Firehose delivers to the HTTP endpoint destination. You can back up all documents (AllData) or only the documents that Firehose could not deliver to the specified HTTP endpoint destination (FailedDataOnly).
         public let s3BackupMode: HttpEndpointS3BackupMode?
         public let s3DestinationDescription: S3DestinationDescription?
+        ///  The configuration that defines how you access secrets for HTTP Endpoint destination.
+        public let secretsManagerConfiguration: SecretsManagerConfiguration?
 
-        public init(bufferingHints: HttpEndpointBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, endpointConfiguration: HttpEndpointDescription? = nil, processingConfiguration: ProcessingConfiguration? = nil, requestConfiguration: HttpEndpointRequestConfiguration? = nil, retryOptions: HttpEndpointRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: HttpEndpointS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil) {
+        public init(bufferingHints: HttpEndpointBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, endpointConfiguration: HttpEndpointDescription? = nil, processingConfiguration: ProcessingConfiguration? = nil, requestConfiguration: HttpEndpointRequestConfiguration? = nil, retryOptions: HttpEndpointRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: HttpEndpointS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, secretsManagerConfiguration: SecretsManagerConfiguration? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.endpointConfiguration = endpointConfiguration
@@ -2017,6 +2024,7 @@ extension Firehose {
             self.roleARN = roleARN
             self.s3BackupMode = s3BackupMode
             self.s3DestinationDescription = s3DestinationDescription
+            self.secretsManagerConfiguration = secretsManagerConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2029,6 +2037,7 @@ extension Firehose {
             case roleARN = "RoleARN"
             case s3BackupMode = "S3BackupMode"
             case s3DestinationDescription = "S3DestinationDescription"
+            case secretsManagerConfiguration = "SecretsManagerConfiguration"
         }
     }
 
@@ -2048,8 +2057,10 @@ extension Firehose {
         /// Describes the S3 bucket backup options for the data that Kinesis Firehose delivers to the HTTP endpoint destination. You can back up all documents (AllData) or only the documents that Firehose could not deliver to the specified HTTP endpoint destination (FailedDataOnly).
         public let s3BackupMode: HttpEndpointS3BackupMode?
         public let s3Update: S3DestinationUpdate?
+        ///  The configuration that defines how you access secrets for HTTP Endpoint destination.
+        public let secretsManagerConfiguration: SecretsManagerConfiguration?
 
-        public init(bufferingHints: HttpEndpointBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, endpointConfiguration: HttpEndpointConfiguration? = nil, processingConfiguration: ProcessingConfiguration? = nil, requestConfiguration: HttpEndpointRequestConfiguration? = nil, retryOptions: HttpEndpointRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: HttpEndpointS3BackupMode? = nil, s3Update: S3DestinationUpdate? = nil) {
+        public init(bufferingHints: HttpEndpointBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, endpointConfiguration: HttpEndpointConfiguration? = nil, processingConfiguration: ProcessingConfiguration? = nil, requestConfiguration: HttpEndpointRequestConfiguration? = nil, retryOptions: HttpEndpointRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: HttpEndpointS3BackupMode? = nil, s3Update: S3DestinationUpdate? = nil, secretsManagerConfiguration: SecretsManagerConfiguration? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.endpointConfiguration = endpointConfiguration
@@ -2059,6 +2070,7 @@ extension Firehose {
             self.roleARN = roleARN
             self.s3BackupMode = s3BackupMode
             self.s3Update = s3Update
+            self.secretsManagerConfiguration = secretsManagerConfiguration
         }
 
         public func validate(name: String) throws {
@@ -2072,6 +2084,7 @@ extension Firehose {
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
             try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
             try self.s3Update?.validate(name: "\(name).s3Update")
+            try self.secretsManagerConfiguration?.validate(name: "\(name).secretsManagerConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2084,6 +2097,7 @@ extension Firehose {
             case roleARN = "RoleARN"
             case s3BackupMode = "S3BackupMode"
             case s3Update = "S3Update"
+            case secretsManagerConfiguration = "SecretsManagerConfiguration"
         }
     }
 
@@ -2722,7 +2736,7 @@ extension Firehose {
         /// The COPY command.
         public let copyCommand: CopyCommand
         /// The user password.
-        public let password: String
+        public let password: String?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
         /// The retry behavior in case Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
@@ -2735,10 +2749,12 @@ extension Firehose {
         public let s3BackupMode: RedshiftS3BackupMode?
         /// The configuration for the intermediate Amazon S3 location from which Amazon Redshift obtains data. Restrictions are described in the topic for CreateDeliveryStream. The compression formats SNAPPY or ZIP cannot be specified in RedshiftDestinationConfiguration.S3Configuration because the Amazon Redshift COPY operation that reads from the S3 bucket doesn't support these compression formats.
         public let s3Configuration: S3DestinationConfiguration
+        ///  The configuration that defines how you access secrets for Amazon Redshift.
+        public let secretsManagerConfiguration: SecretsManagerConfiguration?
         /// The name of the user.
-        public let username: String
+        public let username: String?
 
-        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterJDBCURL: String, copyCommand: CopyCommand, password: String, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RedshiftRetryOptions? = nil, roleARN: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, s3BackupMode: RedshiftS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, username: String) {
+        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterJDBCURL: String, copyCommand: CopyCommand, password: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RedshiftRetryOptions? = nil, roleARN: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, s3BackupMode: RedshiftS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, secretsManagerConfiguration: SecretsManagerConfiguration? = nil, username: String? = nil) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterJDBCURL = clusterJDBCURL
             self.copyCommand = copyCommand
@@ -2749,6 +2765,7 @@ extension Firehose {
             self.s3BackupConfiguration = s3BackupConfiguration
             self.s3BackupMode = s3BackupMode
             self.s3Configuration = s3Configuration
+            self.secretsManagerConfiguration = secretsManagerConfiguration
             self.username = username
         }
 
@@ -2768,6 +2785,7 @@ extension Firehose {
             try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
             try self.s3BackupConfiguration?.validate(name: "\(name).s3BackupConfiguration")
             try self.s3Configuration.validate(name: "\(name).s3Configuration")
+            try self.secretsManagerConfiguration?.validate(name: "\(name).secretsManagerConfiguration")
             try self.validate(self.username, name: "username", parent: name, max: 512)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: ".*")
@@ -2784,6 +2802,7 @@ extension Firehose {
             case s3BackupConfiguration = "S3BackupConfiguration"
             case s3BackupMode = "S3BackupMode"
             case s3Configuration = "S3Configuration"
+            case secretsManagerConfiguration = "SecretsManagerConfiguration"
             case username = "Username"
         }
     }
@@ -2807,10 +2826,12 @@ extension Firehose {
         public let s3BackupMode: RedshiftS3BackupMode?
         /// The Amazon S3 destination.
         public let s3DestinationDescription: S3DestinationDescription
+        ///  The configuration that defines how you access secrets for Amazon Redshift.
+        public let secretsManagerConfiguration: SecretsManagerConfiguration?
         /// The name of the user.
-        public let username: String
+        public let username: String?
 
-        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterJDBCURL: String, copyCommand: CopyCommand, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RedshiftRetryOptions? = nil, roleARN: String, s3BackupDescription: S3DestinationDescription? = nil, s3BackupMode: RedshiftS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription, username: String) {
+        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterJDBCURL: String, copyCommand: CopyCommand, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RedshiftRetryOptions? = nil, roleARN: String, s3BackupDescription: S3DestinationDescription? = nil, s3BackupMode: RedshiftS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription, secretsManagerConfiguration: SecretsManagerConfiguration? = nil, username: String? = nil) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterJDBCURL = clusterJDBCURL
             self.copyCommand = copyCommand
@@ -2820,6 +2841,7 @@ extension Firehose {
             self.s3BackupDescription = s3BackupDescription
             self.s3BackupMode = s3BackupMode
             self.s3DestinationDescription = s3DestinationDescription
+            self.secretsManagerConfiguration = secretsManagerConfiguration
             self.username = username
         }
 
@@ -2833,6 +2855,7 @@ extension Firehose {
             case s3BackupDescription = "S3BackupDescription"
             case s3BackupMode = "S3BackupMode"
             case s3DestinationDescription = "S3DestinationDescription"
+            case secretsManagerConfiguration = "SecretsManagerConfiguration"
             case username = "Username"
         }
     }
@@ -2858,10 +2881,12 @@ extension Firehose {
         public let s3BackupUpdate: S3DestinationUpdate?
         /// The Amazon S3 destination. The compression formats SNAPPY or ZIP cannot be specified in RedshiftDestinationUpdate.S3Update because the Amazon Redshift COPY operation that reads from the S3 bucket doesn't support these compression formats.
         public let s3Update: S3DestinationUpdate?
+        ///  The configuration that defines how you access secrets for Amazon Redshift.
+        public let secretsManagerConfiguration: SecretsManagerConfiguration?
         /// The name of the user.
         public let username: String?
 
-        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterJDBCURL: String? = nil, copyCommand: CopyCommand? = nil, password: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RedshiftRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: RedshiftS3BackupMode? = nil, s3BackupUpdate: S3DestinationUpdate? = nil, s3Update: S3DestinationUpdate? = nil, username: String? = nil) {
+        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, clusterJDBCURL: String? = nil, copyCommand: CopyCommand? = nil, password: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RedshiftRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: RedshiftS3BackupMode? = nil, s3BackupUpdate: S3DestinationUpdate? = nil, s3Update: S3DestinationUpdate? = nil, secretsManagerConfiguration: SecretsManagerConfiguration? = nil, username: String? = nil) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterJDBCURL = clusterJDBCURL
             self.copyCommand = copyCommand
@@ -2872,6 +2897,7 @@ extension Firehose {
             self.s3BackupMode = s3BackupMode
             self.s3BackupUpdate = s3BackupUpdate
             self.s3Update = s3Update
+            self.secretsManagerConfiguration = secretsManagerConfiguration
             self.username = username
         }
 
@@ -2891,6 +2917,7 @@ extension Firehose {
             try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
             try self.s3BackupUpdate?.validate(name: "\(name).s3BackupUpdate")
             try self.s3Update?.validate(name: "\(name).s3Update")
+            try self.secretsManagerConfiguration?.validate(name: "\(name).secretsManagerConfiguration")
             try self.validate(self.username, name: "username", parent: name, max: 512)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: ".*")
@@ -2907,6 +2934,7 @@ extension Firehose {
             case s3BackupMode = "S3BackupMode"
             case s3BackupUpdate = "S3BackupUpdate"
             case s3Update = "S3Update"
+            case secretsManagerConfiguration = "SecretsManagerConfiguration"
             case username = "Username"
         }
     }
@@ -3156,6 +3184,36 @@ extension Firehose {
         }
     }
 
+    public struct SecretsManagerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether you want to use the the secrets manager feature. When set as True the secrets manager configuration overwrites the existing secrets in the destination configuration. When it's set to False Firehose falls back to the credentials in the destination configuration.
+        public let enabled: Bool
+        ///  Specifies the role that Firehose assumes when calling the Secrets Manager API operation. When you provide the role, it overrides any destination specific role defined in the destination configuration. If you do not provide the then we use the destination specific role. This parameter is required for Splunk.
+        public let roleARN: String?
+        /// The ARN of the secret that stores your credentials. It must be in the same region as the Firehose stream and the role. The secret ARN can reside in a different account than the delivery stream and role as Firehose supports cross-account secret access. This parameter is required when Enabled is set to True.
+        public let secretARN: String?
+
+        public init(enabled: Bool, roleARN: String? = nil, secretARN: String? = nil) {
+            self.enabled = enabled
+            self.roleARN = roleARN
+            self.secretARN = secretARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.validate(self.secretARN, name: "secretARN", parent: name, max: 2048)
+            try self.validate(self.secretARN, name: "secretARN", parent: name, min: 1)
+            try self.validate(self.secretARN, name: "secretARN", parent: name, pattern: "^arn:")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case roleARN = "RoleARN"
+            case secretARN = "SecretARN"
+        }
+    }
+
     public struct Serializer: AWSEncodableShape & AWSDecodableShape {
         /// A serializer to use for converting data to the ORC format before storing it in Amazon S3. For more information, see Apache ORC.
         public let orcSerDe: OrcSerDe?
@@ -3193,7 +3251,7 @@ extension Firehose {
         /// The name of the record metadata column
         public let metaDataColumnName: String?
         /// The private key used to encrypt your Snowflake client. For information, see Using Key Pair Authentication & Key Rotation.
-        public let privateKey: String
+        public let privateKey: String?
         public let processingConfiguration: ProcessingConfiguration?
         /// The time period where Firehose will retry sending data to the chosen HTTP endpoint.
         public let retryOptions: SnowflakeRetryOptions?
@@ -3204,6 +3262,8 @@ extension Firehose {
         public let s3Configuration: S3DestinationConfiguration
         /// Each database consists of one or more schemas, which are logical groupings of database objects, such as tables and views
         public let schema: String
+        ///  The configuration that defines how you access secrets for Snowflake.
+        public let secretsManagerConfiguration: SecretsManagerConfiguration?
         /// Optionally configure a Snowflake role. Otherwise the default user role will be used.
         public let snowflakeRoleConfiguration: SnowflakeRoleConfiguration?
         /// The VPCE ID for Firehose to privately connect with Snowflake. The ID format is com.amazonaws.vpce.[region].vpce-svc-. For more information, see Amazon PrivateLink & Snowflake
@@ -3211,9 +3271,9 @@ extension Firehose {
         /// All data in Snowflake is stored in database tables, logically structured as collections of columns and rows.
         public let table: String
         /// User login name for the Snowflake account.
-        public let user: String
+        public let user: String?
 
-        public init(accountUrl: String, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, contentColumnName: String? = nil, database: String, dataLoadingOption: SnowflakeDataLoadingOption? = nil, keyPassphrase: String? = nil, metaDataColumnName: String? = nil, privateKey: String, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SnowflakeRetryOptions? = nil, roleARN: String, s3BackupMode: SnowflakeS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, schema: String, snowflakeRoleConfiguration: SnowflakeRoleConfiguration? = nil, snowflakeVpcConfiguration: SnowflakeVpcConfiguration? = nil, table: String, user: String) {
+        public init(accountUrl: String, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, contentColumnName: String? = nil, database: String, dataLoadingOption: SnowflakeDataLoadingOption? = nil, keyPassphrase: String? = nil, metaDataColumnName: String? = nil, privateKey: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SnowflakeRetryOptions? = nil, roleARN: String, s3BackupMode: SnowflakeS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, schema: String, secretsManagerConfiguration: SecretsManagerConfiguration? = nil, snowflakeRoleConfiguration: SnowflakeRoleConfiguration? = nil, snowflakeVpcConfiguration: SnowflakeVpcConfiguration? = nil, table: String, user: String? = nil) {
             self.accountUrl = accountUrl
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.contentColumnName = contentColumnName
@@ -3228,6 +3288,7 @@ extension Firehose {
             self.s3BackupMode = s3BackupMode
             self.s3Configuration = s3Configuration
             self.schema = schema
+            self.secretsManagerConfiguration = secretsManagerConfiguration
             self.snowflakeRoleConfiguration = snowflakeRoleConfiguration
             self.snowflakeVpcConfiguration = snowflakeVpcConfiguration
             self.table = table
@@ -3258,6 +3319,7 @@ extension Firehose {
             try self.s3Configuration.validate(name: "\(name).s3Configuration")
             try self.validate(self.schema, name: "schema", parent: name, max: 255)
             try self.validate(self.schema, name: "schema", parent: name, min: 1)
+            try self.secretsManagerConfiguration?.validate(name: "\(name).secretsManagerConfiguration")
             try self.snowflakeRoleConfiguration?.validate(name: "\(name).snowflakeRoleConfiguration")
             try self.snowflakeVpcConfiguration?.validate(name: "\(name).snowflakeVpcConfiguration")
             try self.validate(self.table, name: "table", parent: name, max: 255)
@@ -3281,6 +3343,7 @@ extension Firehose {
             case s3BackupMode = "S3BackupMode"
             case s3Configuration = "S3Configuration"
             case schema = "Schema"
+            case secretsManagerConfiguration = "SecretsManagerConfiguration"
             case snowflakeRoleConfiguration = "SnowflakeRoleConfiguration"
             case snowflakeVpcConfiguration = "SnowflakeVpcConfiguration"
             case table = "Table"
@@ -3310,6 +3373,8 @@ extension Firehose {
         public let s3DestinationDescription: S3DestinationDescription?
         /// Each database consists of one or more schemas, which are logical groupings of database objects, such as tables and views
         public let schema: String?
+        ///  The configuration that defines how you access secrets for Snowflake.
+        public let secretsManagerConfiguration: SecretsManagerConfiguration?
         /// Optionally configure a Snowflake role. Otherwise the default user role will be used.
         public let snowflakeRoleConfiguration: SnowflakeRoleConfiguration?
         /// The VPCE ID for Firehose to privately connect with Snowflake. The ID format is com.amazonaws.vpce.[region].vpce-svc-. For more information, see Amazon PrivateLink & Snowflake
@@ -3319,7 +3384,7 @@ extension Firehose {
         /// User login name for the Snowflake account.
         public let user: String?
 
-        public init(accountUrl: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, contentColumnName: String? = nil, database: String? = nil, dataLoadingOption: SnowflakeDataLoadingOption? = nil, metaDataColumnName: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SnowflakeRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: SnowflakeS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, schema: String? = nil, snowflakeRoleConfiguration: SnowflakeRoleConfiguration? = nil, snowflakeVpcConfiguration: SnowflakeVpcConfiguration? = nil, table: String? = nil, user: String? = nil) {
+        public init(accountUrl: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, contentColumnName: String? = nil, database: String? = nil, dataLoadingOption: SnowflakeDataLoadingOption? = nil, metaDataColumnName: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SnowflakeRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: SnowflakeS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, schema: String? = nil, secretsManagerConfiguration: SecretsManagerConfiguration? = nil, snowflakeRoleConfiguration: SnowflakeRoleConfiguration? = nil, snowflakeVpcConfiguration: SnowflakeVpcConfiguration? = nil, table: String? = nil, user: String? = nil) {
             self.accountUrl = accountUrl
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.contentColumnName = contentColumnName
@@ -3332,6 +3397,7 @@ extension Firehose {
             self.s3BackupMode = s3BackupMode
             self.s3DestinationDescription = s3DestinationDescription
             self.schema = schema
+            self.secretsManagerConfiguration = secretsManagerConfiguration
             self.snowflakeRoleConfiguration = snowflakeRoleConfiguration
             self.snowflakeVpcConfiguration = snowflakeVpcConfiguration
             self.table = table
@@ -3351,6 +3417,7 @@ extension Firehose {
             case s3BackupMode = "S3BackupMode"
             case s3DestinationDescription = "S3DestinationDescription"
             case schema = "Schema"
+            case secretsManagerConfiguration = "SecretsManagerConfiguration"
             case snowflakeRoleConfiguration = "SnowflakeRoleConfiguration"
             case snowflakeVpcConfiguration = "SnowflakeVpcConfiguration"
             case table = "Table"
@@ -3384,6 +3451,8 @@ extension Firehose {
         public let s3Update: S3DestinationUpdate?
         /// Each database consists of one or more schemas, which are logical groupings of database objects, such as tables and views
         public let schema: String?
+        ///  Describes the Secrets Manager configuration in Snowflake.
+        public let secretsManagerConfiguration: SecretsManagerConfiguration?
         /// Optionally configure a Snowflake role. Otherwise the default user role will be used.
         public let snowflakeRoleConfiguration: SnowflakeRoleConfiguration?
         /// All data in Snowflake is stored in database tables, logically structured as collections of columns and rows.
@@ -3391,7 +3460,7 @@ extension Firehose {
         /// User login name for the Snowflake account.
         public let user: String?
 
-        public init(accountUrl: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, contentColumnName: String? = nil, database: String? = nil, dataLoadingOption: SnowflakeDataLoadingOption? = nil, keyPassphrase: String? = nil, metaDataColumnName: String? = nil, privateKey: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SnowflakeRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: SnowflakeS3BackupMode? = nil, s3Update: S3DestinationUpdate? = nil, schema: String? = nil, snowflakeRoleConfiguration: SnowflakeRoleConfiguration? = nil, table: String? = nil, user: String? = nil) {
+        public init(accountUrl: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, contentColumnName: String? = nil, database: String? = nil, dataLoadingOption: SnowflakeDataLoadingOption? = nil, keyPassphrase: String? = nil, metaDataColumnName: String? = nil, privateKey: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SnowflakeRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: SnowflakeS3BackupMode? = nil, s3Update: S3DestinationUpdate? = nil, schema: String? = nil, secretsManagerConfiguration: SecretsManagerConfiguration? = nil, snowflakeRoleConfiguration: SnowflakeRoleConfiguration? = nil, table: String? = nil, user: String? = nil) {
             self.accountUrl = accountUrl
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.contentColumnName = contentColumnName
@@ -3406,6 +3475,7 @@ extension Firehose {
             self.s3BackupMode = s3BackupMode
             self.s3Update = s3Update
             self.schema = schema
+            self.secretsManagerConfiguration = secretsManagerConfiguration
             self.snowflakeRoleConfiguration = snowflakeRoleConfiguration
             self.table = table
             self.user = user
@@ -3435,6 +3505,7 @@ extension Firehose {
             try self.s3Update?.validate(name: "\(name).s3Update")
             try self.validate(self.schema, name: "schema", parent: name, max: 255)
             try self.validate(self.schema, name: "schema", parent: name, min: 1)
+            try self.secretsManagerConfiguration?.validate(name: "\(name).secretsManagerConfiguration")
             try self.snowflakeRoleConfiguration?.validate(name: "\(name).snowflakeRoleConfiguration")
             try self.validate(self.table, name: "table", parent: name, max: 255)
             try self.validate(self.table, name: "table", parent: name, min: 1)
@@ -3457,6 +3528,7 @@ extension Firehose {
             case s3BackupMode = "S3BackupMode"
             case s3Update = "S3Update"
             case schema = "Schema"
+            case secretsManagerConfiguration = "SecretsManagerConfiguration"
             case snowflakeRoleConfiguration = "SnowflakeRoleConfiguration"
             case table = "Table"
             case user = "User"
@@ -3575,7 +3647,7 @@ extension Firehose {
         /// This type can be either "Raw" or "Event."
         public let hecEndpointType: HECEndpointType
         /// This is a GUID that you obtain from your Splunk cluster when you create a new HEC endpoint.
-        public let hecToken: String
+        public let hecToken: String?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
         /// The retry behavior in case Firehose is unable to deliver data to Splunk, or if it doesn't receive an acknowledgment of receipt from Splunk.
@@ -3584,8 +3656,10 @@ extension Firehose {
         public let s3BackupMode: SplunkS3BackupMode?
         /// The configuration for the backup Amazon S3 location.
         public let s3Configuration: S3DestinationConfiguration
+        ///  The configuration that defines how you access secrets for Splunk.
+        public let secretsManagerConfiguration: SecretsManagerConfiguration?
 
-        public init(bufferingHints: SplunkBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hecAcknowledgmentTimeoutInSeconds: Int? = nil, hecEndpoint: String, hecEndpointType: HECEndpointType, hecToken: String, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration) {
+        public init(bufferingHints: SplunkBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hecAcknowledgmentTimeoutInSeconds: Int? = nil, hecEndpoint: String, hecEndpointType: HECEndpointType, hecToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, secretsManagerConfiguration: SecretsManagerConfiguration? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hecAcknowledgmentTimeoutInSeconds = hecAcknowledgmentTimeoutInSeconds
@@ -3596,6 +3670,7 @@ extension Firehose {
             self.retryOptions = retryOptions
             self.s3BackupMode = s3BackupMode
             self.s3Configuration = s3Configuration
+            self.secretsManagerConfiguration = secretsManagerConfiguration
         }
 
         public func validate(name: String) throws {
@@ -3610,6 +3685,7 @@ extension Firehose {
             try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.s3Configuration.validate(name: "\(name).s3Configuration")
+            try self.secretsManagerConfiguration?.validate(name: "\(name).secretsManagerConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3623,6 +3699,7 @@ extension Firehose {
             case retryOptions = "RetryOptions"
             case s3BackupMode = "S3BackupMode"
             case s3Configuration = "S3Configuration"
+            case secretsManagerConfiguration = "SecretsManagerConfiguration"
         }
     }
 
@@ -3647,8 +3724,10 @@ extension Firehose {
         public let s3BackupMode: SplunkS3BackupMode?
         /// The Amazon S3 destination.>
         public let s3DestinationDescription: S3DestinationDescription?
+        ///  The configuration that defines how you access secrets for Splunk.
+        public let secretsManagerConfiguration: SecretsManagerConfiguration?
 
-        public init(bufferingHints: SplunkBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hecAcknowledgmentTimeoutInSeconds: Int? = nil, hecEndpoint: String? = nil, hecEndpointType: HECEndpointType? = nil, hecToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil) {
+        public init(bufferingHints: SplunkBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hecAcknowledgmentTimeoutInSeconds: Int? = nil, hecEndpoint: String? = nil, hecEndpointType: HECEndpointType? = nil, hecToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, secretsManagerConfiguration: SecretsManagerConfiguration? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hecAcknowledgmentTimeoutInSeconds = hecAcknowledgmentTimeoutInSeconds
@@ -3659,6 +3738,7 @@ extension Firehose {
             self.retryOptions = retryOptions
             self.s3BackupMode = s3BackupMode
             self.s3DestinationDescription = s3DestinationDescription
+            self.secretsManagerConfiguration = secretsManagerConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3672,6 +3752,7 @@ extension Firehose {
             case retryOptions = "RetryOptions"
             case s3BackupMode = "S3BackupMode"
             case s3DestinationDescription = "S3DestinationDescription"
+            case secretsManagerConfiguration = "SecretsManagerConfiguration"
         }
     }
 
@@ -3696,8 +3777,10 @@ extension Firehose {
         public let s3BackupMode: SplunkS3BackupMode?
         /// Your update to the configuration of the backup Amazon S3 location.
         public let s3Update: S3DestinationUpdate?
+        ///  The configuration that defines how you access secrets for Splunk.
+        public let secretsManagerConfiguration: SecretsManagerConfiguration?
 
-        public init(bufferingHints: SplunkBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hecAcknowledgmentTimeoutInSeconds: Int? = nil, hecEndpoint: String? = nil, hecEndpointType: HECEndpointType? = nil, hecToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Update: S3DestinationUpdate? = nil) {
+        public init(bufferingHints: SplunkBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hecAcknowledgmentTimeoutInSeconds: Int? = nil, hecEndpoint: String? = nil, hecEndpointType: HECEndpointType? = nil, hecToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Update: S3DestinationUpdate? = nil, secretsManagerConfiguration: SecretsManagerConfiguration? = nil) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hecAcknowledgmentTimeoutInSeconds = hecAcknowledgmentTimeoutInSeconds
@@ -3708,6 +3791,7 @@ extension Firehose {
             self.retryOptions = retryOptions
             self.s3BackupMode = s3BackupMode
             self.s3Update = s3Update
+            self.secretsManagerConfiguration = secretsManagerConfiguration
         }
 
         public func validate(name: String) throws {
@@ -3722,6 +3806,7 @@ extension Firehose {
             try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.s3Update?.validate(name: "\(name).s3Update")
+            try self.secretsManagerConfiguration?.validate(name: "\(name).secretsManagerConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3735,6 +3820,7 @@ extension Firehose {
             case retryOptions = "RetryOptions"
             case s3BackupMode = "S3BackupMode"
             case s3Update = "S3Update"
+            case secretsManagerConfiguration = "SecretsManagerConfiguration"
         }
     }
 
@@ -3919,7 +4005,7 @@ extension Firehose {
         public let redshiftDestinationUpdate: RedshiftDestinationUpdate?
         /// [Deprecated] Describes an update for a destination in Amazon S3.
         public let s3DestinationUpdate: S3DestinationUpdate?
-        /// Update to the Snowflake destination condiguration settings
+        /// Update to the Snowflake destination configuration settings.
         public let snowflakeDestinationUpdate: SnowflakeDestinationUpdate?
         /// Describes an update for a destination in Splunk.
         public let splunkDestinationUpdate: SplunkDestinationUpdate?

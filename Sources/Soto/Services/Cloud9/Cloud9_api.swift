@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -60,6 +60,7 @@ public struct Cloud9: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-09-23",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: Cloud9ErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -71,6 +72,33 @@ public struct Cloud9: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "cloud9.af-south-1.api.aws",
+            "ap-east-1": "cloud9.ap-east-1.api.aws",
+            "ap-northeast-1": "cloud9.ap-northeast-1.api.aws",
+            "ap-northeast-2": "cloud9.ap-northeast-2.api.aws",
+            "ap-northeast-3": "cloud9.ap-northeast-3.api.aws",
+            "ap-south-1": "cloud9.ap-south-1.api.aws",
+            "ap-southeast-1": "cloud9.ap-southeast-1.api.aws",
+            "ap-southeast-2": "cloud9.ap-southeast-2.api.aws",
+            "ca-central-1": "cloud9.ca-central-1.api.aws",
+            "eu-central-1": "cloud9.eu-central-1.api.aws",
+            "eu-north-1": "cloud9.eu-north-1.api.aws",
+            "eu-south-1": "cloud9.eu-south-1.api.aws",
+            "eu-west-1": "cloud9.eu-west-1.api.aws",
+            "eu-west-2": "cloud9.eu-west-2.api.aws",
+            "eu-west-3": "cloud9.eu-west-3.api.aws",
+            "il-central-1": "cloud9.il-central-1.api.aws",
+            "me-south-1": "cloud9.me-south-1.api.aws",
+            "sa-east-1": "cloud9.sa-east-1.api.aws",
+            "us-east-1": "cloud9.us-east-1.api.aws",
+            "us-east-2": "cloud9.us-east-2.api.aws",
+            "us-west-1": "cloud9.us-west-1.api.aws",
+            "us-west-2": "cloud9.us-west-2.api.aws"
+        ])
+    ]}
 
     // MARK: API Calls
 

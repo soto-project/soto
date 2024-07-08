@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -45,6 +45,11 @@ extension Pipes {
         public var description: String { return self.rawValue }
     }
 
+    public enum DimensionValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case varchar = "VARCHAR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DynamoDBStreamStartPosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case latest = "LATEST"
         case trimHorizon = "TRIM_HORIZON"
@@ -59,6 +64,14 @@ extension Pipes {
     public enum EcsResourceRequirementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gpu = "GPU"
         case inferenceAccelerator = "InferenceAccelerator"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EpochTimeUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case microseconds = "MICROSECONDS"
+        case milliseconds = "MILLISECONDS"
+        case nanoseconds = "NANOSECONDS"
+        case seconds = "SECONDS"
         public var description: String { return self.rawValue }
     }
 
@@ -92,6 +105,15 @@ extension Pipes {
     public enum MSKStartPosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case latest = "LATEST"
         case trimHorizon = "TRIM_HORIZON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MeasureValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bigint = "BIGINT"
+        case boolean = "BOOLEAN"
+        case double = "DOUBLE"
+        case timestamp = "TIMESTAMP"
+        case varchar = "VARCHAR"
         public var description: String { return self.rawValue }
     }
 
@@ -166,6 +188,12 @@ extension Pipes {
     public enum SelfManagedKafkaStartPosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case latest = "LATEST"
         case trimHorizon = "TRIM_HORIZON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TimeFieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case epoch = "EPOCH"
+        case timestampFormat = "TIMESTAMP_FORMAT"
         public var description: String { return self.rawValue }
     }
 
@@ -304,9 +332,9 @@ extension Pipes {
     // MARK: Shapes
 
     public struct AwsVpcConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether the task's elastic network interface receives a public IP address. You can specify ENABLED only when  LaunchType in EcsParameters is set to FARGATE.
+        /// Specifies whether the task's elastic network interface receives a public IP address. You can specify ENABLED only when LaunchType in EcsParameters is set to FARGATE.
         public let assignPublicIp: AssignPublicIp?
-        /// Specifies the security groups associated with the task. These security groups must all be in the same VPC. You can specify as many  as five security groups. If you do not specify a security group, the default security group for the VPC is used.
+        /// Specifies the security groups associated with the task. These security groups must all be in the same VPC. You can specify as many as five security groups. If you do not specify a security group, the default security group for the VPC is used.
         public let securityGroups: [String]?
         /// Specifies the subnets associated with the task. These subnets must all be in the same VPC. You can specify as many as 16 subnets.
         public let subnets: [String]
@@ -360,11 +388,11 @@ extension Pipes {
     public struct BatchContainerOverrides: AWSEncodableShape & AWSDecodableShape {
         /// The command to send to the container that overrides the default command from the Docker image or the task definition.
         public let command: [String]?
-        /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing  environment variables from the Docker image or the task definition.  Environment variables cannot start with "Batch". This naming convention is reserved for variables that Batch sets.
+        /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the task definition.  Environment variables cannot start with "Batch". This naming convention is reserved for variables that Batch sets.
         public let environment: [BatchEnvironmentVariable]?
         /// The instance type to use for a multi-node parallel job.  This parameter isn't applicable to single-node container jobs or jobs that run on Fargate resources, and shouldn't be provided.
         public let instanceType: String?
-        /// The type and amount of resources to assign to a container. This overrides the settings in the job definition. The supported resources include GPU, MEMORY,  and VCPU.
+        /// The type and amount of resources to assign to a container. This overrides the settings in the job definition. The supported resources include GPU, MEMORY, and VCPU.
         public let resourceRequirements: [BatchResourceRequirement]?
 
         public init(command: [String]? = nil, environment: [BatchEnvironmentVariable]? = nil, instanceType: String? = nil, resourceRequirements: [BatchResourceRequirement]? = nil) {
@@ -419,7 +447,7 @@ extension Pipes {
     public struct BatchResourceRequirement: AWSEncodableShape & AWSDecodableShape {
         /// The type of resource to assign to a container. The supported resources include GPU, MEMORY, and VCPU.
         public let type: BatchResourceRequirementType
-        /// The quantity of the specified resource to reserve for the container. The values vary based on the type specified.  type="GPU"  The number of physical GPUs to reserve for the container. Make sure that the number of GPUs reserved for all containers in a job doesn't exceed the number of available GPUs on the compute resource that the job is launched on.  GPUs aren't available for jobs that are running on Fargate resources.   type="MEMORY"  The memory hard limit (in MiB) present to the container. This parameter is supported for jobs that are running on EC2 resources. If your container attempts to exceed the memory specified, the container is terminated. This parameter maps to Memory in the  Create a container section of the Docker Remote API  and the --memory option to docker run. You must specify at least 4 MiB of memory for a job. This is required but can be specified in several places for multi-node parallel (MNP) jobs. It must be specified for each node at least once. This parameter maps to Memory in the  Create a container section of the Docker Remote API and the --memory option to docker run.  If you're trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see Memory management in the Batch User Guide.  For jobs that are running on Fargate resources, then value is the hard limit (in MiB), and must match one of the supported values and the VCPU values must be one of the values supported for that memory value.  value = 512   VCPU = 0.25  value = 1024   VCPU = 0.25 or 0.5  value = 2048   VCPU = 0.25, 0.5, or 1  value = 3072   VCPU = 0.5, or 1  value = 4096   VCPU = 0.5, 1, or 2  value = 5120, 6144, or 7168   VCPU = 1 or 2  value = 8192   VCPU = 1, 2, 4, or 8  value = 9216, 10240, 11264, 12288, 13312, 14336, or 15360   VCPU = 2 or 4  value = 16384   VCPU = 2, 4, or 8  value = 17408, 18432, 19456, 21504, 22528, 23552, 25600, 26624, 27648, 29696, or 30720   VCPU = 4  value = 20480, 24576, or 28672   VCPU = 4 or 8  value = 36864, 45056, 53248, or 61440   VCPU = 8  value = 32768, 40960, 49152, or 57344   VCPU = 8 or 16  value = 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880   VCPU = 16    type="VCPU"  The number of vCPUs reserved for the container. This parameter maps to CpuShares in the  Create a container section of the Docker Remote API  and the --cpu-shares option to docker run. Each vCPU is equivalent to 1,024 CPU shares. For EC2 resources, you must specify at least one vCPU. This is required but can be specified in several places; it must be specified for each node at least once. The default for the Fargate On-Demand vCPU resource count quota is 6 vCPUs. For more information about Fargate quotas, see Fargate quotas in the Amazon Web Services General Reference. For jobs that are running on Fargate resources, then value must match one of the supported values and the MEMORY values must be one of the values supported for that VCPU value. The supported values are 0.25, 0.5, 1, 2, 4, 8, and 16  value = 0.25   MEMORY = 512, 1024, or 2048  value = 0.5   MEMORY = 1024, 2048, 3072, or 4096  value = 1   MEMORY = 2048, 3072, 4096, 5120, 6144, 7168, or 8192  value = 2   MEMORY = 4096, 5120, 6144, 7168, 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, or 16384  value = 4   MEMORY = 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, 16384, 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576, 25600, 26624, 27648, 28672, 29696, or 30720  value = 8   MEMORY = 16384, 20480, 24576, 28672, 32768, 36864, 40960, 45056, 49152, 53248, 57344, or 61440   value = 16   MEMORY = 32768, 40960, 49152, 57344, 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880
+        /// The quantity of the specified resource to reserve for the container. The values vary based on the type specified.  type="GPU"  The number of physical GPUs to reserve for the container. Make sure that the number of GPUs reserved for all containers in a job doesn't exceed the number of available GPUs on the compute resource that the job is launched on.  GPUs aren't available for jobs that are running on Fargate resources.   type="MEMORY"  The memory hard limit (in MiB) present to the container. This parameter is supported for jobs that are running on EC2 resources. If your container attempts to exceed the memory specified, the container is terminated. This parameter maps to Memory in the  Create a container section of the Docker Remote API and the --memory option to docker run. You must specify at least 4 MiB of memory for a job. This is required but can be specified in several places for multi-node parallel (MNP) jobs. It must be specified for each node at least once. This parameter maps to Memory in the  Create a container section of the Docker Remote API and the --memory option to docker run.  If you're trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see Memory management in the Batch User Guide.  For jobs that are running on Fargate resources, then value is the hard limit (in MiB), and must match one of the supported values and the VCPU values must be one of the values supported for that memory value.  value = 512   VCPU = 0.25  value = 1024   VCPU = 0.25 or 0.5  value = 2048   VCPU = 0.25, 0.5, or 1  value = 3072   VCPU = 0.5, or 1  value = 4096   VCPU = 0.5, 1, or 2  value = 5120, 6144, or 7168   VCPU = 1 or 2  value = 8192   VCPU = 1, 2, 4, or 8  value = 9216, 10240, 11264, 12288, 13312, 14336, or 15360   VCPU = 2 or 4  value = 16384   VCPU = 2, 4, or 8  value = 17408, 18432, 19456, 21504, 22528, 23552, 25600, 26624, 27648, 29696, or 30720   VCPU = 4  value = 20480, 24576, or 28672   VCPU = 4 or 8  value = 36864, 45056, 53248, or 61440   VCPU = 8  value = 32768, 40960, 49152, or 57344   VCPU = 8 or 16  value = 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880   VCPU = 16    type="VCPU"  The number of vCPUs reserved for the container. This parameter maps to CpuShares in the  Create a container section of the Docker Remote API and the --cpu-shares option to docker run. Each vCPU is equivalent to 1,024 CPU shares. For EC2 resources, you must specify at least one vCPU. This is required but can be specified in several places; it must be specified for each node at least once. The default for the Fargate On-Demand vCPU resource count quota is 6 vCPUs. For more information about Fargate quotas, see Fargate quotas in the Amazon Web Services General Reference. For jobs that are running on Fargate resources, then value must match one of the supported values and the MEMORY values must be one of the values supported for that VCPU value. The supported values are 0.25, 0.5, 1, 2, 4, 8, and 16  value = 0.25   MEMORY = 512, 1024, or 2048  value = 0.5   MEMORY = 1024, 2048, 3072, or 4096  value = 1   MEMORY = 2048, 3072, 4096, 5120, 6144, 7168, or 8192  value = 2   MEMORY = 4096, 5120, 6144, 7168, 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, or 16384  value = 4   MEMORY = 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, 16384, 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576, 25600, 26624, 27648, 28672, 29696, or 30720  value = 8   MEMORY = 16384, 20480, 24576, 28672, 32768, 36864, 40960, 45056, 49152, 53248, 57344, or 61440   value = 16   MEMORY = 32768, 40960, 49152, 57344, 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880
         public let value: String
 
         public init(type: BatchResourceRequirementType, value: String) {
@@ -434,7 +462,7 @@ extension Pipes {
     }
 
     public struct BatchRetryStrategy: AWSEncodableShape & AWSDecodableShape {
-        /// The number of times to move a job to the RUNNABLE status. If the value of attempts is greater than one, the job is retried on  failure the same number of attempts as the value.
+        /// The number of times to move a job to the RUNNABLE status. If the value of attempts is greater than one, the job is retried on failure the same number of attempts as the value.
         public let attempts: Int?
 
         public init(attempts: Int? = nil) {
@@ -824,18 +852,46 @@ extension Pipes {
         }
     }
 
+    public struct DimensionMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The metadata attributes of the time series. For example, the name and Availability Zone of an Amazon EC2 instance or the name of the manufacturer of a wind turbine are dimensions.
+        public let dimensionName: String
+        /// Dynamic path to the dimension value in the source event.
+        public let dimensionValue: String
+        /// The data type of the dimension for the time-series data.
+        public let dimensionValueType: DimensionValueType
+
+        public init(dimensionName: String, dimensionValue: String, dimensionValueType: DimensionValueType) {
+            self.dimensionName = dimensionName
+            self.dimensionValue = dimensionValue
+            self.dimensionValueType = dimensionValueType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dimensionName, name: "dimensionName", parent: name, max: 256)
+            try self.validate(self.dimensionName, name: "dimensionName", parent: name, min: 1)
+            try self.validate(self.dimensionValue, name: "dimensionValue", parent: name, max: 2048)
+            try self.validate(self.dimensionValue, name: "dimensionValue", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionName = "DimensionName"
+            case dimensionValue = "DimensionValue"
+            case dimensionValueType = "DimensionValueType"
+        }
+    }
+
     public struct EcsContainerOverride: AWSEncodableShape & AWSDecodableShape {
         /// The command to send to the container that overrides the default command from the Docker image or the task definition. You must also specify a container name.
         public let command: [String]?
         /// The number of cpu units reserved for the container, instead of the default value from the task definition. You must also specify a container name.
         public let cpu: Int?
-        /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can  override the existing environment variables from the Docker image or the task definition. You must also specify a container name.
+        /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the task definition. You must also specify a container name.
         public let environment: [EcsEnvironmentVariable]?
         /// A list of files containing the environment variables to pass to a container, instead of the value from the container definition.
         public let environmentFiles: [EcsEnvironmentFile]?
-        /// The hard limit (in MiB) of memory to present to the container, instead of the default value from the task definition.  If your container attempts to exceed the memory specified here, the container is killed. You must also specify a container name.
+        /// The hard limit (in MiB) of memory to present to the container, instead of the default value from the task definition. If your container attempts to exceed the memory specified here, the container is killed. You must also specify a container name.
         public let memory: Int?
-        /// The soft limit (in MiB) of memory to reserve for the container, instead of the default value from the task definition.  You must also specify a container name.
+        /// The soft limit (in MiB) of memory to reserve for the container, instead of the default value from the task definition. You must also specify a container name.
         public let memoryReservation: Int?
         /// The name of the container that receives the override. This parameter is required if any override is specified.
         public let name: String?
@@ -1036,7 +1092,7 @@ extension Pipes {
     }
 
     public struct FirehoseLogDestination: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Kinesis Data Firehose delivery stream to which EventBridge delivers the pipe log records.
+        /// The Amazon Resource Name (ARN) of the Firehose delivery stream to which EventBridge delivers the pipe log records.
         public let deliveryStreamArn: String?
 
         public init(deliveryStreamArn: String? = nil) {
@@ -1049,7 +1105,7 @@ extension Pipes {
     }
 
     public struct FirehoseLogDestinationParameters: AWSEncodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of the Kinesis Data Firehose delivery stream to which EventBridge delivers the pipe log records.
+        /// Specifies the Amazon Resource Name (ARN) of the Firehose delivery stream to which EventBridge delivers the pipe log records.
         public let deliveryStreamArn: String
 
         public init(deliveryStreamArn: String) {
@@ -1074,7 +1130,7 @@ extension Pipes {
         public let desiredState: RequestedPipeState?
         /// The maximum number of pipes to include in the response.
         public let limit: Int?
-        /// A value that will return a subset of the pipes associated with this account. For example, "NamePrefix": "ABC" will return  all endpoints with "ABC" in the name.
+        /// A value that will return a subset of the pipes associated with this account. For example, "NamePrefix": "ABC" will return all endpoints with "ABC" in the name.
         public let namePrefix: String?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination  token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
@@ -1175,6 +1231,61 @@ extension Pipes {
         }
     }
 
+    public struct MultiMeasureAttributeMapping: AWSEncodableShape & AWSDecodableShape {
+        /// Dynamic path to the measurement attribute in the source event.
+        public let measureValue: String
+        /// Data type of the measurement attribute in the source event.
+        public let measureValueType: MeasureValueType
+        /// Target measure name to be used.
+        public let multiMeasureAttributeName: String
+
+        public init(measureValue: String, measureValueType: MeasureValueType, multiMeasureAttributeName: String) {
+            self.measureValue = measureValue
+            self.measureValueType = measureValueType
+            self.multiMeasureAttributeName = multiMeasureAttributeName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.measureValue, name: "measureValue", parent: name, max: 2048)
+            try self.validate(self.measureValue, name: "measureValue", parent: name, min: 1)
+            try self.validate(self.multiMeasureAttributeName, name: "multiMeasureAttributeName", parent: name, max: 256)
+            try self.validate(self.multiMeasureAttributeName, name: "multiMeasureAttributeName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case measureValue = "MeasureValue"
+            case measureValueType = "MeasureValueType"
+            case multiMeasureAttributeName = "MultiMeasureAttributeName"
+        }
+    }
+
+    public struct MultiMeasureMapping: AWSEncodableShape & AWSDecodableShape {
+        /// Mappings that represent multiple source event fields mapped to measures in the same Timestream for LiveAnalytics record.
+        public let multiMeasureAttributeMappings: [MultiMeasureAttributeMapping]
+        /// The name of the multiple measurements per record (multi-measure).
+        public let multiMeasureName: String
+
+        public init(multiMeasureAttributeMappings: [MultiMeasureAttributeMapping], multiMeasureName: String) {
+            self.multiMeasureAttributeMappings = multiMeasureAttributeMappings
+            self.multiMeasureName = multiMeasureName
+        }
+
+        public func validate(name: String) throws {
+            try self.multiMeasureAttributeMappings.forEach {
+                try $0.validate(name: "\(name).multiMeasureAttributeMappings[]")
+            }
+            try self.validate(self.multiMeasureAttributeMappings, name: "multiMeasureAttributeMappings", parent: name, max: 256)
+            try self.validate(self.multiMeasureAttributeMappings, name: "multiMeasureAttributeMappings", parent: name, min: 1)
+            try self.validate(self.multiMeasureName, name: "multiMeasureName", parent: name, max: 256)
+            try self.validate(self.multiMeasureName, name: "multiMeasureName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiMeasureAttributeMappings = "MultiMeasureAttributeMappings"
+            case multiMeasureName = "MultiMeasureName"
+        }
+    }
+
     public struct NetworkConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Use this structure to specify the VPC subnets and security groups for the task, and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
         public let awsvpcConfiguration: AwsVpcConfiguration?
@@ -1246,7 +1357,7 @@ extension Pipes {
         public let headerParameters: [String: String]?
         /// The path parameter values to be used to populate API Gateway REST API or EventBridge ApiDestination path wildcards ("*").
         public let pathParameterValues: [String]?
-        /// The query string keys/values that need to be sent as part of request invoking the API Gateway  REST API or EventBridge ApiDestination.
+        /// The query string keys/values that need to be sent as part of request invoking the API Gateway REST API or EventBridge ApiDestination.
         public let queryStringParameters: [String: String]?
 
         public init(headerParameters: [String: String]? = nil, pathParameterValues: [String]? = nil, queryStringParameters: [String: String]? = nil) {
@@ -1305,9 +1416,9 @@ extension Pipes {
     public struct PipeLogConfiguration: AWSDecodableShape {
         /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
         public let cloudwatchLogsLogDestination: CloudwatchLogsLogDestination?
-        /// The Amazon Kinesis Data Firehose logging configuration settings for the pipe.
+        /// The Amazon Data Firehose logging configuration settings for the pipe.
         public let firehoseLogDestination: FirehoseLogDestination?
-        /// Whether the execution data (specifically, the payload,  awsRequest, and awsResponse fields) is included in the log messages for this pipe. This applies to all log destinations for the pipe. For more information, see Including execution data in logs in the Amazon EventBridge User Guide.
+        /// Whether the execution data (specifically, the payload, awsRequest, and awsResponse fields) is included in the log messages for this pipe. This applies to all log destinations for the pipe. For more information, see Including execution data in logs in the Amazon EventBridge User Guide.
         public let includeExecutionData: [IncludeExecutionDataOption]?
         /// The level of logging detail to include. This applies to all log destinations for the pipe.
         public let level: LogLevel?
@@ -1334,9 +1445,9 @@ extension Pipes {
     public struct PipeLogConfigurationParameters: AWSEncodableShape {
         /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
         public let cloudwatchLogsLogDestination: CloudwatchLogsLogDestinationParameters?
-        /// The Amazon Kinesis Data Firehose logging configuration settings for the pipe.
+        /// The Amazon Data Firehose logging configuration settings for the pipe.
         public let firehoseLogDestination: FirehoseLogDestinationParameters?
-        /// Specify ON to include the execution data (specifically, the payload and awsRequest fields) in the log messages for this pipe. This applies to all log destinations for the pipe. For more information, see Including execution data in logs in the Amazon EventBridge User Guide. The default is OFF.
+        /// Specify ALL to include the execution data (specifically, the payload, awsRequest, and awsResponse fields) in the log messages for this pipe. This applies to all log destinations for the pipe. For more information, see Including execution data in logs in the Amazon EventBridge User Guide. By default, execution data is not included.
         public let includeExecutionData: [IncludeExecutionDataOption]?
         /// The level of logging detail to include. This applies to all log destinations for the pipe. For more information, see Specifying EventBridge Pipes log level in the Amazon EventBridge User Guide.
         public let level: LogLevel
@@ -1581,7 +1692,7 @@ extension Pipes {
         public let managedStreamingKafkaParameters: PipeSourceManagedStreamingKafkaParameters?
         /// The parameters for using a Rabbit MQ broker as a source.
         public let rabbitMQBrokerParameters: PipeSourceRabbitMQBrokerParameters?
-        /// The parameters for using a self-managed Apache Kafka stream as a source.
+        /// The parameters for using a self-managed Apache Kafka stream as a source. A self managed cluster refers to any Apache Kafka cluster not hosted by Amazon Web Services. This includes both clusters you manage yourself, as well as those hosted by a third-party provider, such as Confluent Cloud, CloudKarafka, or Redpanda. For more information, see Apache Kafka streams as a source in the Amazon EventBridge User Guide.
         public let selfManagedKafkaParameters: PipeSourceSelfManagedKafkaParameters?
         /// The parameters for using a Amazon SQS stream as a source.
         public let sqsQueueParameters: PipeSourceSqsQueueParameters?
@@ -1761,13 +1872,13 @@ extension Pipes {
         public let arrayProperties: BatchArrayProperties?
         /// The overrides that are sent to a container.
         public let containerOverrides: BatchContainerOverrides?
-        /// A list of dependencies for the job. A job can depend upon a maximum of 20 jobs. You can specify a SEQUENTIAL type dependency without  specifying a job ID for array jobs so that each child array job completes sequentially, starting at index 0. You can also specify an N_TO_N  type dependency with a job ID for array jobs. In that case, each index child of this job must wait for the corresponding index child of each  dependency to complete before it can begin.
+        /// A list of dependencies for the job. A job can depend upon a maximum of 20 jobs. You can specify a SEQUENTIAL type dependency without specifying a job ID for array jobs so that each child array job completes sequentially, starting at index 0. You can also specify an N_TO_N type dependency with a job ID for array jobs. In that case, each index child of this job must wait for the corresponding index child of each dependency to complete before it can begin.
         public let dependsOn: [BatchJobDependency]?
-        /// The job definition used by this job. This value can be one of name, name:revision, or the Amazon Resource Name (ARN) for the job definition.  If name is specified without a revision then the latest active revision is used.
+        /// The job definition used by this job. This value can be one of name, name:revision, or the Amazon Resource Name (ARN) for the job definition. If name is specified without a revision then the latest active revision is used.
         public let jobDefinition: String
-        /// The name of the job. It can be up to 128 letters long. The first character must be alphanumeric, can contain uppercase and lowercase letters, numbers, hyphens (-),  and underscores (_).
+        /// The name of the job. It can be up to 128 letters long. The first character must be alphanumeric, can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
         public let jobName: String
-        /// Additional parameters passed to the job that replace parameter substitution placeholders that are set in the job definition. Parameters are specified as a key and  value pair mapping. Parameters included here override any corresponding parameter defaults from the job definition.
+        /// Additional parameters passed to the job that replace parameter substitution placeholders that are set in the job definition. Parameters are specified as a key and value pair mapping. Parameters included here override any corresponding parameter defaults from the job definition.
         public let parameters: [String: String]?
         /// The retry strategy to use for failed jobs. When a retry strategy is specified here, it overrides the retry strategy defined in the job definition.
         public let retryStrategy: BatchRetryStrategy?
@@ -1972,7 +2083,7 @@ extension Pipes {
         public let headerParameters: [String: String]?
         /// The path parameter values to be used to populate API Gateway REST API or EventBridge ApiDestination path wildcards ("*").
         public let pathParameterValues: [String]?
-        /// The query string keys/values that need to be sent as part of request invoking the API Gateway  REST API or EventBridge ApiDestination.
+        /// The query string keys/values that need to be sent as part of request invoking the API Gateway REST API or EventBridge ApiDestination.
         public let queryStringParameters: [String: String]?
 
         public init(headerParameters: [String: String]? = nil, pathParameterValues: [String]? = nil, queryStringParameters: [String: String]? = nil) {
@@ -2007,7 +2118,7 @@ extension Pipes {
     }
 
     public struct PipeTargetKinesisStreamParameters: AWSEncodableShape & AWSDecodableShape {
-        /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters  for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard.  Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this  hashing mechanism, all data records with the same partition key map to the same shard within the stream.
+        /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
         public let partitionKey: String
 
         public init(partitionKey: String) {
@@ -2061,8 +2172,10 @@ extension Pipes {
         public let sqsQueueParameters: PipeTargetSqsQueueParameters?
         /// The parameters for using a Step Functions state machine as a target.
         public let stepFunctionStateMachineParameters: PipeTargetStateMachineParameters?
+        /// The parameters for using a Timestream for LiveAnalytics table as a target.
+        public let timestreamParameters: PipeTargetTimestreamParameters?
 
-        public init(batchJobParameters: PipeTargetBatchJobParameters? = nil, cloudWatchLogsParameters: PipeTargetCloudWatchLogsParameters? = nil, ecsTaskParameters: PipeTargetEcsTaskParameters? = nil, eventBridgeEventBusParameters: PipeTargetEventBridgeEventBusParameters? = nil, httpParameters: PipeTargetHttpParameters? = nil, inputTemplate: String? = nil, kinesisStreamParameters: PipeTargetKinesisStreamParameters? = nil, lambdaFunctionParameters: PipeTargetLambdaFunctionParameters? = nil, redshiftDataParameters: PipeTargetRedshiftDataParameters? = nil, sageMakerPipelineParameters: PipeTargetSageMakerPipelineParameters? = nil, sqsQueueParameters: PipeTargetSqsQueueParameters? = nil, stepFunctionStateMachineParameters: PipeTargetStateMachineParameters? = nil) {
+        public init(batchJobParameters: PipeTargetBatchJobParameters? = nil, cloudWatchLogsParameters: PipeTargetCloudWatchLogsParameters? = nil, ecsTaskParameters: PipeTargetEcsTaskParameters? = nil, eventBridgeEventBusParameters: PipeTargetEventBridgeEventBusParameters? = nil, httpParameters: PipeTargetHttpParameters? = nil, inputTemplate: String? = nil, kinesisStreamParameters: PipeTargetKinesisStreamParameters? = nil, lambdaFunctionParameters: PipeTargetLambdaFunctionParameters? = nil, redshiftDataParameters: PipeTargetRedshiftDataParameters? = nil, sageMakerPipelineParameters: PipeTargetSageMakerPipelineParameters? = nil, sqsQueueParameters: PipeTargetSqsQueueParameters? = nil, stepFunctionStateMachineParameters: PipeTargetStateMachineParameters? = nil, timestreamParameters: PipeTargetTimestreamParameters? = nil) {
             self.batchJobParameters = batchJobParameters
             self.cloudWatchLogsParameters = cloudWatchLogsParameters
             self.ecsTaskParameters = ecsTaskParameters
@@ -2075,6 +2188,7 @@ extension Pipes {
             self.sageMakerPipelineParameters = sageMakerPipelineParameters
             self.sqsQueueParameters = sqsQueueParameters
             self.stepFunctionStateMachineParameters = stepFunctionStateMachineParameters
+            self.timestreamParameters = timestreamParameters
         }
 
         public func validate(name: String) throws {
@@ -2088,6 +2202,7 @@ extension Pipes {
             try self.redshiftDataParameters?.validate(name: "\(name).redshiftDataParameters")
             try self.sageMakerPipelineParameters?.validate(name: "\(name).sageMakerPipelineParameters")
             try self.sqsQueueParameters?.validate(name: "\(name).sqsQueueParameters")
+            try self.timestreamParameters?.validate(name: "\(name).timestreamParameters")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2103,6 +2218,7 @@ extension Pipes {
             case sageMakerPipelineParameters = "SageMakerPipelineParameters"
             case sqsQueueParameters = "SqsQueueParameters"
             case stepFunctionStateMachineParameters = "StepFunctionStateMachineParameters"
+            case timestreamParameters = "TimestreamParameters"
         }
     }
 
@@ -2212,6 +2328,69 @@ extension Pipes {
         }
     }
 
+    public struct PipeTargetTimestreamParameters: AWSEncodableShape & AWSDecodableShape {
+        /// Map source data to dimensions in the target Timestream for LiveAnalytics table. For more information, see Amazon Timestream for LiveAnalytics concepts
+        public let dimensionMappings: [DimensionMapping]
+        /// The granularity of the time units used. Default is MILLISECONDS. Required if TimeFieldType is specified as EPOCH.
+        public let epochTimeUnit: EpochTimeUnit?
+        /// Maps multiple measures from the source event to the same record in the specified Timestream for LiveAnalytics table.
+        public let multiMeasureMappings: [MultiMeasureMapping]?
+        /// Mappings of single source data fields to individual records in the specified Timestream for LiveAnalytics table.
+        public let singleMeasureMappings: [SingleMeasureMapping]?
+        /// The type of time value used. The default is EPOCH.
+        public let timeFieldType: TimeFieldType?
+        /// How to format the timestamps. For example, YYYY-MM-DDThh:mm:ss.sssTZD. Required if TimeFieldType is specified as TIMESTAMP_FORMAT.
+        public let timestampFormat: String?
+        /// Dynamic path to the source data field that represents the time value for your data.
+        public let timeValue: String
+        /// 64 bit version value or source data field that represents the version value for your data. Write requests with a higher version number will update the existing measure values of the record and version.  In cases where the measure value is the same, the version will still be updated.  Default value is 1.  Timestream for LiveAnalytics does not support updating partial measure values in a record. Write requests for duplicate data with a higher version number will update the existing measure value and version. In cases where the measure value is the same, Version will still be updated. Default value is 1.   Version must be 1 or greater, or you will receive a ValidationException error.
+        public let versionValue: String
+
+        public init(dimensionMappings: [DimensionMapping], epochTimeUnit: EpochTimeUnit? = nil, multiMeasureMappings: [MultiMeasureMapping]? = nil, singleMeasureMappings: [SingleMeasureMapping]? = nil, timeFieldType: TimeFieldType? = nil, timestampFormat: String? = nil, timeValue: String, versionValue: String) {
+            self.dimensionMappings = dimensionMappings
+            self.epochTimeUnit = epochTimeUnit
+            self.multiMeasureMappings = multiMeasureMappings
+            self.singleMeasureMappings = singleMeasureMappings
+            self.timeFieldType = timeFieldType
+            self.timestampFormat = timestampFormat
+            self.timeValue = timeValue
+            self.versionValue = versionValue
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensionMappings.forEach {
+                try $0.validate(name: "\(name).dimensionMappings[]")
+            }
+            try self.validate(self.dimensionMappings, name: "dimensionMappings", parent: name, max: 128)
+            try self.validate(self.dimensionMappings, name: "dimensionMappings", parent: name, min: 1)
+            try self.multiMeasureMappings?.forEach {
+                try $0.validate(name: "\(name).multiMeasureMappings[]")
+            }
+            try self.validate(self.multiMeasureMappings, name: "multiMeasureMappings", parent: name, max: 1024)
+            try self.singleMeasureMappings?.forEach {
+                try $0.validate(name: "\(name).singleMeasureMappings[]")
+            }
+            try self.validate(self.singleMeasureMappings, name: "singleMeasureMappings", parent: name, max: 8192)
+            try self.validate(self.timestampFormat, name: "timestampFormat", parent: name, max: 256)
+            try self.validate(self.timestampFormat, name: "timestampFormat", parent: name, min: 1)
+            try self.validate(self.timeValue, name: "timeValue", parent: name, max: 256)
+            try self.validate(self.timeValue, name: "timeValue", parent: name, min: 1)
+            try self.validate(self.versionValue, name: "versionValue", parent: name, max: 256)
+            try self.validate(self.versionValue, name: "versionValue", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionMappings = "DimensionMappings"
+            case epochTimeUnit = "EpochTimeUnit"
+            case multiMeasureMappings = "MultiMeasureMappings"
+            case singleMeasureMappings = "SingleMeasureMappings"
+            case timeFieldType = "TimeFieldType"
+            case timestampFormat = "TimestampFormat"
+            case timeValue = "TimeValue"
+            case versionValue = "VersionValue"
+        }
+    }
+
     public struct PlacementConstraint: AWSEncodableShape & AWSDecodableShape {
         /// A cluster query language expression to apply to the constraint. You cannot specify an expression if the constraint type is distinctInstance. To learn more, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
         public let expression: String?
@@ -2286,7 +2465,7 @@ extension Pipes {
         public let bucketOwner: String
         /// How EventBridge should format the log records.    json: JSON     plain: Plain text    w3c: W3C extended logging file format
         public let outputFormat: S3OutputFormat?
-        /// Specifies any prefix text with which to begin Amazon S3 log object names. You can use prefixes to organize the data that you store in Amazon S3 buckets.  A prefix is a string of characters at the beginning of the object key name.  A prefix can be any length, subject to the maximum length of the object key name (1,024 bytes).  For more information, see Organizing objects using prefixes in the Amazon Simple Storage Service User Guide.
+        /// Specifies any prefix text with which to begin Amazon S3 log object names. You can use prefixes to organize the data that you store in Amazon S3 buckets. A prefix is a string of characters at the beginning of the object key name. A prefix can be any length, subject to the maximum length of the object key name (1,024 bytes). For more information, see Organizing objects using prefixes in the Amazon Simple Storage Service User Guide.
         public let prefix: String?
 
         public init(bucketName: String, bucketOwner: String, outputFormat: S3OutputFormat? = nil, prefix: String? = nil) {
@@ -2329,7 +2508,7 @@ extension Pipes {
     }
 
     public struct SelfManagedKafkaAccessConfigurationVpc: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the security groups associated with the stream. These security groups must all be in the same VPC. You can specify as many  as five security groups. If you do not specify a security group, the default security group for the VPC is used.
+        /// Specifies the security groups associated with the stream. These security groups must all be in the same VPC. You can specify as many as five security groups. If you do not specify a security group, the default security group for the VPC is used.
         public let securityGroup: [String]?
         /// Specifies the subnets associated with the stream. These subnets must all be in the same VPC. You can specify as many as 16 subnets.
         public let subnets: [String]?
@@ -2357,6 +2536,34 @@ extension Pipes {
         private enum CodingKeys: String, CodingKey {
             case securityGroup = "SecurityGroup"
             case subnets = "Subnets"
+        }
+    }
+
+    public struct SingleMeasureMapping: AWSEncodableShape & AWSDecodableShape {
+        /// Target measure name for the measurement attribute in the Timestream table.
+        public let measureName: String
+        /// Dynamic path of the source field to map to the measure in the record.
+        public let measureValue: String
+        /// Data type of the source field.
+        public let measureValueType: MeasureValueType
+
+        public init(measureName: String, measureValue: String, measureValueType: MeasureValueType) {
+            self.measureName = measureName
+            self.measureValue = measureValue
+            self.measureValueType = measureValueType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.measureName, name: "measureName", parent: name, max: 1024)
+            try self.validate(self.measureName, name: "measureName", parent: name, min: 1)
+            try self.validate(self.measureValue, name: "measureValue", parent: name, max: 2048)
+            try self.validate(self.measureValue, name: "measureValue", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case measureName = "MeasureName"
+            case measureValue = "MeasureValue"
+            case measureValueType = "MeasureValueType"
         }
     }
 
@@ -2866,7 +3073,7 @@ extension Pipes {
         public let managedStreamingKafkaParameters: UpdatePipeSourceManagedStreamingKafkaParameters?
         /// The parameters for using a Rabbit MQ broker as a source.
         public let rabbitMQBrokerParameters: UpdatePipeSourceRabbitMQBrokerParameters?
-        /// The parameters for using a self-managed Apache Kafka stream as a source.
+        /// The parameters for using a self-managed Apache Kafka stream as a source. A self managed cluster refers to any Apache Kafka cluster not hosted by Amazon Web Services. This includes both clusters you manage yourself, as well as those hosted by a third-party provider, such as Confluent Cloud, CloudKarafka, or Redpanda. For more information, see Apache Kafka streams as a source in the Amazon EventBridge User Guide.
         public let selfManagedKafkaParameters: UpdatePipeSourceSelfManagedKafkaParameters?
         /// The parameters for using a Amazon SQS stream as a source.
         public let sqsQueueParameters: UpdatePipeSourceSqsQueueParameters?

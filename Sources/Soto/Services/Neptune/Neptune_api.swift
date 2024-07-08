@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -81,9 +81,9 @@ public struct Neptune: AWSService {
             "us-east-2": "rds-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "rds.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "rds.us-gov-west-1.amazonaws.com",
-            "us-iso-east-1": "rds-fips.us-iso-east-1.c2s.ic.gov",
-            "us-iso-west-1": "rds-fips.us-iso-west-1.c2s.ic.gov",
-            "us-isob-east-1": "rds-fips.us-isob-east-1.sc2s.sgov.gov",
+            "us-iso-east-1": "rds.us-iso-east-1.c2s.ic.gov",
+            "us-iso-west-1": "rds.us-iso-west-1.c2s.ic.gov",
+            "us-isob-east-1": "rds.us-isob-east-1.sc2s.sgov.gov",
             "us-west-1": "rds-fips.us-west-1.amazonaws.com",
             "us-west-2": "rds-fips.us-west-2.amazonaws.com"
         ])

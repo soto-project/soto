@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -647,7 +647,7 @@ extension CustomerProfiles {
     public struct AttributeTypesSelector: AWSEncodableShape & AWSDecodableShape {
         /// The Address type. You can choose from Address, BusinessAddress, MaillingAddress, and ShippingAddress. You only can use the Address type in the MatchingRule. For example, if you want to match profile based on BusinessAddress.City or MaillingAddress.City, you need to choose the BusinessAddress and the MaillingAddress to represent the Address type and specify the Address.City on the matching rule.
         public let address: [String]?
-        /// Configures the AttributeMatchingModel, you can either choose ONE_TO_ONE or  MANY_TO_MANY.
+        /// Configures the AttributeMatchingModel, you can either choose ONE_TO_ONE or MANY_TO_MANY.
         public let attributeMatchingModel: AttributeMatchingModel
         /// The Email type. You can choose from EmailAddress, BusinessEmailAddress and PersonalEmailAddress. You only can use the EmailAddress type in the MatchingRule. For example, if you want to match profile based on PersonalEmailAddress or BusinessEmailAddress, you need to choose the PersonalEmailAddress and the BusinessEmailAddress to represent the EmailAddress type and only specify the EmailAddress on the matching rule.
         public let emailAddress: [String]?
@@ -977,7 +977,7 @@ extension CustomerProfiles {
         /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
         /// S3.
         public let matching: MatchingRequest?
-        /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true,  Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration  in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and  review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can  download the results from S3.
+        /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
         public let ruleBasedMatching: RuleBasedMatchingRequest?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -1054,7 +1054,7 @@ extension CustomerProfiles {
         /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
         /// S3.
         public let matching: MatchingResponse?
-        /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true,  Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration  in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and  review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can  download the results from S3.
+        /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
         public let ruleBasedMatching: RuleBasedMatchingResponse?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -1091,7 +1091,7 @@ extension CustomerProfiles {
         public let eventStreamName: String
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
-        /// The StreamARN of the destination to deliver profile events to. For example,  arn:aws:kinesis:region:account-id:stream/stream-name
+        /// The StreamARN of the destination to deliver profile events to. For example, arn:aws:kinesis:region:account-id:stream/stream-name
         public let uri: String
 
         public init(domainName: String, eventStreamName: String, tags: [String: String]? = nil, uri: String) {
@@ -1233,7 +1233,7 @@ extension CustomerProfiles {
     }
 
     public struct CreateProfileRequest: AWSEncodableShape {
-        /// A unique account number that you have given to the customer.
+        /// An account number that you have given to the customer.
         public let accountNumber: String?
         /// Any additional information relevant to the customer’s profile.
         public let additionalInformation: String?
@@ -1816,7 +1816,7 @@ extension CustomerProfiles {
         public let status: EventStreamDestinationStatus
         /// The timestamp when the status last changed to UNHEALHY.
         public let unhealthySince: Date?
-        /// The StreamARN of the destination to deliver profile events to. For example,  arn:aws:kinesis:region:account-id:stream/stream-name.
+        /// The StreamARN of the destination to deliver profile events to. For example, arn:aws:kinesis:region:account-id:stream/stream-name.
         public let uri: String
 
         public init(status: EventStreamDestinationStatus, unhealthySince: Date? = nil, uri: String) {
@@ -1933,7 +1933,7 @@ extension CustomerProfiles {
         public let status: EventStreamDestinationStatus
         /// The timestamp when the status last changed to UNHEALHY.
         public let unhealthySince: Date?
-        /// The StreamARN of the destination to deliver profile events to. For example,  arn:aws:kinesis:region:account-id:stream/stream-name.
+        /// The StreamARN of the destination to deliver profile events to. For example, arn:aws:kinesis:region:account-id:stream/stream-name.
         public let uri: String
 
         public init(message: String? = nil, status: EventStreamDestinationStatus, unhealthySince: Date? = nil, uri: String) {
@@ -2450,7 +2450,7 @@ extension CustomerProfiles {
         /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
         /// S3.
         public let matching: MatchingResponse?
-        /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true,  Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration  in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and  review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can  download the results from S3.
+        /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
         public let ruleBasedMatching: RuleBasedMatchingResponse?
         /// Usage-specific statistics about the domain.
         public let stats: DomainStats?
@@ -2668,7 +2668,7 @@ extension CustomerProfiles {
         public let createdAt: Date
         /// The unique name of the domain.
         public let domainName: String
-        /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon  Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
+        /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
         public let isUnstructured: Bool?
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
@@ -2818,6 +2818,10 @@ extension CustomerProfiles {
         public let keys: [String: [ObjectTypeKey]]?
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date?
+        /// The amount of provisioned profile object max count available.
+        public let maxAvailableProfileObjectCount: Int?
+        /// The amount of profile object max count assigned to the object type.
+        public let maxProfileObjectCount: Int?
         /// The name of the profile object type.
         public let objectTypeName: String
         /// The format of your sourceLastUpdatedTimestamp that was previously set up.
@@ -2827,7 +2831,7 @@ extension CustomerProfiles {
         /// A unique identifier for the object template.
         public let templateId: String?
 
-        public init(allowProfileCreation: Bool? = nil, createdAt: Date? = nil, description: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, lastUpdatedAt: Date? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
+        public init(allowProfileCreation: Bool? = nil, createdAt: Date? = nil, description: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, lastUpdatedAt: Date? = nil, maxAvailableProfileObjectCount: Int? = nil, maxProfileObjectCount: Int? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
             self.allowProfileCreation = allowProfileCreation
             self.createdAt = createdAt
             self.description = description
@@ -2836,6 +2840,8 @@ extension CustomerProfiles {
             self.fields = fields
             self.keys = keys
             self.lastUpdatedAt = lastUpdatedAt
+            self.maxAvailableProfileObjectCount = maxAvailableProfileObjectCount
+            self.maxProfileObjectCount = maxProfileObjectCount
             self.objectTypeName = objectTypeName
             self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
             self.tags = tags
@@ -2851,6 +2857,8 @@ extension CustomerProfiles {
             case fields = "Fields"
             case keys = "Keys"
             case lastUpdatedAt = "LastUpdatedAt"
+            case maxAvailableProfileObjectCount = "MaxAvailableProfileObjectCount"
+            case maxProfileObjectCount = "MaxProfileObjectCount"
             case objectTypeName = "ObjectTypeName"
             case sourceLastUpdatedTimestampFormat = "SourceLastUpdatedTimestampFormat"
             case tags = "Tags"
@@ -3665,7 +3673,7 @@ extension CustomerProfiles {
         public let createdAt: Date
         /// The unique name of the domain.
         public let domainName: String
-        /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon  Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
+        /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
         public let isUnstructured: Bool?
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
@@ -3770,15 +3778,21 @@ extension CustomerProfiles {
         public let description: String
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date?
+        /// The amount of provisioned profile object max count available.
+        public let maxAvailableProfileObjectCount: Int?
+        /// The amount of profile object max count assigned to the object type.
+        public let maxProfileObjectCount: Int?
         /// The name of the profile object type.
         public let objectTypeName: String
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
-        public init(createdAt: Date? = nil, description: String, lastUpdatedAt: Date? = nil, objectTypeName: String, tags: [String: String]? = nil) {
+        public init(createdAt: Date? = nil, description: String, lastUpdatedAt: Date? = nil, maxAvailableProfileObjectCount: Int? = nil, maxProfileObjectCount: Int? = nil, objectTypeName: String, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.lastUpdatedAt = lastUpdatedAt
+            self.maxAvailableProfileObjectCount = maxAvailableProfileObjectCount
+            self.maxProfileObjectCount = maxProfileObjectCount
             self.objectTypeName = objectTypeName
             self.tags = tags
         }
@@ -3787,6 +3801,8 @@ extension CustomerProfiles {
             case createdAt = "CreatedAt"
             case description = "Description"
             case lastUpdatedAt = "LastUpdatedAt"
+            case maxAvailableProfileObjectCount = "MaxAvailableProfileObjectCount"
+            case maxProfileObjectCount = "MaxProfileObjectCount"
             case objectTypeName = "ObjectTypeName"
             case tags = "Tags"
         }
@@ -4375,7 +4391,7 @@ extension CustomerProfiles {
     }
 
     public struct ObjectFilter: AWSEncodableShape {
-        /// A searchable identifier of a profile object. The predefined keys you can use to search for _asset include: _assetId, _assetName,  and _serialNumber. The predefined keys you can use to search for _case  include: _caseId. The predefined keys you can use to search for _order include: _orderId.
+        /// A searchable identifier of a profile object. The predefined keys you can use to search for _asset include: _assetId, _assetName, and _serialNumber. The predefined keys you can use to search for _case include: _caseId. The predefined keys you can use to search for _order include: _orderId.
         public let keyName: String
         /// A list of key values.
         public let values: [String]
@@ -4432,7 +4448,7 @@ extension CustomerProfiles {
     public struct ObjectTypeKey: AWSEncodableShape & AWSDecodableShape {
         /// The reference for the key name of the fields map.
         public let fieldNames: [String]?
-        /// The types of keys that a ProfileObject can have. Each ProfileObject can have only 1 UNIQUE key but multiple PROFILE keys. PROFILE, ASSET, CASE, or ORDER  means that this key can be used to tie an object to a PROFILE, ASSET, CASE, or ORDER respectively. UNIQUE means that it can be used to uniquely identify an object. If a key a is marked as SECONDARY, it will be used to search for profiles after all other PROFILE keys have been searched. A LOOKUP_ONLY key is only used to match a profile but is not persisted to be used for searching of the profile. A NEW_ONLY key is only used if the profile does not already exist before the object is ingested, otherwise it is only used for matching objects to profiles.
+        /// The types of keys that a ProfileObject can have. Each ProfileObject can have only 1 UNIQUE key but multiple PROFILE keys. PROFILE, ASSET, CASE, or ORDER means that this key can be used to tie an object to a PROFILE, ASSET, CASE, or ORDER respectively. UNIQUE means that it can be used to uniquely identify an object. If a key a is marked as SECONDARY, it will be used to search for profiles after all other PROFILE keys have been searched. A LOOKUP_ONLY key is only used to match a profile but is not persisted to be used for searching of the profile. A NEW_ONLY key is only used if the profile does not already exist before the object is ingested, otherwise it is only used for matching objects to profiles.
         public let standardIdentifiers: [StandardIdentifier]?
 
         public init(fieldNames: [String]? = nil, standardIdentifiers: [StandardIdentifier]? = nil) {
@@ -4455,7 +4471,7 @@ extension CustomerProfiles {
     }
 
     public struct Profile: AWSDecodableShape {
-        /// A unique account number that you have given to the customer.
+        /// An account number that you have given to the customer.
         public let accountNumber: String?
         /// Any additional information relevant to the customer’s profile.
         public let additionalInformation: String?
@@ -4640,7 +4656,7 @@ extension CustomerProfiles {
         public let createdAt: Date
         /// The unique name of the domain.
         public let domainName: String
-        /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon  Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
+        /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
         public let isUnstructured: Bool?
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
@@ -4749,16 +4765,18 @@ extension CustomerProfiles {
         public let fields: [String: ObjectTypeField]?
         /// A list of unique keys that can be used to map data to the profile.
         public let keys: [String: [ObjectTypeKey]]?
+        /// The amount of profile object max count assigned to the object type
+        public let maxProfileObjectCount: Int?
         /// The name of the profile object type.
         public let objectTypeName: String
         /// The format of your sourceLastUpdatedTimestamp that was previously set up.
         public let sourceLastUpdatedTimestampFormat: String?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
-        /// A unique identifier for the object template. For some attributes in the request, the service will use the default value from the object template when TemplateId is present. If these attributes are present in the request, the service may return a BadRequestException.  These attributes include: AllowProfileCreation, SourceLastUpdatedTimestampFormat,  Fields, and Keys. For example, if AllowProfileCreation is set to true when TemplateId is set, the service may return a BadRequestException.
+        /// A unique identifier for the object template. For some attributes in the request, the service will use the default value from the object template when TemplateId is present. If these attributes are present in the request, the service may return a BadRequestException. These attributes include: AllowProfileCreation, SourceLastUpdatedTimestampFormat, Fields, and Keys. For example, if AllowProfileCreation is set to true when TemplateId is set, the service may return a BadRequestException.
         public let templateId: String?
 
-        public init(allowProfileCreation: Bool? = nil, description: String, domainName: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
+        public init(allowProfileCreation: Bool? = nil, description: String, domainName: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, maxProfileObjectCount: Int? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
             self.allowProfileCreation = allowProfileCreation
             self.description = description
             self.domainName = domainName
@@ -4766,6 +4784,7 @@ extension CustomerProfiles {
             self.expirationDays = expirationDays
             self.fields = fields
             self.keys = keys
+            self.maxProfileObjectCount = maxProfileObjectCount
             self.objectTypeName = objectTypeName
             self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
             self.tags = tags
@@ -4782,6 +4801,7 @@ extension CustomerProfiles {
             try container.encodeIfPresent(self.expirationDays, forKey: .expirationDays)
             try container.encodeIfPresent(self.fields, forKey: .fields)
             try container.encodeIfPresent(self.keys, forKey: .keys)
+            try container.encodeIfPresent(self.maxProfileObjectCount, forKey: .maxProfileObjectCount)
             request.encodePath(self.objectTypeName, key: "ObjectTypeName")
             try container.encodeIfPresent(self.sourceLastUpdatedTimestampFormat, forKey: .sourceLastUpdatedTimestampFormat)
             try container.encodeIfPresent(self.tags, forKey: .tags)
@@ -4808,6 +4828,7 @@ extension CustomerProfiles {
                 try validate($0.key, name: "keys.key", parent: name, min: 1)
                 try validate($0.key, name: "keys.key", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             }
+            try self.validate(self.maxProfileObjectCount, name: "maxProfileObjectCount", parent: name, min: 1)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
@@ -4833,6 +4854,7 @@ extension CustomerProfiles {
             case expirationDays = "ExpirationDays"
             case fields = "Fields"
             case keys = "Keys"
+            case maxProfileObjectCount = "MaxProfileObjectCount"
             case sourceLastUpdatedTimestampFormat = "SourceLastUpdatedTimestampFormat"
             case tags = "Tags"
             case templateId = "TemplateId"
@@ -4856,6 +4878,10 @@ extension CustomerProfiles {
         public let keys: [String: [ObjectTypeKey]]?
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date?
+        /// The amount of provisioned profile object max count available.
+        public let maxAvailableProfileObjectCount: Int?
+        /// The amount of profile object max count assigned to the object type.
+        public let maxProfileObjectCount: Int?
         /// The name of the profile object type.
         public let objectTypeName: String
         /// The format of your sourceLastUpdatedTimestamp that was previously set up in fields that were parsed using SimpleDateFormat. If you have sourceLastUpdatedTimestamp in your field, you must set up sourceLastUpdatedTimestampFormat.
@@ -4865,7 +4891,7 @@ extension CustomerProfiles {
         /// A unique identifier for the object template.
         public let templateId: String?
 
-        public init(allowProfileCreation: Bool? = nil, createdAt: Date? = nil, description: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, lastUpdatedAt: Date? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
+        public init(allowProfileCreation: Bool? = nil, createdAt: Date? = nil, description: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, lastUpdatedAt: Date? = nil, maxAvailableProfileObjectCount: Int? = nil, maxProfileObjectCount: Int? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
             self.allowProfileCreation = allowProfileCreation
             self.createdAt = createdAt
             self.description = description
@@ -4874,6 +4900,8 @@ extension CustomerProfiles {
             self.fields = fields
             self.keys = keys
             self.lastUpdatedAt = lastUpdatedAt
+            self.maxAvailableProfileObjectCount = maxAvailableProfileObjectCount
+            self.maxProfileObjectCount = maxProfileObjectCount
             self.objectTypeName = objectTypeName
             self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
             self.tags = tags
@@ -4889,6 +4917,8 @@ extension CustomerProfiles {
             case fields = "Fields"
             case keys = "Keys"
             case lastUpdatedAt = "LastUpdatedAt"
+            case maxAvailableProfileObjectCount = "MaxAvailableProfileObjectCount"
+            case maxProfileObjectCount = "MaxProfileObjectCount"
             case objectTypeName = "ObjectTypeName"
             case sourceLastUpdatedTimestampFormat = "SourceLastUpdatedTimestampFormat"
             case tags = "Tags"
@@ -4925,7 +4955,7 @@ extension CustomerProfiles {
         /// The flag that enables the rule-based matching process of duplicate profiles.
         public let enabled: Bool
         public let exportingConfig: ExportingConfig?
-        /// Configures how the rule-based matching process should match profiles. You can have up to 15  MatchingRule in the MatchingRules.
+        /// Configures how the rule-based matching process should match profiles. You can have up to 15 MatchingRule in the MatchingRules.
         public let matchingRules: [MatchingRule]?
         /// Indicates the maximum allowed rule level.
         public let maxAllowedRuleLevelForMatching: Int?
@@ -4975,7 +5005,7 @@ extension CustomerProfiles {
         /// The flag that enables the rule-based matching process of duplicate profiles.
         public let enabled: Bool?
         public let exportingConfig: ExportingConfig?
-        /// Configures how the rule-based matching process should match profiles. You can have up to 15  MatchingRule in the MatchingRules.
+        /// Configures how the rule-based matching process should match profiles. You can have up to 15 MatchingRule in the MatchingRules.
         public let matchingRules: [MatchingRule]?
         /// Indicates the maximum allowed rule level.
         public let maxAllowedRuleLevelForMatching: Int?
@@ -5781,7 +5811,7 @@ extension CustomerProfiles {
     }
 
     public struct UpdateProfileRequest: AWSEncodableShape {
-        /// A unique account number that you have given to the customer.
+        /// An account number that you have given to the customer.
         public let accountNumber: String?
         /// Any additional information relevant to the customer’s profile.
         public let additionalInformation: String?

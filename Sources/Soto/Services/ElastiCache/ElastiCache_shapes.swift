@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -3097,7 +3097,7 @@ extension ElastiCache {
     }
 
     public struct DescribeUserGroupsResult: AWSDecodableShape {
-        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. >
+        /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.>
         public let marker: String?
         /// Returns a list of user groups.
         @OptionalCustomCoding<StandardArrayCoder<UserGroup>>
@@ -3777,7 +3777,7 @@ extension ElastiCache {
         public let applyImmediately: Bool?
         /// Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update parameter. Password constraints:   Must be only printable ASCII characters   Must be at least 16 characters and no more than 128 characters in length   Cannot contain any of the following characters: '/', '"', or '@', '%'   For more information, see AUTH password at AUTH.
         public let authToken: String?
-        /// Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   Rotate   Set   For more information, see Authenticating Users with Redis AUTH
+        /// Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   ROTATE - default, if no update strategy is provided   SET - allowed only after ROTATE   DELETE - allowed only when transitioning to RBAC   For more information, see Authenticating Users with Redis AUTH
         public let authTokenUpdateStrategy: AuthTokenUpdateStrategyType?
         ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
         public let autoMinorVersionUpgrade: Bool?
@@ -3996,7 +3996,7 @@ extension ElastiCache {
         public let applyImmediately: Bool?
         /// Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update-strategy  parameter. Password constraints:   Must be only printable ASCII characters   Must be at least 16 characters and no more than 128 characters in length   Cannot contain any of the following characters: '/', '"', or '@', '%'   For more information, see AUTH password at AUTH.
         public let authToken: String?
-        /// Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   Rotate   Set   For more information, see Authenticating Users with Redis AUTH
+        /// Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   ROTATE - default, if no update strategy is provided   SET - allowed only after ROTATE   DELETE - allowed only when transitioning to RBAC   For more information, see Authenticating Users with Redis AUTH
         public let authTokenUpdateStrategy: AuthTokenUpdateStrategyType?
         /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure. Valid values: true | false
         public let automaticFailoverEnabled: Bool?
@@ -5957,7 +5957,7 @@ extension ElastiCache {
     }
 
     public struct TestFailoverMessage: AWSEncodableShape {
-        /// The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested. You may test automatic failover on up to 5 node groups in any rolling 24-hour period.
+        /// The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested. You may test automatic failover on up to 15 node groups in any rolling 24-hour period.
         public let nodeGroupId: String?
         /// The name of the replication group (console: cluster) whose automatic failover is being tested by this operation.
         public let replicationGroupId: String?

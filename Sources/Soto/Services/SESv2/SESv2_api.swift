@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -126,7 +126,7 @@ public struct SESv2: AWSService {
         )
     }
 
-    /// Create an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. A single configuration set can include more than one event destination.
+    /// Create an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. A single configuration set can include more than one event destination.
     @Sendable
     public func createConfigurationSetEventDestination(_ input: CreateConfigurationSetEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfigurationSetEventDestinationResponse {
         return try await self.client.execute(
@@ -282,7 +282,7 @@ public struct SESv2: AWSService {
         )
     }
 
-    /// Delete an event destination.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
+    /// Delete an event destination.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target.
     @Sendable
     public func deleteConfigurationSetEventDestination(_ input: DeleteConfigurationSetEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConfigurationSetEventDestinationResponse {
         return try await self.client.execute(
@@ -438,7 +438,7 @@ public struct SESv2: AWSService {
         )
     }
 
-    /// Retrieve a list of event destinations that are associated with a configuration set.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
+    /// Retrieve a list of event destinations that are associated with a configuration set.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target.
     @Sendable
     public func getConfigurationSetEventDestinations(_ input: GetConfigurationSetEventDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfigurationSetEventDestinationsResponse {
         return try await self.client.execute(
@@ -1204,7 +1204,7 @@ public struct SESv2: AWSService {
         )
     }
 
-    /// Update the configuration of an event destination for a configuration set.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
+    /// Update the configuration of an event destination for a configuration set.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target.
     @Sendable
     public func updateConfigurationSetEventDestination(_ input: UpdateConfigurationSetEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConfigurationSetEventDestinationResponse {
         return try await self.client.execute(

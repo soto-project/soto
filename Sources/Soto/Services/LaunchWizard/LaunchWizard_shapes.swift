@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -82,26 +82,29 @@ extension LaunchWizard {
         public let dryRun: Bool?
         /// The name of the deployment.
         public let name: String
-        /// The settings specified for the deployment. For more information on the specifications required for creating a deployment, see Workload specifications.
+        /// The settings specified for the deployment. These settings define how to deploy and configure your resources created by the deployment. For more information about the specifications required for creating a deployment for a SAP workload, see SAP deployment specifications. To retrieve the specifications required to create a deployment for other workloads, use the  GetWorkloadDeploymentPattern operation.
         public let specifications: [String: String]
-        /// The name of the workload. You can use the  ListWorkloadDeploymentPatterns operation to discover supported values for this parameter.
+        /// The tags to add to the deployment.
+        public let tags: [String: String]?
+        /// The name of the workload. You can use the  ListWorkloads operation to discover supported values for this parameter.
         public let workloadName: String
 
-        public init(deploymentPatternName: String, dryRun: Bool? = nil, name: String, specifications: [String: String], workloadName: String) {
+        public init(deploymentPatternName: String, dryRun: Bool? = nil, name: String, specifications: [String: String], tags: [String: String]? = nil, workloadName: String) {
             self.deploymentPatternName = deploymentPatternName
             self.dryRun = dryRun
             self.name = name
             self.specifications = specifications
+            self.tags = tags
             self.workloadName = workloadName
         }
 
         public func validate(name: String) throws {
             try self.validate(self.deploymentPatternName, name: "deploymentPatternName", parent: name, max: 256)
             try self.validate(self.deploymentPatternName, name: "deploymentPatternName", parent: name, min: 1)
-            try self.validate(self.deploymentPatternName, name: "deploymentPatternName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.validate(self.name, name: "name", parent: name, max: 25)
+            try self.validate(self.deploymentPatternName, name: "deploymentPatternName", parent: name, pattern: "^[A-Za-z0-9][a-zA-Z0-9-]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9_\\s\\.-]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9_\\.-]+$")
             try self.specifications.forEach {
                 try validate($0.key, name: "specifications.key", parent: name, max: 256)
                 try validate($0.key, name: "specifications.key", parent: name, min: 3)
@@ -111,9 +114,17 @@ extension LaunchWizard {
             }
             try self.validate(self.specifications, name: "specifications", parent: name, max: 100)
             try self.validate(self.specifications, name: "specifications", parent: name, min: 1)
-            try self.validate(self.workloadName, name: "workloadName", parent: name, max: 256)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.workloadName, name: "workloadName", parent: name, max: 100)
             try self.validate(self.workloadName, name: "workloadName", parent: name, min: 1)
-            try self.validate(self.workloadName, name: "workloadName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.workloadName, name: "workloadName", parent: name, pattern: "^[A-Za-z][a-zA-Z0-9-_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -121,6 +132,7 @@ extension LaunchWizard {
             case dryRun = "dryRun"
             case name = "name"
             case specifications = "specifications"
+            case tags = "tags"
             case workloadName = "workloadName"
         }
     }
@@ -174,11 +186,34 @@ extension LaunchWizard {
         }
     }
 
+    public struct DeploymentConditionalField: AWSDecodableShape {
+        /// The comparator of the condition. Valid values: Equal | NotEqual
+        public let comparator: String?
+        /// The name of the deployment condition.
+        public let name: String?
+        /// The value of the condition.
+        public let value: String?
+
+        public init(comparator: String? = nil, name: String? = nil, value: String? = nil) {
+            self.comparator = comparator
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparator = "comparator"
+            case name = "name"
+            case value = "value"
+        }
+    }
+
     public struct DeploymentData: AWSDecodableShape {
         /// The time the deployment was created.
         public let createdAt: Date?
         /// The time the deployment was deleted.
         public let deletedAt: Date?
+        /// The Amazon Resource Name (ARN) of the deployment.
+        public let deploymentArn: String?
         /// The ID of the deployment.
         public let id: String?
         /// The name of the deployment.
@@ -187,34 +222,40 @@ extension LaunchWizard {
         public let patternName: String?
         /// The resource group of the deployment.
         public let resourceGroup: String?
-        /// The specifications of the deployment. For more information on specifications for each deployment, see Workload specifications.
+        /// The settings specified for the deployment. These settings define how to deploy and configure your resources created by the deployment. For more information about the specifications required for creating a deployment for a SAP workload, see SAP deployment specifications. To retrieve the specifications required to create a deployment for other workloads, use the  GetWorkloadDeploymentPattern operation.
         public let specifications: [String: String]?
         /// The status of the deployment.
         public let status: DeploymentStatus?
+        /// Information about the tags attached to a deployment.
+        public let tags: [String: String]?
         /// The name of the workload.
         public let workloadName: String?
 
-        public init(createdAt: Date? = nil, deletedAt: Date? = nil, id: String? = nil, name: String? = nil, patternName: String? = nil, resourceGroup: String? = nil, specifications: [String: String]? = nil, status: DeploymentStatus? = nil, workloadName: String? = nil) {
+        public init(createdAt: Date? = nil, deletedAt: Date? = nil, deploymentArn: String? = nil, id: String? = nil, name: String? = nil, patternName: String? = nil, resourceGroup: String? = nil, specifications: [String: String]? = nil, status: DeploymentStatus? = nil, tags: [String: String]? = nil, workloadName: String? = nil) {
             self.createdAt = createdAt
             self.deletedAt = deletedAt
+            self.deploymentArn = deploymentArn
             self.id = id
             self.name = name
             self.patternName = patternName
             self.resourceGroup = resourceGroup
             self.specifications = specifications
             self.status = status
+            self.tags = tags
             self.workloadName = workloadName
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case deletedAt = "deletedAt"
+            case deploymentArn = "deploymentArn"
             case id = "id"
             case name = "name"
             case patternName = "patternName"
             case resourceGroup = "resourceGroup"
             case specifications = "specifications"
             case status = "status"
+            case tags = "tags"
             case workloadName = "workloadName"
         }
     }
@@ -298,6 +339,35 @@ extension LaunchWizard {
         }
     }
 
+    public struct DeploymentSpecificationsField: AWSDecodableShape {
+        /// The allowed values of the deployment specification.
+        public let allowedValues: [String]?
+        /// The conditionals used for the deployment specification.
+        public let conditionals: [DeploymentConditionalField]?
+        /// The description of the deployment specification.
+        public let description: String?
+        /// The name of the deployment specification.
+        public let name: String?
+        /// Indicates if the deployment specification is required.
+        public let required: String?
+
+        public init(allowedValues: [String]? = nil, conditionals: [DeploymentConditionalField]? = nil, description: String? = nil, name: String? = nil, required: String? = nil) {
+            self.allowedValues = allowedValues
+            self.conditionals = conditionals
+            self.description = description
+            self.name = name
+            self.required = required
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedValues = "allowedValues"
+            case conditionals = "conditionals"
+            case description = "description"
+            case name = "name"
+            case required = "required"
+        }
+    }
+
     public struct GetDeploymentInput: AWSEncodableShape {
         /// The ID of the deployment.
         public let deploymentId: String
@@ -330,6 +400,45 @@ extension LaunchWizard {
         }
     }
 
+    public struct GetWorkloadDeploymentPatternInput: AWSEncodableShape {
+        /// The name of the deployment pattern.
+        public let deploymentPatternName: String
+        /// The name of the workload.
+        public let workloadName: String
+
+        public init(deploymentPatternName: String, workloadName: String) {
+            self.deploymentPatternName = deploymentPatternName
+            self.workloadName = workloadName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deploymentPatternName, name: "deploymentPatternName", parent: name, max: 256)
+            try self.validate(self.deploymentPatternName, name: "deploymentPatternName", parent: name, min: 1)
+            try self.validate(self.deploymentPatternName, name: "deploymentPatternName", parent: name, pattern: "^[A-Za-z0-9][a-zA-Z0-9-]*$")
+            try self.validate(self.workloadName, name: "workloadName", parent: name, max: 100)
+            try self.validate(self.workloadName, name: "workloadName", parent: name, min: 1)
+            try self.validate(self.workloadName, name: "workloadName", parent: name, pattern: "^[A-Za-z][a-zA-Z0-9-_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentPatternName = "deploymentPatternName"
+            case workloadName = "workloadName"
+        }
+    }
+
+    public struct GetWorkloadDeploymentPatternOutput: AWSDecodableShape {
+        /// Details about the workload deployment pattern.
+        public let workloadDeploymentPattern: WorkloadDeploymentPatternData?
+
+        public init(workloadDeploymentPattern: WorkloadDeploymentPatternData? = nil) {
+            self.workloadDeploymentPattern = workloadDeploymentPattern
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workloadDeploymentPattern = "workloadDeploymentPattern"
+        }
+    }
+
     public struct GetWorkloadInput: AWSEncodableShape {
         /// The name of the workload.
         public let workloadName: String
@@ -339,9 +448,9 @@ extension LaunchWizard {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.workloadName, name: "workloadName", parent: name, max: 256)
+            try self.validate(self.workloadName, name: "workloadName", parent: name, max: 100)
             try self.validate(self.workloadName, name: "workloadName", parent: name, min: 1)
-            try self.validate(self.workloadName, name: "workloadName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.workloadName, name: "workloadName", parent: name, pattern: "^[A-Za-z][a-zA-Z0-9-_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -411,7 +520,7 @@ extension LaunchWizard {
     }
 
     public struct ListDeploymentsInput: AWSEncodableShape {
-        /// Filters to scope the results. The following filters are supported:    WORKLOAD_NAME     DEPLOYMENT_STATUS
+        /// Filters to scope the results. The following filters are supported:    WORKLOAD_NAME - The name used in deployments.    DEPLOYMENT_STATUS - COMPLETED | CREATING | DELETE_IN_PROGRESS | DELETE_INITIATING | DELETE_FAILED | DELETED | FAILED | IN_PROGRESS | VALIDATING
         public let filters: [DeploymentFilter]?
         /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
         public let maxResults: Int?
@@ -456,6 +565,36 @@ extension LaunchWizard {
         }
     }
 
+    public struct ListTagsForResourceInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
+        /// Information about the tags.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct ListWorkloadDeploymentPatternsInput: AWSEncodableShape {
         /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
         public let maxResults: Int?
@@ -475,9 +614,9 @@ extension LaunchWizard {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.workloadName, name: "workloadName", parent: name, max: 256)
+            try self.validate(self.workloadName, name: "workloadName", parent: name, max: 100)
             try self.validate(self.workloadName, name: "workloadName", parent: name, min: 1)
-            try self.validate(self.workloadName, name: "workloadName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.workloadName, name: "workloadName", parent: name, pattern: "^[A-Za-z][a-zA-Z0-9-_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -545,6 +684,79 @@ extension LaunchWizard {
         }
     }
 
+    public struct TagResourceInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+        /// One or more tags to attach to the resource.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+        /// Keys identifying the tags to remove.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
+        public func validate(name: String) throws {
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct WorkloadData: AWSDecodableShape {
         /// The description of a workload.
         public let description: String?
@@ -596,6 +808,47 @@ extension LaunchWizard {
         private enum CodingKeys: String, CodingKey {
             case displayName = "displayName"
             case workloadName = "workloadName"
+        }
+    }
+
+    public struct WorkloadDeploymentPatternData: AWSDecodableShape {
+        /// The name of the deployment pattern.
+        public let deploymentPatternName: String?
+        /// The description of the deployment pattern.
+        public let description: String?
+        /// The display name of the deployment pattern.
+        public let displayName: String?
+        /// The settings specified for the deployment. These settings define how to deploy and configure your resources created by the deployment. For more information about the specifications required for creating a deployment for a SAP workload, see SAP deployment specifications. To retrieve the specifications required to create a deployment for other workloads, use the  GetWorkloadDeploymentPattern operation.
+        public let specifications: [DeploymentSpecificationsField]?
+        /// The status of the deployment pattern.
+        public let status: WorkloadDeploymentPatternStatus?
+        /// The status message of the deployment pattern.
+        public let statusMessage: String?
+        /// The workload name of the deployment pattern.
+        public let workloadName: String?
+        /// The workload version name of the deployment pattern.
+        public let workloadVersionName: String?
+
+        public init(deploymentPatternName: String? = nil, description: String? = nil, displayName: String? = nil, specifications: [DeploymentSpecificationsField]? = nil, status: WorkloadDeploymentPatternStatus? = nil, statusMessage: String? = nil, workloadName: String? = nil, workloadVersionName: String? = nil) {
+            self.deploymentPatternName = deploymentPatternName
+            self.description = description
+            self.displayName = displayName
+            self.specifications = specifications
+            self.status = status
+            self.statusMessage = statusMessage
+            self.workloadName = workloadName
+            self.workloadVersionName = workloadVersionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentPatternName = "deploymentPatternName"
+            case description = "description"
+            case displayName = "displayName"
+            case specifications = "specifications"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case workloadName = "workloadName"
+            case workloadVersionName = "workloadVersionName"
         }
     }
 

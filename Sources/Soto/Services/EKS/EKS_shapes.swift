@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -52,6 +52,8 @@ extension EKS {
 
     public enum AddonIssueCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "AccessDenied"
+        case addonPermissionFailure = "AddonPermissionFailure"
+        case addonSubscriptionNeeded = "AddonSubscriptionNeeded"
         case admissionRequestDenied = "AdmissionRequestDenied"
         case clusterUnreachable = "ClusterUnreachable"
         case configurationConflict = "ConfigurationConflict"
@@ -82,6 +84,7 @@ extension EKS {
     }
 
     public enum CapacityTypes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case capacityBlock = "CAPACITY_BLOCK"
         case onDemand = "ON_DEMAND"
         case spot = "SPOT"
         public var description: String { return self.rawValue }
@@ -183,6 +186,14 @@ extension EKS {
         case unknown = "Unknown"
         case unsupportedAddonModification = "UnsupportedAddonModification"
         case vpcIdNotFound = "VpcIdNotFound"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FargateProfileIssueCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessDenied = "AccessDenied"
+        case clusterUnreachable = "ClusterUnreachable"
+        case internalFailure = "InternalFailure"
+        case podExecutionRoleAlreadyInUse = "PodExecutionRoleAlreadyInUse"
         public var description: String { return self.rawValue }
     }
 
@@ -301,6 +312,7 @@ extension EKS {
         case maxUnavailablePercentage = "MaxUnavailablePercentage"
         case minSize = "MinSize"
         case platformVersion = "PlatformVersion"
+        case podIdentityAssociations = "PodIdentityAssociations"
         case publicAccessCidrs = "PublicAccessCidrs"
         case releaseVersion = "ReleaseVersion"
         case resolveConflicts = "ResolveConflicts"
@@ -454,6 +466,8 @@ extension EKS {
         public let modifiedAt: Date?
         /// The owner of the add-on.
         public let owner: String?
+        /// An array of Pod Identity Assocations owned by the Addon. Each EKS Pod Identity association maps a role to a service account in a namespace in the cluster. For more information, see Attach an IAM Role to an Amazon EKS add-on using Pod Identity in the EKS User Guide.
+        public let podIdentityAssociations: [String]?
         /// The publisher of the add-on.
         public let publisher: String?
         /// The Amazon Resource Name (ARN) of the IAM role that's bound to the Kubernetes ServiceAccount object that the add-on uses.
@@ -463,7 +477,7 @@ extension EKS {
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
 
-        public init(addonArn: String? = nil, addonName: String? = nil, addonVersion: String? = nil, clusterName: String? = nil, configurationValues: String? = nil, createdAt: Date? = nil, health: AddonHealth? = nil, marketplaceInformation: MarketplaceInformation? = nil, modifiedAt: Date? = nil, owner: String? = nil, publisher: String? = nil, serviceAccountRoleArn: String? = nil, status: AddonStatus? = nil, tags: [String: String]? = nil) {
+        public init(addonArn: String? = nil, addonName: String? = nil, addonVersion: String? = nil, clusterName: String? = nil, configurationValues: String? = nil, createdAt: Date? = nil, health: AddonHealth? = nil, marketplaceInformation: MarketplaceInformation? = nil, modifiedAt: Date? = nil, owner: String? = nil, podIdentityAssociations: [String]? = nil, publisher: String? = nil, serviceAccountRoleArn: String? = nil, status: AddonStatus? = nil, tags: [String: String]? = nil) {
             self.addonArn = addonArn
             self.addonName = addonName
             self.addonVersion = addonVersion
@@ -474,6 +488,7 @@ extension EKS {
             self.marketplaceInformation = marketplaceInformation
             self.modifiedAt = modifiedAt
             self.owner = owner
+            self.podIdentityAssociations = podIdentityAssociations
             self.publisher = publisher
             self.serviceAccountRoleArn = serviceAccountRoleArn
             self.status = status
@@ -491,6 +506,7 @@ extension EKS {
             case marketplaceInformation = "marketplaceInformation"
             case modifiedAt = "modifiedAt"
             case owner = "owner"
+            case podIdentityAssociations = "podIdentityAssociations"
             case publisher = "publisher"
             case serviceAccountRoleArn = "serviceAccountRoleArn"
             case status = "status"
@@ -565,6 +581,40 @@ extension EKS {
         }
     }
 
+    public struct AddonPodIdentityAssociations: AWSEncodableShape {
+        /// The ARN of an IAM Role.
+        public let roleArn: String
+        /// The name of a Kubernetes Service Account.
+        public let serviceAccount: String
+
+        public init(roleArn: String, serviceAccount: String) {
+            self.roleArn = roleArn
+            self.serviceAccount = serviceAccount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case serviceAccount = "serviceAccount"
+        }
+    }
+
+    public struct AddonPodIdentityConfiguration: AWSDecodableShape {
+        /// A suggested IAM Policy for the addon.
+        public let recommendedManagedPolicies: [String]?
+        /// The Kubernetes Service Account name used by the addon.
+        public let serviceAccount: String?
+
+        public init(recommendedManagedPolicies: [String]? = nil, serviceAccount: String? = nil) {
+            self.recommendedManagedPolicies = recommendedManagedPolicies
+            self.serviceAccount = serviceAccount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommendedManagedPolicies = "recommendedManagedPolicies"
+            case serviceAccount = "serviceAccount"
+        }
+    }
+
     public struct AddonVersionInfo: AWSDecodableShape {
         /// The version of the add-on.
         public let addonVersion: String?
@@ -574,12 +624,15 @@ extension EKS {
         public let compatibilities: [Compatibility]?
         /// Whether the add-on requires configuration.
         public let requiresConfiguration: Bool?
+        /// Indicates if the Addon requires IAM Permissions to operate, such as networking permissions.
+        public let requiresIamPermissions: Bool?
 
-        public init(addonVersion: String? = nil, architecture: [String]? = nil, compatibilities: [Compatibility]? = nil, requiresConfiguration: Bool? = nil) {
+        public init(addonVersion: String? = nil, architecture: [String]? = nil, compatibilities: [Compatibility]? = nil, requiresConfiguration: Bool? = nil, requiresIamPermissions: Bool? = nil) {
             self.addonVersion = addonVersion
             self.architecture = architecture
             self.compatibilities = compatibilities
             self.requiresConfiguration = requiresConfiguration
+            self.requiresIamPermissions = requiresIamPermissions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -587,6 +640,7 @@ extension EKS {
             case architecture = "architecture"
             case compatibilities = "compatibilities"
             case requiresConfiguration = "requiresConfiguration"
+            case requiresIamPermissions = "requiresIamPermissions"
         }
     }
 
@@ -839,7 +893,7 @@ extension EKS {
         public let encryptionConfig: [EncryptionConfig]?
         /// The endpoint for your Kubernetes API server.
         public let endpoint: String?
-        /// An object representing the health of your local Amazon EKS cluster on an Amazon Web Services Outpost. This object isn't available for clusters on the Amazon Web Services cloud.
+        /// An object representing the health of your Amazon EKS cluster.
         public let health: ClusterHealth?
         /// The ID of your local Amazon EKS cluster on an Amazon Web Services Outpost. This property isn't available for an Amazon EKS cluster on the Amazon Web Services cloud.
         public let id: String?
@@ -916,7 +970,7 @@ extension EKS {
     }
 
     public struct ClusterHealth: AWSDecodableShape {
-        /// An object representing the health issues of your local Amazon EKS cluster on an Amazon Web Services Outpost.
+        /// An object representing the health issues of your Amazon EKS cluster.
         public let issues: [ClusterIssue]?
 
         public init(issues: [ClusterIssue]? = nil) {
@@ -1142,6 +1196,8 @@ extension EKS {
         public let clusterName: String
         /// The set of configuration values for the add-on that's created. The values that you provide are validated against the schema returned by DescribeAddonConfiguration.
         public let configurationValues: String?
+        /// An array of Pod Identity Assocations to be created. Each EKS Pod Identity association maps a Kubernetes service account to an IAM Role. For more information, see Attach an IAM Role to an Amazon EKS add-on using Pod Identity in the EKS User Guide.
+        public let podIdentityAssociations: [AddonPodIdentityAssociations]?
         /// How to resolve field value conflicts for an Amazon EKS add-on. Conflicts are handled based on the value you choose:    None – If the self-managed version of the add-on is installed on your cluster, Amazon EKS doesn't change the value. Creation of the add-on might fail.    Overwrite – If the self-managed version of the add-on is installed on your cluster and the Amazon EKS default value is different than the existing value, Amazon EKS changes the value to the Amazon EKS default value.    Preserve – This is similar to the NONE option. If the self-managed version of the add-on is installed on your cluster Amazon EKS doesn't change the add-on resource properties. Creation of the add-on might fail if conflicts are detected. This option works differently during the update operation. For more information, see UpdateAddon.   If you don't currently have the self-managed version of the add-on installed on your cluster, the Amazon EKS add-on is installed. Amazon EKS sets all values to default values, regardless of the option that you specify.
         public let resolveConflicts: ResolveConflicts?
         /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide.
@@ -1149,12 +1205,13 @@ extension EKS {
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
 
-        public init(addonName: String, addonVersion: String? = nil, clientRequestToken: String? = CreateAddonRequest.idempotencyToken(), clusterName: String, configurationValues: String? = nil, resolveConflicts: ResolveConflicts? = nil, serviceAccountRoleArn: String? = nil, tags: [String: String]? = nil) {
+        public init(addonName: String, addonVersion: String? = nil, clientRequestToken: String? = CreateAddonRequest.idempotencyToken(), clusterName: String, configurationValues: String? = nil, podIdentityAssociations: [AddonPodIdentityAssociations]? = nil, resolveConflicts: ResolveConflicts? = nil, serviceAccountRoleArn: String? = nil, tags: [String: String]? = nil) {
             self.addonName = addonName
             self.addonVersion = addonVersion
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
             self.configurationValues = configurationValues
+            self.podIdentityAssociations = podIdentityAssociations
             self.resolveConflicts = resolveConflicts
             self.serviceAccountRoleArn = serviceAccountRoleArn
             self.tags = tags
@@ -1168,6 +1225,7 @@ extension EKS {
             try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
             request.encodePath(self.clusterName, key: "clusterName")
             try container.encodeIfPresent(self.configurationValues, forKey: .configurationValues)
+            try container.encodeIfPresent(self.podIdentityAssociations, forKey: .podIdentityAssociations)
             try container.encodeIfPresent(self.resolveConflicts, forKey: .resolveConflicts)
             try container.encodeIfPresent(self.serviceAccountRoleArn, forKey: .serviceAccountRoleArn)
             try container.encodeIfPresent(self.tags, forKey: .tags)
@@ -1193,6 +1251,7 @@ extension EKS {
             case addonVersion = "addonVersion"
             case clientRequestToken = "clientRequestToken"
             case configurationValues = "configurationValues"
+            case podIdentityAssociations = "podIdentityAssociations"
             case resolveConflicts = "resolveConflicts"
             case serviceAccountRoleArn = "serviceAccountRoleArn"
             case tags = "tags"
@@ -1214,6 +1273,8 @@ extension EKS {
     public struct CreateClusterRequest: AWSEncodableShape {
         /// The access configuration for the cluster.
         public let accessConfig: CreateAccessConfigRequest?
+        /// If you set this value to False when creating a cluster, the default networking add-ons will not be installed. The default networking addons include vpc-cni, coredns, and kube-proxy. Use this option when you plan to install third-party alternative add-ons or self-manage the default networking add-ons.
+        public let bootstrapSelfManagedAddons: Bool?
         /// A unique, case-sensitive identifier that you provide to ensure
         /// the idempotency of the request.
         public let clientRequestToken: String?
@@ -1236,8 +1297,9 @@ extension EKS {
         /// The desired Kubernetes version for your cluster. If you don't specify a value here, the default version available in Amazon EKS is used.  The default version might not be the latest version available.
         public let version: String?
 
-        public init(accessConfig: CreateAccessConfigRequest? = nil, clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, outpostConfig: OutpostConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest, roleArn: String, tags: [String: String]? = nil, version: String? = nil) {
+        public init(accessConfig: CreateAccessConfigRequest? = nil, bootstrapSelfManagedAddons: Bool? = nil, clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, outpostConfig: OutpostConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest, roleArn: String, tags: [String: String]? = nil, version: String? = nil) {
             self.accessConfig = accessConfig
+            self.bootstrapSelfManagedAddons = bootstrapSelfManagedAddons
             self.clientRequestToken = clientRequestToken
             self.encryptionConfig = encryptionConfig
             self.kubernetesNetworkConfig = kubernetesNetworkConfig
@@ -1266,6 +1328,7 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case accessConfig = "accessConfig"
+            case bootstrapSelfManagedAddons = "bootstrapSelfManagedAddons"
             case clientRequestToken = "clientRequestToken"
             case encryptionConfig = "encryptionConfig"
             case kubernetesNetworkConfig = "kubernetesNetworkConfig"
@@ -1429,7 +1492,7 @@ extension EKS {
     }
 
     public struct CreateNodegroupRequest: AWSEncodableShape {
-        /// The AMI type for your node group. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group  deployment will fail. If your launch template uses a Windows custom AMI, then add eks:kube-proxy-windows to your Windows nodes rolearn in the aws-auth ConfigMap. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// The AMI type for your node group. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group  deployment will fail. If your launch template uses a Windows custom AMI, then add eks:kube-proxy-windows to your Windows nodes rolearn in the aws-auth ConfigMap. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let amiType: AMITypes?
         /// The capacity type for your node group.
         public let capacityType: CapacityTypes?
@@ -1438,25 +1501,25 @@ extension EKS {
         public let clientRequestToken: String?
         /// The name of your cluster.
         public let clusterName: String
-        /// The root device disk size (in GiB) for your node group instances. The default disk size is 20 GiB for Linux and Bottlerocket. The default disk size is 50 GiB for Windows. If you specify launchTemplate, then don't specify  diskSize, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// The root device disk size (in GiB) for your node group instances. The default disk size is 20 GiB for Linux and Bottlerocket. The default disk size is 50 GiB for Windows. If you specify launchTemplate, then don't specify  diskSize, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let diskSize: Int?
-        /// Specify the instance types for a node group. If you specify a GPU instance type, make sure to also specify an applicable GPU AMI type with the amiType parameter. If you specify launchTemplate, then you can specify zero or one instance type in your launch template or you can specify 0-20 instance types for instanceTypes. If however, you specify an instance type in your launch template and specify any instanceTypes, the node group deployment will fail. If you don't specify an instance type in a launch template or for instanceTypes, then t3.medium is used, by default. If you specify Spot for capacityType, then we recommend specifying multiple values for instanceTypes. For more information, see Managed node group capacity types and Launch template support in the Amazon EKS User Guide.
+        /// Specify the instance types for a node group. If you specify a GPU instance type, make sure to also specify an applicable GPU AMI type with the amiType parameter. If you specify launchTemplate, then you can specify zero or one instance type in your launch template or you can specify 0-20 instance types for instanceTypes. If however, you specify an instance type in your launch template and specify any instanceTypes, the node group deployment will fail. If you don't specify an instance type in a launch template or for instanceTypes, then t3.medium is used, by default. If you specify Spot for capacityType, then we recommend specifying multiple values for instanceTypes. For more information, see Managed node group capacity types and Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let instanceTypes: [String]?
         /// The Kubernetes labels to apply to the nodes in the node group when they are created.
         public let labels: [String: String]?
-        /// An object representing a node group's launch template specification. If specified, then do not specify instanceTypes, diskSize, or remoteAccess and make sure that the launch template meets the requirements in launchTemplateSpecification.
+        /// An object representing a node group's launch template specification. When using this object, don't directly specify instanceTypes, diskSize, or remoteAccess. Make sure that the launch template meets the requirements in launchTemplateSpecification. Also refer to Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let launchTemplate: LaunchTemplateSpecification?
         /// The unique name to give your node group.
         public let nodegroupName: String
-        /// The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to Amazon Web Services APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch nodes and register them into a cluster, you must create an IAM role for those nodes to use when they are launched. For more information, see Amazon EKS node IAM role in the  Amazon EKS User Guide . If you specify launchTemplate, then don't specify   IamInstanceProfile in your launch template, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to Amazon Web Services APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch nodes and register them into a cluster, you must create an IAM role for those nodes to use when they are launched. For more information, see Amazon EKS node IAM role in the  Amazon EKS User Guide . If you specify launchTemplate, then don't specify   IamInstanceProfile in your launch template, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let nodeRole: String
-        /// The AMI version of the Amazon EKS optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide. Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs. For information about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  releaseVersion, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// The AMI version of the Amazon EKS optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide. Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs. For information about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  releaseVersion, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let releaseVersion: String?
-        /// The remote access configuration to use with your node group. For Linux, the protocol is SSH. For Windows, the protocol is RDP. If you specify launchTemplate, then don't specify  remoteAccess, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// The remote access configuration to use with your node group. For Linux, the protocol is SSH. For Windows, the protocol is RDP. If you specify launchTemplate, then don't specify  remoteAccess, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let remoteAccess: RemoteAccessConfig?
         /// The scaling configuration details for the Auto Scaling group that is created for your node group.
         public let scalingConfig: NodegroupScalingConfig?
-        /// The subnets to use for the Auto Scaling group that is created for your node group. If you specify launchTemplate, then don't specify   SubnetId in your launch template, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// The subnets to use for the Auto Scaling group that is created for your node group. If you specify launchTemplate, then don't specify   SubnetId in your launch template, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let subnets: [String]
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
@@ -1464,7 +1527,7 @@ extension EKS {
         public let taints: [Taint]?
         /// The node group update configuration.
         public let updateConfig: NodegroupUpdateConfig?
-        /// The Kubernetes version to use for your managed nodes. By default, the Kubernetes version of the cluster is used, and this is the only accepted specified value. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  version, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// The Kubernetes version to use for your managed nodes. By default, the Kubernetes version of the cluster is used, and this is the only accepted specified value. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  version, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let version: String?
 
         public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, taints: [Taint]? = nil, updateConfig: NodegroupUpdateConfig? = nil, version: String? = nil) {
@@ -1983,17 +2046,21 @@ extension EKS {
         public let addonVersion: String?
         /// A JSON schema that's used to validate the configuration values you provide when an add-on is created or updated.
         public let configurationSchema: String?
+        /// The Kubernetes service account name used by the addon, and any suggested IAM policies. Use this information to create an IAM Role for the Addon.
+        public let podIdentityConfiguration: [AddonPodIdentityConfiguration]?
 
-        public init(addonName: String? = nil, addonVersion: String? = nil, configurationSchema: String? = nil) {
+        public init(addonName: String? = nil, addonVersion: String? = nil, configurationSchema: String? = nil, podIdentityConfiguration: [AddonPodIdentityConfiguration]? = nil) {
             self.addonName = addonName
             self.addonVersion = addonVersion
             self.configurationSchema = configurationSchema
+            self.podIdentityConfiguration = podIdentityConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case addonName = "addonName"
             case addonVersion = "addonVersion"
             case configurationSchema = "configurationSchema"
+            case podIdentityConfiguration = "podIdentityConfiguration"
         }
     }
 
@@ -2564,6 +2631,8 @@ extension EKS {
         public let fargateProfileArn: String?
         /// The name of the Fargate profile.
         public let fargateProfileName: String?
+        /// The health status of the Fargate  profile. If there are issues with your Fargate profile's health, they are listed here.
+        public let health: FargateProfileHealth?
         /// The Amazon Resource Name (ARN) of the Pod execution role to use for any Pod that matches the selectors in the Fargate profile. For more information, see  Pod execution role in the Amazon EKS User Guide.
         public let podExecutionRoleArn: String?
         /// The selectors to match for a Pod to use this Fargate profile.
@@ -2575,11 +2644,12 @@ extension EKS {
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
 
-        public init(clusterName: String? = nil, createdAt: Date? = nil, fargateProfileArn: String? = nil, fargateProfileName: String? = nil, podExecutionRoleArn: String? = nil, selectors: [FargateProfileSelector]? = nil, status: FargateProfileStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil) {
+        public init(clusterName: String? = nil, createdAt: Date? = nil, fargateProfileArn: String? = nil, fargateProfileName: String? = nil, health: FargateProfileHealth? = nil, podExecutionRoleArn: String? = nil, selectors: [FargateProfileSelector]? = nil, status: FargateProfileStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil) {
             self.clusterName = clusterName
             self.createdAt = createdAt
             self.fargateProfileArn = fargateProfileArn
             self.fargateProfileName = fargateProfileName
+            self.health = health
             self.podExecutionRoleArn = podExecutionRoleArn
             self.selectors = selectors
             self.status = status
@@ -2592,11 +2662,46 @@ extension EKS {
             case createdAt = "createdAt"
             case fargateProfileArn = "fargateProfileArn"
             case fargateProfileName = "fargateProfileName"
+            case health = "health"
             case podExecutionRoleArn = "podExecutionRoleArn"
             case selectors = "selectors"
             case status = "status"
             case subnets = "subnets"
             case tags = "tags"
+        }
+    }
+
+    public struct FargateProfileHealth: AWSDecodableShape {
+        /// Any issues that are associated with the Fargate profile.
+        public let issues: [FargateProfileIssue]?
+
+        public init(issues: [FargateProfileIssue]? = nil) {
+            self.issues = issues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case issues = "issues"
+        }
+    }
+
+    public struct FargateProfileIssue: AWSDecodableShape {
+        /// A brief description of the error.
+        public let code: FargateProfileIssueCode?
+        /// The error message associated with the issue.
+        public let message: String?
+        /// The Amazon Web Services resources that are affected by this issue.
+        public let resourceIds: [String]?
+
+        public init(code: FargateProfileIssueCode? = nil, message: String? = nil, resourceIds: [String]? = nil) {
+            self.code = code
+            self.message = message
+            self.resourceIds = resourceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+            case resourceIds = "resourceIds"
         }
     }
 
@@ -3946,6 +4051,8 @@ extension EKS {
         public let modifiedAt: Date?
         /// The name of the Kubernetes namespace inside the cluster to create the association in. The service account and the pods that use the service account must be in this namespace.
         public let namespace: String?
+        /// If defined, the Pod Identity Association is owned by an Amazon EKS Addon.
+        public let ownerArn: String?
         /// The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the pods that use this service account.
         public let roleArn: String?
         /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
@@ -3953,13 +4060,14 @@ extension EKS {
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. The following basic restrictions apply to tags:   Maximum number of tags per resource – 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length – 128 Unicode characters in UTF-8   Maximum value length – 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
         public let tags: [String: String]?
 
-        public init(associationArn: String? = nil, associationId: String? = nil, clusterName: String? = nil, createdAt: Date? = nil, modifiedAt: Date? = nil, namespace: String? = nil, roleArn: String? = nil, serviceAccount: String? = nil, tags: [String: String]? = nil) {
+        public init(associationArn: String? = nil, associationId: String? = nil, clusterName: String? = nil, createdAt: Date? = nil, modifiedAt: Date? = nil, namespace: String? = nil, ownerArn: String? = nil, roleArn: String? = nil, serviceAccount: String? = nil, tags: [String: String]? = nil) {
             self.associationArn = associationArn
             self.associationId = associationId
             self.clusterName = clusterName
             self.createdAt = createdAt
             self.modifiedAt = modifiedAt
             self.namespace = namespace
+            self.ownerArn = ownerArn
             self.roleArn = roleArn
             self.serviceAccount = serviceAccount
             self.tags = tags
@@ -3972,6 +4080,7 @@ extension EKS {
             case createdAt = "createdAt"
             case modifiedAt = "modifiedAt"
             case namespace = "namespace"
+            case ownerArn = "ownerArn"
             case roleArn = "roleArn"
             case serviceAccount = "serviceAccount"
             case tags = "tags"
@@ -3987,14 +4096,17 @@ extension EKS {
         public let clusterName: String?
         /// The name of the Kubernetes namespace inside the cluster to create the association in. The service account and the pods that use the service account must be in this namespace.
         public let namespace: String?
+        /// If defined, the Pod Identity Association is owned by an Amazon EKS Addon.
+        public let ownerArn: String?
         /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
         public let serviceAccount: String?
 
-        public init(associationArn: String? = nil, associationId: String? = nil, clusterName: String? = nil, namespace: String? = nil, serviceAccount: String? = nil) {
+        public init(associationArn: String? = nil, associationId: String? = nil, clusterName: String? = nil, namespace: String? = nil, ownerArn: String? = nil, serviceAccount: String? = nil) {
             self.associationArn = associationArn
             self.associationId = associationId
             self.clusterName = clusterName
             self.namespace = namespace
+            self.ownerArn = ownerArn
             self.serviceAccount = serviceAccount
         }
 
@@ -4003,6 +4115,7 @@ extension EKS {
             case associationId = "associationId"
             case clusterName = "clusterName"
             case namespace = "namespace"
+            case ownerArn = "ownerArn"
             case serviceAccount = "serviceAccount"
         }
     }
@@ -4295,17 +4408,20 @@ extension EKS {
         public let clusterName: String
         /// The set of configuration values for the add-on that's created. The values that you provide are validated against the schema returned by DescribeAddonConfiguration.
         public let configurationValues: String?
+        /// An array of Pod Identity Assocations to be updated. Each EKS Pod Identity association maps a Kubernetes service account to an IAM Role. If this value is left blank, no change. If an empty array is provided, existing Pod Identity Assocations owned by the Addon are deleted. For more information, see Attach an IAM Role to an Amazon EKS add-on using Pod Identity in the EKS User Guide.
+        public let podIdentityAssociations: [AddonPodIdentityAssociations]?
         /// How to resolve field value conflicts for an Amazon EKS add-on if you've changed a value from the Amazon EKS default value. Conflicts are handled based on the option you choose:    None – Amazon EKS doesn't change the value. The update might fail.    Overwrite – Amazon EKS overwrites the changed value back to the Amazon EKS default value.    Preserve – Amazon EKS preserves the value. If you choose this option, we recommend that you test any field and value changes on a non-production cluster before updating the add-on on your production cluster.
         public let resolveConflicts: ResolveConflicts?
         /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide.
         public let serviceAccountRoleArn: String?
 
-        public init(addonName: String, addonVersion: String? = nil, clientRequestToken: String? = UpdateAddonRequest.idempotencyToken(), clusterName: String, configurationValues: String? = nil, resolveConflicts: ResolveConflicts? = nil, serviceAccountRoleArn: String? = nil) {
+        public init(addonName: String, addonVersion: String? = nil, clientRequestToken: String? = UpdateAddonRequest.idempotencyToken(), clusterName: String, configurationValues: String? = nil, podIdentityAssociations: [AddonPodIdentityAssociations]? = nil, resolveConflicts: ResolveConflicts? = nil, serviceAccountRoleArn: String? = nil) {
             self.addonName = addonName
             self.addonVersion = addonVersion
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
             self.configurationValues = configurationValues
+            self.podIdentityAssociations = podIdentityAssociations
             self.resolveConflicts = resolveConflicts
             self.serviceAccountRoleArn = serviceAccountRoleArn
         }
@@ -4318,6 +4434,7 @@ extension EKS {
             try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
             request.encodePath(self.clusterName, key: "clusterName")
             try container.encodeIfPresent(self.configurationValues, forKey: .configurationValues)
+            try container.encodeIfPresent(self.podIdentityAssociations, forKey: .podIdentityAssociations)
             try container.encodeIfPresent(self.resolveConflicts, forKey: .resolveConflicts)
             try container.encodeIfPresent(self.serviceAccountRoleArn, forKey: .serviceAccountRoleArn)
         }
@@ -4334,6 +4451,7 @@ extension EKS {
             case addonVersion = "addonVersion"
             case clientRequestToken = "clientRequestToken"
             case configurationValues = "configurationValues"
+            case podIdentityAssociations = "podIdentityAssociations"
             case resolveConflicts = "resolveConflicts"
             case serviceAccountRoleArn = "serviceAccountRoleArn"
         }
@@ -4589,9 +4707,9 @@ extension EKS {
         public let launchTemplate: LaunchTemplateSpecification?
         /// The name of the managed node group to update.
         public let nodegroupName: String
-        /// The AMI version of the Amazon EKS optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide. Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs. For information about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  releaseVersion, or the node group  update will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// The AMI version of the Amazon EKS optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide. Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs. For information about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  releaseVersion, or the node group  update will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let releaseVersion: String?
-        /// The Kubernetes version to update to. If no version is specified, then the Kubernetes version of the node group does not change. You can specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  version, or the node group  update will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// The Kubernetes version to update to. If no version is specified, then the Kubernetes version of the node group does not change. You can specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  version, or the node group  update will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let version: String?
 
         public init(clientRequestToken: String? = UpdateNodegroupVersionRequest.idempotencyToken(), clusterName: String, force: Bool? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, releaseVersion: String? = nil, version: String? = nil) {

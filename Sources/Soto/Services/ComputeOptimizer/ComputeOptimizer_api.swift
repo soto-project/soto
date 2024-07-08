@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -214,6 +214,19 @@ public struct ComputeOptimizer: AWSService {
         )
     }
 
+    ///  Export optimization recommendations for your Amazon Relational Database Service (Amazon RDS).  Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide. You can have only one Amazon RDS export job in progress per Amazon Web Services Region.
+    @Sendable
+    public func exportRDSDatabaseRecommendations(_ input: ExportRDSDatabaseRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportRDSDatabaseRecommendationsResponse {
+        return try await self.client.execute(
+            operation: "ExportRDSDatabaseRecommendations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns Auto Scaling group recommendations. Compute Optimizer generates recommendations for Amazon EC2 Auto Scaling groups that meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide.
     @Sendable
     public func getAutoScalingGroupRecommendations(_ input: GetAutoScalingGroupRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutoScalingGroupRecommendationsResponse {
@@ -349,6 +362,32 @@ public struct ComputeOptimizer: AWSService {
     public func getLicenseRecommendations(_ input: GetLicenseRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLicenseRecommendationsResponse {
         return try await self.client.execute(
             operation: "GetLicenseRecommendations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Returns the projected metrics of Amazon RDS recommendations.
+    @Sendable
+    public func getRDSDatabaseRecommendationProjectedMetrics(_ input: GetRDSDatabaseRecommendationProjectedMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRDSDatabaseRecommendationProjectedMetricsResponse {
+        return try await self.client.execute(
+            operation: "GetRDSDatabaseRecommendationProjectedMetrics", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Returns Amazon RDS recommendations.  Compute Optimizer generates recommendations for Amazon RDS that  meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide.
+    @Sendable
+    public func getRDSDatabaseRecommendations(_ input: GetRDSDatabaseRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRDSDatabaseRecommendationsResponse {
+        return try await self.client.execute(
+            operation: "GetRDSDatabaseRecommendations", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 

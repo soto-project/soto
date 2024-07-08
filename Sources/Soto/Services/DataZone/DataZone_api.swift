@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -175,6 +175,19 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Associates the environment role in Amazon DataZone.
+    @Sendable
+    public func associateEnvironmentRole(_ input: AssociateEnvironmentRoleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateEnvironmentRoleOutput {
+        return try await self.client.execute(
+            operation: "AssociateEnvironmentRole", 
+            path: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/roles/{environmentRoleArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Cancels the metadata generation run.
     @Sendable
     public func cancelMetadataGenerationRun(_ input: CancelMetadataGenerationRunInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelMetadataGenerationRunOutput {
@@ -272,6 +285,19 @@ public struct DataZone: AWSService {
         return try await self.client.execute(
             operation: "CreateEnvironment", 
             path: "/v2/domains/{domainIdentifier}/environments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates an action for the environment, for example, creates a console link for an analytics tool that is available in this environment.
+    @Sendable
+    public func createEnvironmentAction(_ input: CreateEnvironmentActionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentActionOutput {
+        return try await self.client.execute(
+            operation: "CreateEnvironmentAction", 
+            path: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -500,6 +526,19 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Deletes an action for the environment, for example, deletes a console link for an analytics tool that is available in this environment.
+    @Sendable
+    public func deleteEnvironmentAction(_ input: DeleteEnvironmentActionInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteEnvironmentAction", 
+            path: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions/{identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes the blueprint configuration in Amazon DataZone.
     @Sendable
     public func deleteEnvironmentBlueprintConfiguration(_ input: DeleteEnvironmentBlueprintConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEnvironmentBlueprintConfigurationOutput {
@@ -656,6 +695,19 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Disassociates the environment role in Amazon DataZone.
+    @Sendable
+    public func disassociateEnvironmentRole(_ input: DisassociateEnvironmentRoleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateEnvironmentRoleOutput {
+        return try await self.client.execute(
+            operation: "DisassociateEnvironmentRole", 
+            path: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/roles/{environmentRoleArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets an Amazon DataZone asset.
     @Sendable
     public func getAsset(_ input: GetAssetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssetOutput {
@@ -727,6 +779,19 @@ public struct DataZone: AWSService {
         return try await self.client.execute(
             operation: "GetEnvironment", 
             path: "/v2/domains/{domainIdentifier}/environments/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets the specified environment action.
+    @Sendable
+    public func getEnvironmentAction(_ input: GetEnvironmentActionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnvironmentActionOutput {
+        return try await self.client.execute(
+            operation: "GetEnvironmentAction", 
+            path: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions/{identifier}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -832,6 +897,19 @@ public struct DataZone: AWSService {
             operation: "GetIamPortalLoginUrl", 
             path: "/v2/domains/{domainIdentifier}/get-portal-login-url", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets the data lineage node.
+    @Sendable
+    public func getLineageNode(_ input: GetLineageNodeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLineageNodeOutput {
+        return try await self.client.execute(
+            operation: "GetLineageNode", 
+            path: "/v2/domains/{domainIdentifier}/lineage/nodes/{identifier}", 
+            httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -1020,6 +1098,19 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Lists existing environment actions.
+    @Sendable
+    public func listEnvironmentActions(_ input: ListEnvironmentActionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnvironmentActionsOutput {
+        return try await self.client.execute(
+            operation: "ListEnvironmentActions", 
+            path: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists blueprint configurations for a Amazon DataZone environment.
     @Sendable
     public func listEnvironmentBlueprintConfigurations(_ input: ListEnvironmentBlueprintConfigurationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnvironmentBlueprintConfigurationsOutput {
@@ -1065,6 +1156,19 @@ public struct DataZone: AWSService {
         return try await self.client.execute(
             operation: "ListEnvironments", 
             path: "/v2/domains/{domainIdentifier}/environments", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the history of the specified data lineage node.
+    @Sendable
+    public func listLineageNodeHistory(_ input: ListLineageNodeHistoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLineageNodeHistoryOutput {
+        return try await self.client.execute(
+            operation: "ListLineageNodeHistory", 
+            path: "/v2/domains/{domainIdentifier}/lineage/nodes/{identifier}/history", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -1196,6 +1300,19 @@ public struct DataZone: AWSService {
             operation: "ListTimeSeriesDataPoints", 
             path: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/time-series-data-points", 
             httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Posts a data lineage event.
+    @Sendable
+    public func postLineageEvent(_ input: PostLineageEventInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PostLineageEventOutput {
+        return try await self.client.execute(
+            operation: "PostLineageEvent", 
+            path: "/v2/domains/{domainIdentifier}/lineage/events", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -1423,6 +1540,19 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Updates an environment action.
+    @Sendable
+    public func updateEnvironmentAction(_ input: UpdateEnvironmentActionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEnvironmentActionOutput {
+        return try await self.client.execute(
+            operation: "UpdateEnvironmentAction", 
+            path: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/actions/{identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates the specified environment profile in Amazon DataZone.
     @Sendable
     public func updateEnvironmentProfile(_ input: UpdateEnvironmentProfileInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEnvironmentProfileOutput {
@@ -1630,6 +1760,25 @@ extension DataZone {
         )
     }
 
+    /// Lists existing environment actions.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listEnvironmentActionsPaginator(
+        _ input: ListEnvironmentActionsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEnvironmentActionsInput, ListEnvironmentActionsOutput> {
+        return .init(
+            input: input,
+            command: self.listEnvironmentActions,
+            inputKey: \ListEnvironmentActionsInput.nextToken,
+            outputKey: \ListEnvironmentActionsOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists blueprint configurations for a Amazon DataZone environment.
     /// Return PaginatorSequence for operation.
     ///
@@ -1702,6 +1851,25 @@ extension DataZone {
             command: self.listEnvironments,
             inputKey: \ListEnvironmentsInput.nextToken,
             outputKey: \ListEnvironmentsOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists the history of the specified data lineage node.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listLineageNodeHistoryPaginator(
+        _ input: ListLineageNodeHistoryInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLineageNodeHistoryInput, ListLineageNodeHistoryOutput> {
+        return .init(
+            input: input,
+            command: self.listLineageNodeHistory,
+            inputKey: \ListLineageNodeHistoryInput.nextToken,
+            outputKey: \ListLineageNodeHistoryOutput.nextToken,
             logger: logger
         )
     }
@@ -2022,6 +2190,17 @@ extension DataZone.ListDomainsInput: AWSPaginateToken {
     }
 }
 
+extension DataZone.ListEnvironmentActionsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DataZone.ListEnvironmentActionsInput {
+        return .init(
+            domainIdentifier: self.domainIdentifier,
+            environmentIdentifier: self.environmentIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension DataZone.ListEnvironmentBlueprintConfigurationsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataZone.ListEnvironmentBlueprintConfigurationsInput {
         return .init(
@@ -2073,6 +2252,21 @@ extension DataZone.ListEnvironmentsInput: AWSPaginateToken {
             projectIdentifier: self.projectIdentifier,
             provider: self.provider,
             status: self.status
+        )
+    }
+}
+
+extension DataZone.ListLineageNodeHistoryInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DataZone.ListLineageNodeHistoryInput {
+        return .init(
+            direction: self.direction,
+            domainIdentifier: self.domainIdentifier,
+            eventTimestampGTE: self.eventTimestampGTE,
+            eventTimestampLTE: self.eventTimestampLTE,
+            identifier: self.identifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortOrder: self.sortOrder
         )
     }
 }

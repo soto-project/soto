@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -204,7 +204,7 @@ extension SecurityLake {
                 try validate($0, name: "accounts[]", parent: name, pattern: "^[0-9]{12}$")
             }
             try self.regions.forEach {
-                try validate($0, name: "regions[]", parent: name, pattern: "^(af|ap|ca|eu|me|sa|us)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\\d+$")
+                try validate($0, name: "regions[]", parent: name, pattern: "^(us(-gov)?|af|ap|ca|eu|me|sa)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\\d+$")
             }
             try self.validate(self.sourceVersion, name: "sourceVersion", parent: name, pattern: "^(latest|[0-9]\\.[0-9])$")
         }
@@ -296,7 +296,7 @@ extension SecurityLake {
             }
             try self.validate(self.sourceName, name: "sourceName", parent: name, max: 64)
             try self.validate(self.sourceName, name: "sourceName", parent: name, min: 1)
-            try self.validate(self.sourceName, name: "sourceName", parent: name, pattern: "^[\\\\\\w\\-_:/.]*$")
+            try self.validate(self.sourceName, name: "sourceName", parent: name, pattern: "^[\\w\\-\\_\\:\\.]*$")
             try self.validate(self.sourceVersion, name: "sourceVersion", parent: name, max: 32)
             try self.validate(self.sourceVersion, name: "sourceVersion", parent: name, min: 1)
             try self.validate(self.sourceVersion, name: "sourceVersion", parent: name, pattern: "^[A-Za-z0-9\\-\\.\\_]*$")
@@ -471,7 +471,7 @@ extension SecurityLake {
         public let sources: [LogSourceResource]
         /// The description for your subscriber account in Security Lake.
         public let subscriberDescription: String?
-        /// The AWS identity used to access your data.
+        /// The Amazon Web Services identity used to access your data.
         public let subscriberIdentity: AwsIdentity
         /// The name of your Security Lake subscriber account.
         public let subscriberName: String
@@ -539,13 +539,13 @@ extension SecurityLake {
         public func validate(name: String) throws {
             try self.validate(self.crawlerArn, name: "crawlerArn", parent: name, max: 1011)
             try self.validate(self.crawlerArn, name: "crawlerArn", parent: name, min: 1)
-            try self.validate(self.crawlerArn, name: "crawlerArn", parent: name, pattern: "^arn:aws:securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
+            try self.validate(self.crawlerArn, name: "crawlerArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
             try self.validate(self.databaseArn, name: "databaseArn", parent: name, max: 1011)
             try self.validate(self.databaseArn, name: "databaseArn", parent: name, min: 1)
-            try self.validate(self.databaseArn, name: "databaseArn", parent: name, pattern: "^arn:aws:securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
+            try self.validate(self.databaseArn, name: "databaseArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
             try self.validate(self.tableArn, name: "tableArn", parent: name, max: 1011)
             try self.validate(self.tableArn, name: "tableArn", parent: name, min: 1)
-            try self.validate(self.tableArn, name: "tableArn", parent: name, pattern: "^arn:aws:securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
+            try self.validate(self.tableArn, name: "tableArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -639,7 +639,7 @@ extension SecurityLake {
             try self.provider?.validate(name: "\(name).provider")
             try self.validate(self.sourceName, name: "sourceName", parent: name, max: 64)
             try self.validate(self.sourceName, name: "sourceName", parent: name, min: 1)
-            try self.validate(self.sourceName, name: "sourceName", parent: name, pattern: "^[\\\\\\w\\-_:/.]*$")
+            try self.validate(self.sourceName, name: "sourceName", parent: name, pattern: "^[\\w\\-\\_\\:\\.]*$")
             try self.validate(self.sourceVersion, name: "sourceVersion", parent: name, max: 32)
             try self.validate(self.sourceVersion, name: "sourceVersion", parent: name, min: 1)
             try self.validate(self.sourceVersion, name: "sourceVersion", parent: name, pattern: "^[A-Za-z0-9\\-\\.\\_]*$")
@@ -665,7 +665,7 @@ extension SecurityLake {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.region, name: "region", parent: name, pattern: "^(af|ap|ca|eu|me|sa|us)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\\d+$")
+            try self.validate(self.region, name: "region", parent: name, pattern: "^(us(-gov)?|af|ap|ca|eu|me|sa)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\\d+$")
             try self.sources.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
@@ -696,7 +696,7 @@ extension SecurityLake {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.region, name: "region", parent: name, pattern: "^(af|ap|ca|eu|me|sa|us)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\\d+$")
+            try self.validate(self.region, name: "region", parent: name, pattern: "^(us(-gov)?|af|ap|ca|eu|me|sa)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\\d+$")
             try self.replicationConfiguration?.validate(name: "\(name).replicationConfiguration")
         }
 
@@ -806,7 +806,7 @@ extension SecurityLake {
 
         public func validate(name: String) throws {
             try self.regions?.forEach {
-                try validate($0, name: "regions[]", parent: name, pattern: "^(af|ap|ca|eu|me|sa|us)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\\d+$")
+                try validate($0, name: "regions[]", parent: name, pattern: "^(us(-gov)?|af|ap|ca|eu|me|sa)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\\d+$")
             }
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
         }
@@ -993,7 +993,7 @@ extension SecurityLake {
         public func validate(name: String) throws {
             try self.validate(self.sourceName, name: "sourceName", parent: name, max: 64)
             try self.validate(self.sourceName, name: "sourceName", parent: name, min: 1)
-            try self.validate(self.sourceName, name: "sourceName", parent: name, pattern: "^[\\\\\\w\\-_:/.]*$")
+            try self.validate(self.sourceName, name: "sourceName", parent: name, pattern: "^[\\w\\-\\_\\:\\.]*$")
             try self.validate(self.sourceVersion, name: "sourceVersion", parent: name, max: 32)
             try self.validate(self.sourceVersion, name: "sourceVersion", parent: name, min: 1)
             try self.validate(self.sourceVersion, name: "sourceVersion", parent: name, pattern: "^[A-Za-z0-9\\-\\.\\_]*$")
@@ -1048,7 +1048,7 @@ extension SecurityLake {
 
         public func validate(name: String) throws {
             try self.regions.forEach {
-                try validate($0, name: "regions[]", parent: name, pattern: "^(af|ap|ca|eu|me|sa|us)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\\d+$")
+                try validate($0, name: "regions[]", parent: name, pattern: "^(us(-gov)?|af|ap|ca|eu|me|sa)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\\d+$")
             }
         }
 
@@ -1300,7 +1300,7 @@ extension SecurityLake {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.regions?.forEach {
-                try validate($0, name: "regions[]", parent: name, pattern: "^(af|ap|ca|eu|me|sa|us)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\\d+$")
+                try validate($0, name: "regions[]", parent: name, pattern: "^(us(-gov)?|af|ap|ca|eu|me|sa)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\\d+$")
             }
         }
 
@@ -1344,7 +1344,7 @@ extension SecurityLake {
 
         public func validate(name: String) throws {
             try self.regions?.forEach {
-                try validate($0, name: "regions[]", parent: name, pattern: "^(af|ap|ca|eu|me|sa|us)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\\d+$")
+                try validate($0, name: "regions[]", parent: name, pattern: "^(us(-gov)?|af|ap|ca|eu|me|sa)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\\d+$")
             }
         }
 
@@ -1394,7 +1394,7 @@ extension SecurityLake {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.regions?.forEach {
-                try validate($0, name: "regions[]", parent: name, pattern: "^(af|ap|ca|eu|me|sa|us)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\\d+$")
+                try validate($0, name: "regions[]", parent: name, pattern: "^(us(-gov)?|af|ap|ca|eu|me|sa)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-\\d+$")
             }
             try self.sources?.forEach {
                 try $0.validate(name: "\(name).sources[]")
@@ -1488,7 +1488,7 @@ extension SecurityLake {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1558,7 +1558,7 @@ extension SecurityLake {
         public let accessTypes: [AccessType]?
         /// The date and time when the subscriber was created.
         public let createdAt: Date?
-        /// The Amazon Resource Name (ARN) which uniquely defines the AWS RAM resource share. Before accepting the RAM resource share invitation, you can view details related to the RAM resource share. This field is available only for Lake Formation subscribers created after March 8, 2023.
+        /// The Amazon Resource Name (ARN) which uniquely defines the Amazon Web Services RAM resource share. Before accepting the RAM resource share invitation, you can view details related to the RAM resource share. This field is available only for Lake Formation subscribers created after March 8, 2023.
         public let resourceShareArn: String?
         /// The name of the resource share.
         public let resourceShareName: String?
@@ -1576,7 +1576,7 @@ extension SecurityLake {
         public let subscriberEndpoint: String?
         /// The subscriber ID of the Amazon Security Lake subscriber account.
         public let subscriberId: String
-        /// The AWS identity used to access your data.
+        /// The Amazon Web Services identity used to access your data.
         public let subscriberIdentity: AwsIdentity
         /// The name of your Amazon Security Lake subscriber account.
         public let subscriberName: String
@@ -1666,7 +1666,7 @@ extension SecurityLake {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1703,7 +1703,7 @@ extension SecurityLake {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):securitylake:[A-za-z0-9_/.\\-]{0,63}:[A-za-z0-9_/.\\-]{0,63}:[A-Za-z0-9][A-za-z0-9_/.\\-]{0,127}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)

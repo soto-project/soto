@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -591,13 +591,16 @@ extension WorkSpacesWeb {
         public let identityProviderType: IdentityProviderType
         /// The ARN of the web portal.
         public let portalArn: String
+        /// The tags to add to the identity provider resource. A tag is a key-value pair.
+        public let tags: [Tag]?
 
-        public init(clientToken: String? = CreateIdentityProviderRequest.idempotencyToken(), identityProviderDetails: [String: String], identityProviderName: String, identityProviderType: IdentityProviderType, portalArn: String) {
+        public init(clientToken: String? = CreateIdentityProviderRequest.idempotencyToken(), identityProviderDetails: [String: String], identityProviderName: String, identityProviderType: IdentityProviderType, portalArn: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.identityProviderDetails = identityProviderDetails
             self.identityProviderName = identityProviderName
             self.identityProviderType = identityProviderType
             self.portalArn = portalArn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -615,6 +618,10 @@ extension WorkSpacesWeb {
             try self.validate(self.portalArn, name: "portalArn", parent: name, max: 2048)
             try self.validate(self.portalArn, name: "portalArn", parent: name, min: 20)
             try self.validate(self.portalArn, name: "portalArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36})+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -623,6 +630,7 @@ extension WorkSpacesWeb {
             case identityProviderName = "identityProviderName"
             case identityProviderType = "identityProviderType"
             case portalArn = "portalArn"
+            case tags = "tags"
         }
     }
 
@@ -652,7 +660,7 @@ extension WorkSpacesWeb {
         public let displayName: String?
         /// The IP rules of the IP access settings.
         public let ipRules: [IpRule]
-        /// The tags to add to the browser settings resource. A tag is a key-value pair.
+        /// The tags to add to the IP access settings resource. A tag is a key-value pair.
         public let tags: [Tag]?
 
         public init(additionalEncryptionContext: [String: String]? = nil, clientToken: String? = CreateIpAccessSettingsRequest.idempotencyToken(), customerManagedKey: String? = nil, description: String? = nil, displayName: String? = nil, ipRules: [IpRule], tags: [Tag]? = nil) {
@@ -967,6 +975,8 @@ extension WorkSpacesWeb {
         public let copyAllowed: EnabledType
         /// The customer managed key used to encrypt sensitive information in the user settings.
         public let customerManagedKey: String?
+        /// Specifies whether the user can use deep links that open automatically when connecting to a session.
+        public let deepLinkAllowed: EnabledType?
         /// The amount of time that a streaming session remains active after users disconnect.
         public let disconnectTimeoutInMinutes: Int?
         /// Specifies whether the user can download files from the streaming session to the local device.
@@ -982,12 +992,13 @@ extension WorkSpacesWeb {
         /// Specifies whether the user can upload files from the local device to the streaming session.
         public let uploadAllowed: EnabledType
 
-        public init(additionalEncryptionContext: [String: String]? = nil, clientToken: String? = CreateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType, customerManagedKey: String? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType, printAllowed: EnabledType, tags: [Tag]? = nil, uploadAllowed: EnabledType) {
+        public init(additionalEncryptionContext: [String: String]? = nil, clientToken: String? = CreateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType, printAllowed: EnabledType, tags: [Tag]? = nil, uploadAllowed: EnabledType) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.clientToken = clientToken
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
             self.customerManagedKey = customerManagedKey
+            self.deepLinkAllowed = deepLinkAllowed
             self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
             self.downloadAllowed = downloadAllowed
             self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes
@@ -1026,6 +1037,7 @@ extension WorkSpacesWeb {
             case cookieSynchronizationConfiguration = "cookieSynchronizationConfiguration"
             case copyAllowed = "copyAllowed"
             case customerManagedKey = "customerManagedKey"
+            case deepLinkAllowed = "deepLinkAllowed"
             case disconnectTimeoutInMinutes = "disconnectTimeoutInMinutes"
             case downloadAllowed = "downloadAllowed"
             case idleDisconnectTimeoutInMinutes = "idleDisconnectTimeoutInMinutes"
@@ -3183,6 +3195,8 @@ extension WorkSpacesWeb {
         public let cookieSynchronizationConfiguration: CookieSynchronizationConfiguration?
         /// Specifies whether the user can copy text from the streaming session to the local device.
         public let copyAllowed: EnabledType?
+        /// Specifies whether the user can use deep links that open automatically when connecting to a session.
+        public let deepLinkAllowed: EnabledType?
         /// The amount of time that a streaming session remains active after users disconnect.
         public let disconnectTimeoutInMinutes: Int?
         /// Specifies whether the user can download files from the streaming session to the local device.
@@ -3198,10 +3212,11 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
-        public init(clientToken: String? = UpdateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(clientToken: String? = UpdateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
             self.clientToken = clientToken
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
+            self.deepLinkAllowed = deepLinkAllowed
             self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
             self.downloadAllowed = downloadAllowed
             self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes
@@ -3217,6 +3232,7 @@ extension WorkSpacesWeb {
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.cookieSynchronizationConfiguration, forKey: .cookieSynchronizationConfiguration)
             try container.encodeIfPresent(self.copyAllowed, forKey: .copyAllowed)
+            try container.encodeIfPresent(self.deepLinkAllowed, forKey: .deepLinkAllowed)
             try container.encodeIfPresent(self.disconnectTimeoutInMinutes, forKey: .disconnectTimeoutInMinutes)
             try container.encodeIfPresent(self.downloadAllowed, forKey: .downloadAllowed)
             try container.encodeIfPresent(self.idleDisconnectTimeoutInMinutes, forKey: .idleDisconnectTimeoutInMinutes)
@@ -3243,6 +3259,7 @@ extension WorkSpacesWeb {
             case clientToken = "clientToken"
             case cookieSynchronizationConfiguration = "cookieSynchronizationConfiguration"
             case copyAllowed = "copyAllowed"
+            case deepLinkAllowed = "deepLinkAllowed"
             case disconnectTimeoutInMinutes = "disconnectTimeoutInMinutes"
             case downloadAllowed = "downloadAllowed"
             case idleDisconnectTimeoutInMinutes = "idleDisconnectTimeoutInMinutes"
@@ -3314,6 +3331,8 @@ extension WorkSpacesWeb {
         public let copyAllowed: EnabledType?
         /// The customer managed key used to encrypt sensitive information in the user settings.
         public let customerManagedKey: String?
+        /// Specifies whether the user can use deep links that open automatically when connecting to a session.
+        public let deepLinkAllowed: EnabledType?
         /// The amount of time that a streaming session remains active after users disconnect.
         public let disconnectTimeoutInMinutes: Int?
         /// Specifies whether the user can download files from the streaming session to the local device.
@@ -3329,12 +3348,13 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
-        public init(additionalEncryptionContext: [String: String]? = nil, associatedPortalArns: [String]? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, customerManagedKey: String? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(additionalEncryptionContext: [String: String]? = nil, associatedPortalArns: [String]? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
             self.customerManagedKey = customerManagedKey
+            self.deepLinkAllowed = deepLinkAllowed
             self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
             self.downloadAllowed = downloadAllowed
             self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes
@@ -3350,6 +3370,7 @@ extension WorkSpacesWeb {
             case cookieSynchronizationConfiguration = "cookieSynchronizationConfiguration"
             case copyAllowed = "copyAllowed"
             case customerManagedKey = "customerManagedKey"
+            case deepLinkAllowed = "deepLinkAllowed"
             case disconnectTimeoutInMinutes = "disconnectTimeoutInMinutes"
             case downloadAllowed = "downloadAllowed"
             case idleDisconnectTimeoutInMinutes = "idleDisconnectTimeoutInMinutes"
@@ -3365,6 +3386,8 @@ extension WorkSpacesWeb {
         public let cookieSynchronizationConfiguration: CookieSynchronizationConfiguration?
         /// Specifies whether the user can copy text from the streaming session to the local device.
         public let copyAllowed: EnabledType?
+        /// Specifies whether the user can use deep links that open automatically when connecting to a session.
+        public let deepLinkAllowed: EnabledType?
         /// The amount of time that a streaming session remains active after users disconnect.
         public let disconnectTimeoutInMinutes: Int?
         /// Specifies whether the user can download files from the streaming session to the local device.
@@ -3380,9 +3403,10 @@ extension WorkSpacesWeb {
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
-        public init(cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
+            self.deepLinkAllowed = deepLinkAllowed
             self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
             self.downloadAllowed = downloadAllowed
             self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes
@@ -3395,6 +3419,7 @@ extension WorkSpacesWeb {
         private enum CodingKeys: String, CodingKey {
             case cookieSynchronizationConfiguration = "cookieSynchronizationConfiguration"
             case copyAllowed = "copyAllowed"
+            case deepLinkAllowed = "deepLinkAllowed"
             case disconnectTimeoutInMinutes = "disconnectTimeoutInMinutes"
             case downloadAllowed = "downloadAllowed"
             case idleDisconnectTimeoutInMinutes = "idleDisconnectTimeoutInMinutes"

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -359,6 +359,19 @@ public struct LakeFormation: AWSService {
         return try await self.client.execute(
             operation: "GetDataCellsFilter", 
             path: "/GetDataCellsFilter", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns the identity of the invoking principal.
+    @Sendable
+    public func getDataLakePrincipal(_ input: GetDataLakePrincipalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataLakePrincipalResponse {
+        return try await self.client.execute(
+            operation: "GetDataLakePrincipal", 
+            path: "/GetDataLakePrincipal", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 

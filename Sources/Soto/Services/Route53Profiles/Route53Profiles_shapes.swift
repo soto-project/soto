@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -103,8 +103,8 @@ extension Route53Profiles {
         public let profileId: String
         ///  Amazon resource number, ARN, of the DNS resource.
         public let resourceArn: String
-        ///  If you are adding a DNS Firewall rule group, include also a priority in this format:
-        ///   Key=FirewallRuleGroupPriority,Value=100
+        ///  If you are adding a DNS Firewall rule group, include also a priority. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value.
+        ///  The allowed values for priority are between 100 and 9900.
         public let resourceProperties: String?
 
         public init(name: String, profileId: String, resourceArn: String, resourceProperties: String? = nil) {
@@ -871,7 +871,7 @@ extension Route53Profiles {
         public let name: String?
         /// ID of the resource association.
         public let profileResourceAssociationId: String
-        ///  If you are adding a DNS Firewall rule group, include also a priority in this format:  Key=FirewallRuleGroupPriority,Value=100.
+        ///  If you are adding a DNS Firewall rule group, include also a priority. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value.  The allowed values for priority are between 100 and 9900.
         public let resourceProperties: String?
 
         public init(name: String? = nil, profileResourceAssociationId: String, resourceProperties: String? = nil) {

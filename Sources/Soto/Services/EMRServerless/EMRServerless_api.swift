@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -77,6 +77,8 @@ public struct EMRServerless: AWSService {
             "ca-central-1": "emr-serverless-fips.ca-central-1.amazonaws.com",
             "us-east-1": "emr-serverless-fips.us-east-1.amazonaws.com",
             "us-east-2": "emr-serverless-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "emr-serverless.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "emr-serverless.us-gov-west-1.amazonaws.com",
             "us-west-1": "emr-serverless-fips.us-west-1.amazonaws.com",
             "us-west-2": "emr-serverless-fips.us-west-2.amazonaws.com"
         ])
@@ -168,6 +170,19 @@ public struct EMRServerless: AWSService {
         return try await self.client.execute(
             operation: "ListApplications", 
             path: "/applications", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists all attempt of a job run.
+    @Sendable
+    public func listJobRunAttempts(_ input: ListJobRunAttemptsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobRunAttemptsResponse {
+        return try await self.client.execute(
+            operation: "ListJobRunAttempts", 
+            path: "/applications/{applicationId}/jobruns/{jobRunId}/attempts", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -312,6 +327,25 @@ extension EMRServerless {
         )
     }
 
+    /// Lists all attempt of a job run.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listJobRunAttemptsPaginator(
+        _ input: ListJobRunAttemptsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListJobRunAttemptsRequest, ListJobRunAttemptsResponse> {
+        return .init(
+            input: input,
+            command: self.listJobRunAttempts,
+            inputKey: \ListJobRunAttemptsRequest.nextToken,
+            outputKey: \ListJobRunAttemptsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists job runs based on a set of parameters.
     /// Return PaginatorSequence for operation.
     ///
@@ -342,6 +376,17 @@ extension EMRServerless.ListApplicationsRequest: AWSPaginateToken {
     }
 }
 
+extension EMRServerless.ListJobRunAttemptsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EMRServerless.ListJobRunAttemptsRequest {
+        return .init(
+            applicationId: self.applicationId,
+            jobRunId: self.jobRunId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension EMRServerless.ListJobRunsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EMRServerless.ListJobRunsRequest {
         return .init(
@@ -349,6 +394,7 @@ extension EMRServerless.ListJobRunsRequest: AWSPaginateToken {
             createdAtAfter: self.createdAtAfter,
             createdAtBefore: self.createdAtBefore,
             maxResults: self.maxResults,
+            mode: self.mode,
             nextToken: token,
             states: self.states
         )

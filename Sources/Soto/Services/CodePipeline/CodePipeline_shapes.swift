@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -161,6 +161,7 @@ extension CodePipeline {
     public enum SourceRevisionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case commitId = "COMMIT_ID"
         case imageDigest = "IMAGE_DIGEST"
+        case s3ObjectKey = "S3_OBJECT_KEY"
         case s3ObjectVersionId = "S3_OBJECT_VERSION_ID"
         public var description: String { return self.rawValue }
     }
@@ -2333,7 +2334,7 @@ extension CodePipeline {
     public struct ListActionExecutionsInput: AWSEncodableShape {
         /// Input information used to filter action execution history.
         public let filter: ActionExecutionFilter?
-        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Action execution history is retained for up to 12 months, based on action execution start times. Default value is 100.   Detailed execution history is available for executions run on or after February 21, 2019.
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Action execution history is retained for up to 12 months, based on action execution start times. Default value is 100.
         public let maxResults: Int?
         /// The token that was returned from the previous ListActionExecutions call, which can be used to return the next set of action executions in the list.
         public let nextToken: String?

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -65,6 +65,31 @@ extension IVSRealTime {
         public var description: String { return self.rawValue }
     }
 
+    public enum ParticipantRecordingFilterByRecordingState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParticipantRecordingMediaType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case audioOnly = "AUDIO_ONLY"
+        case audioVideo = "AUDIO_VIDEO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParticipantRecordingState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case disabled = "DISABLED"
+        case failed = "FAILED"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ParticipantState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connected = "CONNECTED"
         case disconnected = "DISCONNECTED"
@@ -112,6 +137,29 @@ extension IVSRealTime {
     }
 
     // MARK: Shapes
+
+    public struct AutoParticipantRecordingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Types of media to be recorded. Default: AUDIO_VIDEO.
+        public let mediaTypes: [ParticipantRecordingMediaType]?
+        /// ARN of the StorageConfiguration resource to use for individual participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a  Stage is created or updated.
+        public let storageConfigurationArn: String
+
+        public init(mediaTypes: [ParticipantRecordingMediaType]? = nil, storageConfigurationArn: String) {
+            self.mediaTypes = mediaTypes
+            self.storageConfigurationArn = storageConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mediaTypes, name: "mediaTypes", parent: name, max: 1)
+            try self.validate(self.storageConfigurationArn, name: "storageConfigurationArn", parent: name, max: 128)
+            try self.validate(self.storageConfigurationArn, name: "storageConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:storage-configuration/[a-zA-Z0-9-]+$$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaTypes = "mediaTypes"
+            case storageConfigurationArn = "storageConfigurationArn"
+        }
+    }
 
     public struct ChannelDestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// ARN of the channel to use for broadcasting. The channel and stage resources must be in the same AWS account and region. The channel must be offline (not broadcasting).
@@ -321,6 +369,8 @@ extension IVSRealTime {
     }
 
     public struct CreateStageRequest: AWSEncodableShape {
+        /// Configuration object for individual participant recording, to attach to the new stage.
+        public let autoParticipantRecordingConfiguration: AutoParticipantRecordingConfiguration?
         /// Optional name that can be specified for the stage being created.
         public let name: String?
         /// Array of participant token configuration objects to attach to the new stage.
@@ -328,13 +378,15 @@ extension IVSRealTime {
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
-        public init(name: String? = nil, participantTokenConfigurations: [ParticipantTokenConfiguration]? = nil, tags: [String: String]? = nil) {
+        public init(autoParticipantRecordingConfiguration: AutoParticipantRecordingConfiguration? = nil, name: String? = nil, participantTokenConfigurations: [ParticipantTokenConfiguration]? = nil, tags: [String: String]? = nil) {
+            self.autoParticipantRecordingConfiguration = autoParticipantRecordingConfiguration
             self.name = name
             self.participantTokenConfigurations = participantTokenConfigurations
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.autoParticipantRecordingConfiguration?.validate(name: "\(name).autoParticipantRecordingConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.participantTokenConfigurations?.forEach {
@@ -350,6 +402,7 @@ extension IVSRealTime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoParticipantRecordingConfiguration = "autoParticipantRecordingConfiguration"
             case name = "name"
             case participantTokenConfigurations = "participantTokenConfigurations"
             case tags = "tags"
@@ -439,6 +492,29 @@ extension IVSRealTime {
     }
 
     public struct DeleteEncoderConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeletePublicKeyRequest: AWSEncodableShape {
+        /// ARN of the public key to be deleted.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:public-key/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct DeletePublicKeyResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -810,6 +886,38 @@ extension IVSRealTime {
         }
     }
 
+    public struct GetPublicKeyRequest: AWSEncodableShape {
+        /// ARN of the public key for which the information is to be retrieved.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:public-key/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct GetPublicKeyResponse: AWSDecodableShape {
+        /// The public key that is returned.
+        public let publicKey: PublicKey?
+
+        public init(publicKey: PublicKey? = nil) {
+            self.publicKey = publicKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publicKey = "publicKey"
+        }
+    }
+
     public struct GetStageRequest: AWSEncodableShape {
         /// ARN of the stage for which the information is to be retrieved.
         public let arn: String
@@ -914,17 +1022,15 @@ extension IVSRealTime {
     }
 
     public struct GridConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// This attribute name identifies the featured slot. A participant with this attribute set to "true" (as a string value) in ParticipantTokenConfiguration is placed in the featured slot.
+        /// This attribute name identifies the featured slot. A participant with this attribute set to "true" (as a string value) in ParticipantTokenConfiguration is placed in the featured slot. Default: "" (no featured participant).
         public let featuredParticipantAttribute: String?
         /// Specifies the spacing between participant tiles in pixels. Default: 2.
         public let gridGap: Int?
         /// Determines whether to omit participants with stopped video in the composition. Default: false.
         public let omitStoppedVideo: Bool?
-        /// Sets the non-featured participant display mode. Default: VIDEO.
+        /// Sets the non-featured participant display mode, to control the aspect ratio of video tiles. VIDEO is 16:9, SQUARE is 1:1, and PORTRAIT is 3:4. Default: VIDEO.
         public let videoAspectRatio: VideoAspectRatio?
-        /// Defines how video fits within the participant tile. When not set,
-        /// 	  videoFillMode defaults to COVER fill mode for participants in the grid
-        /// 	  and to CONTAIN fill mode for featured participants.
+        /// Defines how video content fits within the participant tile: FILL (stretched), COVER (cropped), or CONTAIN (letterboxed). When not set,  videoFillMode defaults to COVER fill mode for participants in the grid  and to CONTAIN fill mode for featured participants.
         public let videoFillMode: VideoFillMode?
 
         public init(featuredParticipantAttribute: String? = nil, gridGap: Int? = nil, omitStoppedVideo: Bool? = nil, videoAspectRatio: VideoAspectRatio? = nil, videoFillMode: VideoFillMode? = nil) {
@@ -947,6 +1053,52 @@ extension IVSRealTime {
             case omitStoppedVideo = "omitStoppedVideo"
             case videoAspectRatio = "videoAspectRatio"
             case videoFillMode = "videoFillMode"
+        }
+    }
+
+    public struct ImportPublicKeyRequest: AWSEncodableShape {
+        /// Name of the public key to be imported.
+        public let name: String?
+        /// The content of the public key to be imported.
+        public let publicKeyMaterial: String
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public let tags: [String: String]?
+
+        public init(name: String? = nil, publicKeyMaterial: String, tags: [String: String]? = nil) {
+            self.name = name
+            self.publicKeyMaterial = publicKeyMaterial
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
+            try self.validate(self.publicKeyMaterial, name: "publicKeyMaterial", parent: name, pattern: "-----BEGIN PUBLIC KEY-----\\r?\\n([a-zA-Z0-9+/=\\r\\n]+)\\r?\\n-----END PUBLIC KEY-----(\\r?\\n)?")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case publicKeyMaterial = "publicKeyMaterial"
+            case tags = "tags"
+        }
+    }
+
+    public struct ImportPublicKeyResponse: AWSDecodableShape {
+        /// The public key that was imported.
+        public let publicKey: PublicKey?
+
+        public init(publicKey: PublicKey? = nil) {
+            self.publicKey = publicKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publicKey = "publicKey"
         }
     }
 
@@ -1130,11 +1282,14 @@ extension IVSRealTime {
     }
 
     public struct ListParticipantsRequest: AWSEncodableShape {
-        /// Filters the response list to only show participants who published during the stage session. Only one of filterByUserId, filterByPublished, or filterByState can be provided per request.
+        /// Filters the response list to only show participants who published during the stage session. Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
         public let filterByPublished: Bool?
-        /// Filters the response list to only show participants in the specified state. Only one of filterByUserId, filterByPublished, or filterByState can be provided per request.
+        /// Filters the response list to only show participants with the specified recording state. Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
+        public let filterByRecordingState: ParticipantRecordingFilterByRecordingState?
+        /// Filters the response list to only show participants in the specified state.  Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
         public let filterByState: ParticipantState?
-        /// Filters the response list to match the specified user ID. Only one of filterByUserId, filterByPublished, or filterByState can be provided per request. A userId is a customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems.
+        /// Filters the response list to match the specified user ID.  Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
+        /// 	    A userId is a customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems.
         public let filterByUserId: String?
         /// Maximum number of results to return. Default: 50.
         public let maxResults: Int?
@@ -1145,8 +1300,9 @@ extension IVSRealTime {
         /// Stage ARN.
         public let stageArn: String
 
-        public init(filterByPublished: Bool? = nil, filterByState: ParticipantState? = nil, filterByUserId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sessionId: String, stageArn: String) {
+        public init(filterByPublished: Bool? = nil, filterByRecordingState: ParticipantRecordingFilterByRecordingState? = nil, filterByState: ParticipantState? = nil, filterByUserId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sessionId: String, stageArn: String) {
             self.filterByPublished = filterByPublished
+            self.filterByRecordingState = filterByRecordingState
             self.filterByState = filterByState
             self.filterByUserId = filterByUserId
             self.maxResults = maxResults
@@ -1171,6 +1327,7 @@ extension IVSRealTime {
 
         private enum CodingKeys: String, CodingKey {
             case filterByPublished = "filterByPublished"
+            case filterByRecordingState = "filterByRecordingState"
             case filterByState = "filterByState"
             case filterByUserId = "filterByUserId"
             case maxResults = "maxResults"
@@ -1194,6 +1351,47 @@ extension IVSRealTime {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case participants = "participants"
+        }
+    }
+
+    public struct ListPublicKeysRequest: AWSEncodableShape {
+        /// Maximum number of results to return. Default: 50.
+        public let maxResults: Int?
+        /// The first public key to retrieve. This is used for pagination; see the nextToken response field.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListPublicKeysResponse: AWSDecodableShape {
+        /// If there are more public keys than maxResults, use nextToken in the request to get the next set.
+        public let nextToken: String?
+        /// List of the matching public keys (summary information only).
+        public let publicKeys: [PublicKeySummary]
+
+        public init(nextToken: String? = nil, publicKeys: [PublicKeySummary]) {
+            self.nextToken = nextToken
+            self.publicKeys = publicKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case publicKeys = "publicKeys"
         }
     }
 
@@ -1385,6 +1583,12 @@ extension IVSRealTime {
         public let participantId: String?
         /// Whether the participant ever published to the stage session.
         public let published: Bool?
+        /// Name of the S3 bucket to where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
+        public let recordingS3BucketName: String?
+        /// S3 prefix of the S3 bucket where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
+        public let recordingS3Prefix: String?
+        /// The participant’s recording state.
+        public let recordingState: ParticipantRecordingState?
         /// The participant’s SDK version.
         public let sdkVersion: String?
         /// Whether the participant is connected to or disconnected from the stage.
@@ -1392,7 +1596,7 @@ extension IVSRealTime {
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let userId: String?
 
-        public init(attributes: [String: String]? = nil, browserName: String? = nil, browserVersion: String? = nil, firstJoinTime: Date? = nil, ispName: String? = nil, osName: String? = nil, osVersion: String? = nil, participantId: String? = nil, published: Bool? = nil, sdkVersion: String? = nil, state: ParticipantState? = nil, userId: String? = nil) {
+        public init(attributes: [String: String]? = nil, browserName: String? = nil, browserVersion: String? = nil, firstJoinTime: Date? = nil, ispName: String? = nil, osName: String? = nil, osVersion: String? = nil, participantId: String? = nil, published: Bool? = nil, recordingS3BucketName: String? = nil, recordingS3Prefix: String? = nil, recordingState: ParticipantRecordingState? = nil, sdkVersion: String? = nil, state: ParticipantState? = nil, userId: String? = nil) {
             self.attributes = attributes
             self.browserName = browserName
             self.browserVersion = browserVersion
@@ -1402,6 +1606,9 @@ extension IVSRealTime {
             self.osVersion = osVersion
             self.participantId = participantId
             self.published = published
+            self.recordingS3BucketName = recordingS3BucketName
+            self.recordingS3Prefix = recordingS3Prefix
+            self.recordingState = recordingState
             self.sdkVersion = sdkVersion
             self.state = state
             self.userId = userId
@@ -1417,6 +1624,9 @@ extension IVSRealTime {
             case osVersion = "osVersion"
             case participantId = "participantId"
             case published = "published"
+            case recordingS3BucketName = "recordingS3BucketName"
+            case recordingS3Prefix = "recordingS3Prefix"
+            case recordingState = "recordingState"
             case sdkVersion = "sdkVersion"
             case state = "state"
             case userId = "userId"
@@ -1431,15 +1641,18 @@ extension IVSRealTime {
         public let participantId: String?
         /// Whether the participant ever published to the stage session.
         public let published: Bool?
+        /// The participant’s recording state.
+        public let recordingState: ParticipantRecordingState?
         /// Whether the participant is connected to or disconnected from the stage.
         public let state: ParticipantState?
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let userId: String?
 
-        public init(firstJoinTime: Date? = nil, participantId: String? = nil, published: Bool? = nil, state: ParticipantState? = nil, userId: String? = nil) {
+        public init(firstJoinTime: Date? = nil, participantId: String? = nil, published: Bool? = nil, recordingState: ParticipantRecordingState? = nil, state: ParticipantState? = nil, userId: String? = nil) {
             self.firstJoinTime = firstJoinTime
             self.participantId = participantId
             self.published = published
+            self.recordingState = recordingState
             self.state = state
             self.userId = userId
         }
@@ -1448,6 +1661,7 @@ extension IVSRealTime {
             case firstJoinTime = "firstJoinTime"
             case participantId = "participantId"
             case published = "published"
+            case recordingState = "recordingState"
             case state = "state"
             case userId = "userId"
         }
@@ -1524,13 +1738,13 @@ extension IVSRealTime {
     }
 
     public struct PipConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// This attribute name identifies the featured slot. A participant with this attribute set to "true" (as a string value) in ParticipantTokenConfiguration is placed in the featured slot.
+        /// This attribute name identifies the featured slot. A participant with this attribute set to "true" (as a string value) in ParticipantTokenConfiguration is placed in the featured slot. Default: "" (no featured participant).
         public let featuredParticipantAttribute: String?
         /// Specifies the spacing between participant tiles in pixels. Default: 0.
         public let gridGap: Int?
         /// Determines whether to omit participants with stopped video in the composition. Default: false.
         public let omitStoppedVideo: Bool?
-        /// Defines PiP behavior when all participants have left. Default: STATIC.
+        /// Defines PiP behavior when all participants have left: STATIC (maintains original position/size) or DYNAMIC (expands to full composition). Default: STATIC.
         public let pipBehavior: PipBehavior?
         /// Specifies the height of the PiP window in pixels. When this is not set explicitly,
         /// 	        pipHeight’s value will be based on the size of the composition and the
@@ -1539,8 +1753,8 @@ extension IVSRealTime {
         /// Sets the PiP window’s offset position in pixels from the closest edges determined by PipPosition.
         /// 	  Default: 0.
         public let pipOffset: Int?
-        /// Identifies the PiP slot. A participant with this attribute set to "true" (as a string value) in ParticipantTokenConfiguration
-        /// 		 is placed in the PiP slot.
+        /// Specifies the participant for the PiP window. A participant with this attribute set to "true" (as a string value) in ParticipantTokenConfiguration
+        /// 	 is placed in the PiP slot. Default: "" (no PiP participant).
         public let pipParticipantAttribute: String?
         /// Determines the corner position of the PiP window. Default: BOTTOM_RIGHT.
         public let pipPosition: PipPosition?
@@ -1548,7 +1762,8 @@ extension IVSRealTime {
         /// 	        pipWidth’s value will be based on the size of the composition and the
         /// 			aspect ratio of the participant’s video.
         public let pipWidth: Int?
-        /// Defines how video fits within the participant tile. Default: COVER.
+        /// Defines how video content fits within the participant tile: FILL (stretched),
+        /// 	  COVER (cropped), or CONTAIN (letterboxed). Default: COVER.
         public let videoFillMode: VideoFillMode?
 
         public init(featuredParticipantAttribute: String? = nil, gridGap: Int? = nil, omitStoppedVideo: Bool? = nil, pipBehavior: PipBehavior? = nil, pipHeight: Int? = nil, pipOffset: Int? = nil, pipParticipantAttribute: String? = nil, pipPosition: PipPosition? = nil, pipWidth: Int? = nil, videoFillMode: VideoFillMode? = nil) {
@@ -1586,6 +1801,56 @@ extension IVSRealTime {
             case pipPosition = "pipPosition"
             case pipWidth = "pipWidth"
             case videoFillMode = "videoFillMode"
+        }
+    }
+
+    public struct PublicKey: AWSDecodableShape {
+        /// Public key ARN.
+        public let arn: String?
+        /// The public key fingerprint, a short string used to identify or verify the full public key.
+        public let fingerprint: String?
+        /// Public key name.
+        public let name: String?
+        /// Public key material.
+        public let publicKeyMaterial: String?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, fingerprint: String? = nil, name: String? = nil, publicKeyMaterial: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.fingerprint = fingerprint
+            self.name = name
+            self.publicKeyMaterial = publicKeyMaterial
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case fingerprint = "fingerprint"
+            case name = "name"
+            case publicKeyMaterial = "publicKeyMaterial"
+            case tags = "tags"
+        }
+    }
+
+    public struct PublicKeySummary: AWSDecodableShape {
+        /// Public key ARN.
+        public let arn: String?
+        /// Public key name.
+        public let name: String?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.name = name
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -1677,14 +1942,20 @@ extension IVSRealTime {
         public let activeSessionId: String?
         /// Stage ARN.
         public let arn: String
+        /// Configuration object for individual participant recording, attached to the stage.
+        public let autoParticipantRecordingConfiguration: AutoParticipantRecordingConfiguration?
+        /// Summary information about various endpoints for a stage.
+        public let endpoints: StageEndpoints?
         /// Stage name.
         public let name: String?
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
-        public init(activeSessionId: String? = nil, arn: String, name: String? = nil, tags: [String: String]? = nil) {
+        public init(activeSessionId: String? = nil, arn: String, autoParticipantRecordingConfiguration: AutoParticipantRecordingConfiguration? = nil, endpoints: StageEndpoints? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.activeSessionId = activeSessionId
             self.arn = arn
+            self.autoParticipantRecordingConfiguration = autoParticipantRecordingConfiguration
+            self.endpoints = endpoints
             self.name = name
             self.tags = tags
         }
@@ -1692,8 +1963,27 @@ extension IVSRealTime {
         private enum CodingKeys: String, CodingKey {
             case activeSessionId = "activeSessionId"
             case arn = "arn"
+            case autoParticipantRecordingConfiguration = "autoParticipantRecordingConfiguration"
+            case endpoints = "endpoints"
             case name = "name"
             case tags = "tags"
+        }
+    }
+
+    public struct StageEndpoints: AWSDecodableShape {
+        /// Events endpoint.
+        public let events: String?
+        /// WHIP endpoint.
+        public let whip: String?
+
+        public init(events: String? = nil, whip: String? = nil) {
+            self.events = events
+            self.whip = whip
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "events"
+            case whip = "whip"
         }
     }
 
@@ -1982,11 +2272,14 @@ extension IVSRealTime {
     public struct UpdateStageRequest: AWSEncodableShape {
         /// ARN of the stage to be updated.
         public let arn: String
+        /// Configuration object for individual participant recording, to attach to the stage. Note that this cannot be updated while recording is active.
+        public let autoParticipantRecordingConfiguration: AutoParticipantRecordingConfiguration?
         /// Name of the stage to be updated.
         public let name: String?
 
-        public init(arn: String, name: String? = nil) {
+        public init(arn: String, autoParticipantRecordingConfiguration: AutoParticipantRecordingConfiguration? = nil, name: String? = nil) {
             self.arn = arn
+            self.autoParticipantRecordingConfiguration = autoParticipantRecordingConfiguration
             self.name = name
         }
 
@@ -1994,12 +2287,14 @@ extension IVSRealTime {
             try self.validate(self.arn, name: "arn", parent: name, max: 128)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$")
+            try self.autoParticipantRecordingConfiguration?.validate(name: "\(name).autoParticipantRecordingConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case autoParticipantRecordingConfiguration = "autoParticipantRecordingConfiguration"
             case name = "name"
         }
     }

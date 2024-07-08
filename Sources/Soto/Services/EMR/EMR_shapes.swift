@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -257,6 +257,7 @@ extension EMR {
 
     public enum OnDemandProvisioningAllocationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lowestPrice = "lowest-price"
+        case prioritized = "prioritized"
         public var description: String { return self.rawValue }
     }
 
@@ -293,6 +294,7 @@ extension EMR {
 
     public enum SpotProvisioningAllocationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityOptimized = "capacity-optimized"
+        case capacityOptimizedPrioritized = "capacity-optimized-prioritized"
         case diversified = "diversified"
         case lowestPrice = "lowest-price"
         case priceCapacityOptimized = "price-capacity-optimized"
@@ -2820,16 +2822,19 @@ extension EMR {
         public let ebsConfiguration: EbsConfiguration?
         /// An Amazon EC2 instance type, such as m3.xlarge.
         public let instanceType: String?
+        /// The priority at which Amazon EMR launches the Amazon EC2 instances with this instance type.  Priority starts at 0, which is the highest priority. Amazon EMR considers the highest priority first.
+        public let priority: Double?
         /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. This value is 1 for a master instance fleet, and must be 1 or greater for core and task instance fleets. Defaults to 1 if not specified.
         public let weightedCapacity: Int?
 
-        public init(bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsConfiguration: EbsConfiguration? = nil, instanceType: String? = nil, weightedCapacity: Int? = nil) {
+        public init(bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsConfiguration: EbsConfiguration? = nil, instanceType: String? = nil, priority: Double? = nil, weightedCapacity: Int? = nil) {
             self.bidPrice = bidPrice
             self.bidPriceAsPercentageOfOnDemandPrice = bidPriceAsPercentageOfOnDemandPrice
             self.configurations = configurations
             self.customAmiId = customAmiId
             self.ebsConfiguration = ebsConfiguration
             self.instanceType = instanceType
+            self.priority = priority
             self.weightedCapacity = weightedCapacity
         }
 
@@ -2843,6 +2848,7 @@ extension EMR {
             try self.validate(self.instanceType, name: "instanceType", parent: name, max: 256)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
             try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.priority, name: "priority", parent: name, min: 0.0)
             try self.validate(self.weightedCapacity, name: "weightedCapacity", parent: name, min: 0)
         }
 
@@ -2853,6 +2859,7 @@ extension EMR {
             case customAmiId = "CustomAmiId"
             case ebsConfiguration = "EbsConfiguration"
             case instanceType = "InstanceType"
+            case priority = "Priority"
             case weightedCapacity = "WeightedCapacity"
         }
     }
@@ -2872,10 +2879,12 @@ extension EMR {
         public let ebsOptimized: Bool?
         /// The Amazon EC2 instance type, for example m3.xlarge.
         public let instanceType: String?
+        /// The priority at which Amazon EMR launches the Amazon EC2 instances with this instance type.  Priority starts at 0, which is the highest priority. Amazon EMR considers the highest priority first.
+        public let priority: Double?
         /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. Capacity values represent performance characteristics such as vCPUs, memory, or I/O. If not specified, the default value is 1.
         public let weightedCapacity: Int?
 
-        public init(bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, ebsOptimized: Bool? = nil, instanceType: String? = nil, weightedCapacity: Int? = nil) {
+        public init(bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, ebsOptimized: Bool? = nil, instanceType: String? = nil, priority: Double? = nil, weightedCapacity: Int? = nil) {
             self.bidPrice = bidPrice
             self.bidPriceAsPercentageOfOnDemandPrice = bidPriceAsPercentageOfOnDemandPrice
             self.configurations = configurations
@@ -2883,6 +2892,7 @@ extension EMR {
             self.ebsBlockDevices = ebsBlockDevices
             self.ebsOptimized = ebsOptimized
             self.instanceType = instanceType
+            self.priority = priority
             self.weightedCapacity = weightedCapacity
         }
 
@@ -2894,6 +2904,7 @@ extension EMR {
             case ebsBlockDevices = "EbsBlockDevices"
             case ebsOptimized = "EbsOptimized"
             case instanceType = "InstanceType"
+            case priority = "Priority"
             case weightedCapacity = "WeightedCapacity"
         }
     }
@@ -4040,7 +4051,7 @@ extension EMR {
     }
 
     public struct OnDemandProvisioningSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the strategy to use in launching On-Demand instance fleets. Currently, the only option is lowest-price (the default), which launches the lowest price first.
+        /// Specifies the strategy to use in launching On-Demand instance fleets. Available options are lowest-price and prioritized. lowest-price specifies to launch the instances with the lowest price first, and prioritized specifies that Amazon EMR should launch the instances with the highest priority first. The default is lowest-price.
         public let allocationStrategy: OnDemandProvisioningAllocationStrategy?
         /// The launch specification for On-Demand instances in the instance fleet, which determines the allocation strategy.
         public let capacityReservationOptions: OnDemandCapacityReservationOptions?
@@ -4928,7 +4939,7 @@ extension EMR {
     }
 
     public struct SpotProvisioningSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies one of the following strategies to launch Spot Instance fleets: price-capacity-optimized, capacity-optimized, lowest-price, or  diversified. For more information on the provisioning strategies, see Allocation strategies for Spot Instances in the Amazon EC2 User Guide for Linux Instances.  When you launch a Spot Instance fleet with the old console, it automatically launches with the capacity-optimized strategy. You can't change the allocation strategy from the old console.
+        /// Specifies one of the following strategies to launch Spot Instance fleets:  capacity-optimized, price-capacity-optimized, lowest-price, or   diversified, and capacity-optimized-prioritized. For more information on the provisioning strategies, see Allocation strategies for Spot Instances in the Amazon EC2 User Guide for Linux Instances.  When you launch a Spot Instance fleet with the old console, it automatically launches with the capacity-optimized strategy. You can't change the allocation strategy from the old console.
         public let allocationStrategy: SpotProvisioningAllocationStrategy?
         /// The defined duration for Spot Instances (also known as Spot blocks) in minutes. When specified, the Spot Instance does not terminate before the defined duration expires, and defined duration pricing for Spot Instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot Instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot Instance for termination and provides a Spot Instance termination notice, which gives the instance a two-minute warning before it terminates.   Spot Instances with a defined duration (also known as Spot blocks) are no longer available to new customers from July 1, 2021. For customers who have previously used the feature, we will continue to support Spot Instances with a defined duration until December 31, 2022.
         public let blockDurationMinutes: Int?

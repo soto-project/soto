@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -56,15 +56,18 @@ extension Chatbot {
         public let loggingLevel: String?
         /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
         public let snsTopicArns: [String]
+        /// A list of tags applied to the configuration.
+        public let tags: [Tag]?
         /// Description of the webhook. Recommend using the convention `RoomName/WebhookName`. See Chime setup tutorial for more details: https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html.
         public let webhookDescription: String
 
-        public init(chatConfigurationArn: String, configurationName: String? = nil, iamRoleArn: String, loggingLevel: String? = nil, snsTopicArns: [String], webhookDescription: String) {
+        public init(chatConfigurationArn: String, configurationName: String? = nil, iamRoleArn: String, loggingLevel: String? = nil, snsTopicArns: [String], tags: [Tag]? = nil, webhookDescription: String) {
             self.chatConfigurationArn = chatConfigurationArn
             self.configurationName = configurationName
             self.iamRoleArn = iamRoleArn
             self.loggingLevel = loggingLevel
             self.snsTopicArns = snsTopicArns
+            self.tags = tags
             self.webhookDescription = webhookDescription
         }
 
@@ -74,6 +77,7 @@ extension Chatbot {
             case iamRoleArn = "IamRoleArn"
             case loggingLevel = "LoggingLevel"
             case snsTopicArns = "SnsTopicArns"
+            case tags = "Tags"
             case webhookDescription = "WebhookDescription"
         }
     }
@@ -108,16 +112,19 @@ extension Chatbot {
         public let loggingLevel: String?
         /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
         public let snsTopicArns: [String]
+        /// A list of tags to apply to the configuration.
+        public let tags: [Tag]?
         /// Description of the webhook. Recommend using the convention `RoomName/WebhookName`. See Chime setup tutorial for more details: https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html.
         public let webhookDescription: String
         /// URL for the Chime webhook.
         public let webhookUrl: String
 
-        public init(configurationName: String, iamRoleArn: String, loggingLevel: String? = nil, snsTopicArns: [String], webhookDescription: String, webhookUrl: String) {
+        public init(configurationName: String, iamRoleArn: String, loggingLevel: String? = nil, snsTopicArns: [String], tags: [Tag]? = nil, webhookDescription: String, webhookUrl: String) {
             self.configurationName = configurationName
             self.iamRoleArn = iamRoleArn
             self.loggingLevel = loggingLevel
             self.snsTopicArns = snsTopicArns
+            self.tags = tags
             self.webhookDescription = webhookDescription
             self.webhookUrl = webhookUrl
         }
@@ -137,6 +144,9 @@ extension Chatbot {
                 try validate($0, name: "snsTopicArns[]", parent: name, min: 12)
                 try validate($0, name: "snsTopicArns[]", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.validate(self.webhookDescription, name: "webhookDescription", parent: name, max: 255)
             try self.validate(self.webhookDescription, name: "webhookDescription", parent: name, min: 1)
             try self.validate(self.webhookUrl, name: "webhookUrl", parent: name, max: 255)
@@ -149,6 +159,7 @@ extension Chatbot {
             case iamRoleArn = "IamRoleArn"
             case loggingLevel = "LoggingLevel"
             case snsTopicArns = "SnsTopicArns"
+            case tags = "Tags"
             case webhookDescription = "WebhookDescription"
             case webhookUrl = "WebhookUrl"
         }
@@ -184,10 +195,12 @@ extension Chatbot {
         public let slackTeamId: String
         /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
         public let snsTopicArns: [String]?
+        /// A list of tags to apply to the configuration.
+        public let tags: [Tag]?
         /// Enables use of a user role requirement in your chat configuration.
         public let userAuthorizationRequired: Bool?
 
-        public init(configurationName: String, guardrailPolicyArns: [String]? = nil, iamRoleArn: String, loggingLevel: String? = nil, slackChannelId: String, slackChannelName: String? = nil, slackTeamId: String, snsTopicArns: [String]? = nil, userAuthorizationRequired: Bool? = nil) {
+        public init(configurationName: String, guardrailPolicyArns: [String]? = nil, iamRoleArn: String, loggingLevel: String? = nil, slackChannelId: String, slackChannelName: String? = nil, slackTeamId: String, snsTopicArns: [String]? = nil, tags: [Tag]? = nil, userAuthorizationRequired: Bool? = nil) {
             self.configurationName = configurationName
             self.guardrailPolicyArns = guardrailPolicyArns
             self.iamRoleArn = iamRoleArn
@@ -196,6 +209,7 @@ extension Chatbot {
             self.slackChannelName = slackChannelName
             self.slackTeamId = slackTeamId
             self.snsTopicArns = snsTopicArns
+            self.tags = tags
             self.userAuthorizationRequired = userAuthorizationRequired
         }
 
@@ -227,6 +241,9 @@ extension Chatbot {
                 try validate($0, name: "snsTopicArns[]", parent: name, min: 12)
                 try validate($0, name: "snsTopicArns[]", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -238,6 +255,7 @@ extension Chatbot {
             case slackChannelName = "SlackChannelName"
             case slackTeamId = "SlackTeamId"
             case snsTopicArns = "SnsTopicArns"
+            case tags = "Tags"
             case userAuthorizationRequired = "UserAuthorizationRequired"
         }
     }
@@ -270,6 +288,8 @@ extension Chatbot {
         public let loggingLevel: String?
         /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
         public let snsTopicArns: [String]?
+        /// A list of tags to apply to the configuration.
+        public let tags: [Tag]?
         /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more details, see steps 1-4 in Get started with Microsoft Teams in the AWS Chatbot Administrator Guide.
         public let teamId: String
         /// The name of the Microsoft Teams Team.
@@ -279,7 +299,7 @@ extension Chatbot {
         /// Enables use of a user role requirement in your chat configuration.
         public let userAuthorizationRequired: Bool?
 
-        public init(channelId: String, channelName: String? = nil, configurationName: String, guardrailPolicyArns: [String]? = nil, iamRoleArn: String, loggingLevel: String? = nil, snsTopicArns: [String]? = nil, teamId: String, teamName: String? = nil, tenantId: String, userAuthorizationRequired: Bool? = nil) {
+        public init(channelId: String, channelName: String? = nil, configurationName: String, guardrailPolicyArns: [String]? = nil, iamRoleArn: String, loggingLevel: String? = nil, snsTopicArns: [String]? = nil, tags: [Tag]? = nil, teamId: String, teamName: String? = nil, tenantId: String, userAuthorizationRequired: Bool? = nil) {
             self.channelId = channelId
             self.channelName = channelName
             self.configurationName = configurationName
@@ -287,6 +307,7 @@ extension Chatbot {
             self.iamRoleArn = iamRoleArn
             self.loggingLevel = loggingLevel
             self.snsTopicArns = snsTopicArns
+            self.tags = tags
             self.teamId = teamId
             self.teamName = teamName
             self.tenantId = tenantId
@@ -319,6 +340,9 @@ extension Chatbot {
                 try validate($0, name: "snsTopicArns[]", parent: name, min: 12)
                 try validate($0, name: "snsTopicArns[]", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.validate(self.teamId, name: "teamId", parent: name, max: 36)
             try self.validate(self.teamId, name: "teamId", parent: name, min: 36)
             try self.validate(self.teamId, name: "teamId", parent: name, pattern: "^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$")
@@ -338,6 +362,7 @@ extension Chatbot {
             case iamRoleArn = "IamRoleArn"
             case loggingLevel = "LoggingLevel"
             case snsTopicArns = "SnsTopicArns"
+            case tags = "Tags"
             case teamId = "TeamId"
             case teamName = "TeamName"
             case tenantId = "TenantId"
@@ -869,6 +894,38 @@ extension Chatbot {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The ARN of the configuration.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws:(wheatley|chatbot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// A list of tags applied to the configuration.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct ListTeamsChannelConfigurationsRequest: AWSEncodableShape {
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?
@@ -939,10 +996,12 @@ extension Chatbot {
         public let slackTeamName: String
         /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
         public let snsTopicArns: [String]
+        /// A list of tags applied to the configuration.
+        public let tags: [Tag]?
         /// Enables use of a user role requirement in your chat configuration.
         public let userAuthorizationRequired: Bool?
 
-        public init(chatConfigurationArn: String, configurationName: String? = nil, guardrailPolicyArns: [String]? = nil, iamRoleArn: String, loggingLevel: String? = nil, slackChannelId: String, slackChannelName: String, slackTeamId: String, slackTeamName: String, snsTopicArns: [String], userAuthorizationRequired: Bool? = nil) {
+        public init(chatConfigurationArn: String, configurationName: String? = nil, guardrailPolicyArns: [String]? = nil, iamRoleArn: String, loggingLevel: String? = nil, slackChannelId: String, slackChannelName: String, slackTeamId: String, slackTeamName: String, snsTopicArns: [String], tags: [Tag]? = nil, userAuthorizationRequired: Bool? = nil) {
             self.chatConfigurationArn = chatConfigurationArn
             self.configurationName = configurationName
             self.guardrailPolicyArns = guardrailPolicyArns
@@ -953,6 +1012,7 @@ extension Chatbot {
             self.slackTeamId = slackTeamId
             self.slackTeamName = slackTeamName
             self.snsTopicArns = snsTopicArns
+            self.tags = tags
             self.userAuthorizationRequired = userAuthorizationRequired
         }
 
@@ -967,6 +1027,7 @@ extension Chatbot {
             case slackTeamId = "SlackTeamId"
             case slackTeamName = "SlackTeamName"
             case snsTopicArns = "SnsTopicArns"
+            case tags = "Tags"
             case userAuthorizationRequired = "UserAuthorizationRequired"
         }
     }
@@ -1017,6 +1078,61 @@ extension Chatbot {
         }
     }
 
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// The tag key.
+        public let tagKey: String
+        /// The tag value.
+        public let tagValue: String
+
+        public init(tagKey: String, tagValue: String) {
+            self.tagKey = tagKey
+            self.tagValue = tagValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
+            try self.validate(self.tagValue, name: "tagValue", parent: name, max: 256)
+            try self.validate(self.tagValue, name: "tagValue", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKey = "TagKey"
+            case tagValue = "TagValue"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The ARN of the configuration.
+        public let resourceARN: String
+        /// A list of tags to apply to the configuration.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws:(wheatley|chatbot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct TeamsChannelConfiguration: AWSDecodableShape {
         /// The ID of the Microsoft Teams channel.
         public let channelId: String
@@ -1034,6 +1150,8 @@ extension Chatbot {
         public let loggingLevel: String?
         /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
         public let snsTopicArns: [String]
+        /// A list of tags applied to the configuration.
+        public let tags: [Tag]?
         /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more details, see steps 1-4 in Get started with Microsoft Teams in the AWS Chatbot Administrator Guide.
         public let teamId: String
         /// The name of the Microsoft Teams Team.
@@ -1043,7 +1161,7 @@ extension Chatbot {
         /// Enables use of a user role requirement in your chat configuration.
         public let userAuthorizationRequired: Bool?
 
-        public init(channelId: String, channelName: String? = nil, chatConfigurationArn: String, configurationName: String? = nil, guardrailPolicyArns: [String]? = nil, iamRoleArn: String, loggingLevel: String? = nil, snsTopicArns: [String], teamId: String, teamName: String? = nil, tenantId: String, userAuthorizationRequired: Bool? = nil) {
+        public init(channelId: String, channelName: String? = nil, chatConfigurationArn: String, configurationName: String? = nil, guardrailPolicyArns: [String]? = nil, iamRoleArn: String, loggingLevel: String? = nil, snsTopicArns: [String], tags: [Tag]? = nil, teamId: String, teamName: String? = nil, tenantId: String, userAuthorizationRequired: Bool? = nil) {
             self.channelId = channelId
             self.channelName = channelName
             self.chatConfigurationArn = chatConfigurationArn
@@ -1052,6 +1170,7 @@ extension Chatbot {
             self.iamRoleArn = iamRoleArn
             self.loggingLevel = loggingLevel
             self.snsTopicArns = snsTopicArns
+            self.tags = tags
             self.teamId = teamId
             self.teamName = teamName
             self.tenantId = tenantId
@@ -1067,6 +1186,7 @@ extension Chatbot {
             case iamRoleArn = "IamRoleArn"
             case loggingLevel = "LoggingLevel"
             case snsTopicArns = "SnsTopicArns"
+            case tags = "Tags"
             case teamId = "TeamId"
             case teamName = "TeamName"
             case tenantId = "TenantId"
@@ -1109,6 +1229,38 @@ extension Chatbot {
             case teamsTenantId = "TeamsTenantId"
             case userId = "UserId"
         }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The ARN of the configuration.
+        public let resourceARN: String
+        /// A list of tag keys to remove from the configuration.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws:(wheatley|chatbot):[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateAccountPreferencesRequest: AWSEncodableShape {
@@ -1395,6 +1547,7 @@ public struct ChatbotErrorType: AWSErrorType {
         case describeSlackWorkspacesException = "DescribeSlackWorkspacesException"
         case getAccountPreferencesException = "GetAccountPreferencesException"
         case getTeamsChannelConfigurationException = "GetTeamsChannelConfigurationException"
+        case internalServiceError = "InternalServiceError"
         case invalidParameterException = "InvalidParameterException"
         case invalidRequestException = "InvalidRequestException"
         case limitExceededException = "LimitExceededException"
@@ -1402,6 +1555,8 @@ public struct ChatbotErrorType: AWSErrorType {
         case listMicrosoftTeamsUserIdentitiesException = "ListMicrosoftTeamsUserIdentitiesException"
         case listTeamsChannelConfigurationsException = "ListTeamsChannelConfigurationsException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case tooManyTagsException = "TooManyTagsException"
         case updateAccountPreferencesException = "UpdateAccountPreferencesException"
         case updateChimeWebhookConfigurationException = "UpdateChimeWebhookConfigurationException"
         case updateSlackChannelConfigurationException = "UpdateSlackChannelConfigurationException"
@@ -1460,6 +1615,8 @@ public struct ChatbotErrorType: AWSErrorType {
     public static var getAccountPreferencesException: Self { .init(.getAccountPreferencesException) }
     /// We can’t process your request right now because of a server issue. Try again later.
     public static var getTeamsChannelConfigurationException: Self { .init(.getTeamsChannelConfigurationException) }
+    /// Customer/consumer-facing internal service exception. https://w.amazon.com/index.php/AWS/API_Standards/Exceptions#InternalServiceError
+    public static var internalServiceError: Self { .init(.internalServiceError) }
     /// Your request input doesn't meet the constraints that AWS Chatbot requires.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// Your request input doesn't meet the constraints that AWS Chatbot requires.
@@ -1474,6 +1631,10 @@ public struct ChatbotErrorType: AWSErrorType {
     public static var listTeamsChannelConfigurationsException: Self { .init(.listTeamsChannelConfigurationsException) }
     /// We were not able to find the resource for your request.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// We can’t process your request right now because of a server issue. Try again later.
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The supplied list of tags contains too many tags.
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// We can’t process your request right now because of a server issue. Try again later.
     public static var updateAccountPreferencesException: Self { .init(.updateAccountPreferencesException) }
     /// We can’t process your request right now because of a server issue. Try again later.

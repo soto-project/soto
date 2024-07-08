@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -26,10 +26,344 @@ import Foundation
 extension BedrockRuntime {
     // MARK: Enums
 
+    public enum ConversationRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case assistant = "assistant"
+        case user = "user"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case csv = "csv"
+        case doc = "doc"
+        case docx = "docx"
+        case html = "html"
+        case md = "md"
+        case pdf = "pdf"
+        case txt = "txt"
+        case xls = "xls"
+        case xlsx = "xlsx"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailContentFilterConfidence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailContentFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hate = "HATE"
+        case insults = "INSULTS"
+        case misconduct = "MISCONDUCT"
+        case promptAttack = "PROMPT_ATTACK"
+        case sexual = "SEXUAL"
+        case violence = "VIOLENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailContentPolicyAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blocked = "BLOCKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailManagedWordType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case profanity = "PROFANITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailPiiEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case address = "ADDRESS"
+        case age = "AGE"
+        case awsAccessKey = "AWS_ACCESS_KEY"
+        case awsSecretKey = "AWS_SECRET_KEY"
+        case caHealthNumber = "CA_HEALTH_NUMBER"
+        case caSocialInsuranceNumber = "CA_SOCIAL_INSURANCE_NUMBER"
+        case creditDebitCardCvv = "CREDIT_DEBIT_CARD_CVV"
+        case creditDebitCardExpiry = "CREDIT_DEBIT_CARD_EXPIRY"
+        case creditDebitCardNumber = "CREDIT_DEBIT_CARD_NUMBER"
+        case driverId = "DRIVER_ID"
+        case email = "EMAIL"
+        case internationalBankAccountNumber = "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+        case ipAddress = "IP_ADDRESS"
+        case licensePlate = "LICENSE_PLATE"
+        case macAddress = "MAC_ADDRESS"
+        case name = "NAME"
+        case password = "PASSWORD"
+        case phone = "PHONE"
+        case pin = "PIN"
+        case swiftCode = "SWIFT_CODE"
+        case ukNationalHealthServiceNumber = "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+        case ukNationalInsuranceNumber = "UK_NATIONAL_INSURANCE_NUMBER"
+        case ukUniqueTaxpayerReferenceNumber = "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
+        case url = "URL"
+        case usBankAccountNumber = "US_BANK_ACCOUNT_NUMBER"
+        case usBankRoutingNumber = "US_BANK_ROUTING_NUMBER"
+        case usIndividualTaxIdentificationNumber = "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+        case usPassportNumber = "US_PASSPORT_NUMBER"
+        case usSocialSecurityNumber = "US_SOCIAL_SECURITY_NUMBER"
+        case username = "USERNAME"
+        case vehicleIdentificationNumber = "VEHICLE_IDENTIFICATION_NUMBER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailSensitiveInformationPolicyAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case anonymized = "ANONYMIZED"
+        case blocked = "BLOCKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailStreamProcessingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `async` = "async"
+        case sync = "sync"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailTopicPolicyAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blocked = "BLOCKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailTopicType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailTrace: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "disabled"
+        case enabled = "enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailWordPolicyAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blocked = "BLOCKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case gif = "gif"
+        case jpeg = "jpeg"
+        case png = "png"
+        case webp = "webp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StopReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contentFiltered = "content_filtered"
+        case endTurn = "end_turn"
+        case guardrailIntervened = "guardrail_intervened"
+        case maxTokens = "max_tokens"
+        case stopSequence = "stop_sequence"
+        case toolUse = "tool_use"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ToolResultStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case error = "error"
+        case success = "success"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Trace: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
+    }
+
+    public enum ContentBlock: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// A document to include in the message.
+        case document(DocumentBlock)
+        /// Contains the content to assess with the guardrail. If you don't specify guardContent in a call to the Converse API, the guardrail (if passed in the Converse API) assesses the entire message. For more information, see  Use a guardrail with the Converse API in the Amazon Bedrock User Guide.
+        ///
+        case guardContent(GuardrailConverseContentBlock)
+        /// Image to include in the message.   This field is only supported by Anthropic Claude 3 models.
+        case image(ImageBlock)
+        /// Text to include in the message.
+        case text(String)
+        /// The result for a tool request that a model makes.
+        case toolResult(ToolResultBlock)
+        /// Information about a tool use request from a model.
+        case toolUse(ToolUseBlock)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .document:
+                let value = try container.decode(DocumentBlock.self, forKey: .document)
+                self = .document(value)
+            case .guardContent:
+                let value = try container.decode(GuardrailConverseContentBlock.self, forKey: .guardContent)
+                self = .guardContent(value)
+            case .image:
+                let value = try container.decode(ImageBlock.self, forKey: .image)
+                self = .image(value)
+            case .text:
+                let value = try container.decode(String.self, forKey: .text)
+                self = .text(value)
+            case .toolResult:
+                let value = try container.decode(ToolResultBlock.self, forKey: .toolResult)
+                self = .toolResult(value)
+            case .toolUse:
+                let value = try container.decode(ToolUseBlock.self, forKey: .toolUse)
+                self = .toolUse(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .document(let value):
+                try container.encode(value, forKey: .document)
+            case .guardContent(let value):
+                try container.encode(value, forKey: .guardContent)
+            case .image(let value):
+                try container.encode(value, forKey: .image)
+            case .text(let value):
+                try container.encode(value, forKey: .text)
+            case .toolResult(let value):
+                try container.encode(value, forKey: .toolResult)
+            case .toolUse(let value):
+                try container.encode(value, forKey: .toolUse)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .toolResult(let value):
+                try value.validate(name: "\(name).toolResult")
+            case .toolUse(let value):
+                try value.validate(name: "\(name).toolUse")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case document = "document"
+            case guardContent = "guardContent"
+            case image = "image"
+            case text = "text"
+            case toolResult = "toolResult"
+            case toolUse = "toolUse"
+        }
+    }
+
+    public enum ContentBlockDelta: AWSDecodableShape, Sendable {
+        /// The content text.
+        case text(String)
+        /// Information about a tool that the model is requesting to use.
+        case toolUse(ToolUseBlockDelta)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .text:
+                let value = try container.decode(String.self, forKey: .text)
+                self = .text(value)
+            case .toolUse:
+                let value = try container.decode(ToolUseBlockDelta.self, forKey: .toolUse)
+                self = .toolUse(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+            case toolUse = "toolUse"
+        }
+    }
+
+    public enum ConverseStreamOutput: AWSDecodableShape, Sendable {
+        /// The messages output content block delta.
+        case contentBlockDelta(ContentBlockDeltaEvent)
+        /// Start information for a content block.
+        case contentBlockStart(ContentBlockStartEvent)
+        /// Stop information for a content block.
+        case contentBlockStop(ContentBlockStopEvent)
+        /// An internal server error occurred. Retry your request.
+        case internalServerException(InternalServerException)
+        /// Message start information.
+        case messageStart(MessageStartEvent)
+        /// Message stop information.
+        case messageStop(MessageStopEvent)
+        /// Metadata for the converse output stream.
+        case metadata(ConverseStreamMetadataEvent)
+        /// A streaming error occurred. Retry your request.
+        case modelStreamErrorException(ModelStreamErrorException)
+        /// The number of requests exceeds the limit. Resubmit your request later.
+        case throttlingException(ThrottlingException)
+        /// Input validation failed. Check your request parameters and retry the request.
+        case validationException(ValidationException)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .contentBlockDelta:
+                let value = try container.decode(ContentBlockDeltaEvent.self, forKey: .contentBlockDelta)
+                self = .contentBlockDelta(value)
+            case .contentBlockStart:
+                let value = try container.decode(ContentBlockStartEvent.self, forKey: .contentBlockStart)
+                self = .contentBlockStart(value)
+            case .contentBlockStop:
+                let value = try container.decode(ContentBlockStopEvent.self, forKey: .contentBlockStop)
+                self = .contentBlockStop(value)
+            case .internalServerException:
+                let value = try container.decode(InternalServerException.self, forKey: .internalServerException)
+                self = .internalServerException(value)
+            case .messageStart:
+                let value = try container.decode(MessageStartEvent.self, forKey: .messageStart)
+                self = .messageStart(value)
+            case .messageStop:
+                let value = try container.decode(MessageStopEvent.self, forKey: .messageStop)
+                self = .messageStop(value)
+            case .metadata:
+                let value = try container.decode(ConverseStreamMetadataEvent.self, forKey: .metadata)
+                self = .metadata(value)
+            case .modelStreamErrorException:
+                let value = try container.decode(ModelStreamErrorException.self, forKey: .modelStreamErrorException)
+                self = .modelStreamErrorException(value)
+            case .throttlingException:
+                let value = try container.decode(ThrottlingException.self, forKey: .throttlingException)
+                self = .throttlingException(value)
+            case .validationException:
+                let value = try container.decode(ValidationException.self, forKey: .validationException)
+                self = .validationException(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentBlockDelta = "contentBlockDelta"
+            case contentBlockStart = "contentBlockStart"
+            case contentBlockStop = "contentBlockStop"
+            case internalServerException = "internalServerException"
+            case messageStart = "messageStart"
+            case messageStop = "messageStop"
+            case metadata = "metadata"
+            case modelStreamErrorException = "modelStreamErrorException"
+            case throttlingException = "throttlingException"
+            case validationException = "validationException"
+        }
     }
 
     public enum ResponseStream: AWSDecodableShape, Sendable {
@@ -87,7 +421,819 @@ extension BedrockRuntime {
         }
     }
 
+    public enum SystemContentBlock: AWSEncodableShape, Sendable {
+        /// A content block to assess with the guardrail. Use with the Converse API (Converse and ConverseStream).  For more information, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide.
+        case guardContent(GuardrailConverseContentBlock)
+        /// A system prompt for the model.
+        case text(String)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .guardContent(let value):
+                try container.encode(value, forKey: .guardContent)
+            case .text(let value):
+                try container.encode(value, forKey: .text)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .text(let value):
+                try self.validate(value, name: "text", parent: name, min: 1)
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardContent = "guardContent"
+            case text = "text"
+        }
+    }
+
+    public enum ToolChoice: AWSEncodableShape, Sendable {
+        /// The model must request at least one tool (no text is generated).
+        case any(AnyToolChoice)
+        /// (Default). The Model automatically decides if a tool should be called or whether to generate text instead.
+        case auto(AutoToolChoice)
+        /// The Model must request the specified tool.  Only supported by Anthropic Claude 3 models.
+        case tool(SpecificToolChoice)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .any(let value):
+                try container.encode(value, forKey: .any)
+            case .auto(let value):
+                try container.encode(value, forKey: .auto)
+            case .tool(let value):
+                try container.encode(value, forKey: .tool)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .tool(let value):
+                try value.validate(name: "\(name).tool")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case any = "any"
+            case auto = "auto"
+            case tool = "tool"
+        }
+    }
+
+    public enum ToolResultContentBlock: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// A tool result that is a document.
+        case document(DocumentBlock)
+        /// A tool result that is an image.  This field is only supported by Anthropic Claude 3 models.
+        case image(ImageBlock)
+        /// A tool result that is JSON format data.
+        case json(String)
+        /// A tool result that is text.
+        case text(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .document:
+                let value = try container.decode(DocumentBlock.self, forKey: .document)
+                self = .document(value)
+            case .image:
+                let value = try container.decode(ImageBlock.self, forKey: .image)
+                self = .image(value)
+            case .json:
+                let value = try container.decode(String.self, forKey: .json)
+                self = .json(value)
+            case .text:
+                let value = try container.decode(String.self, forKey: .text)
+                self = .text(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .document(let value):
+                try container.encode(value, forKey: .document)
+            case .image(let value):
+                try container.encode(value, forKey: .image)
+            case .json(let value):
+                try container.encode(value, forKey: .json)
+            case .text(let value):
+                try container.encode(value, forKey: .text)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case document = "document"
+            case image = "image"
+            case json = "json"
+            case text = "text"
+        }
+    }
+
     // MARK: Shapes
+
+    public struct AnyToolChoice: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct AutoToolChoice: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct ContentBlockDeltaEvent: AWSDecodableShape {
+        /// The block index for a content block delta event.
+        public let contentBlockIndex: Int
+        /// The delta for a content block delta event.
+        public let delta: ContentBlockDelta
+
+        public init(contentBlockIndex: Int, delta: ContentBlockDelta) {
+            self.contentBlockIndex = contentBlockIndex
+            self.delta = delta
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentBlockIndex = "contentBlockIndex"
+            case delta = "delta"
+        }
+    }
+
+    public struct ContentBlockStartEvent: AWSDecodableShape {
+        /// The index for a content block start event.
+        public let contentBlockIndex: Int
+        /// Start information about a content block start event.
+        public let start: ContentBlockStart
+
+        public init(contentBlockIndex: Int, start: ContentBlockStart) {
+            self.contentBlockIndex = contentBlockIndex
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentBlockIndex = "contentBlockIndex"
+            case start = "start"
+        }
+    }
+
+    public struct ContentBlockStopEvent: AWSDecodableShape {
+        /// The index for a content block.
+        public let contentBlockIndex: Int
+
+        public init(contentBlockIndex: Int) {
+            self.contentBlockIndex = contentBlockIndex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentBlockIndex = "contentBlockIndex"
+        }
+    }
+
+    public struct ConverseMetrics: AWSDecodableShape {
+        /// The latency of the call to Converse, in milliseconds.
+        public let latencyMs: Int64
+
+        public init(latencyMs: Int64) {
+            self.latencyMs = latencyMs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latencyMs = "latencyMs"
+        }
+    }
+
+    public struct ConverseRequest: AWSEncodableShape {
+        /// Additional inference parameters that the model supports, beyond the base set of inference parameters that Converse supports in the inferenceConfig field. For more information, see Model parameters.
+        public let additionalModelRequestFields: String?
+        /// Additional model parameters field paths to return in the response. Converse returns the requested fields as a JSON Pointer object in the additionalModelResponseFields field. The following is example JSON for additionalModelResponseFieldPaths.  [ "/stop_sequence" ]  For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation.  Converse rejects an empty JSON Pointer or incorrectly structured JSON Pointer with a 400 error code. if the JSON Pointer is valid, but the requested field is not in the model response, it is ignored by Converse.
+        public let additionalModelResponseFieldPaths: [String]?
+        /// Configuration information for a guardrail that you want to use in the request.
+        public let guardrailConfig: GuardrailConfiguration?
+        /// Inference parameters to pass to the model. Converse supports a base set of inference parameters. If you need to pass additional parameters that the model supports, use the additionalModelRequestFields request field.
+        public let inferenceConfig: InferenceConfiguration?
+        /// The messages that you want to send to the model.
+        public let messages: [Message]
+        /// The identifier for the model that you want to call. The modelId to provide depends on the type of model that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.
+        public let modelId: String
+        /// A system prompt to pass to the model.
+        public let system: [SystemContentBlock]?
+        /// Configuration information for the tools that the model can use when generating a response.   This field is only supported by Anthropic Claude 3, Cohere Command R, Cohere Command R+, and Mistral Large models.
+        public let toolConfig: ToolConfiguration?
+
+        public init(additionalModelRequestFields: String? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message], modelId: String, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.additionalModelResponseFieldPaths = additionalModelResponseFieldPaths
+            self.guardrailConfig = guardrailConfig
+            self.inferenceConfig = inferenceConfig
+            self.messages = messages
+            self.modelId = modelId
+            self.system = system
+            self.toolConfig = toolConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.additionalModelRequestFields, forKey: .additionalModelRequestFields)
+            try container.encodeIfPresent(self.additionalModelResponseFieldPaths, forKey: .additionalModelResponseFieldPaths)
+            try container.encodeIfPresent(self.guardrailConfig, forKey: .guardrailConfig)
+            try container.encodeIfPresent(self.inferenceConfig, forKey: .inferenceConfig)
+            try container.encode(self.messages, forKey: .messages)
+            request.encodePath(self.modelId, key: "modelId")
+            try container.encodeIfPresent(self.system, forKey: .system)
+            try container.encodeIfPresent(self.toolConfig, forKey: .toolConfig)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.additionalModelResponseFieldPaths, name: "additionalModelResponseFieldPaths", parent: name, max: 10)
+            try self.guardrailConfig?.validate(name: "\(name).guardrailConfig")
+            try self.inferenceConfig?.validate(name: "\(name).inferenceConfig")
+            try self.messages.forEach {
+                try $0.validate(name: "\(name).messages[]")
+            }
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
+            try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.system?.forEach {
+                try $0.validate(name: "\(name).system[]")
+            }
+            try self.toolConfig?.validate(name: "\(name).toolConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
+            case additionalModelResponseFieldPaths = "additionalModelResponseFieldPaths"
+            case guardrailConfig = "guardrailConfig"
+            case inferenceConfig = "inferenceConfig"
+            case messages = "messages"
+            case system = "system"
+            case toolConfig = "toolConfig"
+        }
+    }
+
+    public struct ConverseResponse: AWSDecodableShape {
+        /// Additional fields in the response that are unique to the model.
+        public let additionalModelResponseFields: String?
+        /// Metrics for the call to Converse.
+        public let metrics: ConverseMetrics
+        /// The result from the call to Converse.
+        public let output: ConverseOutput
+        /// The reason why the model stopped generating output.
+        public let stopReason: StopReason
+        /// A trace object that contains information about the Guardrail behavior.
+        public let trace: ConverseTrace?
+        /// The total number of tokens used in the call to Converse. The total includes the tokens input to the model and the tokens generated by the model.
+        public let usage: TokenUsage
+
+        public init(additionalModelResponseFields: String? = nil, metrics: ConverseMetrics, output: ConverseOutput, stopReason: StopReason, trace: ConverseTrace? = nil, usage: TokenUsage) {
+            self.additionalModelResponseFields = additionalModelResponseFields
+            self.metrics = metrics
+            self.output = output
+            self.stopReason = stopReason
+            self.trace = trace
+            self.usage = usage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalModelResponseFields = "additionalModelResponseFields"
+            case metrics = "metrics"
+            case output = "output"
+            case stopReason = "stopReason"
+            case trace = "trace"
+            case usage = "usage"
+        }
+    }
+
+    public struct ConverseStreamMetadataEvent: AWSDecodableShape {
+        /// The metrics for the conversation stream metadata event.
+        public let metrics: ConverseStreamMetrics
+        /// The trace object in the response from ConverseStream that contains information about the guardrail behavior.
+        public let trace: ConverseStreamTrace?
+        /// Usage information for the conversation stream event.
+        public let usage: TokenUsage
+
+        public init(metrics: ConverseStreamMetrics, trace: ConverseStreamTrace? = nil, usage: TokenUsage) {
+            self.metrics = metrics
+            self.trace = trace
+            self.usage = usage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metrics = "metrics"
+            case trace = "trace"
+            case usage = "usage"
+        }
+    }
+
+    public struct ConverseStreamMetrics: AWSDecodableShape {
+        /// The latency for the streaming request, in milliseconds.
+        public let latencyMs: Int64
+
+        public init(latencyMs: Int64) {
+            self.latencyMs = latencyMs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latencyMs = "latencyMs"
+        }
+    }
+
+    public struct ConverseStreamRequest: AWSEncodableShape {
+        /// Additional inference parameters that the model supports, beyond the base set of inference parameters that ConverseStream supports in the inferenceConfig field.
+        public let additionalModelRequestFields: String?
+        /// Additional model parameters field paths to return in the response. ConverseStream returns the requested fields as a JSON Pointer object in the additionalModelResponseFields field. The following is example JSON for additionalModelResponseFieldPaths.  [ "/stop_sequence" ]  For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation.  ConverseStream rejects an empty JSON Pointer or incorrectly structured JSON Pointer with a 400 error code. if the JSON Pointer is valid, but the requested field is not in the model response, it is ignored by ConverseStream.
+        public let additionalModelResponseFieldPaths: [String]?
+        /// Configuration information for a guardrail that you want to use in the request.
+        public let guardrailConfig: GuardrailStreamConfiguration?
+        /// Inference parameters to pass to the model. ConverseStream supports a base set of inference parameters. If you need to pass additional parameters that the model supports, use the additionalModelRequestFields request field.
+        public let inferenceConfig: InferenceConfiguration?
+        /// The messages that you want to send to the model.
+        public let messages: [Message]
+        /// The ID for the model. The modelId to provide depends on the type of model that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.
+        public let modelId: String
+        /// A system prompt to send to the model.
+        public let system: [SystemContentBlock]?
+        /// Configuration information for the tools that the model can use when generating a response.  This field is only supported by Anthropic Claude 3 models.
+        public let toolConfig: ToolConfiguration?
+
+        public init(additionalModelRequestFields: String? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailStreamConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message], modelId: String, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.additionalModelResponseFieldPaths = additionalModelResponseFieldPaths
+            self.guardrailConfig = guardrailConfig
+            self.inferenceConfig = inferenceConfig
+            self.messages = messages
+            self.modelId = modelId
+            self.system = system
+            self.toolConfig = toolConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.additionalModelRequestFields, forKey: .additionalModelRequestFields)
+            try container.encodeIfPresent(self.additionalModelResponseFieldPaths, forKey: .additionalModelResponseFieldPaths)
+            try container.encodeIfPresent(self.guardrailConfig, forKey: .guardrailConfig)
+            try container.encodeIfPresent(self.inferenceConfig, forKey: .inferenceConfig)
+            try container.encode(self.messages, forKey: .messages)
+            request.encodePath(self.modelId, key: "modelId")
+            try container.encodeIfPresent(self.system, forKey: .system)
+            try container.encodeIfPresent(self.toolConfig, forKey: .toolConfig)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.additionalModelResponseFieldPaths, name: "additionalModelResponseFieldPaths", parent: name, max: 10)
+            try self.guardrailConfig?.validate(name: "\(name).guardrailConfig")
+            try self.inferenceConfig?.validate(name: "\(name).inferenceConfig")
+            try self.messages.forEach {
+                try $0.validate(name: "\(name).messages[]")
+            }
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
+            try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.system?.forEach {
+                try $0.validate(name: "\(name).system[]")
+            }
+            try self.toolConfig?.validate(name: "\(name).toolConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
+            case additionalModelResponseFieldPaths = "additionalModelResponseFieldPaths"
+            case guardrailConfig = "guardrailConfig"
+            case inferenceConfig = "inferenceConfig"
+            case messages = "messages"
+            case system = "system"
+            case toolConfig = "toolConfig"
+        }
+    }
+
+    public struct ConverseStreamResponse: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
+        /// The output stream that the model generated.
+        public let stream: AWSEventStream<ConverseStreamOutput>
+
+        public init(stream: AWSEventStream<ConverseStreamOutput>) {
+            self.stream = stream
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.stream = try container.decode(AWSEventStream<ConverseStreamOutput>.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ConverseStreamTrace: AWSDecodableShape {
+        /// The guardrail trace object.
+        public let guardrail: GuardrailTraceAssessment?
+
+        public init(guardrail: GuardrailTraceAssessment? = nil) {
+            self.guardrail = guardrail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardrail = "guardrail"
+        }
+    }
+
+    public struct ConverseTrace: AWSDecodableShape {
+        /// The guardrail trace object.
+        public let guardrail: GuardrailTraceAssessment?
+
+        public init(guardrail: GuardrailTraceAssessment? = nil) {
+            self.guardrail = guardrail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardrail = "guardrail"
+        }
+    }
+
+    public struct DocumentBlock: AWSEncodableShape & AWSDecodableShape {
+        /// The format of a document, or its extension.
+        public let format: DocumentFormat
+        /// A name for the document.
+        public let name: String
+        /// Contains the content of the document.
+        public let source: DocumentSource
+
+        public init(format: DocumentFormat, name: String, source: DocumentSource) {
+            self.format = format
+            self.name = name
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "format"
+            case name = "name"
+            case source = "source"
+        }
+    }
+
+    public struct GuardrailAssessment: AWSDecodableShape {
+        /// The content policy.
+        public let contentPolicy: GuardrailContentPolicyAssessment?
+        /// The sensitive information policy.
+        public let sensitiveInformationPolicy: GuardrailSensitiveInformationPolicyAssessment?
+        /// The topic policy.
+        public let topicPolicy: GuardrailTopicPolicyAssessment?
+        /// The word policy.
+        public let wordPolicy: GuardrailWordPolicyAssessment?
+
+        public init(contentPolicy: GuardrailContentPolicyAssessment? = nil, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicyAssessment? = nil, topicPolicy: GuardrailTopicPolicyAssessment? = nil, wordPolicy: GuardrailWordPolicyAssessment? = nil) {
+            self.contentPolicy = contentPolicy
+            self.sensitiveInformationPolicy = sensitiveInformationPolicy
+            self.topicPolicy = topicPolicy
+            self.wordPolicy = wordPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentPolicy = "contentPolicy"
+            case sensitiveInformationPolicy = "sensitiveInformationPolicy"
+            case topicPolicy = "topicPolicy"
+            case wordPolicy = "wordPolicy"
+        }
+    }
+
+    public struct GuardrailConfiguration: AWSEncodableShape {
+        /// The identifier for the guardrail.
+        public let guardrailIdentifier: String
+        /// The version of the guardrail.
+        public let guardrailVersion: String
+        /// The trace behavior for the guardrail.
+        public let trace: GuardrailTrace?
+
+        public init(guardrailIdentifier: String, guardrailVersion: String, trace: GuardrailTrace? = nil) {
+            self.guardrailIdentifier = guardrailIdentifier
+            self.guardrailVersion = guardrailVersion
+            self.trace = trace
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardrailIdentifier = "guardrailIdentifier"
+            case guardrailVersion = "guardrailVersion"
+            case trace = "trace"
+        }
+    }
+
+    public struct GuardrailContentFilter: AWSDecodableShape {
+        /// The guardrail action.
+        public let action: GuardrailContentPolicyAction
+        /// The guardrail confidence.
+        public let confidence: GuardrailContentFilterConfidence
+        /// The guardrail type.
+        public let type: GuardrailContentFilterType
+
+        public init(action: GuardrailContentPolicyAction, confidence: GuardrailContentFilterConfidence, type: GuardrailContentFilterType) {
+            self.action = action
+            self.confidence = confidence
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case confidence = "confidence"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailContentPolicyAssessment: AWSDecodableShape {
+        /// The content policy filters.
+        public let filters: [GuardrailContentFilter]
+
+        public init(filters: [GuardrailContentFilter]) {
+            self.filters = filters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+        }
+    }
+
+    public struct GuardrailConverseTextBlock: AWSEncodableShape & AWSDecodableShape {
+        /// The text that you want to guard.
+        public let text: String
+
+        public init(text: String) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct GuardrailCustomWord: AWSDecodableShape {
+        /// The action for the custom word.
+        public let action: GuardrailWordPolicyAction
+        /// The match for the custom word.
+        public let match: String
+
+        public init(action: GuardrailWordPolicyAction, match: String) {
+            self.action = action
+            self.match = match
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case match = "match"
+        }
+    }
+
+    public struct GuardrailManagedWord: AWSDecodableShape {
+        /// The action for the managed word.
+        public let action: GuardrailWordPolicyAction
+        /// The match for the managed word.
+        public let match: String
+        /// The type for the managed word.
+        public let type: GuardrailManagedWordType
+
+        public init(action: GuardrailWordPolicyAction, match: String, type: GuardrailManagedWordType) {
+            self.action = action
+            self.match = match
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case match = "match"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailPiiEntityFilter: AWSDecodableShape {
+        /// The PII entity filter action.
+        public let action: GuardrailSensitiveInformationPolicyAction
+        /// The PII entity filter match.
+        public let match: String
+        /// The PII entity filter type.
+        public let type: GuardrailPiiEntityType
+
+        public init(action: GuardrailSensitiveInformationPolicyAction, match: String, type: GuardrailPiiEntityType) {
+            self.action = action
+            self.match = match
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case match = "match"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailRegexFilter: AWSDecodableShape {
+        /// The region filter action.
+        public let action: GuardrailSensitiveInformationPolicyAction
+        /// The regesx filter match.
+        public let match: String?
+        /// The regex filter name.
+        public let name: String?
+        /// The regex query.
+        public let regex: String?
+
+        public init(action: GuardrailSensitiveInformationPolicyAction, match: String? = nil, name: String? = nil, regex: String? = nil) {
+            self.action = action
+            self.match = match
+            self.name = name
+            self.regex = regex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case match = "match"
+            case name = "name"
+            case regex = "regex"
+        }
+    }
+
+    public struct GuardrailSensitiveInformationPolicyAssessment: AWSDecodableShape {
+        /// The PII entities in the assessment.
+        public let piiEntities: [GuardrailPiiEntityFilter]
+        /// The regex queries in the assessment.
+        public let regexes: [GuardrailRegexFilter]
+
+        public init(piiEntities: [GuardrailPiiEntityFilter], regexes: [GuardrailRegexFilter]) {
+            self.piiEntities = piiEntities
+            self.regexes = regexes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case piiEntities = "piiEntities"
+            case regexes = "regexes"
+        }
+    }
+
+    public struct GuardrailStreamConfiguration: AWSEncodableShape {
+        /// The identifier for the guardrail.
+        public let guardrailIdentifier: String
+        /// The version of the guardrail.
+        public let guardrailVersion: String
+        /// The processing mode.  The processing mode. For more information, see Configure streaming response behavior in the Amazon Bedrock User Guide.
+        public let streamProcessingMode: GuardrailStreamProcessingMode?
+        /// The trace behavior for the guardrail.
+        public let trace: GuardrailTrace?
+
+        public init(guardrailIdentifier: String, guardrailVersion: String, streamProcessingMode: GuardrailStreamProcessingMode? = nil, trace: GuardrailTrace? = nil) {
+            self.guardrailIdentifier = guardrailIdentifier
+            self.guardrailVersion = guardrailVersion
+            self.streamProcessingMode = streamProcessingMode
+            self.trace = trace
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardrailIdentifier = "guardrailIdentifier"
+            case guardrailVersion = "guardrailVersion"
+            case streamProcessingMode = "streamProcessingMode"
+            case trace = "trace"
+        }
+    }
+
+    public struct GuardrailTopic: AWSDecodableShape {
+        /// The action the guardrail should take when it intervenes on a topic.
+        public let action: GuardrailTopicPolicyAction
+        /// The name for the guardrail.
+        public let name: String
+        /// The type behavior that the guardrail should perform when the model detects the topic.
+        public let type: GuardrailTopicType
+
+        public init(action: GuardrailTopicPolicyAction, name: String, type: GuardrailTopicType) {
+            self.action = action
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailTopicPolicyAssessment: AWSDecodableShape {
+        /// The topics in the assessment.
+        public let topics: [GuardrailTopic]
+
+        public init(topics: [GuardrailTopic]) {
+            self.topics = topics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topics = "topics"
+        }
+    }
+
+    public struct GuardrailTraceAssessment: AWSDecodableShape {
+        /// The input assessment.
+        public let inputAssessment: [String: GuardrailAssessment]?
+        /// The output from the model.
+        public let modelOutput: [String]?
+        /// the output assessments.
+        public let outputAssessments: [String: [GuardrailAssessment]]?
+
+        public init(inputAssessment: [String: GuardrailAssessment]? = nil, modelOutput: [String]? = nil, outputAssessments: [String: [GuardrailAssessment]]? = nil) {
+            self.inputAssessment = inputAssessment
+            self.modelOutput = modelOutput
+            self.outputAssessments = outputAssessments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputAssessment = "inputAssessment"
+            case modelOutput = "modelOutput"
+            case outputAssessments = "outputAssessments"
+        }
+    }
+
+    public struct GuardrailWordPolicyAssessment: AWSDecodableShape {
+        /// Custom words in the assessment.
+        public let customWords: [GuardrailCustomWord]
+        /// Managed word lists in the assessment.
+        public let managedWordLists: [GuardrailManagedWord]
+
+        public init(customWords: [GuardrailCustomWord], managedWordLists: [GuardrailManagedWord]) {
+            self.customWords = customWords
+            self.managedWordLists = managedWordLists
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customWords = "customWords"
+            case managedWordLists = "managedWordLists"
+        }
+    }
+
+    public struct ImageBlock: AWSEncodableShape & AWSDecodableShape {
+        /// The format of the image.
+        public let format: ImageFormat
+        /// The source for the image.
+        public let source: ImageSource
+
+        public init(format: ImageFormat, source: ImageSource) {
+            self.format = format
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "format"
+            case source = "source"
+        }
+    }
+
+    public struct InferenceConfiguration: AWSEncodableShape {
+        /// The maximum number of tokens to allow in the generated response. The default value is the maximum allowed value for the model that you are using. For more information, see Inference parameters for foundation models.
+        public let maxTokens: Int?
+        /// A list of stop sequences. A stop sequence is a sequence of characters that causes the model to stop generating the response.
+        public let stopSequences: [String]?
+        /// The likelihood of the model selecting higher-probability options while generating a response. A lower value makes the model more likely to choose higher-probability options, while a higher value makes the model more likely to choose lower-probability options. The default value is the default value for the model that you are using. For more information, see Inference parameters for foundation models.
+        public let temperature: Float?
+        /// The percentage of most-likely candidates that the model considers for the next token. For example, if you choose a value of 0.8 for topP, the model selects from the top 80% of the probability distribution of tokens that could be next in the sequence. The default value is the default value for the model that you are using. For more information, see Inference parameters for foundation models.
+        public let topP: Float?
+
+        public init(maxTokens: Int? = nil, stopSequences: [String]? = nil, temperature: Float? = nil, topP: Float? = nil) {
+            self.maxTokens = maxTokens
+            self.stopSequences = stopSequences
+            self.temperature = temperature
+            self.topP = topP
+        }
+
+        public func validate(name: String) throws {
+            try self.stopSequences?.forEach {
+                try validate($0, name: "stopSequences[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxTokens = "maxTokens"
+            case stopSequences = "stopSequences"
+            case temperature = "temperature"
+            case topP = "topP"
+        }
+    }
 
     public struct InternalServerException: AWSDecodableShape {
         public let message: String?
@@ -104,9 +1250,9 @@ extension BedrockRuntime {
     public struct InvokeModelRequest: AWSEncodableShape {
         /// The desired MIME type of the inference body in the response. The default value is application/json.
         public let accept: String?
-        /// The prompt and inference parameters in the format specified in the contentType in the header. To see the format and content of the request and response bodies for different models, refer to Inference parameters. For more information, see Run inference in the Bedrock User Guide.
+        /// The prompt and inference parameters in the format specified in the contentType in the header. You must provide the body in JSON format. To see the format and content of the request and response bodies for different models, refer to Inference parameters. For more information, see Run inference in the Bedrock User Guide.
         public let body: AWSHTTPBody
-        /// The MIME type of the input data in the request. The default value is application/json.
+        /// The MIME type of the input data in the request. You must specify application/json.
         public let contentType: String?
         /// The unique identifier of the guardrail that you want to use. If you don't provide a value, no guardrail is applied to the invocation. An error will be thrown in the following situations.   You don't provide a guardrail identifier but you specify the amazon-bedrock-guardrailConfig field in the request body.   You enable the guardrail but the contentType isn't application/json.   You provide a guardrail identifier, but guardrailVersion isn't specified.
         public let guardrailIdentifier: String?
@@ -177,9 +1323,9 @@ extension BedrockRuntime {
     public struct InvokeModelWithResponseStreamRequest: AWSEncodableShape {
         /// The desired MIME type of the inference body in the response. The default value is application/json.
         public let accept: String?
-        /// The prompt and inference parameters in the format specified in the contentType in the header. To see the format and content of the request and response bodies for different models, refer to Inference parameters. For more information, see Run inference in the Bedrock User Guide.
+        /// The prompt and inference parameters in the format specified in the contentType in the header. You must provide the body in JSON format. To see the format and content of the request and response bodies for different models, refer to Inference parameters. For more information, see Run inference in the Bedrock User Guide.
         public let body: AWSHTTPBody
-        /// The MIME type of the input data in the request. The default value is application/json.
+        /// The MIME type of the input data in the request. You must specify application/json.
         public let contentType: String?
         /// The unique identifier of the guardrail that you want to use. If you don't provide a value, no guardrail is applied to the invocation. An error is thrown in the following situations.   You don't provide a guardrail identifier but you specify the amazon-bedrock-guardrailConfig field in the request body.   You enable the guardrail but the contentType isn't application/json.   You provide a guardrail identifier, but guardrailVersion isn't specified.
         public let guardrailIdentifier: String?
@@ -247,6 +1393,59 @@ extension BedrockRuntime {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct Message: AWSEncodableShape & AWSDecodableShape {
+        /// The message content.
+        public let content: [ContentBlock]
+        /// The role that the message plays in the message.
+        public let role: ConversationRole
+
+        public init(content: [ContentBlock], role: ConversationRole) {
+            self.content = content
+            self.role = role
+        }
+
+        public func validate(name: String) throws {
+            try self.content.forEach {
+                try $0.validate(name: "\(name).content[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case role = "role"
+        }
+    }
+
+    public struct MessageStartEvent: AWSDecodableShape {
+        /// The role for the message.
+        public let role: ConversationRole
+
+        public init(role: ConversationRole) {
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case role = "role"
+        }
+    }
+
+    public struct MessageStopEvent: AWSDecodableShape {
+        /// The additional model response fields.
+        public let additionalModelResponseFields: String?
+        /// The reason why the model stopped generating output.
+        public let stopReason: StopReason
+
+        public init(additionalModelResponseFields: String? = nil, stopReason: StopReason) {
+            self.additionalModelResponseFields = additionalModelResponseFields
+            self.stopReason = stopReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalModelResponseFields = "additionalModelResponseFields"
+            case stopReason = "stopReason"
+        }
+    }
+
     public struct ModelStreamErrorException: AWSDecodableShape {
         public let message: String?
         /// The original message.
@@ -292,6 +1491,25 @@ extension BedrockRuntime {
         }
     }
 
+    public struct SpecificToolChoice: AWSEncodableShape {
+        /// The name of the tool that the model must request.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
     public struct ThrottlingException: AWSDecodableShape {
         public let message: String?
 
@@ -304,6 +1522,166 @@ extension BedrockRuntime {
         }
     }
 
+    public struct TokenUsage: AWSDecodableShape {
+        /// The number of tokens sent in the request to the model.
+        public let inputTokens: Int
+        /// The number of tokens that the model generated for the request.
+        public let outputTokens: Int
+        /// The total of input tokens and tokens generated by the model.
+        public let totalTokens: Int
+
+        public init(inputTokens: Int, outputTokens: Int, totalTokens: Int) {
+            self.inputTokens = inputTokens
+            self.outputTokens = outputTokens
+            self.totalTokens = totalTokens
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputTokens = "inputTokens"
+            case outputTokens = "outputTokens"
+            case totalTokens = "totalTokens"
+        }
+    }
+
+    public struct ToolConfiguration: AWSEncodableShape {
+        /// If supported by model, forces the model to request a tool.
+        public let toolChoice: ToolChoice?
+        /// An array of tools that you want to pass to a model.
+        public let tools: [Tool]
+
+        public init(toolChoice: ToolChoice? = nil, tools: [Tool]) {
+            self.toolChoice = toolChoice
+            self.tools = tools
+        }
+
+        public func validate(name: String) throws {
+            try self.toolChoice?.validate(name: "\(name).toolChoice")
+            try self.tools.forEach {
+                try $0.validate(name: "\(name).tools[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case toolChoice = "toolChoice"
+            case tools = "tools"
+        }
+    }
+
+    public struct ToolResultBlock: AWSEncodableShape & AWSDecodableShape {
+        /// The content for tool result content block.
+        public let content: [ToolResultContentBlock]
+        /// The status for the tool result content block.  This field is only supported Anthropic Claude 3 models.
+        public let status: ToolResultStatus?
+        /// The ID of the tool request that this is the result for.
+        public let toolUseId: String
+
+        public init(content: [ToolResultContentBlock], status: ToolResultStatus? = nil, toolUseId: String) {
+            self.content = content
+            self.status = status
+            self.toolUseId = toolUseId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.toolUseId, name: "toolUseId", parent: name, max: 64)
+            try self.validate(self.toolUseId, name: "toolUseId", parent: name, min: 1)
+            try self.validate(self.toolUseId, name: "toolUseId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case status = "status"
+            case toolUseId = "toolUseId"
+        }
+    }
+
+    public struct ToolSpecification: AWSEncodableShape {
+        /// The description for the tool.
+        public let description: String?
+        /// The input schema for the tool in JSON format.
+        public let inputSchema: ToolInputSchema
+        /// The name for the tool.
+        public let name: String
+
+        public init(description: String? = nil, inputSchema: ToolInputSchema, name: String) {
+            self.description = description
+            self.inputSchema = inputSchema
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case inputSchema = "inputSchema"
+            case name = "name"
+        }
+    }
+
+    public struct ToolUseBlock: AWSEncodableShape & AWSDecodableShape {
+        /// The input to pass to the tool.
+        public let input: String
+        /// The name of the tool that the model wants to use.
+        public let name: String
+        /// The ID for the tool request.
+        public let toolUseId: String
+
+        public init(input: String, name: String, toolUseId: String) {
+            self.input = input
+            self.name = name
+            self.toolUseId = toolUseId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.validate(self.toolUseId, name: "toolUseId", parent: name, max: 64)
+            try self.validate(self.toolUseId, name: "toolUseId", parent: name, min: 1)
+            try self.validate(self.toolUseId, name: "toolUseId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input = "input"
+            case name = "name"
+            case toolUseId = "toolUseId"
+        }
+    }
+
+    public struct ToolUseBlockDelta: AWSDecodableShape {
+        /// The input for a requested tool.
+        public let input: String
+
+        public init(input: String) {
+            self.input = input
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input = "input"
+        }
+    }
+
+    public struct ToolUseBlockStart: AWSDecodableShape {
+        /// The name of the tool that the model is requesting to use.
+        public let name: String
+        /// The ID for the tool request.
+        public let toolUseId: String
+
+        public init(name: String, toolUseId: String) {
+            self.name = name
+            self.toolUseId = toolUseId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case toolUseId = "toolUseId"
+        }
+    }
+
     public struct ValidationException: AWSDecodableShape {
         public let message: String?
 
@@ -313,6 +1691,101 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct ContentBlockStart: AWSDecodableShape {
+        /// Information about a tool that the model is requesting to use.
+        public let toolUse: ToolUseBlockStart?
+
+        public init(toolUse: ToolUseBlockStart? = nil) {
+            self.toolUse = toolUse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case toolUse = "toolUse"
+        }
+    }
+
+    public struct ConverseOutput: AWSDecodableShape {
+        /// The message that the model generates.
+        public let message: Message?
+
+        public init(message: Message? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct DocumentSource: AWSEncodableShape & AWSDecodableShape {
+        /// A base64-encoded string of a UTF-8 encoded file, that is the document to include in the message.
+        public let bytes: AWSBase64Data?
+
+        public init(bytes: AWSBase64Data? = nil) {
+            self.bytes = bytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytes = "bytes"
+        }
+    }
+
+    public struct GuardrailConverseContentBlock: AWSEncodableShape & AWSDecodableShape {
+        /// The text to guard.
+        public let text: GuardrailConverseTextBlock?
+
+        public init(text: GuardrailConverseTextBlock? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct ImageSource: AWSEncodableShape & AWSDecodableShape {
+        /// The raw image bytes for the image. If you use an AWS SDK, you don't need to base64 encode the image bytes.
+        public let bytes: AWSBase64Data?
+
+        public init(bytes: AWSBase64Data? = nil) {
+            self.bytes = bytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytes = "bytes"
+        }
+    }
+
+    public struct Tool: AWSEncodableShape {
+        /// The specfication for the tool.
+        public let toolSpec: ToolSpecification?
+
+        public init(toolSpec: ToolSpecification? = nil) {
+            self.toolSpec = toolSpec
+        }
+
+        public func validate(name: String) throws {
+            try self.toolSpec?.validate(name: "\(name).toolSpec")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case toolSpec = "toolSpec"
+        }
+    }
+
+    public struct ToolInputSchema: AWSEncodableShape {
+        /// The JSON schema for the tool. For more information, see JSON Schema Reference.
+        public let json: String?
+
+        public init(json: String? = nil) {
+            self.json = json
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case json = "json"
         }
     }
 }

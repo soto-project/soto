@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS CloudHSMV2 service.
 ///
-/// For more information about AWS CloudHSM, see AWS CloudHSM and the AWS CloudHSM User Guide.
+/// For more information about CloudHSM, see CloudHSM and the  CloudHSM User Guide.
 public struct CloudHSMV2: AWSService {
     // MARK: Member variables
 
@@ -75,7 +75,7 @@ public struct CloudHSMV2: AWSService {
 
     // MARK: API Calls
 
-    /// Copy an AWS CloudHSM cluster backup to a different region.
+    /// Copy an CloudHSM cluster backup to a different region.  Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
     @Sendable
     public func copyBackupToRegion(_ input: CopyBackupToRegionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyBackupToRegionResponse {
         return try await self.client.execute(
@@ -88,7 +88,7 @@ public struct CloudHSMV2: AWSService {
         )
     }
 
-    /// Creates a new AWS CloudHSM cluster.
+    /// Creates a new CloudHSM cluster.  Cross-account use: Yes. To perform this operation with an CloudHSM backup in a different AWS account, specify the full backup  ARN in the value of the SourceBackupId parameter.
     @Sendable
     public func createCluster(_ input: CreateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterResponse {
         return try await self.client.execute(
@@ -101,7 +101,7 @@ public struct CloudHSMV2: AWSService {
         )
     }
 
-    /// Creates a new hardware security module (HSM) in the specified AWS CloudHSM cluster.
+    /// Creates a new hardware security module (HSM) in the specified CloudHSM cluster.  Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Service account.
     @Sendable
     public func createHsm(_ input: CreateHsmRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHsmResponse {
         return try await self.client.execute(
@@ -114,7 +114,7 @@ public struct CloudHSMV2: AWSService {
         )
     }
 
-    /// Deletes a specified AWS CloudHSM backup. A backup can be restored up to 7 days after the DeleteBackup request is made. For more information on restoring a backup, see RestoreBackup.
+    /// Deletes a specified CloudHSM backup. A backup can be restored up to 7 days after the DeleteBackup request is made. For more information on restoring a backup, see RestoreBackup.  Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
     @Sendable
     public func deleteBackup(_ input: DeleteBackupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBackupResponse {
         return try await self.client.execute(
@@ -127,7 +127,7 @@ public struct CloudHSMV2: AWSService {
         )
     }
 
-    /// Deletes the specified AWS CloudHSM cluster. Before you can delete a cluster, you must delete all HSMs in the cluster. To see if the cluster contains any HSMs, use DescribeClusters. To delete an HSM, use DeleteHsm.
+    /// Deletes the specified CloudHSM cluster. Before you can delete a cluster, you must delete all HSMs in the cluster. To see if the cluster contains any HSMs, use DescribeClusters. To delete an HSM, use DeleteHsm.  Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
     @Sendable
     public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterResponse {
         return try await self.client.execute(
@@ -140,7 +140,7 @@ public struct CloudHSMV2: AWSService {
         )
     }
 
-    /// Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to specify only one of these values. To find these values, use DescribeClusters.
+    /// Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to specify only one of these values. To find these values, use DescribeClusters.  Cross-account use: No. You cannot perform this operation on an CloudHSM hsm in a different Amazon Web Services account.
     @Sendable
     public func deleteHsm(_ input: DeleteHsmRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteHsmResponse {
         return try await self.client.execute(
@@ -153,7 +153,20 @@ public struct CloudHSMV2: AWSService {
         )
     }
 
-    /// Gets information about backups of AWS CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the backups. When the response contains only a subset of backups, it includes a NextToken value. Use this value in a subsequent DescribeBackups request to get more backups. When you receive a response with no NextToken (or an empty or null value), that means there are no more backups to get.
+    ///  Deletes an CloudHSM resource policy. Deleting a resource policy will result in the resource being unshared and removed from any RAM resource shares. Deleting the resource policy attached to a backup will not impact any clusters created from that  backup.  Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
+    @Sendable
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyResponse {
+        return try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets information about backups of CloudHSM clusters. Lists either the backups you own or the backups shared with you when the Shared parameter is true. This is a paginated operation, which means that each response might contain only a subset of all the backups. When the response contains only a subset of backups, it includes a NextToken value. Use this value in a subsequent DescribeBackups request to get more backups. When you receive a response with no NextToken (or an empty or null value), that means there are no more backups to get.  Cross-account use: Yes. Customers can describe backups in other Amazon Web Services accounts that are shared with them.
     @Sendable
     public func describeBackups(_ input: DescribeBackupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBackupsResponse {
         return try await self.client.execute(
@@ -166,7 +179,7 @@ public struct CloudHSMV2: AWSService {
         )
     }
 
-    /// Gets information about AWS CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the clusters. When the response contains only a subset of clusters, it includes a NextToken value. Use this value in a subsequent DescribeClusters request to get more clusters. When you receive a response with no NextToken (or an empty or null value), that means there are no more clusters to get.
+    /// Gets information about CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the clusters. When the response contains only a subset of clusters, it includes a NextToken value. Use this value in a subsequent DescribeClusters request to get more clusters. When you receive a response with no NextToken (or an empty or null value), that means there are no more clusters to get.  Cross-account use: No. You cannot perform this operation on CloudHSM clusters in a different Amazon Web Services account.
     @Sendable
     public func describeClusters(_ input: DescribeClustersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClustersResponse {
         return try await self.client.execute(
@@ -179,7 +192,20 @@ public struct CloudHSMV2: AWSService {
         )
     }
 
-    /// Claims an AWS CloudHSM cluster by submitting the cluster certificate issued by your issuing certificate authority (CA) and the CA's root certificate. Before you can claim a cluster, you must sign the cluster's certificate signing request (CSR) with your issuing CA. To get the cluster's CSR, use DescribeClusters.
+    ///  Retrieves the resource policy document attached to a given resource.   Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
+    @Sendable
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
+        return try await self.client.execute(
+            operation: "GetResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Claims an CloudHSM cluster by submitting the cluster certificate issued by your issuing certificate authority (CA) and the CA's root certificate. Before you can claim a cluster, you must sign the cluster's certificate signing request (CSR) with your issuing CA. To get the cluster's CSR, use DescribeClusters.  Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
     @Sendable
     public func initializeCluster(_ input: InitializeClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InitializeClusterResponse {
         return try await self.client.execute(
@@ -192,7 +218,7 @@ public struct CloudHSMV2: AWSService {
         )
     }
 
-    /// Gets a list of tags for the specified AWS CloudHSM cluster. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTags request to get more tags. When you receive a response with no NextToken (or an empty or null value), that means there are no more tags to get.
+    /// Gets a list of tags for the specified CloudHSM cluster. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTags request to get more tags. When you receive a response with no NextToken (or an empty or null value), that means there are no more tags to get.  Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     @Sendable
     public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsResponse {
         return try await self.client.execute(
@@ -205,7 +231,7 @@ public struct CloudHSMV2: AWSService {
         )
     }
 
-    /// Modifies attributes for AWS CloudHSM backup.
+    /// Modifies attributes for CloudHSM backup.  Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
     @Sendable
     public func modifyBackupAttributes(_ input: ModifyBackupAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyBackupAttributesResponse {
         return try await self.client.execute(
@@ -218,7 +244,7 @@ public struct CloudHSMV2: AWSService {
         )
     }
 
-    /// Modifies AWS CloudHSM cluster.
+    /// Modifies CloudHSM cluster.  Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
     @Sendable
     public func modifyCluster(_ input: ModifyClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyClusterResponse {
         return try await self.client.execute(
@@ -231,7 +257,21 @@ public struct CloudHSMV2: AWSService {
         )
     }
 
-    /// Restores a specified AWS CloudHSM backup that is in the PENDING_DELETION state. For mor information on deleting a backup, see DeleteBackup.
+    /// Creates or updates an CloudHSM resource policy. A resource policy helps you to define the IAM entity  (for example, an Amazon Web Services account) that can manage your CloudHSM resources. The following resources support  CloudHSM resource policies:    Backup - The resource policy allows you to describe the backup and restore a cluster from the backup in another Amazon Web Services account.   In order to share a backup, it must be in a 'READY' state and you must own it.  While you can share a backup using the CloudHSM PutResourcePolicy operation, we recommend using Resource Access Manager (RAM) instead. Using RAM provides multiple benefits as it creates the policy for you, allows multiple resources to be shared at one time, and increases the discoverability of shared resources. If you use PutResourcePolicy and want consumers to be able to describe the backups you share with them, you must promote the backup to a standard RAM Resource Share using the RAM PromoteResourceShareCreatedFromPolicy API operation.
+    ///  For more information, see  Working with shared backups in the CloudHSM User Guide   Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
+    @Sendable
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
+        return try await self.client.execute(
+            operation: "PutResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Restores a specified CloudHSM backup that is in the PENDING_DELETION state. For more information on deleting a backup, see DeleteBackup.  Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
     @Sendable
     public func restoreBackup(_ input: RestoreBackupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreBackupResponse {
         return try await self.client.execute(
@@ -244,7 +284,7 @@ public struct CloudHSMV2: AWSService {
         )
     }
 
-    /// Adds or overwrites one or more tags for the specified AWS CloudHSM cluster.
+    /// Adds or overwrites one or more tags for the specified CloudHSM cluster.  Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
         return try await self.client.execute(
@@ -257,7 +297,7 @@ public struct CloudHSMV2: AWSService {
         )
     }
 
-    /// Removes the specified tag or tags from the specified AWS CloudHSM cluster.
+    /// Removes the specified tag or tags from the specified CloudHSM cluster.  Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         return try await self.client.execute(
@@ -284,7 +324,7 @@ extension CloudHSMV2 {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CloudHSMV2 {
-    /// Gets information about backups of AWS CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the backups. When the response contains only a subset of backups, it includes a NextToken value. Use this value in a subsequent DescribeBackups request to get more backups. When you receive a response with no NextToken (or an empty or null value), that means there are no more backups to get.
+    /// Gets information about backups of CloudHSM clusters. Lists either the backups you own or the backups shared with you when the Shared parameter is true. This is a paginated operation, which means that each response might contain only a subset of all the backups. When the response contains only a subset of backups, it includes a NextToken value. Use this value in a subsequent DescribeBackups request to get more backups. When you receive a response with no NextToken (or an empty or null value), that means there are no more backups to get.  Cross-account use: Yes. Customers can describe backups in other Amazon Web Services accounts that are shared with them.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -303,7 +343,7 @@ extension CloudHSMV2 {
         )
     }
 
-    /// Gets information about AWS CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the clusters. When the response contains only a subset of clusters, it includes a NextToken value. Use this value in a subsequent DescribeClusters request to get more clusters. When you receive a response with no NextToken (or an empty or null value), that means there are no more clusters to get.
+    /// Gets information about CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the clusters. When the response contains only a subset of clusters, it includes a NextToken value. Use this value in a subsequent DescribeClusters request to get more clusters. When you receive a response with no NextToken (or an empty or null value), that means there are no more clusters to get.  Cross-account use: No. You cannot perform this operation on CloudHSM clusters in a different Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -322,7 +362,7 @@ extension CloudHSMV2 {
         )
     }
 
-    /// Gets a list of tags for the specified AWS CloudHSM cluster. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTags request to get more tags. When you receive a response with no NextToken (or an empty or null value), that means there are no more tags to get.
+    /// Gets a list of tags for the specified CloudHSM cluster. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTags request to get more tags. When you receive a response with no NextToken (or an empty or null value), that means there are no more tags to get.  Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -348,6 +388,7 @@ extension CloudHSMV2.DescribeBackupsRequest: AWSPaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
+            shared: self.shared,
             sortAscending: self.sortAscending
         )
     }

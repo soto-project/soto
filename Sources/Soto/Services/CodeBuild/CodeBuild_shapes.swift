@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -149,6 +149,7 @@ extension CodeBuild {
     }
 
     public enum FleetContextCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case actionRequired = "ACTION_REQUIRED"
         case createFailed = "CREATE_FAILED"
         case updateFailed = "UPDATE_FAILED"
         public var description: String { return self.rawValue }
@@ -367,6 +368,12 @@ extension CodeBuild {
         case releaseName = "RELEASE_NAME"
         case tagName = "TAG_NAME"
         case workflowName = "WORKFLOW_NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WebhookScopeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case githubGlobal = "GITHUB_GLOBAL"
+        case githubOrganization = "GITHUB_ORGANIZATION"
         public var description: String { return self.rawValue }
     }
 
@@ -721,7 +728,7 @@ extension CodeBuild {
         public let sourceVersion: String?
         /// When the build process started, expressed in Unix time format.
         public let startTime: Date?
-        /// How long, in minutes, for CodeBuild to wait before timing out this build if it does not get marked as completed.
+        /// How long, in minutes, from 5 to 2160 (36 hours), for CodeBuild to wait before timing out this build if it does not get marked as completed.
         public let timeoutInMinutes: Int?
         /// If your CodeBuild project accesses resources in an Amazon VPC, you provide this parameter that identifies the VPC ID and the list of security group IDs and subnet IDs. The security groups and subnets must belong to the same VPC. You must provide at least one security group and one subnet ID.
         public let vpcConfig: VpcConfig?
@@ -1237,27 +1244,33 @@ extension CodeBuild {
         public let computeType: ComputeType
         /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
         public let environmentType: EnvironmentType
+        /// The service role associated with the compute fleet. For more information, see  Allow a user to add a permission policy for a fleet service role in the CodeBuild User Guide.
+        public let fleetServiceRole: String?
         /// The name of the compute fleet.
         public let name: String
-        /// The compute fleet overflow behavior.   For overflow behavior QUEUE, your overflow builds need to wait on  the existing fleet instance to become available.   For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.
+        /// The compute fleet overflow behavior.   For overflow behavior QUEUE, your overflow builds need to wait on  the existing fleet instance to become available.   For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you choose to set your overflow behavior to on-demand while creating a VPC-connected  fleet, make sure that you add the required VPC permissions to your project service role. For more  information, see Example  policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface.
         public let overflowBehavior: FleetOverflowBehavior?
         /// The scaling configuration of the compute fleet.
         public let scalingConfiguration: ScalingConfigurationInput?
         /// A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
         public let tags: [Tag]?
+        public let vpcConfig: VpcConfig?
 
-        public init(baseCapacity: Int, computeType: ComputeType, environmentType: EnvironmentType, name: String, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil) {
+        public init(baseCapacity: Int, computeType: ComputeType, environmentType: EnvironmentType, fleetServiceRole: String? = nil, name: String, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.baseCapacity = baseCapacity
             self.computeType = computeType
             self.environmentType = environmentType
+            self.fleetServiceRole = fleetServiceRole
             self.name = name
             self.overflowBehavior = overflowBehavior
             self.scalingConfiguration = scalingConfiguration
             self.tags = tags
+            self.vpcConfig = vpcConfig
         }
 
         public func validate(name: String) throws {
             try self.validate(self.baseCapacity, name: "baseCapacity", parent: name, min: 1)
+            try self.validate(self.fleetServiceRole, name: "fleetServiceRole", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 2)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{1,127}$")
@@ -1266,16 +1279,19 @@ extension CodeBuild {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case baseCapacity = "baseCapacity"
             case computeType = "computeType"
             case environmentType = "environmentType"
+            case fleetServiceRole = "fleetServiceRole"
             case name = "name"
             case overflowBehavior = "overflowBehavior"
             case scalingConfiguration = "scalingConfiguration"
             case tags = "tags"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -1327,13 +1343,13 @@ extension CodeBuild {
         public let serviceRole: String
         /// Information about the build input source code for the build project.
         public let source: ProjectSource
-        /// A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:    For CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon S3: the version ID of the object that represents the build input ZIP file to use.   If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).  For more information, see Source Version Sample with CodeBuild in the CodeBuild User Guide.
+        /// A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:    For CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For GitLab: the commit ID, branch, or Git tag to use.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon S3: the version ID of the object that represents the build input ZIP file to use.   If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).  For more information, see Source Version Sample with CodeBuild in the CodeBuild User Guide.
         public let sourceVersion: String?
         /// A list of tag key and value pairs associated with this build project. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
         public let tags: [Tag]?
-        /// How long, in minutes, from 5 to 480 (8 hours), for CodeBuild to wait before it times out any build that has not been marked as completed. The default is 60 minutes.
+        /// How long, in minutes, from 5 to 2160 (36 hours), for CodeBuild to wait before it times out any build that has not been marked as completed. The default is 60 minutes.
         public let timeoutInMinutes: Int?
-        /// VpcConfig enables CodeBuild to access resources in an Amazon VPC.
+        /// VpcConfig enables CodeBuild to access resources in an Amazon VPC.  If you're using compute fleets during project creation, do not provide vpcConfig.
         public let vpcConfig: VpcConfig?
 
         public init(artifacts: ProjectArtifacts, badgeEnabled: Bool? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, cache: ProjectCache? = nil, concurrentBuildLimit: Int? = nil, description: String? = nil, encryptionKey: String? = nil, environment: ProjectEnvironment, fileSystemLocations: [ProjectFileSystemLocation]? = nil, logsConfig: LogsConfig? = nil, name: String, queuedTimeoutInMinutes: Int? = nil, secondaryArtifacts: [ProjectArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String, source: ProjectSource, sourceVersion: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
@@ -1365,9 +1381,9 @@ extension CodeBuild {
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, min: 1)
             try self.environment.validate(name: "\(name).environment")
-            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, max: 150)
             try self.validate(self.name, name: "name", parent: name, min: 2)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{1,149}$")
             try self.validate(self.queuedTimeoutInMinutes, name: "queuedTimeoutInMinutes", parent: name, max: 480)
             try self.validate(self.queuedTimeoutInMinutes, name: "queuedTimeoutInMinutes", parent: name, min: 5)
             try self.validate(self.secondaryArtifacts, name: "secondaryArtifacts", parent: name, max: 12)
@@ -1382,7 +1398,7 @@ extension CodeBuild {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
-            try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, max: 480)
+            try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, max: 2160)
             try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, min: 5)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
@@ -1480,27 +1496,35 @@ extension CodeBuild {
         public let buildType: WebhookBuildType?
         /// An array of arrays of WebhookFilter objects used to determine which webhooks are triggered. At least one WebhookFilter in the array must specify EVENT as its type.  For a build to be triggered, at least one filter group in the filterGroups array must pass. For a filter group to pass, each of its filters must pass.
         public let filterGroups: [[WebhookFilter]]?
+        /// If manualCreation is true, CodeBuild doesn't create a webhook in GitHub and instead returns payloadUrl and  secret values for the webhook. The payloadUrl and secret values in the output can be  used to manually create a webhook within GitHub.   manualCreation is only available for GitHub webhooks.
+        public let manualCreation: Bool?
         /// The name of the CodeBuild project.
         public let projectName: String
+        /// The scope configuration for global or organization webhooks.  Global or organization webhooks are only available for GitHub and Github Enterprise webhooks.
+        public let scopeConfiguration: ScopeConfiguration?
 
-        public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, projectName: String) {
+        public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, manualCreation: Bool? = nil, projectName: String, scopeConfiguration: ScopeConfiguration? = nil) {
             self.branchFilter = branchFilter
             self.buildType = buildType
             self.filterGroups = filterGroups
+            self.manualCreation = manualCreation
             self.projectName = projectName
+            self.scopeConfiguration = scopeConfiguration
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
+            try self.validate(self.projectName, name: "projectName", parent: name, max: 150)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 2)
-            try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}$")
+            try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{1,149}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case branchFilter = "branchFilter"
             case buildType = "buildType"
             case filterGroups = "filterGroups"
+            case manualCreation = "manualCreation"
             case projectName = "projectName"
+            case scopeConfiguration = "scopeConfiguration"
         }
     }
 
@@ -1720,9 +1744,9 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
+            try self.validate(self.projectName, name: "projectName", parent: name, max: 150)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 2)
-            try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}$")
+            try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{1,149}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1953,13 +1977,15 @@ extension CodeBuild {
         public let created: Date?
         /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
         public let environmentType: EnvironmentType?
+        /// The service role associated with the compute fleet. For more information, see  Allow a user to add a permission policy for a fleet service role in the CodeBuild User Guide.
+        public let fleetServiceRole: String?
         /// The ID of the compute fleet.
         public let id: String?
         /// The time at which the compute fleet was last modified.
         public let lastModified: Date?
         /// The name of the compute fleet.
         public let name: String?
-        /// The compute fleet overflow behavior.   For overflow behavior QUEUE, your overflow builds need to wait on  the existing fleet instance to become available.   For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.
+        /// The compute fleet overflow behavior.   For overflow behavior QUEUE, your overflow builds need to wait on  the existing fleet instance to become available.   For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you choose to set your overflow behavior to on-demand while creating a VPC-connected  fleet, make sure that you add the required VPC permissions to your project service role. For more  information, see Example  policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface.
         public let overflowBehavior: FleetOverflowBehavior?
         /// The scaling configuration of the compute fleet.
         public let scalingConfiguration: ScalingConfigurationOutput?
@@ -1967,13 +1993,15 @@ extension CodeBuild {
         public let status: FleetStatus?
         /// A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
         public let tags: [Tag]?
+        public let vpcConfig: VpcConfig?
 
-        public init(arn: String? = nil, baseCapacity: Int? = nil, computeType: ComputeType? = nil, created: Date? = nil, environmentType: EnvironmentType? = nil, id: String? = nil, lastModified: Date? = nil, name: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationOutput? = nil, status: FleetStatus? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, baseCapacity: Int? = nil, computeType: ComputeType? = nil, created: Date? = nil, environmentType: EnvironmentType? = nil, fleetServiceRole: String? = nil, id: String? = nil, lastModified: Date? = nil, name: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationOutput? = nil, status: FleetStatus? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.baseCapacity = baseCapacity
             self.computeType = computeType
             self.created = created
             self.environmentType = environmentType
+            self.fleetServiceRole = fleetServiceRole
             self.id = id
             self.lastModified = lastModified
             self.name = name
@@ -1981,6 +2009,7 @@ extension CodeBuild {
             self.scalingConfiguration = scalingConfiguration
             self.status = status
             self.tags = tags
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1989,6 +2018,7 @@ extension CodeBuild {
             case computeType = "computeType"
             case created = "created"
             case environmentType = "environmentType"
+            case fleetServiceRole = "fleetServiceRole"
             case id = "id"
             case lastModified = "lastModified"
             case name = "name"
@@ -1996,6 +2026,7 @@ extension CodeBuild {
             case scalingConfiguration = "scalingConfiguration"
             case status = "status"
             case tags = "tags"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -2108,13 +2139,13 @@ extension CodeBuild {
     }
 
     public struct ImportSourceCredentialsInput: AWSEncodableShape {
-        ///  The type of authentication used to connect to a GitHub, GitHub Enterprise, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created using the CodeBuild console.
+        ///  The type of authentication used to connect to a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created using the CodeBuild console. Note that CODECONNECTIONS is only valid for  GitLab and GitLab Self Managed.
         public let authType: AuthType
         ///  The source provider used for this project.
         public let serverType: ServerType
         ///  Set to false to prevent overwriting the repository source credentials. Set to true to overwrite the repository source credentials. The default value is true.
         public let shouldOverwrite: Bool?
-        ///  For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is either the access token or the app password.
+        ///  For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is either the access token or the app password. For the authType CODECONNECTIONS,  this is the connectionArn.
         public let token: String
         ///  The Bitbucket username when the authType is BASIC_AUTH. This parameter is not valid for other types of source providers or connections.
         public let username: String?
@@ -2851,11 +2882,11 @@ extension CodeBuild {
         public let serviceRole: String?
         /// Information about the build input source code for this build project.
         public let source: ProjectSource?
-        /// A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:   For CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon S3: the version ID of the object that represents the build input ZIP file to use.   If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).  For more information, see Source Version Sample with CodeBuild in the CodeBuild User Guide.
+        /// A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:   For CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For GitLab: the commit ID, branch, or Git tag to use.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon S3: the version ID of the object that represents the build input ZIP file to use.   If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).  For more information, see Source Version Sample with CodeBuild in the CodeBuild User Guide.
         public let sourceVersion: String?
         /// A list of tag key and value pairs associated with this build project. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
         public let tags: [Tag]?
-        /// How long, in minutes, from 5 to 480 (8 hours), for CodeBuild to wait before timing out any related build that did not get marked as completed. The default is 60 minutes.
+        /// How long, in minutes, from 5 to 2160 (36 hours), for CodeBuild to wait before timing out any related build that did not get marked as completed. The default is 60 minutes.
         public let timeoutInMinutes: Int?
         /// Information about the VPC configuration that CodeBuild accesses.
         public let vpcConfig: VpcConfig?
@@ -3197,7 +3228,7 @@ extension CodeBuild {
     public struct ProjectSourceVersion: AWSEncodableShape & AWSDecodableShape {
         /// An identifier for a source in the build project. The identifier can only contain alphanumeric characters and underscores, and must be less than 128 characters in length.
         public let sourceIdentifier: String
-        /// The source version for the corresponding source identifier. If specified, must be one of:   For CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub or GitLab: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon S3: the version ID of the object that represents the build input ZIP file to use.   For more information, see Source Version Sample with CodeBuild in the CodeBuild User Guide.
+        /// The source version for the corresponding source identifier. If specified, must be one of:   For CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For GitLab: the commit ID, branch, or Git tag to use.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon S3: the version ID of the object that represents the build input ZIP file to use.   For more information, see Source Version Sample with CodeBuild in the CodeBuild User Guide.
         public let sourceVersion: String
 
         public init(sourceIdentifier: String, sourceVersion: String) {
@@ -3640,6 +3671,27 @@ extension CodeBuild {
         }
     }
 
+    public struct ScopeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The domain of the GitHub Enterprise organization. Note that this parameter is only required if your project's source type is GITHUB_ENTERPRISE
+        public let domain: String?
+        /// The name of either the enterprise or organization that will send webhook events to CodeBuild, depending on if the webhook is a global or organization webhook respectively.
+        public let name: String
+        /// The type of scope for a GitHub webhook.
+        public let scope: WebhookScopeType
+
+        public init(domain: String? = nil, name: String, scope: WebhookScopeType) {
+            self.domain = domain
+            self.name = name
+            self.scope = scope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "domain"
+            case name = "name"
+            case scope = "scope"
+        }
+    }
+
     public struct SourceAuth: AWSEncodableShape & AWSDecodableShape {
         /// The resource value that applies to the specified authorization type.
         public let resource: String?
@@ -3782,7 +3834,7 @@ extension CodeBuild {
 
         public func validate(name: String) throws {
             try self.buildBatchConfigOverride?.validate(name: "\(name).buildBatchConfigOverride")
-            try self.validate(self.buildTimeoutInMinutesOverride, name: "buildTimeoutInMinutesOverride", parent: name, max: 480)
+            try self.validate(self.buildTimeoutInMinutesOverride, name: "buildTimeoutInMinutesOverride", parent: name, max: 2160)
             try self.validate(self.buildTimeoutInMinutesOverride, name: "buildTimeoutInMinutesOverride", parent: name, min: 5)
             try self.validate(self.encryptionKeyOverride, name: "encryptionKeyOverride", parent: name, min: 1)
             try self.environmentVariablesOverride?.forEach {
@@ -3907,15 +3959,15 @@ extension CodeBuild {
         public let secondarySourcesVersionOverride: [ProjectSourceVersion]?
         /// The name of a service role for this build that overrides the one specified in the build project.
         public let serviceRoleOverride: String?
-        /// An authorization type for this build that overrides the one defined in the build project. This override applies only if the build project's source is BitBucket or GitHub.
+        /// An authorization type for this build that overrides the one defined in the build project. This override applies only if the build project's source is BitBucket, GitHub,  GitLab, or GitLab Self Managed.
         public let sourceAuthOverride: SourceAuth?
         /// A location that overrides, for this build, the source location for the one defined in the build project.
         public let sourceLocationOverride: String?
         /// A source input type, for this build, that overrides the source input defined in the build project.
         public let sourceTypeOverride: SourceType?
-        /// The version of the build input to be built, for this build only. If not specified, the latest version is used. If specified, the contents depends on the source provider:  CodeCommit  The commit ID, branch, or Git tag to use.  GitHub  The commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.  Bitbucket  The commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.  Amazon S3  The version ID of the object that represents the build input ZIP file to use.   If sourceVersion is specified at the project level, then this sourceVersion (at the build level) takes precedence.  For more information, see Source Version Sample with CodeBuild in the CodeBuild User Guide.
+        /// The version of the build input to be built, for this build only. If not specified, the latest version is used. If specified, the contents depends on the source provider:  CodeCommit  The commit ID, branch, or Git tag to use.  GitHub  The commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.  GitLab  The commit ID, branch, or Git tag to use.  Bitbucket  The commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.  Amazon S3  The version ID of the object that represents the build input ZIP file to use.   If sourceVersion is specified at the project level, then this sourceVersion (at the build level) takes precedence.  For more information, see Source Version Sample with CodeBuild in the CodeBuild User Guide.
         public let sourceVersion: String?
-        /// The number of build timeout minutes, from 5 to 480 (8 hours), that overrides, for this build only, the latest setting already defined in the build project.
+        /// The number of build timeout minutes, from 5 to 2160 (36 hours), that overrides, for this build only, the latest setting already defined in the build project.
         public let timeoutInMinutesOverride: Int?
 
         public init(artifactsOverride: ProjectArtifacts? = nil, buildspecOverride: String? = nil, buildStatusConfigOverride: BuildStatusConfig? = nil, cacheOverride: ProjectCache? = nil, certificateOverride: String? = nil, computeTypeOverride: ComputeType? = nil, debugSessionEnabled: Bool? = nil, encryptionKeyOverride: String? = nil, environmentTypeOverride: EnvironmentType? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, fleetOverride: ProjectFleet? = nil, gitCloneDepthOverride: Int? = nil, gitSubmodulesConfigOverride: GitSubmodulesConfig? = nil, idempotencyToken: String? = nil, imageOverride: String? = nil, imagePullCredentialsTypeOverride: ImagePullCredentialsType? = nil, insecureSslOverride: Bool? = nil, logsConfigOverride: LogsConfig? = nil, privilegedModeOverride: Bool? = nil, projectName: String, queuedTimeoutInMinutesOverride: Int? = nil, registryCredentialOverride: RegistryCredential? = nil, reportBuildStatusOverride: Bool? = nil, secondaryArtifactsOverride: [ProjectArtifacts]? = nil, secondarySourcesOverride: [ProjectSource]? = nil, secondarySourcesVersionOverride: [ProjectSourceVersion]? = nil, serviceRoleOverride: String? = nil, sourceAuthOverride: SourceAuth? = nil, sourceLocationOverride: String? = nil, sourceTypeOverride: SourceType? = nil, sourceVersion: String? = nil, timeoutInMinutesOverride: Int? = nil) {
@@ -3971,7 +4023,7 @@ extension CodeBuild {
             try self.validate(self.secondarySourcesOverride, name: "secondarySourcesOverride", parent: name, max: 12)
             try self.validate(self.secondarySourcesVersionOverride, name: "secondarySourcesVersionOverride", parent: name, max: 12)
             try self.validate(self.serviceRoleOverride, name: "serviceRoleOverride", parent: name, min: 1)
-            try self.validate(self.timeoutInMinutesOverride, name: "timeoutInMinutesOverride", parent: name, max: 480)
+            try self.validate(self.timeoutInMinutesOverride, name: "timeoutInMinutesOverride", parent: name, max: 2160)
             try self.validate(self.timeoutInMinutesOverride, name: "timeoutInMinutesOverride", parent: name, min: 5)
         }
 
@@ -4213,31 +4265,38 @@ extension CodeBuild {
         public let computeType: ComputeType?
         /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
         public let environmentType: EnvironmentType?
-        /// The compute fleet overflow behavior.   For overflow behavior QUEUE, your overflow builds need to wait on  the existing fleet instance to become available.   For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.
+        /// The service role associated with the compute fleet. For more information, see  Allow a user to add a permission policy for a fleet service role in the CodeBuild User Guide.
+        public let fleetServiceRole: String?
+        /// The compute fleet overflow behavior.   For overflow behavior QUEUE, your overflow builds need to wait on  the existing fleet instance to become available.   For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you choose to set your overflow behavior to on-demand while creating a VPC-connected  fleet, make sure that you add the required VPC permissions to your project service role. For more  information, see Example  policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface.
         public let overflowBehavior: FleetOverflowBehavior?
         /// The scaling configuration of the compute fleet.
         public let scalingConfiguration: ScalingConfigurationInput?
         /// A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
         public let tags: [Tag]?
+        public let vpcConfig: VpcConfig?
 
-        public init(arn: String, baseCapacity: Int? = nil, computeType: ComputeType? = nil, environmentType: EnvironmentType? = nil, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil) {
+        public init(arn: String, baseCapacity: Int? = nil, computeType: ComputeType? = nil, environmentType: EnvironmentType? = nil, fleetServiceRole: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.baseCapacity = baseCapacity
             self.computeType = computeType
             self.environmentType = environmentType
+            self.fleetServiceRole = fleetServiceRole
             self.overflowBehavior = overflowBehavior
             self.scalingConfiguration = scalingConfiguration
             self.tags = tags
+            self.vpcConfig = vpcConfig
         }
 
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.validate(self.baseCapacity, name: "baseCapacity", parent: name, min: 1)
+            try self.validate(self.fleetServiceRole, name: "fleetServiceRole", parent: name, min: 1)
             try self.scalingConfiguration?.validate(name: "\(name).scalingConfiguration")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4245,9 +4304,11 @@ extension CodeBuild {
             case baseCapacity = "baseCapacity"
             case computeType = "computeType"
             case environmentType = "environmentType"
+            case fleetServiceRole = "fleetServiceRole"
             case overflowBehavior = "overflowBehavior"
             case scalingConfiguration = "scalingConfiguration"
             case tags = "tags"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -4298,11 +4359,11 @@ extension CodeBuild {
         public let serviceRole: String?
         /// Information to be changed about the build input source code for the build project.
         public let source: ProjectSource?
-        ///  A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:    For CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon S3: the version ID of the object that represents the build input ZIP file to use.   If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).  For more information, see Source Version Sample with CodeBuild in the CodeBuild User Guide.
+        ///  A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:    For CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For GitLab: the commit ID, branch, or Git tag to use.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon S3: the version ID of the object that represents the build input ZIP file to use.   If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).  For more information, see Source Version Sample with CodeBuild in the CodeBuild User Guide.
         public let sourceVersion: String?
         /// An updated list of tag key and value pairs associated with this build project. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
         public let tags: [Tag]?
-        /// The replacement value in minutes, from 5 to 480 (8 hours), for CodeBuild to wait before timing out any related build that did not get marked as completed.
+        /// The replacement value in minutes, from 5 to 2160 (36 hours), for CodeBuild to wait before timing out any related build that did not get marked as completed.
         public let timeoutInMinutes: Int?
         /// VpcConfig enables CodeBuild to access resources in an Amazon VPC.
         public let vpcConfig: VpcConfig?
@@ -4351,7 +4412,7 @@ extension CodeBuild {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
-            try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, max: 480)
+            try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, max: 2160)
             try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, min: 5)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
@@ -4503,9 +4564,9 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
+            try self.validate(self.projectName, name: "projectName", parent: name, max: 150)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 2)
-            try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}$")
+            try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{1,149}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4572,19 +4633,25 @@ extension CodeBuild {
         public let filterGroups: [[WebhookFilter]]?
         /// A timestamp that indicates the last time a repository's secret token was modified.
         public let lastModifiedSecret: Date?
+        /// If manualCreation is true, CodeBuild doesn't create a webhook in GitHub and instead returns payloadUrl and  secret values for the webhook. The payloadUrl and secret values in the output can  be used to manually create a webhook within GitHub.  manualCreation is only available for GitHub webhooks.
+        public let manualCreation: Bool?
         /// The CodeBuild endpoint where webhook events are sent.
         public let payloadUrl: String?
+        /// The scope configuration for global or organization webhooks.  Global or organization webhooks are only available for GitHub and Github Enterprise webhooks.
+        public let scopeConfiguration: ScopeConfiguration?
         /// The secret token of the associated repository.   A Bitbucket webhook does not support secret.
         public let secret: String?
         /// The URL to the webhook.
         public let url: String?
 
-        public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, lastModifiedSecret: Date? = nil, payloadUrl: String? = nil, secret: String? = nil, url: String? = nil) {
+        public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, lastModifiedSecret: Date? = nil, manualCreation: Bool? = nil, payloadUrl: String? = nil, scopeConfiguration: ScopeConfiguration? = nil, secret: String? = nil, url: String? = nil) {
             self.branchFilter = branchFilter
             self.buildType = buildType
             self.filterGroups = filterGroups
             self.lastModifiedSecret = lastModifiedSecret
+            self.manualCreation = manualCreation
             self.payloadUrl = payloadUrl
+            self.scopeConfiguration = scopeConfiguration
             self.secret = secret
             self.url = url
         }
@@ -4594,7 +4661,9 @@ extension CodeBuild {
             case buildType = "buildType"
             case filterGroups = "filterGroups"
             case lastModifiedSecret = "lastModifiedSecret"
+            case manualCreation = "manualCreation"
             case payloadUrl = "payloadUrl"
+            case scopeConfiguration = "scopeConfiguration"
             case secret = "secret"
             case url = "url"
         }
@@ -4605,7 +4674,7 @@ extension CodeBuild {
         public let excludeMatchedPattern: Bool?
         ///  For a WebHookFilter that uses EVENT type, a comma-separated string that specifies one or more events. For example, the webhook filter PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED allows all push, pull request created, and pull request updated events to trigger a build.  For a WebHookFilter that uses any of the other filter types, a regular expression pattern. For example, a WebHookFilter that uses HEAD_REF for its type and the pattern ^refs/heads/ triggers a build when the head reference is a branch with a reference name refs/heads/branch-name.
         public let pattern: String
-        ///  The type of webhook filter. There are nine webhook filter types: EVENT, ACTOR_ACCOUNT_ID, HEAD_REF, BASE_REF, FILE_PATH, COMMIT_MESSAGE, TAG_NAME, RELEASE_NAME,  and WORKFLOW_NAME.     EVENT    A webhook event triggers a build when the provided pattern matches one of nine event types: PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED,  PULL_REQUEST_CLOSED, PULL_REQUEST_REOPENED,  PULL_REQUEST_MERGED, RELEASED, PRERELEASED,  and WORKFLOW_JOB_QUEUED. The EVENT patterns are specified as a comma-separated string. For example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED filters all push, pull request created, and pull request updated events.   The PULL_REQUEST_REOPENED works with GitHub and GitHub Enterprise only. The RELEASED, PRERELEASED,  and WORKFLOW_JOB_QUEUED work with GitHub only.      ACTOR_ACCOUNT_ID   A webhook event triggers a build when a GitHub, GitHub Enterprise, or Bitbucket account ID matches the regular expression pattern.      HEAD_REF   A webhook event triggers a build when the head reference matches the regular expression pattern. For example, refs/heads/branch-name and refs/tags/tag-name.   Works with GitHub and GitHub Enterprise push, GitHub and GitHub Enterprise pull request, Bitbucket push, and Bitbucket pull request events.      BASE_REF   A webhook event triggers a build when the base reference matches the regular expression pattern. For example, refs/heads/branch-name.   Works with pull request events only.       FILE_PATH   A webhook triggers a build when the path of a changed file matches the regular expression pattern.   Works with GitHub and Bitbucket events push and pull requests events. Also works with GitHub Enterprise push events, but does not work with GitHub Enterprise pull request events.       COMMIT_MESSAGE   A webhook triggers a build when the head commit message matches the regular expression pattern.  Works with GitHub and Bitbucket events push and pull requests events. Also works with GitHub Enterprise push events, but does not work with GitHub Enterprise pull request events.       TAG_NAME   A webhook triggers a build when the tag name of the release matches the  regular expression pattern.  Works with RELEASED and PRERELEASED events only.       RELEASE_NAME   A webhook triggers a build when the release name matches the  regular expression pattern.  Works with RELEASED and PRERELEASED events only.       WORKFLOW_NAME   A webhook triggers a build when the workflow name matches the  regular expression pattern.  Works with WORKFLOW_JOB_QUEUED events only.
+        ///  The type of webhook filter. There are nine webhook filter types: EVENT, ACTOR_ACCOUNT_ID, HEAD_REF, BASE_REF, FILE_PATH, COMMIT_MESSAGE, TAG_NAME, RELEASE_NAME,  and WORKFLOW_NAME.     EVENT    A webhook event triggers a build when the provided pattern matches one of nine event types: PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED,  PULL_REQUEST_CLOSED, PULL_REQUEST_REOPENED,  PULL_REQUEST_MERGED, RELEASED, PRERELEASED,  and WORKFLOW_JOB_QUEUED. The EVENT patterns are specified as a comma-separated string. For example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED filters all push, pull request created, and pull request updated events.   Types PULL_REQUEST_REOPENED and WORKFLOW_JOB_QUEUED  work with GitHub and GitHub Enterprise only. Types RELEASED and  PRERELEASED work with GitHub only.      ACTOR_ACCOUNT_ID   A webhook event triggers a build when a GitHub, GitHub Enterprise, or Bitbucket account ID matches the regular expression pattern.      HEAD_REF   A webhook event triggers a build when the head reference matches the regular expression pattern. For example, refs/heads/branch-name and refs/tags/tag-name.   Works with GitHub and GitHub Enterprise push, GitHub and GitHub Enterprise pull request, Bitbucket push, and Bitbucket pull request events.      BASE_REF   A webhook event triggers a build when the base reference matches the regular expression pattern. For example, refs/heads/branch-name.   Works with pull request events only.       FILE_PATH   A webhook triggers a build when the path of a changed file matches the regular expression pattern.   Works with GitHub and Bitbucket events push and pull requests events. Also works with GitHub Enterprise push events, but does not work with GitHub Enterprise pull request events.       COMMIT_MESSAGE   A webhook triggers a build when the head commit message matches the regular expression pattern.  Works with GitHub and Bitbucket events push and pull requests events. Also works with GitHub Enterprise push events, but does not work with GitHub Enterprise pull request events.       TAG_NAME   A webhook triggers a build when the tag name of the release matches the  regular expression pattern.  Works with RELEASED and PRERELEASED events only.       RELEASE_NAME   A webhook triggers a build when the release name matches the  regular expression pattern.  Works with RELEASED and PRERELEASED events only.       REPOSITORY_NAME   A webhook triggers a build when the repository name matches the  regular expression pattern.  Works with GitHub global or organization webhooks only.       WORKFLOW_NAME   A webhook triggers a build when the workflow name matches the  regular expression pattern.  Works with WORKFLOW_JOB_QUEUED events only.
         public let type: WebhookFilterType
 
         public init(excludeMatchedPattern: Bool? = nil, pattern: String, type: WebhookFilterType) {

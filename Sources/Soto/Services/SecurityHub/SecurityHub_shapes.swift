@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -252,6 +252,7 @@ extension SecurityHub {
     public enum TargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case account = "ACCOUNT"
         case organizationalUnit = "ORGANIZATIONAL_UNIT"
+        case root = "ROOT"
         public var description: String { return self.rawValue }
     }
 
@@ -699,7 +700,7 @@ extension SecurityHub {
     public struct ActionLocalPortDetails: AWSEncodableShape & AWSDecodableShape {
         /// The number of the port.
         public let port: Int?
-        /// The port name of the local connection.
+        /// The port name of the local connection. Length Constraints: 128.
         public let portName: String?
 
         public init(port: Int? = nil, portName: String? = nil) {
@@ -756,7 +757,7 @@ extension SecurityHub {
     public struct ActionRemotePortDetails: AWSEncodableShape & AWSDecodableShape {
         /// The number of the port.
         public let port: Int?
-        /// The port name of the remote connection.
+        /// The port name of the remote connection. Length Constraints: 128.
         public let portName: String?
 
         public init(port: Int? = nil, portName: String? = nil) {
@@ -1727,7 +1728,7 @@ extension SecurityHub {
     public struct AwsApiCallAction: AWSEncodableShape & AWSDecodableShape {
         /// Identifies the resources that were affected by the API call.
         public let affectedResources: [String: String]?
-        /// The name of the API method that was issued.
+        /// The name of the API method that was issued. Length Constraints: 128.
         public let api: String?
         /// Indicates whether the API call originated from a remote IP address (remoteip) or from a DNS domain (domain).
         public let callerType: String?
@@ -1743,7 +1744,7 @@ extension SecurityHub {
         public let lastSeen: String?
         /// Provided if CallerType is remoteIp. Provides information about the remote IP address that the API call originated from.
         public let remoteIpDetails: ActionRemoteIpDetails?
-        /// The name of the Amazon Web Services service that the API method belongs to.
+        /// The name of the Amazon Web Services service that the API method belongs to. Length Constraints: 128.
         public let serviceName: String?
 
         public init(affectedResources: [String: String]? = nil, api: String? = nil, callerType: String? = nil, domainDetails: AwsApiCallActionDomainDetails? = nil, firstSeen: String? = nil, lastSeen: String? = nil, remoteIpDetails: ActionRemoteIpDetails? = nil, serviceName: String? = nil) {
@@ -1784,7 +1785,7 @@ extension SecurityHub {
     }
 
     public struct AwsApiCallActionDomainDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the DNS domain that issued the API call.
+        /// The name of the DNS domain that issued the API call. Length Constraints: 128.
         public let domain: String?
 
         public init(domain: String? = nil) {
@@ -17496,11 +17497,11 @@ extension SecurityHub {
     public struct AwsSecurityFinding: AWSEncodableShape & AWSDecodableShape {
         /// Provides details about an action that affects or that was taken on a resource.
         public let action: Action?
-        /// The Amazon Web Services account ID that a finding is generated in.
+        /// The Amazon Web Services account ID that a finding is generated in. Length Constraints: 12.
         public let awsAccountId: String?
-        /// The name of the Amazon Web Services account from which a finding was generated.
+        /// The name of the Amazon Web Services account from which a finding was generated.  Length Constraints: Minimum length of 1. Maximum length of 50.
         public let awsAccountName: String?
-        /// The name of the company for the product that generated the finding. Security Hub populates this attribute automatically for each finding. You cannot update this attribute with BatchImportFindings or BatchUpdateFindings. The exception to this is a custom integration. When you use the Security Hub console or API to filter findings by company name, you use this attribute.
+        /// The name of the company for the product that generated the finding. Security Hub populates this attribute automatically for each finding. You cannot update this attribute with BatchImportFindings or BatchUpdateFindings. The exception to this is a custom integration. When you use the Security Hub console or API to filter findings by company name, you use this attribute. Length Constraints: Minimum length of 1. Maximum length of 128.
         public let companyName: String?
         /// This data type is exclusive to findings that are generated as the result of a check run against a specific rule in a supported security standard, such as CIS Amazon Web Services Foundations. Contains security standard-related finding details.
         public let compliance: Compliance?
@@ -17512,7 +17513,7 @@ extension SecurityHub {
         public let createdAt: String?
         /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
         public let criticality: Int?
-        /// A finding's description.  In this release, Description is a required property.
+        /// A finding's description. Description is a required property. Length Constraints: Minimum length of 1. Maximum length of 1024.
         public let description: String?
         /// In a BatchImportFindings request, finding providers use FindingProviderFields to provide and update their own values for confidence, criticality, related findings, severity, and types.
         public let findingProviderFields: FindingProviderFields?
@@ -17525,15 +17526,15 @@ extension SecurityHub {
         /// vulnerabilities in Lambda function code based on internal detectors developed
         /// in collaboration with Amazon CodeGuru. Security Hub receives those findings.
         public let generatorDetails: GeneratorDetails?
-        /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, etc.
+        /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, or something else. Length Constraints: Minimum length of 1. Maximum length of 512.
         public let generatorId: String?
-        /// The security findings provider-specific identifier for a finding.
+        /// The security findings provider-specific identifier for a finding. Length Constraints: Minimum length of 1. Maximum length of 512.
         public let id: String?
         /// Indicates when the security findings provider most recently observed the potential security issue that a finding captured. This field accepts only the specified formats. Timestamps
         /// can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited
         /// to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:    YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)    YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)    YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public let lastObservedAt: String?
-        /// A list of malware related to a finding.
+        /// A list of malware related to a finding. Array Members: Maximum number of 5 items.
         public let malware: [Malware]?
         /// The details of network-related information about a finding.
         public let network: Network?
@@ -17545,47 +17546,47 @@ extension SecurityHub {
         public let patchSummary: PatchSummary?
         /// The details of process-related information about a finding.
         public let process: ProcessDetails?
-        /// A imestamp that indicates when Security Hub received a finding and begins to process it. This field accepts only the specified formats. Timestamps
+        /// A timestamp that indicates when Security Hub received a finding and begins to process it. This field accepts only the specified formats. Timestamps
         /// can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited
         /// to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:    YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)    YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)    YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public let processedAt: String?
-        /// The ARN generated by Security Hub that uniquely identifies a product that generates findings. This can be the ARN for a third-party product that is integrated with Security Hub, or the ARN for a custom integration.
+        /// The ARN generated by Security Hub that uniquely identifies a product that generates findings. This can be the ARN for a third-party product that is integrated with Security Hub, or the ARN for a custom integration. Length Constraints: Minimum length of 12. Maximum length of 2048.
         public let productArn: String?
         /// A data type where security findings providers can include additional solution-specific details that aren't part of the defined AwsSecurityFinding format. Can contain up to 50 key-value pairs. For each key-value pair, the key can contain up to 128 characters, and the value can contain up to 2048 characters.
         public let productFields: [String: String]?
-        /// The name of the product that generated the finding. Security Hub populates this attribute automatically for each finding. You cannot update this attribute with BatchImportFindings or BatchUpdateFindings. The exception to this is a custom integration. When you use the Security Hub console or API to filter findings by product name, you use this attribute.
+        /// The name of the product that generated the finding. Security Hub populates this attribute automatically for each finding. You cannot update this attribute with BatchImportFindings or BatchUpdateFindings. The exception to this is a custom integration. When you use the Security Hub console or API to filter findings by product name, you use this attribute. Length Constraints: Minimum length of 1. Maximum length of 128.
         public let productName: String?
         /// The record state of a finding.
         public let recordState: RecordState?
-        /// The Region from which the finding was generated. Security Hub populates this attribute automatically for each finding. You cannot update it using BatchImportFindings or BatchUpdateFindings.
+        /// The Region from which the finding was generated. Security Hub populates this attribute automatically for each finding. You cannot update it using BatchImportFindings or BatchUpdateFindings. Length Constraints: Minimum length of 1. Maximum length of 16.
         public let region: String?
-        /// A list of related findings.
+        /// A list of related findings. Array Members: Minimum number of 1 item. Maximum number of 10 items.
         public let relatedFindings: [RelatedFinding]?
         /// A data type that describes the remediation options for a finding.
         public let remediation: Remediation?
-        /// A set of resource data types that describe the resources that the finding refers to.
+        /// A set of resource data types that describe the resources that the finding refers to. Array Members: Minimum number of 1 item. Maximum number of 32 items.
         public let resources: [Resource]?
         /// Indicates whether the finding is a sample finding.
         public let sample: Bool?
-        /// The schema version that a finding is formatted for.
+        /// The schema version that a finding is formatted for. The value is 2018-10-08.
         public let schemaVersion: String?
         /// A finding's severity.
         public let severity: Severity?
         /// A URL that links to a page about the current finding in the security findings provider's solution.
         public let sourceUrl: String?
-        /// Threat intelligence details related to a finding.
+        /// Threat intelligence details related to a finding. Array Members: Minimum number of 1 item. Maximum number of 5 items.
         public let threatIntelIndicators: [ThreatIntelIndicator]?
-        /// Details about the threat detected in a security finding and the file paths that were affected by the threat.
+        /// Details about the threat detected in a security finding and the file paths that were affected by the threat.  Array Members: Minimum number of 1 item. Maximum number of 32 items.
         public let threats: [Threat]?
-        /// A finding's title.  In this release, Title is a required property.
+        /// A finding's title. Title is a required property. Length Constraints: Minimum length of 1. Maximum length of 256.
         public let title: String?
-        /// One or more finding types in the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications
+        /// One or more finding types in the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications Array Members: Maximum number of 50 items.
         public let types: [String]?
         /// Indicates when the security findings provider last updated the finding record. This field accepts only the specified formats. Timestamps
         /// can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited
         /// to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:    YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)    YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)    YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public let updatedAt: String?
-        /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding.
+        /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding. Can contain up to 50 key-value pairs. For each key-value pair, the key can contain up to 128 characters, and the value can contain up to 1024 characters.
         public let userDefinedFields: [String: String]?
         /// Indicates the veracity of a finding.
         public let verificationState: VerificationState?
@@ -20706,13 +20707,13 @@ extension SecurityHub {
     public struct Compliance: AWSEncodableShape & AWSDecodableShape {
         /// The enabled security standards in which a security control is currently enabled.
         public let associatedStandards: [AssociatedStandard]?
-        /// For a control, the industry or regulatory framework requirements that are related to the control. The check for that control is aligned with these requirements.
+        /// For a control, the industry or regulatory framework requirements that are related to the control. The check for that control is aligned with these requirements. Array Members: Maximum number of 32 items.
         public let relatedRequirements: [String]?
         ///  The unique identifier of a control across standards. Values for this field typically consist of an  Amazon Web Service and a number, such as APIGateway.5.
         public let securityControlId: String?
         ///  An object that includes security control parameter names and values.
         public let securityControlParameters: [SecurityControlParameter]?
-        /// The result of a standards check. The valid values for Status are as follows.      PASSED - Standards check passed for all evaluated resources.    WARNING - Some information is missing or this check is not supported for your configuration.    FAILED - Standards check failed for at least one evaluated resource.    NOT_AVAILABLE - Check could not be performed due to a service outage, API error, or because the result of the Config evaluation was NOT_APPLICABLE. If the Config evaluation result was NOT_APPLICABLE, then after 3 days, Security Hub automatically archives the finding.
+        /// The result of a standards check. The valid values for Status are as follows.      PASSED - Standards check passed for all evaluated resources.    WARNING - Some information is missing or this check is not supported for your configuration.    FAILED - Standards check failed for at least one evaluated resource.    NOT_AVAILABLE - Check could not be performed due to a service outage, API error, or because the result of the Config evaluation was NOT_APPLICABLE. If the Config evaluation result was NOT_APPLICABLE for a Security Hub control, Security Hub automatically archives the finding after 3 days.
         public let status: ComplianceStatus?
         /// For findings generated from controls, a list of reasons behind the value of Status. For the list of status reason codes and their meanings, see Standards-related information in the ASFF in the Security Hub User Guide.
         public let statusReasons: [StatusReason]?
@@ -21960,9 +21961,9 @@ extension SecurityHub {
     public struct DnsRequestAction: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether the DNS request was blocked.
         public let blocked: Bool?
-        /// The DNS domain that is associated with the DNS request.
+        /// The DNS domain that is associated with the DNS request. Length Constraints: 128.
         public let domain: String?
-        /// The protocol that was used for the DNS request.
+        /// The protocol that was used for the DNS request. Length Constraints: Minimum length of 1. Maximum length of 64.
         public let `protocol`: String?
 
         public init(blocked: Bool? = nil, domain: String? = nil, protocol: String? = nil) {
@@ -22131,16 +22132,16 @@ extension SecurityHub {
 
     public struct FilePaths: AWSEncodableShape & AWSDecodableShape {
         /// The name of the infected or suspicious file corresponding to the hash.
-        ///
+        /// 		 Length Constraints: Minimum of 1 length. Maximum of 128 length.
         public let fileName: String?
         /// Path to the infected or suspicious file on the resource it was detected on.
-        ///
+        /// 		 Length Constraints: Minimum of 1 length. Maximum of 128 length.
         public let filePath: String?
         /// The hash value for the infected or suspicious file.
-        ///
+        /// 		 Length Constraints: Minimum of 1 length. Maximum of 128 length.
         public let hash: String?
         /// The Amazon Resource Name (ARN) of the resource on which the threat was detected.
-        ///
+        /// 		 Length Constraints: Minimum of 1 length. Maximum of 128 length.
         public let resourceId: String?
 
         public init(fileName: String? = nil, filePath: String? = nil, hash: String? = nil, resourceId: String? = nil) {
@@ -22297,7 +22298,7 @@ extension SecurityHub {
     public struct FindingProviderSeverity: AWSEncodableShape & AWSDecodableShape {
         /// The severity label assigned to the finding by the finding provider.
         public let label: SeverityLabel?
-        /// The finding provider's original value for the severity.
+        /// The finding provider's original value for the severity. Length Constraints: Minimum length of 1. Maximum length of 64.
         public let original: String?
 
         public init(label: SeverityLabel? = nil, original: String? = nil) {
@@ -22425,7 +22426,7 @@ extension SecurityHub {
     public struct GeneratorDetails: AWSEncodableShape & AWSDecodableShape {
         ///  The description of the detector used to identify the code vulnerability.
         public let description: String?
-        ///  An array of tags used to identify the detector associated with the finding.
+        ///  An array of tags used to identify the detector associated with the finding.  Array Members: Minimum number of 0 items. Maximum number of 10 items.
         public let labels: [String]?
         ///  The name of the detector used to identify the code vulnerability.
         public let name: String?
@@ -23783,9 +23784,9 @@ extension SecurityHub {
     }
 
     public struct Malware: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the malware that was observed.
+        /// The name of the malware that was observed. Length Constraints: Minimum of 1. Maximum of 64.
         public let name: String?
-        /// The file system path of the malware that was observed.
+        /// The file system path of the malware that was observed. Length Constraints: Minimum of 1. Maximum of 512.
         public let path: String?
         /// The state of the malware that was observed.
         public let state: MalwareState?
@@ -23889,7 +23890,7 @@ extension SecurityHub {
     }
 
     public struct Network: AWSEncodableShape & AWSDecodableShape {
-        /// The destination domain of network-related information about a finding.
+        /// The destination domain of network-related information about a finding. Length Constraints: Minimum of 1. Maximum of 128.
         public let destinationDomain: String?
         /// The destination IPv4 address of network-related information about a finding.
         public let destinationIpV4: String?
@@ -23901,9 +23902,9 @@ extension SecurityHub {
         public let direction: NetworkDirection?
         /// The range of open ports that is present on the network.
         public let openPortRange: PortRange?
-        /// The protocol of network-related information about a finding.
+        /// The protocol of network-related information about a finding. Length Constraints: Minimum of 1. Maximum of 16.
         public let `protocol`: String?
-        /// The source domain of network-related information about a finding.
+        /// The source domain of network-related information about a finding. Length Constraints: Minimum of 1. Maximum of 128.
         public let sourceDomain: String?
         /// The source IPv4 address of network-related information about a finding.
         public let sourceIpV4: String?
@@ -23963,7 +23964,7 @@ extension SecurityHub {
         public let connectionDirection: String?
         /// Information about the port on the EC2 instance.
         public let localPortDetails: ActionLocalPortDetails?
-        /// The protocol used to make the network connection request.
+        /// The protocol used to make the network connection request. Length Constraints: Minimum length of 1. Maximum length of 64.
         public let `protocol`: String?
         /// Information about the remote IP address that issued the network connection request.
         public let remoteIpDetails: ActionRemoteIpDetails?
@@ -24000,7 +24001,7 @@ extension SecurityHub {
     public struct NetworkHeader: AWSEncodableShape & AWSDecodableShape {
         /// Information about the destination of the component.
         public let destination: NetworkPathComponentDetails?
-        /// The protocol used for the component.
+        /// The protocol used for the component. Length Constraints: Minimum of 1. Maximum of 16.
         public let `protocol`: String?
         /// Information about the origin of the component.
         public let source: NetworkPathComponentDetails?
@@ -24025,9 +24026,9 @@ extension SecurityHub {
     }
 
     public struct NetworkPathComponent: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier of a component in the network path.
+        /// The identifier of a component in the network path. Length Constraints: Minimum of 1. Maximum of 32.
         public let componentId: String?
-        /// The type of component.
+        /// The type of component. Length Constraints: Minimum of 1. Maximum of 32.
         public let componentType: String?
         /// Information about the component that comes after the current component in the network path.
         public let egress: NetworkHeader?
@@ -24080,7 +24081,7 @@ extension SecurityHub {
     }
 
     public struct Note: AWSEncodableShape & AWSDecodableShape {
-        /// The text of a note.
+        /// The text of a note. Length Constraints: Minimum of 1. Maximum of 512.
         public let text: String?
         /// A timestamp that indicates when the note was updated. This field accepts only the specified formats. Timestamps
         /// can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited
@@ -24282,21 +24283,21 @@ extension SecurityHub {
     }
 
     public struct PatchSummary: AWSEncodableShape & AWSDecodableShape {
-        /// The number of patches from the compliance standard that failed to install.
+        /// The number of patches from the compliance standard that failed to install. The value can be an integer from 0 to 100000.
         public let failedCount: Int?
-        /// The identifier of the compliance standard that was used to determine the patch compliance status.
+        /// The identifier of the compliance standard that was used to determine the patch compliance status. Length Constraints: Minimum length of 1. Maximum length of 256.
         public let id: String?
-        /// The number of patches from the compliance standard that were installed successfully.
+        /// The number of patches from the compliance standard that were installed successfully. The value can be an integer from 0 to 100000.
         public let installedCount: Int?
-        /// The number of installed patches that are not part of the compliance standard.
+        /// The number of installed patches that are not part of the compliance standard. The value can be an integer from 0 to 100000.
         public let installedOtherCount: Int?
-        /// The number of patches that were applied, but that require the instance to be rebooted in order to be marked as installed.
+        /// The number of patches that were applied, but that require the instance to be rebooted in order to be marked as installed. The value can be an integer from 0 to 100000.
         public let installedPendingReboot: Int?
-        /// The number of patches that are installed but are also on a list of patches that the customer rejected.
+        /// The number of patches that are installed but are also on a list of patches that the customer rejected. The value can be an integer from 0 to 100000.
         public let installedRejectedCount: Int?
-        /// The number of patches that are part of the compliance standard but are not installed. The count includes patches that failed to install.
+        /// The number of patches that are part of the compliance standard but are not installed. The count includes patches that failed to install. The value can be an integer from 0 to 100000.
         public let missingCount: Int?
-        /// The type of patch operation performed. For Patch Manager, the values are SCAN and INSTALL.
+        /// The type of patch operation performed. For Patch Manager, the values are SCAN and INSTALL. Length Constraints: Minimum length of 1. Maximum length of 256.
         public let operation: String?
         /// Indicates when the operation completed. This field accepts only the specified formats. Timestamps
         /// can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited
@@ -24306,7 +24307,7 @@ extension SecurityHub {
         /// can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited
         /// to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:    YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)    YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)    YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public let operationStartTime: String?
-        /// The reboot option specified for the instance.
+        /// The reboot option specified for the instance. Length Constraints: Minimum length of 1. Maximum length of 256.
         public let rebootOption: String?
 
         public init(failedCount: Int? = nil, id: String? = nil, installedCount: Int? = nil, installedOtherCount: Int? = nil, installedPendingReboot: Int? = nil, installedRejectedCount: Int? = nil, missingCount: Int? = nil, operation: String? = nil, operationEndTime: String? = nil, operationStartTime: String? = nil, rebootOption: String? = nil) {
@@ -24435,11 +24436,11 @@ extension SecurityHub {
         /// can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited
         /// to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:    YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)    YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)    YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public let launchedAt: String?
-        /// The name of the process.
+        /// The name of the process. Length Constraints: Minimum of 1. Maximum of 64.
         public let name: String?
         /// The parent process ID. This field accepts positive integers between O and 2147483647.
         public let parentPid: Int?
-        /// The path to the process executable.
+        /// The path to the process executable. Length Constraints: Minimum of 1. Maximum of 512.
         public let path: String?
         /// The process ID.
         public let pid: Int?
@@ -24558,7 +24559,7 @@ extension SecurityHub {
     }
 
     public struct Recommendation: AWSEncodableShape & AWSDecodableShape {
-        /// Describes the recommended steps to take to remediate an issue identified in a finding.
+        /// Describes the recommended steps to take to remediate an issue identified in a finding. Length Constraints: Minimum of 1 length. Maximum of 512 length.
         public let text: String?
         /// A URL to a page or site that contains information about how to remediate a finding.
         public let url: String?
@@ -24652,13 +24653,13 @@ extension SecurityHub {
         public let id: String?
         /// The canonical Amazon Web Services partition name that the Region is assigned to.
         public let partition: Partition?
-        /// The canonical Amazon Web Services external Region name where this resource is located.
+        /// The canonical Amazon Web Services external Region name where this resource is located. Length Constraints: Minimum length of 1. Maximum length of 16.
         public let region: String?
         /// Identifies the role of the resource in the finding. A resource is either the actor or target of the finding activity,
         public let resourceRole: String?
-        /// A list of Amazon Web Services tags associated with a resource at the time the finding was processed.
+        /// A list of Amazon Web Services tags associated with a resource at the time the finding was processed. Tags must follow Amazon Web Services tag naming limits and requirements.
         public let tags: [String: String]?
-        /// The type of the resource that details are provided for. If possible, set Type to one of the supported resource types. For example, if the resource is an EC2 instance, then set Type to AwsEc2Instance. If the resource does not match any of the provided types, then set Type to Other.
+        /// The type of the resource that details are provided for. If possible, set Type to one of the supported resource types. For example, if the resource is an EC2 instance, then set Type to AwsEc2Instance. If the resource does not match any of the provided types, then set Type to Other.  Length Constraints: Minimum length of 1. Maximum length of 256.
         public let type: String?
 
         public init(applicationArn: String? = nil, applicationName: String? = nil, dataClassification: DataClassificationDetails? = nil, details: ResourceDetails? = nil, id: String? = nil, partition: Partition? = nil, region: String? = nil, resourceRole: String? = nil, tags: [String: String]? = nil, type: String? = nil) {
@@ -26058,9 +26059,9 @@ extension SecurityHub {
     public struct Severity: AWSEncodableShape & AWSDecodableShape {
         /// The severity value of the finding. The allowed values are the following.    INFORMATIONAL - No issue was found.    LOW - The issue does not require action on its own.    MEDIUM - The issue must be addressed but not urgently.    HIGH - The issue must be addressed as a priority.    CRITICAL - The issue must be remediated immediately to avoid it escalating.   If you provide Normalized and do not provide Label, then Label is set automatically as follows.    0 - INFORMATIONAL    1–39 - LOW    40–69 - MEDIUM    70–89 - HIGH    90–100 - CRITICAL
         public let label: SeverityLabel?
-        /// Deprecated. The normalized severity of a finding. Instead of providing Normalized, provide Label. If you provide Label and do not provide Normalized, then Normalized is set automatically as follows.    INFORMATIONAL - 0    LOW - 1    MEDIUM - 40    HIGH - 70    CRITICAL - 90
+        /// Deprecated. The normalized severity of a finding. Instead of providing Normalized, provide Label. The value of Normalized can be an integer between 0 and 100. If you provide Label and do not provide Normalized, then Normalized is set automatically as follows.    INFORMATIONAL - 0    LOW - 1    MEDIUM - 40    HIGH - 70    CRITICAL - 90
         public let normalized: Int?
-        /// The native severity from the finding product that generated the finding.
+        /// The native severity from the finding product that generated the finding. Length Constraints: Minimum length of 1. Maximum length of 64.
         public let original: String?
         /// Deprecated. This attribute isn't included in findings. Instead of providing Product, provide Original. The native severity as defined by the Amazon Web Services service or integrated partner product that generated the finding.
         public let product: Double?
@@ -26779,16 +26780,16 @@ extension SecurityHub {
 
     public struct Threat: AWSEncodableShape & AWSDecodableShape {
         /// Provides information about the file paths that were affected by the threat.
-        ///
+        /// 		 Array Members: Minimum number of 1 item. Maximum number of 5 items.
         public let filePaths: [FilePaths]?
         /// This total number of items in which the threat has been detected.
         ///
         public let itemCount: Int?
         /// The name of the threat.
-        ///
+        /// 		 Length Constraints: Minimum of 1 length. Maximum of 128 length.
         public let name: String?
         /// The severity of the threat.
-        ///
+        /// 		 Length Constraints: Minimum of 1 length. Maximum of 128 length.
         public let severity: String?
 
         public init(filePaths: [FilePaths]? = nil, itemCount: Int? = nil, name: String? = nil, severity: String? = nil) {
@@ -26821,13 +26822,13 @@ extension SecurityHub {
         /// can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited
         /// to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:    YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)    YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)    YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public let lastObservedAt: String?
-        /// The source of the threat intelligence indicator.
+        /// The source of the threat intelligence indicator. Length Constraints: Minimum of 1 length. Maximum of 64 length.
         public let source: String?
         /// The URL to the page or site where you can get more information about the threat intelligence indicator.
         public let sourceUrl: String?
         /// The type of threat intelligence indicator.
         public let type: ThreatIntelIndicatorType?
-        /// The value of a threat intelligence indicator.
+        /// The value of a threat intelligence indicator. Length Constraints: Minimum of 1 length. Maximum of 512 length.
         public let value: String?
 
         public init(category: ThreatIntelIndicatorCategory? = nil, lastObservedAt: String? = nil, source: String? = nil, sourceUrl: String? = nil, type: ThreatIntelIndicatorType? = nil, value: String? = nil) {

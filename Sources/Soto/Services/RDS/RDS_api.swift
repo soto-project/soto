@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -81,9 +81,9 @@ public struct RDS: AWSService {
             "us-east-2": "rds-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "rds.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "rds.us-gov-west-1.amazonaws.com",
-            "us-iso-east-1": "rds-fips.us-iso-east-1.c2s.ic.gov",
-            "us-iso-west-1": "rds-fips.us-iso-west-1.c2s.ic.gov",
-            "us-isob-east-1": "rds-fips.us-isob-east-1.sc2s.sgov.gov",
+            "us-iso-east-1": "rds.us-iso-east-1.c2s.ic.gov",
+            "us-iso-west-1": "rds.us-iso-west-1.c2s.ic.gov",
+            "us-isob-east-1": "rds.us-isob-east-1.sc2s.sgov.gov",
             "us-west-1": "rds-fips.us-west-1.amazonaws.com",
             "us-west-2": "rds-fips.us-west-2.amazonaws.com"
         ])
@@ -130,7 +130,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Adds metadata tags to an Amazon RDS resource. These tags can also be used with cost allocation reporting to track cost associated with Amazon RDS resources, or used in a Condition statement in an IAM policy for Amazon RDS. For an overview on tagging Amazon RDS resources,  see Tagging Amazon RDS Resources.
+    /// Adds metadata tags to an Amazon RDS resource. These tags can also be used with cost allocation reporting to track cost associated with Amazon RDS resources, or used in a Condition statement in an IAM policy for Amazon RDS. For an overview on tagging your relational database resources,  see Tagging Amazon RDS Resources or Tagging Amazon Aurora and Amazon RDS Resources.
     @Sendable
     public func addTagsToResource(_ input: AddTagsToResourceMessage, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -2093,7 +2093,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Starts an export of DB snapshot or DB cluster data to Amazon S3.  The provided IAM role must have access to the S3 bucket. You can't export snapshot data from Db2 or RDS Custom DB instances. You can't export cluster data from Multi-AZ DB clusters. For more information on exporting DB snapshot data, see  Exporting DB snapshot  data to Amazon S3 in the Amazon RDS User Guide or Exporting DB  cluster snapshot data to Amazon S3 in the Amazon Aurora User Guide. For more information on exporting DB cluster data, see  Exporting DB  cluster data to Amazon S3 in the Amazon Aurora User Guide.
+    /// Starts an export of DB snapshot or DB cluster data to Amazon S3.  The provided IAM role must have access to the S3 bucket. You can't export snapshot data from Db2 or RDS Custom DB instances. For more information on exporting DB snapshot data, see  Exporting DB snapshot  data to Amazon S3 in the Amazon RDS User Guide or Exporting DB  cluster snapshot data to Amazon S3 in the Amazon Aurora User Guide. For more information on exporting DB cluster data, see  Exporting DB  cluster data to Amazon S3 in the Amazon Aurora User Guide.
     @Sendable
     public func startExportTask(_ input: StartExportTaskMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportTask {
         return try await self.client.execute(

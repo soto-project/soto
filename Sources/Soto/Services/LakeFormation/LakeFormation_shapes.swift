@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1434,6 +1434,23 @@ extension LakeFormation {
 
         private enum CodingKeys: String, CodingKey {
             case dataCellsFilter = "DataCellsFilter"
+        }
+    }
+
+    public struct GetDataLakePrincipalRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetDataLakePrincipalResponse: AWSDecodableShape {
+        /// A unique identifier of the invoking principal.
+        public let identity: String?
+
+        public init(identity: String? = nil) {
+            self.identity = identity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identity = "Identity"
         }
     }
 

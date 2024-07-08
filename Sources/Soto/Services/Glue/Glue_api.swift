@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -640,6 +640,19 @@ public struct Glue: AWSService {
         )
     }
 
+    /// Creates an Glue usage profile.
+    @Sendable
+    public func createUsageProfile(_ input: CreateUsageProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUsageProfileResponse {
+        return try await self.client.execute(
+            operation: "CreateUsageProfile", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a new function definition in the Data Catalog.
     @Sendable
     public func createUserDefinedFunction(_ input: CreateUserDefinedFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserDefinedFunctionResponse {
@@ -970,6 +983,19 @@ public struct Glue: AWSService {
     public func deleteTrigger(_ input: DeleteTriggerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTriggerResponse {
         return try await self.client.execute(
             operation: "DeleteTrigger", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes the Glue specified usage profile.
+    @Sendable
+    public func deleteUsageProfile(_ input: DeleteUsageProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUsageProfileResponse {
+        return try await self.client.execute(
+            operation: "DeleteUsageProfile", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1368,7 +1394,7 @@ public struct Glue: AWSService {
         )
     }
 
-    /// Retrieves the metadata for a given job run.
+    /// Retrieves the metadata for a given job run. Job run history is accessible for 90 days for your workflow and job run.
     @Sendable
     public func getJobRun(_ input: GetJobRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobRunResponse {
         return try await self.client.execute(
@@ -1810,6 +1836,19 @@ public struct Glue: AWSService {
         )
     }
 
+    /// Retrieves information about the specified Glue usage profile.
+    @Sendable
+    public func getUsageProfile(_ input: GetUsageProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUsageProfileResponse {
+        return try await self.client.execute(
+            operation: "GetUsageProfile", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves a specified function definition from the Data Catalog.
     @Sendable
     public func getUserDefinedFunction(_ input: GetUserDefinedFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUserDefinedFunctionResponse {
@@ -1849,7 +1888,7 @@ public struct Glue: AWSService {
         )
     }
 
-    /// Retrieves the metadata for a given workflow run.
+    /// Retrieves the metadata for a given workflow run. Job run history is accessible for 90 days for your workflow and job run.
     @Sendable
     public func getWorkflowRun(_ input: GetWorkflowRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkflowRunResponse {
         return try await self.client.execute(
@@ -2140,6 +2179,19 @@ public struct Glue: AWSService {
     public func listTriggers(_ input: ListTriggersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTriggersResponse {
         return try await self.client.execute(
             operation: "ListTriggers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// List all the Glue usage profiles.
+    @Sendable
+    public func listUsageProfiles(_ input: ListUsageProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsageProfilesResponse {
+        return try await self.client.execute(
+            operation: "ListUsageProfiles", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -2829,6 +2881,19 @@ public struct Glue: AWSService {
     public func updateTrigger(_ input: UpdateTriggerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTriggerResponse {
         return try await self.client.execute(
             operation: "UpdateTrigger", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Update an Glue usage profile.
+    @Sendable
+    public func updateUsageProfile(_ input: UpdateUsageProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUsageProfileResponse {
+        return try await self.client.execute(
+            operation: "UpdateUsageProfile", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -3618,6 +3683,25 @@ extension Glue {
         )
     }
 
+    /// List all the Glue usage profiles.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listUsageProfilesPaginator(
+        _ input: ListUsageProfilesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListUsageProfilesRequest, ListUsageProfilesResponse> {
+        return .init(
+            input: input,
+            command: self.listUsageProfiles,
+            inputKey: \ListUsageProfilesRequest.nextToken,
+            outputKey: \ListUsageProfilesResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists names of workflows created in the account.
     /// Return PaginatorSequence for operation.
     ///
@@ -3721,6 +3805,7 @@ extension Glue.GetCrawlersRequest: AWSPaginateToken {
 extension Glue.GetDatabasesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetDatabasesRequest {
         return .init(
+            attributesToGet: self.attributesToGet,
             catalogId: self.catalogId,
             maxResults: self.maxResults,
             nextToken: token,
@@ -4075,6 +4160,15 @@ extension Glue.ListTriggersRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             tags: self.tags
+        )
+    }
+}
+
+extension Glue.ListUsageProfilesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Glue.ListUsageProfilesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

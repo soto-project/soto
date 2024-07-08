@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -73,7 +73,7 @@ public struct Route53Profiles: AWSService {
 
     // MARK: API Calls
 
-    ///  Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with up to 5000 VPCs.
+    ///  Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota).  For more information, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities.
     @Sendable
     public func associateProfile(_ input: AssociateProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateProfileResponse {
         return try await self.client.execute(

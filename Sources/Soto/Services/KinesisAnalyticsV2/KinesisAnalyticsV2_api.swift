@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -127,7 +127,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Adds a reference data source to an existing SQL-based Kinesis Data Analytics application.  Kinesis Data Analytics reads reference data (that is, an Amazon S3 object) and creates an in-application table within your application. In the request, you provide the source (S3 bucket name and object key name), name of the in-application table to create, and the necessary mapping information that describes how data in an Amazon S3 object maps to columns in the resulting in-application table.
+    /// Adds a reference data source to an existing SQL-based Kinesis Data Analytics application. Kinesis Data Analytics reads reference data (that is, an Amazon S3 object) and creates an in-application table within your application. In the request, you provide the source (S3 bucket name and object key name), name of the in-application table to create, and the necessary mapping information that describes how data in an Amazon S3 object maps to columns in the resulting in-application table.
     @Sendable
     public func addApplicationReferenceDataSource(_ input: AddApplicationReferenceDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddApplicationReferenceDataSourceResponse {
         return try await self.client.execute(
@@ -296,6 +296,19 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
+    /// Returns information about a specific operation performed on a Managed Service for Apache Flink application
+    @Sendable
+    public func describeApplicationOperation(_ input: DescribeApplicationOperationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationOperationResponse {
+        return try await self.client.execute(
+            operation: "DescribeApplicationOperation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns information about a snapshot of application state data.
     @Sendable
     public func describeApplicationSnapshot(_ input: DescribeApplicationSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationSnapshotResponse {
@@ -335,6 +348,19 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
+    /// Lists information about operations performed on a Managed Service for Apache Flink application
+    @Sendable
+    public func listApplicationOperations(_ input: ListApplicationOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationOperationsResponse {
+        return try await self.client.execute(
+            operation: "ListApplicationOperations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists information about the current application snapshots.
     @Sendable
     public func listApplicationSnapshots(_ input: ListApplicationSnapshotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationSnapshotsResponse {
@@ -348,7 +374,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Lists all the versions for the specified application, including versions that were rolled back. The response also includes a summary of the configuration  associated with each version.  To get the complete description of a specific application version, invoke the DescribeApplicationVersion operation.  This operation is supported only for Managed Service for Apache Flink.
+    /// Lists all the versions for the specified application, including versions that were rolled back. The response also includes a summary of the configuration  associated with each version. To get the complete description of a specific application version, invoke the DescribeApplicationVersion operation.  This operation is supported only for Managed Service for Apache Flink.
     @Sendable
     public func listApplicationVersions(_ input: ListApplicationVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationVersionsResponse {
         return try await self.client.execute(
@@ -387,7 +413,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Reverts the application to the previous running version. You can roll back an application if you suspect it is stuck in a transient status.  You can roll back an application only if it is in the UPDATING  or AUTOSCALING status. When you rollback an application, it loads state data from the last successful snapshot. If the application has no snapshots, Managed Service for Apache Flink rejects the rollback request. This action is not supported for Managed Service for Apache Flink for SQL applications.
+    /// Reverts the application to the previous running version. You can roll back an application if you suspect it is stuck in a transient status or in the running status.  You can roll back an application only if it is in the UPDATING, AUTOSCALING, or  RUNNING statuses. When you rollback an application, it loads state data from the last successful snapshot. If the application has no snapshots, Managed Service for Apache Flink rejects the rollback request.
     @Sendable
     public func rollbackApplication(_ input: RollbackApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RollbackApplicationResponse {
         return try await self.client.execute(
@@ -413,7 +439,7 @@ public struct KinesisAnalyticsV2: AWSService {
         )
     }
 
-    /// Stops the application from processing data. You can stop an application only if it is in the running status, unless you set the Force  parameter to true.  You can use the DescribeApplication operation to find the application status.  Managed Service for Apache Flink takes a snapshot when the application is stopped, unless Force is set  to true.
+    /// Stops the application from processing data. You can stop an application only if it is in the running status, unless you set the Force  parameter to true. You can use the DescribeApplication operation to find the application status.  Managed Service for Apache Flink takes a snapshot when the application is stopped, unless Force is set  to true.
     @Sendable
     public func stopApplication(_ input: StopApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopApplicationResponse {
         return try await self.client.execute(
@@ -485,5 +511,127 @@ extension KinesisAnalyticsV2 {
     public init(from: KinesisAnalyticsV2, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
+    }
+}
+
+// MARK: Paginators
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension KinesisAnalyticsV2 {
+    /// Lists information about operations performed on a Managed Service for Apache Flink application
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listApplicationOperationsPaginator(
+        _ input: ListApplicationOperationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApplicationOperationsRequest, ListApplicationOperationsResponse> {
+        return .init(
+            input: input,
+            command: self.listApplicationOperations,
+            inputKey: \ListApplicationOperationsRequest.nextToken,
+            outputKey: \ListApplicationOperationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists information about the current application snapshots.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listApplicationSnapshotsPaginator(
+        _ input: ListApplicationSnapshotsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApplicationSnapshotsRequest, ListApplicationSnapshotsResponse> {
+        return .init(
+            input: input,
+            command: self.listApplicationSnapshots,
+            inputKey: \ListApplicationSnapshotsRequest.nextToken,
+            outputKey: \ListApplicationSnapshotsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists all the versions for the specified application, including versions that were rolled back. The response also includes a summary of the configuration  associated with each version. To get the complete description of a specific application version, invoke the DescribeApplicationVersion operation.  This operation is supported only for Managed Service for Apache Flink.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listApplicationVersionsPaginator(
+        _ input: ListApplicationVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApplicationVersionsRequest, ListApplicationVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listApplicationVersions,
+            inputKey: \ListApplicationVersionsRequest.nextToken,
+            outputKey: \ListApplicationVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of Managed Service for Apache Flink applications in your account. For each application, the response includes the application name, Amazon Resource Name (ARN), and status.  If you want detailed information about a specific application, use  DescribeApplication.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listApplicationsPaginator(
+        _ input: ListApplicationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApplicationsRequest, ListApplicationsResponse> {
+        return .init(
+            input: input,
+            command: self.listApplications,
+            inputKey: \ListApplicationsRequest.nextToken,
+            outputKey: \ListApplicationsResponse.nextToken,
+            logger: logger
+        )
+    }
+}
+
+extension KinesisAnalyticsV2.ListApplicationOperationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> KinesisAnalyticsV2.ListApplicationOperationsRequest {
+        return .init(
+            applicationName: self.applicationName,
+            limit: self.limit,
+            nextToken: token,
+            operation: self.operation,
+            operationStatus: self.operationStatus
+        )
+    }
+}
+
+extension KinesisAnalyticsV2.ListApplicationSnapshotsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> KinesisAnalyticsV2.ListApplicationSnapshotsRequest {
+        return .init(
+            applicationName: self.applicationName,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension KinesisAnalyticsV2.ListApplicationVersionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> KinesisAnalyticsV2.ListApplicationVersionsRequest {
+        return .init(
+            applicationName: self.applicationName,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension KinesisAnalyticsV2.ListApplicationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> KinesisAnalyticsV2.ListApplicationsRequest {
+        return .init(
+            limit: self.limit,
+            nextToken: token
+        )
     }
 }

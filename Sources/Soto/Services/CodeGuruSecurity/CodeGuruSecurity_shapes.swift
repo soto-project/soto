@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -73,15 +73,15 @@ extension CodeGuruSecurity {
     // MARK: Shapes
 
     public struct AccountFindingsMetric: AWSDecodableShape {
-        /// The number of closed findings of each severity in an account on the specified date.
+        /// The number of closed findings of each severity on the specified date.
         public let closedFindings: FindingMetricsValuePerSeverity?
-        /// The date from which the finding metrics were retrieved.
+        /// The date from which the findings metrics were retrieved.
         public let date: Date?
-        /// The average time it takes to close findings of each severity in days.
+        /// The average time in days it takes to close findings of each severity as of a specified date.
         public let meanTimeToClose: FindingMetricsValuePerSeverity?
-        /// The number of new findings of each severity in account on the specified date.
+        /// The number of new findings of each severity on the specified date.
         public let newFindings: FindingMetricsValuePerSeverity?
-        /// The number of open findings of each severity in an account as of the specified date.
+        /// The number of open findings of each severity as of the specified date.
         public let openFindings: FindingMetricsValuePerSeverity?
 
         public init(closedFindings: FindingMetricsValuePerSeverity? = nil, date: Date? = nil, meanTimeToClose: FindingMetricsValuePerSeverity? = nil, newFindings: FindingMetricsValuePerSeverity? = nil, openFindings: FindingMetricsValuePerSeverity? = nil) {
@@ -147,7 +147,7 @@ extension CodeGuruSecurity {
     public struct BatchGetFindingsResponse: AWSDecodableShape {
         /// A list of errors for individual findings which were not fetched. Each BatchGetFindingsError contains the scanName, findingId, errorCode and error message.
         public let failedFindings: [BatchGetFindingsError]
-        ///  A list of all requested findings.
+        ///  A list of all findings which were successfully fetched.
         public let findings: [Finding]
 
         public init(failedFindings: [BatchGetFindingsError], findings: [Finding]) {
@@ -200,9 +200,9 @@ extension CodeGuruSecurity {
         public let analysisType: AnalysisType?
         /// The idempotency token for the request. Amazon CodeGuru Security uses this value to prevent the accidental creation of duplicate scans if there are failures and retries.
         public let clientToken: String?
-        /// The identifier for an input resource used to create a scan.
+        /// The identifier for the resource object to be scanned.
         public let resourceId: ResourceId
-        /// The unique name that CodeGuru Security uses to track revisions across multiple scans of the same resource. Only allowed for a STANDARD scan type. If not specified, it will be auto generated.
+        /// The unique name that CodeGuru Security uses to track revisions across multiple scans of the same resource. Only allowed for a STANDARD scan type.
         public let scanName: String
         /// The type of scan, either Standard or Express. Defaults to Standard type if missing.  Express scans run on limited resources and use a limited set of detectors to analyze your code in near-real time. Standard scans have standard resource limits and use the full set of detectors to analyze your code.
         public let scanType: ScanType?
@@ -293,11 +293,11 @@ extension CodeGuruSecurity {
     }
 
     public struct CreateUploadUrlResponse: AWSDecodableShape {
-        /// The identifier for the uploaded code resource.
+        /// The identifier for the uploaded code resource. Pass this to CreateScan to use the uploaded resources.
         public let codeArtifactId: String
         /// A set of key-value pairs that contain the required headers when uploading your resource.
         public let requestHeaders: [String: String]
-        /// A pre-signed S3 URL. You can upload the code file you want to scan and add the required requestHeaders using any HTTP client.
+        /// A pre-signed S3 URL. You can upload the code file you want to scan with the required requestHeaders using any HTTP client.
         public let s3Url: String
 
         public init(codeArtifactId: String, requestHeaders: [String: String], s3Url: String) {
@@ -314,7 +314,7 @@ extension CodeGuruSecurity {
     }
 
     public struct EncryptionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The KMS key ARN to use for encryption. This must be provided as a header when uploading your code resource.
+        /// The KMS key ARN that is used for encryption. If an AWS-managed key is used for encryption, returns empty.
         public let kmsKeyArn: String?
 
         public init(kmsKeyArn: String? = nil) {
@@ -372,7 +372,7 @@ extension CodeGuruSecurity {
         public let detectorName: String?
         /// One or more tags or categorizations that are associated with a detector. These tags are defined by type, programming language, or other classification such as maintainability or consistency.
         public let detectorTags: [String]?
-        /// The identifier for the component that generated a finding such as AWSCodeGuruSecurity or AWSInspector.
+        /// The identifier for the component that generated a finding such as AmazonCodeGuruSecurity.
         public let generatorId: String?
         /// The identifier for a finding.
         public let id: String?
@@ -382,7 +382,7 @@ extension CodeGuruSecurity {
         public let resource: Resource?
         /// The identifier for the rule that generated the finding.
         public let ruleId: String?
-        /// The severity of the finding.
+        /// The severity of the finding. Severity can be critical, high, medium, low, or informational. For information on severity levels, see  Finding severity in the  Amazon CodeGuru Security User Guide.
         public let severity: Severity?
         /// The status of the finding. A finding status can be open or closed.
         public let status: Status?
@@ -452,15 +452,15 @@ extension CodeGuruSecurity {
     }
 
     public struct FindingMetricsValuePerSeverity: AWSDecodableShape {
-        /// The severity of the finding is critical and should be addressed immediately.
+        /// A numeric value corresponding to a critical finding.
         public let critical: Double?
-        /// The severity of the finding is high and should be addressed as a near-term priority.
+        /// A numeric value corresponding to a high severity finding.
         public let high: Double?
-        /// The finding is related to quality or readability improvements and not considered actionable.
+        /// A numeric value corresponding to an informational finding.
         public let info: Double?
-        /// The severity of the finding is low and does require action on its own.
+        /// A numeric value corresponding to a low severity finding.
         public let low: Double?
-        /// The severity of the finding is medium and should be addressed as a mid-term priority.
+        /// A numeric value corresponding to a medium severity finding.
         public let medium: Double?
 
         public init(critical: Double? = nil, high: Double? = nil, info: Double? = nil, low: Double? = nil, medium: Double? = nil) {
@@ -485,7 +485,7 @@ extension CodeGuruSecurity {
     }
 
     public struct GetAccountConfigurationResponse: AWSDecodableShape {
-        /// An EncryptionConfig object that contains the KMS key ARN to use for encryption. By default, CodeGuru Security uses an AWS-managed key for encryption. To specify your own key, call UpdateAccountConfiguration.
+        /// An EncryptionConfig object that contains the KMS key ARN that is used for encryption. By default, CodeGuru Security uses an AWS-managed key for encryption. To specify your own key, call UpdateAccountConfiguration. If you do not specify a customer-managed key, returns empty.
         public let encryptionConfig: EncryptionConfig
 
         public init(encryptionConfig: EncryptionConfig) {
@@ -498,7 +498,7 @@ extension CodeGuruSecurity {
     }
 
     public struct GetFindingsRequest: AWSEncodableShape {
-        /// The maximum number of results to return in the response. Use this parameter when paginating results. If additional results exist beyond the number you specify, the nextToken element is returned in the response. Use nextToken in a subsequent request to retrieve additional results.
+        /// The maximum number of results to return in the response. Use this parameter when paginating results. If additional results exist beyond the number you specify, the nextToken element is returned in the response. Use nextToken in a subsequent request to retrieve additional results. If not specified, returns 1000 results.
         public let maxResults: Int?
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
@@ -553,7 +553,7 @@ extension CodeGuruSecurity {
     }
 
     public struct GetMetricsSummaryRequest: AWSEncodableShape {
-        /// The date you want to retrieve summary metrics from, rounded to the nearest day. The date must be within the past two years since metrics data is only stored for two years. If a date outside of this range is passed, the response will be empty.
+        /// The date you want to retrieve summary metrics from, rounded to the nearest day. The date must be within the past two years.
         public let date: Date
 
         public init(date: Date) {
@@ -615,6 +615,8 @@ extension CodeGuruSecurity {
         public let analysisType: AnalysisType
         /// The time the scan was created.
         public let createdAt: Date
+        /// Details about the error that causes a scan to fail to be retrieved.
+        public let errorMessage: String?
         /// The number of times a scan has been re-run on a revised resource.
         public let numberOfRevisions: Int64?
         /// UUID that identifies the individual scan run.
@@ -623,14 +625,15 @@ extension CodeGuruSecurity {
         public let scanName: String
         /// The ARN for the scan name.
         public let scanNameArn: String?
-        /// The current state of the scan. Pass either InProgress, Successful, or Failed.
+        /// The current state of the scan. Returns either InProgress, Successful, or Failed.
         public let scanState: ScanState
         /// The time when the scan was last updated. Only available for STANDARD scan types.
         public let updatedAt: Date?
 
-        public init(analysisType: AnalysisType, createdAt: Date, numberOfRevisions: Int64? = nil, runId: String, scanName: String, scanNameArn: String? = nil, scanState: ScanState, updatedAt: Date? = nil) {
+        public init(analysisType: AnalysisType, createdAt: Date, errorMessage: String? = nil, numberOfRevisions: Int64? = nil, runId: String, scanName: String, scanNameArn: String? = nil, scanState: ScanState, updatedAt: Date? = nil) {
             self.analysisType = analysisType
             self.createdAt = createdAt
+            self.errorMessage = errorMessage
             self.numberOfRevisions = numberOfRevisions
             self.runId = runId
             self.scanName = scanName
@@ -642,6 +645,7 @@ extension CodeGuruSecurity {
         private enum CodingKeys: String, CodingKey {
             case analysisType = "analysisType"
             case createdAt = "createdAt"
+            case errorMessage = "errorMessage"
             case numberOfRevisions = "numberOfRevisions"
             case runId = "runId"
             case scanName = "scanName"
@@ -652,13 +656,13 @@ extension CodeGuruSecurity {
     }
 
     public struct ListFindingsMetricsRequest: AWSEncodableShape {
-        /// The end date of the interval which you want to retrieve metrics from.
+        /// The end date of the interval which you want to retrieve metrics from. Round to the nearest day.
         public let endDate: Date
-        /// The maximum number of results to return in the response. Use this parameter when paginating results. If additional results exist beyond the number you specify, the nextToken element is returned in the response. Use nextToken in a subsequent request to retrieve additional results.
+        /// The maximum number of results to return in the response. Use this parameter when paginating results. If additional results exist beyond the number you specify, the nextToken element is returned in the response. Use nextToken in a subsequent request to retrieve additional results. If not specified, returns 1000 results.
         public let maxResults: Int?
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
-        /// The start date of the interval which you want to retrieve metrics from.
+        /// The start date of the interval which you want to retrieve metrics from. Rounds to the nearest day.
         public let startDate: Date
 
         public init(endDate: Date, maxResults: Int? = nil, nextToken: String? = nil, startDate: Date) {
@@ -704,7 +708,7 @@ extension CodeGuruSecurity {
     }
 
     public struct ListScansRequest: AWSEncodableShape {
-        /// The maximum number of results to return in the response. Use this parameter when paginating results. If additional results exist beyond the number you specify, the nextToken element is returned in the response. Use nextToken in a subsequent request to retrieve additional results.
+        /// The maximum number of results to return in the response. Use this parameter when paginating results. If additional results exist beyond the number you specify, the nextToken element is returned in the response. Use nextToken in a subsequent request to retrieve additional results. If not specified, returns 100 results.
         public let maxResults: Int?
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
@@ -748,7 +752,7 @@ extension CodeGuruSecurity {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The ARN of the ScanName object. You can retrieve this ARN by calling ListScans or GetScan.
+        /// The ARN of the ScanName object. You can retrieve this ARN by calling CreateScan, ListScans, or GetScan.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -784,15 +788,15 @@ extension CodeGuruSecurity {
     }
 
     public struct MetricsSummary: AWSDecodableShape {
-        /// A list of CategoryWithFindingNum objects for the top 5 finding categories with the most open findings in an account.
+        /// A list of CategoryWithFindingNum objects for the top 5 finding categories with the most findings.
         public let categoriesWithMostFindings: [CategoryWithFindingNum]?
         /// The date from which the metrics summary information was retrieved.
         public let date: Date?
-        /// The number of open findings of each severity in an account.
+        /// The number of open findings of each severity.
         public let openFindings: FindingMetricsValuePerSeverity?
-        /// A list of ScanNameWithFindingNum objects for the top 3 scans with the most number of open findings in an account.
+        /// A list of ScanNameWithFindingNum objects for the top 3 scans with the most number of open critical findings.
         public let scansWithMostOpenCriticalFindings: [ScanNameWithFindingNum]?
-        /// A list of ScanNameWithFindingNum objects for the top 3 scans with the most number of open critical findings in an account.
+        /// A list of ScanNameWithFindingNum objects for the top 3 scans with the most number of open findings.
         public let scansWithMostOpenFindings: [ScanNameWithFindingNum]?
 
         public init(categoriesWithMostFindings: [CategoryWithFindingNum]? = nil, date: Date? = nil, openFindings: FindingMetricsValuePerSeverity? = nil, scansWithMostOpenCriticalFindings: [ScanNameWithFindingNum]? = nil, scansWithMostOpenFindings: [ScanNameWithFindingNum]? = nil) {
@@ -847,9 +851,9 @@ extension CodeGuruSecurity {
     }
 
     public struct Resource: AWSDecodableShape {
-        /// The identifier for the resource.
+        /// The scanName of the scan that was run on the resource.
         public let id: String?
-        /// The identifier for a section of the resource, such as an AWS Lambda layer.
+        /// The identifier for a section of the resource.
         public let subResourceId: String?
 
         public init(id: String? = nil, subResourceId: String? = nil) {
@@ -864,7 +868,7 @@ extension CodeGuruSecurity {
     }
 
     public struct ScanNameWithFindingNum: AWSDecodableShape {
-        /// The number of open findings generated by a scan.
+        /// The number of findings generated by a scan.
         public let findingNumber: Int?
         /// The name of the scan.
         public let scanName: String?
@@ -914,7 +918,7 @@ extension CodeGuruSecurity {
     }
 
     public struct SuggestedFix: AWSDecodableShape {
-        /// The suggested code to add to your file.
+        /// The suggested code fix. If applicable, includes code patch to replace your source code.
         public let code: String?
         /// A description of the suggested code fix and why it is being suggested.
         public let description: String?
@@ -931,7 +935,7 @@ extension CodeGuruSecurity {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The ARN of the ScanName object. You can retrieve this ARN by calling ListScans or GetScan.
+        /// The ARN of the ScanName object. You can retrieve this ARN by calling CreateScan, ListScans, or GetScan.
         public let resourceArn: String
         /// An array of key-value pairs used to tag an existing scan. A tag is a custom attribute label with two parts:   A tag key. For example, CostCenter, Environment, or Secret. Tag keys are case sensitive.   An optional tag value field. For example, 111122223333, Production, or a team name. Omitting the tag value is the same as using an empty string. Tag values are case sensitive.
         public let tags: [String: String]
@@ -970,7 +974,7 @@ extension CodeGuruSecurity {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The ARN of the ScanName object. You can retrieve this ARN by calling ListScans or GetScan.
+        /// The ARN of the ScanName object. You can retrieve this ARN by calling CreateScan, ListScans, or GetScan.
         public let resourceArn: String
         /// A list of keys for each tag you want to remove from a scan.
         public let tagKeys: [String]
@@ -1006,7 +1010,7 @@ extension CodeGuruSecurity {
     }
 
     public struct UpdateAccountConfigurationRequest: AWSEncodableShape {
-        /// The KMS key ARN you want to use for encryption. Defaults to service-side encryption if missing.
+        /// The customer-managed KMS key ARN you want to use for encryption. If not specified, CodeGuru Security will use an AWS-managed key for encryption. If you previously specified a customer-managed KMS key and want CodeGuru Security to use an AWS-managed key for encryption instead, pass nothing.
         public let encryptionConfig: EncryptionConfig
 
         public init(encryptionConfig: EncryptionConfig) {
@@ -1023,7 +1027,7 @@ extension CodeGuruSecurity {
     }
 
     public struct UpdateAccountConfigurationResponse: AWSDecodableShape {
-        /// An EncryptionConfig object that contains the KMS key ARN to use for encryption.
+        /// An EncryptionConfig object that contains the KMS key ARN that is used for encryption. If you did not specify a customer-managed KMS key in the request, returns empty.
         public let encryptionConfig: EncryptionConfig
 
         public init(encryptionConfig: EncryptionConfig) {
@@ -1040,13 +1044,22 @@ extension CodeGuruSecurity {
         public let filePath: FilePath?
         /// The identifier for the vulnerability.
         public let id: String?
-        ///  The number of times the vulnerability appears in your code.
+        /// The number of times the vulnerability appears in your code.
         public let itemCount: Int?
         /// One or more URL addresses that contain details about a vulnerability.
         public let referenceUrls: [String]?
         /// One or more vulnerabilities that are related to the vulnerability being described.
         public let relatedVulnerabilities: [String]?
 
+        public init(filePath: FilePath? = nil, id: String? = nil, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil) {
+            self.filePath = filePath
+            self.id = id
+            self.itemCount = nil
+            self.referenceUrls = referenceUrls
+            self.relatedVulnerabilities = relatedVulnerabilities
+        }
+
+        @available(*, deprecated, message: "Members itemCount have been deprecated")
         public init(filePath: FilePath? = nil, id: String? = nil, itemCount: Int? = nil, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil) {
             self.filePath = filePath
             self.id = id
@@ -1065,7 +1078,7 @@ extension CodeGuruSecurity {
     }
 
     public struct ResourceId: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier for the code file uploaded to the resource where a finding was detected.
+        /// The identifier for the code file uploaded to the resource object. Returned by CreateUploadUrl when you upload resources to be scanned.
         public let codeArtifactId: String?
 
         public init(codeArtifactId: String? = nil) {

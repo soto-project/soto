@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -147,7 +147,7 @@ public struct ChimeSDKMediaPipelines: AWSService {
         )
     }
 
-    /// Creates an Kinesis video stream pool for the media pipeline.
+    /// Creates an Amazon Kinesis Video Stream pool for use with media stream pipelines.  If a meeting uses an opt-in Region as its   MediaRegion,  the KVS stream must be in that same Region. For example, if a meeting uses the af-south-1 Region, the KVS stream must also be in af-south-1. However, if the meeting uses a  Region that AWS turns on by default, the KVS stream can be in any available Region, including an opt-in Region. For example, if the meeting uses ca-central-1, the KVS stream can be in  eu-west-2, us-east-1, af-south-1, or any other Region that the Amazon Chime SDK supports. To learn  which AWS Region a meeting uses, call the GetMeeting API and  use the MediaRegion  parameter from the response. For more information about opt-in Regions, refer to Available Regions in the  Amazon Chime SDK Developer Guide, and  Specify which AWS Regions your account can use,  in the AWS Account Management Reference Guide.
     @Sendable
     public func createMediaPipelineKinesisVideoStreamPool(_ input: CreateMediaPipelineKinesisVideoStreamPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMediaPipelineKinesisVideoStreamPoolResponse {
         return try await self.client.execute(
@@ -212,7 +212,7 @@ public struct ChimeSDKMediaPipelines: AWSService {
         )
     }
 
-    /// Deletes an Kinesis video stream pool.
+    /// Deletes an Amazon Kinesis Video Stream pool.
     @Sendable
     public func deleteMediaPipelineKinesisVideoStreamPool(_ input: DeleteMediaPipelineKinesisVideoStreamPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -472,7 +472,7 @@ public struct ChimeSDKMediaPipelines: AWSService {
         )
     }
 
-    /// Updates an Kinesis video stream pool in a media pipeline.
+    /// Updates an Amazon Kinesis Video Stream pool in a media pipeline.
     @Sendable
     public func updateMediaPipelineKinesisVideoStreamPool(_ input: UpdateMediaPipelineKinesisVideoStreamPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMediaPipelineKinesisVideoStreamPoolResponse {
         return try await self.client.execute(

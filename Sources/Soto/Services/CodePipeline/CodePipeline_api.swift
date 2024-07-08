@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -322,7 +322,7 @@ public struct CodePipeline: AWSService {
         )
     }
 
-    /// Gets a summary of the most recent executions for a pipeline.
+    /// Gets a summary of the most recent executions for a pipeline.  When applying the filter for pipeline executions that have succeeded in the stage, the operation returns all executions in the current pipeline version beginning on February 1, 2024.
     @Sendable
     public func listPipelineExecutions(_ input: ListPipelineExecutionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPipelineExecutionsOutput {
         return try await self.client.execute(
@@ -660,7 +660,7 @@ extension CodePipeline {
         )
     }
 
-    /// Gets a summary of the most recent executions for a pipeline.
+    /// Gets a summary of the most recent executions for a pipeline.  When applying the filter for pipeline executions that have succeeded in the stage, the operation returns all executions in the current pipeline version beginning on February 1, 2024.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

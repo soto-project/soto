@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -87,7 +87,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    /// Creates a new backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to applications created using the Amplify Gen 2 public preview. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
+    /// Creates a new backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications.  When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     @Sendable
     public func createBackendEnvironment(_ input: CreateBackendEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBackendEnvironmentResult {
         return try await self.client.execute(
@@ -165,7 +165,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    /// Deletes a backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend was created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to applications created using the Amplify Gen 2 public preview. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
+    /// Deletes a backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications.  When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     @Sendable
     public func deleteBackendEnvironment(_ input: DeleteBackendEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBackendEnvironmentResult {
         return try await self.client.execute(
@@ -269,7 +269,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    /// Returns a backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend was created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to applications created using the Amplify Gen 2 public preview. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
+    /// Returns a backend environment for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications.  When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     @Sendable
     public func getBackendEnvironment(_ input: GetBackendEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBackendEnvironmentResult {
         return try await self.client.execute(
@@ -360,7 +360,7 @@ public struct Amplify: AWSService {
         )
     }
 
-    /// Lists the backend environments for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend was created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to applications created using the Amplify Gen 2 public preview. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
+    /// Lists the backend environments for an Amplify app.  This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications.  When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     @Sendable
     public func listBackendEnvironments(_ input: ListBackendEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackendEnvironmentsResult {
         return try await self.client.execute(

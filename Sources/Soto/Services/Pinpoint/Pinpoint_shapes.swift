@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1519,14 +1519,17 @@ extension Pinpoint {
         public let body: String?
         /// The verified email address to send the email from. The default address is the FromAddress specified for the email channel for the application.
         public let fromAddress: String?
+        /// The list of MessageHeaders for the email. You can have up to 15 MessageHeaders for each email.
+        public let headers: [MessageHeader]?
         /// The body of the email, in HTML format, for recipients whose email clients render HTML content.
         public let htmlBody: String?
         /// The subject line, or title, of the email.
         public let title: String?
 
-        public init(body: String? = nil, fromAddress: String? = nil, htmlBody: String? = nil, title: String? = nil) {
+        public init(body: String? = nil, fromAddress: String? = nil, headers: [MessageHeader]? = nil, htmlBody: String? = nil, title: String? = nil) {
             self.body = body
             self.fromAddress = fromAddress
+            self.headers = headers
             self.htmlBody = htmlBody
             self.title = title
         }
@@ -1534,6 +1537,7 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case body = "Body"
             case fromAddress = "FromAddress"
+            case headers = "Headers"
             case htmlBody = "HtmlBody"
             case title = "Title"
         }
@@ -3617,6 +3621,8 @@ extension Pinpoint {
     public struct EmailTemplateRequest: AWSEncodableShape {
         /// A JSON object that specifies the default values to use for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values.
         public let defaultSubstitutions: String?
+        /// The list of MessageHeaders for the email. You can have up to 15 Headers.
+        public let headers: [MessageHeader]?
         /// The message body, in HTML format, to use in email messages that are based on the message template. We recommend using HTML format for email clients that render HTML content. You can include links, formatted text, and more in an HTML message.
         public let htmlPart: String?
         /// The unique identifier for the recommender model to use for the message template. Amazon Pinpoint uses this value to determine how to retrieve and process data from a recommender model when it sends messages that use the template, if the template contains message variables for recommendation data.
@@ -3630,8 +3636,9 @@ extension Pinpoint {
         /// The message body, in plain text format, to use in email messages that are based on the message template. We recommend using plain text format for email clients that don't render HTML content and clients that are connected to high-latency networks, such as mobile devices.
         public let textPart: String?
 
-        public init(defaultSubstitutions: String? = nil, htmlPart: String? = nil, recommenderId: String? = nil, subject: String? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, textPart: String? = nil) {
+        public init(defaultSubstitutions: String? = nil, headers: [MessageHeader]? = nil, htmlPart: String? = nil, recommenderId: String? = nil, subject: String? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, textPart: String? = nil) {
             self.defaultSubstitutions = defaultSubstitutions
+            self.headers = headers
             self.htmlPart = htmlPart
             self.recommenderId = recommenderId
             self.subject = subject
@@ -3642,6 +3649,7 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case defaultSubstitutions = "DefaultSubstitutions"
+            case headers = "Headers"
             case htmlPart = "HtmlPart"
             case recommenderId = "RecommenderId"
             case subject = "Subject"
@@ -3658,6 +3666,8 @@ extension Pinpoint {
         public let creationDate: String?
         /// The JSON object that specifies the default values that are used for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable.
         public let defaultSubstitutions: String?
+        /// The list of MessageHeaders for the email. You can have up to 15 Headers.
+        public let headers: [MessageHeader]?
         /// The message body, in HTML format, that's used in email messages that are based on the message template.
         public let htmlPart: String?
         /// The date, in ISO 8601 format, when the message template was last modified.
@@ -3679,10 +3689,11 @@ extension Pinpoint {
         /// The unique identifier, as an integer, for the active version of the message template, or the version of the template that you specified by using the version parameter in your request.
         public let version: String?
 
-        public init(arn: String? = nil, creationDate: String? = nil, defaultSubstitutions: String? = nil, htmlPart: String? = nil, lastModifiedDate: String? = nil, recommenderId: String? = nil, subject: String? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String? = nil, templateType: TemplateType? = nil, textPart: String? = nil, version: String? = nil) {
+        public init(arn: String? = nil, creationDate: String? = nil, defaultSubstitutions: String? = nil, headers: [MessageHeader]? = nil, htmlPart: String? = nil, lastModifiedDate: String? = nil, recommenderId: String? = nil, subject: String? = nil, tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String? = nil, templateType: TemplateType? = nil, textPart: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationDate = creationDate
             self.defaultSubstitutions = defaultSubstitutions
+            self.headers = headers
             self.htmlPart = htmlPart
             self.lastModifiedDate = lastModifiedDate
             self.recommenderId = recommenderId
@@ -3699,6 +3710,7 @@ extension Pinpoint {
             case arn = "Arn"
             case creationDate = "CreationDate"
             case defaultSubstitutions = "DefaultSubstitutions"
+            case headers = "Headers"
             case htmlPart = "HtmlPart"
             case lastModifiedDate = "LastModifiedDate"
             case recommenderId = "RecommenderId"
@@ -7772,6 +7784,23 @@ extension Pinpoint {
         }
     }
 
+    public struct MessageHeader: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the message header. The header name can contain up to 126 characters.
+        public let name: String?
+        /// The value of the message header. The header value can contain up to 870 characters, including the length of any rendered attributes. For example if you add the {CreationDate} attribute, it renders as YYYY-MM-DDTHH:MM:SS.SSSZ and is 24 characters in length.
+        public let value: String?
+
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
     public struct MessageRequest: AWSEncodableShape {
         /// A map of key-value pairs, where each key is an address and each value is an AddressConfiguration object. An address can be a push notification token, a phone number, or an email address. You can use an AddressConfiguration object to tailor the message for an address by specifying settings such as content overrides and message variables.
         public let addresses: [String: AddressConfiguration]?
@@ -9384,6 +9413,8 @@ extension Pinpoint {
     }
 
     public struct SimpleEmail: AWSEncodableShape {
+        /// The list of MessageHeaders for the email. You can have up to 15 Headers.
+        public let headers: [MessageHeader]?
         /// The body of the email message, in HTML format. We recommend using HTML format for email clients that render HTML content. You can include links, formatted text, and more in an HTML message.
         public let htmlPart: SimpleEmailPart?
         /// The subject line, or title, of the email.
@@ -9391,13 +9422,15 @@ extension Pinpoint {
         /// The body of the email message, in plain text format. We recommend using plain text format for email clients that don't render HTML content and clients that are connected to high-latency networks, such as mobile devices.
         public let textPart: SimpleEmailPart?
 
-        public init(htmlPart: SimpleEmailPart? = nil, subject: SimpleEmailPart? = nil, textPart: SimpleEmailPart? = nil) {
+        public init(headers: [MessageHeader]? = nil, htmlPart: SimpleEmailPart? = nil, subject: SimpleEmailPart? = nil, textPart: SimpleEmailPart? = nil) {
+            self.headers = headers
             self.htmlPart = htmlPart
             self.subject = subject
             self.textPart = textPart
         }
 
         private enum CodingKeys: String, CodingKey {
+            case headers = "Headers"
             case htmlPart = "HtmlPart"
             case subject = "Subject"
             case textPart = "TextPart"

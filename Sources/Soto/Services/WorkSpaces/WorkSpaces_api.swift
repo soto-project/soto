@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -285,6 +285,19 @@ public struct WorkSpaces: AWSService {
     public func createWorkspaces(_ input: CreateWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspacesResult {
         return try await self.client.execute(
             operation: "CreateWorkspaces", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a pool of WorkSpaces.
+    @Sendable
+    public func createWorkspacesPool(_ input: CreateWorkspacesPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspacesPoolResult {
+        return try await self.client.execute(
+            operation: "CreateWorkspacesPool", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -696,6 +709,32 @@ public struct WorkSpaces: AWSService {
         )
     }
 
+    /// Retrieves a list that describes the streaming sessions for a specified pool.
+    @Sendable
+    public func describeWorkspacesPoolSessions(_ input: DescribeWorkspacesPoolSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkspacesPoolSessionsResult {
+        return try await self.client.execute(
+            operation: "DescribeWorkspacesPoolSessions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describes the specified WorkSpaces Pools.
+    @Sendable
+    public func describeWorkspacesPools(_ input: DescribeWorkspacesPoolsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkspacesPoolsResult {
+        return try await self.client.execute(
+            operation: "DescribeWorkspacesPools", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Disassociates a connection alias from a directory. Disassociating a connection alias disables cross-Region redirection between two directories in different Regions. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.  Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED.
     @Sendable
     public func disassociateConnectionAlias(_ input: DisassociateConnectionAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateConnectionAliasResult {
@@ -878,6 +917,19 @@ public struct WorkSpaces: AWSService {
         )
     }
 
+    /// Modifies the specified streaming properties.
+    @Sendable
+    public func modifyStreamingProperties(_ input: ModifyStreamingPropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyStreamingPropertiesResult {
+        return try await self.client.execute(
+            operation: "ModifyStreamingProperties", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Specifies which devices and operating systems users can use to access their WorkSpaces. For more information, see  Control Device Access.
     @Sendable
     public func modifyWorkspaceAccessProperties(_ input: ModifyWorkspaceAccessPropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyWorkspaceAccessPropertiesResult {
@@ -1021,6 +1073,19 @@ public struct WorkSpaces: AWSService {
         )
     }
 
+    /// Starts the specified pool. You cannot start a pool unless it has a running mode of  AutoStop and a state of STOPPED.
+    @Sendable
+    public func startWorkspacesPool(_ input: StartWorkspacesPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartWorkspacesPoolResult {
+        return try await self.client.execute(
+            operation: "StartWorkspacesPool", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     ///  Stops the specified WorkSpaces. You cannot stop a WorkSpace unless it has a running mode of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
     @Sendable
     public func stopWorkspaces(_ input: StopWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopWorkspacesResult {
@@ -1034,11 +1099,50 @@ public struct WorkSpaces: AWSService {
         )
     }
 
+    /// Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of AutoStop  and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
+    @Sendable
+    public func stopWorkspacesPool(_ input: StopWorkspacesPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopWorkspacesPoolResult {
+        return try await self.client.execute(
+            operation: "StopWorkspacesPool", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Terminates the specified WorkSpaces.  Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services Support before terminating the WorkSpace.  You can terminate a WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using  DescribeWorkSpaces. If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated.  Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30 consecutive days, this directory will be automatically deregistered for use with Amazon WorkSpaces, and you will be charged for this directory as per the Directory Service pricing terms. To delete empty directories, see  Delete the Directory for Your WorkSpaces. If you delete your Simple AD or AD Connector directory, you can always create a new one when you want to start using WorkSpaces again.
     @Sendable
     public func terminateWorkspaces(_ input: TerminateWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateWorkspacesResult {
         return try await self.client.execute(
             operation: "TerminateWorkspaces", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Terminates the specified pool.
+    @Sendable
+    public func terminateWorkspacesPool(_ input: TerminateWorkspacesPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateWorkspacesPoolResult {
+        return try await self.client.execute(
+            operation: "TerminateWorkspacesPool", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Terminates the pool session.
+    @Sendable
+    public func terminateWorkspacesPoolSession(_ input: TerminateWorkspacesPoolSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateWorkspacesPoolSessionResult {
+        return try await self.client.execute(
+            operation: "TerminateWorkspacesPoolSession", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1104,6 +1208,19 @@ public struct WorkSpaces: AWSService {
     public func updateWorkspaceImagePermission(_ input: UpdateWorkspaceImagePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkspaceImagePermissionResult {
         return try await self.client.execute(
             operation: "UpdateWorkspaceImagePermission", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the specified pool.
+    @Sendable
+    public func updateWorkspacesPool(_ input: UpdateWorkspacesPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkspacesPoolResult {
+        return try await self.client.execute(
+            operation: "UpdateWorkspacesPool", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1281,7 +1398,8 @@ extension WorkSpaces.DescribeWorkspaceDirectoriesRequest: AWSPaginateToken {
         return .init(
             directoryIds: self.directoryIds,
             limit: self.limit,
-            nextToken: token
+            nextToken: token,
+            workspaceDirectoryNames: self.workspaceDirectoryNames
         )
     }
 }

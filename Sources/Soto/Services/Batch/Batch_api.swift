@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -273,6 +273,19 @@ public struct Batch: AWSService {
         return try await self.client.execute(
             operation: "DescribeSchedulingPolicies", 
             path: "/v1/describeschedulingpolicies", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Provides a list of the first 100 RUNNABLE jobs associated to a single job queue.
+    @Sendable
+    public func getJobQueueSnapshot(_ input: GetJobQueueSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobQueueSnapshotResponse {
+        return try await self.client.execute(
+            operation: "GetJobQueueSnapshot", 
+            path: "/v1/getjobqueuesnapshot", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 

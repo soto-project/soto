@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -98,6 +98,11 @@ extension SsmSap {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConnectedEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dbms = "DBMS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CredentialType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case admin = "ADMIN"
         public var description: String { return self.rawValue }
@@ -137,6 +142,13 @@ extension SsmSap {
         case standby = "STANDBY"
         case unknown = "UNKNOWN"
         case worker = "WORKER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationEventStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -1044,6 +1056,60 @@ extension SsmSap {
         }
     }
 
+    public struct ListOperationEventsInput: AWSEncodableShape {
+        /// Optionally specify filters to narrow the returned operation  event items. Valid filter names include status, resourceID,  and resourceType. The valid operator for all three filters  is Equals.
+        public let filters: [Filter]?
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you do not specify a value for MaxResults, the request returns 50 items per page by default.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results.  This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The ID of the operation.
+        public let operationId: String
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, operationId: String) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.operationId = operationId
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 10)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,1024}$")
+            try self.validate(self.operationId, name: "operationId", parent: name, pattern: "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case operationId = "OperationId"
+        }
+    }
+
+    public struct ListOperationEventsOutput: AWSDecodableShape {
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// A returned list of operation events that  meet the filter criteria.
+        public let operationEvents: [OperationEvent]?
+
+        public init(nextToken: String? = nil, operationEvents: [OperationEvent]? = nil) {
+            self.nextToken = nextToken
+            self.operationEvents = operationEvents
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case operationEvents = "OperationEvents"
+        }
+    }
+
     public struct ListOperationsInput: AWSEncodableShape {
         /// The ID of the application.
         public let applicationId: String
@@ -1181,6 +1247,35 @@ extension SsmSap {
             case status = "Status"
             case statusMessage = "StatusMessage"
             case type = "Type"
+        }
+    }
+
+    public struct OperationEvent: AWSDecodableShape {
+        /// A description of the operation event. For example,  "Stop the EC2 instance i-abcdefgh987654321".
+        public let description: String?
+        /// The resource involved in the operations event. Contains ResourceArn ARN and ResourceType.
+        public let resource: Resource?
+        /// The status of the operation event. The possible statuses  are: IN_PROGRESS,  COMPLETED, and FAILED.
+        public let status: OperationEventStatus?
+        /// The status message relating to a specific  operation event.
+        public let statusMessage: String?
+        /// The timestamp of the specified operation event.
+        public let timestamp: Date?
+
+        public init(description: String? = nil, resource: Resource? = nil, status: OperationEventStatus? = nil, statusMessage: String? = nil, timestamp: Date? = nil) {
+            self.description = description
+            self.resource = resource
+            self.status = status
+            self.statusMessage = statusMessage
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case resource = "Resource"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+            case timestamp = "Timestamp"
         }
     }
 
@@ -1327,6 +1422,53 @@ extension SsmSap {
         }
     }
 
+    public struct Resource: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the source resource. Example of ResourceArn:  "arn:aws:ec2:us-east-1:111111111111:instance/i-abcdefgh987654321"
+        public let resourceArn: String?
+        /// The resource type. Example of ResourceType: "AWS::SystemsManagerSAP::Component"  or "AWS::EC2::Instance".
+        public let resourceType: String?
+
+        public init(resourceArn: String? = nil, resourceType: String? = nil) {
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct StartApplicationInput: AWSEncodableShape {
+        /// The ID of the application.
+        public let applicationId: String
+
+        public init(applicationId: String) {
+            self.applicationId = applicationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+        }
+    }
+
+    public struct StartApplicationOutput: AWSDecodableShape {
+        /// The ID of the operation.
+        public let operationId: String?
+
+        public init(operationId: String? = nil) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
     public struct StartApplicationRefreshInput: AWSEncodableShape {
         /// The ID of the application.
         public let applicationId: String
@@ -1345,6 +1487,44 @@ extension SsmSap {
     }
 
     public struct StartApplicationRefreshOutput: AWSDecodableShape {
+        /// The ID of the operation.
+        public let operationId: String?
+
+        public init(operationId: String? = nil) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
+    public struct StopApplicationInput: AWSEncodableShape {
+        /// The ID of the application.
+        public let applicationId: String
+        /// Boolean. If included and if set to True, the  StopApplication operation will shut down the associated Amazon EC2 instance in addition to  the application.
+        public let includeEc2InstanceShutdown: Bool?
+        /// Specify the ConnectedEntityType. Accepted type  is DBMS. If this parameter is included, the connected DBMS (Database  Management System) will be stopped.
+        public let stopConnectedEntity: ConnectedEntityType?
+
+        public init(applicationId: String, includeEc2InstanceShutdown: Bool? = nil, stopConnectedEntity: ConnectedEntityType? = nil) {
+            self.applicationId = applicationId
+            self.includeEc2InstanceShutdown = includeEc2InstanceShutdown
+            self.stopConnectedEntity = stopConnectedEntity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case includeEc2InstanceShutdown = "IncludeEc2InstanceShutdown"
+            case stopConnectedEntity = "StopConnectedEntity"
+        }
+    }
+
+    public struct StopApplicationOutput: AWSDecodableShape {
         /// The ID of the operation.
         public let operationId: String?
 

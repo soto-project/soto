@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -81,6 +81,7 @@ public struct AccessAnalyzer: AWSService {
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
             "ca-central-1": "access-analyzer-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "access-analyzer-fips.ca-west-1.amazonaws.com",
             "us-east-1": "access-analyzer-fips.us-east-1.amazonaws.com",
             "us-east-2": "access-analyzer-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "access-analyzer.us-gov-east-1.amazonaws.com",
@@ -137,6 +138,19 @@ public struct AccessAnalyzer: AWSService {
         return try await self.client.execute(
             operation: "CheckNoNewAccess", 
             path: "/policy/check-no-new-access", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Checks whether a resource policy can grant public access to the specified resource type.
+    @Sendable
+    public func checkNoPublicAccess(_ input: CheckNoPublicAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CheckNoPublicAccessResponse {
+        return try await self.client.execute(
+            operation: "CheckNoPublicAccess", 
+            path: "/policy/check-no-public-access", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -209,6 +223,19 @@ public struct AccessAnalyzer: AWSService {
         )
     }
 
+    /// Creates a recommendation for an unused permissions finding.
+    @Sendable
+    public func generateFindingRecommendation(_ input: GenerateFindingRecommendationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "GenerateFindingRecommendation", 
+            path: "/recommendation/{id}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves information about an access preview for the specified analyzer.
     @Sendable
     public func getAccessPreview(_ input: GetAccessPreviewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessPreviewResponse {
@@ -267,6 +294,19 @@ public struct AccessAnalyzer: AWSService {
         return try await self.client.execute(
             operation: "GetFinding", 
             path: "/finding/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves information about a finding recommendation for the specified analyzer.
+    @Sendable
+    public func getFindingRecommendation(_ input: GetFindingRecommendationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingRecommendationResponse {
+        return try await self.client.execute(
+            operation: "GetFindingRecommendation", 
+            path: "/recommendation/{id}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -515,5 +555,40 @@ extension AccessAnalyzer {
     public init(from: AccessAnalyzer, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
+    }
+}
+
+// MARK: Paginators
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension AccessAnalyzer {
+    /// Retrieves information about a finding recommendation for the specified analyzer.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func getFindingRecommendationPaginator(
+        _ input: GetFindingRecommendationRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetFindingRecommendationRequest, GetFindingRecommendationResponse> {
+        return .init(
+            input: input,
+            command: self.getFindingRecommendation,
+            inputKey: \GetFindingRecommendationRequest.nextToken,
+            outputKey: \GetFindingRecommendationResponse.nextToken,
+            logger: logger
+        )
+    }
+}
+
+extension AccessAnalyzer.GetFindingRecommendationRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AccessAnalyzer.GetFindingRecommendationRequest {
+        return .init(
+            analyzerArn: self.analyzerArn,
+            id: self.id,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }

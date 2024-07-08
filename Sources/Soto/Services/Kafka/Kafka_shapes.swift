@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -229,6 +229,23 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case clusterArn = "clusterArn"
             case unprocessedScramSecrets = "unprocessedScramSecrets"
+        }
+    }
+
+    public struct BrokerCountUpdateInfo: AWSDecodableShape {
+        /// Kafka Broker IDs of brokers being created.
+        public let createdBrokerIds: [Double]?
+        /// Kafka Broker IDs of brokers being deleted.
+        public let deletedBrokerIds: [Double]?
+
+        public init(createdBrokerIds: [Double]? = nil, deletedBrokerIds: [Double]? = nil) {
+            self.createdBrokerIds = createdBrokerIds
+            self.deletedBrokerIds = deletedBrokerIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdBrokerIds = "createdBrokerIds"
+            case deletedBrokerIds = "deletedBrokerIds"
         }
     }
 
@@ -970,6 +987,19 @@ extension Kafka {
             case consumerGroupsToReplicate = "consumerGroupsToReplicate"
             case detectAndCopyNewConsumerGroups = "detectAndCopyNewConsumerGroups"
             case synchroniseConsumerGroupOffsets = "synchroniseConsumerGroupOffsets"
+        }
+    }
+
+    public struct ControllerNodeInfo: AWSDecodableShape {
+        /// Endpoints for accessing the Controller.
+        public let endpoints: [String]?
+
+        public init(endpoints: [String]? = nil) {
+            self.endpoints = endpoints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoints = "endpoints"
         }
     }
 
@@ -2797,6 +2827,8 @@ extension Kafka {
     }
 
     public struct MutableClusterInfo: AWSDecodableShape {
+        /// Describes brokers being changed during a broker count update.
+        public let brokerCountUpdateInfo: BrokerCountUpdateInfo?
         /// Specifies the size of the EBS volume and the ID of the associated broker.
         public let brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]?
         /// Includes all client authentication information.
@@ -2822,7 +2854,8 @@ extension Kafka {
         /// This controls storage mode for supported storage tiers.
         public let storageMode: StorageMode?
 
-        public init(brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, connectivityInfo: ConnectivityInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, instanceType: String? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, storageMode: StorageMode? = nil) {
+        public init(brokerCountUpdateInfo: BrokerCountUpdateInfo? = nil, brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, connectivityInfo: ConnectivityInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, instanceType: String? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, storageMode: StorageMode? = nil) {
+            self.brokerCountUpdateInfo = brokerCountUpdateInfo
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
             self.clientAuthentication = clientAuthentication
             self.configurationInfo = configurationInfo
@@ -2838,6 +2871,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case brokerCountUpdateInfo = "brokerCountUpdateInfo"
             case brokerEBSVolumeInfo = "brokerEBSVolumeInfo"
             case clientAuthentication = "clientAuthentication"
             case configurationInfo = "configurationInfo"
@@ -2884,6 +2918,8 @@ extension Kafka {
         public let addedToClusterTime: String?
         /// The broker node info.
         public let brokerNodeInfo: BrokerNodeInfo?
+        /// The ControllerNodeInfo.
+        public let controllerNodeInfo: ControllerNodeInfo?
         /// The instance type.
         public let instanceType: String?
         /// The Amazon Resource Name (ARN) of the node.
@@ -2893,9 +2929,10 @@ extension Kafka {
         /// The ZookeeperNodeInfo.
         public let zookeeperNodeInfo: ZookeeperNodeInfo?
 
-        public init(addedToClusterTime: String? = nil, brokerNodeInfo: BrokerNodeInfo? = nil, instanceType: String? = nil, nodeARN: String? = nil, nodeType: NodeType? = nil, zookeeperNodeInfo: ZookeeperNodeInfo? = nil) {
+        public init(addedToClusterTime: String? = nil, brokerNodeInfo: BrokerNodeInfo? = nil, controllerNodeInfo: ControllerNodeInfo? = nil, instanceType: String? = nil, nodeARN: String? = nil, nodeType: NodeType? = nil, zookeeperNodeInfo: ZookeeperNodeInfo? = nil) {
             self.addedToClusterTime = addedToClusterTime
             self.brokerNodeInfo = brokerNodeInfo
+            self.controllerNodeInfo = controllerNodeInfo
             self.instanceType = instanceType
             self.nodeARN = nodeARN
             self.nodeType = nodeType
@@ -2905,6 +2942,7 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case addedToClusterTime = "addedToClusterTime"
             case brokerNodeInfo = "brokerNodeInfo"
+            case controllerNodeInfo = "controllerNodeInfo"
             case instanceType = "instanceType"
             case nodeARN = "nodeARN"
             case nodeType = "nodeType"

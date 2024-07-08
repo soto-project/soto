@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1093,11 +1093,14 @@ extension Rekognition {
         public let datasetType: DatasetType
         /// The ARN of the Amazon Rekognition Custom Labels project to which you want to asssign the dataset.
         public let projectArn: String
+        /// A set of tags (key-value pairs) that you want to attach to the dataset.
+        public let tags: [String: String]?
 
-        public init(datasetSource: DatasetSource? = nil, datasetType: DatasetType, projectArn: String) {
+        public init(datasetSource: DatasetSource? = nil, datasetType: DatasetType, projectArn: String, tags: [String: String]? = nil) {
             self.datasetSource = datasetSource
             self.datasetType = datasetType
             self.projectArn = projectArn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1105,12 +1108,21 @@ extension Rekognition {
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 2048)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 20)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
             case datasetSource = "DatasetSource"
             case datasetType = "DatasetType"
             case projectArn = "ProjectArn"
+            case tags = "Tags"
         }
     }
 
@@ -1201,23 +1213,35 @@ extension Rekognition {
         public let feature: CustomizationFeature?
         /// The name of the project to create.
         public let projectName: String
+        /// A set of tags (key-value pairs) that you want to attach to the project.
+        public let tags: [String: String]?
 
-        public init(autoUpdate: ProjectAutoUpdate? = nil, feature: CustomizationFeature? = nil, projectName: String) {
+        public init(autoUpdate: ProjectAutoUpdate? = nil, feature: CustomizationFeature? = nil, projectName: String, tags: [String: String]? = nil) {
             self.autoUpdate = autoUpdate
             self.feature = feature
             self.projectName = projectName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[a-zA-Z0-9_.\\-]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoUpdate = "AutoUpdate"
             case feature = "Feature"
             case projectName = "ProjectName"
+            case tags = "Tags"
         }
     }
 
@@ -2509,7 +2533,7 @@ extension Rekognition {
         public let contentTypes: [ContentType]?
         /// Shows the results of the human in the loop evaluation.
         public let humanLoopActivationOutput: HumanLoopActivationOutput?
-        /// Array of detected Moderation labels and the time, in milliseconds from the start of the video, they were detected.
+        /// Array of detected Moderation labels. For video operations, this includes the time,  in milliseconds from the start of the video, they were detected.
         public let moderationLabels: [ModerationLabel]?
         /// Version number of the base moderation detection model that was used to detect unsafe content.
         public let moderationModelVersion: String?

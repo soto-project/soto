@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -2284,6 +2284,66 @@ extension Batch {
         }
     }
 
+    public struct FrontOfQueueDetail: AWSDecodableShape {
+        /// The Amazon Resource Names (ARNs) of the first 100 RUNNABLE jobs in a named job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
+        public let jobs: [FrontOfQueueJobSummary]?
+        /// The Unix timestamp (in milliseconds) for when each of the first 100 RUNNABLE jobs were last updated.
+        public let lastUpdatedAt: Int64?
+
+        public init(jobs: [FrontOfQueueJobSummary]? = nil, lastUpdatedAt: Int64? = nil) {
+            self.jobs = jobs
+            self.lastUpdatedAt = lastUpdatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "jobs"
+            case lastUpdatedAt = "lastUpdatedAt"
+        }
+    }
+
+    public struct FrontOfQueueJobSummary: AWSDecodableShape {
+        /// The Unix timestamp (in milliseconds) for when the job transitioned to its current position in the job queue.
+        public let earliestTimeAtPosition: Int64?
+        /// The ARN for a job in a named job queue.
+        public let jobArn: String?
+
+        public init(earliestTimeAtPosition: Int64? = nil, jobArn: String? = nil) {
+            self.earliestTimeAtPosition = earliestTimeAtPosition
+            self.jobArn = jobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case earliestTimeAtPosition = "earliestTimeAtPosition"
+            case jobArn = "jobArn"
+        }
+    }
+
+    public struct GetJobQueueSnapshotRequest: AWSEncodableShape {
+        /// The job queue’s name or full queue Amazon Resource Name (ARN).
+        public let jobQueue: String?
+
+        public init(jobQueue: String? = nil) {
+            self.jobQueue = jobQueue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobQueue = "jobQueue"
+        }
+    }
+
+    public struct GetJobQueueSnapshotResponse: AWSDecodableShape {
+        /// The list of the first 100 RUNNABLE jobs in each job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
+        public let frontOfQueue: FrontOfQueueDetail?
+
+        public init(frontOfQueue: FrontOfQueueDetail? = nil) {
+            self.frontOfQueue = frontOfQueue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frontOfQueue = "frontOfQueue"
+        }
+    }
+
     public struct Host: AWSEncodableShape & AWSDecodableShape {
         /// The path on the host container instance that's presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If this parameter contains a file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the source path location doesn't exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.  This parameter isn't applicable to jobs that run on Fargate resources. Don't provide this for these jobs.
         public let sourcePath: String?
@@ -2770,7 +2830,7 @@ extension Batch {
         public let jobQueue: String?
         /// The job status used to filter jobs in the specified queue. If the filters parameter is specified, the jobStatus parameter is ignored and jobs with any status are returned. If you don't specify a status, only RUNNING jobs are returned.
         public let jobStatus: JobStatus?
-        /// The maximum number of results returned by ListJobs in paginated output. When this parameter is used, ListJobs only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListJobs returns up to 100 results and a nextToken value if applicable.
+        /// The maximum number of results returned by ListJobs in a paginated output. When this parameter is used, ListJobs returns up to maxResults results in a single page and a nextToken response element, if applicable. The remaining results of the initial request can be seen by sending another ListJobs request with the returned nextToken value. The following outlines key parameters and limitations:   The minimum value is 1.    When --job-status is used, Batch returns up to 1000 values.    When --filters is used, Batch returns up to 100 values.   If neither parameter is used, then ListJobs returns up to 1000 results (jobs that are in the RUNNING status) and a nextToken value, if applicable.
         public let maxResults: Int?
         /// The job ID for a multi-node parallel job. Specifying a multi-node parallel job ID with this parameter lists all nodes that are associated with the specified job.
         public let multiNodeJobId: String?

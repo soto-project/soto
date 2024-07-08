@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -95,6 +95,14 @@ extension KinesisAnalyticsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum OperationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case successful = "SUCCESSFUL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecordFormatType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         case json = "JSON"
@@ -106,6 +114,7 @@ extension KinesisAnalyticsV2 {
         case flink113 = "FLINK-1_13"
         case flink115 = "FLINK-1_15"
         case flink118 = "FLINK-1_18"
+        case flink119 = "FLINK-1_19"
         case flink16 = "FLINK-1_6"
         case flink18 = "FLINK-1_8"
         case sql10 = "SQL-1_0"
@@ -175,17 +184,21 @@ extension KinesisAnalyticsV2 {
         public let applicationVersionId: Int64?
         /// The descriptions of the current CloudWatch logging options for the SQL-based Kinesis Data Analytics application.
         public let cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]?
+        /// Operation ID for tracking AddApplicationCloudWatchLoggingOption request
+        public let operationId: String?
 
-        public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil) {
+        public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, operationId: String? = nil) {
             self.applicationARN = applicationARN
             self.applicationVersionId = applicationVersionId
             self.cloudWatchLoggingOptionDescriptions = cloudWatchLoggingOptionDescriptions
+            self.operationId = operationId
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationARN = "ApplicationARN"
             case applicationVersionId = "ApplicationVersionId"
             case cloudWatchLoggingOptionDescriptions = "CloudWatchLoggingOptionDescriptions"
+            case operationId = "OperationId"
         }
     }
 
@@ -446,18 +459,22 @@ extension KinesisAnalyticsV2 {
         public let applicationARN: String?
         /// Provides the current application version. Managed Service for Apache Flink updates the ApplicationVersionId each time you update the application.
         public let applicationVersionId: Int64?
+        /// Operation ID for tracking AddApplicationVpcConfiguration request
+        public let operationId: String?
         /// The parameters of the new VPC configuration.
         public let vpcConfigurationDescription: VpcConfigurationDescription?
 
-        public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil, vpcConfigurationDescription: VpcConfigurationDescription? = nil) {
+        public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil, operationId: String? = nil, vpcConfigurationDescription: VpcConfigurationDescription? = nil) {
             self.applicationARN = applicationARN
             self.applicationVersionId = applicationVersionId
+            self.operationId = operationId
             self.vpcConfigurationDescription = vpcConfigurationDescription
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationARN = "ApplicationARN"
             case applicationVersionId = "ApplicationVersionId"
+            case operationId = "OperationId"
             case vpcConfigurationDescription = "VpcConfigurationDescription"
         }
     }
@@ -526,6 +543,7 @@ extension KinesisAnalyticsV2 {
         public let applicationCodeConfiguration: ApplicationCodeConfiguration?
         /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         public let applicationSnapshotConfiguration: ApplicationSnapshotConfiguration?
+        public let applicationSystemRollbackConfiguration: ApplicationSystemRollbackConfiguration?
         /// Describes execution properties for a Managed Service for Apache Flink application.
         public let environmentProperties: EnvironmentProperties?
         /// The creation and update parameters for a Managed Service for Apache Flink application.
@@ -537,9 +555,10 @@ extension KinesisAnalyticsV2 {
         /// The configuration parameters for a Managed Service for Apache Flink Studio notebook.
         public let zeppelinApplicationConfiguration: ZeppelinApplicationConfiguration?
 
-        public init(applicationCodeConfiguration: ApplicationCodeConfiguration? = nil, applicationSnapshotConfiguration: ApplicationSnapshotConfiguration? = nil, environmentProperties: EnvironmentProperties? = nil, flinkApplicationConfiguration: FlinkApplicationConfiguration? = nil, sqlApplicationConfiguration: SqlApplicationConfiguration? = nil, vpcConfigurations: [VpcConfiguration]? = nil, zeppelinApplicationConfiguration: ZeppelinApplicationConfiguration? = nil) {
+        public init(applicationCodeConfiguration: ApplicationCodeConfiguration? = nil, applicationSnapshotConfiguration: ApplicationSnapshotConfiguration? = nil, applicationSystemRollbackConfiguration: ApplicationSystemRollbackConfiguration? = nil, environmentProperties: EnvironmentProperties? = nil, flinkApplicationConfiguration: FlinkApplicationConfiguration? = nil, sqlApplicationConfiguration: SqlApplicationConfiguration? = nil, vpcConfigurations: [VpcConfiguration]? = nil, zeppelinApplicationConfiguration: ZeppelinApplicationConfiguration? = nil) {
             self.applicationCodeConfiguration = applicationCodeConfiguration
             self.applicationSnapshotConfiguration = applicationSnapshotConfiguration
+            self.applicationSystemRollbackConfiguration = applicationSystemRollbackConfiguration
             self.environmentProperties = environmentProperties
             self.flinkApplicationConfiguration = flinkApplicationConfiguration
             self.sqlApplicationConfiguration = sqlApplicationConfiguration
@@ -561,6 +580,7 @@ extension KinesisAnalyticsV2 {
         private enum CodingKeys: String, CodingKey {
             case applicationCodeConfiguration = "ApplicationCodeConfiguration"
             case applicationSnapshotConfiguration = "ApplicationSnapshotConfiguration"
+            case applicationSystemRollbackConfiguration = "ApplicationSystemRollbackConfiguration"
             case environmentProperties = "EnvironmentProperties"
             case flinkApplicationConfiguration = "FlinkApplicationConfiguration"
             case sqlApplicationConfiguration = "SqlApplicationConfiguration"
@@ -574,6 +594,7 @@ extension KinesisAnalyticsV2 {
         public let applicationCodeConfigurationDescription: ApplicationCodeConfigurationDescription?
         /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         public let applicationSnapshotConfigurationDescription: ApplicationSnapshotConfigurationDescription?
+        public let applicationSystemRollbackConfigurationDescription: ApplicationSystemRollbackConfigurationDescription?
         /// Describes execution properties for a Managed Service for Apache Flink application.
         public let environmentPropertyDescriptions: EnvironmentPropertyDescriptions?
         /// The details about a Managed Service for Apache Flink application.
@@ -587,9 +608,10 @@ extension KinesisAnalyticsV2 {
         /// The configuration parameters for a Managed Service for Apache Flink Studio notebook.
         public let zeppelinApplicationConfigurationDescription: ZeppelinApplicationConfigurationDescription?
 
-        public init(applicationCodeConfigurationDescription: ApplicationCodeConfigurationDescription? = nil, applicationSnapshotConfigurationDescription: ApplicationSnapshotConfigurationDescription? = nil, environmentPropertyDescriptions: EnvironmentPropertyDescriptions? = nil, flinkApplicationConfigurationDescription: FlinkApplicationConfigurationDescription? = nil, runConfigurationDescription: RunConfigurationDescription? = nil, sqlApplicationConfigurationDescription: SqlApplicationConfigurationDescription? = nil, vpcConfigurationDescriptions: [VpcConfigurationDescription]? = nil, zeppelinApplicationConfigurationDescription: ZeppelinApplicationConfigurationDescription? = nil) {
+        public init(applicationCodeConfigurationDescription: ApplicationCodeConfigurationDescription? = nil, applicationSnapshotConfigurationDescription: ApplicationSnapshotConfigurationDescription? = nil, applicationSystemRollbackConfigurationDescription: ApplicationSystemRollbackConfigurationDescription? = nil, environmentPropertyDescriptions: EnvironmentPropertyDescriptions? = nil, flinkApplicationConfigurationDescription: FlinkApplicationConfigurationDescription? = nil, runConfigurationDescription: RunConfigurationDescription? = nil, sqlApplicationConfigurationDescription: SqlApplicationConfigurationDescription? = nil, vpcConfigurationDescriptions: [VpcConfigurationDescription]? = nil, zeppelinApplicationConfigurationDescription: ZeppelinApplicationConfigurationDescription? = nil) {
             self.applicationCodeConfigurationDescription = applicationCodeConfigurationDescription
             self.applicationSnapshotConfigurationDescription = applicationSnapshotConfigurationDescription
+            self.applicationSystemRollbackConfigurationDescription = applicationSystemRollbackConfigurationDescription
             self.environmentPropertyDescriptions = environmentPropertyDescriptions
             self.flinkApplicationConfigurationDescription = flinkApplicationConfigurationDescription
             self.runConfigurationDescription = runConfigurationDescription
@@ -601,6 +623,7 @@ extension KinesisAnalyticsV2 {
         private enum CodingKeys: String, CodingKey {
             case applicationCodeConfigurationDescription = "ApplicationCodeConfigurationDescription"
             case applicationSnapshotConfigurationDescription = "ApplicationSnapshotConfigurationDescription"
+            case applicationSystemRollbackConfigurationDescription = "ApplicationSystemRollbackConfigurationDescription"
             case environmentPropertyDescriptions = "EnvironmentPropertyDescriptions"
             case flinkApplicationConfigurationDescription = "FlinkApplicationConfigurationDescription"
             case runConfigurationDescription = "RunConfigurationDescription"
@@ -615,6 +638,7 @@ extension KinesisAnalyticsV2 {
         public let applicationCodeConfigurationUpdate: ApplicationCodeConfigurationUpdate?
         /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         public let applicationSnapshotConfigurationUpdate: ApplicationSnapshotConfigurationUpdate?
+        public let applicationSystemRollbackConfigurationUpdate: ApplicationSystemRollbackConfigurationUpdate?
         /// Describes updates to the environment properties for a Managed Service for Apache Flink application.
         public let environmentPropertyUpdates: EnvironmentPropertyUpdates?
         /// Describes updates to a Managed Service for Apache Flink application's configuration.
@@ -626,9 +650,10 @@ extension KinesisAnalyticsV2 {
         /// Updates to the configuration of a Managed Service for Apache Flink Studio notebook.
         public let zeppelinApplicationConfigurationUpdate: ZeppelinApplicationConfigurationUpdate?
 
-        public init(applicationCodeConfigurationUpdate: ApplicationCodeConfigurationUpdate? = nil, applicationSnapshotConfigurationUpdate: ApplicationSnapshotConfigurationUpdate? = nil, environmentPropertyUpdates: EnvironmentPropertyUpdates? = nil, flinkApplicationConfigurationUpdate: FlinkApplicationConfigurationUpdate? = nil, sqlApplicationConfigurationUpdate: SqlApplicationConfigurationUpdate? = nil, vpcConfigurationUpdates: [VpcConfigurationUpdate]? = nil, zeppelinApplicationConfigurationUpdate: ZeppelinApplicationConfigurationUpdate? = nil) {
+        public init(applicationCodeConfigurationUpdate: ApplicationCodeConfigurationUpdate? = nil, applicationSnapshotConfigurationUpdate: ApplicationSnapshotConfigurationUpdate? = nil, applicationSystemRollbackConfigurationUpdate: ApplicationSystemRollbackConfigurationUpdate? = nil, environmentPropertyUpdates: EnvironmentPropertyUpdates? = nil, flinkApplicationConfigurationUpdate: FlinkApplicationConfigurationUpdate? = nil, sqlApplicationConfigurationUpdate: SqlApplicationConfigurationUpdate? = nil, vpcConfigurationUpdates: [VpcConfigurationUpdate]? = nil, zeppelinApplicationConfigurationUpdate: ZeppelinApplicationConfigurationUpdate? = nil) {
             self.applicationCodeConfigurationUpdate = applicationCodeConfigurationUpdate
             self.applicationSnapshotConfigurationUpdate = applicationSnapshotConfigurationUpdate
+            self.applicationSystemRollbackConfigurationUpdate = applicationSystemRollbackConfigurationUpdate
             self.environmentPropertyUpdates = environmentPropertyUpdates
             self.flinkApplicationConfigurationUpdate = flinkApplicationConfigurationUpdate
             self.sqlApplicationConfigurationUpdate = sqlApplicationConfigurationUpdate
@@ -650,6 +675,7 @@ extension KinesisAnalyticsV2 {
         private enum CodingKeys: String, CodingKey {
             case applicationCodeConfigurationUpdate = "ApplicationCodeConfigurationUpdate"
             case applicationSnapshotConfigurationUpdate = "ApplicationSnapshotConfigurationUpdate"
+            case applicationSystemRollbackConfigurationUpdate = "ApplicationSystemRollbackConfigurationUpdate"
             case environmentPropertyUpdates = "EnvironmentPropertyUpdates"
             case flinkApplicationConfigurationUpdate = "FlinkApplicationConfigurationUpdate"
             case sqlApplicationConfigurationUpdate = "SqlApplicationConfigurationUpdate"
@@ -673,6 +699,8 @@ extension KinesisAnalyticsV2 {
         public let applicationName: String
         /// The status of the application.
         public let applicationStatus: ApplicationStatus
+        /// The current timestamp when the application version was created.
+        public let applicationVersionCreateTimestamp: Date?
         /// Provides the current application version. Managed Service for Apache Flink updates the ApplicationVersionId each time you update the application.
         public let applicationVersionId: Int64
         /// If you reverted the application using RollbackApplication, the application version when RollbackApplication was called.
@@ -694,7 +722,7 @@ extension KinesisAnalyticsV2 {
         /// Specifies the IAM role that the application uses to access external resources.
         public let serviceExecutionRole: String?
 
-        public init(applicationARN: String, applicationConfigurationDescription: ApplicationConfigurationDescription? = nil, applicationDescription: String? = nil, applicationMaintenanceConfigurationDescription: ApplicationMaintenanceConfigurationDescription? = nil, applicationMode: ApplicationMode? = nil, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionId: Int64, applicationVersionRolledBackFrom: Int64? = nil, applicationVersionRolledBackTo: Int64? = nil, applicationVersionUpdatedFrom: Int64? = nil, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, conditionalToken: String? = nil, createTimestamp: Date? = nil, lastUpdateTimestamp: Date? = nil, runtimeEnvironment: RuntimeEnvironment, serviceExecutionRole: String? = nil) {
+        public init(applicationARN: String, applicationConfigurationDescription: ApplicationConfigurationDescription? = nil, applicationDescription: String? = nil, applicationMaintenanceConfigurationDescription: ApplicationMaintenanceConfigurationDescription? = nil, applicationMode: ApplicationMode? = nil, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionCreateTimestamp: Date? = nil, applicationVersionId: Int64, applicationVersionRolledBackFrom: Int64? = nil, applicationVersionRolledBackTo: Int64? = nil, applicationVersionUpdatedFrom: Int64? = nil, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, conditionalToken: String? = nil, createTimestamp: Date? = nil, lastUpdateTimestamp: Date? = nil, runtimeEnvironment: RuntimeEnvironment, serviceExecutionRole: String? = nil) {
             self.applicationARN = applicationARN
             self.applicationConfigurationDescription = applicationConfigurationDescription
             self.applicationDescription = applicationDescription
@@ -702,6 +730,7 @@ extension KinesisAnalyticsV2 {
             self.applicationMode = applicationMode
             self.applicationName = applicationName
             self.applicationStatus = applicationStatus
+            self.applicationVersionCreateTimestamp = applicationVersionCreateTimestamp
             self.applicationVersionId = applicationVersionId
             self.applicationVersionRolledBackFrom = applicationVersionRolledBackFrom
             self.applicationVersionRolledBackTo = applicationVersionRolledBackTo
@@ -722,6 +751,7 @@ extension KinesisAnalyticsV2 {
             case applicationMode = "ApplicationMode"
             case applicationName = "ApplicationName"
             case applicationStatus = "ApplicationStatus"
+            case applicationVersionCreateTimestamp = "ApplicationVersionCreateTimestamp"
             case applicationVersionId = "ApplicationVersionId"
             case applicationVersionRolledBackFrom = "ApplicationVersionRolledBackFrom"
             case applicationVersionRolledBackTo = "ApplicationVersionRolledBackTo"
@@ -768,6 +798,61 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case applicationMaintenanceWindowStartTimeUpdate = "ApplicationMaintenanceWindowStartTimeUpdate"
+        }
+    }
+
+    public struct ApplicationOperationInfo: AWSDecodableShape {
+        /// The timestamp at which the operation finished for the application
+        public let endTime: Date?
+        public let operation: String?
+        public let operationId: String?
+        public let operationStatus: OperationStatus?
+        /// The timestamp at which the operation was created
+        public let startTime: Date?
+
+        public init(endTime: Date? = nil, operation: String? = nil, operationId: String? = nil, operationStatus: OperationStatus? = nil, startTime: Date? = nil) {
+            self.endTime = endTime
+            self.operation = operation
+            self.operationId = operationId
+            self.operationStatus = operationStatus
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case operation = "Operation"
+            case operationId = "OperationId"
+            case operationStatus = "OperationStatus"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct ApplicationOperationInfoDetails: AWSDecodableShape {
+        public let applicationVersionChangeDetails: ApplicationVersionChangeDetails?
+        /// The timestamp at which the operation finished for the application
+        public let endTime: Date
+        public let operation: String
+        public let operationFailureDetails: OperationFailureDetails?
+        public let operationStatus: OperationStatus
+        /// The timestamp at which the operation was created
+        public let startTime: Date
+
+        public init(applicationVersionChangeDetails: ApplicationVersionChangeDetails? = nil, endTime: Date, operation: String, operationFailureDetails: OperationFailureDetails? = nil, operationStatus: OperationStatus, startTime: Date) {
+            self.applicationVersionChangeDetails = applicationVersionChangeDetails
+            self.endTime = endTime
+            self.operation = operation
+            self.operationFailureDetails = operationFailureDetails
+            self.operationStatus = operationStatus
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationVersionChangeDetails = "ApplicationVersionChangeDetails"
+            case endTime = "EndTime"
+            case operation = "Operation"
+            case operationFailureDetails = "OperationFailureDetails"
+            case operationStatus = "OperationStatus"
+            case startTime = "StartTime"
         }
     }
 
@@ -863,6 +948,62 @@ extension KinesisAnalyticsV2 {
             case applicationStatus = "ApplicationStatus"
             case applicationVersionId = "ApplicationVersionId"
             case runtimeEnvironment = "RuntimeEnvironment"
+        }
+    }
+
+    public struct ApplicationSystemRollbackConfiguration: AWSEncodableShape {
+        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application
+        public let rollbackEnabled: Bool
+
+        public init(rollbackEnabled: Bool) {
+            self.rollbackEnabled = rollbackEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rollbackEnabled = "RollbackEnabled"
+        }
+    }
+
+    public struct ApplicationSystemRollbackConfigurationDescription: AWSDecodableShape {
+        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application
+        public let rollbackEnabled: Bool
+
+        public init(rollbackEnabled: Bool) {
+            self.rollbackEnabled = rollbackEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rollbackEnabled = "RollbackEnabled"
+        }
+    }
+
+    public struct ApplicationSystemRollbackConfigurationUpdate: AWSEncodableShape {
+        /// Describes whether system rollbacks are enabled for a Managed Service for Apache Flink application
+        public let rollbackEnabledUpdate: Bool
+
+        public init(rollbackEnabledUpdate: Bool) {
+            self.rollbackEnabledUpdate = rollbackEnabledUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rollbackEnabledUpdate = "RollbackEnabledUpdate"
+        }
+    }
+
+    public struct ApplicationVersionChangeDetails: AWSDecodableShape {
+        /// The operation was performed on this version of the application
+        public let applicationVersionUpdatedFrom: Int64
+        /// The operation execution resulted in the transition to the following version of the application
+        public let applicationVersionUpdatedTo: Int64
+
+        public init(applicationVersionUpdatedFrom: Int64, applicationVersionUpdatedTo: Int64) {
+            self.applicationVersionUpdatedFrom = applicationVersionUpdatedFrom
+            self.applicationVersionUpdatedTo = applicationVersionUpdatedTo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationVersionUpdatedFrom = "ApplicationVersionUpdatedFrom"
+            case applicationVersionUpdatedTo = "ApplicationVersionUpdatedTo"
         }
     }
 
@@ -1420,17 +1561,21 @@ extension KinesisAnalyticsV2 {
         public let applicationVersionId: Int64?
         /// The descriptions of the remaining CloudWatch logging options for the application.
         public let cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]?
+        /// Operation ID for tracking DeleteApplicationCloudWatchLoggingOption request
+        public let operationId: String?
 
-        public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil) {
+        public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, operationId: String? = nil) {
             self.applicationARN = applicationARN
             self.applicationVersionId = applicationVersionId
             self.cloudWatchLoggingOptionDescriptions = cloudWatchLoggingOptionDescriptions
+            self.operationId = operationId
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationARN = "ApplicationARN"
             case applicationVersionId = "ApplicationVersionId"
             case cloudWatchLoggingOptionDescriptions = "CloudWatchLoggingOptionDescriptions"
+            case operationId = "OperationId"
         }
     }
 
@@ -1686,15 +1831,19 @@ extension KinesisAnalyticsV2 {
         public let applicationARN: String?
         /// The updated version ID of the application.
         public let applicationVersionId: Int64?
+        /// Operation ID for tracking DeleteApplicationVpcConfiguration request
+        public let operationId: String?
 
-        public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil) {
+        public init(applicationARN: String? = nil, applicationVersionId: Int64? = nil, operationId: String? = nil) {
             self.applicationARN = applicationARN
             self.applicationVersionId = applicationVersionId
+            self.operationId = operationId
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationARN = "ApplicationARN"
             case applicationVersionId = "ApplicationVersionId"
+            case operationId = "OperationId"
         }
     }
 
@@ -1742,6 +1891,41 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case s3ContentLocationUpdate = "S3ContentLocationUpdate"
+        }
+    }
+
+    public struct DescribeApplicationOperationRequest: AWSEncodableShape {
+        public let applicationName: String
+        public let operationId: String
+
+        public init(applicationName: String, operationId: String) {
+            self.applicationName = applicationName
+            self.operationId = operationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.validate(self.operationId, name: "operationId", parent: name, max: 64)
+            try self.validate(self.operationId, name: "operationId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case operationId = "OperationId"
+        }
+    }
+
+    public struct DescribeApplicationOperationResponse: AWSDecodableShape {
+        public let applicationOperationInfoDetails: ApplicationOperationInfoDetails?
+
+        public init(applicationOperationInfoDetails: ApplicationOperationInfoDetails? = nil) {
+            self.applicationOperationInfoDetails = applicationOperationInfoDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationOperationInfoDetails = "ApplicationOperationInfoDetails"
         }
     }
 
@@ -1985,6 +2169,18 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case propertyGroups = "PropertyGroups"
+        }
+    }
+
+    public struct ErrorInfo: AWSDecodableShape {
+        public let errorString: String?
+
+        public init(errorString: String? = nil) {
+            self.errorString = errorString
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorString = "ErrorString"
         }
     }
 
@@ -2390,7 +2586,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct InputStartingPositionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The starting position on the stream.    NOW - Start reading just after the most recent record in the stream, and start at the request timestamp that the customer issued.      TRIM_HORIZON - Start reading at the last untrimmed record in the stream,  which is the oldest record available in the stream. This option is not available  for an Amazon Kinesis Data Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.
+        /// The starting position on the stream.    NOW - Start reading just after the most recent record in the stream, and start at the request timestamp that the customer issued.    TRIM_HORIZON - Start reading at the last untrimmed record in the stream,  which is the oldest record available in the stream. This option is not available  for an Amazon Kinesis Data Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.
         public let inputStartingPosition: InputStartingPosition?
 
         public init(inputStartingPosition: InputStartingPosition? = nil) {
@@ -2747,6 +2943,57 @@ extension KinesisAnalyticsV2 {
         }
     }
 
+    public struct ListApplicationOperationsRequest: AWSEncodableShape {
+        public let applicationName: String
+        public let limit: Int?
+        public let nextToken: String?
+        public let operation: String?
+        public let operationStatus: OperationStatus?
+
+        public init(applicationName: String, limit: Int? = nil, nextToken: String? = nil, operation: String? = nil, operationStatus: OperationStatus? = nil) {
+            self.applicationName = applicationName
+            self.limit = limit
+            self.nextToken = nextToken
+            self.operation = operation
+            self.operationStatus = operationStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.validate(self.limit, name: "limit", parent: name, max: 50)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.operation, name: "operation", parent: name, max: 64)
+            try self.validate(self.operation, name: "operation", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case operation = "Operation"
+            case operationStatus = "OperationStatus"
+        }
+    }
+
+    public struct ListApplicationOperationsResponse: AWSDecodableShape {
+        public let applicationOperationInfoList: [ApplicationOperationInfo]?
+        public let nextToken: String?
+
+        public init(applicationOperationInfoList: [ApplicationOperationInfo]? = nil, nextToken: String? = nil) {
+            self.applicationOperationInfoList = applicationOperationInfoList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationOperationInfoList = "ApplicationOperationInfoList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListApplicationSnapshotsRequest: AWSEncodableShape {
         /// The name of an existing application.
         public let applicationName: String
@@ -3032,6 +3279,22 @@ extension KinesisAnalyticsV2 {
             case configurationTypeUpdate = "ConfigurationTypeUpdate"
             case logLevelUpdate = "LogLevelUpdate"
             case metricsLevelUpdate = "MetricsLevelUpdate"
+        }
+    }
+
+    public struct OperationFailureDetails: AWSDecodableShape {
+        public let errorInfo: ErrorInfo?
+        /// Provides the operation ID of a system-rollback operation executed due to failure in the current operation
+        public let rollbackOperationId: String?
+
+        public init(errorInfo: ErrorInfo? = nil, rollbackOperationId: String? = nil) {
+            self.errorInfo = errorInfo
+            self.rollbackOperationId = rollbackOperationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorInfo = "ErrorInfo"
+            case rollbackOperationId = "RollbackOperationId"
         }
     }
 
@@ -3437,13 +3700,17 @@ extension KinesisAnalyticsV2 {
 
     public struct RollbackApplicationResponse: AWSDecodableShape {
         public let applicationDetail: ApplicationDetail
+        /// Operation ID for tracking RollbackApplication request
+        public let operationId: String?
 
-        public init(applicationDetail: ApplicationDetail) {
+        public init(applicationDetail: ApplicationDetail, operationId: String? = nil) {
             self.applicationDetail = applicationDetail
+            self.operationId = operationId
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationDetail = "ApplicationDetail"
+            case operationId = "OperationId"
         }
     }
 
@@ -3955,7 +4222,16 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct StartApplicationResponse: AWSDecodableShape {
-        public init() {}
+        /// Operation ID for tracking StartApplication request
+        public let operationId: String?
+
+        public init(operationId: String? = nil) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
     }
 
     public struct StopApplicationRequest: AWSEncodableShape {
@@ -3982,7 +4258,16 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct StopApplicationResponse: AWSDecodableShape {
-        public init() {}
+        /// Operation ID for tracking StopApplication request
+        public let operationId: String?
+
+        public init(operationId: String? = nil) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
@@ -4177,13 +4462,17 @@ extension KinesisAnalyticsV2 {
     public struct UpdateApplicationResponse: AWSDecodableShape {
         /// Describes application updates.
         public let applicationDetail: ApplicationDetail
+        /// Operation ID for tracking UpdateApplication request
+        public let operationId: String?
 
-        public init(applicationDetail: ApplicationDetail) {
+        public init(applicationDetail: ApplicationDetail, operationId: String? = nil) {
             self.applicationDetail = applicationDetail
+            self.operationId = operationId
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationDetail = "ApplicationDetail"
+            case operationId = "OperationId"
         }
     }
 

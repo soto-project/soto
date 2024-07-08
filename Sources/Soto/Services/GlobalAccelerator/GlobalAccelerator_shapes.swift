@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -2824,27 +2824,35 @@ extension GlobalAccelerator {
         public let acceleratorArn: String
         /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, the accelerator cannot be deleted. If set to false, the accelerator can be deleted.
         public let enabled: Bool?
+        /// The IP addresses for an accelerator.
+        public let ipAddresses: [String]?
         /// The IP address type that an accelerator supports. For a standard accelerator, the value can be IPV4 or DUAL_STACK.
         public let ipAddressType: IpAddressType?
         /// The name of the accelerator. The name can have a maximum of 64 characters, must contain only alphanumeric characters,
         /// 			periods (.), or hyphens (-), and must not begin or end with a hyphen or period.
         public let name: String?
 
-        public init(acceleratorArn: String, enabled: Bool? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil) {
+        public init(acceleratorArn: String, enabled: Bool? = nil, ipAddresses: [String]? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil) {
             self.acceleratorArn = acceleratorArn
             self.enabled = enabled
+            self.ipAddresses = ipAddresses
             self.ipAddressType = ipAddressType
             self.name = name
         }
 
         public func validate(name: String) throws {
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+            try self.ipAddresses?.forEach {
+                try validate($0, name: "ipAddresses[]", parent: name, max: 45)
+            }
+            try self.validate(self.ipAddresses, name: "ipAddresses", parent: name, max: 2)
             try self.validate(self.name, name: "name", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
             case acceleratorArn = "AcceleratorArn"
             case enabled = "Enabled"
+            case ipAddresses = "IpAddresses"
             case ipAddressType = "IpAddressType"
             case name = "Name"
         }
@@ -2990,27 +2998,35 @@ extension GlobalAccelerator {
         public let acceleratorArn: String
         /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, the accelerator cannot be deleted. If set to false, the accelerator can be deleted.
         public let enabled: Bool?
+        /// The IP addresses for an accelerator.
+        public let ipAddresses: [String]?
         /// The IP address type that an accelerator supports. For a custom routing accelerator, the value must be IPV4.
         public let ipAddressType: IpAddressType?
         /// The name of the accelerator. The name can have a maximum of 64 characters, must contain only alphanumeric characters,
         /// 		periods (.), or hyphens (-), and must not begin or end with a hyphen or period.
         public let name: String?
 
-        public init(acceleratorArn: String, enabled: Bool? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil) {
+        public init(acceleratorArn: String, enabled: Bool? = nil, ipAddresses: [String]? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil) {
             self.acceleratorArn = acceleratorArn
             self.enabled = enabled
+            self.ipAddresses = ipAddresses
             self.ipAddressType = ipAddressType
             self.name = name
         }
 
         public func validate(name: String) throws {
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+            try self.ipAddresses?.forEach {
+                try validate($0, name: "ipAddresses[]", parent: name, max: 45)
+            }
+            try self.validate(self.ipAddresses, name: "ipAddresses", parent: name, max: 2)
             try self.validate(self.name, name: "name", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
             case acceleratorArn = "AcceleratorArn"
             case enabled = "Enabled"
+            case ipAddresses = "IpAddresses"
             case ipAddressType = "IpAddressType"
             case name = "Name"
         }

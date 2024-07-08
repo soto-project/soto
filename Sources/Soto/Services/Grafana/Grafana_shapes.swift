@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -252,7 +252,7 @@ extension Grafana {
     }
 
     public struct AssociateLicenseRequest: AWSEncodableShape {
-        /// A token from Grafana Labs that ties your Amazon Web Services account with a Grafana  Labs account. For more information, see Register with Grafana Labs.
+        /// A token from Grafana Labs that ties your Amazon Web Services account with a Grafana  Labs account. For more information, see Link your account with Grafana Labs.
         public let grafanaToken: String?
         /// The type of license to associate with the workspace.  Amazon Managed Grafana workspaces no longer support Grafana Enterprise free trials.
         public let licenseType: LicenseType
@@ -349,7 +349,7 @@ extension Grafana {
     public struct CreateWorkspaceApiKeyRequest: AWSEncodableShape {
         /// Specifies the name of the key. Keynames must be unique to the workspace.
         public let keyName: String
-        /// Specifies the permission level of the key. Valid values: VIEWER|EDITOR|ADMIN
+        /// Specifies the permission level of the key. Valid values: ADMIN|EDITOR|VIEWER
         public let keyRole: String
         /// Specifies the time in seconds until the key expires. Keys can be valid for up to 30 days.
         public let secondsToLive: Int
@@ -415,7 +415,7 @@ extension Grafana {
         public let clientToken: String?
         /// The configuration string for the workspace that you create. For more information about the format and configuration options available, see Working in your Grafana workspace.
         public let configuration: String?
-        /// Specifies the version of Grafana to support in the new workspace. If not specified,  defaults to the latest version (for example, 9.4). To get a list of supported versions, use the ListVersions operation.
+        /// Specifies the version of Grafana to support in the new workspace. If not specified,  defaults to the latest version (for example, 10.4). To get a list of supported versions, use the ListVersions operation.
         public let grafanaVersion: String?
         /// Configuration for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
         public let networkAccessControl: NetworkAccessConfiguration?
@@ -518,6 +518,124 @@ extension Grafana {
         }
     }
 
+    public struct CreateWorkspaceServiceAccountRequest: AWSEncodableShape {
+        /// The permission level to use for this service account.  For more information about the roles and the permissions each has, see User roles in the Amazon Managed Grafana User Guide.
+        public let grafanaRole: Role
+        /// A name for the service account. The name must be unique within the workspace, as it determines the ID associated with the service account.
+        public let name: String
+        /// The ID of the workspace within which to create the service account.
+        public let workspaceId: String
+
+        public init(grafanaRole: Role, name: String, workspaceId: String) {
+            self.grafanaRole = grafanaRole
+            self.name = name
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.grafanaRole, forKey: .grafanaRole)
+            try container.encode(self.name, forKey: .name)
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^g-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grafanaRole = "grafanaRole"
+            case name = "name"
+        }
+    }
+
+    public struct CreateWorkspaceServiceAccountResponse: AWSDecodableShape {
+        /// The permission level given to the service account.
+        public let grafanaRole: Role
+        /// The ID of the service account.
+        public let id: String
+        /// The name of the service account.
+        public let name: String
+        /// The workspace with which the service account is associated.
+        public let workspaceId: String
+
+        public init(grafanaRole: Role, id: String, name: String, workspaceId: String) {
+            self.grafanaRole = grafanaRole
+            self.id = id
+            self.name = name
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grafanaRole = "grafanaRole"
+            case id = "id"
+            case name = "name"
+            case workspaceId = "workspaceId"
+        }
+    }
+
+    public struct CreateWorkspaceServiceAccountTokenRequest: AWSEncodableShape {
+        /// A name for the token to create.
+        public let name: String
+        /// Sets how long the token will be valid, in seconds. You can set the time up to 30  days in the future.
+        public let secondsToLive: Int
+        /// The ID of the service account for which to create a token.
+        public let serviceAccountId: String
+        /// The ID of the workspace the service account resides within.
+        public let workspaceId: String
+
+        public init(name: String, secondsToLive: Int, serviceAccountId: String, workspaceId: String) {
+            self.name = name
+            self.secondsToLive = secondsToLive
+            self.serviceAccountId = serviceAccountId
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.secondsToLive, forKey: .secondsToLive)
+            request.encodePath(self.serviceAccountId, key: "serviceAccountId")
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^g-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case secondsToLive = "secondsToLive"
+        }
+    }
+
+    public struct CreateWorkspaceServiceAccountTokenResponse: AWSDecodableShape {
+        /// The ID of the service account where the token was created.
+        public let serviceAccountId: String
+        /// Information about the created token, including the key. Be sure to store the key securely.
+        public let serviceAccountToken: ServiceAccountTokenSummaryWithKey
+        /// The ID of the workspace where the token was created.
+        public let workspaceId: String
+
+        public init(serviceAccountId: String, serviceAccountToken: ServiceAccountTokenSummaryWithKey, workspaceId: String) {
+            self.serviceAccountId = serviceAccountId
+            self.serviceAccountToken = serviceAccountToken
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceAccountId = "serviceAccountId"
+            case serviceAccountToken = "serviceAccountToken"
+            case workspaceId = "workspaceId"
+        }
+    }
+
     public struct DeleteWorkspaceApiKeyRequest: AWSEncodableShape {
         /// The name of the API key to delete.
         public let keyName: String
@@ -593,6 +711,98 @@ extension Grafana {
 
         private enum CodingKeys: String, CodingKey {
             case workspace = "workspace"
+        }
+    }
+
+    public struct DeleteWorkspaceServiceAccountRequest: AWSEncodableShape {
+        /// The ID of the service account to delete.
+        public let serviceAccountId: String
+        /// The ID of the workspace where the service account resides.
+        public let workspaceId: String
+
+        public init(serviceAccountId: String, workspaceId: String) {
+            self.serviceAccountId = serviceAccountId
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.serviceAccountId, key: "serviceAccountId")
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^g-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteWorkspaceServiceAccountResponse: AWSDecodableShape {
+        /// The ID of the service account deleted.
+        public let serviceAccountId: String
+        /// The ID of the workspace where the service account was deleted.
+        public let workspaceId: String
+
+        public init(serviceAccountId: String, workspaceId: String) {
+            self.serviceAccountId = serviceAccountId
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceAccountId = "serviceAccountId"
+            case workspaceId = "workspaceId"
+        }
+    }
+
+    public struct DeleteWorkspaceServiceAccountTokenRequest: AWSEncodableShape {
+        /// The ID of the service account from which to delete the token.
+        public let serviceAccountId: String
+        /// The ID of the token to delete.
+        public let tokenId: String
+        /// The ID of the workspace from which to delete the token.
+        public let workspaceId: String
+
+        public init(serviceAccountId: String, tokenId: String, workspaceId: String) {
+            self.serviceAccountId = serviceAccountId
+            self.tokenId = tokenId
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.serviceAccountId, key: "serviceAccountId")
+            request.encodePath(self.tokenId, key: "tokenId")
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^g-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteWorkspaceServiceAccountTokenResponse: AWSDecodableShape {
+        /// The ID of the service account where the token was deleted.
+        public let serviceAccountId: String
+        /// The ID of the token that was deleted.
+        public let tokenId: String
+        /// The ID of the workspace where the token was deleted.
+        public let workspaceId: String
+
+        public init(serviceAccountId: String, tokenId: String, workspaceId: String) {
+            self.serviceAccountId = serviceAccountId
+            self.tokenId = tokenId
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceAccountId = "serviceAccountId"
+            case tokenId = "tokenId"
+            case workspaceId = "workspaceId"
         }
     }
 
@@ -878,6 +1088,114 @@ extension Grafana {
         }
     }
 
+    public struct ListWorkspaceServiceAccountTokensRequest: AWSEncodableShape {
+        /// The maximum number of tokens to include in the results.
+        public let maxResults: Int?
+        /// The token for the next set of service accounts to return. (You receive this token from a previous ListWorkspaceServiceAccountTokens operation.)
+        public let nextToken: String?
+        /// The ID of the service account for which to return tokens.
+        public let serviceAccountId: String
+        /// The ID of the workspace for which to return tokens.
+        public let workspaceId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceAccountId: String, workspaceId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serviceAccountId = serviceAccountId
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.serviceAccountId, key: "serviceAccountId")
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^g-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListWorkspaceServiceAccountTokensResponse: AWSDecodableShape {
+        /// The token to use when requesting the next set of service accounts.
+        public let nextToken: String?
+        /// The ID of the service account where the tokens reside.
+        public let serviceAccountId: String
+        /// An array of structures containing information about the tokens.
+        public let serviceAccountTokens: [ServiceAccountTokenSummary]
+        /// The ID of the workspace where the tokens reside.
+        public let workspaceId: String
+
+        public init(nextToken: String? = nil, serviceAccountId: String, serviceAccountTokens: [ServiceAccountTokenSummary], workspaceId: String) {
+            self.nextToken = nextToken
+            self.serviceAccountId = serviceAccountId
+            self.serviceAccountTokens = serviceAccountTokens
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case serviceAccountId = "serviceAccountId"
+            case serviceAccountTokens = "serviceAccountTokens"
+            case workspaceId = "workspaceId"
+        }
+    }
+
+    public struct ListWorkspaceServiceAccountsRequest: AWSEncodableShape {
+        /// The maximum number of service accounts to include in the results.
+        public let maxResults: Int?
+        /// The token for the next set of service accounts to return. (You receive this token from a previous ListWorkspaceServiceAccounts operation.)
+        public let nextToken: String?
+        /// The workspace for which to list service accounts.
+        public let workspaceId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, workspaceId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^g-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListWorkspaceServiceAccountsResponse: AWSDecodableShape {
+        /// The token to use when requesting the next set of service accounts.
+        public let nextToken: String?
+        /// An array of structures containing information about the service accounts.
+        public let serviceAccounts: [ServiceAccountSummary]
+        /// The workspace to which the service accounts are associated.
+        public let workspaceId: String
+
+        public init(nextToken: String? = nil, serviceAccounts: [ServiceAccountSummary], workspaceId: String) {
+            self.nextToken = nextToken
+            self.serviceAccounts = serviceAccounts
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case serviceAccounts = "serviceAccounts"
+            case workspaceId = "workspaceId"
+        }
+    }
+
     public struct ListWorkspacesRequest: AWSEncodableShape {
         /// The maximum number of workspaces to include in the results.
         public let maxResults: Int?
@@ -1042,6 +1360,81 @@ extension Grafana {
             case idpMetadata = "idpMetadata"
             case loginValidityDuration = "loginValidityDuration"
             case roleValues = "roleValues"
+        }
+    }
+
+    public struct ServiceAccountSummary: AWSDecodableShape {
+        /// The role of the service account, which sets the permission level used when calling Grafana APIs.
+        public let grafanaRole: Role
+        /// The unique ID of the service account.
+        public let id: String
+        /// Returns true if the service account is disabled. Service accounts can be disabled and enabled in the Amazon Managed Grafana console.
+        public let isDisabled: String
+        /// The name of the service account.
+        public let name: String
+
+        public init(grafanaRole: Role, id: String, isDisabled: String, name: String) {
+            self.grafanaRole = grafanaRole
+            self.id = id
+            self.isDisabled = isDisabled
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grafanaRole = "grafanaRole"
+            case id = "id"
+            case isDisabled = "isDisabled"
+            case name = "name"
+        }
+    }
+
+    public struct ServiceAccountTokenSummary: AWSDecodableShape {
+        /// When the service account token was created.
+        public let createdAt: Date
+        /// When the service account token will expire.
+        public let expiresAt: Date
+        /// The unique ID of the service account token.
+        public let id: String
+        /// The last time the token was used to authorize a Grafana HTTP API.
+        public let lastUsedAt: Date?
+        /// The name of the service account token.
+        public let name: String
+
+        public init(createdAt: Date, expiresAt: Date, id: String, lastUsedAt: Date? = nil, name: String) {
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.id = id
+            self.lastUsedAt = lastUsedAt
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case expiresAt = "expiresAt"
+            case id = "id"
+            case lastUsedAt = "lastUsedAt"
+            case name = "name"
+        }
+    }
+
+    public struct ServiceAccountTokenSummaryWithKey: AWSDecodableShape {
+        /// The unique ID of the service account token.
+        public let id: String
+        /// The key for the service account token. Used when making calls to the Grafana HTTP  APIs to authenticate and authorize the requests.
+        public let key: String
+        /// The name of the service account token.
+        public let name: String
+
+        public init(id: String, key: String, name: String) {
+            self.id = id
+            self.key = key
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case key = "key"
+            case name = "name"
         }
     }
 
@@ -1473,7 +1866,7 @@ extension Grafana {
         public let freeTrialConsumed: Bool?
         /// If this workspace is currently in the free trial period for Grafana Enterprise, this value specifies when that free trial ends.  Amazon Managed Grafana workspaces no longer support Grafana Enterprise free trials.
         public let freeTrialExpiration: Date?
-        /// The token that ties this workspace to a Grafana Labs account. For more information,  see Register with Grafana Labs.
+        /// The token that ties this workspace to a Grafana Labs account. For more information,  see Link your account with Grafana Labs.
         public let grafanaToken: String?
         /// The version of Grafana supported in this workspace.
         public let grafanaVersion: String
@@ -1574,7 +1967,7 @@ extension Grafana {
         public let description: String?
         /// The URL endpoint to use to access the Grafana console in the workspace.
         public let endpoint: String
-        /// The token that ties this workspace to a Grafana Labs account. For more information,  see Register with Grafana Labs.
+        /// The token that ties this workspace to a Grafana Labs account. For more information,  see Link your account with Grafana Labs.
         public let grafanaToken: String?
         /// The Grafana version that the workspace is running.
         public let grafanaVersion: String

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -40,6 +40,12 @@ extension EMRServerless {
     public enum Architecture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case arm64 = "ARM64"
         case x8664 = "X86_64"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobRunMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case batch = "BATCH"
+        case streaming = "STREAMING"
         public var description: String { return self.rawValue }
     }
 
@@ -124,6 +130,8 @@ extension EMRServerless {
         public let imageConfiguration: ImageConfiguration?
         /// The initial capacity of the application.
         public let initialCapacity: [String: InitialCapacityConfig]?
+        /// The interactive configuration object that enables the interactive use cases for an application.
+        public let interactiveConfiguration: InteractiveConfiguration?
         /// The maximum capacity of the application. This is cumulative across all workers at any given point in time during the lifespan of the application is created. No new resources will be created once any one of the defined limits is hit.
         public let maximumCapacity: MaximumAllowedResources?
         public let monitoringConfiguration: MonitoringConfiguration?
@@ -148,7 +156,7 @@ extension EMRServerless {
         /// The specification applied to each worker type.
         public let workerTypeSpecifications: [String: WorkerTypeSpecification]?
 
-        public init(applicationId: String, architecture: Architecture? = nil, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, imageConfiguration: ImageConfiguration? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date, workerTypeSpecifications: [String: WorkerTypeSpecification]? = nil) {
+        public init(applicationId: String, architecture: Architecture? = nil, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, imageConfiguration: ImageConfiguration? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date, workerTypeSpecifications: [String: WorkerTypeSpecification]? = nil) {
             self.applicationId = applicationId
             self.architecture = architecture
             self.arn = arn
@@ -157,6 +165,7 @@ extension EMRServerless {
             self.createdAt = createdAt
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
+            self.interactiveConfiguration = interactiveConfiguration
             self.maximumCapacity = maximumCapacity
             self.monitoringConfiguration = monitoringConfiguration
             self.name = name
@@ -180,6 +189,7 @@ extension EMRServerless {
             case createdAt = "createdAt"
             case imageConfiguration = "imageConfiguration"
             case initialCapacity = "initialCapacity"
+            case interactiveConfiguration = "interactiveConfiguration"
             case maximumCapacity = "maximumCapacity"
             case monitoringConfiguration = "monitoringConfiguration"
             case name = "name"
@@ -448,6 +458,8 @@ extension EMRServerless {
         public let imageConfiguration: ImageConfigurationInput?
         /// The capacity to initialize when the application is created.
         public let initialCapacity: [String: InitialCapacityConfig]?
+        /// The interactive configuration object that enables the interactive use cases  to use when running an application.
+        public let interactiveConfiguration: InteractiveConfiguration?
         /// The maximum capacity to allocate when the application is created. This is cumulative across all workers at any given point in time, not just when an application is created. No new resources will be created once any one of the defined limits is hit.
         public let maximumCapacity: MaximumAllowedResources?
         /// The configuration setting for monitoring.
@@ -467,13 +479,14 @@ extension EMRServerless {
         /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
         public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
-        public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, tags: [String: String]? = nil, type: String, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
+        public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, tags: [String: String]? = nil, type: String, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
             self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
             self.clientToken = clientToken
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
+            self.interactiveConfiguration = interactiveConfiguration
             self.maximumCapacity = maximumCapacity
             self.monitoringConfiguration = monitoringConfiguration
             self.name = name
@@ -535,6 +548,7 @@ extension EMRServerless {
             case clientToken = "clientToken"
             case imageConfiguration = "imageConfiguration"
             case initialCapacity = "initialCapacity"
+            case interactiveConfiguration = "interactiveConfiguration"
             case maximumCapacity = "maximumCapacity"
             case monitoringConfiguration = "monitoringConfiguration"
             case name = "name"
@@ -634,11 +648,14 @@ extension EMRServerless {
     public struct GetDashboardForJobRunRequest: AWSEncodableShape {
         /// The ID of the application.
         public let applicationId: String
+        /// An optimal parameter that indicates the amount of attempts for the job. If not specified, this value defaults to the attempt of the latest job.
+        public let attempt: Int?
         /// The ID of the job run.
         public let jobRunId: String
 
-        public init(applicationId: String, jobRunId: String) {
+        public init(applicationId: String, attempt: Int? = nil, jobRunId: String) {
             self.applicationId = applicationId
+            self.attempt = attempt
             self.jobRunId = jobRunId
         }
 
@@ -646,6 +663,7 @@ extension EMRServerless {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.attempt, key: "attempt")
             request.encodePath(self.jobRunId, key: "jobRunId")
         }
 
@@ -653,6 +671,7 @@ extension EMRServerless {
             try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[0-9a-z]+$")
+            try self.validate(self.attempt, name: "attempt", parent: name, min: 1)
             try self.validate(self.jobRunId, name: "jobRunId", parent: name, max: 64)
             try self.validate(self.jobRunId, name: "jobRunId", parent: name, min: 1)
             try self.validate(self.jobRunId, name: "jobRunId", parent: name, pattern: "^[0-9a-z]+$")
@@ -677,11 +696,14 @@ extension EMRServerless {
     public struct GetJobRunRequest: AWSEncodableShape {
         /// The ID of the application on which the job run is submitted.
         public let applicationId: String
+        /// An optimal parameter that indicates the amount of attempts for the job. If not specified, this value defaults to the attempt of the latest job.
+        public let attempt: Int?
         /// The ID of the job run.
         public let jobRunId: String
 
-        public init(applicationId: String, jobRunId: String) {
+        public init(applicationId: String, attempt: Int? = nil, jobRunId: String) {
             self.applicationId = applicationId
+            self.attempt = attempt
             self.jobRunId = jobRunId
         }
 
@@ -689,6 +711,7 @@ extension EMRServerless {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.attempt, key: "attempt")
             request.encodePath(self.jobRunId, key: "jobRunId")
         }
 
@@ -696,6 +719,7 @@ extension EMRServerless {
             try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[0-9a-z]+$")
+            try self.validate(self.attempt, name: "attempt", parent: name, min: 1)
             try self.validate(self.jobRunId, name: "jobRunId", parent: name, max: 64)
             try self.validate(self.jobRunId, name: "jobRunId", parent: name, min: 1)
             try self.validate(self.jobRunId, name: "jobRunId", parent: name, pattern: "^[0-9a-z]+$")
@@ -809,11 +833,34 @@ extension EMRServerless {
         }
     }
 
+    public struct InteractiveConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Enables an Apache Livy endpoint that you can connect to and run interactive jobs.
+        public let livyEndpointEnabled: Bool?
+        /// Enables you to connect an application to Amazon EMR Studio to run interactive workloads in a notebook.
+        public let studioEnabled: Bool?
+
+        public init(livyEndpointEnabled: Bool? = nil, studioEnabled: Bool? = nil) {
+            self.livyEndpointEnabled = livyEndpointEnabled
+            self.studioEnabled = studioEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case livyEndpointEnabled = "livyEndpointEnabled"
+            case studioEnabled = "studioEnabled"
+        }
+    }
+
     public struct JobRun: AWSDecodableShape {
         /// The ID of the application the job is running on.
         public let applicationId: String
         /// The execution role ARN of the job run.
         public let arn: String
+        /// The attempt of the job run.
+        public let attempt: Int?
+        /// The date and time of when the job run attempt was created.
+        public let attemptCreatedAt: Date?
+        /// The date and time of when the job run attempt was last updated.
+        public let attemptUpdatedAt: Date?
         /// The aggregate vCPU, memory, and storage that Amazon Web Services has billed for the job run. The billed resources include a 1-minute minimum usage for workers, plus additional storage over 20 GB per worker. Note that billed resources do not include usage for idle pre-initialized workers.
         public let billedResourceUtilization: ResourceUtilization?
         /// The configuration settings that are used to override default configuration.
@@ -830,11 +877,15 @@ extension EMRServerless {
         public let jobDriver: JobDriver
         /// The ID of the job run.
         public let jobRunId: String
+        /// The mode of the job run.
+        public let mode: JobRunMode?
         /// The optional job run name. This doesn't have to be unique.
         public let name: String?
         public let networkConfiguration: NetworkConfiguration?
         /// The Amazon EMR release associated with the application your job is running on.
         public let releaseLabel: String
+        /// The retry policy of the job run.
+        public let retryPolicy: RetryPolicy?
         /// The state of the job run.
         public let state: JobRunState
         /// The state details of the job run.
@@ -848,9 +899,12 @@ extension EMRServerless {
         /// The date and time when the job run was updated.
         public let updatedAt: Date
 
-        public init(applicationId: String, arn: String, billedResourceUtilization: ResourceUtilization? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date, createdBy: String, executionRole: String, executionTimeoutMinutes: Int64? = nil, jobDriver: JobDriver, jobRunId: String, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, state: JobRunState, stateDetails: String, tags: [String: String]? = nil, totalExecutionDurationSeconds: Int? = nil, totalResourceUtilization: TotalResourceUtilization? = nil, updatedAt: Date) {
+        public init(applicationId: String, arn: String, attempt: Int? = nil, attemptCreatedAt: Date? = nil, attemptUpdatedAt: Date? = nil, billedResourceUtilization: ResourceUtilization? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date, createdBy: String, executionRole: String, executionTimeoutMinutes: Int64? = nil, jobDriver: JobDriver, jobRunId: String, mode: JobRunMode? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, retryPolicy: RetryPolicy? = nil, state: JobRunState, stateDetails: String, tags: [String: String]? = nil, totalExecutionDurationSeconds: Int? = nil, totalResourceUtilization: TotalResourceUtilization? = nil, updatedAt: Date) {
             self.applicationId = applicationId
             self.arn = arn
+            self.attempt = attempt
+            self.attemptCreatedAt = attemptCreatedAt
+            self.attemptUpdatedAt = attemptUpdatedAt
             self.billedResourceUtilization = billedResourceUtilization
             self.configurationOverrides = configurationOverrides
             self.createdAt = createdAt
@@ -859,9 +913,11 @@ extension EMRServerless {
             self.executionTimeoutMinutes = executionTimeoutMinutes
             self.jobDriver = jobDriver
             self.jobRunId = jobRunId
+            self.mode = mode
             self.name = name
             self.networkConfiguration = networkConfiguration
             self.releaseLabel = releaseLabel
+            self.retryPolicy = retryPolicy
             self.state = state
             self.stateDetails = stateDetails
             self.tags = tags
@@ -873,6 +929,9 @@ extension EMRServerless {
         private enum CodingKeys: String, CodingKey {
             case applicationId = "applicationId"
             case arn = "arn"
+            case attempt = "attempt"
+            case attemptCreatedAt = "attemptCreatedAt"
+            case attemptUpdatedAt = "attemptUpdatedAt"
             case billedResourceUtilization = "billedResourceUtilization"
             case configurationOverrides = "configurationOverrides"
             case createdAt = "createdAt"
@@ -881,9 +940,11 @@ extension EMRServerless {
             case executionTimeoutMinutes = "executionTimeoutMinutes"
             case jobDriver = "jobDriver"
             case jobRunId = "jobRunId"
+            case mode = "mode"
             case name = "name"
             case networkConfiguration = "networkConfiguration"
             case releaseLabel = "releaseLabel"
+            case retryPolicy = "retryPolicy"
             case state = "state"
             case stateDetails = "stateDetails"
             case tags = "tags"
@@ -893,11 +954,86 @@ extension EMRServerless {
         }
     }
 
+    public struct JobRunAttemptSummary: AWSDecodableShape {
+        /// The ID of the application the job is running on.
+        public let applicationId: String
+        /// The Amazon Resource Name (ARN) of the job run.
+        public let arn: String
+        /// The attempt number of the job run execution.
+        public let attempt: Int?
+        /// The date and time when the job run attempt was created.
+        public let createdAt: Date
+        /// The user who created the job run.
+        public let createdBy: String
+        /// The Amazon Resource Name (ARN) of the execution role of the job run..
+        public let executionRole: String
+        /// The ID of the job run attempt.
+        public let id: String
+        /// The date and time of when the job run was created.
+        public let jobCreatedAt: Date
+        /// The mode of the job run attempt.
+        public let mode: JobRunMode?
+        /// The name of the job run attempt.
+        public let name: String?
+        /// The Amazon EMR release label of the job run attempt.
+        public let releaseLabel: String
+        /// The state of the job run attempt.
+        public let state: JobRunState
+        /// The state details of the job run attempt.
+        public let stateDetails: String
+        /// The type of the job run, such as Spark or Hive.
+        public let type: String?
+        /// The date and time of when the job run attempt was last updated.
+        public let updatedAt: Date
+
+        public init(applicationId: String, arn: String, attempt: Int? = nil, createdAt: Date, createdBy: String, executionRole: String, id: String, jobCreatedAt: Date, mode: JobRunMode? = nil, name: String? = nil, releaseLabel: String, state: JobRunState, stateDetails: String, type: String? = nil, updatedAt: Date) {
+            self.applicationId = applicationId
+            self.arn = arn
+            self.attempt = attempt
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.executionRole = executionRole
+            self.id = id
+            self.jobCreatedAt = jobCreatedAt
+            self.mode = mode
+            self.name = name
+            self.releaseLabel = releaseLabel
+            self.state = state
+            self.stateDetails = stateDetails
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+            case arn = "arn"
+            case attempt = "attempt"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case executionRole = "executionRole"
+            case id = "id"
+            case jobCreatedAt = "jobCreatedAt"
+            case mode = "mode"
+            case name = "name"
+            case releaseLabel = "releaseLabel"
+            case state = "state"
+            case stateDetails = "stateDetails"
+            case type = "type"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct JobRunSummary: AWSDecodableShape {
         /// The ID of the application the job is running on.
         public let applicationId: String
         /// The ARN of the job run.
         public let arn: String
+        /// The attempt number of the job run execution.
+        public let attempt: Int?
+        /// The date and time of when the job run attempt was created.
+        public let attemptCreatedAt: Date?
+        /// The date and time of when the job run attempt was last updated.
+        public let attemptUpdatedAt: Date?
         /// The date and time when the job run was created.
         public let createdAt: Date
         /// The user who created the job run.
@@ -906,6 +1042,8 @@ extension EMRServerless {
         public let executionRole: String
         /// The ID of the job run.
         public let id: String
+        /// The mode of the job run.
+        public let mode: JobRunMode?
         /// The optional job run name. This doesn't have to be unique.
         public let name: String?
         /// The Amazon EMR release associated with the application your job is running on.
@@ -919,13 +1057,17 @@ extension EMRServerless {
         /// The date and time when the job run was last updated.
         public let updatedAt: Date
 
-        public init(applicationId: String, arn: String, createdAt: Date, createdBy: String, executionRole: String, id: String, name: String? = nil, releaseLabel: String, state: JobRunState, stateDetails: String, type: String? = nil, updatedAt: Date) {
+        public init(applicationId: String, arn: String, attempt: Int? = nil, attemptCreatedAt: Date? = nil, attemptUpdatedAt: Date? = nil, createdAt: Date, createdBy: String, executionRole: String, id: String, mode: JobRunMode? = nil, name: String? = nil, releaseLabel: String, state: JobRunState, stateDetails: String, type: String? = nil, updatedAt: Date) {
             self.applicationId = applicationId
             self.arn = arn
+            self.attempt = attempt
+            self.attemptCreatedAt = attemptCreatedAt
+            self.attemptUpdatedAt = attemptUpdatedAt
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.executionRole = executionRole
             self.id = id
+            self.mode = mode
             self.name = name
             self.releaseLabel = releaseLabel
             self.state = state
@@ -937,10 +1079,14 @@ extension EMRServerless {
         private enum CodingKeys: String, CodingKey {
             case applicationId = "applicationId"
             case arn = "arn"
+            case attempt = "attempt"
+            case attemptCreatedAt = "attemptCreatedAt"
+            case attemptUpdatedAt = "attemptUpdatedAt"
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case executionRole = "executionRole"
             case id = "id"
+            case mode = "mode"
             case name = "name"
             case releaseLabel = "releaseLabel"
             case state = "state"
@@ -1000,6 +1146,64 @@ extension EMRServerless {
         }
     }
 
+    public struct ListJobRunAttemptsRequest: AWSEncodableShape {
+        /// The ID of the application for which to list job runs.
+        public let applicationId: String
+        /// The ID of the job run to list.
+        public let jobRunId: String
+        /// The maximum number of job run attempts to list.
+        public let maxResults: Int?
+        /// The token for the next set of job run attempt results.
+        public let nextToken: String?
+
+        public init(applicationId: String, jobRunId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.applicationId = applicationId
+            self.jobRunId = jobRunId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.jobRunId, key: "jobRunId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[0-9a-z]+$")
+            try self.validate(self.jobRunId, name: "jobRunId", parent: name, max: 64)
+            try self.validate(self.jobRunId, name: "jobRunId", parent: name, min: 1)
+            try self.validate(self.jobRunId, name: "jobRunId", parent: name, pattern: "^[0-9a-z]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9_=-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListJobRunAttemptsResponse: AWSDecodableShape {
+        /// The array of the listed job run attempt objects.
+        public let jobRunAttempts: [JobRunAttemptSummary]
+        /// The output displays the token for the next set of application results.  This is required for pagination and is available as a response of the previous request.
+        public let nextToken: String?
+
+        public init(jobRunAttempts: [JobRunAttemptSummary], nextToken: String? = nil) {
+            self.jobRunAttempts = jobRunAttempts
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobRunAttempts = "jobRunAttempts"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListJobRunsRequest: AWSEncodableShape {
         /// The ID of the application for which to list the job run.
         public let applicationId: String
@@ -1009,16 +1213,19 @@ extension EMRServerless {
         public let createdAtBefore: Date?
         /// The maximum number of job runs that can be listed.
         public let maxResults: Int?
+        /// The mode of the job runs to list.
+        public let mode: JobRunMode?
         /// The token for the next set of job run results.
         public let nextToken: String?
         /// An optional filter for job run states. Note that if this filter contains multiple states, the resulting list will be grouped by the state.
         public let states: [JobRunState]?
 
-        public init(applicationId: String, createdAtAfter: Date? = nil, createdAtBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, states: [JobRunState]? = nil) {
+        public init(applicationId: String, createdAtAfter: Date? = nil, createdAtBefore: Date? = nil, maxResults: Int? = nil, mode: JobRunMode? = nil, nextToken: String? = nil, states: [JobRunState]? = nil) {
             self.applicationId = applicationId
             self.createdAtAfter = createdAtAfter
             self.createdAtBefore = createdAtBefore
             self.maxResults = maxResults
+            self.mode = mode
             self.nextToken = nextToken
             self.states = states
         }
@@ -1030,6 +1237,7 @@ extension EMRServerless {
             request.encodeQuery(self.createdAtAfter, key: "createdAtAfter")
             request.encodeQuery(self.createdAtBefore, key: "createdAtBefore")
             request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.mode, key: "mode")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.states, key: "states")
         }
@@ -1260,6 +1468,27 @@ extension EMRServerless {
         }
     }
 
+    public struct RetryPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// Maximum number of attempts for the job run. This parameter is only applicable for BATCH mode.
+        public let maxAttempts: Int?
+        /// Maximum number of failed attempts per hour. This [arameter is only applicable for STREAMING mode.
+        public let maxFailedAttemptsPerHour: Int?
+
+        public init(maxAttempts: Int? = nil, maxFailedAttemptsPerHour: Int? = nil) {
+            self.maxAttempts = maxAttempts
+            self.maxFailedAttemptsPerHour = maxFailedAttemptsPerHour
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxAttempts, name: "maxAttempts", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxAttempts = "maxAttempts"
+            case maxFailedAttemptsPerHour = "maxFailedAttemptsPerHour"
+        }
+    }
+
     public struct S3MonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The KMS key ARN to encrypt the logs published to the given Amazon S3 destination.
         public let encryptionKeyArn: String?
@@ -1361,19 +1590,25 @@ extension EMRServerless {
         public let executionTimeoutMinutes: Int64?
         /// The job driver for the job run.
         public let jobDriver: JobDriver?
+        /// The mode of the job run when it starts.
+        public let mode: JobRunMode?
         /// The optional job run name. This doesn't have to be unique.
         public let name: String?
+        /// The retry policy when job run starts.
+        public let retryPolicy: RetryPolicy?
         /// The tags assigned to the job run.
         public let tags: [String: String]?
 
-        public init(applicationId: String, clientToken: String = StartJobRunRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String, executionTimeoutMinutes: Int64? = nil, jobDriver: JobDriver? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(applicationId: String, clientToken: String = StartJobRunRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String, executionTimeoutMinutes: Int64? = nil, jobDriver: JobDriver? = nil, mode: JobRunMode? = nil, name: String? = nil, retryPolicy: RetryPolicy? = nil, tags: [String: String]? = nil) {
             self.applicationId = applicationId
             self.clientToken = clientToken
             self.configurationOverrides = configurationOverrides
             self.executionRoleArn = executionRoleArn
             self.executionTimeoutMinutes = executionTimeoutMinutes
             self.jobDriver = jobDriver
+            self.mode = mode
             self.name = name
+            self.retryPolicy = retryPolicy
             self.tags = tags
         }
 
@@ -1386,7 +1621,9 @@ extension EMRServerless {
             try container.encode(self.executionRoleArn, forKey: .executionRoleArn)
             try container.encodeIfPresent(self.executionTimeoutMinutes, forKey: .executionTimeoutMinutes)
             try container.encodeIfPresent(self.jobDriver, forKey: .jobDriver)
+            try container.encodeIfPresent(self.mode, forKey: .mode)
             try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.retryPolicy, forKey: .retryPolicy)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
@@ -1407,6 +1644,7 @@ extension EMRServerless {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.retryPolicy?.validate(name: "\(name).retryPolicy")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1423,7 +1661,9 @@ extension EMRServerless {
             case executionRoleArn = "executionRoleArn"
             case executionTimeoutMinutes = "executionTimeoutMinutes"
             case jobDriver = "jobDriver"
+            case mode = "mode"
             case name = "name"
+            case retryPolicy = "retryPolicy"
             case tags = "tags"
         }
     }
@@ -1591,6 +1831,8 @@ extension EMRServerless {
         public let imageConfiguration: ImageConfigurationInput?
         /// The capacity to initialize when the application is updated.
         public let initialCapacity: [String: InitialCapacityConfig]?
+        /// The interactive configuration object that contains new interactive use cases  when the application is updated.
+        public let interactiveConfiguration: InteractiveConfiguration?
         /// The maximum capacity to allocate when the application is updated. This is cumulative across all workers at any given point in time during the lifespan of the application. No new resources will be created once any one of the defined limits is hit.
         public let maximumCapacity: MaximumAllowedResources?
         /// The configuration setting for monitoring.
@@ -1603,7 +1845,7 @@ extension EMRServerless {
         /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
         public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
-        public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String? = nil, runtimeConfiguration: [Configuration]? = nil, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
+        public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String? = nil, runtimeConfiguration: [Configuration]? = nil, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
             self.applicationId = applicationId
             self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
@@ -1611,6 +1853,7 @@ extension EMRServerless {
             self.clientToken = clientToken
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
+            self.interactiveConfiguration = interactiveConfiguration
             self.maximumCapacity = maximumCapacity
             self.monitoringConfiguration = monitoringConfiguration
             self.networkConfiguration = networkConfiguration
@@ -1629,6 +1872,7 @@ extension EMRServerless {
             try container.encode(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.imageConfiguration, forKey: .imageConfiguration)
             try container.encodeIfPresent(self.initialCapacity, forKey: .initialCapacity)
+            try container.encodeIfPresent(self.interactiveConfiguration, forKey: .interactiveConfiguration)
             try container.encodeIfPresent(self.maximumCapacity, forKey: .maximumCapacity)
             try container.encodeIfPresent(self.monitoringConfiguration, forKey: .monitoringConfiguration)
             try container.encodeIfPresent(self.networkConfiguration, forKey: .networkConfiguration)
@@ -1677,6 +1921,7 @@ extension EMRServerless {
             case clientToken = "clientToken"
             case imageConfiguration = "imageConfiguration"
             case initialCapacity = "initialCapacity"
+            case interactiveConfiguration = "interactiveConfiguration"
             case maximumCapacity = "maximumCapacity"
             case monitoringConfiguration = "monitoringConfiguration"
             case networkConfiguration = "networkConfiguration"

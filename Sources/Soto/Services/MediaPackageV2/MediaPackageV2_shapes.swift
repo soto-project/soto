@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -82,6 +82,20 @@ extension MediaPackageV2 {
         case fairplay = "FAIRPLAY"
         case playready = "PLAYREADY"
         case widevine = "WIDEVINE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndpointErrorCondition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case incompleteManifest = "INCOMPLETE_MANIFEST"
+        case missingDrmKey = "MISSING_DRM_KEY"
+        case slateInput = "SLATE_INPUT"
+        case staleManifest = "STALE_MANIFEST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cmaf = "CMAF"
+        case hls = "HLS"
         public var description: String { return self.rawValue }
     }
 
@@ -169,15 +183,18 @@ extension MediaPackageV2 {
         public let createdAt: Date
         /// Any descriptive information that you want to add to the channel for future identification purposes.
         public let description: String?
+        /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+        public let inputType: InputType?
         /// The date and time the channel was modified.
         public let modifiedAt: Date
 
-        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, modifiedAt: Date) {
+        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, inputType: InputType? = nil, modifiedAt: Date) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.createdAt = createdAt
             self.description = description
+            self.inputType = inputType
             self.modifiedAt = modifiedAt
         }
 
@@ -187,6 +204,7 @@ extension MediaPackageV2 {
             case channelName = "ChannelName"
             case createdAt = "CreatedAt"
             case description = "Description"
+            case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
         }
     }
@@ -284,14 +302,17 @@ extension MediaPackageV2 {
         public let clientToken: String?
         /// Enter any descriptive text that helps you to identify the channel.
         public let description: String?
+        /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+        public let inputType: InputType?
         /// A comma-separated list of tag key:value pairs that you define. For example:  "Key1": "Value1",   "Key2": "Value2"
         public let tags: [String: String]?
 
-        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateChannelRequest.idempotencyToken(), description: String? = nil, tags: [String: String]? = nil) {
+        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateChannelRequest.idempotencyToken(), description: String? = nil, inputType: InputType? = nil, tags: [String: String]? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.clientToken = clientToken
             self.description = description
+            self.inputType = inputType
             self.tags = tags
         }
 
@@ -302,6 +323,7 @@ extension MediaPackageV2 {
             try container.encode(self.channelName, forKey: .channelName)
             request.encodeHeader(self.clientToken, key: "x-amzn-client-token")
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.inputType, forKey: .inputType)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
@@ -321,6 +343,7 @@ extension MediaPackageV2 {
         private enum CodingKeys: String, CodingKey {
             case channelName = "ChannelName"
             case description = "Description"
+            case inputType = "InputType"
             case tags = "tags"
         }
     }
@@ -339,12 +362,14 @@ extension MediaPackageV2 {
         /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
         public let eTag: String?
         public let ingestEndpoints: [IngestEndpoint]?
+        /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+        public let inputType: InputType?
         /// The date and time the channel was modified.
         public let modifiedAt: Date
         /// The comma-separated list of tag key:value pairs assigned to the channel.
         public let tags: [String: String]?
 
-        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, modifiedAt: Date, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputType: InputType? = nil, modifiedAt: Date, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -352,6 +377,7 @@ extension MediaPackageV2 {
             self.description = description
             self.eTag = eTag
             self.ingestEndpoints = ingestEndpoints
+            self.inputType = inputType
             self.modifiedAt = modifiedAt
             self.tags = tags
         }
@@ -364,6 +390,7 @@ extension MediaPackageV2 {
             case description = "Description"
             case eTag = "ETag"
             case ingestEndpoints = "IngestEndpoints"
+            case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
             case tags = "Tags"
         }
@@ -521,6 +548,8 @@ extension MediaPackageV2 {
         public let dashManifests: [CreateDashManifestConfiguration]?
         /// Enter any descriptive text that helps you to identify the origin endpoint.
         public let description: String?
+        /// The failover settings for the endpoint.
+        public let forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration?
         /// An HTTP live streaming (HLS) manifest configuration.
         public let hlsManifests: [CreateHlsManifestConfiguration]?
         /// A low-latency HLS manifest configuration.
@@ -534,13 +563,14 @@ extension MediaPackageV2 {
         /// A comma-separated list of tag key:value pairs that you define. For example:  "Key1": "Value1",   "Key2": "Value2"
         public let tags: [String: String]?
 
-        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateOriginEndpointRequest.idempotencyToken(), containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateOriginEndpointRequest.idempotencyToken(), containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.clientToken = clientToken
             self.containerType = containerType
             self.dashManifests = dashManifests
             self.description = description
+            self.forceEndpointErrorConfiguration = forceEndpointErrorConfiguration
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
             self.originEndpointName = originEndpointName
@@ -558,6 +588,7 @@ extension MediaPackageV2 {
             try container.encode(self.containerType, forKey: .containerType)
             try container.encodeIfPresent(self.dashManifests, forKey: .dashManifests)
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.forceEndpointErrorConfiguration, forKey: .forceEndpointErrorConfiguration)
             try container.encodeIfPresent(self.hlsManifests, forKey: .hlsManifests)
             try container.encodeIfPresent(self.lowLatencyHlsManifests, forKey: .lowLatencyHlsManifests)
             try container.encode(self.originEndpointName, forKey: .originEndpointName)
@@ -596,6 +627,7 @@ extension MediaPackageV2 {
             case containerType = "ContainerType"
             case dashManifests = "DashManifests"
             case description = "Description"
+            case forceEndpointErrorConfiguration = "ForceEndpointErrorConfiguration"
             case hlsManifests = "HlsManifests"
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
             case originEndpointName = "OriginEndpointName"
@@ -622,6 +654,8 @@ extension MediaPackageV2 {
         public let description: String?
         /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
         public let eTag: String?
+        /// The failover settings for the endpoint.
+        public let forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration?
         /// An HTTP live streaming (HLS) manifest configuration.
         public let hlsManifests: [GetHlsManifestConfiguration]?
         /// A low-latency HLS manifest configuration.
@@ -637,7 +671,7 @@ extension MediaPackageV2 {
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
 
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -646,6 +680,7 @@ extension MediaPackageV2 {
             self.dashManifests = dashManifests
             self.description = description
             self.eTag = eTag
+            self.forceEndpointErrorConfiguration = forceEndpointErrorConfiguration
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
             self.modifiedAt = modifiedAt
@@ -664,6 +699,7 @@ extension MediaPackageV2 {
             case dashManifests = "DashManifests"
             case description = "Description"
             case eTag = "ETag"
+            case forceEndpointErrorConfiguration = "ForceEndpointErrorConfiguration"
             case hlsManifests = "HlsManifests"
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
             case modifiedAt = "ModifiedAt"
@@ -952,6 +988,19 @@ extension MediaPackageV2 {
         }
     }
 
+    public struct ForceEndpointErrorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The failover conditions for the endpoint. The options are:    STALE_MANIFEST - The manifest stalled and there are no new segments or parts.    INCOMPLETE_MANIFEST - There is a gap in the manifest.    MISSING_DRM_KEY - Key rotation is enabled but we're unable to fetch the key for the current key period.    SLATE_INPUT - The segments which contain slate content are considered to be missing content.
+        public let endpointErrorConditions: [EndpointErrorCondition]?
+
+        public init(endpointErrorConditions: [EndpointErrorCondition]? = nil) {
+            self.endpointErrorConditions = endpointErrorConditions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointErrorConditions = "EndpointErrorConditions"
+        }
+    }
+
     public struct GetChannelGroupRequest: AWSEncodableShape {
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
@@ -1111,12 +1160,14 @@ extension MediaPackageV2 {
         /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
         public let eTag: String?
         public let ingestEndpoints: [IngestEndpoint]?
+        /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+        public let inputType: InputType?
         /// The date and time the channel was modified.
         public let modifiedAt: Date
         /// The comma-separated list of tag key:value pairs assigned to the channel.
         public let tags: [String: String]?
 
-        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, modifiedAt: Date, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputType: InputType? = nil, modifiedAt: Date, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1124,6 +1175,7 @@ extension MediaPackageV2 {
             self.description = description
             self.eTag = eTag
             self.ingestEndpoints = ingestEndpoints
+            self.inputType = inputType
             self.modifiedAt = modifiedAt
             self.tags = tags
         }
@@ -1136,6 +1188,7 @@ extension MediaPackageV2 {
             case description = "Description"
             case eTag = "ETag"
             case ingestEndpoints = "IngestEndpoints"
+            case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
             case tags = "Tags"
         }
@@ -1383,6 +1436,8 @@ extension MediaPackageV2 {
         public let description: String?
         /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
         public let eTag: String?
+        /// The failover settings for the endpoint.
+        public let forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration?
         /// An HTTP live streaming (HLS) manifest configuration.
         public let hlsManifests: [GetHlsManifestConfiguration]?
         /// A low-latency HLS manifest configuration.
@@ -1397,7 +1452,7 @@ extension MediaPackageV2 {
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
 
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1406,6 +1461,7 @@ extension MediaPackageV2 {
             self.dashManifests = dashManifests
             self.description = description
             self.eTag = eTag
+            self.forceEndpointErrorConfiguration = forceEndpointErrorConfiguration
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
             self.modifiedAt = modifiedAt
@@ -1424,6 +1480,7 @@ extension MediaPackageV2 {
             case dashManifests = "DashManifests"
             case description = "Description"
             case eTag = "ETag"
+            case forceEndpointErrorConfiguration = "ForceEndpointErrorConfiguration"
             case hlsManifests = "HlsManifests"
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
             case modifiedAt = "ModifiedAt"
@@ -1705,6 +1762,8 @@ extension MediaPackageV2 {
         public let dashManifests: [ListDashManifestConfiguration]?
         /// Any descriptive information that you want to add to the origin endpoint for future identification purposes.
         public let description: String?
+        /// The failover settings for the endpoint.
+        public let forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration?
         /// An HTTP live streaming (HLS) manifest configuration.
         public let hlsManifests: [ListHlsManifestConfiguration]?
         /// A low-latency HLS manifest configuration.
@@ -1714,7 +1773,7 @@ extension MediaPackageV2 {
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         public let originEndpointName: String
 
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date? = nil, dashManifests: [ListDashManifestConfiguration]? = nil, description: String? = nil, hlsManifests: [ListHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [ListLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date? = nil, originEndpointName: String) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date? = nil, dashManifests: [ListDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [ListHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [ListLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date? = nil, originEndpointName: String) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1722,6 +1781,7 @@ extension MediaPackageV2 {
             self.createdAt = createdAt
             self.dashManifests = dashManifests
             self.description = description
+            self.forceEndpointErrorConfiguration = forceEndpointErrorConfiguration
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
             self.modifiedAt = modifiedAt
@@ -1736,6 +1796,7 @@ extension MediaPackageV2 {
             case createdAt = "CreatedAt"
             case dashManifests = "DashManifests"
             case description = "Description"
+            case forceEndpointErrorConfiguration = "ForceEndpointErrorConfiguration"
             case hlsManifests = "HlsManifests"
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
             case modifiedAt = "ModifiedAt"
@@ -2124,12 +2185,14 @@ extension MediaPackageV2 {
         /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
         public let eTag: String?
         public let ingestEndpoints: [IngestEndpoint]?
+        /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+        public let inputType: InputType?
         /// The date and time the channel was modified.
         public let modifiedAt: Date
         /// The comma-separated list of tag key:value pairs assigned to the channel.
         public let tags: [String: String]?
 
-        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, modifiedAt: Date, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputType: InputType? = nil, modifiedAt: Date, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -2137,6 +2200,7 @@ extension MediaPackageV2 {
             self.description = description
             self.eTag = eTag
             self.ingestEndpoints = ingestEndpoints
+            self.inputType = inputType
             self.modifiedAt = modifiedAt
             self.tags = tags
         }
@@ -2149,6 +2213,7 @@ extension MediaPackageV2 {
             case description = "Description"
             case eTag = "ETag"
             case ingestEndpoints = "IngestEndpoints"
+            case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
             case tags = "tags"
         }
@@ -2167,6 +2232,8 @@ extension MediaPackageV2 {
         public let description: String?
         /// The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.
         public let eTag: String?
+        /// The failover settings for the endpoint.
+        public let forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration?
         /// An HTTP live streaming (HLS) manifest configuration.
         public let hlsManifests: [CreateHlsManifestConfiguration]?
         /// A low-latency HLS manifest configuration.
@@ -2178,13 +2245,14 @@ extension MediaPackageV2 {
         /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
         public let startoverWindowSeconds: Int?
 
-        public init(channelGroupName: String, channelName: String, containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil) {
+        public init(channelGroupName: String, channelName: String, containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.containerType = containerType
             self.dashManifests = dashManifests
             self.description = description
             self.eTag = eTag
+            self.forceEndpointErrorConfiguration = forceEndpointErrorConfiguration
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
             self.originEndpointName = originEndpointName
@@ -2201,6 +2269,7 @@ extension MediaPackageV2 {
             try container.encodeIfPresent(self.dashManifests, forKey: .dashManifests)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodeHeader(self.eTag, key: "x-amzn-update-if-match")
+            try container.encodeIfPresent(self.forceEndpointErrorConfiguration, forKey: .forceEndpointErrorConfiguration)
             try container.encodeIfPresent(self.hlsManifests, forKey: .hlsManifests)
             try container.encodeIfPresent(self.lowLatencyHlsManifests, forKey: .lowLatencyHlsManifests)
             request.encodePath(self.originEndpointName, key: "OriginEndpointName")
@@ -2238,6 +2307,7 @@ extension MediaPackageV2 {
             case containerType = "ContainerType"
             case dashManifests = "DashManifests"
             case description = "Description"
+            case forceEndpointErrorConfiguration = "ForceEndpointErrorConfiguration"
             case hlsManifests = "HlsManifests"
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
             case segment = "Segment"
@@ -2262,6 +2332,8 @@ extension MediaPackageV2 {
         public let description: String?
         /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
         public let eTag: String?
+        /// The failover settings for the endpoint.
+        public let forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration?
         /// An HTTP live streaming (HLS) manifest configuration.
         public let hlsManifests: [GetHlsManifestConfiguration]?
         /// A low-latency HLS manifest configuration.
@@ -2277,7 +2349,7 @@ extension MediaPackageV2 {
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
 
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -2286,6 +2358,7 @@ extension MediaPackageV2 {
             self.dashManifests = dashManifests
             self.description = description
             self.eTag = eTag
+            self.forceEndpointErrorConfiguration = forceEndpointErrorConfiguration
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
             self.modifiedAt = modifiedAt
@@ -2304,6 +2377,7 @@ extension MediaPackageV2 {
             case dashManifests = "DashManifests"
             case description = "Description"
             case eTag = "ETag"
+            case forceEndpointErrorConfiguration = "ForceEndpointErrorConfiguration"
             case hlsManifests = "HlsManifests"
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
             case modifiedAt = "ModifiedAt"

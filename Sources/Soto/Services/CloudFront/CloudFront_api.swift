@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1516,7 +1516,7 @@ public struct CloudFront: AWSService {
         )
     }
 
-    /// List tags for a CloudFront resource.
+    /// List tags for a CloudFront resource. For more information, see Tagging a distribution in the Amazon CloudFront Developer Guide.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResult {
         return try await self.client.execute(
@@ -1549,7 +1549,7 @@ public struct CloudFront: AWSService {
         )
     }
 
-    /// Add tags to a CloudFront resource.
+    /// Add tags to a CloudFront resource. For more information, see Tagging a distribution in the Amazon CloudFront Developer Guide.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1582,7 +1582,7 @@ public struct CloudFront: AWSService {
         )
     }
 
-    /// Remove tags from a CloudFront resource.
+    /// Remove tags from a CloudFront resource. For more information, see Tagging a distribution in the Amazon CloudFront Developer Guide.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(

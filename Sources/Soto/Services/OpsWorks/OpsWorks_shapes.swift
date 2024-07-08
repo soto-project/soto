@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -294,7 +294,7 @@ extension OpsWorks {
         public let domains: [String]?
         /// Whether to enable SSL for the app.
         public let enableSsl: Bool?
-        /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instances. For more information, see  Environment Variables.   There is no specific limit on the number of environment variables. However, the size of the associated data structure - which includes the variable names, values, and protected flag values - cannot exceed 20 KB. This limit should accommodate most if not all use cases, but if you do exceed it, you will cause an exception (API) with an "Environment: is too large (maximum is 20 KB)" message.
+        /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instances. For more information, see  Environment Variables.   There is no specific limit on the number of environment variables.  However, the size of the associated data structure - which includes the variable names, values, and protected flag  values - cannot exceed 20 KB. This limit should accommodate most if not all use cases, but if you do exceed it, you  will cause an exception (API) with an "Environment: is too large (maximum is 20 KB)" message.
         public let environment: [EnvironmentVariable]?
         /// The app name.
         public let name: String?
@@ -411,15 +411,15 @@ extension OpsWorks {
     }
 
     public struct AutoScalingThresholds: AWSEncodableShape & AWSDecodableShape {
-        /// Custom Cloudwatch auto scaling alarms, to be used as thresholds. This parameter takes a list of up to five alarm names, which are case sensitive and must be in the same region as the stack.  To use custom alarms, you must update your service role to allow cloudwatch:DescribeAlarms. You can either have AWS OpsWorks Stacks update the role for you when you first use this feature or you can edit the role manually. For more information, see Allowing AWS OpsWorks Stacks to Act on Your Behalf.
+        /// Custom CloudWatch auto scaling alarms, to be used as thresholds. This parameter takes a list of up to five alarm names, which are case sensitive and must be in the same region as the stack.  To use custom alarms, you must update your service role to allow cloudwatch:DescribeAlarms. You can either have OpsWorks Stacks update the role for you when you first use this feature or you can edit the role manually. For more information, see Allowing OpsWorks Stacks to Act on Your Behalf.
         public let alarms: [String]?
         /// The CPU utilization threshold, as a percent of the available CPU. A value of -1 disables the threshold.
         public let cpuThreshold: Double?
-        /// The amount of time (in minutes) after a scaling event occurs that AWS OpsWorks Stacks should ignore metrics and suppress additional scaling events. For example, AWS OpsWorks Stacks adds new instances following an upscaling event but the instances won't start reducing the load until they have been booted and configured. There is no point in raising additional scaling events during that operation, which typically takes several minutes. IgnoreMetricsTime allows you to direct AWS OpsWorks Stacks to suppress scaling events long enough to get the new instances online.
+        /// The amount of time (in minutes) after a scaling event occurs that OpsWorks Stacks should ignore metrics and suppress additional scaling events. For example, OpsWorks Stacks adds new instances following an upscaling event but the instances won't start reducing the load until they have been booted and configured. There is no point in raising additional scaling events during that operation, which typically takes several minutes. IgnoreMetricsTime allows you to direct OpsWorks Stacks to suppress scaling events long enough to get the new instances online.
         public let ignoreMetricsTime: Int?
         /// The number of instances to add or remove when the load exceeds a threshold.
         public let instanceCount: Int?
-        /// The load threshold. A value of -1 disables the threshold. For more information about how load is computed, see Load (computing).
+        /// The load threshold. A value of -1 disables the threshold. For more information about how load is computed,  see Load (computing).
         public let loadThreshold: Double?
         /// The memory utilization threshold, as a percent of the available memory. A value of -1 disables the threshold.
         public let memoryThreshold: Double?
@@ -455,7 +455,7 @@ extension OpsWorks {
     }
 
     public struct BlockDeviceMapping: AWSEncodableShape & AWSDecodableShape {
-        /// The device name that is exposed to the instance, such as /dev/sdh. For the root device, you can use the explicit device name or you can set this parameter to ROOT_DEVICE and AWS OpsWorks Stacks will provide the correct device name.
+        /// The device name that is exposed to the instance, such as /dev/sdh. For the root device, you can use the explicit device name or you can set this parameter to ROOT_DEVICE and OpsWorks Stacks will provide the correct device name.
         public let deviceName: String?
         /// An EBSBlockDevice that defines how to configure an Amazon EBS volume when the instance is launched.
         public let ebs: EbsBlockDevice?
@@ -497,7 +497,7 @@ extension OpsWorks {
     }
 
     public struct CloneStackRequest: AWSEncodableShape {
-        /// The default AWS OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update  the agent version, you must edit the stack configuration and specify a new version.  AWS OpsWorks Stacks then automatically installs that version on the stack's instances.   The default setting is LATEST. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting.
+        /// The default OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update  the agent version, you must edit the stack configuration and specify a new version.  OpsWorks Stacks automatically installs that version on the stack's instances.   The default setting is LATEST. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's  default setting.
         public let agentVersion: String?
         /// A list of stack attributes and values as key/value pairs to be added to the cloned stack.
         public let attributes: [StackAttributesKeys: String]?
@@ -507,39 +507,39 @@ extension OpsWorks {
         public let cloneAppIds: [String]?
         /// Whether to clone the source stack's permissions.
         public let clonePermissions: Bool?
-        /// The configuration manager. When you clone a stack we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 12.
+        /// The configuration manager. When you clone a stack we recommend that you use the configuration manager to specify the  Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 12.
         public let configurationManager: StackConfigurationManager?
-        /// Contains the information required to retrieve an app or cookbook from a repository. For more information,  see Adding Apps or Cookbooks and Recipes.
+        /// Contains the information required to retrieve an app or cookbook from a repository. For more information,  see Adding Apps or  Cookbooks and Recipes.
         public let customCookbooksSource: Source?
-        /// A string that contains user-defined, custom JSON. It is used to override the corresponding default stack configuration JSON values. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes
+        /// A string that contains user-defined, custom JSON. It is used to override the corresponding default stack configuration  JSON values. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes
         public let customJson: String?
         /// The cloned stack's default Availability Zone, which must be in the specified region. For more information, see Regions and Endpoints. If you also specify a value for DefaultSubnetId, the subnet must be in the same zone. For more information, see the VpcId parameter description.
         public let defaultAvailabilityZone: String?
-        /// The Amazon Resource Name (ARN) of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
+        /// The Amazon Resource Name (ARN) of an IAM profile that is the default profile for all of the stack's  EC2 instances. For more information about IAM ARNs, see Using Identifiers.
         public let defaultInstanceProfileArn: String?
-        /// The stack's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2018.03, Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7     Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express,  Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information about how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the parent stack's operating system. For more information about supported operating systems, see AWS OpsWorks Stacks Operating Systems.  You can specify a different Linux operating system for the cloned stack, but you cannot change from Linux to Windows or Windows to Linux.
+        /// The stack's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2, Amazon Linux 2018.03, Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 18.04 LTS, Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7     Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express,  Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information about how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the parent stack's operating system. Not all operating systems are supported with all versions of Chef. For more information about supported operating systems, see OpsWorks Stacks Operating Systems.  You can specify a different Linux operating system for the cloned stack, but you cannot change from Linux to  Windows or Windows to Linux.
         public let defaultOs: String?
         /// The default root device type. This value is used by default for all instances in the cloned stack, but you can override it when you create an instance. For more information, see Storage for the Root Device.
         public let defaultRootDeviceType: RootDeviceType?
-        /// A default Amazon EC2 key pair name. The default value is none. If you specify a key pair name, AWS OpsWorks installs the public key on the instance and you can use the private key with an SSH client to log in to the instance. For more information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override this setting by specifying a different key pair, or no key pair, when you  create an instance.
+        /// A default Amazon EC2 key pair name. The default value is none. If you specify a key pair name,  OpsWorks installs the public key on the instance and you can use the private key with an SSH client to log in to the instance. For more information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override this setting by specifying a different key pair, or no key pair, when you  create an instance.
         public let defaultSshKeyName: String?
         /// The stack's default VPC subnet ID. This parameter is required if you specify a value for the VpcId parameter. All instances are launched into this subnet unless you specify otherwise when you create the instance. If you also specify a value for DefaultAvailabilityZone, the subnet must be in that zone. For information on default values and when this parameter is required, see the VpcId parameter description.
         public let defaultSubnetId: String?
         /// The stack's host name theme, with spaces are replaced by underscores. The theme is used to generate host names for the stack's instances. By default, HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities     Fruits     Greek_Deities_and_Titans     Legendary_creatures_from_Japan     Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To obtain a generated host name, call GetHostNameSuggestion, which returns a host name based on the current theme.
         public let hostnameTheme: String?
-        /// The cloned stack name.
+        /// The cloned stack name. Stack names can be a maximum of 64 characters.
         public let name: String?
-        /// The cloned stack AWS region, such as "ap-northeast-2". For more information about AWS regions, see Regions and Endpoints.
+        /// The cloned stack Amazon Web Services Region, such as ap-northeast-2. For more information  about Amazon Web Services Regions, see Regions and Endpoints.
         public let region: String?
-        /// The stack AWS Identity and Access Management (IAM) role, which allows AWS OpsWorks Stacks to work with AWS resources on your behalf. You must set this parameter to the Amazon Resource Name (ARN) for an existing IAM role. If you create a stack by using the AWS OpsWorks Stacks console, it creates the role for you. You can obtain an existing stack's IAM ARN programmatically by calling DescribePermissions. For more information about IAM ARNs, see Using Identifiers.  You must set this parameter to a valid service role ARN or the action will fail; there is no default value. You can specify the source stack's service role ARN, if you prefer, but you must do so explicitly.
+        /// The stack Identity and Access Management (IAM) role, which allows OpsWorks Stacks to work with Amazon Web Services resources on your behalf. You must set this parameter to the Amazon Resource Name (ARN) for an existing IAM role. If you create a stack by using the OpsWorkss Stacks console, it creates the role for you. You can obtain an existing stack's IAM ARN programmatically by calling DescribePermissions. For more information about IAM ARNs, see  Using Identifiers.  You must set this parameter to a valid service role ARN or the action will fail; there is no default value.  You can specify the source stack's service role ARN, if you prefer, but you must do so explicitly.
         public let serviceRoleArn: String
         /// The source stack ID.
         public let sourceStackId: String
         /// Whether to use custom cookbooks.
         public let useCustomCookbooks: Bool?
-        /// Whether to associate the AWS OpsWorks Stacks built-in security groups with the stack's layers. AWS OpsWorks Stacks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. With UseOpsworksSecurityGroups you can instead provide your own custom security groups. UseOpsworksSecurityGroups has the following settings:    True - AWS OpsWorks Stacks automatically associates the appropriate built-in security group with each layer (default setting). You can associate additional security groups with a layer after you create it but you cannot delete the built-in security group.   False - AWS OpsWorks Stacks does not associate built-in security groups with layers. You must create appropriate Amazon Elastic Compute Cloud (Amazon EC2) security groups and associate a security group with each layer that you create. However, you can still manually associate a built-in security group with a layer on creation; custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
+        /// Whether to associate the OpsWorks Stacks built-in security groups with the stack's layers. OpsWorks Stacks provides a standard set of security groups, one for each layer, which are associated with layers by default. With UseOpsworksSecurityGroups you can instead provide your own custom security groups. UseOpsworksSecurityGroups has the following settings:    True - OpsWorks Stacks automatically associates the appropriate built-in security group with  each layer (default setting). You can associate additional security groups with a layer after you create it but you cannot  delete the built-in security group.   False - OpsWorks Stacks does not associate built-in security groups with layers.  You must create appropriate Amazon EC2 security groups and associate a security group with each  layer that you create. However, you can still manually associate a built-in security group with a layer on creation;  custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
         public let useOpsworksSecurityGroups: Bool?
-        /// The ID of the VPC that the cloned stack is to be launched into. It must be in the specified region. All instances are launched into this VPC, and you cannot change the ID later.   If your account supports EC2 Classic, the default value is no VPC.   If your account does not support EC2 Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks Stacks infers the value of the other parameter. If you specify neither parameter, AWS OpsWorks Stacks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively.  If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information about how to use AWS OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information about default VPC and EC2 Classic, see Supported Platforms.
+        /// The ID of the VPC that the cloned stack is to be launched into. It must be in the specified region. All instances are launched into this VPC, and you cannot change the ID later.   If your account supports EC2 Classic, the default value is no VPC.   If your account does not support EC2 Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, OpsWorks Stacks infers the value of the other parameter. If you specify neither parameter, OpsWorks Stacks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively.  If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information about how to use OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information about default VPC and EC2 Classic, see Supported Platforms.
         public let vpcId: String?
 
         public init(agentVersion: String? = nil, attributes: [StackAttributesKeys: String]? = nil, chefConfiguration: ChefConfiguration? = nil, cloneAppIds: [String]? = nil, clonePermissions: Bool? = nil, configurationManager: StackConfigurationManager? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, defaultAvailabilityZone: String? = nil, defaultInstanceProfileArn: String? = nil, defaultOs: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultSshKeyName: String? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, name: String? = nil, region: String? = nil, serviceRoleArn: String, sourceStackId: String, useCustomCookbooks: Bool? = nil, useOpsworksSecurityGroups: Bool? = nil, vpcId: String? = nil) {
@@ -634,9 +634,9 @@ extension OpsWorks {
         public let datetimeFormat: String?
         /// Specifies the encoding of the log file so that the file can be read correctly.  The default is utf_8. Encodings supported by Python codecs.decode() can be used here.
         public let encoding: CloudWatchLogsEncoding?
-        /// Specifies log files that you want to push to CloudWatch Logs.  File can point to a specific file or multiple files (by using wild card characters such as /var/log/system.log*). Only the latest file is pushed to CloudWatch Logs, based on file modification time. We recommend that you use wild card characters to specify a series of files of the same type, such as access_log.2014-06-01-01, access_log.2014-06-01-02, and so on by using a pattern like access_log.*. Don't use a wildcard to match multiple file types, such as access_log_80 and access_log_443. To specify multiple, different file types, add another log stream entry to the configuration file, so that each log file type is stored in a different log group. Zipped files are not supported.
+        /// Specifies log files that you want to push to CloudWatch Logs.  File can point to a specific file or multiple files (by using wild card characters such  as /var/log/system.log*). Only the latest file is pushed to CloudWatch Logs, based on file modification time. We recommend that you use  wild card characters to specify a series of files of the same type, such as access_log.2014-06-01-01, access_log.2014-06-01-02, and so on by using a pattern like access_log.*. Don't use a wildcard to match multiple file types, such as access_log_80 and access_log_443. To specify multiple, different file types, add another log stream entry to the configuration file, so that each log file type is stored in a different log group. Zipped files are not supported.
         public let file: String?
-        /// Specifies the range of lines for identifying a file. The valid values are one number, or two dash-delimited numbers,  such as '1', '2-5'. The default value is '1', meaning the first line is used to calculate the fingerprint. Fingerprint lines are  not sent to CloudWatch Logs unless all specified lines are available.
+        /// Specifies the range of lines for identifying a file. The valid values are one number, or two dash-delimited numbers,  such as '1', '2-5'. The default value is '1', meaning the first line is used to calculate the fingerprint.  Fingerprint lines are  not sent to CloudWatch Logs unless all specified lines are available.
         public let fileFingerprintLines: String?
         /// Specifies where to start to read data (start_of_file or end_of_file). The default is start_of_file.  This setting is only used if there is no state persisted for that log stream.
         public let initialPosition: CloudWatchLogsInitialPosition?
@@ -748,7 +748,7 @@ extension OpsWorks {
         public let sslConfiguration: SslConfiguration?
         /// The stack ID.
         public let stackId: String
-        /// The app type. Each supported type is associated with a particular layer. For example, PHP applications are associated with a PHP layer. AWS OpsWorks Stacks deploys an application to those instances that are members of the corresponding layer. If your app isn't one of the standard types, or you prefer to implement your own Deploy recipes, specify other.
+        /// The app type. Each supported type is associated with a particular layer. For example, PHP applications are associated with a PHP layer. OpsWorks Stacks deploys an application to those instances that are members of the corresponding layer. If your app isn't one of the standard types, or you prefer to implement your own Deploy recipes, specify other.
         public let type: AppType
 
         public init(appSource: Source? = nil, attributes: [AppAttributesKeys: String]? = nil, dataSources: [DataSource]? = nil, description: String? = nil, domains: [String]? = nil, enableSsl: Bool? = nil, environment: [EnvironmentVariable]? = nil, name: String, shortname: String? = nil, sslConfiguration: SslConfiguration? = nil, stackId: String, type: AppType) {
@@ -802,7 +802,7 @@ extension OpsWorks {
         public let command: DeploymentCommand
         /// A user-defined comment.
         public let comment: String?
-        /// A string that contains user-defined, custom JSON. You can use this parameter to override some corresponding default stack configuration JSON values. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes and  Overriding Attributes With Custom JSON.
+        /// A string that contains user-defined, custom JSON. You can use this parameter to override some corresponding default  stack configuration JSON values. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes and  Overriding Attributes With Custom  JSON.
         public let customJson: String?
         /// The instance IDs for the deployment targets.
         public let instanceIds: [String]?
@@ -846,7 +846,7 @@ extension OpsWorks {
     }
 
     public struct CreateInstanceRequest: AWSEncodableShape {
-        /// The default AWS OpsWorks Stacks agent version. You have the following options:    INHERIT - Use the stack's default agent version setting.    version_number - Use the specified agent version. This value overrides the stack's default setting. To update the agent version, edit the instance configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the instance.   The default setting is INHERIT. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
+        /// The default OpsWorks Stacks agent version. You have the following options:    INHERIT - Use the stack's default agent version setting.    version_number - Use the specified agent version. This value overrides the stack's default setting. To update the agent version, edit the instance configuration and specify a new version. OpsWorks Stacks installs that version on the instance.   The default setting is INHERIT. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions.  AgentVersion cannot be set to Chef 12.2.
         public let agentVersion: String?
         /// A custom AMI ID to be used to create the instance. The AMI should be based on one of the supported operating systems. For more information, see Using Custom AMIs.  If you specify a custom AMI, you must set Os to Custom.
         public let amiId: String?
@@ -860,16 +860,16 @@ extension OpsWorks {
         public let blockDeviceMappings: [BlockDeviceMapping]?
         /// Whether to create an Amazon EBS-optimized instance.
         public let ebsOptimized: Bool?
-        /// The instance host name.
+        /// The instance host name. The following are character limits for instance host names.   Linux-based instances: 63 characters   Windows-based instances: 15 characters
         public let hostname: String?
         /// Whether to install operating system and package updates when the instance boots. The default value is true. To control when updates are installed, set this value to false. You must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true to ensure that your instances have the latest security updates.
         public let installUpdatesOnBoot: Bool?
-        /// The instance type, such as t2.micro. For a list of supported instance types, open the stack in the console, choose Instances, and choose + Instance. The Size list contains the currently supported types. For more information, see Instance Families and Types. The parameter values that you use to specify the various types are in the API Name column of the Available Instance Types table.
+        /// The instance type, such as t2.micro. For a list of supported instance types, open the stack in the console, choose Instances, and choose + Instance. The Size list contains the currently supported types.  For more information, see Instance Families and Types. The parameter values that you use to specify the various types are in the API Name column of the Available Instance Types table.
         public let instanceType: String
         /// An array that contains the instance's layer IDs.
         public let layerIds: [String]
-        /// The instance's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2018.03, Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09,  Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express,
-        /// 			   Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom.   For more information about the supported operating systems, see AWS OpsWorks Stacks Operating Systems. The default option is the current Amazon Linux version. If you set this parameter to Custom, you must use the CreateInstance action's AmiId parameter to specify the custom AMI that you want to use. Block device mappings are not supported if the value is Custom. For more information about supported operating systems, see Operating SystemsFor more information about how to use custom AMIs with AWS OpsWorks Stacks, see Using Custom AMIs.
+        /// The instance's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2, Amazon Linux 2018.03, Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09,  Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 18.04 LTS, Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express,
+        /// 			   Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom.   Not all operating systems are supported with all versions of Chef. For more information about the supported operating systems, see OpsWorks Stacks Operating Systems. The default option is the current Amazon Linux version. If you set this parameter to Custom, you must use the CreateInstance action's AmiId parameter to specify the custom AMI that you want to use. Block device mappings are not supported if the value is Custom.  For more information about how to use custom AMIs with OpsWorks Stacks, see Using Custom AMIs.
         public let os: String?
         /// The instance root device type. For more information, see Storage for the Root Device.
         public let rootDeviceType: RootDeviceType?
@@ -877,9 +877,9 @@ extension OpsWorks {
         public let sshKeyName: String?
         /// The stack ID.
         public let stackId: String
-        /// The ID of the instance's subnet. If the stack is running in a VPC, you can use this parameter to override the stack's default subnet ID value and direct AWS OpsWorks Stacks to launch the instance in a different subnet.
+        /// The ID of the instance's subnet. If the stack is running in a VPC, you can use this parameter to override the stack's  default subnet ID value and direct OpsWorks Stacks to launch the instance in a different subnet.
         public let subnetId: String?
-        /// The instance's tenancy option. The default option is no tenancy, or if the instance is running in a VPC, inherit tenancy settings from the VPC. The following are valid values for this parameter:  dedicated, default, or host. Because there are costs associated with changes in tenancy options, we recommend that you research tenancy options before choosing them for your instances. For more information about dedicated hosts, see Dedicated Hosts Overview and Amazon EC2 Dedicated Hosts. For more information about dedicated instances, see Dedicated Instances and Amazon EC2 Dedicated Instances.
+        /// The instance's tenancy option. The default option is no tenancy, or if the instance is running in a VPC,  inherit tenancy settings from the VPC. The following are valid values for this parameter:   dedicated, default, or host. Because there are costs associated with changes  in tenancy options, we recommend that you research tenancy options before choosing them for your instances.  For more information about dedicated hosts, see  Dedicated Hosts Overview and  Amazon EC2 Dedicated Hosts.  For more information about dedicated instances, see  Dedicated Instances and  Amazon EC2 Dedicated Instances.
         public let tenancy: String?
         /// The instance's virtualization type, paravirtual or hvm.
         public let virtualizationType: String?
@@ -947,11 +947,11 @@ extension OpsWorks {
         public let autoAssignElasticIps: Bool?
         /// For stacks that are running in a VPC, whether to automatically assign a public IP address to the layer's instances. For more information, see How to Edit a Layer.
         public let autoAssignPublicIps: Bool?
-        /// Specifies CloudWatch Logs configuration options for the layer. For more information, see CloudWatchLogsLogStream.
+        /// Specifies CloudWatch Logs configuration options for the layer. For more information,  see CloudWatchLogsLogStream.
         public let cloudWatchLogsConfiguration: CloudWatchLogsConfiguration?
         /// The ARN of an IAM profile to be used for the layer's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
         public let customInstanceProfileArn: String?
-        /// A JSON-formatted string containing custom stack configuration and deployment attributes to be installed on the layer's instances. For more information, see  Using Custom JSON. This feature is supported as of version 1.7.42 of the AWS CLI.
+        /// A JSON-formatted string containing custom stack configuration and deployment attributes to be installed on the layer's instances. For more information, see  Using Custom JSON. This feature is supported as of version 1.7.42 of the CLI.
         public let customJson: String?
         /// A LayerCustomRecipes object that specifies the layer custom recipes.
         public let customRecipes: Recipes?
@@ -963,15 +963,15 @@ extension OpsWorks {
         public let installUpdatesOnBoot: Bool?
         /// A LifeCycleEventConfiguration object that you can use to configure the Shutdown event to specify an execution timeout and enable or disable Elastic Load Balancer connection draining.
         public let lifecycleEventConfiguration: LifecycleEventConfiguration?
-        /// The layer name, which is used by the console.
+        /// The layer name, which is used by the console. Layer names can be a maximum of 32 characters.
         public let name: String
         /// An array of Package objects that describes the layer packages.
         public let packages: [String]?
-        /// For custom layers only, use this parameter to specify the layer's short name, which is used internally by AWS OpsWorks Stacks and by Chef recipes. The short name is also used as the name for the directory where your app files are installed. It can have a maximum of 200 characters, which are limited to the alphanumeric characters, '-', '_', and '.'. The built-in layers' short names are defined by AWS OpsWorks Stacks. For more information, see the Layer Reference.
+        /// For custom layers only, use this parameter to specify the layer's short name, which is used internally by  OpsWorks Stacks and by Chef recipes. The short name is also used as the name for the directory where your  app files are installed. It can have a maximum of 32 characters, which are limited to the alphanumeric  characters, '-', '_', and '.'. Built-in layer short names are defined by OpsWorks Stacks. For more information, see the  Layer Reference.
         public let shortname: String
         /// The layer stack ID.
         public let stackId: String
-        /// The layer type. A stack cannot have more than one built-in layer of the same type. It can have any number of custom layers. Built-in layers are not available in Chef 12 stacks.
+        /// The layer type. A stack cannot have more than one built-in layer of the same type. It can have any number of custom layers.  Built-in layers are not available in Chef 12 stacks.
         public let type: LayerType
         /// Whether to use Amazon EBS-optimized instances.
         public let useEbsOptimizedInstances: Bool?
@@ -1035,43 +1035,43 @@ extension OpsWorks {
     }
 
     public struct CreateStackRequest: AWSEncodableShape {
-        /// The default AWS OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the stack's instances.   The default setting is the most recent release of the agent. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting.
+        /// The default OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version,  you must edit the stack configuration and specify a new version. OpsWorks Stacks installs  that version on the stack's instances.   The default setting is the most recent release of the agent. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance,  which overrides the stack's default setting.
         public let agentVersion: String?
         /// One or more user-defined key-value pairs to be added to the stack attributes.
         public let attributes: [StackAttributesKeys: String]?
         /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create a New Stack.
         public let chefConfiguration: ChefConfiguration?
-        /// The configuration manager. When you create a stack we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 12.
+        /// The configuration manager. When you create a stack we recommend that you use the configuration manager to specify the  Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is  currently 12.
         public let configurationManager: StackConfigurationManager?
         /// Contains the information required to retrieve an app or cookbook from a repository. For more information,  see Adding Apps or  Cookbooks and Recipes.
         public let customCookbooksSource: Source?
-        /// A string that contains user-defined, custom JSON. It can be used to override the corresponding default stack configuration attribute values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
+        /// A string that contains user-defined, custom JSON. It can be used to override the corresponding default stack configuration  attribute values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
         public let customJson: String?
         /// The stack's default Availability Zone, which must be in the specified region. For more information, see Regions and Endpoints. If you also specify a value for DefaultSubnetId, the subnet must be in the same zone. For more information, see the VpcId parameter description.
         public let defaultAvailabilityZone: String?
         /// The Amazon Resource Name (ARN) of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
         public let defaultInstanceProfileArn: String
-        /// The stack's default operating system, which is installed on every instance unless you specify a different operating system when you create the instance. You can specify one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2018.03, Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09,  Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base,  Microsoft Windows Server 2012 R2 with SQL Server Express,  Microsoft Windows Server 2012 R2 with SQL Server Standard, or  Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information, see  Using Custom AMIs.   The default option is the current Amazon Linux version. For more information about supported operating systems, see AWS OpsWorks Stacks Operating Systems.
+        /// The stack's default operating system, which is installed on every instance unless you specify a different operating  system when you create the instance. You can specify one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2, Amazon Linux 2018.03, Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09,  Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 18.04 LTS, Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base,  Microsoft Windows Server 2012 R2 with SQL Server Express,  Microsoft Windows Server 2012 R2 with SQL Server Standard, or  Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information, see  Using Custom AMIs.   The default option is the current Amazon Linux version. Not all operating systems are supported with all versions of Chef. For more information about supported operating systems, see OpsWorks Stacks Operating Systems.
         public let defaultOs: String?
         /// The default root device type. This value is the default for all instances in the stack, but you can override it when you create an instance. The default option is instance-store. For more information, see Storage for the Root Device.
         public let defaultRootDeviceType: RootDeviceType?
-        /// A default Amazon EC2 key pair name. The default value is none. If you specify a key pair name, AWS OpsWorks installs the public key on the instance and you can use the private key with an SSH client to log in to the instance. For more information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override this setting by specifying a different key pair, or no key pair, when you  create an instance.
+        /// A default Amazon EC2 key pair name. The default value is none. If you specify a key pair name,  OpsWorks installs the public key on the instance and you can use the private key with an SSH client to log in to the instance. For more information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override this setting by specifying a different key pair, or no key pair, when you  create an instance.
         public let defaultSshKeyName: String?
         /// The stack's default VPC subnet ID. This parameter is required if you specify a value for the VpcId parameter. All instances are launched into this subnet unless you specify otherwise when you create the instance. If you also specify a value for DefaultAvailabilityZone, the subnet must be in that zone. For information on default values and when this parameter is required, see the VpcId parameter description.
         public let defaultSubnetId: String?
         /// The stack's host name theme, with spaces replaced by underscores. The theme is used to generate host names for the stack's instances. By default, HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities     Fruits     Greek_Deities_and_Titans     Legendary_creatures_from_Japan     Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To obtain a generated host name, call GetHostNameSuggestion, which returns a host name based on the current theme.
         public let hostnameTheme: String?
-        /// The stack name.
+        /// The stack name. Stack names can be a maximum of 64 characters.
         public let name: String
-        /// The stack's AWS region, such as ap-south-1. For more information about Amazon regions, see Regions and Endpoints.  In the AWS CLI, this API maps to the --stack-region parameter. If the --stack-region parameter and the AWS CLI common parameter --region are set to the same value, the stack uses a regional endpoint. If the --stack-region parameter is not set, but the AWS CLI --region parameter is, this also results in a stack with a regional endpoint. However, if the --region parameter is set to us-east-1, and the --stack-region parameter is set to one of the following, then the stack uses a legacy or classic region: us-west-1, us-west-2, sa-east-1, eu-central-1, eu-west-1, ap-northeast-1, ap-southeast-1, ap-southeast-2. In this case, the actual API endpoint of the stack is in us-east-1. Only the preceding regions are supported as classic regions in the us-east-1 API endpoint. Because it is a best practice to choose the regional endpoint that is closest to where you manage AWS, we recommend that you use regional endpoints for new stacks. The AWS CLI common --region parameter always specifies a regional API endpoint; it cannot be used to specify a classic AWS OpsWorks Stacks region.
+        /// The stack's Amazon Web Services Region, such as ap-south-1. For more information about Amazon Web Services Regions, see Regions and Endpoints.  In the CLI, this API maps to the --stack-region parameter. If the --stack-region parameter and the CLI common parameter --region are set to the same value, the stack uses a regional endpoint. If the --stack-region parameter is not set, but the CLI --region parameter is, this also results in a stack with a regional endpoint. However, if the --region parameter is set to us-east-1, and the --stack-region parameter is set to one of the following, then the stack uses a legacy or classic region: us-west-1, us-west-2, sa-east-1, eu-central-1, eu-west-1, ap-northeast-1, ap-southeast-1, ap-southeast-2. In this case, the actual API endpoint of the stack is in us-east-1. Only the preceding regions are supported as classic regions in the us-east-1 API endpoint. Because it is a best practice to choose the regional endpoint that is closest to where you manage Amazon Web Services, we recommend that you use regional endpoints for new stacks. The CLI common --region parameter always specifies a regional API endpoint; it cannot be used to specify a classic OpsWorks Stacks region.
         public let region: String
-        /// The stack's AWS Identity and Access Management (IAM) role, which allows AWS OpsWorks Stacks to work with AWS resources on your behalf. You must set this parameter to the Amazon Resource Name (ARN) for an existing IAM role. For more information about IAM ARNs, see Using Identifiers.
+        /// The stack's IAM role, which allows OpsWorks Stacks to work with Amazon Web Services resources on your behalf. You must set this parameter to the Amazon Resource Name (ARN) for an existing IAM role. For more information about IAM ARNs, see  Using Identifiers.
         public let serviceRoleArn: String
         /// Whether the stack uses custom cookbooks.
         public let useCustomCookbooks: Bool?
-        /// Whether to associate the AWS OpsWorks Stacks built-in security groups with the stack's layers. AWS OpsWorks Stacks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. With UseOpsworksSecurityGroups you can instead provide your own custom security groups. UseOpsworksSecurityGroups has the following settings:    True - AWS OpsWorks Stacks automatically associates the appropriate built-in security group with each layer (default setting). You can associate additional security groups with a layer after you create it, but you cannot delete the built-in security group.   False - AWS OpsWorks Stacks does not associate built-in security groups with layers. You must create appropriate EC2 security groups and associate a security group with each layer that you create. However, you can still manually associate a built-in security group with a layer on creation; custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
+        /// Whether to associate the OpsWorks Stacks built-in security groups with the stack's layers. OpsWorks Stacks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. With UseOpsworksSecurityGroups you can instead provide your own custom security groups. UseOpsworksSecurityGroups has the following settings:    True - OpsWorks Stacks automatically associates the appropriate built-in security group with each  layer (default setting). You can associate additional security groups with a layer after you create it, but you cannot  delete the built-in security group.   False - OpsWorks Stacks does not associate built-in security groups with layers. You must create  appropriate EC2 security groups and associate a security group with each layer that you create. However, you can still  manually associate a built-in security group with a layer on creation; custom security groups are required only for those  layers that need custom settings.   For more information, see Create a New Stack.
         public let useOpsworksSecurityGroups: Bool?
-        /// The ID of the VPC that the stack is to be launched into. The VPC must be in the stack's region. All instances are launched into this VPC. You cannot change the ID later.   If your account supports EC2-Classic, the default value is no VPC.   If your account does not support EC2-Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks Stacks infers the value of the  other parameter. If you specify neither parameter, AWS OpsWorks Stacks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively. If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information about how to use AWS OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information about default VPC and EC2-Classic, see Supported Platforms.
+        /// The ID of the VPC that the stack is to be launched into. The VPC must be in the stack's region. All instances are launched  into this VPC. You cannot change the ID later.   If your account supports EC2-Classic, the default value is no VPC.   If your account does not support EC2-Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, OpsWorks Stacks infers the value of the  other parameter. If you specify neither parameter, OpsWorks Stacks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively. If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information about how to use OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information about default VPC and EC2-Classic, see Supported Platforms.
         public let vpcId: String?
 
         public init(agentVersion: String? = nil, attributes: [StackAttributesKeys: String]? = nil, chefConfiguration: ChefConfiguration? = nil, configurationManager: StackConfigurationManager? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, defaultAvailabilityZone: String? = nil, defaultInstanceProfileArn: String, defaultOs: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultSshKeyName: String? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, name: String, region: String, serviceRoleArn: String, useCustomCookbooks: Bool? = nil, useOpsworksSecurityGroups: Bool? = nil, vpcId: String? = nil) {
@@ -1139,7 +1139,7 @@ extension OpsWorks {
         public let iamUserArn: String
         /// The user's public SSH key.
         public let sshPublicKey: String?
-        /// The user's SSH user name. The allowable characters are [a-z], [A-Z], [0-9], '-', and '_'. If the specified name includes other punctuation marks, AWS OpsWorks Stacks removes them. For example, my.name will be changed to myname. If you do not specify an SSH user name, AWS OpsWorks Stacks generates one from the IAM user name.
+        /// The user's SSH user name. The allowable characters are [a-z], [A-Z], [0-9], '-', and '_'. If the specified name includes other punctuation marks, OpsWorks Stacks removes them. For example, my.name is changed to myname. If you do not specify an SSH user name, OpsWorks Stacks generates one from the IAM user name.
         public let sshUsername: String?
 
         public init(allowSelfManagement: Bool? = nil, iamUserArn: String, sshPublicKey: String? = nil, sshUsername: String? = nil) {
@@ -1275,7 +1275,7 @@ extension OpsWorks {
         public let completedAt: String?
         /// Date when the deployment was created.
         public let createdAt: String?
-        /// A string that contains user-defined custom JSON. It can be used to override the corresponding default stack configuration attribute values for stack or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
+        /// A string that contains user-defined custom JSON. It can be used to override the corresponding default stack configuration  attribute values for stack or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
         public let customJson: String?
         /// The deployment ID.
         public let deploymentId: String?
@@ -1322,9 +1322,9 @@ extension OpsWorks {
     }
 
     public struct DeploymentCommand: AWSEncodableShape & AWSDecodableShape {
-        /// The arguments of those commands that take arguments. It should be set to a JSON object with the following format:  {"arg_name1" : ["value1", "value2", ...], "arg_name2" : ["value1", "value2", ...], ...}  The update_dependencies command takes two arguments:    upgrade_os_to - Specifies the desired Amazon Linux version for instances whose OS you want to upgrade, such as Amazon Linux 2016.09. You must also set the allow_reboot argument to true.    allow_reboot - Specifies whether to allow AWS OpsWorks Stacks to reboot the instances if necessary, after installing the updates. This argument can be set to either true or false. The default value is false.   For example, to upgrade an instance to Amazon Linux 2016.09, set Args to the following.  { "upgrade_os_to":["Amazon Linux 2016.09"], "allow_reboot":["true"] }
+        /// The arguments of those commands that take arguments. It should be set to a JSON object with the following format:  {"arg_name1" : ["value1", "value2", ...], "arg_name2" : ["value1", "value2", ...], ...}  The update_dependencies command takes two arguments:    upgrade_os_to - Specifies the Amazon Linux version that you want instances to run, such as Amazon Linux 2. You must also set the allow_reboot argument to true.    allow_reboot - Specifies whether to allow OpsWorks Stacks to reboot the instances if necessary, after installing the updates. This argument can be set to either true or false. The default value is false.   For example, to upgrade an instance to Amazon Linux 2018.03, set Args to the following.  { "upgrade_os_to":["Amazon Linux 2018.03"], "allow_reboot":["true"] }
         public let args: [String: [String]]?
-        /// Specifies the operation. You can specify only one command. For stacks, the following commands are available:    execute_recipes: Execute one or more recipes. To specify the recipes, set an Args parameter named recipes to the list of recipes to be executed. For example, to execute phpapp::appsetup, set Args to {"recipes":["phpapp::appsetup"]}.    install_dependencies: Install the stack's dependencies.    update_custom_cookbooks: Update the stack's custom cookbooks.    update_dependencies: Update the stack's dependencies.    The update_dependencies and install_dependencies commands are supported only for Linux instances. You can run the commands successfully on Windows instances, but they do nothing.  For apps, the following commands are available:    deploy: Deploy an app. Ruby on Rails apps have an optional Args parameter named migrate. Set Args to {"migrate":["true"]} to migrate the database. The default setting is {"migrate":["false"]}.    rollback Roll the app back to the previous version. When you update an app, AWS OpsWorks Stacks stores the previous version, up to a maximum of five versions. You can use this command to roll an app back as many as four versions.    start: Start the app's web or application server.    stop: Stop the app's web or application server.    restart: Restart the app's web or application server.    undeploy: Undeploy the app.
+        /// Specifies the operation. You can specify only one command. For stacks, the following commands are available:    execute_recipes: Execute one or more recipes. To specify the recipes, set an Args parameter named recipes to the list of recipes to be executed. For example, to execute phpapp::appsetup, set Args to {"recipes":["phpapp::appsetup"]}.    install_dependencies: Install the stack's dependencies.    update_custom_cookbooks: Update the stack's custom cookbooks.    update_dependencies: Update the stack's dependencies.    The update_dependencies and install_dependencies commands are supported only for Linux instances. You can run the commands successfully on Windows instances, but they do nothing.  For apps, the following commands are available:    deploy: Deploy an app. Ruby on Rails apps have an optional Args parameter named migrate. Set Args to {"migrate":["true"]} to migrate the database. The default setting is {"migrate":["false"]}.    rollback Roll the app back to the previous version. When you update an app, OpsWorks Stacks stores the previous version, up to a maximum of five versions. You can use this command to roll an app back as many as four versions.    start: Start the app's web or application server.    stop: Stop the app's web or application server.    restart: Restart the app's web or application server.    undeploy: Undeploy the app.
         public let name: DeploymentCommandName
 
         public init(args: [String: [String]]? = nil, name: DeploymentCommandName) {
@@ -1391,7 +1391,7 @@ extension OpsWorks {
     }
 
     public struct DeregisterVolumeRequest: AWSEncodableShape {
-        /// The AWS OpsWorks Stacks volume ID, which is the GUID that AWS OpsWorks Stacks assigned to the instance when you registered the volume with the stack, not the Amazon EC2 volume ID.
+        /// The OpsWorks Stacks volume ID, which is the GUID that OpsWorks Stacks assigned to the instance  when you registered the volume with the stack, not the Amazon EC2 volume ID.
         public let volumeId: String
 
         public init(volumeId: String) {
@@ -1421,7 +1421,7 @@ extension OpsWorks {
     }
 
     public struct DescribeAgentVersionsResult: AWSDecodableShape {
-        /// The agent versions for the specified stack or configuration manager. Note that this value is the complete version number, not the abbreviated number used by the console.
+        /// The agent versions for the specified stack or configuration manager. Note that this value is the complete version number,  not the abbreviated number used by the console.
         public let agentVersions: [AgentVersion]?
 
         public init(agentVersions: [AgentVersion]? = nil) {
@@ -1754,7 +1754,7 @@ extension OpsWorks {
     }
 
     public struct DescribePermissionsRequest: AWSEncodableShape {
-        /// The user's IAM ARN. This can also be a federated user's ARN. For more information about IAM ARNs, see Using Identifiers.
+        /// The user's IAM ARN. This can also be a federated user's ARN. For more information about IAM  ARNs, see Using Identifiers.
         public let iamUserArn: String?
         /// The stack ID.
         public let stackId: String?
@@ -1820,7 +1820,7 @@ extension OpsWorks {
     public struct DescribeRdsDbInstancesRequest: AWSEncodableShape {
         /// An array containing the ARNs of the instances to be described.
         public let rdsDbInstanceArns: [String]?
-        /// The ID of the stack with which the instances are registered. The operation returns descriptions of all registered Amazon RDS instances.
+        /// The ID of the stack with which the instances are registered. The operation returns descriptions of all registered  Amazon RDS instances.
         public let stackId: String
 
         public init(rdsDbInstanceArns: [String]? = nil, stackId: String) {
@@ -1895,7 +1895,7 @@ extension OpsWorks {
     }
 
     public struct DescribeStackProvisioningParametersResult: AWSDecodableShape {
-        /// The AWS OpsWorks Stacks agent installer's URL.
+        /// The OpsWorks Stacks agent installer's URL.
         public let agentInstallerUrl: String?
         /// An embedded object that contains the provisioning parameters.
         public let parameters: [String: String]?
@@ -1938,7 +1938,7 @@ extension OpsWorks {
     }
 
     public struct DescribeStacksRequest: AWSEncodableShape {
-        /// An array of stack IDs that specify the stacks to be described. If you omit this parameter, DescribeStacks returns a description of every stack.
+        /// An array of stack IDs that specify the stacks to be described. If you omit this parameter, and have permissions to get information  about all stacks, DescribeStacks returns a description of every stack. If the IAM policy that is attached to an IAM  user limits the DescribeStacks action to specific stack ARNs, this parameter is required, and the user must specify a stack ARN that is allowed by the policy.  Otherwise, DescribeStacks returns an AccessDenied error.
         public let stackIds: [String]?
 
         public init(stackIds: [String]? = nil) {
@@ -2092,7 +2092,7 @@ extension OpsWorks {
         public let snapshotId: String?
         /// The volume size, in GiB. For more information, see EbsBlockDevice.
         public let volumeSize: Int?
-        /// The volume type. gp2 for General Purpose (SSD) volumes, io1 for Provisioned IOPS (SSD) volumes, st1 for Throughput Optimized hard disk drives (HDD), sc1 for Cold HDD,and standard for Magnetic volumes. If you specify the io1 volume type, you must also specify a value for the Iops attribute.  The maximum ratio of provisioned IOPS to requested volume size (in GiB) is 50:1. AWS uses the default volume size (in GiB)  specified in the AMI attributes to set IOPS to 50 x (volume size).
+        /// The volume type. gp2 for General Purpose (SSD) volumes, io1 for Provisioned IOPS (SSD) volumes, st1 for Throughput Optimized hard disk drives (HDD), sc1 for Cold HDD,and standard for Magnetic volumes. If you specify the io1 volume type, you must also specify a value for the Iops attribute.  The maximum ratio of provisioned IOPS to requested volume size (in GiB) is 50:1. Amazon Web Services uses the default volume size (in GiB)  specified in the AMI attributes to set IOPS to 50 x (volume size).
         public let volumeType: VolumeType?
 
         public init(deleteOnTermination: Bool? = nil, iops: Int? = nil, snapshotId: String? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
@@ -2144,9 +2144,9 @@ extension OpsWorks {
         public let instanceId: String?
         /// The IP address.
         public let ip: String?
-        /// The name.
+        /// The name, which can be a maximum of 32 characters.
         public let name: String?
-        /// The AWS region. For more information, see Regions and Endpoints.
+        /// The Amazon Web Services Region. For more information, see Regions and Endpoints.
         public let region: String?
 
         public init(domain: String? = nil, instanceId: String? = nil, ip: String? = nil, name: String? = nil, region: String? = nil) {
@@ -2171,15 +2171,15 @@ extension OpsWorks {
         public let availabilityZones: [String]?
         /// The instance's public DNS name.
         public let dnsName: String?
-        /// A list of the EC2 instances that the Elastic Load Balancing instance is managing traffic for.
+        /// A list of the EC2 instances for which the Elastic Load Balancing instance is managing traffic.
         public let ec2InstanceIds: [String]?
-        /// The Elastic Load Balancing instance's name.
+        /// The Elastic Load Balancing instance name.
         public let elasticLoadBalancerName: String?
-        /// The ID of the layer that the instance is attached to.
+        /// The ID of the layer to which the instance is attached.
         public let layerId: String?
-        /// The instance's AWS region.
+        /// The instance's Amazon Web Services Region.
         public let region: String?
-        /// The ID of the stack that the instance is associated with.
+        /// The ID of the stack with which the instance is associated.
         public let stackId: String?
         /// A list of subnet IDs, if the stack is running in a VPC.
         public let subnetIds: [String]?
@@ -2212,11 +2212,11 @@ extension OpsWorks {
     }
 
     public struct EnvironmentVariable: AWSEncodableShape & AWSDecodableShape {
-        /// (Required) The environment variable's name, which can consist of up to 64 characters and must be specified. The name can contain upper- and lowercase letters, numbers, and underscores (_), but it must start with a letter or underscore.
+        /// (Required) The environment variable's name, which can consist of up to 64 characters and must be specified.  The name can contain upper- and lowercase letters, numbers, and underscores (_), but it must start with a letter or underscore.
         public let key: String
-        /// (Optional) Whether the variable's value will be returned by the DescribeApps action. To conceal an environment variable's value, set Secure to true. DescribeApps then returns *****FILTERED***** instead of the actual value. The default value for Secure is false.
+        /// (Optional) Whether the variable's value is returned by the DescribeApps action. To hide an environment variable's value, set Secure to true. DescribeApps returns *****FILTERED***** instead of the actual value. The default value for Secure is false.
         public let secure: Bool?
-        /// (Optional) The environment variable's value, which can be left empty. If you specify a value, it can contain up to 256 characters, which must all be printable.
+        /// (Optional) The environment variable's value, which can be left empty. If you specify a value,  it can contain up to 256 characters, which must all be printable.
         public let value: String
 
         public init(key: String, secure: Bool? = nil, value: String) {
@@ -2263,9 +2263,9 @@ extension OpsWorks {
     }
 
     public struct GrantAccessRequest: AWSEncodableShape {
-        /// The instance's AWS OpsWorks Stacks ID.
+        /// The instance's OpsWorks Stacks ID.
         public let instanceId: String
-        /// The length of time (in minutes) that the grant is valid. When the grant expires at the end of this period, the user will no longer be able to use the credentials to log in. If the user is logged in at the time, he or she automatically will be logged out.
+        /// The length of time (in minutes) that the grant is valid. When the grant expires at the end of this period,  the user will no longer be able to use the credentials to log in. If the user is logged in at the time, they are  logged out.
         public let validForInMinutes: Int?
 
         public init(instanceId: String, validForInMinutes: Int? = nil) {
@@ -2322,17 +2322,17 @@ extension OpsWorks {
         public let ecsClusterArn: String?
         /// For container instances, the instance's ARN.
         public let ecsContainerInstanceArn: String?
-        /// The instance Elastic IP address .
+        /// The instance Elastic IP address.
         public let elasticIp: String?
-        /// The instance host name.
+        /// The instance host name. The following are character limits for instance host names.   Linux-based instances: 63 characters   Windows-based instances: 15 characters
         public let hostname: String?
         /// For registered instances, the infrastructure class: ec2 or on-premises.
         public let infrastructureClass: String?
-        /// Whether to install operating system and package updates when the instance boots. The default value is true. If this value is set to false, you must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true, to ensure that your instances have the latest security updates.
+        /// Whether to install operating system and package updates when the instance boots. The default value is true. If this value is set to false, you must update instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true to ensure that your instances have the latest security updates.
         public let installUpdatesOnBoot: Bool?
         /// The instance ID.
         public let instanceId: String?
-        /// The ARN of the instance's IAM profile. For more information about IAM ARNs, see Using Identifiers.
+        /// The ARN of the instance's IAM profile. For more information about IAM ARNs,  see Using Identifiers.
         public let instanceProfileArn: String?
         /// The instance type, such as t2.micro.
         public let instanceType: String?
@@ -2354,7 +2354,7 @@ extension OpsWorks {
         public let publicIp: String?
         /// For registered instances, who performed the registration.
         public let registeredBy: String?
-        /// The instance's reported AWS OpsWorks Stacks agent version.
+        /// The instance's reported OpsWorks Stacks agent version.
         public let reportedAgentVersion: String?
         /// For registered instances, the reported operating system.
         public let reportedOs: ReportedOs?
@@ -2579,7 +2579,7 @@ extension OpsWorks {
     public struct Layer: AWSDecodableShape {
         /// The Amazon Resource Number (ARN) of a layer.
         public let arn: String?
-        /// The layer attributes. For the HaproxyStatsPassword, MysqlRootPassword, and GangliaPassword attributes, AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value For an ECS Cluster layer, AWS OpsWorks Stacks the EcsClusterArn attribute is set to the cluster's ARN.
+        /// The layer attributes. For the HaproxyStatsPassword, MysqlRootPassword, and GangliaPassword attributes, OpsWorks Stacks returns *****FILTERED***** instead of the actual value For an ECS Cluster layer, OpsWorks Stacks the EcsClusterArn attribute is set to the cluster's ARN.
         public let attributes: [LayerAttributesKeys: String]?
         /// Whether to automatically assign an Elastic IP address to the layer's instances. For more information, see How to Edit a Layer.
         public let autoAssignElasticIps: Bool?
@@ -2597,7 +2597,7 @@ extension OpsWorks {
         public let customRecipes: Recipes?
         /// An array containing the layer's custom security group IDs.
         public let customSecurityGroupIds: [String]?
-        /// AWS OpsWorks Stacks supports five lifecycle events: setup, configuration,  deploy, undeploy, and shutdown. For each layer, AWS OpsWorks Stacks runs a set of standard recipes for each event. You can also provide  custom recipes for any or all layers and events. AWS OpsWorks Stacks runs custom event recipes after the standard  recipes. LayerCustomRecipes specifies the custom recipes for a particular layer to be run in response to each of  the five events. To specify a recipe, use the cookbook's directory name in the repository followed by two colons and the recipe  name, which is the recipe's file name without the .rb extension. For example: phpapp2::dbsetup specifies the  dbsetup.rb recipe in the repository's phpapp2 folder.
+        /// OpsWorks Stacks supports five lifecycle events: setup, configuration,  deploy, undeploy, and shutdown. For each layer, OpsWorks Stacks runs a set of standard recipes for each event. You can also provide  custom recipes for any or all layers and events. OpsWorks Stacks runs custom event recipes after the standard  recipes. LayerCustomRecipes specifies the custom recipes for a particular layer to be run in response to each of  the five events. To specify a recipe, use the cookbook's directory name in the repository followed by two colons and the recipe  name, which is the recipe's file name without the .rb extension. For example: phpapp2::dbsetup specifies the  dbsetup.rb recipe in the repository's phpapp2 folder.
         public let defaultRecipes: Recipes?
         /// An array containing the layer's security group names.
         public let defaultSecurityGroupNames: [String]?
@@ -2609,7 +2609,7 @@ extension OpsWorks {
         public let layerId: String?
         /// A LifeCycleEventConfiguration object that specifies the Shutdown event configuration.
         public let lifecycleEventConfiguration: LifecycleEventConfiguration?
-        /// The layer name.
+        /// The layer name. Layer names can be a maximum of 32 characters.
         public let name: String?
         /// An array of Package objects that describe the layer's packages.
         public let packages: [String]?
@@ -2691,9 +2691,9 @@ extension OpsWorks {
     }
 
     public struct ListTagsRequest: AWSEncodableShape {
-        /// Do not use. A validation exception occurs if you add a MaxResults parameter to a ListTagsRequest call.
+        /// Do not use. A validation exception occurs if you add a MaxResults parameter to a ListTagsRequest  call.
         public let maxResults: Int?
-        /// Do not use. A validation exception occurs if you add a NextToken parameter to a ListTagsRequest call.
+        /// Do not use. A validation exception occurs if you add a NextToken parameter to a ListTagsRequest  call.
         public let nextToken: String?
         /// The stack or layer's Amazon Resource Number (ARN).
         public let resourceArn: String
@@ -2729,13 +2729,13 @@ extension OpsWorks {
     }
 
     public struct LoadBasedAutoScalingConfiguration: AWSDecodableShape {
-        /// An AutoScalingThresholds object that describes the downscaling configuration, which defines how and when AWS OpsWorks Stacks reduces the number of instances.
+        /// An AutoScalingThresholds object that describes the downscaling configuration, which defines how and when OpsWorks Stacks reduces the number of instances.
         public let downScaling: AutoScalingThresholds?
         /// Whether load-based auto scaling is enabled for the layer.
         public let enable: Bool?
         /// The layer ID.
         public let layerId: String?
-        /// An AutoScalingThresholds object that describes the upscaling configuration, which defines how and when AWS OpsWorks Stacks increases the number of instances.
+        /// An AutoScalingThresholds object that describes the upscaling configuration, which defines how and when OpsWorks Stacks increases the number of instances.
         public let upScaling: AutoScalingThresholds?
 
         public init(downScaling: AutoScalingThresholds? = nil, enable: Bool? = nil, layerId: String? = nil, upScaling: AutoScalingThresholds? = nil) {
@@ -2754,11 +2754,11 @@ extension OpsWorks {
     }
 
     public struct OperatingSystem: AWSDecodableShape {
-        /// Supported configuration manager name and versions for an AWS OpsWorks Stacks operating system.
+        /// Supported configuration manager name and versions for an OpsWorks Stacks operating system.
         public let configurationManagers: [OperatingSystemConfigurationManager]?
-        /// The ID of a supported operating system, such as Amazon Linux 2018.03.
+        /// The ID of a supported operating system, such as Amazon Linux 2.
         public let id: String?
-        /// The name of the operating system, such as Amazon Linux 2018.03.
+        /// The name of the operating system, such as Amazon Linux 2.
         public let name: String?
         /// A short name for the operating system manufacturer.
         public let reportedName: String?
@@ -2812,7 +2812,7 @@ extension OpsWorks {
         public let allowSsh: Bool?
         /// Whether the user can use sudo.
         public let allowSudo: Bool?
-        /// The Amazon Resource Name (ARN) for an AWS Identity and Access Management (IAM) role. For more information about IAM ARNs, see Using Identifiers.
+        /// The Amazon Resource Name (ARN) for an Identity and Access Management (IAM) role. For more information about IAM ARNs, see Using Identifiers.
         public let iamUserArn: String?
         /// The user's permission level, which must be the following:    deny     show     deploy     manage     iam_only    For more information on the permissions associated with these levels, see Managing User Permissions
         public let level: String?
@@ -2900,19 +2900,19 @@ extension OpsWorks {
     public struct RdsDbInstance: AWSDecodableShape {
         /// The instance's address.
         public let address: String?
-        /// The DB instance identifier.
+        /// The database instance identifier.
         public let dbInstanceIdentifier: String?
-        /// AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value.
+        /// OpsWorks Stacks returns *****FILTERED***** instead of the actual value.
         public let dbPassword: String?
         /// The master user name.
         public let dbUser: String?
         /// The instance's database engine.
         public let engine: String?
-        /// Set to true if AWS OpsWorks Stacks is unable to discover the Amazon RDS instance. AWS OpsWorks Stacks attempts to discover the instance only once. If this value is set to true, you must deregister the instance, and then register it again.
+        /// Set to true if OpsWorks Stacks is unable to discover the Amazon RDS instance.  OpsWorks Stacks attempts to discover the instance only once. If this value is set to true, you must deregister the instance, and then register it again.
         public let missingOnRds: Bool?
         /// The instance's ARN.
         public let rdsDbInstanceArn: String?
-        /// The instance's AWS region.
+        /// The instance's Amazon Web Services Region.
         public let region: String?
         /// The ID of the stack with which the instance is registered.
         public let stackId: String?
@@ -3045,7 +3045,7 @@ extension OpsWorks {
     }
 
     public struct RegisterInstanceRequest: AWSEncodableShape {
-        /// The instance's hostname.
+        /// The instance's host name. The following are character limits for instance host names.   Linux-based instances: 63 characters   Windows-based instances: 15 characters
         public let hostname: String?
         /// An InstanceIdentity object that contains the instance's identity.
         public let instanceIdentity: InstanceIdentity?
@@ -3082,7 +3082,7 @@ extension OpsWorks {
     }
 
     public struct RegisterInstanceResult: AWSDecodableShape {
-        /// The registered instance's AWS OpsWorks Stacks ID.
+        /// The registered instance's OpsWorks Stacks ID.
         public let instanceId: String?
 
         public init(instanceId: String? = nil) {
@@ -3229,13 +3229,13 @@ extension OpsWorks {
     }
 
     public struct SetLoadBasedAutoScalingRequest: AWSEncodableShape {
-        /// An AutoScalingThresholds object with the downscaling threshold configuration. If the load falls below these thresholds for a specified amount of time, AWS OpsWorks Stacks stops a specified number of instances.
+        /// An AutoScalingThresholds object with the downscaling threshold configuration. If the load falls below these thresholds for a specified amount of time, OpsWorks Stacks stops a specified number of instances.
         public let downScaling: AutoScalingThresholds?
         /// Enables load-based auto scaling for the layer.
         public let enable: Bool?
         /// The layer ID.
         public let layerId: String
-        /// An AutoScalingThresholds object with the upscaling threshold configuration. If the load exceeds these thresholds for a specified amount of time, AWS OpsWorks Stacks starts a specified number of instances.
+        /// An AutoScalingThresholds object with the upscaling threshold configuration. If the load exceeds these thresholds for a specified amount of time, OpsWorks Stacks starts a specified number of instances.
         public let upScaling: AutoScalingThresholds?
 
         public init(downScaling: AutoScalingThresholds? = nil, enable: Bool? = nil, layerId: String, upScaling: AutoScalingThresholds? = nil) {
@@ -3307,7 +3307,7 @@ extension OpsWorks {
     public struct ShutdownEventConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Whether to enable Elastic Load Balancing connection draining. For more information, see Connection Draining
         public let delayUntilElbConnectionsDrained: Bool?
-        /// The time, in seconds, that AWS OpsWorks Stacks will wait after triggering a Shutdown event before shutting down an instance.
+        /// The time, in seconds, that OpsWorks Stacks waits after triggering a Shutdown event before  shutting down an instance.
         public let executionTimeout: Int?
 
         public init(delayUntilElbConnectionsDrained: Bool? = nil, executionTimeout: Int? = nil) {
@@ -3322,15 +3322,15 @@ extension OpsWorks {
     }
 
     public struct Source: AWSEncodableShape & AWSDecodableShape {
-        /// When included in a request, the parameter depends on the repository type.   For Amazon S3 bundles, set Password to the appropriate IAM secret access key.   For HTTP bundles and Subversion repositories, set Password to the password.   For more information on how to safely handle IAM credentials, see https://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html. In responses, AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value.
+        /// When included in a request, the parameter depends on the repository type.   For Amazon S3 bundles, set Password to the appropriate IAM secret access key.   For HTTP bundles and Subversion repositories, set Password to the password.   For more information on how to safely handle IAM credentials, see https://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html. In responses, OpsWorks Stacks returns *****FILTERED***** instead of the actual value.
         public let password: String?
-        /// The application's version. AWS OpsWorks Stacks enables you to easily deploy new versions of an application. One of the simplest approaches is to have branches or revisions in your repository that represent different versions that can potentially be deployed.
+        /// The application's version. OpsWorks Stacks enables you to easily deploy new versions of an application.  One of the simplest approaches is to have branches or revisions in your repository that represent different  versions that can potentially be deployed.
         public let revision: String?
-        /// In requests, the repository's SSH key. In responses, AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value.
+        /// In requests, the repository's SSH key. In responses, OpsWorks Stacks returns *****FILTERED***** instead of the actual value.
         public let sshKey: String?
         /// The repository type.
         public let type: SourceType?
-        /// The source URL. The following is an example of an Amazon S3 source URL:  https://s3.amazonaws.com/opsworks-demo-bucket/opsworks_cookbook_demo.tar.gz.
+        /// The source URL. The following is an example of an Amazon S3 source  URL:  https://s3.amazonaws.com/opsworks-demo-bucket/opsworks_cookbook_demo.tar.gz.
         public let url: String?
         /// This parameter depends on the repository type.   For Amazon S3 bundles, set Username to the appropriate IAM access key ID.   For HTTP bundles, Git repositories, and Subversion repositories, set Username to the user name.
         public let username: String?
@@ -3390,7 +3390,7 @@ extension OpsWorks {
         public let createdAt: String?
         /// Contains the information required to retrieve an app or cookbook from a repository. For more information,  see Adding Apps or  Cookbooks and Recipes.
         public let customCookbooksSource: Source?
-        /// A JSON object that contains user-defined attributes to be added to the stack configuration and deployment attributes. You can use custom JSON to override the corresponding default stack configuration attribute values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
+        /// A JSON object that contains user-defined attributes to be added to the stack configuration and deployment attributes.  You can use custom JSON to override the corresponding default stack configuration attribute values or to pass data to recipes.  The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
         public let customJson: String?
         /// The stack's default Availability Zone. For more information, see Regions and Endpoints.
         public let defaultAvailabilityZone: String?
@@ -3400,23 +3400,23 @@ extension OpsWorks {
         public let defaultOs: String?
         /// The default root device type. This value is used by default for all instances in the stack, but you can override it when you create an instance. For more information, see Storage for the Root Device.
         public let defaultRootDeviceType: RootDeviceType?
-        /// A default Amazon EC2 key pair for the stack's instances. You can override this value when you create or update an instance.
+        /// A default Amazon EC2 key pair for the stack's instances. You can override this value when you create or  update an instance.
         public let defaultSshKeyName: String?
         /// The default subnet ID; applicable only if the stack is running in a VPC.
         public let defaultSubnetId: String?
         /// The stack host name theme, with spaces replaced by underscores.
         public let hostnameTheme: String?
-        /// The stack name.
+        /// The stack name. Stack names can be a maximum of 64 characters.
         public let name: String?
-        /// The stack AWS region, such as "ap-northeast-2". For more information about AWS regions, see Regions and Endpoints.
+        /// The stack Amazon Web Services Region, such as ap-northeast-2. For more information about  Amazon Web Services Regions, see Regions and Endpoints.
         public let region: String?
-        /// The stack AWS Identity and Access Management (IAM) role.
+        /// The stack Identity and Access Management (IAM) role.
         public let serviceRoleArn: String?
         /// The stack ID.
         public let stackId: String?
         /// Whether the stack uses custom cookbooks.
         public let useCustomCookbooks: Bool?
-        /// Whether the stack automatically associates the AWS OpsWorks Stacks built-in security groups with the stack's layers.
+        /// Whether the stack automatically associates the OpsWorks Stacks built-in security groups with the stack's layers.
         public let useOpsworksSecurityGroups: Bool?
         /// The VPC ID; applicable only if the stack is running in a VPC.
         public let vpcId: String?
@@ -3473,9 +3473,9 @@ extension OpsWorks {
     }
 
     public struct StackConfigurationManager: AWSEncodableShape & AWSDecodableShape {
-        /// The name. This parameter must be set to "Chef".
+        /// The name. This parameter must be set to Chef.
         public let name: String?
-        /// The Chef version. This parameter must be set to 12, 11.10, or 11.4 for Linux stacks, and to 12.2 for Windows stacks. The default value for Linux stacks is 11.4.
+        /// The Chef version. This parameter must be set to 12, 11.10, or 11.4 for Linux stacks, and to 12.2 for Windows stacks.  The default value for Linux stacks is 12.
         public let version: String?
 
         public init(name: String? = nil, version: String? = nil) {
@@ -3549,7 +3549,7 @@ extension OpsWorks {
     }
 
     public struct StopInstanceRequest: AWSEncodableShape {
-        /// Specifies whether to force an instance to stop. If the instance's root device type is ebs, or EBS-backed,  adding the Force parameter to the StopInstances API call disassociates the AWS OpsWorks Stacks instance from EC2, and forces deletion of only the OpsWorks Stacks instance.  You must also delete the formerly-associated instance in EC2 after troubleshooting and replacing the AWS OpsWorks Stacks instance with a new one.
+        /// Specifies whether to force an instance to stop. If the instance's root device type is ebs, or EBS-backed,  adding the Force parameter to the StopInstances API call disassociates the OpsWorks Stacks  instance from EC2, and forces deletion of only the OpsWorks Stacks instance.  You must also delete the formerly-associated instance in EC2 after troubleshooting and replacing the OpsWorks Stacks  instance with a new one.
         public let force: Bool?
         /// The instance ID.
         public let instanceId: String
@@ -3581,7 +3581,7 @@ extension OpsWorks {
     public struct TagResourceRequest: AWSEncodableShape {
         /// The stack or layer's Amazon Resource Number (ARN).
         public let resourceArn: String
-        /// A map that contains tag keys and tag values that are attached to a stack or layer.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 40 tags is allowed for any resource.
+        /// A map that contains tag keys and tag values that are attached to a stack or layer.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators,  or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators,  or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 40 tags is allowed for any resource.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -3596,13 +3596,13 @@ extension OpsWorks {
     }
 
     public struct TemporaryCredential: AWSDecodableShape {
-        /// The instance's AWS OpsWorks Stacks ID.
+        /// The instance's OpsWorks Stacks ID.
         public let instanceId: String?
         /// The password.
         public let password: String?
         /// The user name.
         public let username: String?
-        /// The length of time (in minutes) that the grant is valid. When the grant expires, at the end of this period, the user will no longer be able to use the credentials to log in. If they are logged in at the time, they will be automatically logged out.
+        /// The length of time (in minutes) that the grant is valid. When the grant expires, at the end of this period,  the user will no longer be able to use the credentials to log in. If they are logged in at the time, they are  automatically logged out.
         public let validForInMinutes: Int?
 
         public init(instanceId: String? = nil, password: String? = nil, username: String? = nil, validForInMinutes: Int? = nil) {
@@ -3695,7 +3695,7 @@ extension OpsWorks {
         public let domains: [String]?
         /// Whether SSL is enabled for the app.
         public let enableSsl: Bool?
-        /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instances.For more information, see  Environment Variables. There is no specific limit on the number of environment variables. However, the size of the associated data structure - which includes the variables' names, values, and protected flag values - cannot exceed 20 KB. This limit should accommodate most if not all use cases. Exceeding it will cause an exception with the message, "Environment: is too large (maximum is 20 KB)."  If you have specified one or more environment variables, you cannot modify the stack's Chef version.
+        /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instances.For more information, see  Environment Variables. There is no specific limit on the number of environment variables. However, the size of the associated data structure -  which includes the variables' names, values, and protected flag values - cannot exceed 20 KB. This limit should accommodate most  if not all use cases. Exceeding it will cause an exception with the message, "Environment: is too large (maximum is 20 KB)."  If you have specified one or more environment variables, you cannot modify the stack's Chef version.
         public let environment: [EnvironmentVariable]?
         /// The app name.
         public let name: String?
@@ -3736,7 +3736,7 @@ extension OpsWorks {
     public struct UpdateElasticIpRequest: AWSEncodableShape {
         /// The IP address for which you want to update the name.
         public let elasticIp: String
-        /// The new name.
+        /// The new name, which can be a maximum of 32 characters.
         public let name: String?
 
         public init(elasticIp: String, name: String? = nil) {
@@ -3751,9 +3751,9 @@ extension OpsWorks {
     }
 
     public struct UpdateInstanceRequest: AWSEncodableShape {
-        /// The default AWS OpsWorks Stacks agent version. You have the following options:    INHERIT - Use the stack's default agent version setting.    version_number - Use the specified agent version. This value overrides the stack's default setting. To update the agent version, you must edit the instance configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the instance.   The default setting is INHERIT. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
+        /// The default OpsWorks Stacks agent version. You have the following options:    INHERIT - Use the stack's default agent version setting.    version_number - Use the specified agent version. This value overrides the stack's default setting. To update the agent version, you must edit the instance configuration and specify a new version. OpsWorks Stacks installs that version on the instance.   The default setting is INHERIT. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
         public let agentVersion: String?
-        /// The ID of the AMI that was used to create the instance. The value of this parameter must be the same AMI ID that the instance is already using.  You cannot apply a new AMI to an instance by running UpdateInstance. UpdateInstance does not work on instances that are using custom AMIs.
+        /// The ID of the AMI that was used to create the instance. The value of this parameter must be the same AMI ID that the  instance is already using.  You cannot apply a new AMI to an instance by running UpdateInstance. UpdateInstance does not work on instances that are using  custom AMIs.
         public let amiId: String?
         /// The instance architecture. Instance types do not necessarily support both architectures. For a list of the architectures that are supported by the different instance types, see Instance Families and Types.
         public let architecture: Architecture?
@@ -3761,7 +3761,7 @@ extension OpsWorks {
         public let autoScalingType: AutoScalingType?
         /// This property cannot be updated.
         public let ebsOptimized: Bool?
-        /// The instance host name.
+        /// The instance host name. The following are character limits for instance host names.   Linux-based instances: 63 characters   Windows-based instances: 15 characters
         public let hostname: String?
         /// Whether to install operating system and package updates when the instance boots. The default value is true. To control when updates are installed, set this value to false. You must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true, to ensure that your instances have the latest security updates.
         public let installUpdatesOnBoot: Bool?
@@ -3771,7 +3771,7 @@ extension OpsWorks {
         public let instanceType: String?
         /// The instance's layer IDs.
         public let layerIds: [String]?
-        /// The instance's operating system, which must be set to one of the following. You cannot update an instance that is using a custom AMI.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2018.03, Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express,  Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   For more information about supported operating systems, see AWS OpsWorks Stacks Operating Systems. The default option is the current Amazon Linux version. If you set this parameter to Custom, you must use the AmiId parameter to specify the custom AMI that you want to use. For more information about supported operating systems, see Operating Systems. For more information about how to use custom AMIs with OpsWorks, see Using Custom AMIs.  You can specify a different Linux operating system for the updated stack, but you cannot change from Linux to Windows or Windows to Linux.
+        /// The instance's operating system, which must be set to one of the following. You cannot update an instance that is using  a custom AMI.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2, Amazon Linux 2018.03, Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 18.04 LTS, Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express,  Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   Not all operating systems are supported with all versions of Chef. For more information about supported operating systems, see OpsWorks Stacks Operating Systems. The default option is the current Amazon Linux version. If you set this parameter to Custom, you must use the AmiId parameter to specify the custom AMI that you want to use. For more information about how to use custom AMIs with OpsWorks, see Using Custom AMIs.  You can specify a different Linux operating system for the updated stack, but you cannot change from Linux to Windows or Windows to Linux.
         public let os: String?
         /// The instance's Amazon EC2 key name.
         public let sshKeyName: String?
@@ -3814,7 +3814,7 @@ extension OpsWorks {
         public let autoAssignElasticIps: Bool?
         /// For stacks that are running in a VPC, whether to automatically assign a public IP address to the layer's instances. For more information, see How to Edit a Layer.
         public let autoAssignPublicIps: Bool?
-        /// Specifies CloudWatch Logs configuration options for the layer. For more information, see CloudWatchLogsLogStream.
+        /// Specifies CloudWatch Logs configuration options for the layer. For more information,  see CloudWatchLogsLogStream.
         public let cloudWatchLogsConfiguration: CloudWatchLogsConfiguration?
         /// The ARN of an IAM profile to be used for all of the layer's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
         public let customInstanceProfileArn: String?
@@ -3831,11 +3831,11 @@ extension OpsWorks {
         /// The layer ID.
         public let layerId: String
         public let lifecycleEventConfiguration: LifecycleEventConfiguration?
-        /// The layer name, which is used by the console.
+        /// The layer name, which is used by the console. Layer names can be a maximum of 32 characters.
         public let name: String?
         /// An array of Package objects that describe the layer's packages.
         public let packages: [String]?
-        /// For custom layers only, use this parameter to specify the layer's short name, which is used internally by AWS OpsWorks Stacks and by Chef. The short name is also used as the name for the directory where your app files are installed. It can have a maximum of 200 characters and must be in the following format: /\A[a-z0-9\-\_\.]+\Z/. The built-in layers' short names are defined by AWS OpsWorks Stacks. For more information, see the Layer Reference
+        /// For custom layers only, use this parameter to specify the layer's short name, which is used internally by  OpsWorks Stacks and by Chef. The short name is also used as the name for the directory where your app files  are installed. It can have a maximum of 32 characters and must be in the following format: /\A[a-z0-9\-\_\.]+\Z/. Built-in layer short names are defined by OpsWorks Stacks. For more information, see the  Layer reference in the OpsWorks User Guide.
         public let shortname: String?
         /// Whether to use Amazon EBS-optimized instances.
         public let useEbsOptimizedInstances: Bool?
@@ -3918,33 +3918,33 @@ extension OpsWorks {
     }
 
     public struct UpdateStackRequest: AWSEncodableShape {
-        /// The default AWS OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the stack's instances.   The default setting is LATEST. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions.  AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting.
+        /// The default OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must  edit the stack configuration and specify a new version. OpsWorks Stacks installs that version  on the stack's instances.   The default setting is LATEST. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions.  AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default  setting.
         public let agentVersion: String?
         /// One or more user-defined key-value pairs to be added to the stack attributes.
         public let attributes: [StackAttributesKeys: String]?
         /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create a New Stack.
         public let chefConfiguration: ChefConfiguration?
-        /// The configuration manager. When you update a stack, we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 12.
+        /// The configuration manager. When you update a stack, we recommend that you use the configuration manager to specify the  Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 12.
         public let configurationManager: StackConfigurationManager?
-        /// Contains the information required to retrieve an app or cookbook from a repository. For more information,  see Adding Apps or Cookbooks and Recipes.
+        /// Contains the information required to retrieve an app or cookbook from a repository. For more information,  see Adding Apps or  Cookbooks and Recipes.
         public let customCookbooksSource: Source?
-        /// A string that contains user-defined, custom JSON. It can be used to override the corresponding default stack configuration JSON values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
+        /// A string that contains user-defined, custom JSON. It can be used to override the corresponding default stack configuration  JSON values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information about custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
         public let customJson: String?
         /// The stack's default Availability Zone, which must be in the stack's region. For more information, see Regions and Endpoints. If you also specify a value for DefaultSubnetId, the subnet must be in the same zone. For more information, see CreateStack.
         public let defaultAvailabilityZone: String?
         /// The ARN of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
         public let defaultInstanceProfileArn: String?
-        /// The stack's operating system, which must be set to one of the following:   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2018.03, Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09,  Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express,  Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information about how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the stack's current operating system. For more information about supported operating systems, see AWS OpsWorks Stacks Operating Systems.
+        /// The stack's operating system, which must be set to one of the following:   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2, Amazon Linux 2018.03, Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09,  Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 18.04 LTS, Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express,  Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information about how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the stack's current operating system. Not all operating systems are supported with all versions of Chef. For more information about supported operating systems, see OpsWorks Stacks Operating Systems.
         public let defaultOs: String?
         /// The default root device type. This value is used by default for all instances in the stack, but you can override it when you create an instance. For more information, see Storage for the Root Device.
         public let defaultRootDeviceType: RootDeviceType?
-        /// A default Amazon EC2 key-pair name. The default value is none. If you specify a key-pair name, AWS OpsWorks Stacks installs the public key on the instance and you can use the private key with an SSH client to log in to the instance. For more information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override this setting by specifying a different key pair, or no key pair, when you  create an instance.
+        /// A default Amazon EC2 key-pair name. The default value is none. If you specify a key-pair name, OpsWorks Stacks installs the public key on the instance and you can use the private key with an SSH client to log in to the instance. For more information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override this setting by specifying a different key pair, or no key pair, when you  create an instance.
         public let defaultSshKeyName: String?
         /// The stack's default VPC subnet ID. This parameter is required if you specify a value for the VpcId parameter. All instances are launched into this subnet unless you specify otherwise when you create the instance. If you also specify a value for DefaultAvailabilityZone, the subnet must be in that zone. For information on default values and when this parameter is required, see the VpcId parameter description.
         public let defaultSubnetId: String?
-        /// The stack's new host name theme, with spaces replaced by underscores. The theme is used to generate host names for the stack's instances. By default, HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities     Fruits     Greek_Deities_and_Titans     Legendary_creatures_from_Japan     Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To obtain a generated host name, call GetHostNameSuggestion, which returns a host name based on the current theme.
+        /// The stack's new host name theme, with spaces replaced by underscores. The theme is used to generate host names for the stack's instances. By default, HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to  the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities     Fruits     Greek_Deities_and_Titans     Legendary_creatures_from_Japan     Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To obtain a generated host name, call GetHostNameSuggestion, which returns a host name based on the current theme.
         public let hostnameTheme: String?
-        /// The stack's new name.
+        /// The stack's new name. Stack names can be a maximum of 64 characters.
         public let name: String?
         /// Do not use this parameter. You cannot update a stack's service role.
         public let serviceRoleArn: String?
@@ -3952,7 +3952,7 @@ extension OpsWorks {
         public let stackId: String
         /// Whether the stack uses custom cookbooks.
         public let useCustomCookbooks: Bool?
-        /// Whether to associate the AWS OpsWorks Stacks built-in security groups with the stack's layers. AWS OpsWorks Stacks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. UseOpsworksSecurityGroups allows you to provide your own custom security groups instead of using the built-in groups. UseOpsworksSecurityGroups has the following settings:    True - AWS OpsWorks Stacks automatically associates the appropriate built-in security group with each layer (default setting). You can associate additional security groups with a layer after you create it, but you cannot delete the built-in security group.   False - AWS OpsWorks Stacks does not associate built-in security groups with layers. You must create appropriate EC2 security groups and associate a security group with each layer that you create. However, you can still manually associate a built-in security group with a layer on. Custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
+        /// Whether to associate the OpsWorks Stacks built-in security groups with the stack's layers. OpsWorks Stacks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. UseOpsworksSecurityGroups allows you to provide your own custom security groups instead of using the built-in groups. UseOpsworksSecurityGroups has the following settings:    True - OpsWorks Stacks automatically associates the appropriate built-in security group with each  layer (default setting). You can associate additional security groups with a layer after you create it, but you cannot  delete the built-in security group.   False - OpsWorks Stacks does not associate built-in security groups with layers. You must create  appropriate EC2 security groups and associate a security group with each layer that you create. However, you can still  manually associate a built-in security group with a layer on. Custom security groups are required only for those layers  that need custom settings.   For more information, see Create a New Stack.
         public let useOpsworksSecurityGroups: Bool?
 
         public init(agentVersion: String? = nil, attributes: [StackAttributesKeys: String]? = nil, chefConfiguration: ChefConfiguration? = nil, configurationManager: StackConfigurationManager? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, defaultAvailabilityZone: String? = nil, defaultInstanceProfileArn: String? = nil, defaultOs: String? = nil, defaultRootDeviceType: RootDeviceType? = nil, defaultSshKeyName: String? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, name: String? = nil, serviceRoleArn: String? = nil, stackId: String, useCustomCookbooks: Bool? = nil, useOpsworksSecurityGroups: Bool? = nil) {
@@ -4005,7 +4005,7 @@ extension OpsWorks {
         public let iamUserArn: String
         /// The user's new SSH public key.
         public let sshPublicKey: String?
-        /// The user's SSH user name. The allowable characters are [a-z], [A-Z], [0-9], '-', and '_'. If the specified name includes other punctuation marks, AWS OpsWorks Stacks removes them. For example, my.name will be changed to myname. If you do not specify an SSH user name, AWS OpsWorks Stacks generates one from the IAM user name.
+        /// The user's SSH user name. The allowable characters are [a-z], [A-Z], [0-9], '-', and '_'. If the specified name includes other punctuation marks, OpsWorks Stacks removes them. For example, my.name will be changed to myname. If you do not specify an SSH user name, OpsWorks Stacks generates one from the IAM user name.
         public let sshUsername: String?
 
         public init(allowSelfManagement: Bool? = nil, iamUserArn: String, sshPublicKey: String? = nil, sshUsername: String? = nil) {
@@ -4026,7 +4026,7 @@ extension OpsWorks {
     public struct UpdateVolumeRequest: AWSEncodableShape {
         /// The new mount point.
         public let mountPoint: String?
-        /// The new name.
+        /// The new name. Volume names can be a maximum of 128 characters.
         public let name: String?
         /// The volume ID.
         public let volumeId: String
@@ -4088,11 +4088,11 @@ extension OpsWorks {
         public let iops: Int?
         /// The volume mount point. For example, "/mnt/disk1".
         public let mountPoint: String?
-        /// The volume name.
+        /// The volume name. Volume names are a maximum of 128 characters.
         public let name: String?
         /// The RAID array ID.
         public let raidArrayId: String?
-        /// The AWS region. For more information about AWS regions, see Regions and Endpoints.
+        /// The Amazon Web Services Region. For more information about Amazon Web Services Regions, see  Regions and Endpoints.
         public let region: String?
         /// The volume size.
         public let size: Int?
@@ -4100,7 +4100,7 @@ extension OpsWorks {
         public let status: String?
         /// The volume ID.
         public let volumeId: String?
-        /// The volume type. For more information, see  Amazon EBS Volume Types.    standard - Magnetic. Magnetic volumes must have a minimum size of 1 GiB and a maximum size of 1024 GiB.    io1 - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size of 4 GiB and a maximum size of 16384 GiB.    gp2 - General Purpose (SSD). General purpose volumes must have a minimum size of 1 GiB and a maximum size of 16384 GiB.    st1 - Throughput Optimized hard disk drive (HDD). Throughput optimized HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.    sc1 - Cold HDD. Cold HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.
+        /// The volume type. For more information, see  Amazon EBS Volume Types.    standard - Magnetic. Magnetic volumes must have a minimum size of 1 GiB and a maximum size of 1024 GiB.    io1 - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size of 4 GiB and a maximum size of 16384 GiB.    gp2 - General Purpose (SSD). General purpose volumes must have a minimum size of 1 GiB and a maximum size  of 16384 GiB.    st1 - Throughput Optimized hard disk drive (HDD). Throughput optimized HDD volumes must have a  minimum size of 125 GiB and a maximum size of 16384 GiB.    sc1 - Cold HDD. Cold HDD volumes must have a minimum size of 125 GiB and a maximum size of 16384 GiB.
         public let volumeType: String?
 
         public init(availabilityZone: String? = nil, device: String? = nil, ec2VolumeId: String? = nil, encrypted: Bool? = nil, instanceId: String? = nil, iops: Int? = nil, mountPoint: String? = nil, name: String? = nil, raidArrayId: String? = nil, region: String? = nil, size: Int? = nil, status: String? = nil, volumeId: String? = nil, volumeType: String? = nil) {
@@ -4151,7 +4151,7 @@ extension OpsWorks {
         public let raidLevel: Int?
         /// The volume size.
         public let size: Int
-        /// The volume type. For more information, see  Amazon EBS Volume Types.    standard - Magnetic. Magnetic volumes must have a minimum size of 1 GiB and a maximum size of 1024 GiB.    io1 - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size of 4 GiB and a maximum size of 16384 GiB.    gp2 - General Purpose (SSD). General purpose volumes must have a minimum size of 1 GiB and a maximum size of 16384 GiB.    st1 - Throughput Optimized hard disk drive (HDD). Throughput optimized HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.    sc1 - Cold HDD. Cold HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.
+        /// The volume type. For more information, see  Amazon EBS Volume Types.    standard - Magnetic. Magnetic volumes must have a minimum size of 1 GiB and a maximum size of 1024 GiB.    io1 - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size of 4 GiB and a maximum size of 16384 GiB.    gp2 - General Purpose (SSD). General purpose volumes must have a minimum size of 1 GiB and a maximum size  of 16384 GiB.    st1 - Throughput Optimized hard disk drive (HDD). Throughput optimized HDD volumes must have a  minimum size of 125 GiB and a maximum size of 16384 GiB.    sc1 - Cold HDD. Cold HDD volumes must have a minimum size of 125 GiB and a maximum size of 16384 GiB.
         public let volumeType: String?
 
         public init(encrypted: Bool? = nil, iops: Int? = nil, mountPoint: String, numberOfDisks: Int, raidLevel: Int? = nil, size: Int, volumeType: String? = nil) {

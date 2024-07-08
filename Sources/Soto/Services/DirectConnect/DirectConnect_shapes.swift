@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -187,6 +187,7 @@ extension DirectConnect {
     }
 
     public struct AcceptDirectConnectGatewayAssociationProposalResult: AWSDecodableShape {
+        /// Information about an association between a Direct Connect gateway and a virtual gateway or transit gateway.
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
 
         public init(directConnectGatewayAssociation: DirectConnectGatewayAssociation? = nil) {
@@ -228,7 +229,7 @@ extension DirectConnect {
     }
 
     public struct AllocateHostedConnectionRequest: AWSEncodableShape {
-        /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
+        /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, 10Gbps, and 25Gbps. Note that only those Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps, 10Gbps, or 25Gbps hosted connection.
         public let bandwidth: String
         /// The ID of the interconnect or LAG.
         public let connectionId: String
@@ -343,6 +344,7 @@ extension DirectConnect {
     }
 
     public struct AllocateTransitVirtualInterfaceResult: AWSDecodableShape {
+        /// Information about the transit virtual interface.
         public let virtualInterface: VirtualInterface?
 
         public init(virtualInterface: VirtualInterface? = nil) {
@@ -963,7 +965,7 @@ extension DirectConnect {
     }
 
     public struct CreateInterconnectRequest: AWSEncodableShape {
-        /// The port bandwidth, in Gbps. The possible values are 1 and 10.
+        /// The port bandwidth, in Gbps. The possible values are 1, 10, and 100.
         public let bandwidth: String
         /// The name of the interconnect.
         public let interconnectName: String
@@ -1007,13 +1009,13 @@ extension DirectConnect {
         public let childConnectionTags: [Tag]?
         /// The ID of an existing dedicated connection to migrate to the LAG.
         public let connectionId: String?
-        /// The bandwidth of the individual physical dedicated connections bundled by the LAG. The possible values are 1Gbps and 10Gbps.
+        /// The bandwidth of the individual physical dedicated connections bundled by the LAG. The possible values are  1Gbps,10Gbps, 100Gbps, and 400Gbps.
         public let connectionsBandwidth: String
         /// The name of the LAG.
         public let lagName: String
         /// The location for the LAG.
         public let location: String
-        /// The number of physical dedicated connections initially provisioned and bundled by the LAG.  You can have a maximum of four connections when the port speed is 1G or 10G, or two when the port speed is 100G.
+        /// The number of physical dedicated connections initially provisioned and bundled by the LAG. You can have a maximum of four connections when the port speed is 1Gbps or 10Gbps, or two when the port speed is 100Gbps or 400Gbps.
         public let numberOfConnections: Int
         /// The name of the service provider associated with the LAG.
         public let providerName: String?
@@ -1122,6 +1124,7 @@ extension DirectConnect {
     }
 
     public struct CreateTransitVirtualInterfaceResult: AWSDecodableShape {
+        /// Information about a virtual interface.
         public let virtualInterface: VirtualInterface?
 
         public init(virtualInterface: VirtualInterface? = nil) {
@@ -2088,7 +2091,7 @@ extension DirectConnect {
         public let awsLogicalDeviceId: String?
         /// The connections bundled by the LAG.
         public let connections: [Connection]?
-        /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps and 10Gbps.
+        /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps, 10Gbps, 100Gbps, or 400 Gbps..
         public let connectionsBandwidth: String?
         /// The LAG MAC Security (MACsec) encryption mode. The valid values are no_encrypt, should_encrypt, and must_encrypt.
         public let encryptionMode: String?
@@ -2110,7 +2113,7 @@ extension DirectConnect {
         public let macSecKeys: [MacSecKey]?
         /// The minimum number of physical dedicated connections that must be operational for the LAG itself to be operational.
         public let minimumLinks: Int?
-        /// The number of physical dedicated connections bundled by the LAG, up to a maximum of 10.
+        /// The number of physical dedicated connections initially provisioned and bundled by the LAG. You can have a maximum of four connections when the port speed is 1 Gbps or 10 Gbps, or two when the port speed is 100 Gbps or 400 Gbps.
         public let numberOfConnections: Int?
         /// The ID of the Amazon Web Services account that owns the LAG.
         public let ownerAccount: String?
@@ -2366,7 +2369,7 @@ extension DirectConnect {
         public let directConnectGatewayId: String?
         /// Indicates whether to enable or disable SiteLink.
         public let enableSiteLink: Bool?
-        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public let mtu: Int?
         /// The tags associated with the private virtual interface.
         public let tags: [Tag]?
@@ -2426,7 +2429,7 @@ extension DirectConnect {
         public let authKey: String?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
-        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public let mtu: Int?
         /// The tags associated with the private virtual interface.
         public let tags: [Tag]?
@@ -2931,6 +2934,7 @@ extension DirectConnect {
     }
 
     public struct UpdateDirectConnectGatewayAssociationResult: AWSDecodableShape {
+        /// Information about an association between a Direct Connect gateway and a virtual private gateway or transit gateway.
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
 
         public init(directConnectGatewayAssociation: DirectConnectGatewayAssociation? = nil) {
@@ -2960,6 +2964,7 @@ extension DirectConnect {
     }
 
     public struct UpdateDirectConnectGatewayResponse: AWSDecodableShape {
+        /// Informaiton about a Direct Connect gateway, which enables you to connect virtual interfaces and virtual private gateways or transit gateways.
         public let directConnectGateway: DirectConnectGateway?
 
         public init(directConnectGateway: DirectConnectGateway? = nil) {
@@ -2999,7 +3004,7 @@ extension DirectConnect {
     public struct UpdateVirtualInterfaceAttributesRequest: AWSEncodableShape {
         /// Indicates whether to enable or disable SiteLink.
         public let enableSiteLink: Bool?
-        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public let mtu: Int?
         /// The ID of the virtual private interface.
         public let virtualInterfaceId: String
@@ -3100,7 +3105,7 @@ extension DirectConnect {
         public let virtualInterfaceName: String?
         /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.
         public let virtualInterfaceState: VirtualInterfaceState?
-        /// The type of virtual interface. The possible values are private and public.
+        /// The type of virtual interface. The possible values are private, public and transit.
         public let virtualInterfaceType: String?
         /// The ID of the VLAN.
         public let vlan: Int?

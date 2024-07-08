@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -73,7 +73,7 @@ public struct CodeGuruSecurity: AWSService {
 
     // MARK: API Calls
 
-    /// Returns a list of all requested findings.
+    /// Returns a list of requested findings from standard scans.
     @Sendable
     public func batchGetFindings(_ input: BatchGetFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetFindingsResponse {
         return try await self.client.execute(
@@ -86,7 +86,7 @@ public struct CodeGuruSecurity: AWSService {
         )
     }
 
-    /// Use to create a scan using code uploaded to an S3 bucket.
+    /// Use to create a scan using code uploaded to an Amazon S3 bucket.
     @Sendable
     public func createScan(_ input: CreateScanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScanResponse {
         return try await self.client.execute(
@@ -99,7 +99,7 @@ public struct CodeGuruSecurity: AWSService {
         )
     }
 
-    /// Generates a pre-signed URL and request headers used to upload a code resource. You can upload your code resource to the URL and add the request headers using any HTTP client.
+    /// Generates a pre-signed URL, request headers used to upload a code resource, and code artifact identifier for the uploaded resource. You can upload your code resource to the URL with the request headers using any HTTP client.
     @Sendable
     public func createUploadUrl(_ input: CreateUploadUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUploadUrlResponse {
         return try await self.client.execute(
@@ -112,7 +112,7 @@ public struct CodeGuruSecurity: AWSService {
         )
     }
 
-    /// Use to get account level configuration.
+    /// Use to get the encryption configuration for an account.
     @Sendable
     public func getAccountConfiguration(_ input: GetAccountConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountConfigurationResponse {
         return try await self.client.execute(
@@ -138,7 +138,7 @@ public struct CodeGuruSecurity: AWSService {
         )
     }
 
-    /// Returns top level metrics about an account from a specified date, including number of open findings, the categories with most findings, the scans with most open findings, and scans with most open critical findings.
+    /// Returns a summary of metrics for an account from a specified date, including number of open findings, the categories with most findings, the scans with most open findings, and scans with most open critical findings.
     @Sendable
     public func getMetricsSummary(_ input: GetMetricsSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricsSummaryResponse {
         return try await self.client.execute(
@@ -177,7 +177,7 @@ public struct CodeGuruSecurity: AWSService {
         )
     }
 
-    /// Returns a list of all the standard scans in an account. Does not return express scans.
+    /// Returns a list of all scans in an account. Does not return EXPRESS scans.
     @Sendable
     public func listScans(_ input: ListScansRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListScansResponse {
         return try await self.client.execute(
@@ -229,7 +229,7 @@ public struct CodeGuruSecurity: AWSService {
         )
     }
 
-    /// Use to update account-level configuration with an encryption key.
+    /// Use to update the encryption configuration for an account.
     @Sendable
     public func updateAccountConfiguration(_ input: UpdateAccountConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccountConfigurationResponse {
         return try await self.client.execute(
@@ -294,7 +294,7 @@ extension CodeGuruSecurity {
         )
     }
 
-    /// Returns a list of all the standard scans in an account. Does not return express scans.
+    /// Returns a list of all scans in an account. Does not return EXPRESS scans.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

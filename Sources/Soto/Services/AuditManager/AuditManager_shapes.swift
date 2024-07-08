@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -78,6 +78,12 @@ extension AuditManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum ControlState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case endOfSupport = "END_OF_SUPPORT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ControlStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inactive = "INACTIVE"
         case reviewed = "REVIEWED"
@@ -86,8 +92,18 @@ extension AuditManager {
     }
 
     public enum ControlType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case core = "Core"
         case custom = "Custom"
         case standard = "Standard"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsApiCall = "AWS_API_Call"
+        case awsCloudtrail = "AWS_Cloudtrail"
+        case awsConfig = "AWS_Config"
+        case awsSecurityHub = "AWS_Security_Hub"
+        case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
 
@@ -207,6 +223,8 @@ extension AuditManager {
         case awsCloudtrail = "AWS_Cloudtrail"
         case awsConfig = "AWS_Config"
         case awsSecurityHub = "AWS_Security_Hub"
+        case commonControl = "Common_Control"
+        case coreControl = "Core_Control"
         case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
@@ -1265,6 +1283,8 @@ extension AuditManager {
         public let lastUpdatedBy: String?
         ///  The name of the control.
         public let name: String?
+        /// The state of the control. The END_OF_SUPPORT state is applicable to standard controls only. This state indicates that the standard control can still be used to collect evidence, but Audit Manager is no longer updating or maintaining that control.
+        public let state: ControlState?
         ///  The tags associated with the control.
         public let tags: [String: String]?
         ///  The steps that you should follow to determine if the control has been satisfied.
@@ -1272,7 +1292,7 @@ extension AuditManager {
         ///  Specifies whether the control is a standard control or a custom control.
         public let type: ControlType?
 
-        public init(actionPlanInstructions: String? = nil, actionPlanTitle: String? = nil, arn: String? = nil, controlMappingSources: [ControlMappingSource]? = nil, controlSources: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, name: String? = nil, tags: [String: String]? = nil, testingInformation: String? = nil, type: ControlType? = nil) {
+        public init(actionPlanInstructions: String? = nil, actionPlanTitle: String? = nil, arn: String? = nil, controlMappingSources: [ControlMappingSource]? = nil, controlSources: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, name: String? = nil, state: ControlState? = nil, tags: [String: String]? = nil, testingInformation: String? = nil, type: ControlType? = nil) {
             self.actionPlanInstructions = actionPlanInstructions
             self.actionPlanTitle = actionPlanTitle
             self.arn = arn
@@ -1285,6 +1305,7 @@ extension AuditManager {
             self.lastUpdatedAt = lastUpdatedAt
             self.lastUpdatedBy = lastUpdatedBy
             self.name = name
+            self.state = state
             self.tags = tags
             self.testingInformation = testingInformation
             self.type = type
@@ -1303,6 +1324,7 @@ extension AuditManager {
             case lastUpdatedAt = "lastUpdatedAt"
             case lastUpdatedBy = "lastUpdatedBy"
             case name = "name"
+            case state = "state"
             case tags = "tags"
             case testingInformation = "testingInformation"
             case type = "type"
@@ -1335,7 +1357,7 @@ extension AuditManager {
         public let controlsCountByNoncompliantEvidence: Int?
         /// A breakdown of the compliance check status for the evidence that’s associated with the control domain.
         public let evidenceInsights: EvidenceInsights?
-        /// The unique identifier for the control domain.
+        /// The unique identifier for the control domain. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see  ListDomains in the Amazon Web Services Control Catalog API Reference.
         public let id: String?
         /// The time when the control domain insights were last updated.
         public let lastUpdated: Date?
@@ -1427,9 +1449,9 @@ extension AuditManager {
         public let sourceKeyword: SourceKeyword?
         ///  The name of the source.
         public let sourceName: String?
-        ///  The setup option for the data source. This option reflects if the evidence collection is automated or manual.
+        /// The setup option for the data source. This option reflects if the evidence collection method is automated or manual. If you don’t provide a value for sourceSetUpOption, Audit Manager automatically infers and populates the correct value based on the sourceType that you specify.
         public let sourceSetUpOption: SourceSetUpOption?
-        ///  Specifies one of the five data source types for evidence collection.
+        ///  Specifies which type of data source is used to collect evidence.    The source can be an individual data source type, such as AWS_Cloudtrail, AWS_Config, AWS_Security_Hub, AWS_API_Call, or MANUAL.    The source can also be a managed grouping of data sources, such as a Core_Control or a Common_Control.
         public let sourceType: SourceType?
         ///  The instructions for troubleshooting the control.
         public let troubleshootingText: String?
@@ -1452,7 +1474,7 @@ extension AuditManager {
             try self.validate(self.sourceId, name: "sourceId", parent: name, min: 36)
             try self.validate(self.sourceId, name: "sourceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.sourceKeyword?.validate(name: "\(name).sourceKeyword")
-            try self.validate(self.sourceName, name: "sourceName", parent: name, max: 100)
+            try self.validate(self.sourceName, name: "sourceName", parent: name, max: 300)
             try self.validate(self.sourceName, name: "sourceName", parent: name, min: 1)
             try self.validate(self.troubleshootingText, name: "troubleshootingText", parent: name, max: 1000)
             try self.validate(self.troubleshootingText, name: "troubleshootingText", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
@@ -1775,9 +1797,9 @@ extension AuditManager {
         public let sourceKeyword: SourceKeyword?
         ///  The name of the control mapping data source.
         public let sourceName: String?
-        ///  The setup option for the data source, which reflects if the evidence collection is automated or manual.
+        /// The setup option for the data source. This option reflects if the evidence collection method is automated or manual. If you don’t provide a value for sourceSetUpOption, Audit Manager automatically infers and populates the correct value based on the sourceType that you specify.
         public let sourceSetUpOption: SourceSetUpOption?
-        ///  Specifies one of the five types of data sources for evidence collection.
+        ///  Specifies which type of data source is used to collect evidence.    The source can be an individual data source type, such as AWS_Cloudtrail, AWS_Config, AWS_Security_Hub, AWS_API_Call, or MANUAL.    The source can also be a managed grouping of data sources, such as a Core_Control or a Common_Control.
         public let sourceType: SourceType?
         ///  The instructions for troubleshooting the control.
         public let troubleshootingText: String?
@@ -1796,7 +1818,7 @@ extension AuditManager {
             try self.validate(self.sourceDescription, name: "sourceDescription", parent: name, max: 1000)
             try self.validate(self.sourceDescription, name: "sourceDescription", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
             try self.sourceKeyword?.validate(name: "\(name).sourceKeyword")
-            try self.validate(self.sourceName, name: "sourceName", parent: name, max: 100)
+            try self.validate(self.sourceName, name: "sourceName", parent: name, max: 300)
             try self.validate(self.sourceName, name: "sourceName", parent: name, min: 1)
             try self.validate(self.troubleshootingText, name: "troubleshootingText", parent: name, max: 1000)
             try self.validate(self.troubleshootingText, name: "troubleshootingText", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
@@ -3288,7 +3310,7 @@ extension AuditManager {
     public struct ListAssessmentControlInsightsByControlDomainRequest: AWSEncodableShape {
         /// The unique identifier for the active assessment.
         public let assessmentId: String
-        /// The unique identifier for the control domain.
+        /// The unique identifier for the control domain.  Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see  ListDomains in the Amazon Web Services Control Catalog API Reference.
         public let controlDomainId: String
         /// Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
@@ -3315,9 +3337,9 @@ extension AuditManager {
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.validate(self.controlDomainId, name: "controlDomainId", parent: name, max: 36)
-            try self.validate(self.controlDomainId, name: "controlDomainId", parent: name, min: 36)
-            try self.validate(self.controlDomainId, name: "controlDomainId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.controlDomainId, name: "controlDomainId", parent: name, max: 2048)
+            try self.validate(self.controlDomainId, name: "controlDomainId", parent: name, min: 13)
+            try self.validate(self.controlDomainId, name: "controlDomainId", parent: name, pattern: "^arn:.*:controlcatalog:.*:.*:domain/.*|UNCATEGORIZED|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
@@ -3641,7 +3663,7 @@ extension AuditManager {
     }
 
     public struct ListControlInsightsByControlDomainRequest: AWSEncodableShape {
-        /// The unique identifier for the control domain.
+        /// The unique identifier for the control domain.  Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see  ListDomains in the Amazon Web Services Control Catalog API Reference.
         public let controlDomainId: String
         /// Represents the maximum number of results on a page or for an API request call.
         public let maxResults: Int?
@@ -3663,9 +3685,9 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.controlDomainId, name: "controlDomainId", parent: name, max: 36)
-            try self.validate(self.controlDomainId, name: "controlDomainId", parent: name, min: 36)
-            try self.validate(self.controlDomainId, name: "controlDomainId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.controlDomainId, name: "controlDomainId", parent: name, max: 2048)
+            try self.validate(self.controlDomainId, name: "controlDomainId", parent: name, min: 13)
+            try self.validate(self.controlDomainId, name: "controlDomainId", parent: name, pattern: "^arn:.*:controlcatalog:.*:.*:domain/.*|UNCATEGORIZED|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
@@ -3694,14 +3716,17 @@ extension AuditManager {
     }
 
     public struct ListControlsRequest: AWSEncodableShape {
-        ///  The type of control, such as a standard control or a custom control.
+        /// A filter that narrows the list of controls to a specific resource from the Amazon Web Services  Control Catalog.  To use this parameter, specify the ARN of the Control Catalog resource. You can specify either  a control domain, a control objective, or a common control. For information about how to find the ARNs for these resources, see  ListDomains ,  ListObjectives , and  ListCommonControls .  You can only filter by one Control Catalog resource at a time.  Specifying multiple resource ARNs isn’t currently supported. If you want to filter by more  than one ARN, we recommend that you run the ListControls operation separately  for each ARN.   Alternatively, specify UNCATEGORIZED to list controls that aren't mapped to a Control Catalog resource. For example, this operation might return a list of  custom controls that don't belong to any control domain or control objective.
+        public let controlCatalogId: String?
+        /// A filter that narrows the list of controls to a specific type.
         public let controlType: ControlType
-        ///  Represents the maximum number of results on a page or for an API request call.
+        /// The maximum number of results on a page or for an API request call.
         public let maxResults: Int?
-        ///  The pagination token that's used to fetch the next set of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
-        public init(controlType: ControlType, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(controlCatalogId: String? = nil, controlType: ControlType, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.controlCatalogId = controlCatalogId
             self.controlType = controlType
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3710,12 +3735,16 @@ extension AuditManager {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.controlCatalogId, key: "controlCatalogId")
             request.encodeQuery(self.controlType, key: "controlType")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.controlCatalogId, name: "controlCatalogId", parent: name, max: 2048)
+            try self.validate(self.controlCatalogId, name: "controlCatalogId", parent: name, min: 13)
+            try self.validate(self.controlCatalogId, name: "controlCatalogId", parent: name, pattern: "^arn:.*:controlcatalog:.*|UNCATEGORIZED$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
@@ -3729,7 +3758,7 @@ extension AuditManager {
     public struct ListControlsResponse: AWSDecodableShape {
         ///  A list of metadata that the ListControls API returns for each control.
         public let controlMetadataList: [ControlMetadata]?
-        ///  The pagination token that's used to fetch the next set of results.
+        /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
         public init(controlMetadataList: [ControlMetadata]? = nil, nextToken: String? = nil) {
@@ -3748,10 +3777,10 @@ extension AuditManager {
         public let maxResults: Int?
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
-        ///  The control mapping data source that the keywords apply to.
-        public let source: SourceType
+        /// The control mapping data source that the keywords apply to.
+        public let source: DataSourceType
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, source: SourceType) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, source: DataSourceType) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.source = source
@@ -3777,7 +3806,7 @@ extension AuditManager {
     }
 
     public struct ListKeywordsForDataSourceResponse: AWSDecodableShape {
-        ///  The list of keywords for the event mapping source.
+        /// The list of keywords for the control mapping source.
         public let keywords: [String]?
         ///  The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
@@ -4071,9 +4100,15 @@ extension AuditManager {
     public struct Scope: AWSEncodableShape & AWSDecodableShape {
         ///  The Amazon Web Services accounts that are included in the scope of the assessment.
         public let awsAccounts: [AWSAccount]?
-        ///  The Amazon Web Services services that are included in the scope of the assessment.
+        ///  The Amazon Web Services services that are included in the scope of the assessment.   This API parameter is no longer supported. If you use this parameter to specify one or more Amazon Web Services, Audit Manager ignores this input. Instead, the value for awsServices will show as empty.
         public let awsServices: [AWSService]?
 
+        public init(awsAccounts: [AWSAccount]? = nil) {
+            self.awsAccounts = awsAccounts
+            self.awsServices = nil
+        }
+
+        @available(*, deprecated, message: "Members awsServices have been deprecated")
         public init(awsAccounts: [AWSAccount]? = nil, awsServices: [AWSService]? = nil) {
             self.awsAccounts = awsAccounts
             self.awsServices = awsServices
@@ -4176,7 +4211,7 @@ extension AuditManager {
         public func validate(name: String) throws {
             try self.validate(self.keywordValue, name: "keywordValue", parent: name, max: 100)
             try self.validate(self.keywordValue, name: "keywordValue", parent: name, min: 1)
-            try self.validate(self.keywordValue, name: "keywordValue", parent: name, pattern: "^[a-zA-Z_0-9-\\s().]+$")
+            try self.validate(self.keywordValue, name: "keywordValue", parent: name, pattern: "^[a-zA-Z_0-9-\\s().:\\/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

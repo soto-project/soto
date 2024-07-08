@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -83,6 +83,19 @@ public struct Account: AWSService {
 
     // MARK: API Calls
 
+    /// Accepts the request that originated from StartPrimaryEmailUpdate to update the primary email address (also known as the root user email address) for the specified account.
+    @Sendable
+    public func acceptPrimaryEmailUpdate(_ input: AcceptPrimaryEmailUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptPrimaryEmailUpdateResponse {
+        return try await self.client.execute(
+            operation: "AcceptPrimaryEmailUpdate", 
+            path: "/acceptPrimaryEmailUpdate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes the specified alternate contact from an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Access or updating the alternate contacts.  Before you can update the alternate contact information for an  Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations.  For more information, see Enabling trusted access for  Amazon Web Services Account Management.
     @Sendable
     public func deleteAlternateContact(_ input: DeleteAlternateContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -96,7 +109,7 @@ public struct Account: AWSService {
         )
     }
 
-    /// Disables (opts-out) a particular Region for an account.
+    /// Disables (opts-out) a particular Region for an account.  The act of disabling a Region will remove all IAM access to any resources that reside in that Region.
     @Sendable
     public func disableRegion(_ input: DisableRegionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -141,6 +154,19 @@ public struct Account: AWSService {
         return try await self.client.execute(
             operation: "GetContactInformation", 
             path: "/getContactInformation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the primary email address for the specified account.
+    @Sendable
+    public func getPrimaryEmail(_ input: GetPrimaryEmailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPrimaryEmailResponse {
+        return try await self.client.execute(
+            operation: "GetPrimaryEmail", 
+            path: "/getPrimaryEmail", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -193,6 +219,19 @@ public struct Account: AWSService {
         return try await self.client.execute(
             operation: "PutContactInformation", 
             path: "/putContactInformation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Starts the process to update the primary email address for the specified account.
+    @Sendable
+    public func startPrimaryEmailUpdate(_ input: StartPrimaryEmailUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartPrimaryEmailUpdateResponse {
+        return try await self.client.execute(
+            operation: "StartPrimaryEmailUpdate", 
+            path: "/startPrimaryEmailUpdate", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 

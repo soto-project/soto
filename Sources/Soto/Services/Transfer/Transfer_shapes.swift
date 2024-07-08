@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -784,6 +784,7 @@ extension Transfer {
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
             try self.validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, max: 2048)
+            try self.validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, pattern: "^\\s*(ssh|ecdsa)-[a-z0-9-]+[ \\t]+(([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{1,3})?(={0,3})?)(\\s*|[ \\t]+[\\S \\t]*\\s*)$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1720,7 +1721,7 @@ extension Transfer {
         public let tags: [Tag]?
         /// If a private key has been specified for the certificate, its type is CERTIFICATE_WITH_PRIVATE_KEY. If there is no private key, the type is CERTIFICATE.
         public let type: CertificateType?
-        /// Specifies whether this certificate is used for signing or encryption.
+        /// Specifies how this certificate is used. It can be used in the following ways:    SIGNING: For signing AS2 messages    ENCRYPTION: For encrypting AS2 messages    TLS: For securing AS2 communications sent over HTTPS
         public let usage: CertificateUsageType?
 
         public init(activeDate: Date? = nil, arn: String, certificate: String? = nil, certificateChain: String? = nil, certificateId: String? = nil, description: String? = nil, inactiveDate: Date? = nil, notAfterDate: Date? = nil, notBeforeDate: Date? = nil, serial: String? = nil, status: CertificateStatusType? = nil, tags: [Tag]? = nil, type: CertificateType? = nil, usage: CertificateUsageType? = nil) {
@@ -1969,7 +1970,7 @@ extension Transfer {
         public let as2ServiceManagedEgressIpAddresses: [String]?
         /// Specifies the ARN of the Amazon Web ServicesCertificate Manager (ACM) certificate. Required when Protocols is set to FTPS.
         public let certificate: String?
-        /// Specifies the domain of the storage system that is used for file transfers.
+        /// Specifies the domain of the storage system that is used for file transfers. There are two domains available: Amazon Simple Storage Service (Amazon S3) and Amazon Elastic File System (Amazon EFS). The default value is S3.
         public let domain: Domain?
         /// The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make your endpoint accessible only to resources within your VPC, or you can attach Elastic IP addresses and make your endpoint accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
         public let endpointDetails: EndpointDetails?
@@ -2363,7 +2364,7 @@ extension Transfer {
         public let privateKey: String?
         /// Key-value pairs that can be used to group and search for certificates.
         public let tags: [Tag]?
-        /// Specifies whether this certificate is used for signing or encryption.
+        /// Specifies how this certificate is used. It can be used in the following ways:    SIGNING: For signing AS2 messages    ENCRYPTION: For encrypting AS2 messages    TLS: For securing AS2 communications sent over HTTPS
         public let usage: CertificateUsageType
 
         public init(activeDate: Date? = nil, certificate: String, certificateChain: String? = nil, description: String? = nil, inactiveDate: Date? = nil, privateKey: String? = nil, tags: [Tag]? = nil, usage: CertificateUsageType) {
@@ -2497,6 +2498,7 @@ extension Transfer {
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
             try self.validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, max: 2048)
+            try self.validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, pattern: "^\\s*(ssh|ecdsa)-[a-z0-9-]+[ \\t]+(([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{1,3})?(={0,3})?)(\\s*|[ \\t]+[\\S \\t]*\\s*)$")
             try self.validate(self.userName, name: "userName", parent: name, max: 100)
             try self.validate(self.userName, name: "userName", parent: name, min: 3)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
@@ -3187,7 +3189,7 @@ extension Transfer {
         public let status: CertificateStatusType?
         /// The type for the certificate. If a private key has been specified for the certificate, its type is CERTIFICATE_WITH_PRIVATE_KEY. If there is no private key, the type is CERTIFICATE.
         public let type: CertificateType?
-        /// Specifies whether this certificate is used for signing or encryption.
+        /// Specifies how this certificate is used. It can be used in the following ways:    SIGNING: For signing AS2 messages    ENCRYPTION: For encrypting AS2 messages    TLS: For securing AS2 communications sent over HTTPS
         public let usage: CertificateUsageType?
 
         public init(activeDate: Date? = nil, arn: String? = nil, certificateId: String? = nil, description: String? = nil, inactiveDate: Date? = nil, status: CertificateStatusType? = nil, type: CertificateType? = nil, usage: CertificateUsageType? = nil) {
@@ -3320,7 +3322,7 @@ extension Transfer {
     public struct ListedServer: AWSDecodableShape {
         /// Specifies the unique Amazon Resource Name (ARN) for a server to be listed.
         public let arn: String
-        /// Specifies the domain of the storage system that is used for file transfers.
+        /// Specifies the domain of the storage system that is used for file transfers. There are two domains available: Amazon Simple Storage Service (Amazon S3) and Amazon Elastic File System (Amazon EFS). The default value is S3.
         public let domain: Domain?
         /// Specifies the type of VPC endpoint that your server is connected to. If your server is connected to a VPC endpoint, your server isn't accessible over the public internet.
         public let endpointType: EndpointType?

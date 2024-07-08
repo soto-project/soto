@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -48,6 +48,13 @@ extension Glue {
         case sumDistinct = "sumDistinct"
         case varPop = "var_pop"
         case varSamp = "var_samp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case basic = "BASIC"
+        case custom = "CUSTOM"
+        case oauth2 = "OAUTH2"
         public var description: String { return self.rawValue }
     }
 
@@ -176,9 +183,17 @@ extension Glue {
         case kafkaSslEnabled = "KAFKA_SSL_ENABLED"
         case password = "PASSWORD"
         case port = "PORT"
+        case roleArn = "ROLE_ARN"
         case secretId = "SECRET_ID"
         case skipCustomJdbcCertValidation = "SKIP_CUSTOM_JDBC_CERT_VALIDATION"
         case userName = "USERNAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case ready = "READY"
         public var description: String { return self.rawValue }
     }
 
@@ -189,6 +204,7 @@ extension Glue {
         case marketplace = "MARKETPLACE"
         case mongodb = "MONGODB"
         case network = "NETWORK"
+        case salesforce = "SALESFORCE"
         case sftp = "SFTP"
         public var description: String { return self.rawValue }
     }
@@ -238,6 +254,12 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum DQCompositeRuleEvaluationMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case column = "COLUMN"
+        case row = "ROW"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DQStopJobOnFailureTiming: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afterDataLoad = "AfterDataLoad"
         case immediate = "Immediate"
@@ -261,6 +283,11 @@ extension Glue {
         case error = "ERROR"
         case fail = "FAIL"
         case pass = "PASS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatabaseAttributes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case name = "NAME"
         public var description: String { return self.rawValue }
     }
 
@@ -424,8 +451,16 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum JobMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notebook = "NOTEBOOK"
+        case script = "SCRIPT"
+        case visual = "VISUAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobRunState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
+        case expired = "EXPIRED"
         case failed = "FAILED"
         case running = "RUNNING"
         case starting = "STARTING"
@@ -486,6 +521,13 @@ extension Glue {
         case crawler = "CRAWLER"
         case job = "JOB"
         case trigger = "TRIGGER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OAuth2GrantType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case authorizationCode = "AUTHORIZATION_CODE"
+        case clientCredentials = "CLIENT_CREDENTIALS"
+        case jwtBearer = "JWT_BEARER"
         public var description: String { return self.rawValue }
     }
 
@@ -799,6 +841,14 @@ extension Glue {
         case athena = "ATHENA"
         case redshift = "REDSHIFT"
         case spark = "SPARK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ViewUpdateAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case add = "ADD"
+        case addOrReplace = "ADD_OR_REPLACE"
+        case drop = "DROP"
+        case replace = "REPLACE"
         public var description: String { return self.rawValue }
     }
 
@@ -1247,6 +1297,78 @@ extension Glue {
             case additionalAuditContext = "AdditionalAuditContext"
             case allColumnsRequested = "AllColumnsRequested"
             case requestedColumns = "RequestedColumns"
+        }
+    }
+
+    public struct AuthenticationConfiguration: AWSDecodableShape {
+        /// A structure containing the authentication configuration.
+        public let authenticationType: AuthenticationType?
+        /// The properties for OAuth2 authentication.
+        public let oAuth2Properties: OAuth2Properties?
+        /// The secret manager ARN to store credentials.
+        public let secretArn: String?
+
+        public init(authenticationType: AuthenticationType? = nil, oAuth2Properties: OAuth2Properties? = nil, secretArn: String? = nil) {
+            self.authenticationType = authenticationType
+            self.oAuth2Properties = oAuth2Properties
+            self.secretArn = secretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationType = "AuthenticationType"
+            case oAuth2Properties = "OAuth2Properties"
+            case secretArn = "SecretArn"
+        }
+    }
+
+    public struct AuthenticationConfigurationInput: AWSEncodableShape {
+        /// A structure containing the authentication configuration in the CreateConnection request.
+        public let authenticationType: AuthenticationType?
+        /// The properties for OAuth2 authentication in the CreateConnection request.
+        public let oAuth2Properties: OAuth2PropertiesInput?
+        /// The secret manager ARN to store credentials in the CreateConnection request.
+        public let secretArn: String?
+
+        public init(authenticationType: AuthenticationType? = nil, oAuth2Properties: OAuth2PropertiesInput? = nil, secretArn: String? = nil) {
+            self.authenticationType = authenticationType
+            self.oAuth2Properties = oAuth2Properties
+            self.secretArn = secretArn
+        }
+
+        public func validate(name: String) throws {
+            try self.oAuth2Properties?.validate(name: "\(name).oAuth2Properties")
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso(-[bef])?))?:secretsmanager:.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationType = "AuthenticationType"
+            case oAuth2Properties = "OAuth2Properties"
+            case secretArn = "SecretArn"
+        }
+    }
+
+    public struct AuthorizationCodeProperties: AWSEncodableShape {
+        /// An authorization code to be used in the third leg of the AUTHORIZATION_CODE grant workflow. This is a single-use code which becomes invalid once exchanged for an access token, thus it is acceptable to have this value as a request parameter.
+        public let authorizationCode: String?
+        /// The redirect URI where the user gets redirected to by authorization server when issuing an authorization code. The URI is subsequently used when the authorization code is exchanged for an access token.
+        public let redirectUri: String?
+
+        public init(authorizationCode: String? = nil, redirectUri: String? = nil) {
+            self.authorizationCode = authorizationCode
+            self.redirectUri = redirectUri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.authorizationCode, name: "authorizationCode", parent: name, max: 4096)
+            try self.validate(self.authorizationCode, name: "authorizationCode", parent: name, min: 1)
+            try self.validate(self.authorizationCode, name: "authorizationCode", parent: name, pattern: "^\\S+$")
+            try self.validate(self.redirectUri, name: "redirectUri", parent: name, max: 512)
+            try self.validate(self.redirectUri, name: "redirectUri", parent: name, pattern: "^(https?):\\/\\/[^\\s/$.?#].[^\\s]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationCode = "AuthorizationCode"
+            case redirectUri = "RedirectUri"
         }
     }
 
@@ -3706,6 +3828,48 @@ extension Glue {
         }
     }
 
+    public struct ConfigurationObject: AWSEncodableShape & AWSDecodableShape {
+        /// A list of allowed values for the parameter.
+        public let allowedValues: [String]?
+        /// A default value for the parameter.
+        public let defaultValue: String?
+        /// A maximum allowed value for the parameter.
+        public let maxValue: String?
+        /// A minimum allowed value for the parameter.
+        public let minValue: String?
+
+        public init(allowedValues: [String]? = nil, defaultValue: String? = nil, maxValue: String? = nil, minValue: String? = nil) {
+            self.allowedValues = allowedValues
+            self.defaultValue = defaultValue
+            self.maxValue = maxValue
+            self.minValue = minValue
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedValues?.forEach {
+                try validate($0, name: "allowedValues[]", parent: name, max: 128)
+                try validate($0, name: "allowedValues[]", parent: name, min: 1)
+                try validate($0, name: "allowedValues[]", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            }
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 128)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 1)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.validate(self.maxValue, name: "maxValue", parent: name, max: 128)
+            try self.validate(self.maxValue, name: "maxValue", parent: name, min: 1)
+            try self.validate(self.maxValue, name: "maxValue", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.validate(self.minValue, name: "minValue", parent: name, max: 128)
+            try self.validate(self.minValue, name: "minValue", parent: name, min: 1)
+            try self.validate(self.minValue, name: "minValue", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedValues = "AllowedValues"
+            case defaultValue = "DefaultValue"
+            case maxValue = "MaxValue"
+            case minValue = "MinValue"
+        }
+    }
+
     public struct ConfusionMatrix: AWSDecodableShape {
         /// The number of matches in the data that the transform didn't find, in the confusion matrix for your transform.
         public let numFalseNegatives: Int64?
@@ -3732,74 +3896,97 @@ extension Glue {
     }
 
     public struct Connection: AWSDecodableShape {
+        /// The authentication properties of the connection.
+        public let authenticationConfiguration: AuthenticationConfiguration?
         /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME -  The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    SECRET_ID - The secret ID used for the secret manager of credentials.    CONNECTOR_URL - The connector URL for a MARKETPLACE or CUSTOM connection.    CONNECTOR_TYPE - The connector type for a MARKETPLACE or CUSTOM connection.    CONNECTOR_CLASS_NAME - The connector class name for a MARKETPLACE or CUSTOM connection.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".    KAFKA_CLIENT_KEYSTORE - The Amazon S3 location of the client keystore file for Kafka client side authentication (Optional).    KAFKA_CLIENT_KEYSTORE_PASSWORD - The password to access the provided keystore (Optional).    KAFKA_CLIENT_KEY_PASSWORD - A keystore can consist of multiple keys, so this is the password to access the client key to be used with the Kafka server side key (Optional).    ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD - The encrypted version of the Kafka client keystore password (if the user has the Glue encrypt passwords setting selected).    ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD - The encrypted version of the Kafka client key password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_MECHANISM - "SCRAM-SHA-512", "GSSAPI", "AWS_MSK_IAM", or "PLAIN". These are the supported SASL Mechanisms.    KAFKA_SASL_PLAIN_USERNAME - A plaintext username used to authenticate with the "PLAIN" mechanism.    KAFKA_SASL_PLAIN_PASSWORD - A plaintext password used to authenticate with the "PLAIN" mechanism.    ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD - The encrypted version of the Kafka SASL PLAIN password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_SCRAM_USERNAME - A plaintext username used to authenticate with the "SCRAM-SHA-512" mechanism.    KAFKA_SASL_SCRAM_PASSWORD - A plaintext password used to authenticate with the "SCRAM-SHA-512" mechanism.    ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD - The encrypted version of the Kafka SASL SCRAM password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_SCRAM_SECRETS_ARN - The Amazon Resource Name of a secret in Amazon Web Services Secrets Manager.    KAFKA_SASL_GSSAPI_KEYTAB - The S3 location of a Kerberos keytab file. A keytab stores long-term keys for one or more principals. For more information, see MIT Kerberos Documentation: Keytab.    KAFKA_SASL_GSSAPI_KRB5_CONF - The S3 location of a Kerberos krb5.conf file. A krb5.conf stores Kerberos configuration information, such as the location of the KDC server. For more information, see MIT Kerberos Documentation: krb5.conf.    KAFKA_SASL_GSSAPI_SERVICE - The Kerberos service name, as set with sasl.kerberos.service.name in your Kafka Configuration.    KAFKA_SASL_GSSAPI_PRINCIPAL - The name of the Kerberos princial used by Glue. For more information, see Kafka Documentation: Configuring Kafka Brokers.
         public let connectionProperties: [ConnectionPropertyKey: String]?
         /// The type of the connection. Currently, SFTP is not supported.
         public let connectionType: ConnectionType?
-        /// The time that this connection definition was created.
+        /// The timestamp of the time that this connection definition was created.
         public let creationTime: Date?
         /// The description of the connection.
         public let description: String?
+        /// A timestamp of the time this connection was last validated.
+        public let lastConnectionValidationTime: Date?
         /// The user, group, or role that last updated this connection definition.
         public let lastUpdatedBy: String?
-        /// The last time that this connection definition was updated.
+        /// The timestamp of the last time the connection definition was updated.
         public let lastUpdatedTime: Date?
         /// A list of criteria that can be used in selecting this connection.
         public let matchCriteria: [String]?
         /// The name of the connection definition.
         public let name: String?
-        /// A map of physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to make this connection successfully.
+        /// The physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to make this connection successfully.
         public let physicalConnectionRequirements: PhysicalConnectionRequirements?
+        /// The status of the connection. Can be one of: READY, IN_PROGRESS, or FAILED.
+        public let status: ConnectionStatus?
+        /// The reason for the connection status.
+        public let statusReason: String?
 
-        public init(connectionProperties: [ConnectionPropertyKey: String]? = nil, connectionType: ConnectionType? = nil, creationTime: Date? = nil, description: String? = nil, lastUpdatedBy: String? = nil, lastUpdatedTime: Date? = nil, matchCriteria: [String]? = nil, name: String? = nil, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil) {
+        public init(authenticationConfiguration: AuthenticationConfiguration? = nil, connectionProperties: [ConnectionPropertyKey: String]? = nil, connectionType: ConnectionType? = nil, creationTime: Date? = nil, description: String? = nil, lastConnectionValidationTime: Date? = nil, lastUpdatedBy: String? = nil, lastUpdatedTime: Date? = nil, matchCriteria: [String]? = nil, name: String? = nil, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil, status: ConnectionStatus? = nil, statusReason: String? = nil) {
+            self.authenticationConfiguration = authenticationConfiguration
             self.connectionProperties = connectionProperties
             self.connectionType = connectionType
             self.creationTime = creationTime
             self.description = description
+            self.lastConnectionValidationTime = lastConnectionValidationTime
             self.lastUpdatedBy = lastUpdatedBy
             self.lastUpdatedTime = lastUpdatedTime
             self.matchCriteria = matchCriteria
             self.name = name
             self.physicalConnectionRequirements = physicalConnectionRequirements
+            self.status = status
+            self.statusReason = statusReason
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationConfiguration = "AuthenticationConfiguration"
             case connectionProperties = "ConnectionProperties"
             case connectionType = "ConnectionType"
             case creationTime = "CreationTime"
             case description = "Description"
+            case lastConnectionValidationTime = "LastConnectionValidationTime"
             case lastUpdatedBy = "LastUpdatedBy"
             case lastUpdatedTime = "LastUpdatedTime"
             case matchCriteria = "MatchCriteria"
             case name = "Name"
             case physicalConnectionRequirements = "PhysicalConnectionRequirements"
+            case status = "Status"
+            case statusReason = "StatusReason"
         }
     }
 
     public struct ConnectionInput: AWSEncodableShape {
+        /// The authentication properties of the connection. Used for a Salesforce connection.
+        public let authenticationConfiguration: AuthenticationConfigurationInput?
         /// These key-value pairs define parameters for the connection.
         public let connectionProperties: [ConnectionPropertyKey: String]
-        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).  JDBC Connections use the following ConnectionParameters.   Required: All of (HOST, PORT, JDBC_ENGINE) or JDBC_CONNECTION_URL.   Required: All of (USERNAME, PASSWORD) or SECRET_ID.   Optional: JDBC_ENFORCE_SSL, CUSTOM_JDBC_CERT, CUSTOM_JDBC_CERT_STRING, SKIP_CUSTOM_JDBC_CERT_VALIDATION.  These parameters are used to configure SSL with JDBC.      KAFKA - Designates a connection to an Apache Kafka streaming platform.  KAFKA Connections use the following ConnectionParameters.   Required: KAFKA_BOOTSTRAP_SERVERS.   Optional: KAFKA_SSL_ENABLED, KAFKA_CUSTOM_CERT, KAFKA_SKIP_CUSTOM_CERT_VALIDATION. These parameters are used to configure SSL with KAFKA.   Optional: KAFKA_CLIENT_KEYSTORE, KAFKA_CLIENT_KEYSTORE_PASSWORD, KAFKA_CLIENT_KEY_PASSWORD, ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD, ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD. These parameters are used to configure TLS client configuration with SSL in KAFKA.   Optional: KAFKA_SASL_MECHANISM. Can be specified as SCRAM-SHA-512, GSSAPI, or AWS_MSK_IAM.   Optional: KAFKA_SASL_SCRAM_USERNAME, KAFKA_SASL_SCRAM_PASSWORD, ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD. These parameters are used to configure SASL/SCRAM-SHA-512 authentication with KAFKA.   Optional: KAFKA_SASL_GSSAPI_KEYTAB, KAFKA_SASL_GSSAPI_KRB5_CONF, KAFKA_SASL_GSSAPI_SERVICE, KAFKA_SASL_GSSAPI_PRINCIPAL. These parameters are used to configure SASL/GSSAPI authentication with KAFKA.      MONGODB - Designates a connection to a MongoDB document database.  MONGODB Connections use the following ConnectionParameters.   Required: CONNECTION_URL.   Required: All of (USERNAME, PASSWORD) or SECRET_ID.      NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).  NETWORK Connections do not require ConnectionParameters. Instead, provide a PhysicalConnectionRequirements.    MARKETPLACE - Uses configuration settings contained in a connector purchased from Amazon Web Services Marketplace to read from and write to data stores that are not natively supported by Glue.  MARKETPLACE Connections use the following ConnectionParameters.   Required: CONNECTOR_TYPE, CONNECTOR_URL, CONNECTOR_CLASS_NAME, CONNECTION_URL.   Required for JDBC CONNECTOR_TYPE connections: All of (USERNAME, PASSWORD) or SECRET_ID.      CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by Glue.    SFTP is not supported. For more information about how optional ConnectionProperties are used to configure features in Glue, consult Glue connection properties. For more information about how optional ConnectionProperties are used to configure features in Glue Studio, consult Using connectors and connections.
+        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).  JDBC Connections use the following ConnectionParameters.   Required: All of (HOST, PORT, JDBC_ENGINE) or JDBC_CONNECTION_URL.   Required: All of (USERNAME, PASSWORD) or SECRET_ID.   Optional: JDBC_ENFORCE_SSL, CUSTOM_JDBC_CERT, CUSTOM_JDBC_CERT_STRING, SKIP_CUSTOM_JDBC_CERT_VALIDATION.  These parameters are used to configure SSL with JDBC.      KAFKA - Designates a connection to an Apache Kafka streaming platform.  KAFKA Connections use the following ConnectionParameters.   Required: KAFKA_BOOTSTRAP_SERVERS.   Optional: KAFKA_SSL_ENABLED, KAFKA_CUSTOM_CERT, KAFKA_SKIP_CUSTOM_CERT_VALIDATION. These parameters are used to configure SSL with KAFKA.   Optional: KAFKA_CLIENT_KEYSTORE, KAFKA_CLIENT_KEYSTORE_PASSWORD, KAFKA_CLIENT_KEY_PASSWORD, ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD, ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD. These parameters are used to configure TLS client configuration with SSL in KAFKA.   Optional: KAFKA_SASL_MECHANISM. Can be specified as SCRAM-SHA-512, GSSAPI, or AWS_MSK_IAM.   Optional: KAFKA_SASL_SCRAM_USERNAME, KAFKA_SASL_SCRAM_PASSWORD, ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD. These parameters are used to configure SASL/SCRAM-SHA-512 authentication with KAFKA.   Optional: KAFKA_SASL_GSSAPI_KEYTAB, KAFKA_SASL_GSSAPI_KRB5_CONF, KAFKA_SASL_GSSAPI_SERVICE, KAFKA_SASL_GSSAPI_PRINCIPAL. These parameters are used to configure SASL/GSSAPI authentication with KAFKA.      MONGODB - Designates a connection to a MongoDB document database.  MONGODB Connections use the following ConnectionParameters.   Required: CONNECTION_URL.   Required: All of (USERNAME, PASSWORD) or SECRET_ID.      SALESFORCE - Designates a connection to Salesforce using OAuth authencation.   Requires the AuthenticationConfiguration member to be configured.      NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).  NETWORK Connections do not require ConnectionParameters. Instead, provide a PhysicalConnectionRequirements.    MARKETPLACE - Uses configuration settings contained in a connector purchased from Amazon Web Services Marketplace to read from and write to data stores that are not natively supported by Glue.  MARKETPLACE Connections use the following ConnectionParameters.   Required: CONNECTOR_TYPE, CONNECTOR_URL, CONNECTOR_CLASS_NAME, CONNECTION_URL.   Required for JDBC CONNECTOR_TYPE connections: All of (USERNAME, PASSWORD) or SECRET_ID.      CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by Glue.    SFTP is not supported. For more information about how optional ConnectionProperties are used to configure features in Glue, consult Glue connection properties. For more information about how optional ConnectionProperties are used to configure features in Glue Studio, consult Using connectors and connections.
         public let connectionType: ConnectionType
         /// The description of the connection.
         public let description: String?
         /// A list of criteria that can be used in selecting this connection.
         public let matchCriteria: [String]?
-        /// The name of the connection. Connection will not function as expected without a name.
+        /// The name of the connection.
         public let name: String
-        /// A map of physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to successfully make this connection.
+        /// The physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to successfully make this connection.
         public let physicalConnectionRequirements: PhysicalConnectionRequirements?
+        /// A flag to validate the credentials during create connection. Used for a Salesforce connection. Default is true.
+        public let validateCredentials: Bool?
 
-        public init(connectionProperties: [ConnectionPropertyKey: String], connectionType: ConnectionType, description: String? = nil, matchCriteria: [String]? = nil, name: String, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil) {
+        public init(authenticationConfiguration: AuthenticationConfigurationInput? = nil, connectionProperties: [ConnectionPropertyKey: String], connectionType: ConnectionType, description: String? = nil, matchCriteria: [String]? = nil, name: String, physicalConnectionRequirements: PhysicalConnectionRequirements? = nil, validateCredentials: Bool? = nil) {
+            self.authenticationConfiguration = authenticationConfiguration
             self.connectionProperties = connectionProperties
             self.connectionType = connectionType
             self.description = description
             self.matchCriteria = matchCriteria
             self.name = name
             self.physicalConnectionRequirements = physicalConnectionRequirements
+            self.validateCredentials = validateCredentials
         }
 
         public func validate(name: String) throws {
+            try self.authenticationConfiguration?.validate(name: "\(name).authenticationConfiguration")
             try self.connectionProperties.forEach {
                 try validate($0.value, name: "connectionProperties[\"\($0.key)\"]", parent: name, max: 1024)
             }
@@ -3819,12 +4006,14 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationConfiguration = "AuthenticationConfiguration"
             case connectionProperties = "ConnectionProperties"
             case connectionType = "ConnectionType"
             case description = "Description"
             case matchCriteria = "MatchCriteria"
             case name = "Name"
             case physicalConnectionRequirements = "PhysicalConnectionRequirements"
+            case validateCredentials = "ValidateCredentials"
         }
     }
 
@@ -4353,7 +4542,16 @@ extension Glue {
     }
 
     public struct CreateConnectionResponse: AWSDecodableShape {
-        public init() {}
+        /// The status of the connection creation request. The request can take some time for certain authentication types, for example when creating an OAuth connection with token exchange over VPC.
+        public let createConnectionStatus: ConnectionStatus?
+
+        public init(createConnectionStatus: ConnectionStatus? = nil) {
+            self.createConnectionStatus = createConnectionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createConnectionStatus = "CreateConnectionStatus"
+        }
     }
 
     public struct CreateCrawlerRequest: AWSEncodableShape {
@@ -4914,8 +5112,12 @@ extension Glue {
         public let executionProperty: ExecutionProperty?
         /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark.  Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
         public let glueVersion: String?
+        /// A mode that describes how a job was created. Valid values are:    SCRIPT - The job was created using the Glue Studio script editor.    VISUAL - The job was created using the Glue Studio visual editor.    NOTEBOOK - The job was created using an interactive sessions notebook.   When the JobMode field is missing or null, SCRIPT is assigned as the default value.
+        public let jobMode: JobMode?
         /// This field is reserved for future use.
         public let logUri: String?
+        /// This field specifies a day of the week and hour for a maintenance window for streaming jobs. Glue periodically performs maintenance activities. During these maintenance windows, Glue will need to restart your streaming jobs. Glue will restart the job within 3 hours of the specified maintenance window. For instance, if you set up the maintenance window for Monday at 10:00AM GMT, your jobs will be restarted between 10:00AM GMT to 1:00PM GMT.
+        public let maintenanceWindow: String?
         /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the  Glue pricing page. For Glue version 2.0+ jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job if it fails.
@@ -4936,12 +5138,12 @@ extension Glue {
         public let sourceControlDetails: SourceControlDetails?
         /// The tags to use with this job. You may use tags to limit access to the job. For more information about tags in Glue, see Amazon Web Services Tags in Glue in the developer guide.
         public let tags: [String: String]?
-        /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours) for batch jobs. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
         public let timeout: Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
-        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -4951,7 +5153,9 @@ extension Glue {
             self.executionClass = executionClass
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
+            self.jobMode = jobMode
             self.logUri = logUri
+            self.maintenanceWindow = maintenanceWindow
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
             self.name = name
@@ -4967,7 +5171,7 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -4977,7 +5181,9 @@ extension Glue {
             self.executionClass = executionClass
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
+            self.jobMode = jobMode
             self.logUri = logUri
+            self.maintenanceWindow = maintenanceWindow
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
             self.name = name
@@ -5003,6 +5209,7 @@ extension Glue {
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, max: 255)
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, min: 1)
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, pattern: "^\\w+\\.\\w+$")
+            try self.validate(self.maintenanceWindow, name: "maintenanceWindow", parent: name, pattern: "^(Sun|Mon|Tue|Wed|Thu|Fri|Sat):([01]?[0-9]|2[0-3])$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -5030,7 +5237,9 @@ extension Glue {
             case executionClass = "ExecutionClass"
             case executionProperty = "ExecutionProperty"
             case glueVersion = "GlueVersion"
+            case jobMode = "JobMode"
             case logUri = "LogUri"
+            case maintenanceWindow = "MaintenanceWindow"
             case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
             case name = "Name"
@@ -5836,6 +6045,59 @@ extension Glue {
         }
     }
 
+    public struct CreateUsageProfileRequest: AWSEncodableShape {
+        /// A ProfileConfiguration object specifying the job and session values for the profile.
+        public let configuration: ProfileConfiguration
+        /// A description of the usage profile.
+        public let description: String?
+        /// The name of the usage profile.
+        public let name: String
+        /// A list of tags applied to the usage profile.
+        public let tags: [String: String]?
+
+        public init(configuration: ProfileConfiguration, description: String? = nil, name: String, tags: [String: String]? = nil) {
+            self.configuration = configuration
+            self.description = description
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case description = "Description"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateUsageProfileResponse: AWSDecodableShape {
+        /// The name of the usage profile that was created.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
     public struct CreateUserDefinedFunctionRequest: AWSEncodableShape {
         /// The ID of the Data Catalog in which to create the function. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
@@ -6192,16 +6454,20 @@ extension Glue {
     public struct DataQualityEvaluationRunAdditionalRunOptions: AWSEncodableShape & AWSDecodableShape {
         /// Whether or not to enable CloudWatch metrics.
         public let cloudWatchMetricsEnabled: Bool?
+        /// Set the evaluation method for composite rules in the ruleset to ROW/COLUMN
+        public let compositeRuleEvaluationMethod: DQCompositeRuleEvaluationMethod?
         /// Prefix for Amazon S3 to store results.
         public let resultsS3Prefix: String?
 
-        public init(cloudWatchMetricsEnabled: Bool? = nil, resultsS3Prefix: String? = nil) {
+        public init(cloudWatchMetricsEnabled: Bool? = nil, compositeRuleEvaluationMethod: DQCompositeRuleEvaluationMethod? = nil, resultsS3Prefix: String? = nil) {
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
+            self.compositeRuleEvaluationMethod = compositeRuleEvaluationMethod
             self.resultsS3Prefix = resultsS3Prefix
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchMetricsEnabled = "CloudWatchMetricsEnabled"
+            case compositeRuleEvaluationMethod = "CompositeRuleEvaluationMethod"
             case resultsS3Prefix = "ResultsS3Prefix"
         }
     }
@@ -7696,6 +7962,29 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
         }
+    }
+
+    public struct DeleteUsageProfileRequest: AWSEncodableShape {
+        /// The name of the usage profile to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteUsageProfileResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteUserDefinedFunctionRequest: AWSEncodableShape {
@@ -9783,7 +10072,7 @@ extension Glue {
         public let resultIds: [String]?
         /// An IAM role supplied to encrypt the results of the run.
         public let role: String?
-        /// A list of ruleset names for the run.
+        /// A list of ruleset names for the run. Currently, this parameter takes only one Ruleset name.
         public let rulesetNames: [String]?
         /// The unique run identifier associated with this run.
         public let runId: String?
@@ -9927,6 +10216,8 @@ extension Glue {
     }
 
     public struct GetDatabasesRequest: AWSEncodableShape {
+        /// Specifies the database fields returned by the GetDatabases call. This parameter doesn’t accept an empty list. The request must include the NAME.
+        public let attributesToGet: [DatabaseAttributes]?
         /// The ID of the Data Catalog from which to retrieve Databases. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
         /// The maximum number of databases to return in one response.
@@ -9936,7 +10227,8 @@ extension Glue {
         /// Allows you to specify that you want to list the databases shared with your account. The allowable values are FEDERATED, FOREIGN or ALL.    If set to FEDERATED, will list the federated databases (referencing an external entity) shared with your account.   If set to FOREIGN, will list the databases shared with your account.    If set to ALL, will list the databases shared with your account, as well as the databases in yor local account.
         public let resourceShareType: ResourceShareType?
 
-        public init(catalogId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceShareType: ResourceShareType? = nil) {
+        public init(attributesToGet: [DatabaseAttributes]? = nil, catalogId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceShareType: ResourceShareType? = nil) {
+            self.attributesToGet = attributesToGet
             self.catalogId = catalogId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -9952,6 +10244,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attributesToGet = "AttributesToGet"
             case catalogId = "CatalogId"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -12072,6 +12365,54 @@ extension Glue {
         }
     }
 
+    public struct GetUsageProfileRequest: AWSEncodableShape {
+        /// The name of the usage profile to retrieve.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct GetUsageProfileResponse: AWSDecodableShape {
+        /// A ProfileConfiguration object specifying the job and session values for the profile.
+        public let configuration: ProfileConfiguration?
+        /// The date and time when the usage profile was created.
+        public let createdOn: Date?
+        /// A description of the usage profile.
+        public let description: String?
+        /// The date and time when the usage profile was last modified.
+        public let lastModifiedOn: Date?
+        /// The name of the usage profile.
+        public let name: String?
+
+        public init(configuration: ProfileConfiguration? = nil, createdOn: Date? = nil, description: String? = nil, lastModifiedOn: Date? = nil, name: String? = nil) {
+            self.configuration = configuration
+            self.createdOn = createdOn
+            self.description = description
+            self.lastModifiedOn = lastModifiedOn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case createdOn = "CreatedOn"
+            case description = "Description"
+            case lastModifiedOn = "LastModifiedOn"
+            case name = "Name"
+        }
+    }
+
     public struct GetUserDefinedFunctionRequest: AWSEncodableShape {
         /// The ID of the Data Catalog where the function to be retrieved is located. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
@@ -12911,10 +13252,14 @@ extension Glue {
         public let executionProperty: ExecutionProperty?
         /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark.  Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
         public let glueVersion: String?
+        /// A mode that describes how a job was created. Valid values are:    SCRIPT - The job was created using the Glue Studio script editor.    VISUAL - The job was created using the Glue Studio visual editor.    NOTEBOOK - The job was created using an interactive sessions notebook.   When the JobMode field is missing or null, SCRIPT is assigned as the default value.
+        public let jobMode: JobMode?
         /// The last point in time when this job definition was modified.
         public let lastModifiedOn: Date?
         /// This field is reserved for future use.
         public let logUri: String?
+        /// This field specifies a day of the week and hour for a maintenance window for streaming jobs. Glue periodically performs maintenance activities. During these maintenance windows, Glue will need to restart your streaming jobs. Glue will restart the job within 3 hours of the specified maintenance window. For instance, if you set up the maintenance window for Monday at 10:00AM GMT, your jobs will be restarted between 10:00AM GMT to 1:00PM GMT.
+        public let maintenanceWindow: String?
         /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the  Glue pricing page. For Glue version 2.0 or later jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job after a JobRun fails.
@@ -12927,18 +13272,20 @@ extension Glue {
         public let notificationProperty: NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs.
         public let numberOfWorkers: Int?
+        /// The name of an Glue usage profile associated with the job.
+        public let profileName: String?
         /// The name or Amazon Resource Name (ARN) of the IAM role associated with this job.
         public let role: String?
         /// The name of the SecurityConfiguration structure to be used with this job.
         public let securityConfiguration: String?
         /// The details for a source control configuration for a job, allowing synchronization of job artifacts to or from a remote repository.
         public let sourceControlDetails: SourceControlDetails?
-        /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours) for batch jobs. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
         public let timeout: Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
-        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, profileName: String? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -12949,14 +13296,17 @@ extension Glue {
             self.executionClass = executionClass
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
+            self.jobMode = jobMode
             self.lastModifiedOn = lastModifiedOn
             self.logUri = logUri
+            self.maintenanceWindow = maintenanceWindow
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
             self.name = name
             self.nonOverridableArguments = nonOverridableArguments
             self.notificationProperty = notificationProperty
             self.numberOfWorkers = numberOfWorkers
+            self.profileName = profileName
             self.role = role
             self.securityConfiguration = securityConfiguration
             self.sourceControlDetails = sourceControlDetails
@@ -12965,7 +13315,7 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, profileName: String? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -12976,14 +13326,17 @@ extension Glue {
             self.executionClass = executionClass
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
+            self.jobMode = jobMode
             self.lastModifiedOn = lastModifiedOn
             self.logUri = logUri
+            self.maintenanceWindow = maintenanceWindow
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
             self.name = name
             self.nonOverridableArguments = nonOverridableArguments
             self.notificationProperty = notificationProperty
             self.numberOfWorkers = numberOfWorkers
+            self.profileName = profileName
             self.role = role
             self.securityConfiguration = securityConfiguration
             self.sourceControlDetails = sourceControlDetails
@@ -13002,14 +13355,17 @@ extension Glue {
             case executionClass = "ExecutionClass"
             case executionProperty = "ExecutionProperty"
             case glueVersion = "GlueVersion"
+            case jobMode = "JobMode"
             case lastModifiedOn = "LastModifiedOn"
             case logUri = "LogUri"
+            case maintenanceWindow = "MaintenanceWindow"
             case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
             case name = "Name"
             case nonOverridableArguments = "NonOverridableArguments"
             case notificationProperty = "NotificationProperty"
             case numberOfWorkers = "NumberOfWorkers"
+            case profileName = "ProfileName"
             case role = "Role"
             case securityConfiguration = "SecurityConfiguration"
             case sourceControlDetails = "SourceControlDetails"
@@ -13130,7 +13486,7 @@ extension Glue {
         public let attempt: Int?
         /// The date and time that this job run completed.
         public let completedOn: Date?
-        /// This field populates only for Auto Scaling job runs, and represents the total time each executor ran during the lifecycle of a job run in seconds, multiplied by a DPU factor (1 for G.1X, 2 for G.2X, or 0.25 for G.025X workers). This value may be different than the executionEngineRuntime * MaxCapacity as in the case of Auto Scaling jobs, as the number of executors running at a given time may be less than the MaxCapacity. Therefore, it is possible that the value of DPUSeconds is less than executionEngineRuntime * MaxCapacity.
+        /// This field can be set for either job runs with execution class FLEX or when Auto Scaling is enabled, and represents the total time each executor ran during the lifecycle of a job run in seconds, multiplied by a DPU factor (1 for G.1X, 2 for G.2X, or 0.25 for G.025X workers). This value may be different than the executionEngineRuntime * MaxCapacity as in the case of Auto Scaling jobs, as the number of executors running at a given time may be less than the MaxCapacity. Therefore, it is possible that the value of DPUSeconds is less than executionEngineRuntime * MaxCapacity.
         public let dpuSeconds: Double?
         /// An error message associated with this job run.
         public let errorMessage: String?
@@ -13142,6 +13498,8 @@ extension Glue {
         public let glueVersion: String?
         /// The ID of this job run.
         public let id: String?
+        /// A mode that describes how a job was created. Valid values are:    SCRIPT - The job was created using the Glue Studio script editor.    VISUAL - The job was created using the Glue Studio visual editor.    NOTEBOOK - The job was created using an interactive sessions notebook.   When the JobMode field is missing or null, SCRIPT is assigned as the default value.
+        public let jobMode: JobMode?
         /// The name of the job definition being used in this run.
         public let jobName: String?
         /// The current state of the job run. For more information about the statuses of jobs that have terminated abnormally, see Glue Job Run Statuses.
@@ -13150,6 +13508,8 @@ extension Glue {
         public let lastModifiedOn: Date?
         /// The name of the log group for secure logging that can be server-side encrypted in Amazon CloudWatch using KMS. This name can be /aws-glue/jobs/, in which case the default encryption is NONE. If you add a role name and SecurityConfiguration name (in other words, /aws-glue/jobs-yourRoleName-yourSecurityConfigurationName/), then that security configuration is used to encrypt the log group.
         public let logGroupName: String?
+        /// This field specifies a day of the week and hour for a maintenance window for streaming jobs. Glue periodically performs maintenance activities. During these maintenance windows, Glue will need to restart your streaming jobs. Glue will restart the job within 3 hours of the specified maintenance window. For instance, if you set up the maintenance window for Monday at 10:00AM GMT, your jobs will be restarted between 10:00AM GMT to 1:00PM GMT.
+        public let maintenanceWindow: String?
         /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the  Glue pricing page. For Glue version 2.0+ jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         public let maxCapacity: Double?
         /// Specifies configuration properties of a job run notification.
@@ -13160,18 +13520,20 @@ extension Glue {
         public let predecessorRuns: [Predecessor]?
         /// The ID of the previous run of this job. For example, the JobRunId specified in the StartJobRun action.
         public let previousRunId: String?
+        /// The name of an Glue usage profile associated with the job run.
+        public let profileName: String?
         /// The name of the SecurityConfiguration structure to be used with this job run.
         public let securityConfiguration: String?
         /// The date and time at which this job run was started.
         public let startedOn: Date?
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Streaming jobs do not have a timeout. The default for non-streaming jobs is 2,880 minutes (48 hours).
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
         public let timeout: Int?
         /// The name of the trigger that started this job run.
         public let triggerName: String?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
-        public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
+        public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobMode: JobMode? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, profileName: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.arguments = arguments
             self.attempt = attempt
@@ -13182,15 +13544,18 @@ extension Glue {
             self.executionTime = executionTime
             self.glueVersion = glueVersion
             self.id = id
+            self.jobMode = jobMode
             self.jobName = jobName
             self.jobRunState = jobRunState
             self.lastModifiedOn = lastModifiedOn
             self.logGroupName = logGroupName
+            self.maintenanceWindow = maintenanceWindow
             self.maxCapacity = maxCapacity
             self.notificationProperty = notificationProperty
             self.numberOfWorkers = numberOfWorkers
             self.predecessorRuns = predecessorRuns
             self.previousRunId = previousRunId
+            self.profileName = profileName
             self.securityConfiguration = securityConfiguration
             self.startedOn = startedOn
             self.timeout = timeout
@@ -13199,7 +13564,7 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobMode: JobMode? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, profileName: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments
             self.attempt = attempt
@@ -13210,15 +13575,18 @@ extension Glue {
             self.executionTime = executionTime
             self.glueVersion = glueVersion
             self.id = id
+            self.jobMode = jobMode
             self.jobName = jobName
             self.jobRunState = jobRunState
             self.lastModifiedOn = lastModifiedOn
             self.logGroupName = logGroupName
+            self.maintenanceWindow = maintenanceWindow
             self.maxCapacity = maxCapacity
             self.notificationProperty = notificationProperty
             self.numberOfWorkers = numberOfWorkers
             self.predecessorRuns = predecessorRuns
             self.previousRunId = previousRunId
+            self.profileName = profileName
             self.securityConfiguration = securityConfiguration
             self.startedOn = startedOn
             self.timeout = timeout
@@ -13237,15 +13605,18 @@ extension Glue {
             case executionTime = "ExecutionTime"
             case glueVersion = "GlueVersion"
             case id = "Id"
+            case jobMode = "JobMode"
             case jobName = "JobName"
             case jobRunState = "JobRunState"
             case lastModifiedOn = "LastModifiedOn"
             case logGroupName = "LogGroupName"
+            case maintenanceWindow = "MaintenanceWindow"
             case maxCapacity = "MaxCapacity"
             case notificationProperty = "NotificationProperty"
             case numberOfWorkers = "NumberOfWorkers"
             case predecessorRuns = "PredecessorRuns"
             case previousRunId = "PreviousRunId"
+            case profileName = "ProfileName"
             case securityConfiguration = "SecurityConfiguration"
             case startedOn = "StartedOn"
             case timeout = "Timeout"
@@ -13273,8 +13644,12 @@ extension Glue {
         public let executionProperty: ExecutionProperty?
         /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark.  Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
         public let glueVersion: String?
+        /// A mode that describes how a job was created. Valid values are:    SCRIPT - The job was created using the Glue Studio script editor.    VISUAL - The job was created using the Glue Studio visual editor.    NOTEBOOK - The job was created using an interactive sessions notebook.   When the JobMode field is missing or null, SCRIPT is assigned as the default value.
+        public let jobMode: JobMode?
         /// This field is reserved for future use.
         public let logUri: String?
+        /// This field specifies a day of the week and hour for a maintenance window for streaming jobs. Glue periodically performs maintenance activities. During these maintenance windows, Glue will need to restart your streaming jobs. Glue will restart the job within 3 hours of the specified maintenance window. For instance, if you set up the maintenance window for Monday at 10:00AM GMT, your jobs will be restarted between 10:00AM GMT to 1:00PM GMT.
+        public let maintenanceWindow: String?
         /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the  Glue pricing page. For Glue version 2.0+ jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job if it fails.
@@ -13291,12 +13666,12 @@ extension Glue {
         public let securityConfiguration: String?
         /// The details for a source control configuration for a job, allowing synchronization of job artifacts to or from a remote repository.
         public let sourceControlDetails: SourceControlDetails?
-        /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours) for batch jobs. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
         public let timeout: Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
-        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -13306,7 +13681,9 @@ extension Glue {
             self.executionClass = executionClass
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
+            self.jobMode = jobMode
             self.logUri = logUri
+            self.maintenanceWindow = maintenanceWindow
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
             self.nonOverridableArguments = nonOverridableArguments
@@ -13320,7 +13697,7 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -13330,7 +13707,9 @@ extension Glue {
             self.executionClass = executionClass
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
+            self.jobMode = jobMode
             self.logUri = logUri
+            self.maintenanceWindow = maintenanceWindow
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
             self.nonOverridableArguments = nonOverridableArguments
@@ -13354,6 +13733,7 @@ extension Glue {
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, max: 255)
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, min: 1)
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, pattern: "^\\w+\\.\\w+$")
+            try self.validate(self.maintenanceWindow, name: "maintenanceWindow", parent: name, pattern: "^(Sun|Mon|Tue|Wed|Thu|Fri|Sat):([01]?[0-9]|2[0-3])$")
             try self.notificationProperty?.validate(name: "\(name).notificationProperty")
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, max: 255)
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, min: 1)
@@ -13372,7 +13752,9 @@ extension Glue {
             case executionClass = "ExecutionClass"
             case executionProperty = "ExecutionProperty"
             case glueVersion = "GlueVersion"
+            case jobMode = "JobMode"
             case logUri = "LogUri"
+            case maintenanceWindow = "MaintenanceWindow"
             case maxCapacity = "MaxCapacity"
             case maxRetries = "MaxRetries"
             case nonOverridableArguments = "NonOverridableArguments"
@@ -14765,6 +15147,46 @@ extension Glue {
         }
     }
 
+    public struct ListUsageProfilesRequest: AWSEncodableShape {
+        /// The maximum number of usage profiles to return in a single response.
+        public let maxResults: Int?
+        /// A continuation token, included if this is a continuation call.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 400000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListUsageProfilesResponse: AWSDecodableShape {
+        /// A continuation token, present if the current list segment is not the last.
+        public let nextToken: String?
+        /// A list of usage profile (UsageProfileDefinition) objects.
+        public let profiles: [UsageProfileDefinition]?
+
+        public init(nextToken: String? = nil, profiles: [UsageProfileDefinition]? = nil) {
+            self.nextToken = nextToken
+            self.profiles = profiles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case profiles = "Profiles"
+        }
+    }
+
     public struct ListWorkflowsRequest: AWSEncodableShape {
         /// The maximum size of a list to return.
         public let maxResults: Int?
@@ -15392,6 +15814,97 @@ extension Glue {
         }
     }
 
+    public struct OAuth2ClientApplication: AWSEncodableShape & AWSDecodableShape {
+        /// The reference to the SaaS-side client app that is Amazon Web Services managed.
+        public let awsManagedClientApplicationReference: String?
+        /// The client application clientID if the ClientAppType is USER_MANAGED.
+        public let userManagedClientApplicationClientId: String?
+
+        public init(awsManagedClientApplicationReference: String? = nil, userManagedClientApplicationClientId: String? = nil) {
+            self.awsManagedClientApplicationReference = awsManagedClientApplicationReference
+            self.userManagedClientApplicationClientId = userManagedClientApplicationClientId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsManagedClientApplicationReference, name: "awsManagedClientApplicationReference", parent: name, max: 2048)
+            try self.validate(self.awsManagedClientApplicationReference, name: "awsManagedClientApplicationReference", parent: name, pattern: "^\\S+$")
+            try self.validate(self.userManagedClientApplicationClientId, name: "userManagedClientApplicationClientId", parent: name, max: 2048)
+            try self.validate(self.userManagedClientApplicationClientId, name: "userManagedClientApplicationClientId", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsManagedClientApplicationReference = "AWSManagedClientApplicationReference"
+            case userManagedClientApplicationClientId = "UserManagedClientApplicationClientId"
+        }
+    }
+
+    public struct OAuth2Properties: AWSDecodableShape {
+        /// The client application type. For example, AWS_MANAGED or USER_MANAGED.
+        public let oAuth2ClientApplication: OAuth2ClientApplication?
+        /// The OAuth2 grant type. For example, AUTHORIZATION_CODE, JWT_BEARER, or CLIENT_CREDENTIALS.
+        public let oAuth2GrantType: OAuth2GrantType?
+        /// The URL of the provider's authentication server, to exchange an authorization code for an access token.
+        public let tokenUrl: String?
+        /// A map of parameters that are added to the token GET request.
+        public let tokenUrlParametersMap: [String: String]?
+
+        public init(oAuth2ClientApplication: OAuth2ClientApplication? = nil, oAuth2GrantType: OAuth2GrantType? = nil, tokenUrl: String? = nil, tokenUrlParametersMap: [String: String]? = nil) {
+            self.oAuth2ClientApplication = oAuth2ClientApplication
+            self.oAuth2GrantType = oAuth2GrantType
+            self.tokenUrl = tokenUrl
+            self.tokenUrlParametersMap = tokenUrlParametersMap
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oAuth2ClientApplication = "OAuth2ClientApplication"
+            case oAuth2GrantType = "OAuth2GrantType"
+            case tokenUrl = "TokenUrl"
+            case tokenUrlParametersMap = "TokenUrlParametersMap"
+        }
+    }
+
+    public struct OAuth2PropertiesInput: AWSEncodableShape {
+        /// The set of properties required for the the OAuth2 AUTHORIZATION_CODE grant type.
+        public let authorizationCodeProperties: AuthorizationCodeProperties?
+        /// The client application type in the CreateConnection request. For example, AWS_MANAGED or USER_MANAGED.
+        public let oAuth2ClientApplication: OAuth2ClientApplication?
+        /// The OAuth2 grant type in the CreateConnection request. For example, AUTHORIZATION_CODE, JWT_BEARER, or CLIENT_CREDENTIALS.
+        public let oAuth2GrantType: OAuth2GrantType?
+        /// The URL of the provider's authentication server, to exchange an authorization code for an access token.
+        public let tokenUrl: String?
+        /// A map of parameters that are added to the token GET request.
+        public let tokenUrlParametersMap: [String: String]?
+
+        public init(authorizationCodeProperties: AuthorizationCodeProperties? = nil, oAuth2ClientApplication: OAuth2ClientApplication? = nil, oAuth2GrantType: OAuth2GrantType? = nil, tokenUrl: String? = nil, tokenUrlParametersMap: [String: String]? = nil) {
+            self.authorizationCodeProperties = authorizationCodeProperties
+            self.oAuth2ClientApplication = oAuth2ClientApplication
+            self.oAuth2GrantType = oAuth2GrantType
+            self.tokenUrl = tokenUrl
+            self.tokenUrlParametersMap = tokenUrlParametersMap
+        }
+
+        public func validate(name: String) throws {
+            try self.authorizationCodeProperties?.validate(name: "\(name).authorizationCodeProperties")
+            try self.oAuth2ClientApplication?.validate(name: "\(name).oAuth2ClientApplication")
+            try self.validate(self.tokenUrl, name: "tokenUrl", parent: name, max: 256)
+            try self.validate(self.tokenUrl, name: "tokenUrl", parent: name, pattern: "^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]$")
+            try self.tokenUrlParametersMap?.forEach {
+                try validate($0.key, name: "tokenUrlParametersMap.key", parent: name, max: 128)
+                try validate($0.key, name: "tokenUrlParametersMap.key", parent: name, min: 1)
+                try validate($0.value, name: "tokenUrlParametersMap[\"\($0.key)\"]", parent: name, max: 512)
+                try validate($0.value, name: "tokenUrlParametersMap[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationCodeProperties = "AuthorizationCodeProperties"
+            case oAuth2ClientApplication = "OAuth2ClientApplication"
+            case oAuth2GrantType = "OAuth2GrantType"
+            case tokenUrl = "TokenUrl"
+            case tokenUrlParametersMap = "TokenUrlParametersMap"
+        }
+    }
+
     public struct OpenTableFormatInput: AWSEncodableShape {
         /// Specifies an IcebergInput structure that defines an Apache Iceberg metadata table.
         public let icebergInput: IcebergInput?
@@ -15779,7 +16292,7 @@ extension Glue {
     }
 
     public struct PhysicalConnectionRequirements: AWSEncodableShape & AWSDecodableShape {
-        /// The connection's Availability Zone. This field is redundant because the specified subnet implies the Availability Zone to be used. Currently the field must be populated, but it will be deprecated in the future.
+        /// The connection's Availability Zone.
         public let availabilityZone: String?
         /// The security group ID list used by the connection.
         public let securityGroupIdList: [String]?
@@ -15935,6 +16448,38 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case permissions = "Permissions"
             case principal = "Principal"
+        }
+    }
+
+    public struct ProfileConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A key-value map of configuration parameters for Glue jobs.
+        public let jobConfiguration: [String: ConfigurationObject]?
+        /// A key-value map of configuration parameters for Glue sessions.
+        public let sessionConfiguration: [String: ConfigurationObject]?
+
+        public init(jobConfiguration: [String: ConfigurationObject]? = nil, sessionConfiguration: [String: ConfigurationObject]? = nil) {
+            self.jobConfiguration = jobConfiguration
+            self.sessionConfiguration = sessionConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.jobConfiguration?.forEach {
+                try validate($0.key, name: "jobConfiguration.key", parent: name, max: 255)
+                try validate($0.key, name: "jobConfiguration.key", parent: name, min: 1)
+                try validate($0.key, name: "jobConfiguration.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try $0.value.validate(name: "\(name).jobConfiguration[\"\($0.key)\"]")
+            }
+            try self.sessionConfiguration?.forEach {
+                try validate($0.key, name: "sessionConfiguration.key", parent: name, max: 255)
+                try validate($0.key, name: "sessionConfiguration.key", parent: name, min: 1)
+                try validate($0.key, name: "sessionConfiguration.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try $0.value.validate(name: "\(name).sessionConfiguration[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobConfiguration = "JobConfiguration"
+            case sessionConfiguration = "SessionConfiguration"
         }
     }
 
@@ -18226,6 +18771,8 @@ extension Glue {
         public let maxCapacity: Double?
         /// The number of workers of a defined WorkerType to use for the session.
         public let numberOfWorkers: Int?
+        /// The name of an Glue usage profile associated with the session.
+        public let profileName: String?
         /// The code execution progress of the session.
         public let progress: Double?
         /// The name or Amazon Resource Name (ARN) of the IAM role associated with the Session.
@@ -18237,7 +18784,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a session runs. Accepts a value of G.1X, G.2X, G.4X, or G.8X for Spark sessions. Accepts the value Z.2X for Ray sessions.
         public let workerType: WorkerType?
 
-        public init(command: SessionCommand? = nil, completedOn: Date? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionTime: Double? = nil, glueVersion: String? = nil, id: String? = nil, idleTimeout: Int? = nil, maxCapacity: Double? = nil, numberOfWorkers: Int? = nil, progress: Double? = nil, role: String? = nil, securityConfiguration: String? = nil, status: SessionStatus? = nil, workerType: WorkerType? = nil) {
+        public init(command: SessionCommand? = nil, completedOn: Date? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionTime: Double? = nil, glueVersion: String? = nil, id: String? = nil, idleTimeout: Int? = nil, maxCapacity: Double? = nil, numberOfWorkers: Int? = nil, profileName: String? = nil, progress: Double? = nil, role: String? = nil, securityConfiguration: String? = nil, status: SessionStatus? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.completedOn = completedOn
             self.connections = connections
@@ -18252,6 +18799,7 @@ extension Glue {
             self.idleTimeout = idleTimeout
             self.maxCapacity = maxCapacity
             self.numberOfWorkers = numberOfWorkers
+            self.profileName = profileName
             self.progress = progress
             self.role = role
             self.securityConfiguration = securityConfiguration
@@ -18274,6 +18822,7 @@ extension Glue {
             case idleTimeout = "IdleTimeout"
             case maxCapacity = "MaxCapacity"
             case numberOfWorkers = "NumberOfWorkers"
+            case profileName = "ProfileName"
             case progress = "Progress"
             case role = "Role"
             case securityConfiguration = "SecurityConfiguration"
@@ -19221,7 +19770,7 @@ extension Glue {
         public let numberOfWorkers: Int?
         /// The name of the SecurityConfiguration structure to be used with this job run.
         public let securityConfiguration: String?
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Streaming jobs do not have a timeout. The default for non-streaming jobs is 2,880 minutes (48 hours).
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job.  Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
         public let timeout: Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
@@ -20067,12 +20616,14 @@ extension Glue {
         public let tableType: String?
         /// A TableIdentifier structure that describes a target table for resource linking.
         public let targetTable: TableIdentifier?
+        /// A structure that contains all the information that defines the view, including the dialect or dialects for the view, and the query.
+        public let viewDefinition: ViewDefinitionInput?
         /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations.
         public let viewExpandedText: String?
         /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations. If the table is a VIRTUAL_VIEW, certain Athena configuration encoded in base64.
         public let viewOriginalText: String?
 
-        public init(description: String? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
+        public init(description: String? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, viewDefinition: ViewDefinitionInput? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.description = description
             self.lastAccessTime = lastAccessTime
             self.lastAnalyzedTime = lastAnalyzedTime
@@ -20084,6 +20635,7 @@ extension Glue {
             self.storageDescriptor = storageDescriptor
             self.tableType = tableType
             self.targetTable = targetTable
+            self.viewDefinition = viewDefinition
             self.viewExpandedText = viewExpandedText
             self.viewOriginalText = viewOriginalText
         }
@@ -20110,6 +20662,7 @@ extension Glue {
             try self.storageDescriptor?.validate(name: "\(name).storageDescriptor")
             try self.validate(self.tableType, name: "tableType", parent: name, max: 255)
             try self.targetTable?.validate(name: "\(name).targetTable")
+            try self.viewDefinition?.validate(name: "\(name).viewDefinition")
             try self.validate(self.viewExpandedText, name: "viewExpandedText", parent: name, max: 409600)
             try self.validate(self.viewOriginalText, name: "viewOriginalText", parent: name, max: 409600)
         }
@@ -20126,6 +20679,7 @@ extension Glue {
             case storageDescriptor = "StorageDescriptor"
             case tableType = "TableType"
             case targetTable = "TargetTable"
+            case viewDefinition = "ViewDefinition"
             case viewExpandedText = "ViewExpandedText"
             case viewOriginalText = "ViewOriginalText"
         }
@@ -21840,6 +22394,8 @@ extension Glue {
         public let catalogId: String?
         /// The name of the catalog database in which the table resides. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
+        /// A flag that can be set to true to ignore matching storage descriptor and subobject matching requirements.
+        public let force: Bool?
         /// By default, UpdateTable always creates an archived version of the table before updating it. However, if skipArchive is set to true, UpdateTable does not create the archived version.
         public let skipArchive: Bool?
         /// An updated TableInput object to define the metadata table in the catalog.
@@ -21848,14 +22404,18 @@ extension Glue {
         public let transactionId: String?
         /// The version ID at which to update the table contents.
         public let versionId: String?
+        /// The operation to be performed when updating the view.
+        public let viewUpdateAction: ViewUpdateAction?
 
-        public init(catalogId: String? = nil, databaseName: String, skipArchive: Bool? = nil, tableInput: TableInput, transactionId: String? = nil, versionId: String? = nil) {
+        public init(catalogId: String? = nil, databaseName: String, force: Bool? = nil, skipArchive: Bool? = nil, tableInput: TableInput, transactionId: String? = nil, versionId: String? = nil, viewUpdateAction: ViewUpdateAction? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
+            self.force = force
             self.skipArchive = skipArchive
             self.tableInput = tableInput
             self.transactionId = transactionId
             self.versionId = versionId
+            self.viewUpdateAction = viewUpdateAction
         }
 
         public func validate(name: String) throws {
@@ -21877,10 +22437,12 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
+            case force = "Force"
             case skipArchive = "SkipArchive"
             case tableInput = "TableInput"
             case transactionId = "TransactionId"
             case versionId = "VersionId"
+            case viewUpdateAction = "ViewUpdateAction"
         }
     }
 
@@ -21922,6 +22484,49 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case trigger = "Trigger"
+        }
+    }
+
+    public struct UpdateUsageProfileRequest: AWSEncodableShape {
+        /// A ProfileConfiguration object specifying the job and session values for the profile.
+        public let configuration: ProfileConfiguration
+        /// A description of the usage profile.
+        public let description: String?
+        /// The name of the usage profile.
+        public let name: String
+
+        public init(configuration: ProfileConfiguration, description: String? = nil, name: String) {
+            self.configuration = configuration
+            self.description = description
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateUsageProfileResponse: AWSDecodableShape {
+        /// The name of the usage profile that was updated.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
@@ -22072,6 +22677,31 @@ extension Glue {
         }
     }
 
+    public struct UsageProfileDefinition: AWSDecodableShape {
+        /// The date and time when the usage profile was created.
+        public let createdOn: Date?
+        /// A description of the usage profile.
+        public let description: String?
+        /// The date and time when the usage profile was last modified.
+        public let lastModifiedOn: Date?
+        /// The name of the usage profile.
+        public let name: String?
+
+        public init(createdOn: Date? = nil, description: String? = nil, lastModifiedOn: Date? = nil, name: String? = nil) {
+            self.createdOn = createdOn
+            self.description = description
+            self.lastModifiedOn = lastModifiedOn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdOn = "CreatedOn"
+            case description = "Description"
+            case lastModifiedOn = "LastModifiedOn"
+            case name = "Name"
+        }
+    }
+
     public struct UserDefinedFunction: AWSDecodableShape {
         /// The ID of the Data Catalog in which the function resides.
         public let catalogId: String?
@@ -22183,6 +22813,46 @@ extension Glue {
         }
     }
 
+    public struct ViewDefinitionInput: AWSEncodableShape {
+        /// The definer of a view in SQL.
+        public let definer: String?
+        /// You can set this flag as true to instruct the engine not to push user-provided operations into the logical plan of the view during query planning. However, setting this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
+        public let isProtected: Bool?
+        /// A list of structures that contains the dialect of the view, and the query that defines the view.
+        public let representations: [ViewRepresentationInput]?
+        /// A list of base table ARNs that make up the view.
+        public let subObjects: [String]?
+
+        public init(definer: String? = nil, isProtected: Bool? = nil, representations: [ViewRepresentationInput]? = nil, subObjects: [String]? = nil) {
+            self.definer = definer
+            self.isProtected = isProtected
+            self.representations = representations
+            self.subObjects = subObjects
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.definer, name: "definer", parent: name, max: 2048)
+            try self.validate(self.definer, name: "definer", parent: name, min: 20)
+            try self.representations?.forEach {
+                try $0.validate(name: "\(name).representations[]")
+            }
+            try self.validate(self.representations, name: "representations", parent: name, max: 10)
+            try self.validate(self.representations, name: "representations", parent: name, min: 1)
+            try self.subObjects?.forEach {
+                try validate($0, name: "subObjects[]", parent: name, max: 2048)
+                try validate($0, name: "subObjects[]", parent: name, min: 20)
+            }
+            try self.validate(self.subObjects, name: "subObjects", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definer = "Definer"
+            case isProtected = "IsProtected"
+            case representations = "Representations"
+            case subObjects = "SubObjects"
+        }
+    }
+
     public struct ViewRepresentation: AWSDecodableShape {
         /// The dialect of the query engine.
         public let dialect: ViewDialect?
@@ -22190,15 +22860,18 @@ extension Glue {
         public let dialectVersion: String?
         /// Dialects marked as stale are no longer valid and must be updated before they can be queried in their respective query engines.
         public let isStale: Bool?
-        /// The expanded SQL for the view. This SQL is used by engines while processing a query on a view. Engines may perform operations during view creation to transform ViewOriginalText to ViewExpandedText. For example:   Fully qualify identifiers: SELECT * from table1 → SELECT * from db1.table1
+        /// The name of the connection to be used to validate the specific representation of the view.
+        public let validationConnection: String?
+        /// The expanded SQL for the view. This SQL is used by engines while processing a query on a view. Engines may perform operations during view creation to transform ViewOriginalText to ViewExpandedText. For example:   Fully qualified identifiers: SELECT * from table1 -> SELECT * from db1.table1
         public let viewExpandedText: String?
         /// The SELECT query provided by the customer during CREATE VIEW DDL. This SQL is not used during a query on a view (ViewExpandedText is used instead). ViewOriginalText is used for cases like SHOW CREATE VIEW where users want to see the original DDL command that created the view.
         public let viewOriginalText: String?
 
-        public init(dialect: ViewDialect? = nil, dialectVersion: String? = nil, isStale: Bool? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
+        public init(dialect: ViewDialect? = nil, dialectVersion: String? = nil, isStale: Bool? = nil, validationConnection: String? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.dialect = dialect
             self.dialectVersion = dialectVersion
             self.isStale = isStale
+            self.validationConnection = validationConnection
             self.viewExpandedText = viewExpandedText
             self.viewOriginalText = viewOriginalText
         }
@@ -22207,6 +22880,46 @@ extension Glue {
             case dialect = "Dialect"
             case dialectVersion = "DialectVersion"
             case isStale = "IsStale"
+            case validationConnection = "ValidationConnection"
+            case viewExpandedText = "ViewExpandedText"
+            case viewOriginalText = "ViewOriginalText"
+        }
+    }
+
+    public struct ViewRepresentationInput: AWSEncodableShape {
+        /// A parameter that specifies the engine type of a specific representation.
+        public let dialect: ViewDialect?
+        /// A parameter that specifies the version of the engine of a specific representation.
+        public let dialectVersion: String?
+        /// The name of the connection to be used to validate the specific representation of the view.
+        public let validationConnection: String?
+        /// A string that represents the SQL query that describes the view with expanded resource ARNs
+        public let viewExpandedText: String?
+        /// A string that represents the original SQL query that describes the view.
+        public let viewOriginalText: String?
+
+        public init(dialect: ViewDialect? = nil, dialectVersion: String? = nil, validationConnection: String? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
+            self.dialect = dialect
+            self.dialectVersion = dialectVersion
+            self.validationConnection = validationConnection
+            self.viewExpandedText = viewExpandedText
+            self.viewOriginalText = viewOriginalText
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dialectVersion, name: "dialectVersion", parent: name, max: 255)
+            try self.validate(self.dialectVersion, name: "dialectVersion", parent: name, min: 1)
+            try self.validate(self.validationConnection, name: "validationConnection", parent: name, max: 255)
+            try self.validate(self.validationConnection, name: "validationConnection", parent: name, min: 1)
+            try self.validate(self.validationConnection, name: "validationConnection", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.viewExpandedText, name: "viewExpandedText", parent: name, max: 409600)
+            try self.validate(self.viewOriginalText, name: "viewOriginalText", parent: name, max: 409600)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dialect = "Dialect"
+            case dialectVersion = "DialectVersion"
+            case validationConnection = "ValidationConnection"
             case viewExpandedText = "ViewExpandedText"
             case viewOriginalText = "ViewOriginalText"
         }
@@ -22433,6 +23146,7 @@ public struct GlueErrorType: AWSErrorType {
         case invalidStateException = "InvalidStateException"
         case mlTransformNotReadyException = "MLTransformNotReadyException"
         case noScheduleException = "NoScheduleException"
+        case operationNotSupportedException = "OperationNotSupportedException"
         case operationTimeoutException = "OperationTimeoutException"
         case permissionTypeMismatchException = "PermissionTypeMismatchException"
         case resourceNotReadyException = "ResourceNotReadyException"
@@ -22514,6 +23228,8 @@ public struct GlueErrorType: AWSErrorType {
     public static var mlTransformNotReadyException: Self { .init(.mlTransformNotReadyException) }
     /// There is no applicable schedule.
     public static var noScheduleException: Self { .init(.noScheduleException) }
+    /// The operation is not available in the region.
+    public static var operationNotSupportedException: Self { .init(.operationNotSupportedException) }
     /// The operation timed out.
     public static var operationTimeoutException: Self { .init(.operationTimeoutException) }
     /// The operation timed out.

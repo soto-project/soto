@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -58,6 +58,13 @@ extension PI {
         case enabledPendingReboot = "ENABLED_PENDING_REBOOT"
         case unknown = "UNKNOWN"
         case unsupported = "UNSUPPORTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FineGrainedAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case describeDimensionKeys = "DescribeDimensionKeys"
+        case getDimensionKeyDetails = "GetDimensionKeyDetails"
+        case getResourceMetrics = "GetResourceMetrics"
         public var description: String { return self.rawValue }
     }
 
@@ -281,7 +288,7 @@ extension PI {
         public let additionalMetrics: [String]?
         /// The date and time specifying the end of the requested time series data. The value specified is exclusive, which means that data points less than (but not equal to) EndTime are returned. The value for EndTime must be later than the value for StartTime.
         public let endTime: Date
-        /// One or more filters to apply in the request. Restrictions:   Any number of filters by the same dimension, as specified in the GroupBy or Partition parameters.   A single filter for any other dimension in this dimension group.
+        /// One or more filters to apply in the request. Restrictions:   Any number of filters by the same dimension, as specified in the GroupBy or Partition parameters.   A single filter for any other dimension in this dimension group.    The db.sql.db_id filter isn't available for RDS for SQL Server DB instances.
         public let filter: [String: String]?
         /// A specification for how to aggregate the data points from a query result. You must specify a valid dimension group. Performance Insights returns all dimensions within this group, unless you provide the names of specific dimensions within this group. You can also request that Performance Insights return a limited number of values for a dimension.
         public let groupBy: DimensionGroup
@@ -320,13 +327,13 @@ extension PI {
         public func validate(name: String) throws {
             try self.additionalMetrics?.forEach {
                 try validate($0, name: "additionalMetrics[]", parent: name, max: 256)
-                try validate($0, name: "additionalMetrics[]", parent: name, pattern: "\\S")
+                try validate($0, name: "additionalMetrics[]", parent: name, pattern: "^[a-zA-Z0-9-_\\.:/*)( ]+$")
             }
             try self.validate(self.additionalMetrics, name: "additionalMetrics", parent: name, max: 30)
             try self.validate(self.additionalMetrics, name: "additionalMetrics", parent: name, min: 1)
             try self.filter?.forEach {
                 try validate($0.key, name: "filter.key", parent: name, max: 256)
-                try validate($0.key, name: "filter.key", parent: name, pattern: "\\S")
+                try validate($0.key, name: "filter.key", parent: name, pattern: "^[a-zA-Z0-9-_\\.:/*)( ]+$")
                 try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, pattern: "\\S")
             }
@@ -418,12 +425,12 @@ extension PI {
         public func validate(name: String) throws {
             try self.dimensions?.forEach {
                 try validate($0, name: "dimensions[]", parent: name, max: 256)
-                try validate($0, name: "dimensions[]", parent: name, pattern: "\\S")
+                try validate($0, name: "dimensions[]", parent: name, pattern: "^[a-zA-Z0-9-_\\.:/*)( ]+$")
             }
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
             try self.validate(self.dimensions, name: "dimensions", parent: name, min: 1)
             try self.validate(self.group, name: "group", parent: name, max: 256)
-            try self.validate(self.group, name: "group", parent: name, pattern: "\\S")
+            try self.validate(self.group, name: "group", parent: name, pattern: "^[a-zA-Z0-9-_\\.:/*)( ]+$")
             try self.validate(self.limit, name: "limit", parent: name, max: 25)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
         }
@@ -540,7 +547,7 @@ extension PI {
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.requestedDimensions?.forEach {
                 try validate($0, name: "requestedDimensions[]", parent: name, max: 256)
-                try validate($0, name: "requestedDimensions[]", parent: name, pattern: "\\S")
+                try validate($0, name: "requestedDimensions[]", parent: name, pattern: "^[a-zA-Z0-9-_\\.:/*)( ]+$")
             }
             try self.validate(self.requestedDimensions, name: "requestedDimensions", parent: name, max: 10)
             try self.validate(self.requestedDimensions, name: "requestedDimensions", parent: name, min: 1)
@@ -800,6 +807,8 @@ extension PI {
     }
 
     public struct ListAvailableResourceDimensionsRequest: AWSEncodableShape {
+        /// The actions to discover the dimensions you are authorized to access. If you specify multiple actions, then the response will contain the dimensions common for all the actions. When you don't specify this request parameter or provide an empty list, the response contains all the  available dimensions for the target database engine whether or not you are authorized to access them.
+        public let authorizedActions: [FineGrainedAction]?
         /// An immutable identifier for a data source that is unique within an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use an Amazon RDS DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VWZ.
         public let identifier: String
         /// The maximum number of items to return in the response. If more items exist than the specified  MaxRecords value, a pagination token is included in the response so that the remaining  results can be retrieved.
@@ -811,7 +820,8 @@ extension PI {
         /// The Amazon Web Services service for which Performance Insights returns metrics.
         public let serviceType: ServiceType
 
-        public init(identifier: String, maxResults: Int? = nil, metrics: [String], nextToken: String? = nil, serviceType: ServiceType) {
+        public init(authorizedActions: [FineGrainedAction]? = nil, identifier: String, maxResults: Int? = nil, metrics: [String], nextToken: String? = nil, serviceType: ServiceType) {
+            self.authorizedActions = authorizedActions
             self.identifier = identifier
             self.maxResults = maxResults
             self.metrics = metrics
@@ -820,13 +830,14 @@ extension PI {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.authorizedActions, name: "authorizedActions", parent: name, max: 3)
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.metrics.forEach {
                 try validate($0, name: "metrics[]", parent: name, max: 256)
-                try validate($0, name: "metrics[]", parent: name, pattern: "\\S")
+                try validate($0, name: "metrics[]", parent: name, pattern: "^[a-zA-Z0-9-_\\.:/*)( ]+$")
             }
             try self.validate(self.metrics, name: "metrics", parent: name, max: 5)
             try self.validate(self.metrics, name: "metrics", parent: name, min: 1)
@@ -836,6 +847,7 @@ extension PI {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authorizedActions = "AuthorizedActions"
             case identifier = "Identifier"
             case maxResults = "MaxResults"
             case metrics = "Metrics"
@@ -888,7 +900,7 @@ extension PI {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.metricTypes.forEach {
                 try validate($0, name: "metricTypes[]", parent: name, max: 256)
-                try validate($0, name: "metricTypes[]", parent: name, pattern: "\\S")
+                try validate($0, name: "metricTypes[]", parent: name, pattern: "^[a-zA-Z0-9-_\\.:/*)( ]+$")
             }
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -1048,7 +1060,7 @@ extension PI {
     }
 
     public struct MetricQuery: AWSEncodableShape {
-        /// One or more filters to apply in the request.  Restrictions:   Any number of filters by the same dimension, as specified in the GroupBy parameter.   A single filter for any other dimension in this dimension group.
+        /// One or more filters to apply in the request.  Restrictions:   Any number of filters by the same dimension, as specified in the GroupBy parameter.   A single filter for any other dimension in this dimension group.    The db.sql.db_id filter isn't available for RDS for SQL Server DB instances.
         public let filter: [String: String]?
         /// A specification for how to aggregate the data points from a query result. You must specify a valid dimension group.  Performance Insights will return all of the dimensions within that group, unless you provide the names of specific dimensions within that group. You can also request that Performance Insights return a limited number of values for a dimension.
         public let groupBy: DimensionGroup?
@@ -1064,13 +1076,13 @@ extension PI {
         public func validate(name: String) throws {
             try self.filter?.forEach {
                 try validate($0.key, name: "filter.key", parent: name, max: 256)
-                try validate($0.key, name: "filter.key", parent: name, pattern: "\\S")
+                try validate($0.key, name: "filter.key", parent: name, pattern: "^[a-zA-Z0-9-_\\.:/*)( ]+$")
                 try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, pattern: "\\S")
             }
             try self.groupBy?.validate(name: "\(name).groupBy")
             try self.validate(self.metric, name: "metric", parent: name, max: 256)
-            try self.validate(self.metric, name: "metric", parent: name, pattern: "\\S")
+            try self.validate(self.metric, name: "metric", parent: name, pattern: "^[a-zA-Z0-9-_\\.:/*)( ]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

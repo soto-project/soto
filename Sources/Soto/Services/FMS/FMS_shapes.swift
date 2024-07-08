@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -2380,10 +2380,10 @@ extension FMS {
         /// The rules that you want to run first in the Firewall Manager managed network ACLs.   Provide these in the order in which you want them to run. Firewall Manager will assign the specific rule numbers for you, in the network ACLs that it creates.   You must specify at least one first entry or one last entry in any network ACL policy.
         public let firstEntries: [NetworkAclEntry]?
         /// Applies only when remediation is enabled for the policy as a whole. Firewall Manager uses this setting when it finds policy  violations that involve conflicts between the custom entries and the policy entries.  If forced remediation is disabled, Firewall Manager marks the network ACL as noncompliant and does not try to  remediate. For more information about the remediation behavior, see
-        /// Network access control list (ACL) policies  in the Firewall Manager Developer Guide.
+        /// Remediation for managed network ACLs  in the Firewall Manager Developer Guide.
         public let forceRemediateForFirstEntries: Bool
         /// Applies only when remediation is enabled for the policy as a whole. Firewall Manager uses this setting when it finds policy  violations that involve conflicts between the custom entries and the policy entries.  If forced remediation is disabled, Firewall Manager marks the network ACL as noncompliant and does not try to  remediate. For more information about the remediation behavior, see
-        /// Network access control list (ACL) policies  in the Firewall Manager Developer Guide.
+        /// Remediation for managed network ACLs  in the Firewall Manager Developer Guide.
         public let forceRemediateForLastEntries: Bool
         /// The rules that you want to run last in the Firewall Manager managed network ACLs.   Provide these in the order in which you want them to run. Firewall Manager will assign the specific rule numbers for you, in the network ACLs that it creates.   You must specify at least one first entry or one last entry in any network ACL policy.
         public let lastEntries: [NetworkAclEntry]?
@@ -2924,7 +2924,7 @@ extension FMS {
         public let excludeResourceTags: Bool
         /// Specifies the Amazon Web Services account IDs and Organizations organizational units (OUs) to include in the policy. Specifying an OU is the equivalent of specifying all accounts in the OU and in any of its child OUs, including any child OUs and accounts that are added at a later time. You can specify inclusions or exclusions, but not both. If you specify an IncludeMap, Firewall Manager applies the policy to all accounts specified by the IncludeMap, and does not evaluate any ExcludeMap specifications. If you do not specify an IncludeMap, then Firewall Manager applies the policy to all accounts except for those specified by the ExcludeMap. You can specify account IDs, OUs, or a combination:    Specify account IDs by setting the key to ACCOUNT. For example, the following is a valid map: {“ACCOUNT” : [“accountID1”, “accountID2”]}.   Specify OUs by setting the key to ORG_UNIT. For example, the following is a valid map: {“ORG_UNIT” : [“ouid111”, “ouid112”]}.   Specify accounts and OUs together in a single map, separated with a comma. For example, the following is a valid map: {“ACCOUNT” : [“accountID1”, “accountID2”], “ORG_UNIT” : [“ouid111”, “ouid112”]}.
         public let includeMap: [CustomerPolicyScopeIdType: [String]]?
-        /// The definition of the Network Firewall firewall policy.
+        /// Your description of the Firewall Manager policy.
         public let policyDescription: String?
         /// The ID of the Firewall Manager policy.
         public let policyId: String?
@@ -3751,7 +3751,7 @@ extension FMS {
     public struct ResourceTag: AWSEncodableShape & AWSDecodableShape {
         /// The resource tag key.
         public let key: String
-        /// The resource tag value.
+        /// The resource tag value. To specify an empty string value, either don't provide this or specify it as "".
         public let value: String?
 
         public init(key: String, value: String? = nil) {
@@ -4033,7 +4033,7 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.managedServiceData, name: "managedServiceData", parent: name, max: 10000)
+            try self.validate(self.managedServiceData, name: "managedServiceData", parent: name, max: 30000)
             try self.validate(self.managedServiceData, name: "managedServiceData", parent: name, min: 1)
             try self.validate(self.managedServiceData, name: "managedServiceData", parent: name, pattern: "^((?!\\\\[nr]).)+$")
             try self.policyOption?.validate(name: "\(name).policyOption")

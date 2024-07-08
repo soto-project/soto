@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1327,6 +1327,52 @@ extension SWF {
             case scheduledEventId = "scheduledEventId"
             case startedEventId = "startedEventId"
             case timeoutType = "timeoutType"
+        }
+    }
+
+    public struct DeleteActivityTypeInput: AWSEncodableShape {
+        /// The activity type to delete.
+        public let activityType: ActivityType
+        /// The name of the domain in which the activity type is registered.
+        public let domain: String
+
+        public init(activityType: ActivityType, domain: String) {
+            self.activityType = activityType
+            self.domain = domain
+        }
+
+        public func validate(name: String) throws {
+            try self.activityType.validate(name: "\(name).activityType")
+            try self.validate(self.domain, name: "domain", parent: name, max: 256)
+            try self.validate(self.domain, name: "domain", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activityType = "activityType"
+            case domain = "domain"
+        }
+    }
+
+    public struct DeleteWorkflowTypeInput: AWSEncodableShape {
+        /// The name of the domain in which the workflow type is registered.
+        public let domain: String
+        /// The workflow type to delete.
+        public let workflowType: WorkflowType
+
+        public init(domain: String, workflowType: WorkflowType) {
+            self.domain = domain
+            self.workflowType = workflowType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domain, name: "domain", parent: name, max: 256)
+            try self.validate(self.domain, name: "domain", parent: name, min: 1)
+            try self.workflowType.validate(name: "\(name).workflowType")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "domain"
+            case workflowType = "workflowType"
         }
     }
 
@@ -4432,6 +4478,7 @@ public struct SWFErrorType: AWSErrorType {
         case tooManyTagsFault = "TooManyTagsFault"
         case typeAlreadyExistsFault = "TypeAlreadyExistsFault"
         case typeDeprecatedFault = "TypeDeprecatedFault"
+        case typeNotDeprecatedFault = "TypeNotDeprecatedFault"
         case unknownResourceFault = "UnknownResourceFault"
         case workflowExecutionAlreadyStartedFault = "WorkflowExecutionAlreadyStartedFault"
     }
@@ -4470,6 +4517,8 @@ public struct SWFErrorType: AWSErrorType {
     public static var typeAlreadyExistsFault: Self { .init(.typeAlreadyExistsFault) }
     /// Returned when the specified activity or workflow type was already deprecated.
     public static var typeDeprecatedFault: Self { .init(.typeDeprecatedFault) }
+    /// Returned when the resource type has not been deprecated.
+    public static var typeNotDeprecatedFault: Self { .init(.typeNotDeprecatedFault) }
     /// Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public static var unknownResourceFault: Self { .init(.unknownResourceFault) }
     /// Returned by StartWorkflowExecution when an open execution with the same workflowId is already running in the specified domain.

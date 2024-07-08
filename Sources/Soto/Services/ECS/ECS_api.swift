@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -863,7 +863,9 @@ public struct ECS: AWSService {
     /// 				SIGTERM value and a default 30-second timeout, after which the
     /// 				SIGKILL value is sent and the containers are forcibly stopped. If the
     /// 			container handles the SIGTERM value gracefully and exits within 30 seconds
-    /// 			from receiving it, no SIGKILL value is sent.  The default 30-second timeout can be configured on the Amazon ECS container agent with
+    /// 			from receiving it, no SIGKILL value is sent. For Windows containers, POSIX signals do not work and runtime stops the container by sending
+    /// 			a CTRL_SHUTDOWN_EVENT. For more information, see Unable to react to graceful shutdown
+    /// 				of (Windows) container #25982 on GitHub.  The default 30-second timeout can be configured on the Amazon ECS container agent with
     /// 				the ECS_CONTAINER_STOP_TIMEOUT variable. For more information, see
     /// 					Amazon ECS Container Agent Configuration in the
     /// 				Amazon Elastic Container Service Developer Guide.

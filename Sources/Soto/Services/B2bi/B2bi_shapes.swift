@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -263,7 +263,7 @@ extension B2bi {
 
     public struct CreatePartnershipRequest: AWSEncodableShape {
         /// Specifies a list of the capabilities associated with this partnership.
-        public let capabilities: [String]?
+        public let capabilities: [String]
         /// Reserved for future use.
         public let clientToken: String?
         /// Specifies the email address associated with this trading partner.
@@ -277,7 +277,7 @@ extension B2bi {
         /// Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any purpose.
         public let tags: [Tag]?
 
-        public init(capabilities: [String]? = nil, clientToken: String? = CreatePartnershipRequest.idempotencyToken(), email: String, name: String, phone: String? = nil, profileId: String, tags: [Tag]? = nil) {
+        public init(capabilities: [String], clientToken: String? = CreatePartnershipRequest.idempotencyToken(), email: String, name: String, phone: String? = nil, profileId: String, tags: [Tag]? = nil) {
             self.capabilities = capabilities
             self.clientToken = clientToken
             self.email = email
@@ -288,7 +288,7 @@ extension B2bi {
         }
 
         public func validate(name: String) throws {
-            try self.capabilities?.forEach {
+            try self.capabilities.forEach {
                 try validate($0, name: "capabilities[]", parent: name, max: 64)
                 try validate($0, name: "capabilities[]", parent: name, min: 1)
                 try validate($0, name: "capabilities[]", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -474,7 +474,7 @@ extension B2bi {
         public let ediType: EdiType
         /// Specifies that the currently supported file formats for EDI transformations are JSON and XML.
         public let fileFormat: FileFormat
-        /// Specifies the name of the mapping template for the transformer. This template is used to convert the input document into the correct set of objects.
+        /// Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
         public let mappingTemplate: String
         /// Specifies the name of the transformer, used to identify it.
         public let name: String
@@ -523,7 +523,7 @@ extension B2bi {
         public let ediType: EdiType
         /// Returns that the currently supported file formats for EDI transformations are JSON and XML.
         public let fileFormat: FileFormat
-        /// Returns the name of the mapping template for the transformer. This template is used to convert the input document into the correct set of objects.
+        /// Returns the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
         public let mappingTemplate: String
         /// Returns the name of the transformer, used to identify it.
         public let name: String
@@ -982,7 +982,7 @@ extension B2bi {
         public let ediType: EdiType
         /// Returns that the currently supported file formats for EDI transformations are JSON and XML.
         public let fileFormat: FileFormat
-        /// Returns the name of the mapping template for the transformer. This template is used to convert the input document into the correct set of objects.
+        /// Returns the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
         public let mappingTemplate: String
         /// Returns a timestamp for last time the transformer was modified.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -1454,7 +1454,7 @@ extension B2bi {
         public let fileFormat: FileFormat
         /// Specify the contents of the EDI (electronic data interchange) XML or JSON file that is used as input for the transform.
         public let inputFileContent: String
-        /// Specifies the name of the mapping template for the transformer. This template is used to convert the input document into the correct set of objects.
+        /// Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
         public let mappingTemplate: String
 
         public init(fileFormat: FileFormat, inputFileContent: String, mappingTemplate: String) {
@@ -1534,7 +1534,7 @@ extension B2bi {
         public let ediType: EdiType
         /// Returns that the currently supported file formats for EDI transformations are JSON and XML.
         public let fileFormat: FileFormat
-        /// Returns the name of the mapping template for the transformer. This template is used to convert the input document into the correct set of objects.
+        /// Returns the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
         public let mappingTemplate: String
         /// Returns a timestamp representing the date and time for the most recent change for the transformer object.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -1895,7 +1895,7 @@ extension B2bi {
         public let ediType: EdiType?
         /// Specifies that the currently supported file formats for EDI transformations are JSON and XML.
         public let fileFormat: FileFormat?
-        /// Specifies the name of the mapping template for the transformer. This template is used to convert the input document into the correct set of objects.
+        /// Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
         public let mappingTemplate: String?
         /// Specify a new name for the transformer, if you want to update it.
         public let name: String?
@@ -1956,7 +1956,7 @@ extension B2bi {
         public let ediType: EdiType
         /// Returns that the currently supported file formats for EDI transformations are JSON and XML.
         public let fileFormat: FileFormat
-        /// Returns the name of the mapping template for the transformer. This template is used to convert the input document into the correct set of objects.
+        /// Returns the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
         public let mappingTemplate: String
         /// Returns a timestamp for last time the transformer was modified.
         @CustomCoding<ISO8601DateCoder>

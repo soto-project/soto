@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -74,6 +74,8 @@ extension CostOptimizationHub {
         case elastiCacheReservedInstances = "ElastiCacheReservedInstances"
         case lambdaFunction = "LambdaFunction"
         case openSearchReservedInstances = "OpenSearchReservedInstances"
+        case rdsDbInstance = "RdsDbInstance"
+        case rdsDbInstanceStorage = "RdsDbInstanceStorage"
         case rdsReservedInstances = "RdsReservedInstances"
         case redshiftReservedInstances = "RedshiftReservedInstances"
         case sageMakerSavingsPlans = "SageMakerSavingsPlans"
@@ -113,6 +115,10 @@ extension CostOptimizationHub {
         case lambdaFunction(LambdaFunction)
         /// The OpenSearch reserved instances recommendation details.
         case openSearchReservedInstances(OpenSearchReservedInstances)
+        /// The DB instance recommendation details.
+        case rdsDbInstance(RdsDbInstance)
+        /// The DB instance storage recommendation details.
+        case rdsDbInstanceStorage(RdsDbInstanceStorage)
         /// The RDS reserved instances recommendation details.
         case rdsReservedInstances(RdsReservedInstances)
         /// The Redshift reserved instances recommendation details.
@@ -160,6 +166,12 @@ extension CostOptimizationHub {
             case .openSearchReservedInstances:
                 let value = try container.decode(OpenSearchReservedInstances.self, forKey: .openSearchReservedInstances)
                 self = .openSearchReservedInstances(value)
+            case .rdsDbInstance:
+                let value = try container.decode(RdsDbInstance.self, forKey: .rdsDbInstance)
+                self = .rdsDbInstance(value)
+            case .rdsDbInstanceStorage:
+                let value = try container.decode(RdsDbInstanceStorage.self, forKey: .rdsDbInstanceStorage)
+                self = .rdsDbInstanceStorage(value)
             case .rdsReservedInstances:
                 let value = try container.decode(RdsReservedInstances.self, forKey: .rdsReservedInstances)
                 self = .rdsReservedInstances(value)
@@ -183,6 +195,8 @@ extension CostOptimizationHub {
             case elastiCacheReservedInstances = "elastiCacheReservedInstances"
             case lambdaFunction = "lambdaFunction"
             case openSearchReservedInstances = "openSearchReservedInstances"
+            case rdsDbInstance = "rdsDbInstance"
+            case rdsDbInstanceStorage = "rdsDbInstanceStorage"
             case rdsReservedInstances = "rdsReservedInstances"
             case redshiftReservedInstances = "redshiftReservedInstances"
             case sageMakerSavingsPlans = "sageMakerSavingsPlans"
@@ -297,6 +311,19 @@ extension CostOptimizationHub {
             case hourlyCommitment = "hourlyCommitment"
             case paymentOption = "paymentOption"
             case term = "term"
+        }
+    }
+
+    public struct DbInstanceConfiguration: AWSDecodableShape {
+        /// The DB instance class of the DB instance.
+        public let dbInstanceClass: String?
+
+        public init(dbInstanceClass: String? = nil) {
+            self.dbInstanceClass = dbInstanceClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbInstanceClass = "dbInstanceClass"
         }
     }
 
@@ -791,7 +818,7 @@ extension CostOptimizationHub {
         public let currentResourceDetails: ResourceDetails?
         /// The type of resource.
         public let currentResourceType: ResourceType?
-        /// The estimated monthly cost of the recommendation.
+        /// The estimated monthly cost of the current resource. For Reserved Instances and Savings Plans, it refers to the cost for eligible usage.
         public let estimatedMonthlyCost: Double?
         /// The estimated monthly savings amount for the recommendation.
         public let estimatedMonthlySavings: Double?
@@ -1176,6 +1203,76 @@ extension CostOptimizationHub {
         }
     }
 
+    public struct RdsDbInstance: AWSDecodableShape {
+        /// The Amazon RDS DB instance configuration used for recommendations.
+        public let configuration: RdsDbInstanceConfiguration?
+        public let costCalculation: ResourceCostCalculation?
+
+        public init(configuration: RdsDbInstanceConfiguration? = nil, costCalculation: ResourceCostCalculation? = nil) {
+            self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case costCalculation = "costCalculation"
+        }
+    }
+
+    public struct RdsDbInstanceConfiguration: AWSDecodableShape {
+        /// Details about the instance configuration.
+        public let instance: DbInstanceConfiguration?
+
+        public init(instance: DbInstanceConfiguration? = nil) {
+            self.instance = instance
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instance = "instance"
+        }
+    }
+
+    public struct RdsDbInstanceStorage: AWSDecodableShape {
+        /// The Amazon RDS DB instance storage configuration used for recommendations.
+        public let configuration: RdsDbInstanceStorageConfiguration?
+        public let costCalculation: ResourceCostCalculation?
+
+        public init(configuration: RdsDbInstanceStorageConfiguration? = nil, costCalculation: ResourceCostCalculation? = nil) {
+            self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case costCalculation = "costCalculation"
+        }
+    }
+
+    public struct RdsDbInstanceStorageConfiguration: AWSDecodableShape {
+        /// The new amount of storage in GB to allocate for the DB instance.
+        public let allocatedStorageInGb: Double?
+        /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance.
+        public let iops: Double?
+        /// The storage throughput for the DB instance.
+        public let storageThroughput: Double?
+        /// The storage type to associate with the DB instance.
+        public let storageType: String?
+
+        public init(allocatedStorageInGb: Double? = nil, iops: Double? = nil, storageThroughput: Double? = nil, storageType: String? = nil) {
+            self.allocatedStorageInGb = allocatedStorageInGb
+            self.iops = iops
+            self.storageThroughput = storageThroughput
+            self.storageType = storageType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedStorageInGb = "allocatedStorageInGb"
+            case iops = "iops"
+            case storageThroughput = "storageThroughput"
+            case storageType = "storageType"
+        }
+    }
+
     public struct RdsReservedInstances: AWSDecodableShape {
         /// The RDS reserved instances configuration used for recommendations.
         public let configuration: RdsReservedInstancesConfiguration?
@@ -1281,7 +1378,7 @@ extension CostOptimizationHub {
         public let currentResourceSummary: String?
         /// The current resource type.
         public let currentResourceType: String?
-        /// The estimated monthly cost for the recommendation.
+        /// The estimated monthly cost of the current resource. For Reserved Instances and Savings Plans, it refers to the cost for eligible usage.
         public let estimatedMonthlyCost: Double?
         /// The estimated monthly savings amount for the recommendation.
         public let estimatedMonthlySavings: Double?

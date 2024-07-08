@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2023 the Soto project authors
+// Copyright (c) 2017-2024 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -1026,7 +1026,7 @@ extension EventBridge {
         public let eventBuses: [EndpointEventBus]
         /// The name of the global endpoint. For example, "Name":"us-east-2-custom_bus_A-endpoint".
         public let name: String
-        /// Enable or disable event replication. The default state is ENABLED which means you must supply a RoleArn. If you don't have a  RoleArn or you don't want event replication enabled, set the state to DISABLED.
+        /// Enable or disable event replication. The default state is ENABLED which means you must supply a RoleArn. If you don't have a RoleArn or you don't want event replication enabled, set the state to DISABLED.
         public let replicationConfig: ReplicationConfig?
         /// The ARN of the role used for replication.
         public let roleArn: String?
@@ -1107,23 +1107,34 @@ extension EventBridge {
     }
 
     public struct CreateEventBusRequest: AWSEncodableShape {
+        public let deadLetterConfig: DeadLetterConfig?
+        /// The event bus description.
+        public let description: String?
         /// If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
         public let eventSourceName: String?
+        /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Managing keys in the Key Management Service Developer Guide.   Archives and schema discovery are not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:   You call  CreateArchive on an event bus set to use a customer managed key for encryption.   You call  CreateDiscoverer on an event bus set to use a customer managed key for encryption.   You call  UpdatedEventBus to set a customer managed key on an event bus with an archives or schema discovery enabled.   To enable archives or schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Data encryption in EventBridge in the Amazon EventBridge User Guide.
+        public let kmsKeyIdentifier: String?
         /// The name of the new event bus.  Custom event bus names can't contain the / character, but you can use the / character in partner event bus names. In addition, for partner event buses, the name must exactly match the name of the partner event source that this event bus is matched to. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus.
         public let name: String
         /// Tags to associate with the event bus.
         public let tags: [Tag]?
 
-        public init(eventSourceName: String? = nil, name: String, tags: [Tag]? = nil) {
+        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, eventSourceName: String? = nil, kmsKeyIdentifier: String? = nil, name: String, tags: [Tag]? = nil) {
+            self.deadLetterConfig = deadLetterConfig
+            self.description = description
             self.eventSourceName = eventSourceName
+            self.kmsKeyIdentifier = kmsKeyIdentifier
             self.name = name
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
+            try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, max: 256)
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, min: 1)
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, pattern: "^aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}$")
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[/\\.\\-_A-Za-z0-9]+$")
@@ -1133,22 +1144,36 @@ extension EventBridge {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deadLetterConfig = "DeadLetterConfig"
+            case description = "Description"
             case eventSourceName = "EventSourceName"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
             case name = "Name"
             case tags = "Tags"
         }
     }
 
     public struct CreateEventBusResponse: AWSDecodableShape {
+        public let deadLetterConfig: DeadLetterConfig?
+        /// The event bus description.
+        public let description: String?
         /// The ARN of the new event bus.
         public let eventBusArn: String?
+        /// The identifier of the KMS customer managed key for EventBridge to use to encrypt events on this event bus, if one has been specified. For more information, see Data encryption in EventBridge in the Amazon EventBridge User Guide.
+        public let kmsKeyIdentifier: String?
 
-        public init(eventBusArn: String? = nil) {
+        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, eventBusArn: String? = nil, kmsKeyIdentifier: String? = nil) {
+            self.deadLetterConfig = deadLetterConfig
+            self.description = description
             self.eventBusArn = eventBusArn
+            self.kmsKeyIdentifier = kmsKeyIdentifier
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deadLetterConfig = "DeadLetterConfig"
+            case description = "Description"
             case eventBusArn = "EventBusArn"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
         }
     }
 
@@ -1789,19 +1814,38 @@ extension EventBridge {
     public struct DescribeEventBusResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the account permitted to write events to the current account.
         public let arn: String?
+        /// The time the event bus was created.
+        public let creationTime: Date?
+        public let deadLetterConfig: DeadLetterConfig?
+        /// The event bus description.
+        public let description: String?
+        /// The identifier of the KMS customer managed key for EventBridge to use to encrypt events on this event bus, if one has been specified. For more information, see Data encryption in EventBridge in the Amazon EventBridge User Guide.
+        public let kmsKeyIdentifier: String?
+        /// The time the event bus was last modified.
+        public let lastModifiedTime: Date?
         /// The name of the event bus. Currently, this is always default.
         public let name: String?
         /// The policy that enables the external account to send events to your account.
         public let policy: String?
 
-        public init(arn: String? = nil, name: String? = nil, policy: String? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, kmsKeyIdentifier: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, policy: String? = nil) {
             self.arn = arn
+            self.creationTime = creationTime
+            self.deadLetterConfig = deadLetterConfig
+            self.description = description
+            self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.policy = policy
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case creationTime = "CreationTime"
+            case deadLetterConfig = "DeadLetterConfig"
+            case description = "Description"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
+            case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
             case policy = "Policy"
         }
@@ -2006,7 +2050,7 @@ extension EventBridge {
         public let description: String?
         /// The name of the event bus associated with the rule.
         public let eventBusName: String?
-        /// The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
+        /// The event pattern. For more information, see Events and Event Patterns in the  Amazon EventBridge User Guide .
         public let eventPattern: String?
         /// If this is a managed rule, created by an Amazon Web Services service on your behalf, this field displays the principal name of the Amazon Web Services service that created the rule.
         public let managedBy: String?
@@ -2202,7 +2246,7 @@ extension EventBridge {
         public let lastModifiedTime: Date?
         /// The name of the endpoint.
         public let name: String?
-        /// Whether event replication was enabled or disabled for this endpoint. The default state is ENABLED which means you must supply a RoleArn.  If you don't have a RoleArn or you don't want event replication enabled, set the state to DISABLED.
+        /// Whether event replication was enabled or disabled for this endpoint. The default state is ENABLED which means you must supply a RoleArn. If you don't have a RoleArn or you don't want event replication enabled, set the state to DISABLED.
         public let replicationConfig: ReplicationConfig?
         /// The ARN of the role used by event replication for the endpoint.
         public let roleArn: String?
@@ -2268,19 +2312,31 @@ extension EventBridge {
     public struct EventBus: AWSDecodableShape {
         /// The ARN of the event bus.
         public let arn: String?
+        /// The time the event bus was created.
+        public let creationTime: Date?
+        /// The event bus description.
+        public let description: String?
+        /// The time the event bus was last modified.
+        public let lastModifiedTime: Date?
         /// The name of the event bus.
         public let name: String?
         /// The permissions policy of the event bus, describing which other Amazon Web Services accounts can write events to this event bus.
         public let policy: String?
 
-        public init(arn: String? = nil, name: String? = nil, policy: String? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, policy: String? = nil) {
             self.arn = arn
+            self.creationTime = creationTime
+            self.description = description
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.policy = policy
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
             case policy = "Policy"
         }
@@ -2346,7 +2402,7 @@ extension EventBridge {
         public let headerParameters: [String: String]?
         /// The path parameter values to be used to populate API Gateway API or EventBridge ApiDestination path wildcards ("*").
         public let pathParameterValues: [String]?
-        /// The query string keys/values that need to be sent as part of request invoking the API Gateway  API or EventBridge ApiDestination.
+        /// The query string keys/values that need to be sent as part of request invoking the API Gateway API or EventBridge ApiDestination.
         public let queryStringParameters: [String: String]?
 
         public init(headerParameters: [String: String]? = nil, pathParameterValues: [String]? = nil, queryStringParameters: [String: String]? = nil) {
@@ -2598,7 +2654,7 @@ extension EventBridge {
         public let maxResults: Int?
         /// A value that will return a subset of the endpoints associated with this account. For example, "NamePrefix": "ABC" will return all endpoints with "ABC" in the name.
         public let namePrefix: String?
-        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination  token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         public init(homeRegion: String? = nil, maxResults: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
@@ -2632,7 +2688,7 @@ extension EventBridge {
     public struct ListEndpointsResponse: AWSDecodableShape {
         /// The endpoints returned by the call.
         public let endpoints: [Endpoint]?
-        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination  token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
         public init(endpoints: [Endpoint]? = nil, nextToken: String? = nil) {
@@ -3240,7 +3296,7 @@ extension EventBridge {
         public let detail: String?
         /// Free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail.   Detail, DetailType, and Source are required for EventBridge to successfully send an event to an event bus.  If you include event entries in a request that do not include each of those properties, EventBridge fails that entry.  If you submit a request in which none of the entries have each of these properties, EventBridge fails the entire request.
         public let detailType: String?
-        /// The name or ARN of the event bus to receive the event. Only the rules that are associated with this event bus are used to match the event. If you omit this, the default event bus is used.  If you're using a global endpoint with a custom bus, you can enter either the name or Amazon Resource Name (ARN) of the event bus  in either the primary or secondary Region here. EventBridge then determines the corresponding event bus in the  other Region based on the endpoint referenced by the EndpointId. Specifying the event bus ARN is preferred.
+        /// The name or ARN of the event bus to receive the event. Only the rules that are associated with this event bus are used to match the event. If you omit this, the default event bus is used.  If you're using a global endpoint with a custom bus, you can enter either the name or Amazon Resource Name (ARN) of the event bus in either the primary or secondary Region here. EventBridge then determines the corresponding event bus in the other Region based on the endpoint referenced by the EndpointId. Specifying the event bus ARN is preferred.
         public let eventBusName: String?
         /// Amazon Web Services resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
         public let resources: [String]?
@@ -3381,7 +3437,7 @@ extension EventBridge {
     }
 
     public struct PutPartnerEventsResponse: AWSDecodableShape {
-        /// The results for each event entry the partner submitted in this request.  If the event was successfully submitted, the entry has the event ID in it.  Otherwise, you can use the error code and error message to identify the problem with the entry. For each record, the index of the response element is the same as the index in the request array.
+        /// The results for each event entry the partner submitted in this request. If the event was successfully submitted, the entry has the event ID in it. Otherwise, you can use the error code and error message to identify the problem with the entry. For each record, the index of the response element is the same as the index in the request array.
         public let entries: [PutPartnerEventsResultEntry]?
         /// The number of events from this operation that could not be written to the partner event bus.
         public let failedEntryCount: Int?
@@ -3421,7 +3477,7 @@ extension EventBridge {
     public struct PutPermissionRequest: AWSEncodableShape {
         /// The action that you are enabling the other account to perform.
         public let action: String?
-        /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain Amazon Web Services organization. For more information about Amazon Web Services Organizations, see What Is Amazon Web Services  Organizations in the Amazon Web Services Organizations User Guide. If you specify Condition with an Amazon Web Services organization ID, and specify "*" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type, Key, and Value fields.
+        /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain Amazon Web Services organization. For more information about Amazon Web Services Organizations, see What Is Amazon Web Services Organizations in the Amazon Web Services Organizations User Guide. If you specify Condition with an Amazon Web Services organization ID, and specify "*" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type, Key, and Value fields.
         public let condition: Condition?
         /// The name of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
@@ -3471,7 +3527,7 @@ extension EventBridge {
         public let description: String?
         /// The name or ARN of the event bus to associate with this rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
-        /// The event pattern. For more information, see Amazon EventBridge event patterns in the Amazon EventBridge User Guide.
+        /// The event pattern. For more information, see Amazon EventBridge event patterns in the  Amazon EventBridge User Guide .
         public let eventPattern: String?
         /// The name of the rule that you are creating or updating.
         public let name: String
@@ -3479,7 +3535,7 @@ extension EventBridge {
         public let roleArn: String?
         /// The scheduling expression. For example, "cron(0 20 * * ? *)" or "rate(5 minutes)".
         public let scheduleExpression: String?
-        /// Indicates whether the rule is enabled or disabled.
+        /// The state of the rule. Valid values include:    DISABLED: The rule is disabled. EventBridge does not match any events against the rule.    ENABLED: The rule is enabled.  EventBridge matches events against the rule, except for Amazon Web Services management events delivered through CloudTrail.    ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS: The rule is enabled for all events, including Amazon Web Services management events delivered through CloudTrail. Management events provide visibility into management operations that are performed on resources in your Amazon Web Services account. These are also known as control plane operations. For more information, see Logging management events in the CloudTrail User Guide, and Filtering management events from Amazon Web Services services in the  Amazon EventBridge User Guide . This value is only valid for rules on the default event bus  or custom event buses.  It does not apply to partner event buses.
         public let state: RuleState?
         /// The list of key-value pairs to associate with the rule.
         public let tags: [Tag]?
@@ -3619,7 +3675,7 @@ extension EventBridge {
         public let secretManagerArn: String?
         /// The SQL statement text to run.
         public let sql: String?
-        /// One or more SQL statements to run. The SQL statements are run as a single transaction. They run serially in the order of the array.  Subsequent SQL statements don't start until the previous statement in the array completes.  If any SQL statement fails, then because they are run as one transaction, all work is rolled back.
+        /// One or more SQL statements to run. The SQL statements are run as a single transaction. They run serially in the order of the array. Subsequent SQL statements don't start until the previous statement in the array completes. If any SQL statement fails, then because they are run as one transaction, all work is rolled back.
         public let sqls: [String]?
         /// The name of the SQL statement. You can name the SQL statement when you create it to identify the query.
         public let statementName: String?
@@ -3907,7 +3963,7 @@ extension EventBridge {
         public let description: String?
         /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
-        /// The event pattern of the rule. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
+        /// The event pattern of the rule. For more information, see Events and Event Patterns in the  Amazon EventBridge User Guide .
         public let eventPattern: String?
         /// If the rule was created on behalf of your account by an Amazon Web Services service, this field displays the principal name of the service that created the rule.
         public let managedBy: String?
@@ -3917,7 +3973,7 @@ extension EventBridge {
         public let roleArn: String?
         /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)". For more information, see Creating an Amazon EventBridge rule that runs on a schedule.
         public let scheduleExpression: String?
-        /// The state of the rule.
+        /// The state of the rule. Valid values include:    DISABLED: The rule is disabled. EventBridge does not match any events against the rule.    ENABLED: The rule is enabled.  EventBridge matches events against the rule, except for Amazon Web Services management events delivered through CloudTrail.    ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS: The rule is enabled for all events, including Amazon Web Services management events delivered through CloudTrail. Management events provide visibility into management operations that are performed on resources in your Amazon Web Services account. These are also known as control plane operations. For more information, see Logging management events in the CloudTrail User Guide, and Filtering management events from Amazon Web Services services in the  Amazon EventBridge User Guide . This value is only valid for rules on the default event bus  or custom event buses.  It does not apply to partner event buses.
         public let state: RuleState?
 
         public init(arn: String? = nil, description: String? = nil, eventBusName: String? = nil, eventPattern: String? = nil, managedBy: String? = nil, name: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil) {
@@ -4299,7 +4355,7 @@ extension EventBridge {
     public struct TestEventPatternRequest: AWSEncodableShape {
         /// The event, in JSON format, to test against the event pattern. The JSON must follow the format specified in Amazon Web Services Events, and the following fields are mandatory:    id     account     source     time     region     resources     detail-type
         public let event: String
-        /// The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
+        /// The event pattern. For more information, see Events and Event Patterns in the  Amazon EventBridge User Guide .
         public let eventPattern: String
 
         public init(event: String, eventPattern: String) {
@@ -4791,6 +4847,67 @@ extension EventBridge {
             case roleArn = "RoleArn"
             case routingConfig = "RoutingConfig"
             case state = "State"
+        }
+    }
+
+    public struct UpdateEventBusRequest: AWSEncodableShape {
+        public let deadLetterConfig: DeadLetterConfig?
+        /// The event bus description.
+        public let description: String?
+        /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Managing keys in the Key Management Service Developer Guide.   Archives and schema discovery are not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:   You call  CreateArchive on an event bus set to use a customer managed key for encryption.   You call  CreateDiscoverer on an event bus set to use a customer managed key for encryption.   You call  UpdatedEventBus to set a customer managed key on an event bus with an archives or schema discovery enabled.   To enable archives or schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Data encryption in EventBridge in the Amazon EventBridge User Guide.
+        public let kmsKeyIdentifier: String?
+        /// The name of the event bus.
+        public let name: String?
+
+        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, kmsKeyIdentifier: String? = nil, name: String? = nil) {
+            self.deadLetterConfig = deadLetterConfig
+            self.description = description
+            self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[/\\.\\-_A-Za-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deadLetterConfig = "DeadLetterConfig"
+            case description = "Description"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateEventBusResponse: AWSDecodableShape {
+        /// The event bus Amazon Resource Name (ARN).
+        public let arn: String?
+        public let deadLetterConfig: DeadLetterConfig?
+        /// The event bus description.
+        public let description: String?
+        /// The identifier of the KMS customer managed key for EventBridge to use to encrypt events on this event bus, if one has been specified. For more information, see Data encryption in EventBridge in the Amazon EventBridge User Guide.
+        public let kmsKeyIdentifier: String?
+        /// The event bus name.
+        public let name: String?
+
+        public init(arn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, kmsKeyIdentifier: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.deadLetterConfig = deadLetterConfig
+            self.description = description
+            self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case deadLetterConfig = "DeadLetterConfig"
+            case description = "Description"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
+            case name = "Name"
         }
     }
 }
