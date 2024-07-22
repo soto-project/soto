@@ -1279,7 +1279,7 @@ extension TimestreamQuery {
     public struct UpdateAccountSettingsRequest: AWSEncodableShape {
         /// The maximum number of compute units the service will use at any point in time to serve your queries. To run queries, you must set a minimum capacity of 4 TCU. You can set the maximum number of TCU in multiples of 4, for example, 4, 8, 16, 32, and so on. The maximum value supported for MaxQueryTCU is 1000. To request an increase to this soft limit, contact Amazon Web Services Support. For information about the default quota for maxQueryTCU, see Default quotas.
         public let maxQueryTCU: Int?
-        /// The pricing model for queries in an account.
+        /// The pricing model for queries in an account.  The QueryPricingModel parameter is used by several Timestream operations; however, the UpdateAccountSettings API operation doesn't recognize any values other than COMPUTE_UNITS.
         public let queryPricingModel: QueryPricingModel?
 
         public init(maxQueryTCU: Int? = nil, queryPricingModel: QueryPricingModel? = nil) {

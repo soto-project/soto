@@ -2339,6 +2339,19 @@ public struct Connect: AWSService {
         )
     }
 
+    /// Searches AgentStatuses in an Amazon Connect instance, with optional filtering.
+    @Sendable
+    public func searchAgentStatuses(_ input: SearchAgentStatusesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchAgentStatusesResponse {
+        return try await self.client.execute(
+            operation: "SearchAgentStatuses", 
+            path: "/search-agent-statuses", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
     @Sendable
     public func searchAvailablePhoneNumbers(_ input: SearchAvailablePhoneNumbersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchAvailablePhoneNumbersResponse {
@@ -2488,6 +2501,19 @@ public struct Connect: AWSService {
         return try await self.client.execute(
             operation: "SearchSecurityProfiles", 
             path: "/search-security-profiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Searches UserHierarchyGroups in an Amazon Connect instance, with optional filtering.  The UserHierarchyGroup with "LevelId": "0" is the foundation for building levels on top of an instance. It is not user-definable, nor is it visible in the UI.
+    @Sendable
+    public func searchUserHierarchyGroups(_ input: SearchUserHierarchyGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchUserHierarchyGroupsResponse {
+        return try await self.client.execute(
+            operation: "SearchUserHierarchyGroups", 
+            path: "/search-user-hierarchy-groups", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -4290,6 +4316,25 @@ extension Connect {
         )
     }
 
+    /// Searches AgentStatuses in an Amazon Connect instance, with optional filtering.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func searchAgentStatusesPaginator(
+        _ input: SearchAgentStatusesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchAgentStatusesRequest, SearchAgentStatusesResponse> {
+        return .init(
+            input: input,
+            command: self.searchAgentStatuses,
+            inputKey: \SearchAgentStatusesRequest.nextToken,
+            outputKey: \SearchAgentStatusesResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
     /// Return PaginatorSequence for operation.
     ///
@@ -4514,6 +4559,25 @@ extension Connect {
             command: self.searchSecurityProfiles,
             inputKey: \SearchSecurityProfilesRequest.nextToken,
             outputKey: \SearchSecurityProfilesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Searches UserHierarchyGroups in an Amazon Connect instance, with optional filtering.  The UserHierarchyGroup with "LevelId": "0" is the foundation for building levels on top of an instance. It is not user-definable, nor is it visible in the UI.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func searchUserHierarchyGroupsPaginator(
+        _ input: SearchUserHierarchyGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchUserHierarchyGroupsRequest, SearchUserHierarchyGroupsResponse> {
+        return .init(
+            input: input,
+            command: self.searchUserHierarchyGroups,
+            inputKey: \SearchUserHierarchyGroupsRequest.nextToken,
+            outputKey: \SearchUserHierarchyGroupsResponse.nextToken,
             logger: logger
         )
     }
@@ -5076,6 +5140,18 @@ extension Connect.ListViewsRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.SearchAgentStatusesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.SearchAgentStatusesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )
+    }
+}
+
 extension Connect.SearchAvailablePhoneNumbersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.SearchAvailablePhoneNumbersRequest {
         return .init(
@@ -5212,6 +5288,18 @@ extension Connect.SearchRoutingProfilesRequest: AWSPaginateToken {
 
 extension Connect.SearchSecurityProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.SearchSecurityProfilesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )
+    }
+}
+
+extension Connect.SearchUserHierarchyGroupsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.SearchUserHierarchyGroupsRequest {
         return .init(
             instanceId: self.instanceId,
             maxResults: self.maxResults,

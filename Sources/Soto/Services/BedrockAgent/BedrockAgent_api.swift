@@ -87,7 +87,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Creates an agent that orchestrates interactions between foundation models, data sources, software applications, user conversations, and APIs to carry out tasks to help customers.   Specify the following fields for security purposes.    agentResourceRoleArn – The Amazon Resource Name (ARN) of the role with permissions to invoke API operations on an agent.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object. For more information, see Advanced prompts.   If you agent fails to be created, the response returns a list of failureReasons alongside a list of recommendedActions for you to troubleshoot.
+    /// Creates an agent that orchestrates interactions between foundation models, data sources, software applications, user conversations, and APIs to carry out tasks to help customers.   Specify the following fields for security purposes.    agentResourceRoleArn – The Amazon Resource Name (ARN) of the role with permissions to invoke API operations on an agent.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeAgent request begins a new session.     To enable your agent to retain conversational context across multiple sessions, include a memoryConfiguration object.  For more information, see Configure memory.   To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   If you agent fails to be created, the response returns a list of failureReasons alongside a list of recommendedActions for you to troubleshoot.
     @Sendable
     public func createAgent(_ input: CreateAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentResponse {
         return try await self.client.execute(
@@ -100,7 +100,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Creates an action group for an agent. An action group represents the actions that an agent can carry out for the customer by defining the APIs that an agent can call and the logic for calling them. To allow your agent to request the user for additional information when trying to complete a task, add an action group with the parentActionGroupSignature field set to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
+    /// Creates an action group for an agent. An action group represents the actions that an agent can carry out for the customer by defining the APIs that an agent can call and the logic for calling them. To allow your agent to request the user for additional information when trying to complete a task,  add an action group with the parentActionGroupSignature field set to AMAZON.UserInput.  To allow your agent to generate, run, and troubleshoot code when trying to complete a task,  add an action group with the parentActionGroupSignature field set to AMAZON.CodeInterpreter.  You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
     @Sendable
     public func createAgentActionGroup(_ input: CreateAgentActionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentActionGroupResponse {
         return try await self.client.execute(
@@ -126,13 +126,52 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Sets up a data source to be added to a knowledge base.  You can't change the chunkingConfiguration after you create the data source.
+    /// Creates a data source connector for a knowledge base.  You can't change the chunkingConfiguration after you create the data source connector.
     @Sendable
     public func createDataSource(_ input: CreateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataSourceResponse {
         return try await self.client.execute(
             operation: "CreateDataSource", 
             path: "/knowledgebases/{knowledgeBaseId}/datasources/", 
             httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a prompt flow that you can use to send an input through various steps to yield an output. Configure nodes, each of which corresponds to a step of the flow, and create connections between the nodes to create paths to different outputs. For more information, see How it works and Create a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+    @Sendable
+    public func createFlow(_ input: CreateFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFlowResponse {
+        return try await self.client.execute(
+            operation: "CreateFlow", 
+            path: "/flows/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates an alias of a flow for deployment. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+    @Sendable
+    public func createFlowAlias(_ input: CreateFlowAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFlowAliasResponse {
+        return try await self.client.execute(
+            operation: "CreateFlowAlias", 
+            path: "/flows/{flowIdentifier}/aliases", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a version of the flow that you can deploy. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+    @Sendable
+    public func createFlowVersion(_ input: CreateFlowVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFlowVersionResponse {
+        return try await self.client.execute(
+            operation: "CreateFlowVersion", 
+            path: "/flows/{flowIdentifier}/versions", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -146,6 +185,32 @@ public struct BedrockAgent: AWSService {
             operation: "CreateKnowledgeBase", 
             path: "/knowledgebases/", 
             httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a prompt in your prompt library that you can add to a flow. For more information, see Prompt management in Amazon Bedrock, Create a prompt using Prompt management and Prompt flows in Amazon Bedrock in the Amazon Bedrock User Guide.
+    @Sendable
+    public func createPrompt(_ input: CreatePromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePromptResponse {
+        return try await self.client.execute(
+            operation: "CreatePrompt", 
+            path: "/prompts/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a static snapshot of your prompt that can be deployed to production. For more information, see Deploy prompts using Prompt management by creating versions in the Amazon Bedrock User Guide.
+    @Sendable
+    public func createPromptVersion(_ input: CreatePromptVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePromptVersionResponse {
+        return try await self.client.execute(
+            operation: "CreatePromptVersion", 
+            path: "/prompts/{promptIdentifier}/versions", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -217,12 +282,64 @@ public struct BedrockAgent: AWSService {
         )
     }
 
+    /// Deletes a flow.
+    @Sendable
+    public func deleteFlow(_ input: DeleteFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFlowResponse {
+        return try await self.client.execute(
+            operation: "DeleteFlow", 
+            path: "/flows/{flowIdentifier}/", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an alias of a flow.
+    @Sendable
+    public func deleteFlowAlias(_ input: DeleteFlowAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFlowAliasResponse {
+        return try await self.client.execute(
+            operation: "DeleteFlowAlias", 
+            path: "/flows/{flowIdentifier}/aliases/{aliasIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a version of a flow.
+    @Sendable
+    public func deleteFlowVersion(_ input: DeleteFlowVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFlowVersionResponse {
+        return try await self.client.execute(
+            operation: "DeleteFlowVersion", 
+            path: "/flows/{flowIdentifier}/versions/{flowVersion}/", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes a knowledge base. Before deleting a knowledge base, you should disassociate the knowledge base from any agents that it is associated with by making a DisassociateAgentKnowledgeBase request.
     @Sendable
     public func deleteKnowledgeBase(_ input: DeleteKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKnowledgeBaseResponse {
         return try await self.client.execute(
             operation: "DeleteKnowledgeBase", 
             path: "/knowledgebases/{knowledgeBaseId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a prompt or a prompt version from the Prompt management tool. For more information, see Delete prompts from the Prompt management tool and Delete a version of a prompt from the Prompt management tool in the Amazon Bedrock User Guide.
+    @Sendable
+    public func deletePrompt(_ input: DeletePromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePromptResponse {
+        return try await self.client.execute(
+            operation: "DeletePrompt", 
+            path: "/prompts/{promptIdentifier}/", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -321,6 +438,45 @@ public struct BedrockAgent: AWSService {
         )
     }
 
+    /// Retrieves information about a flow. For more information, see Manage a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+    @Sendable
+    public func getFlow(_ input: GetFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFlowResponse {
+        return try await self.client.execute(
+            operation: "GetFlow", 
+            path: "/flows/{flowIdentifier}/", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves information about a flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+    @Sendable
+    public func getFlowAlias(_ input: GetFlowAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFlowAliasResponse {
+        return try await self.client.execute(
+            operation: "GetFlowAlias", 
+            path: "/flows/{flowIdentifier}/aliases/{aliasIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves information about a version of a flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+    @Sendable
+    public func getFlowVersion(_ input: GetFlowVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFlowVersionResponse {
+        return try await self.client.execute(
+            operation: "GetFlowVersion", 
+            path: "/flows/{flowIdentifier}/versions/{flowVersion}/", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets information about a ingestion job, in which a data source is added to a knowledge base.
     @Sendable
     public func getIngestionJob(_ input: GetIngestionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIngestionJobResponse {
@@ -340,6 +496,19 @@ public struct BedrockAgent: AWSService {
         return try await self.client.execute(
             operation: "GetKnowledgeBase", 
             path: "/knowledgebases/{knowledgeBaseId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves information about a prompt or a version of it. For more information, see View information about prompts using Prompt management and View information about a version of your prompt in the Amazon Bedrock User Guide.
+    @Sendable
+    public func getPrompt(_ input: GetPromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPromptResponse {
+        return try await self.client.execute(
+            operation: "GetPrompt", 
+            path: "/prompts/{promptIdentifier}/", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -425,6 +594,45 @@ public struct BedrockAgent: AWSService {
         )
     }
 
+    /// Returns a list of aliases for a flow.
+    @Sendable
+    public func listFlowAliases(_ input: ListFlowAliasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFlowAliasesResponse {
+        return try await self.client.execute(
+            operation: "ListFlowAliases", 
+            path: "/flows/{flowIdentifier}/aliases", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of information about each flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+    @Sendable
+    public func listFlowVersions(_ input: ListFlowVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFlowVersionsResponse {
+        return try await self.client.execute(
+            operation: "ListFlowVersions", 
+            path: "/flows/{flowIdentifier}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of flows and information about each flow. For more information, see Manage a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+    @Sendable
+    public func listFlows(_ input: ListFlowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFlowsResponse {
+        return try await self.client.execute(
+            operation: "ListFlows", 
+            path: "/flows/", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists the ingestion jobs for a data source and information about each of them.
     @Sendable
     public func listIngestionJobs(_ input: ListIngestionJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIngestionJobsResponse {
@@ -451,6 +659,19 @@ public struct BedrockAgent: AWSService {
         )
     }
 
+    /// Returns a list of prompts from the Prompt management tool and information about each prompt. For more information, see View information about prompts using Prompt management in the Amazon Bedrock User Guide.
+    @Sendable
+    public func listPrompts(_ input: ListPromptsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPromptsResponse {
+        return try await self.client.execute(
+            operation: "ListPrompts", 
+            path: "/prompts/", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// List all the tags for the resource you specify.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -470,6 +691,19 @@ public struct BedrockAgent: AWSService {
         return try await self.client.execute(
             operation: "PrepareAgent", 
             path: "/agents/{agentId}/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Prepares the DRAFT version of a flow so that it can be invoked. For more information, see Test a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+    @Sendable
+    public func prepareFlow(_ input: PrepareFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PrepareFlowResponse {
+        return try await self.client.execute(
+            operation: "PrepareFlow", 
+            path: "/flows/{flowIdentifier}/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -568,12 +802,38 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Updates configurations for a data source.  You can't change the chunkingConfiguration after you create the data source. Specify the existing chunkingConfiguration.
+    /// Updates the configurations for a data source connector.  You can't change the chunkingConfiguration after you create the data source connector. Specify the existing chunkingConfiguration.
     @Sendable
     public func updateDataSource(_ input: UpdateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSourceResponse {
         return try await self.client.execute(
             operation: "UpdateDataSource", 
             path: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Modifies a flow. Include both fields that you want to keep and fields that you want to change. For more information, see How it works and Create a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+    @Sendable
+    public func updateFlow(_ input: UpdateFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowResponse {
+        return try await self.client.execute(
+            operation: "UpdateFlow", 
+            path: "/flows/{flowIdentifier}/", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Modifies the alias of a flow. Include both fields that you want to keep and ones that you want to change. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+    @Sendable
+    public func updateFlowAlias(_ input: UpdateFlowAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowAliasResponse {
+        return try await self.client.execute(
+            operation: "UpdateFlowAlias", 
+            path: "/flows/{flowIdentifier}/aliases/{aliasIdentifier}", 
             httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
@@ -587,6 +847,19 @@ public struct BedrockAgent: AWSService {
         return try await self.client.execute(
             operation: "UpdateKnowledgeBase", 
             path: "/knowledgebases/{knowledgeBaseId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Modifies a prompt in your prompt library. Include both fields that you want to keep and fields that you want to replace. For more information, see Prompt management in Amazon Bedrock and Edit prompts in your prompt library in the Amazon Bedrock User Guide.
+    @Sendable
+    public func updatePrompt(_ input: UpdatePromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePromptResponse {
+        return try await self.client.execute(
+            operation: "UpdatePrompt", 
+            path: "/prompts/{promptIdentifier}/", 
             httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
@@ -722,6 +995,63 @@ extension BedrockAgent {
         )
     }
 
+    /// Returns a list of aliases for a flow.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listFlowAliasesPaginator(
+        _ input: ListFlowAliasesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFlowAliasesRequest, ListFlowAliasesResponse> {
+        return .init(
+            input: input,
+            command: self.listFlowAliases,
+            inputKey: \ListFlowAliasesRequest.nextToken,
+            outputKey: \ListFlowAliasesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of information about each flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listFlowVersionsPaginator(
+        _ input: ListFlowVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFlowVersionsRequest, ListFlowVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listFlowVersions,
+            inputKey: \ListFlowVersionsRequest.nextToken,
+            outputKey: \ListFlowVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of flows and information about each flow. For more information, see Manage a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listFlowsPaginator(
+        _ input: ListFlowsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFlowsRequest, ListFlowsResponse> {
+        return .init(
+            input: input,
+            command: self.listFlows,
+            inputKey: \ListFlowsRequest.nextToken,
+            outputKey: \ListFlowsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists the ingestion jobs for a data source and information about each of them.
     /// Return PaginatorSequence for operation.
     ///
@@ -756,6 +1086,25 @@ extension BedrockAgent {
             command: self.listKnowledgeBases,
             inputKey: \ListKnowledgeBasesRequest.nextToken,
             outputKey: \ListKnowledgeBasesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of prompts from the Prompt management tool and information about each prompt. For more information, see View information about prompts using Prompt management in the Amazon Bedrock User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listPromptsPaginator(
+        _ input: ListPromptsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPromptsRequest, ListPromptsResponse> {
+        return .init(
+            input: input,
+            command: self.listPrompts,
+            inputKey: \ListPromptsRequest.nextToken,
+            outputKey: \ListPromptsResponse.nextToken,
             logger: logger
         )
     }
@@ -822,6 +1171,35 @@ extension BedrockAgent.ListDataSourcesRequest: AWSPaginateToken {
     }
 }
 
+extension BedrockAgent.ListFlowAliasesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> BedrockAgent.ListFlowAliasesRequest {
+        return .init(
+            flowIdentifier: self.flowIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgent.ListFlowVersionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> BedrockAgent.ListFlowVersionsRequest {
+        return .init(
+            flowIdentifier: self.flowIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgent.ListFlowsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> BedrockAgent.ListFlowsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension BedrockAgent.ListIngestionJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> BedrockAgent.ListIngestionJobsRequest {
         return .init(
@@ -840,6 +1218,16 @@ extension BedrockAgent.ListKnowledgeBasesRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension BedrockAgent.ListPromptsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> BedrockAgent.ListPromptsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            promptIdentifier: self.promptIdentifier
         )
     }
 }

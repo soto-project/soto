@@ -60,6 +60,7 @@ public struct PI: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-02-27",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: PIErrorType.self,
             xmlNamespace: "http://pi.amazonaws.com/doc/2018-02-27/",
             middleware: middleware,
@@ -72,6 +73,64 @@ public struct PI: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "pi.af-south-1.api.aws",
+            "ap-east-1": "pi.ap-east-1.api.aws",
+            "ap-northeast-1": "pi.ap-northeast-1.api.aws",
+            "ap-northeast-2": "pi.ap-northeast-2.api.aws",
+            "ap-northeast-3": "pi.ap-northeast-3.api.aws",
+            "ap-south-1": "pi.ap-south-1.api.aws",
+            "ap-south-2": "pi.ap-south-2.api.aws",
+            "ap-southeast-1": "pi.ap-southeast-1.api.aws",
+            "ap-southeast-2": "pi.ap-southeast-2.api.aws",
+            "ap-southeast-3": "pi.ap-southeast-3.api.aws",
+            "ap-southeast-4": "pi.ap-southeast-4.api.aws",
+            "ca-central-1": "pi.ca-central-1.api.aws",
+            "ca-west-1": "pi.ca-west-1.api.aws",
+            "cn-north-1": "pi.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "pi.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "pi.eu-central-1.api.aws",
+            "eu-central-2": "pi.eu-central-2.api.aws",
+            "eu-north-1": "pi.eu-north-1.api.aws",
+            "eu-south-1": "pi.eu-south-1.api.aws",
+            "eu-south-2": "pi.eu-south-2.api.aws",
+            "eu-west-1": "pi.eu-west-1.api.aws",
+            "eu-west-2": "pi.eu-west-2.api.aws",
+            "eu-west-3": "pi.eu-west-3.api.aws",
+            "il-central-1": "pi.il-central-1.api.aws",
+            "me-central-1": "pi.me-central-1.api.aws",
+            "me-south-1": "pi.me-south-1.api.aws",
+            "sa-east-1": "pi.sa-east-1.api.aws",
+            "us-east-1": "pi.us-east-1.api.aws",
+            "us-east-2": "pi.us-east-2.api.aws",
+            "us-gov-east-1": "pi.us-gov-east-1.api.aws",
+            "us-gov-west-1": "pi.us-gov-west-1.api.aws",
+            "us-west-1": "pi.us-west-1.api.aws",
+            "us-west-2": "pi.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "pi-fips.ca-central-1.api.aws",
+            "ca-west-1": "pi-fips.ca-west-1.api.aws",
+            "us-east-1": "pi-fips.us-east-1.api.aws",
+            "us-east-2": "pi-fips.us-east-2.api.aws",
+            "us-gov-east-1": "pi-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "pi-fips.us-gov-west-1.api.aws",
+            "us-west-1": "pi-fips.us-west-1.api.aws",
+            "us-west-2": "pi-fips.us-west-2.api.aws"
+        ]),
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "pi-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "pi-fips.ca-west-1.amazonaws.com",
+            "us-east-1": "pi-fips.us-east-1.amazonaws.com",
+            "us-east-2": "pi-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "pi-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "pi-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "pi-fips.us-west-1.amazonaws.com",
+            "us-west-2": "pi-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

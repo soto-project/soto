@@ -479,7 +479,7 @@ extension WorkSpacesThinClient {
         public let desktopEndpoint: String?
         /// The type of streaming desktop for the environment.
         public let desktopType: DesktopType?
-        /// "The tag keys and optional values for the newly created devices for this environment."
+        /// The tag keys and optional values for the newly created devices for this environment.
         public let deviceCreationTags: [String: String]?
         /// The ID of the environment.
         public let id: String?

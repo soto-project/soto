@@ -311,6 +311,7 @@ let package = Package(
         .library(name: "SotoPricing", targets: ["SotoPricing"]),
         .library(name: "SotoPrivateNetworks", targets: ["SotoPrivateNetworks"]),
         .library(name: "SotoProton", targets: ["SotoProton"]),
+        .library(name: "SotoQApps", targets: ["SotoQApps"]),
         .library(name: "SotoQBusiness", targets: ["SotoQBusiness"]),
         .library(name: "SotoQConnect", targets: ["SotoQConnect"]),
         .library(name: "SotoQLDB", targets: ["SotoQLDB"]),
@@ -414,7 +415,7 @@ let package = Package(
         .library(name: "SotoXRay", targets: ["SotoXRay"])
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.0.0")
+        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.0.0-rc.1")
     ],
     targets: [
         .target(name: "SotoACM", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/ACM", swiftSettings: swiftSettings),
@@ -700,6 +701,7 @@ let package = Package(
         .target(name: "SotoPricing", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Pricing", swiftSettings: swiftSettings),
         .target(name: "SotoPrivateNetworks", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/PrivateNetworks", swiftSettings: swiftSettings),
         .target(name: "SotoProton", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Proton", swiftSettings: swiftSettings),
+        .target(name: "SotoQApps", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/QApps", swiftSettings: swiftSettings),
         .target(name: "SotoQBusiness", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/QBusiness", swiftSettings: swiftSettings),
         .target(name: "SotoQConnect", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/QConnect", swiftSettings: swiftSettings),
         .target(name: "SotoQLDB", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/QLDB", swiftSettings: swiftSettings),

@@ -27,6 +27,7 @@ extension BedrockAgent {
     // MARK: Enums
 
     public enum ActionGroupSignature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case amazonCodeinterpreter = "AMAZON.CodeInterpreter"
         case amazonUserinput = "AMAZON.UserInput"
         public var description: String { return self.rawValue }
     }
@@ -60,7 +61,25 @@ extension BedrockAgent {
 
     public enum ChunkingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fixedSize = "FIXED_SIZE"
+        case hierarchical = "HIERARCHICAL"
         case none = "NONE"
+        case semantic = "SEMANTIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfluenceAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case basic = "BASIC"
+        case oauth2ClientCredentials = "OAUTH2_CLIENT_CREDENTIALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfluenceHostType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case saas = "SAAS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CrawlFilterConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pattern = "PATTERN"
         public var description: String { return self.rawValue }
     }
 
@@ -89,7 +108,56 @@ extension BedrockAgent {
     }
 
     public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case confluence = "CONFLUENCE"
         case s3 = "S3"
+        case salesforce = "SALESFORCE"
+        case sharepoint = "SHAREPOINT"
+        case web = "WEB"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case conditional = "Conditional"
+        case data = "Data"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowNodeIODataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case array = "Array"
+        case boolean = "Boolean"
+        case number = "Number"
+        case object = "Object"
+        case string = "String"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowNodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case agent = "Agent"
+        case collector = "Collector"
+        case condition = "Condition"
+        case input = "Input"
+        case iterator = "Iterator"
+        case knowledgeBase = "KnowledgeBase"
+        case lambdaFunction = "LambdaFunction"
+        case lex = "Lex"
+        case output = "Output"
+        case prompt = "Prompt"
+        case retrieval = "Retrieval"
+        case storage = "Storage"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "Failed"
+        case notPrepared = "NotPrepared"
+        case prepared = "Prepared"
+        case preparing = "Preparing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowValidationSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case error = "Error"
+        case warning = "Warning"
         public var description: String { return self.rawValue }
     }
 
@@ -147,9 +215,24 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum MemoryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sessionSummary = "SESSION_SUMMARY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParsingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bedrockFoundationModel = "BEDROCK_FOUNDATION_MODEL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PromptState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PromptTemplateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case text = "TEXT"
         public var description: String { return self.rawValue }
     }
 
@@ -161,9 +244,35 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum SalesforceAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case oauth2ClientCredentials = "OAUTH2_CLIENT_CREDENTIALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SharePointAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case oauth2ClientCredentials = "OAUTH2_CLIENT_CREDENTIALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SharePointHostType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case online = "ONLINE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case postChunking = "POST_CHUNKING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WebScopeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hostOnly = "HOST_ONLY"
+        case subdomains = "SUBDOMAINS"
         public var description: String { return self.rawValue }
     }
 
@@ -277,6 +386,250 @@ extension BedrockAgent {
         }
     }
 
+    public enum FlowConnectionConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The configuration of a connection originating from a Condition node.
+        case conditional(FlowConditionalConnectionConfiguration)
+        /// The configuration of a connection originating from a node that isn't a Condition node.
+        case data(FlowDataConnectionConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .conditional:
+                let value = try container.decode(FlowConditionalConnectionConfiguration.self, forKey: .conditional)
+                self = .conditional(value)
+            case .data:
+                let value = try container.decode(FlowDataConnectionConfiguration.self, forKey: .data)
+                self = .data(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .conditional(let value):
+                try container.encode(value, forKey: .conditional)
+            case .data(let value):
+                try container.encode(value, forKey: .data)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .conditional(let value):
+                try value.validate(name: "\(name).conditional")
+            case .data(let value):
+                try value.validate(name: "\(name).data")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditional = "conditional"
+            case data = "data"
+        }
+    }
+
+    public enum FlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Contains configurations for an agent node in your flow. Invokes an alias of an agent and returns the response.
+        case agent(AgentFlowNodeConfiguration)
+        /// Contains configurations for a collector node in your flow. Collects an iteration of inputs and consolidates them into an array of outputs.
+        case collector(CollectorFlowNodeConfiguration)
+        /// Contains configurations for a Condition node in your flow. Defines conditions that lead to different branches of the flow.
+        case condition(ConditionFlowNodeConfiguration)
+        /// Contains configurations for an input flow node in your flow. The first node in the flow. inputs can't be specified for this node.
+        case input(InputFlowNodeConfiguration)
+        /// Contains configurations for an iterator node in your flow. Takes an input that is an array and iteratively sends each item of the array as an output to the following node. The size of the array is also returned in the output. The output flow node at the end of the flow iteration will return a response for each member of the array. To return only one response, you can include a collector node downstream from the iterator node.
+        case iterator(IteratorFlowNodeConfiguration)
+        /// Contains configurations for a knowledge base node in your flow. Queries a knowledge base and returns the retrieved results or generated response.
+        case knowledgeBase(KnowledgeBaseFlowNodeConfiguration)
+        /// Contains configurations for a Lambda function node in your flow. Invokes an Lambda function.
+        case lambdaFunction(LambdaFunctionFlowNodeConfiguration)
+        /// Contains configurations for a Lex node in your flow. Invokes an Amazon Lex bot to identify the intent of the input and return the intent as the output.
+        case lex(LexFlowNodeConfiguration)
+        /// Contains configurations for an output flow node in your flow. The last node in the flow. outputs can't be specified for this node.
+        case output(OutputFlowNodeConfiguration)
+        /// Contains configurations for a prompt node in your flow. Runs a prompt and generates the model response as the output. You can use a prompt from Prompt management or you can configure one in this node.
+        case prompt(PromptFlowNodeConfiguration)
+        /// Contains configurations for a Retrieval node in your flow. Retrieves data from an Amazon S3 location and returns it as the output.
+        case retrieval(RetrievalFlowNodeConfiguration)
+        /// Contains configurations for a Storage node in your flow. Stores an input in an Amazon S3 location.
+        case storage(StorageFlowNodeConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .agent:
+                let value = try container.decode(AgentFlowNodeConfiguration.self, forKey: .agent)
+                self = .agent(value)
+            case .collector:
+                let value = try container.decode(CollectorFlowNodeConfiguration.self, forKey: .collector)
+                self = .collector(value)
+            case .condition:
+                let value = try container.decode(ConditionFlowNodeConfiguration.self, forKey: .condition)
+                self = .condition(value)
+            case .input:
+                let value = try container.decode(InputFlowNodeConfiguration.self, forKey: .input)
+                self = .input(value)
+            case .iterator:
+                let value = try container.decode(IteratorFlowNodeConfiguration.self, forKey: .iterator)
+                self = .iterator(value)
+            case .knowledgeBase:
+                let value = try container.decode(KnowledgeBaseFlowNodeConfiguration.self, forKey: .knowledgeBase)
+                self = .knowledgeBase(value)
+            case .lambdaFunction:
+                let value = try container.decode(LambdaFunctionFlowNodeConfiguration.self, forKey: .lambdaFunction)
+                self = .lambdaFunction(value)
+            case .lex:
+                let value = try container.decode(LexFlowNodeConfiguration.self, forKey: .lex)
+                self = .lex(value)
+            case .output:
+                let value = try container.decode(OutputFlowNodeConfiguration.self, forKey: .output)
+                self = .output(value)
+            case .prompt:
+                let value = try container.decode(PromptFlowNodeConfiguration.self, forKey: .prompt)
+                self = .prompt(value)
+            case .retrieval:
+                let value = try container.decode(RetrievalFlowNodeConfiguration.self, forKey: .retrieval)
+                self = .retrieval(value)
+            case .storage:
+                let value = try container.decode(StorageFlowNodeConfiguration.self, forKey: .storage)
+                self = .storage(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .agent(let value):
+                try container.encode(value, forKey: .agent)
+            case .collector(let value):
+                try container.encode(value, forKey: .collector)
+            case .condition(let value):
+                try container.encode(value, forKey: .condition)
+            case .input(let value):
+                try container.encode(value, forKey: .input)
+            case .iterator(let value):
+                try container.encode(value, forKey: .iterator)
+            case .knowledgeBase(let value):
+                try container.encode(value, forKey: .knowledgeBase)
+            case .lambdaFunction(let value):
+                try container.encode(value, forKey: .lambdaFunction)
+            case .lex(let value):
+                try container.encode(value, forKey: .lex)
+            case .output(let value):
+                try container.encode(value, forKey: .output)
+            case .prompt(let value):
+                try container.encode(value, forKey: .prompt)
+            case .retrieval(let value):
+                try container.encode(value, forKey: .retrieval)
+            case .storage(let value):
+                try container.encode(value, forKey: .storage)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .agent(let value):
+                try value.validate(name: "\(name).agent")
+            case .condition(let value):
+                try value.validate(name: "\(name).condition")
+            case .knowledgeBase(let value):
+                try value.validate(name: "\(name).knowledgeBase")
+            case .lambdaFunction(let value):
+                try value.validate(name: "\(name).lambdaFunction")
+            case .lex(let value):
+                try value.validate(name: "\(name).lex")
+            case .prompt(let value):
+                try value.validate(name: "\(name).prompt")
+            case .retrieval(let value):
+                try value.validate(name: "\(name).retrieval")
+            case .storage(let value):
+                try value.validate(name: "\(name).storage")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agent = "agent"
+            case collector = "collector"
+            case condition = "condition"
+            case input = "input"
+            case iterator = "iterator"
+            case knowledgeBase = "knowledgeBase"
+            case lambdaFunction = "lambdaFunction"
+            case lex = "lex"
+            case output = "output"
+            case prompt = "prompt"
+            case retrieval = "retrieval"
+            case storage = "storage"
+        }
+    }
+
+    public enum PromptFlowNodeSourceConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Contains configurations for a prompt that is defined inline
+        case inline(PromptFlowNodeInlineConfiguration)
+        /// Contains configurations for a prompt from Prompt management.
+        case resource(PromptFlowNodeResourceConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .inline:
+                let value = try container.decode(PromptFlowNodeInlineConfiguration.self, forKey: .inline)
+                self = .inline(value)
+            case .resource:
+                let value = try container.decode(PromptFlowNodeResourceConfiguration.self, forKey: .resource)
+                self = .resource(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .inline(let value):
+                try container.encode(value, forKey: .inline)
+            case .resource(let value):
+                try container.encode(value, forKey: .resource)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .inline(let value):
+                try value.validate(name: "\(name).inline")
+            case .resource(let value):
+                try value.validate(name: "\(name).resource")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inline = "inline"
+            case resource = "resource"
+        }
+    }
+
     // MARK: Shapes
 
     public struct ActionGroupSummary: AWSDecodableShape {
@@ -335,12 +688,14 @@ extension BedrockAgent {
         public let failureReasons: [String]?
         /// The foundation model used for orchestration by the agent.
         public let foundationModel: String?
-        /// The guardrails configuration assigned to the agent.
+        /// Details about the guardrail associated with the agent.
         public let guardrailConfiguration: GuardrailConfiguration?
         /// The number of seconds for which Amazon Bedrock keeps information about a user's conversation with the agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
         public let idleSessionTTLInSeconds: Int
         /// Instructions that tell the agent what it should do and how it should interact with users.
         public let instruction: String?
+        /// Contains memory configuration for the agent.
+        public let memoryConfiguration: MemoryConfiguration?
         /// The time at which the agent was last prepared.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var preparedAt: Date?
@@ -352,7 +707,7 @@ extension BedrockAgent {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
-        public init(agentArn: String, agentId: String, agentName: String, agentResourceRoleArn: String, agentStatus: AgentStatus, agentVersion: String, clientToken: String? = nil, createdAt: Date, customerEncryptionKeyArn: String? = nil, description: String? = nil, failureReasons: [String]? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int, instruction: String? = nil, preparedAt: Date? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, recommendedActions: [String]? = nil, updatedAt: Date) {
+        public init(agentArn: String, agentId: String, agentName: String, agentResourceRoleArn: String, agentStatus: AgentStatus, agentVersion: String, clientToken: String? = nil, createdAt: Date, customerEncryptionKeyArn: String? = nil, description: String? = nil, failureReasons: [String]? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int, instruction: String? = nil, memoryConfiguration: MemoryConfiguration? = nil, preparedAt: Date? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, recommendedActions: [String]? = nil, updatedAt: Date) {
             self.agentArn = agentArn
             self.agentId = agentId
             self.agentName = agentName
@@ -368,6 +723,7 @@ extension BedrockAgent {
             self.guardrailConfiguration = guardrailConfiguration
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.instruction = instruction
+            self.memoryConfiguration = memoryConfiguration
             self.preparedAt = preparedAt
             self.promptOverrideConfiguration = promptOverrideConfiguration
             self.recommendedActions = recommendedActions
@@ -390,6 +746,7 @@ extension BedrockAgent {
             case guardrailConfiguration = "guardrailConfiguration"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case instruction = "instruction"
+            case memoryConfiguration = "memoryConfiguration"
             case preparedAt = "preparedAt"
             case promptOverrideConfiguration = "promptOverrideConfiguration"
             case recommendedActions = "recommendedActions"
@@ -607,6 +964,24 @@ extension BedrockAgent {
         }
     }
 
+    public struct AgentFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the alias of the agent to invoke.
+        public let agentAliasArn: String
+
+        public init(agentAliasArn: String) {
+            self.agentAliasArn = agentAliasArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agentAliasArn, name: "agentAliasArn", parent: name, max: 2048)
+            try self.validate(self.agentAliasArn, name: "agentAliasArn", parent: name, pattern: "^arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:agent-alias/[0-9a-zA-Z]{10}/[0-9a-zA-Z]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentAliasArn = "agentAliasArn"
+        }
+    }
+
     public struct AgentKnowledgeBase: AWSDecodableShape {
         /// The unique identifier of the agent with which the knowledge base is associated.
         public let agentId: String
@@ -681,7 +1056,7 @@ extension BedrockAgent {
         public let agentStatus: AgentStatus
         /// The description of the agent.
         public let description: String?
-        /// The details of the guardrails configuration in the agent summary.
+        /// Details about the guardrail associated with the agent.
         public let guardrailConfiguration: GuardrailConfiguration?
         /// The latest version of the agent.
         public let latestAgentVersion: String?
@@ -732,12 +1107,14 @@ extension BedrockAgent {
         public let failureReasons: [String]?
         /// The foundation model that the version invokes.
         public let foundationModel: String?
-        /// The guardrails configuration assigned to the agent version.
+        /// Details about the guardrail associated with the agent.
         public let guardrailConfiguration: GuardrailConfiguration?
         /// The number of seconds for which Amazon Bedrock keeps information about a user's conversation with the agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
         public let idleSessionTTLInSeconds: Int
         /// The instructions provided to the agent.
         public let instruction: String?
+        ///  Contains details of the memory configuration on the version of the agent.
+        public let memoryConfiguration: MemoryConfiguration?
         /// Contains configurations to override prompt templates in different parts of an agent sequence. For more information, see Advanced prompts.
         public let promptOverrideConfiguration: PromptOverrideConfiguration?
         /// A list of recommended actions to take for the failed API operation on the version to succeed.
@@ -748,7 +1125,7 @@ extension BedrockAgent {
         /// The version number.
         public let version: String
 
-        public init(agentArn: String, agentId: String, agentName: String, agentResourceRoleArn: String, agentStatus: AgentStatus, createdAt: Date, customerEncryptionKeyArn: String? = nil, description: String? = nil, failureReasons: [String]? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int, instruction: String? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, recommendedActions: [String]? = nil, updatedAt: Date, version: String) {
+        public init(agentArn: String, agentId: String, agentName: String, agentResourceRoleArn: String, agentStatus: AgentStatus, createdAt: Date, customerEncryptionKeyArn: String? = nil, description: String? = nil, failureReasons: [String]? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int, instruction: String? = nil, memoryConfiguration: MemoryConfiguration? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, recommendedActions: [String]? = nil, updatedAt: Date, version: String) {
             self.agentArn = agentArn
             self.agentId = agentId
             self.agentName = agentName
@@ -762,6 +1139,7 @@ extension BedrockAgent {
             self.guardrailConfiguration = guardrailConfiguration
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.instruction = instruction
+            self.memoryConfiguration = memoryConfiguration
             self.promptOverrideConfiguration = promptOverrideConfiguration
             self.recommendedActions = recommendedActions
             self.updatedAt = updatedAt
@@ -782,6 +1160,7 @@ extension BedrockAgent {
             case guardrailConfiguration = "guardrailConfiguration"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case instruction = "instruction"
+            case memoryConfiguration = "memoryConfiguration"
             case promptOverrideConfiguration = "promptOverrideConfiguration"
             case recommendedActions = "recommendedActions"
             case updatedAt = "updatedAt"
@@ -801,7 +1180,7 @@ extension BedrockAgent {
         public var createdAt: Date
         /// The description of the version of the agent.
         public let description: String?
-        /// The details of the guardrails configuration in the agent version summary.
+        /// Details about the guardrail associated with the agent.
         public let guardrailConfiguration: GuardrailConfiguration?
         /// The time at which the version was last updated.
         @CustomCoding<ISO8601DateCoder>
@@ -906,20 +1285,171 @@ extension BedrockAgent {
         }
     }
 
+    public struct BedrockFoundationModelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The model's ARN.
+        public let modelArn: String
+        /// Instructions for interpreting the contents of a document.
+        public let parsingPrompt: ParsingPrompt?
+
+        public init(modelArn: String, parsingPrompt: ParsingPrompt? = nil) {
+            self.modelArn = modelArn
+            self.parsingPrompt = parsingPrompt
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})$")
+            try self.parsingPrompt?.validate(name: "\(name).parsingPrompt")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelArn = "modelArn"
+            case parsingPrompt = "parsingPrompt"
+        }
+    }
+
     public struct ChunkingConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Knowledge base can split your source data into chunks. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried. You have the following options for chunking your data. If you opt for NONE, then you may want to pre-process your files by splitting them up such that each file corresponds to a chunk.    FIXED_SIZE – Amazon Bedrock splits your source data into chunks of the approximate size that you set in the fixedSizeChunkingConfiguration.    NONE – Amazon Bedrock treats each file as one chunk. If you choose this option, you may want to pre-process your documents by splitting them into separate files.
+        /// Knowledge base can split your source data into chunks. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried. You have the following options for chunking your data. If you opt for NONE, then you may want to pre-process your files by splitting them up such that each file corresponds to a chunk.    FIXED_SIZE – Amazon Bedrock splits your source data into chunks of the approximate size that you set in the fixedSizeChunkingConfiguration.    HIERARCHICAL – Split documents into layers of chunks where the first layer contains large chunks, and the second layer contains smaller chunks derived from the first layer.    SEMANTIC – Split documents into chunks based on groups of similar content derived with natural language processing.    NONE – Amazon Bedrock treats each file as one chunk. If you choose this option, you may want to pre-process your documents by splitting them into separate files.
         public let chunkingStrategy: ChunkingStrategy
         /// Configurations for when you choose fixed-size chunking. If you set the chunkingStrategy as NONE, exclude this field.
         public let fixedSizeChunkingConfiguration: FixedSizeChunkingConfiguration?
+        /// Settings for hierarchical document chunking for a data source. Hierarchical chunking splits documents into layers of chunks where the first layer contains large chunks, and the second layer contains smaller chunks derived from the first layer.
+        public let hierarchicalChunkingConfiguration: HierarchicalChunkingConfiguration?
+        /// Settings for semantic document chunking for a data source. Semantic chunking splits a document into into smaller documents based on groups of similar content derived from the text with natural language processing.
+        public let semanticChunkingConfiguration: SemanticChunkingConfiguration?
 
-        public init(chunkingStrategy: ChunkingStrategy, fixedSizeChunkingConfiguration: FixedSizeChunkingConfiguration? = nil) {
+        public init(chunkingStrategy: ChunkingStrategy, fixedSizeChunkingConfiguration: FixedSizeChunkingConfiguration? = nil, hierarchicalChunkingConfiguration: HierarchicalChunkingConfiguration? = nil, semanticChunkingConfiguration: SemanticChunkingConfiguration? = nil) {
             self.chunkingStrategy = chunkingStrategy
             self.fixedSizeChunkingConfiguration = fixedSizeChunkingConfiguration
+            self.hierarchicalChunkingConfiguration = hierarchicalChunkingConfiguration
+            self.semanticChunkingConfiguration = semanticChunkingConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.hierarchicalChunkingConfiguration?.validate(name: "\(name).hierarchicalChunkingConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case chunkingStrategy = "chunkingStrategy"
             case fixedSizeChunkingConfiguration = "fixedSizeChunkingConfiguration"
+            case hierarchicalChunkingConfiguration = "hierarchicalChunkingConfiguration"
+            case semanticChunkingConfiguration = "semanticChunkingConfiguration"
+        }
+    }
+
+    public struct CollectorFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct ConditionFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// An array of conditions. Each member contains the name of a condition and an expression that defines the condition.
+        public let conditions: [FlowCondition]
+
+        public init(conditions: [FlowCondition]) {
+            self.conditions = conditions
+        }
+
+        public func validate(name: String) throws {
+            try self.conditions.forEach {
+                try $0.validate(name: "\(name).conditions[]")
+            }
+            try self.validate(self.conditions, name: "conditions", parent: name, max: 5)
+            try self.validate(self.conditions, name: "conditions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditions = "conditions"
+        }
+    }
+
+    public struct ConfluenceCrawlerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of filtering the Confluence content. For example, configuring  regular expression patterns to include or exclude certain content.
+        public let filterConfiguration: CrawlFilterConfiguration?
+
+        public init(filterConfiguration: CrawlFilterConfiguration? = nil) {
+            self.filterConfiguration = filterConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.filterConfiguration?.validate(name: "\(name).filterConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterConfiguration = "filterConfiguration"
+        }
+    }
+
+    public struct ConfluenceDataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of the Confluence content. For example, configuring  specific types of Confluence content.
+        public let crawlerConfiguration: ConfluenceCrawlerConfiguration?
+        /// The endpoint information to connect to your Confluence data source.
+        public let sourceConfiguration: ConfluenceSourceConfiguration
+
+        public init(crawlerConfiguration: ConfluenceCrawlerConfiguration? = nil, sourceConfiguration: ConfluenceSourceConfiguration) {
+            self.crawlerConfiguration = crawlerConfiguration
+            self.sourceConfiguration = sourceConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.crawlerConfiguration?.validate(name: "\(name).crawlerConfiguration")
+            try self.sourceConfiguration.validate(name: "\(name).sourceConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlerConfiguration = "crawlerConfiguration"
+            case sourceConfiguration = "sourceConfiguration"
+        }
+    }
+
+    public struct ConfluenceSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The supported authentication type to authenticate and connect to your  Confluence instance.
+        public let authType: ConfluenceAuthType
+        /// The Amazon Resource Name of an Secrets Manager secret that  stores your authentication credentials for your SharePoint site/sites.  For more information on the key-value pairs that must be included in  your secret, depending on your authentication type, see  Confluence connection configuration.
+        public let credentialsSecretArn: String
+        /// The supported host type, whether online/cloud or server/on-premises.
+        public let hostType: ConfluenceHostType
+        /// The Confluence host URL or instance URL.
+        public let hostUrl: String
+
+        public init(authType: ConfluenceAuthType, credentialsSecretArn: String, hostType: ConfluenceHostType, hostUrl: String) {
+            self.authType = authType
+            self.credentialsSecretArn = credentialsSecretArn
+            self.hostType = hostType
+            self.hostUrl = hostUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.credentialsSecretArn, name: "credentialsSecretArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):secretsmanager:[a-z0-9-]{1,20}:([0-9]{12}|):secret:[a-zA-Z0-9!/_+=.@-]{1,512}$")
+            try self.validate(self.hostUrl, name: "hostUrl", parent: name, pattern: "^https://[A-Za-z0-9][^\\s]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authType = "authType"
+            case credentialsSecretArn = "credentialsSecretArn"
+            case hostType = "hostType"
+            case hostUrl = "hostUrl"
+        }
+    }
+
+    public struct CrawlFilterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of filtering certain objects or content types of the data source.
+        public let patternObjectFilter: PatternObjectFilterConfiguration?
+        /// The type of filtering that you want to apply to certain objects or content of the  data source. For example, the PATTERN type is regular expression patterns  you can apply to filter your content.
+        public let type: CrawlFilterConfigurationType
+
+        public init(patternObjectFilter: PatternObjectFilterConfiguration? = nil, type: CrawlFilterConfigurationType) {
+            self.patternObjectFilter = patternObjectFilter
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.patternObjectFilter?.validate(name: "\(name).patternObjectFilter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case patternObjectFilter = "patternObjectFilter"
+            case type = "type"
         }
     }
 
@@ -942,7 +1472,7 @@ extension BedrockAgent {
         public let description: String?
         /// Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
         public let functionSchema: FunctionSchema?
-        /// To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
+        /// To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
         public let parentActionGroupSignature: ActionGroupSignature?
 
         public init(actionGroupExecutor: ActionGroupExecutor? = nil, actionGroupName: String, actionGroupState: ActionGroupState? = nil, agentId: String, agentVersion: String, apiSchema: APISchema? = nil, clientToken: String? = CreateAgentActionGroupRequest.idempotencyToken(), description: String? = nil, functionSchema: FunctionSchema? = nil, parentActionGroupSignature: ActionGroupSignature? = nil) {
@@ -983,7 +1513,7 @@ extension BedrockAgent {
             try self.apiSchema?.validate(name: "\(name).apiSchema")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.functionSchema?.validate(name: "\(name).functionSchema")
@@ -1053,7 +1583,7 @@ extension BedrockAgent {
             try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.routingConfiguration?.forEach {
@@ -1110,12 +1640,14 @@ extension BedrockAgent {
         public let idleSessionTTLInSeconds: Int?
         /// Instructions that tell the agent what it should do and how it should interact with users.
         public let instruction: String?
+        ///  Contains the details of the memory configured for the agent.
+        public let memoryConfiguration: MemoryConfiguration?
         /// Contains configurations to override prompts in different parts of an agent sequence. For more information, see Advanced prompts.
         public let promptOverrideConfiguration: PromptOverrideConfiguration?
         /// Any tags that you want to attach to the agent.
         public let tags: [String: String]?
 
-        public init(agentName: String, agentResourceRoleArn: String? = nil, clientToken: String? = CreateAgentRequest.idempotencyToken(), customerEncryptionKeyArn: String? = nil, description: String? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int? = nil, instruction: String? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(agentName: String, agentResourceRoleArn: String? = nil, clientToken: String? = CreateAgentRequest.idempotencyToken(), customerEncryptionKeyArn: String? = nil, description: String? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int? = nil, instruction: String? = nil, memoryConfiguration: MemoryConfiguration? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, tags: [String: String]? = nil) {
             self.agentName = agentName
             self.agentResourceRoleArn = agentResourceRoleArn
             self.clientToken = clientToken
@@ -1125,6 +1657,7 @@ extension BedrockAgent {
             self.guardrailConfiguration = guardrailConfiguration
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.instruction = instruction
+            self.memoryConfiguration = memoryConfiguration
             self.promptOverrideConfiguration = promptOverrideConfiguration
             self.tags = tags
         }
@@ -1135,7 +1668,7 @@ extension BedrockAgent {
             try self.validate(self.agentResourceRoleArn, name: "agentResourceRoleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
             try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, min: 1)
             try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
@@ -1149,6 +1682,7 @@ extension BedrockAgent {
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
             try self.validate(self.instruction, name: "instruction", parent: name, max: 4000)
             try self.validate(self.instruction, name: "instruction", parent: name, min: 40)
+            try self.memoryConfiguration?.validate(name: "\(name).memoryConfiguration")
             try self.promptOverrideConfiguration?.validate(name: "\(name).promptOverrideConfiguration")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -1169,6 +1703,7 @@ extension BedrockAgent {
             case guardrailConfiguration = "guardrailConfiguration"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case instruction = "instruction"
+            case memoryConfiguration = "memoryConfiguration"
             case promptOverrideConfiguration = "promptOverrideConfiguration"
             case tags = "tags"
         }
@@ -1190,9 +1725,9 @@ extension BedrockAgent {
     public struct CreateDataSourceRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
         public let clientToken: String?
-        /// The data deletion policy assigned to the data source.
+        /// The data deletion policy for the data source. You can set the data deletion policy to:   DELETE: Deletes all underlying data belonging to  the data source from the vector store upon deletion of a knowledge base or data  source resource. Note that the vector store itself is not deleted, only the  underlying data. This flag is ignored if an Amazon Web Services account is deleted.   RETAIN: Retains all underlying data in your  vector store upon deletion of a knowledge base or data source resource.
         public let dataDeletionPolicy: DataDeletionPolicy?
-        /// Contains metadata about where the data source is stored.
+        /// The connection configuration for the data source.
         public let dataSourceConfiguration: DataSourceConfiguration
         /// A description of the data source.
         public let description: String?
@@ -1232,13 +1767,14 @@ extension BedrockAgent {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
             try self.dataSourceConfiguration.validate(name: "\(name).dataSourceConfiguration")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.serverSideEncryptionConfiguration?.validate(name: "\(name).serverSideEncryptionConfiguration")
+            try self.vectorIngestionConfiguration?.validate(name: "\(name).vectorIngestionConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1262,6 +1798,315 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case dataSource = "dataSource"
+        }
+    }
+
+    public struct CreateFlowAliasRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// A description for the alias.
+        public let description: String?
+        /// The unique identifier of the flow for which to create an alias.
+        public let flowIdentifier: String
+        /// A name for the alias.
+        public let name: String
+        /// Contains information about the version to which to map the alias.
+        public let routingConfiguration: [FlowAliasRoutingConfigurationListItem]
+        /// Any tags that you want to attach to the alias of the flow. For more information, see Tagging resources in Amazon Bedrock.
+        public let tags: [String: String]?
+
+        public init(clientToken: String? = CreateFlowAliasRequest.idempotencyToken(), description: String? = nil, flowIdentifier: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.flowIdentifier = flowIdentifier
+            self.name = name
+            self.routingConfiguration = routingConfiguration
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.routingConfiguration, forKey: .routingConfiguration)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+            try self.routingConfiguration.forEach {
+                try $0.validate(name: "\(name).routingConfiguration[]")
+            }
+            try self.validate(self.routingConfiguration, name: "routingConfiguration", parent: name, max: 1)
+            try self.validate(self.routingConfiguration, name: "routingConfiguration", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case routingConfiguration = "routingConfiguration"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateFlowAliasResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the alias.
+        public let arn: String
+        /// The time at which the alias was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The description of the alias.
+        public let description: String?
+        /// The unique identifier of the flow that the alias belongs to.
+        public let flowId: String
+        /// The unique identifier of the alias.
+        public let id: String
+        /// The name of the alias.
+        public let name: String
+        /// Contains information about the version that the alias is mapped to.
+        public let routingConfiguration: [FlowAliasRoutingConfigurationListItem]
+        /// The time at which the alias of the flow was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        public init(arn: String, createdAt: Date, description: String? = nil, flowId: String, id: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], updatedAt: Date) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.flowId = flowId
+            self.id = id
+            self.name = name
+            self.routingConfiguration = routingConfiguration
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case flowId = "flowId"
+            case id = "id"
+            case name = "name"
+            case routingConfiguration = "routingConfiguration"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct CreateFlowRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the KMS key to encrypt the flow.
+        public let customerEncryptionKeyArn: String?
+        /// A definition of the nodes and connections between nodes in the flow.
+        public let definition: FlowDefinition?
+        /// A description for the flow.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the service role with permissions to create and manage a flow. For more information, see Create a service role for flows in Amazon Bedrock in the Amazon Bedrock User Guide.
+        public let executionRoleArn: String
+        /// A name for the flow.
+        public let name: String
+        /// Any tags that you want to attach to the flow. For more information, see Tagging resources in Amazon Bedrock.
+        public let tags: [String: String]?
+
+        public init(clientToken: String? = CreateFlowRequest.idempotencyToken(), customerEncryptionKeyArn: String? = nil, definition: FlowDefinition? = nil, description: String? = nil, executionRoleArn: String, name: String, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.definition = definition
+            self.description = description
+            self.executionRoleArn = executionRoleArn
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, max: 2048)
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, min: 1)
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
+            try self.definition?.validate(name: "\(name).definition")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/(service-role/)?.+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case definition = "definition"
+            case description = "description"
+            case executionRoleArn = "executionRoleArn"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateFlowResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow.
+        public let arn: String
+        /// The time at which the flow was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The Amazon Resource Name (ARN) of the KMS key that you encrypted the flow with.
+        public let customerEncryptionKeyArn: String?
+        /// A definition of the nodes and connections between nodes in the flow.
+        public let definition: FlowDefinition?
+        /// The description of the flow.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see Create a service role for flows in Amazon Bedrock in the Amazon Bedrock User Guide.
+        public let executionRoleArn: String
+        /// The unique identifier of the flow.
+        public let id: String
+        /// The name of the flow.
+        public let name: String
+        /// The status of the flow. When you submit this request, the status will be NotPrepared. If creation fails, the status becomes Failed.
+        public let status: FlowStatus
+        /// The time at which the flow was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+        /// The version of the flow. When you create a flow, the version created is the DRAFT version.
+        public let version: String
+
+        public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, definition: FlowDefinition? = nil, description: String? = nil, executionRoleArn: String, id: String, name: String, status: FlowStatus, updatedAt: Date, version: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.definition = definition
+            self.description = description
+            self.executionRoleArn = executionRoleArn
+            self.id = id
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case definition = "definition"
+            case description = "description"
+            case executionRoleArn = "executionRoleArn"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case updatedAt = "updatedAt"
+            case version = "version"
+        }
+    }
+
+    public struct CreateFlowVersionRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// A description of the version of the flow.
+        public let description: String?
+        /// The unique identifier of the flow that you want to create a version of.
+        public let flowIdentifier: String
+
+        public init(clientToken: String? = CreateFlowVersionRequest.idempotencyToken(), description: String? = nil, flowIdentifier: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.flowIdentifier = flowIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+        }
+    }
+
+    public struct CreateFlowVersionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow.
+        public let arn: String
+        /// The time at which the flow was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The KMS key that the flow is encrypted with.
+        public let customerEncryptionKeyArn: String?
+        /// A definition of the nodes and connections in the flow.
+        public let definition: FlowDefinition?
+        /// The description of the flow version.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see Create a service role for flows in Amazon Bedrock in the Amazon Bedrock User Guide.
+        public let executionRoleArn: String
+        /// The unique identifier of the flow.
+        public let id: String
+        /// The name of the flow version.
+        public let name: String
+        /// The status of the flow.
+        public let status: FlowStatus
+        /// The version of the flow that was created. Versions are numbered incrementally, starting from 1.
+        public let version: String
+
+        public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, definition: FlowDefinition? = nil, description: String? = nil, executionRoleArn: String, id: String, name: String, status: FlowStatus, version: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.definition = definition
+            self.description = description
+            self.executionRoleArn = executionRoleArn
+            self.id = id
+            self.name = name
+            self.status = status
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case definition = "definition"
+            case description = "description"
+            case executionRoleArn = "executionRoleArn"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case version = "version"
         }
     }
 
@@ -1294,7 +2139,7 @@ extension BedrockAgent {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.knowledgeBaseConfiguration.validate(name: "\(name).knowledgeBaseConfiguration")
@@ -1335,13 +2180,251 @@ extension BedrockAgent {
         }
     }
 
+    public struct CreatePromptRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the KMS key to encrypt the prompt.
+        public let customerEncryptionKeyArn: String?
+        /// The name of the default variant for the prompt. This value must match the name field in the relevant PromptVariant object.
+        public let defaultVariant: String?
+        /// A description for the prompt.
+        public let description: String?
+        /// A name for the prompt.
+        public let name: String
+        /// Any tags that you want to attach to the prompt. For more information, see Tagging resources in Amazon Bedrock.
+        public let tags: [String: String]?
+        /// A list of objects, each containing details about a variant of the prompt.
+        public let variants: [PromptVariant]?
+
+        public init(clientToken: String? = CreatePromptRequest.idempotencyToken(), customerEncryptionKeyArn: String? = nil, defaultVariant: String? = nil, description: String? = nil, name: String, tags: [String: String]? = nil, variants: [PromptVariant]? = nil) {
+            self.clientToken = clientToken
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.defaultVariant = defaultVariant
+            self.description = description
+            self.name = name
+            self.tags = tags
+            self.variants = variants
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, max: 2048)
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, min: 1)
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
+            try self.validate(self.defaultVariant, name: "defaultVariant", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+            }
+            try self.variants?.forEach {
+                try $0.validate(name: "\(name).variants[]")
+            }
+            try self.validate(self.variants, name: "variants", parent: name, max: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case defaultVariant = "defaultVariant"
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
+            case variants = "variants"
+        }
+    }
+
+    public struct CreatePromptResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the prompt.
+        public let arn: String
+        /// The time at which the prompt was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The Amazon Resource Name (ARN) of the KMS key that you encrypted the prompt with.
+        public let customerEncryptionKeyArn: String?
+        /// The name of the default variant for your prompt.
+        public let defaultVariant: String?
+        /// The description of the prompt.
+        public let description: String?
+        /// The unique identifier of the prompt.
+        public let id: String
+        /// The name of the prompt.
+        public let name: String
+        /// The time at which the prompt was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+        /// A list of objects, each containing details about a variant of the prompt.
+        public let variants: [PromptVariant]?
+        /// The version of the prompt. When you create a prompt, the version created is the DRAFT version.
+        public let version: String
+
+        public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, defaultVariant: String? = nil, description: String? = nil, id: String, name: String, updatedAt: Date, variants: [PromptVariant]? = nil, version: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.defaultVariant = defaultVariant
+            self.description = description
+            self.id = id
+            self.name = name
+            self.updatedAt = updatedAt
+            self.variants = variants
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case defaultVariant = "defaultVariant"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case updatedAt = "updatedAt"
+            case variants = "variants"
+            case version = "version"
+        }
+    }
+
+    public struct CreatePromptVersionRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// A description for the version of the prompt.
+        public let description: String?
+        /// The unique identifier of the prompt that you want to create a version of.
+        public let promptIdentifier: String
+        /// Any tags that you want to attach to the version of the prompt. For more information, see Tagging resources in Amazon Bedrock.
+        public let tags: [String: String]?
+
+        public init(clientToken: String? = CreatePromptVersionRequest.idempotencyToken(), description: String? = nil, promptIdentifier: String, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.promptIdentifier = promptIdentifier
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.promptIdentifier, key: "promptIdentifier")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.promptIdentifier, name: "promptIdentifier", parent: name, pattern: "^([0-9a-zA-Z]{10})|(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10})(?::[0-9]{1,5})?$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreatePromptVersionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the version of the prompt.
+        public let arn: String
+        /// The time at which the prompt was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The Amazon Resource Name (ARN) of the KMS key to encrypt the version of the prompt.
+        public let customerEncryptionKeyArn: String?
+        /// The name of the default variant for the prompt. This value must match the name field in the relevant PromptVariant object.
+        public let defaultVariant: String?
+        /// A description for the prompt version.
+        public let description: String?
+        /// The unique identifier of the prompt.
+        public let id: String
+        /// The name of the prompt version.
+        public let name: String
+        /// The time at which the prompt was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+        /// A list of objects, each containing details about a variant of the prompt.
+        public let variants: [PromptVariant]?
+        /// The version of the prompt that was created. Versions are numbered incrementally, starting from 1.
+        public let version: String
+
+        public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, defaultVariant: String? = nil, description: String? = nil, id: String, name: String, updatedAt: Date, variants: [PromptVariant]? = nil, version: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.defaultVariant = defaultVariant
+            self.description = description
+            self.id = id
+            self.name = name
+            self.updatedAt = updatedAt
+            self.variants = variants
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case defaultVariant = "defaultVariant"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case updatedAt = "updatedAt"
+            case variants = "variants"
+            case version = "version"
+        }
+    }
+
+    public struct CustomTransformationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// An S3 bucket path for input and output objects.
+        public let intermediateStorage: IntermediateStorage
+        /// A Lambda function that processes documents.
+        public let transformations: [Transformation]
+
+        public init(intermediateStorage: IntermediateStorage, transformations: [Transformation]) {
+            self.intermediateStorage = intermediateStorage
+            self.transformations = transformations
+        }
+
+        public func validate(name: String) throws {
+            try self.intermediateStorage.validate(name: "\(name).intermediateStorage")
+            try self.transformations.forEach {
+                try $0.validate(name: "\(name).transformations[]")
+            }
+            try self.validate(self.transformations, name: "transformations", parent: name, max: 1)
+            try self.validate(self.transformations, name: "transformations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intermediateStorage = "intermediateStorage"
+            case transformations = "transformations"
+        }
+    }
+
     public struct DataSource: AWSDecodableShape {
         /// The time at which the data source was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
-        /// The data deletion policy for a data source.
+        /// The data deletion policy for the data source.
         public let dataDeletionPolicy: DataDeletionPolicy?
-        /// Contains details about how the data source is stored.
+        /// The connection configuration for the data source.
         public let dataSourceConfiguration: DataSourceConfiguration
         /// The unique identifier of the data source.
         public let dataSourceId: String
@@ -1395,23 +2478,43 @@ extension BedrockAgent {
     }
 
     public struct DataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Contains details about the configuration of the S3 object containing the data source.
+        /// The configuration information to connect to Confluence as your data source.  Confluence data source connector is in preview release and is subject to change.
+        public let confluenceConfiguration: ConfluenceDataSourceConfiguration?
+        /// The configuration information to connect to Amazon S3 as your data source.
         public let s3Configuration: S3DataSourceConfiguration?
-        /// The type of storage for the data source.
+        /// The configuration information to connect to Salesforce as your data source.  Salesforce data source connector is in preview release and is subject to change.
+        public let salesforceConfiguration: SalesforceDataSourceConfiguration?
+        /// The configuration information to connect to SharePoint as your data source.  SharePoint data source connector is in preview release and is subject to change.
+        public let sharePointConfiguration: SharePointDataSourceConfiguration?
+        /// The type of data source.
         public let type: DataSourceType
+        /// The configuration of web URLs to crawl for your data source.  You should be authorized to crawl the URLs.  Crawling web URLs as your data source is in preview release  and is subject to change.
+        public let webConfiguration: WebDataSourceConfiguration?
 
-        public init(s3Configuration: S3DataSourceConfiguration? = nil, type: DataSourceType) {
+        public init(confluenceConfiguration: ConfluenceDataSourceConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceDataSourceConfiguration? = nil, sharePointConfiguration: SharePointDataSourceConfiguration? = nil, type: DataSourceType, webConfiguration: WebDataSourceConfiguration? = nil) {
+            self.confluenceConfiguration = confluenceConfiguration
             self.s3Configuration = s3Configuration
+            self.salesforceConfiguration = salesforceConfiguration
+            self.sharePointConfiguration = sharePointConfiguration
             self.type = type
+            self.webConfiguration = webConfiguration
         }
 
         public func validate(name: String) throws {
+            try self.confluenceConfiguration?.validate(name: "\(name).confluenceConfiguration")
             try self.s3Configuration?.validate(name: "\(name).s3Configuration")
+            try self.salesforceConfiguration?.validate(name: "\(name).salesforceConfiguration")
+            try self.sharePointConfiguration?.validate(name: "\(name).sharePointConfiguration")
+            try self.webConfiguration?.validate(name: "\(name).webConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case confluenceConfiguration = "confluenceConfiguration"
             case s3Configuration = "s3Configuration"
+            case salesforceConfiguration = "salesforceConfiguration"
+            case sharePointConfiguration = "sharePointConfiguration"
             case type = "type"
+            case webConfiguration = "webConfiguration"
         }
     }
 
@@ -1679,6 +2782,134 @@ extension BedrockAgent {
         }
     }
 
+    public struct DeleteFlowAliasRequest: AWSEncodableShape {
+        /// The unique identifier of the alias to be deleted.
+        public let aliasIdentifier: String
+        /// The unique identifier of the flow that the alias belongs to.
+        public let flowIdentifier: String
+
+        public init(aliasIdentifier: String, flowIdentifier: String) {
+            self.aliasIdentifier = aliasIdentifier
+            self.flowIdentifier = flowIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aliasIdentifier, key: "aliasIdentifier")
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aliasIdentifier, name: "aliasIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(TSTALIASID|[0-9a-zA-Z]{10})$")
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteFlowAliasResponse: AWSDecodableShape {
+        /// The unique identifier of the flow that the alias belongs to.
+        public let flowId: String
+        /// The unique identifier of the flow.
+        public let id: String
+
+        public init(flowId: String, id: String) {
+            self.flowId = flowId
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowId = "flowId"
+            case id = "id"
+        }
+    }
+
+    public struct DeleteFlowRequest: AWSEncodableShape {
+        /// The unique identifier of the flow.
+        public let flowIdentifier: String
+        /// By default, this value is false and deletion is stopped if the resource is in use. If you set it to true, the resource will be deleted even if the resource is in use.
+        public let skipResourceInUseCheck: Bool?
+
+        public init(flowIdentifier: String, skipResourceInUseCheck: Bool? = nil) {
+            self.flowIdentifier = flowIdentifier
+            self.skipResourceInUseCheck = skipResourceInUseCheck
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+            request.encodeQuery(self.skipResourceInUseCheck, key: "skipResourceInUseCheck")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteFlowResponse: AWSDecodableShape {
+        /// The unique identifier of the flow.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct DeleteFlowVersionRequest: AWSEncodableShape {
+        /// The unique identifier of the flow whose version that you want to delete
+        public let flowIdentifier: String
+        /// The version of the flow that you want to delete.
+        public let flowVersion: String
+        /// By default, this value is false and deletion is stopped if the resource is in use. If you set it to true, the resource will be deleted even if the resource is in use.
+        public let skipResourceInUseCheck: Bool?
+
+        public init(flowIdentifier: String, flowVersion: String, skipResourceInUseCheck: Bool? = nil) {
+            self.flowIdentifier = flowIdentifier
+            self.flowVersion = flowVersion
+            self.skipResourceInUseCheck = skipResourceInUseCheck
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+            request.encodePath(self.flowVersion, key: "flowVersion")
+            request.encodeQuery(self.skipResourceInUseCheck, key: "skipResourceInUseCheck")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+            try self.validate(self.flowVersion, name: "flowVersion", parent: name, pattern: "^[0-9]{1,5}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteFlowVersionResponse: AWSDecodableShape {
+        /// The unique identifier of the flow.
+        public let id: String
+        /// The version of the flow being deleted.
+        public let version: String
+
+        public init(id: String, version: String) {
+            self.id = id
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case version = "version"
+        }
+    }
+
     public struct DeleteKnowledgeBaseRequest: AWSEncodableShape {
         /// The unique identifier of the knowledge base to delete.
         public let knowledgeBaseId: String
@@ -1714,6 +2945,49 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case knowledgeBaseId = "knowledgeBaseId"
             case status = "status"
+        }
+    }
+
+    public struct DeletePromptRequest: AWSEncodableShape {
+        /// The unique identifier of the prompt.
+        public let promptIdentifier: String
+        /// The version of the prompt to delete.
+        public let promptVersion: String?
+
+        public init(promptIdentifier: String, promptVersion: String? = nil) {
+            self.promptIdentifier = promptIdentifier
+            self.promptVersion = promptVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.promptIdentifier, key: "promptIdentifier")
+            request.encodeQuery(self.promptVersion, key: "promptVersion")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.promptIdentifier, name: "promptIdentifier", parent: name, pattern: "^([0-9a-zA-Z]{10})|(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10})(?::[0-9]{1,5})?$")
+            try self.validate(self.promptVersion, name: "promptVersion", parent: name, pattern: "^[0-9]{1,5}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePromptResponse: AWSDecodableShape {
+        /// The unique identifier of the prompt that was deleted.
+        public let id: String
+        /// The version of the prompt that was deleted.
+        public let version: String?
+
+        public init(id: String, version: String? = nil) {
+            self.id = id
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case version = "version"
         }
     }
 
@@ -1785,6 +3059,374 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case maxTokens = "maxTokens"
             case overlapPercentage = "overlapPercentage"
+        }
+    }
+
+    public struct FlowAliasRoutingConfigurationListItem: AWSEncodableShape & AWSDecodableShape {
+        /// The version that the alias maps to.
+        public let flowVersion: String?
+
+        public init(flowVersion: String? = nil) {
+            self.flowVersion = flowVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowVersion, name: "flowVersion", parent: name, max: 5)
+            try self.validate(self.flowVersion, name: "flowVersion", parent: name, min: 1)
+            try self.validate(self.flowVersion, name: "flowVersion", parent: name, pattern: "^(DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowVersion = "flowVersion"
+        }
+    }
+
+    public struct FlowAliasSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow alias.
+        public let arn: String
+        /// The time at which the alias was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// A description of the alias.
+        public let description: String?
+        /// The unique identifier of the flow.
+        public let flowId: String
+        /// The unique identifier of the alias of the flow.
+        public let id: String
+        /// The name of the alias.
+        public let name: String
+        /// A list of configurations about the versions that the alias maps to. Currently, you can only specify one.
+        public let routingConfiguration: [FlowAliasRoutingConfigurationListItem]
+        /// The time at which the alias was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        public init(arn: String, createdAt: Date, description: String? = nil, flowId: String, id: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], updatedAt: Date) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.flowId = flowId
+            self.id = id
+            self.name = name
+            self.routingConfiguration = routingConfiguration
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case flowId = "flowId"
+            case id = "id"
+            case name = "name"
+            case routingConfiguration = "routingConfiguration"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct FlowCondition: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the condition. You must refer to at least one of the inputs in the condition. For more information, expand the Condition node section in Node types in prompt flows.
+        public let expression: String?
+        /// A name for the condition that you can reference.
+        public let name: String
+
+        public init(expression: String? = nil, name: String) {
+            self.expression = expression
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expression, name: "expression", parent: name, max: 64)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z]([_]?[0-9a-zA-Z]){1,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "expression"
+            case name = "name"
+        }
+    }
+
+    public struct FlowConditionalConnectionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The condition that triggers this connection. For more information about how to write conditions, see the Condition node type in the Node types topic in the Amazon Bedrock User Guide.
+        public let condition: String
+
+        public init(condition: String) {
+            self.condition = condition
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.condition, name: "condition", parent: name, pattern: "^[a-zA-Z]([_]?[0-9a-zA-Z]){1,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition = "condition"
+        }
+    }
+
+    public struct FlowConnection: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of the connection.
+        public let configuration: FlowConnectionConfiguration?
+        /// A name for the connection that you can reference.
+        public let name: String
+        /// The node that the connection starts at.
+        public let source: String
+        /// The node that the connection ends at.
+        public let target: String
+        /// Whether the source node that the connection begins from is a condition node (Conditional) or not (Data).
+        public let type: FlowConnectionType
+
+        public init(configuration: FlowConnectionConfiguration? = nil, name: String, source: String, target: String, type: FlowConnectionType) {
+            self.configuration = configuration
+            self.name = name
+            self.source = source
+            self.target = target
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration?.validate(name: "\(name).configuration")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z]([_]?[0-9a-zA-Z]){1,100}$")
+            try self.validate(self.source, name: "source", parent: name, pattern: "^[a-zA-Z]([_]?[0-9a-zA-Z]){1,50}$")
+            try self.validate(self.target, name: "target", parent: name, pattern: "^[a-zA-Z]([_]?[0-9a-zA-Z]){1,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case name = "name"
+            case source = "source"
+            case target = "target"
+            case type = "type"
+        }
+    }
+
+    public struct FlowDataConnectionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the output in the source node that the connection begins from.
+        public let sourceOutput: String
+        /// The name of the input in the target node that the connection ends at.
+        public let targetInput: String
+
+        public init(sourceOutput: String, targetInput: String) {
+            self.sourceOutput = sourceOutput
+            self.targetInput = targetInput
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceOutput, name: "sourceOutput", parent: name, pattern: "^[a-zA-Z]([_]?[0-9a-zA-Z]){1,50}$")
+            try self.validate(self.targetInput, name: "targetInput", parent: name, pattern: "^[a-zA-Z]([_]?[0-9a-zA-Z]){1,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceOutput = "sourceOutput"
+            case targetInput = "targetInput"
+        }
+    }
+
+    public struct FlowDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// An array of connection definitions in the flow.
+        public let connections: [FlowConnection]?
+        /// An array of node definitions in the flow.
+        public let nodes: [FlowNode]?
+
+        public init(connections: [FlowConnection]? = nil, nodes: [FlowNode]? = nil) {
+            self.connections = connections
+            self.nodes = nodes
+        }
+
+        public func validate(name: String) throws {
+            try self.connections?.forEach {
+                try $0.validate(name: "\(name).connections[]")
+            }
+            try self.validate(self.connections, name: "connections", parent: name, max: 20)
+            try self.nodes?.forEach {
+                try $0.validate(name: "\(name).nodes[]")
+            }
+            try self.validate(self.nodes, name: "nodes", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connections = "connections"
+            case nodes = "nodes"
+        }
+    }
+
+    public struct FlowNode: AWSEncodableShape & AWSDecodableShape {
+        /// Contains configurations for the node.
+        public let configuration: FlowNodeConfiguration?
+        /// An array of objects, each of which contains information about an input into the node.
+        public let inputs: [FlowNodeInput]?
+        /// A name for the node.
+        public let name: String
+        /// A list of objects, each of which contains information about an output from the node.
+        public let outputs: [FlowNodeOutput]?
+        /// The type of node. This value must match the name of the key that you provide in the configuration you provide in the FlowNodeConfiguration field.
+        public let type: FlowNodeType
+
+        public init(configuration: FlowNodeConfiguration? = nil, inputs: [FlowNodeInput]? = nil, name: String, outputs: [FlowNodeOutput]? = nil, type: FlowNodeType) {
+            self.configuration = configuration
+            self.inputs = inputs
+            self.name = name
+            self.outputs = outputs
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration?.validate(name: "\(name).configuration")
+            try self.inputs?.forEach {
+                try $0.validate(name: "\(name).inputs[]")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 5)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z]([_]?[0-9a-zA-Z]){1,50}$")
+            try self.outputs?.forEach {
+                try $0.validate(name: "\(name).outputs[]")
+            }
+            try self.validate(self.outputs, name: "outputs", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case inputs = "inputs"
+            case name = "name"
+            case outputs = "outputs"
+            case type = "type"
+        }
+    }
+
+    public struct FlowNodeInput: AWSEncodableShape & AWSDecodableShape {
+        /// An expression that formats the input for the node. For an explanation of how to create expressions, see Expressions in Prompt flows in Amazon Bedrock.
+        public let expression: String
+        /// A name for the input that you can reference.
+        public let name: String
+        /// The data type of the input. If the input doesn't match this type at runtime, a validation error will be thrown.
+        public let type: FlowNodeIODataType
+
+        public init(expression: String, name: String, type: FlowNodeIODataType) {
+            self.expression = expression
+            self.name = name
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expression, name: "expression", parent: name, max: 64)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z]([_]?[0-9a-zA-Z]){1,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "expression"
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct FlowNodeOutput: AWSEncodableShape & AWSDecodableShape {
+        /// A name for the output that you can reference.
+        public let name: String
+        /// The data type of the output. If the output doesn't match this type at runtime, a validation error will be thrown.
+        public let type: FlowNodeIODataType
+
+        public init(name: String, type: FlowNodeIODataType) {
+            self.name = name
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z]([_]?[0-9a-zA-Z]){1,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct FlowSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow.
+        public let arn: String
+        /// The time at which the flow was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// A description of the flow.
+        public let description: String?
+        /// The unique identifier of the flow.
+        public let id: String
+        /// The name of the flow.
+        public let name: String
+        /// The status of the flow. The following statuses are possible:   NotPrepared – The flow has been created or updated, but hasn't been prepared. If you just created the flow, you can't test it. If you updated the flow, the DRAFT version won't contain the latest changes for testing. Send a PrepareFlow request to package the latest changes into the DRAFT version.   Preparing – The flow is being prepared so that the DRAFT version contains the latest changes for testing.   Prepared – The flow is prepared and the DRAFT version contains the latest changes for testing.   Failed – The last API operation that you invoked on the flow failed. Send a GetFlow request and check the error message in the validations field.
+        public let status: FlowStatus
+        /// The time at which the flow was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+        /// The latest version of the flow.
+        public let version: String
+
+        public init(arn: String, createdAt: Date, description: String? = nil, id: String, name: String, status: FlowStatus, updatedAt: Date, version: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case updatedAt = "updatedAt"
+            case version = "version"
+        }
+    }
+
+    public struct FlowValidation: AWSDecodableShape {
+        /// A message describing the validation error.
+        public let message: String
+        /// The severity of the issue described in the message.
+        public let severity: FlowValidationSeverity
+
+        public init(message: String, severity: FlowValidationSeverity) {
+            self.message = message
+            self.severity = severity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case severity = "severity"
+        }
+    }
+
+    public struct FlowVersionSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow that the version belongs to.
+        public let arn: String
+        /// The time at the flow version was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The unique identifier of the flow.
+        public let id: String
+        /// The status of the flow.
+        public let status: FlowStatus
+        /// The version of the flow.
+        public let version: String
+
+        public init(arn: String, createdAt: Date, id: String, status: FlowStatus, version: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.id = id
+            self.status = status
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case status = "status"
+            case version = "version"
         }
     }
 
@@ -2064,6 +3706,231 @@ extension BedrockAgent {
         }
     }
 
+    public struct GetFlowAliasRequest: AWSEncodableShape {
+        /// The unique identifier of the alias for which to retrieve information.
+        public let aliasIdentifier: String
+        /// The unique identifier of the flow that the alias belongs to.
+        public let flowIdentifier: String
+
+        public init(aliasIdentifier: String, flowIdentifier: String) {
+            self.aliasIdentifier = aliasIdentifier
+            self.flowIdentifier = flowIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aliasIdentifier, key: "aliasIdentifier")
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aliasIdentifier, name: "aliasIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(TSTALIASID|[0-9a-zA-Z]{10})$")
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFlowAliasResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow.
+        public let arn: String
+        /// The time at which the flow was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The description of the flow.
+        public let description: String?
+        /// The unique identifier of the flow that the alias belongs to.
+        public let flowId: String
+        /// The unique identifier of the alias of the flow.
+        public let id: String
+        /// The name of the flow alias.
+        public let name: String
+        /// Contains information about the version that the alias is mapped to.
+        public let routingConfiguration: [FlowAliasRoutingConfigurationListItem]
+        /// The time at which the flow alias was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        public init(arn: String, createdAt: Date, description: String? = nil, flowId: String, id: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], updatedAt: Date) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.flowId = flowId
+            self.id = id
+            self.name = name
+            self.routingConfiguration = routingConfiguration
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case flowId = "flowId"
+            case id = "id"
+            case name = "name"
+            case routingConfiguration = "routingConfiguration"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct GetFlowRequest: AWSEncodableShape {
+        /// The unique identifier of the flow.
+        public let flowIdentifier: String
+
+        public init(flowIdentifier: String) {
+            self.flowIdentifier = flowIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFlowResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow.
+        public let arn: String
+        /// The time at which the flow was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The Amazon Resource Name (ARN) of the KMS key that the flow is encrypted with.
+        public let customerEncryptionKeyArn: String?
+        /// The definition of the nodes and connections between the nodes in the flow.
+        public let definition: FlowDefinition?
+        /// The description of the flow.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow.  For more information, see Create a service row for flows in the Amazon Bedrock User Guide.
+        public let executionRoleArn: String
+        /// The unique identifier of the flow.
+        public let id: String
+        /// The name of the flow.
+        public let name: String
+        /// The status of the flow. The following statuses are possible:   NotPrepared – The flow has been created or updated, but hasn't been prepared. If you just created the flow, you can't test it. If you updated the flow, the DRAFT version won't contain the latest changes for testing. Send a PrepareFlow request to package the latest changes into the DRAFT version.   Preparing – The flow is being prepared so that the DRAFT version contains the latest changes for testing.   Prepared – The flow is prepared and the DRAFT version contains the latest changes for testing.   Failed – The last API operation that you invoked on the flow failed. Send a GetFlow request and check the error message in the validations field.
+        public let status: FlowStatus
+        /// The time at which the flow was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+        /// A list of validation error messages related to the last failed operation on the flow.
+        public let validations: [FlowValidation]?
+        /// The version of the flow for which information was retrieved.
+        public let version: String
+
+        public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, definition: FlowDefinition? = nil, description: String? = nil, executionRoleArn: String, id: String, name: String, status: FlowStatus, updatedAt: Date, validations: [FlowValidation]? = nil, version: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.definition = definition
+            self.description = description
+            self.executionRoleArn = executionRoleArn
+            self.id = id
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+            self.validations = validations
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case definition = "definition"
+            case description = "description"
+            case executionRoleArn = "executionRoleArn"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case updatedAt = "updatedAt"
+            case validations = "validations"
+            case version = "version"
+        }
+    }
+
+    public struct GetFlowVersionRequest: AWSEncodableShape {
+        /// The unique identifier of the flow for which to get information.
+        public let flowIdentifier: String
+        /// The version of the flow for which to get information.
+        public let flowVersion: String
+
+        public init(flowIdentifier: String, flowVersion: String) {
+            self.flowIdentifier = flowIdentifier
+            self.flowVersion = flowVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+            request.encodePath(self.flowVersion, key: "flowVersion")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+            try self.validate(self.flowVersion, name: "flowVersion", parent: name, pattern: "^[0-9]{1,5}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFlowVersionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow.
+        public let arn: String
+        /// The time at which the flow was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The Amazon Resource Name (ARN) of the KMS key that the version of the flow is encrypted with.
+        public let customerEncryptionKeyArn: String?
+        /// The definition of the nodes and connections between nodes in the flow.
+        public let definition: FlowDefinition?
+        /// The description of the flow.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see Create a service role for flows in Amazon Bedrock in the Amazon Bedrock User Guide.
+        public let executionRoleArn: String
+        /// The unique identifier of the flow.
+        public let id: String
+        /// The name of the flow version.
+        public let name: String
+        /// The status of the flow.
+        public let status: FlowStatus
+        /// The version of the flow for which information was retrieved.
+        public let version: String
+
+        public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, definition: FlowDefinition? = nil, description: String? = nil, executionRoleArn: String, id: String, name: String, status: FlowStatus, version: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.definition = definition
+            self.description = description
+            self.executionRoleArn = executionRoleArn
+            self.id = id
+            self.name = name
+            self.status = status
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case definition = "definition"
+            case description = "description"
+            case executionRoleArn = "executionRoleArn"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case version = "version"
+        }
+    }
+
     public struct GetIngestionJobRequest: AWSEncodableShape {
         /// The unique identifier of the data source in the ingestion job.
         public let dataSourceId: String
@@ -2142,10 +4009,89 @@ extension BedrockAgent {
         }
     }
 
+    public struct GetPromptRequest: AWSEncodableShape {
+        /// The unique identifier of the prompt.
+        public let promptIdentifier: String
+        /// The version of the prompt about which you want to retrieve information.
+        public let promptVersion: String?
+
+        public init(promptIdentifier: String, promptVersion: String? = nil) {
+            self.promptIdentifier = promptIdentifier
+            self.promptVersion = promptVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.promptIdentifier, key: "promptIdentifier")
+            request.encodeQuery(self.promptVersion, key: "promptVersion")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.promptIdentifier, name: "promptIdentifier", parent: name, pattern: "^([0-9a-zA-Z]{10})|(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10})(?::[0-9]{1,5})?$")
+            try self.validate(self.promptVersion, name: "promptVersion", parent: name, max: 5)
+            try self.validate(self.promptVersion, name: "promptVersion", parent: name, min: 1)
+            try self.validate(self.promptVersion, name: "promptVersion", parent: name, pattern: "^(DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPromptResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the prompt.
+        public let arn: String
+        /// The time at which the prompt was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The Amazon Resource Name (ARN) of the KMS key that the prompt is encrypted with.
+        public let customerEncryptionKeyArn: String?
+        /// The name of the default variant for the prompt. This value must match the name field in the relevant PromptVariant object.
+        public let defaultVariant: String?
+        /// The descriptino of the prompt.
+        public let description: String?
+        /// The unique identifier of the prompt.
+        public let id: String
+        /// The name of the prompt.
+        public let name: String
+        /// The time at which the prompt was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+        /// A list of objects, each containing details about a variant of the prompt.
+        public let variants: [PromptVariant]?
+        /// The version of the prompt.
+        public let version: String
+
+        public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, defaultVariant: String? = nil, description: String? = nil, id: String, name: String, updatedAt: Date, variants: [PromptVariant]? = nil, version: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.defaultVariant = defaultVariant
+            self.description = description
+            self.id = id
+            self.name = name
+            self.updatedAt = updatedAt
+            self.variants = variants
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case defaultVariant = "defaultVariant"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case updatedAt = "updatedAt"
+            case variants = "variants"
+            case version = "version"
+        }
+    }
+
     public struct GuardrailConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The guardrails identifier assigned to the guardrails configuration.
+        /// The unique identifier of the guardrail.
         public let guardrailIdentifier: String?
-        /// The guardrails version assigned to the guardrails configuration.
+        /// The version of the guardrail.
         public let guardrailVersion: String?
 
         public init(guardrailIdentifier: String? = nil, guardrailVersion: String? = nil) {
@@ -2162,6 +4108,41 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case guardrailIdentifier = "guardrailIdentifier"
             case guardrailVersion = "guardrailVersion"
+        }
+    }
+
+    public struct HierarchicalChunkingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Token settings for each layer.
+        public let levelConfigurations: [HierarchicalChunkingLevelConfiguration]
+        /// The number of tokens to repeat across chunks in the same layer.
+        public let overlapTokens: Int
+
+        public init(levelConfigurations: [HierarchicalChunkingLevelConfiguration], overlapTokens: Int) {
+            self.levelConfigurations = levelConfigurations
+            self.overlapTokens = overlapTokens
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.levelConfigurations, name: "levelConfigurations", parent: name, max: 2)
+            try self.validate(self.levelConfigurations, name: "levelConfigurations", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case levelConfigurations = "levelConfigurations"
+            case overlapTokens = "overlapTokens"
+        }
+    }
+
+    public struct HierarchicalChunkingLevelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of tokens that a chunk can contain in this layer.
+        public let maxTokens: Int
+
+        public init(maxTokens: Int) {
+            self.maxTokens = maxTokens
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxTokens = "maxTokens"
         }
     }
 
@@ -2379,6 +4360,31 @@ extension BedrockAgent {
         }
     }
 
+    public struct InputFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct IntermediateStorage: AWSEncodableShape & AWSDecodableShape {
+        /// An S3 bucket path.
+        public let s3Location: S3Location
+
+        public init(s3Location: S3Location) {
+            self.s3Location = s3Location
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Location.validate(name: "\(name).s3Location")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Location = "s3Location"
+        }
+    }
+
+    public struct IteratorFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct KnowledgeBase: AWSDecodableShape {
         /// The time at which the knowledge base was created.
         @CustomCoding<ISO8601DateCoder>
@@ -2455,6 +4461,31 @@ extension BedrockAgent {
         }
     }
 
+    public struct KnowledgeBaseFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of the knowledge base to query.
+        public let knowledgeBaseId: String
+        /// The unique identifier of the model to use to generate a response from the query results. Omit this field if you want to return the retrieved results as an array.
+        public let modelId: String?
+
+        public init(knowledgeBaseId: String, modelId: String? = nil) {
+            self.knowledgeBaseId = knowledgeBaseId
+            self.modelId = modelId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 10)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
+            try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBaseId = "knowledgeBaseId"
+            case modelId = "modelId"
+        }
+    }
+
     public struct KnowledgeBaseSummary: AWSDecodableShape {
         /// The description of the knowledge base.
         public let description: String?
@@ -2482,6 +4513,48 @@ extension BedrockAgent {
             case name = "name"
             case status = "status"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct LambdaFunctionFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Lambda function to invoke.
+        public let lambdaArn: String
+
+        public init(lambdaArn: String) {
+            self.lambdaArn = lambdaArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, max: 2048)
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaArn = "lambdaArn"
+        }
+    }
+
+    public struct LexFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Lex bot alias to invoke.
+        public let botAliasArn: String
+        /// The Region to invoke the Amazon Lex bot in.
+        public let localeId: String
+
+        public init(botAliasArn: String, localeId: String) {
+            self.botAliasArn = botAliasArn
+            self.localeId = localeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botAliasArn, name: "botAliasArn", parent: name, max: 78)
+            try self.validate(self.botAliasArn, name: "botAliasArn", parent: name, pattern: "^arn:aws(|-us-gov):lex:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:bot-alias/[0-9a-zA-Z]+/[0-9a-zA-Z]+$")
+            try self.validate(self.localeId, name: "localeId", parent: name, max: 10)
+            try self.validate(self.localeId, name: "localeId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botAliasArn = "botAliasArn"
+            case localeId = "localeId"
         }
     }
 
@@ -2811,6 +4884,154 @@ extension BedrockAgent {
         }
     }
 
+    public struct ListFlowAliasesRequest: AWSEncodableShape {
+        /// The unique identifier of the flow for which aliases are being returned.
+        public let flowIdentifier: String
+        /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+        public let maxResults: Int?
+        /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+        public let nextToken: String?
+
+        public init(flowIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.flowIdentifier = flowIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFlowAliasesResponse: AWSDecodableShape {
+        /// A list, each member of which contains information about a flow alias.
+        public let flowAliasSummaries: [FlowAliasSummary]
+        /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+        public let nextToken: String?
+
+        public init(flowAliasSummaries: [FlowAliasSummary], nextToken: String? = nil) {
+            self.flowAliasSummaries = flowAliasSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowAliasSummaries = "flowAliasSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFlowVersionsRequest: AWSEncodableShape {
+        /// The unique identifier of the flow.
+        public let flowIdentifier: String
+        /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+        public let maxResults: Int?
+        /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+        public let nextToken: String?
+
+        public init(flowIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.flowIdentifier = flowIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFlowVersionsResponse: AWSDecodableShape {
+        /// A list, each member of which contains information about a flow.
+        public let flowVersionSummaries: [FlowVersionSummary]
+        /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+        public let nextToken: String?
+
+        public init(flowVersionSummaries: [FlowVersionSummary], nextToken: String? = nil) {
+            self.flowVersionSummaries = flowVersionSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowVersionSummaries = "flowVersionSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFlowsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+        public let maxResults: Int?
+        /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFlowsResponse: AWSDecodableShape {
+        /// A list, each member of which contains information about a flow.
+        public let flowSummaries: [FlowSummary]
+        /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+        public let nextToken: String?
+
+        public init(flowSummaries: [FlowSummary], nextToken: String? = nil) {
+            self.flowSummaries = flowSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowSummaries = "flowSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListIngestionJobsRequest: AWSEncodableShape {
         /// The unique identifier of the data source for which to return ingestion jobs.
         public let dataSourceId: String
@@ -2927,6 +5148,57 @@ extension BedrockAgent {
         }
     }
 
+    public struct ListPromptsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+        public let maxResults: Int?
+        /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+        public let nextToken: String?
+        /// The unique identifier of the prompt.
+        public let promptIdentifier: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, promptIdentifier: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.promptIdentifier = promptIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.promptIdentifier, key: "promptIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+            try self.validate(self.promptIdentifier, name: "promptIdentifier", parent: name, pattern: "^([0-9a-zA-Z]{10})|(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10})(?::[0-9]{1,5})?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPromptsResponse: AWSDecodableShape {
+        /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+        public let nextToken: String?
+        /// A list, each member of which contains information about a prompt using Prompt management.
+        public let promptSummaries: [PromptSummary]
+
+        public init(nextToken: String? = nil, promptSummaries: [PromptSummary]) {
+            self.nextToken = nextToken
+            self.promptSummaries = promptSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case promptSummaries = "promptSummaries"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource for which to list tags.
         public let resourceArn: String
@@ -2944,7 +5216,7 @@ extension BedrockAgent {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "(^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:(agent|agent-alias|knowledge-base)/[A-Z0-9]{10}(?:/[A-Z0-9]{10})?$)")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "(^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:(agent|agent-alias|knowledge-base|flow|prompt)/[A-Z0-9]{10}(?:/[A-Z0-9]{10})?$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:flow/([A-Z0-9]{10})/alias/([A-Z0-9]{10})$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:prompt/([A-Z0-9]{10})?(?::/d+)?$)")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2960,6 +5232,30 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct MemoryConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The type of memory that is stored.
+        public let enabledMemoryTypes: [MemoryType]
+        /// The number of days the agent is configured to retain the conversational context.
+        public let storageDays: Int?
+
+        public init(enabledMemoryTypes: [MemoryType], storageDays: Int? = nil) {
+            self.enabledMemoryTypes = enabledMemoryTypes
+            self.storageDays = storageDays
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.enabledMemoryTypes, name: "enabledMemoryTypes", parent: name, max: 1)
+            try self.validate(self.enabledMemoryTypes, name: "enabledMemoryTypes", parent: name, min: 1)
+            try self.validate(self.storageDays, name: "storageDays", parent: name, max: 30)
+            try self.validate(self.storageDays, name: "storageDays", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledMemoryTypes = "enabledMemoryTypes"
+            case storageDays = "storageDays"
         }
     }
 
@@ -3105,6 +5401,10 @@ extension BedrockAgent {
         }
     }
 
+    public struct OutputFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct ParameterDetail: AWSEncodableShape & AWSDecodableShape {
         /// A description of the parameter. Helps the foundation model determine how to elicit the parameters from the user.
         public let description: String?
@@ -3128,6 +5428,104 @@ extension BedrockAgent {
             case description = "description"
             case required = "required"
             case type = "type"
+        }
+    }
+
+    public struct ParsingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Settings for a foundation model used to parse documents for a data source.
+        public let bedrockFoundationModelConfiguration: BedrockFoundationModelConfiguration?
+        /// The parsing strategy for the data source.
+        public let parsingStrategy: ParsingStrategy
+
+        public init(bedrockFoundationModelConfiguration: BedrockFoundationModelConfiguration? = nil, parsingStrategy: ParsingStrategy) {
+            self.bedrockFoundationModelConfiguration = bedrockFoundationModelConfiguration
+            self.parsingStrategy = parsingStrategy
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockFoundationModelConfiguration?.validate(name: "\(name).bedrockFoundationModelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockFoundationModelConfiguration = "bedrockFoundationModelConfiguration"
+            case parsingStrategy = "parsingStrategy"
+        }
+    }
+
+    public struct ParsingPrompt: AWSEncodableShape & AWSDecodableShape {
+        /// Instructions for interpreting the contents of a document.
+        public let parsingPromptText: String
+
+        public init(parsingPromptText: String) {
+            self.parsingPromptText = parsingPromptText
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.parsingPromptText, name: "parsingPromptText", parent: name, max: 10000)
+            try self.validate(self.parsingPromptText, name: "parsingPromptText", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parsingPromptText = "parsingPromptText"
+        }
+    }
+
+    public struct PatternObjectFilter: AWSEncodableShape & AWSDecodableShape {
+        /// A list of one or more exclusion regular expression patterns to exclude certain  object types that adhere to the pattern. If you specify an inclusion and exclusion  filter/pattern and both match a document, the exclusion filter takes precedence  and the document isn’t crawled.
+        public let exclusionFilters: [String]?
+        /// A list of one or more inclusion regular expression patterns to include certain  object types that adhere to the pattern. If you specify an inclusion and exclusion  filter/pattern and both match a document, the exclusion filter takes precedence  and the document isn’t crawled.
+        public let inclusionFilters: [String]?
+        /// The supported object type or content type of the data source.
+        public let objectType: String
+
+        public init(exclusionFilters: [String]? = nil, inclusionFilters: [String]? = nil, objectType: String) {
+            self.exclusionFilters = exclusionFilters
+            self.inclusionFilters = inclusionFilters
+            self.objectType = objectType
+        }
+
+        public func validate(name: String) throws {
+            try self.exclusionFilters?.forEach {
+                try validate($0, name: "exclusionFilters[]", parent: name, max: 1000)
+                try validate($0, name: "exclusionFilters[]", parent: name, min: 1)
+            }
+            try self.validate(self.exclusionFilters, name: "exclusionFilters", parent: name, max: 25)
+            try self.validate(self.exclusionFilters, name: "exclusionFilters", parent: name, min: 1)
+            try self.inclusionFilters?.forEach {
+                try validate($0, name: "inclusionFilters[]", parent: name, max: 1000)
+                try validate($0, name: "inclusionFilters[]", parent: name, min: 1)
+            }
+            try self.validate(self.inclusionFilters, name: "inclusionFilters", parent: name, max: 25)
+            try self.validate(self.inclusionFilters, name: "inclusionFilters", parent: name, min: 1)
+            try self.validate(self.objectType, name: "objectType", parent: name, max: 50)
+            try self.validate(self.objectType, name: "objectType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusionFilters = "exclusionFilters"
+            case inclusionFilters = "inclusionFilters"
+            case objectType = "objectType"
+        }
+    }
+
+    public struct PatternObjectFilterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of specific filters applied to your data source content. You can  filter out or include certain content.
+        public let filters: [PatternObjectFilter]
+
+        public init(filters: [PatternObjectFilter]) {
+            self.filters = filters
+        }
+
+        public func validate(name: String) throws {
+            try self.filters.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 25)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
         }
     }
 
@@ -3236,6 +5634,44 @@ extension BedrockAgent {
         }
     }
 
+    public struct PrepareFlowRequest: AWSEncodableShape {
+        /// The unique identifier of the flow.
+        public let flowIdentifier: String
+
+        public init(flowIdentifier: String) {
+            self.flowIdentifier = flowIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct PrepareFlowResponse: AWSDecodableShape {
+        /// The unique identifier of the flow.
+        public let id: String
+        /// The status of the flow. When you submit this request, the status will be NotPrepared. If preparation succeeds, the status becomes Prepared. If it fails, the status becomes FAILED.
+        public let status: FlowStatus
+
+        public init(id: String, status: FlowStatus) {
+            self.id = id
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case status = "status"
+        }
+    }
+
     public struct PromptConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see Prompt template placeholder variables. For more information, see Configure the prompt templates.
         public let basePromptTemplate: String?
@@ -3275,6 +5711,131 @@ extension BedrockAgent {
         }
     }
 
+    public struct PromptFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the prompt is from Prompt management or defined inline.
+        public let sourceConfiguration: PromptFlowNodeSourceConfiguration
+
+        public init(sourceConfiguration: PromptFlowNodeSourceConfiguration) {
+            self.sourceConfiguration = sourceConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.sourceConfiguration.validate(name: "\(name).sourceConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceConfiguration = "sourceConfiguration"
+        }
+    }
+
+    public struct PromptFlowNodeInlineConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains inference configurations for the prompt.
+        public let inferenceConfiguration: PromptInferenceConfiguration?
+        /// The unique identifier of the model to run inference with.
+        public let modelId: String
+        /// Contains a prompt and variables in the prompt that can be replaced with values at runtime.
+        public let templateConfiguration: PromptTemplateConfiguration
+        /// The type of prompt template.
+        public let templateType: PromptTemplateType
+
+        public init(inferenceConfiguration: PromptInferenceConfiguration? = nil, modelId: String, templateConfiguration: PromptTemplateConfiguration, templateType: PromptTemplateType) {
+            self.inferenceConfiguration = inferenceConfiguration
+            self.modelId = modelId
+            self.templateConfiguration = templateConfiguration
+            self.templateType = templateType
+        }
+
+        public func validate(name: String) throws {
+            try self.inferenceConfiguration?.validate(name: "\(name).inferenceConfiguration")
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
+            try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.templateConfiguration.validate(name: "\(name).templateConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inferenceConfiguration = "inferenceConfiguration"
+            case modelId = "modelId"
+            case templateConfiguration = "templateConfiguration"
+            case templateType = "templateType"
+        }
+    }
+
+    public struct PromptFlowNodeResourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the prompt from Prompt management.
+        public let promptArn: String
+
+        public init(promptArn: String) {
+            self.promptArn = promptArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.promptArn, name: "promptArn", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case promptArn = "promptArn"
+        }
+    }
+
+    public struct PromptInputVariable: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the variable.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct PromptModelInferenceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of tokens to return in the response.
+        public let maxTokens: Int?
+        /// A list of strings that define sequences after which the model will stop generating.
+        public let stopSequences: [String]?
+        /// Controls the randomness of the response. Choose a lower value for more predictable outputs and a higher value for more surprising outputs.
+        public let temperature: Float?
+        /// The number of most-likely candidates that the model considers for the next token during generation.
+        public let topK: Int?
+        /// The percentage of most-likely candidates that the model considers for the next token.
+        public let topP: Float?
+
+        public init(maxTokens: Int? = nil, stopSequences: [String]? = nil, temperature: Float? = nil, topK: Int? = nil, topP: Float? = nil) {
+            self.maxTokens = maxTokens
+            self.stopSequences = stopSequences
+            self.temperature = temperature
+            self.topK = topK
+            self.topP = topP
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxTokens, name: "maxTokens", parent: name, max: 4096)
+            try self.validate(self.maxTokens, name: "maxTokens", parent: name, min: 0)
+            try self.validate(self.stopSequences, name: "stopSequences", parent: name, max: 4)
+            try self.validate(self.temperature, name: "temperature", parent: name, max: 1.0)
+            try self.validate(self.temperature, name: "temperature", parent: name, min: 0.0)
+            try self.validate(self.topK, name: "topK", parent: name, max: 500)
+            try self.validate(self.topK, name: "topK", parent: name, min: 0)
+            try self.validate(self.topP, name: "topP", parent: name, max: 1.0)
+            try self.validate(self.topP, name: "topP", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxTokens = "maxTokens"
+            case stopSequences = "stopSequences"
+            case temperature = "temperature"
+            case topK = "topK"
+            case topP = "topP"
+        }
+    }
+
     public struct PromptOverrideConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the Lambda function to use when parsing the raw foundation model output in parts of the agent sequence. If you specify this field, at least one of the promptConfigurations must contain a parserMode value that is set to OVERRIDDEN. For more information, see Parser Lambda function in Agents for Amazon Bedrock.
         public let overrideLambda: String?
@@ -3298,6 +5859,83 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case overrideLambda = "overrideLambda"
             case promptConfigurations = "promptConfigurations"
+        }
+    }
+
+    public struct PromptSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the prompt.
+        public let arn: String
+        /// The time at which the prompt was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The description of the prompt.
+        public let description: String?
+        /// The unique identifier of the prompt.
+        public let id: String
+        /// The name of the prompt.
+        public let name: String
+        /// The time at which the prompt was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+        /// The version of the prompt that this summary applies to.
+        public let version: String
+
+        public init(arn: String, createdAt: Date, description: String? = nil, id: String, name: String, updatedAt: Date, version: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.name = name
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case updatedAt = "updatedAt"
+            case version = "version"
+        }
+    }
+
+    public struct PromptVariant: AWSEncodableShape & AWSDecodableShape {
+        /// Contains inference configurations for the prompt variant.
+        public let inferenceConfiguration: PromptInferenceConfiguration?
+        /// The unique identifier of the model with which to run inference on the prompt.
+        public let modelId: String?
+        /// The name of the prompt variant.
+        public let name: String
+        /// Contains configurations for the prompt template.
+        public let templateConfiguration: PromptTemplateConfiguration?
+        /// The type of prompt template to use.
+        public let templateType: PromptTemplateType
+
+        public init(inferenceConfiguration: PromptInferenceConfiguration? = nil, modelId: String? = nil, name: String, templateConfiguration: PromptTemplateConfiguration? = nil, templateType: PromptTemplateType) {
+            self.inferenceConfiguration = inferenceConfiguration
+            self.modelId = modelId
+            self.name = name
+            self.templateConfiguration = templateConfiguration
+            self.templateType = templateType
+        }
+
+        public func validate(name: String) throws {
+            try self.inferenceConfiguration?.validate(name: "\(name).inferenceConfiguration")
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
+            try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+            try self.templateConfiguration?.validate(name: "\(name).templateConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inferenceConfiguration = "inferenceConfiguration"
+            case modelId = "modelId"
+            case name = "name"
+            case templateConfiguration = "templateConfiguration"
+            case templateType = "templateType"
         }
     }
 
@@ -3440,12 +6078,48 @@ extension BedrockAgent {
         }
     }
 
+    public struct RetrievalFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains configurations for the service to use for retrieving data to return as the output from the node.
+        public let serviceConfiguration: RetrievalFlowNodeServiceConfiguration
+
+        public init(serviceConfiguration: RetrievalFlowNodeServiceConfiguration) {
+            self.serviceConfiguration = serviceConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.serviceConfiguration.validate(name: "\(name).serviceConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceConfiguration = "serviceConfiguration"
+        }
+    }
+
+    public struct RetrievalFlowNodeS3Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Amazon S3 bucket from which to retrieve data.
+        public let bucketName: String
+
+        public init(bucketName: String) {
+            self.bucketName = bucketName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+        }
+    }
+
     public struct S3DataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the bucket that contains the data source.
+        /// The Amazon Resource Name (ARN) of the S3 bucket that contains your data.
         public let bucketArn: String
-        /// The bucket account owner ID for the S3 bucket.
+        /// The account ID for the owner of the S3 bucket.
         public let bucketOwnerAccountId: String?
-        /// A list of S3 prefixes that define the object containing the data sources. For more information, see Organizing objects using prefixes.
+        /// A list of S3 prefixes to include certain files or content. For more information,  see Organizing objects using prefixes.
         public let inclusionPrefixes: [String]?
 
         public init(bucketArn: String, bucketOwnerAccountId: String? = nil, inclusionPrefixes: [String]? = nil) {
@@ -3479,7 +6153,7 @@ extension BedrockAgent {
     public struct S3Identifier: AWSEncodableShape & AWSDecodableShape {
         /// The name of the S3 bucket.
         public let s3BucketName: String?
-        /// The S3 object key containing the resource.
+        /// The S3 object key for the S3 resource.
         public let s3ObjectKey: String?
 
         public init(s3BucketName: String? = nil, s3ObjectKey: String? = nil) {
@@ -3502,6 +6176,128 @@ extension BedrockAgent {
         }
     }
 
+    public struct S3Location: AWSEncodableShape & AWSDecodableShape {
+        /// The location's URI. For example, s3://my-bucket/chunk-processor/.
+        public let uri: String
+
+        public init(uri: String) {
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.uri, name: "uri", parent: name, max: 2048)
+            try self.validate(self.uri, name: "uri", parent: name, min: 1)
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "^s3://.{1,128}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uri = "uri"
+        }
+    }
+
+    public struct SalesforceCrawlerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of filtering the Salesforce content. For example,  configuring regular expression patterns to include or exclude certain  content.
+        public let filterConfiguration: CrawlFilterConfiguration?
+
+        public init(filterConfiguration: CrawlFilterConfiguration? = nil) {
+            self.filterConfiguration = filterConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.filterConfiguration?.validate(name: "\(name).filterConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterConfiguration = "filterConfiguration"
+        }
+    }
+
+    public struct SalesforceDataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of the Salesforce content. For example, configuring  specific types of Salesforce content.
+        public let crawlerConfiguration: SalesforceCrawlerConfiguration?
+        /// The endpoint information to connect to your Salesforce data source.
+        public let sourceConfiguration: SalesforceSourceConfiguration
+
+        public init(crawlerConfiguration: SalesforceCrawlerConfiguration? = nil, sourceConfiguration: SalesforceSourceConfiguration) {
+            self.crawlerConfiguration = crawlerConfiguration
+            self.sourceConfiguration = sourceConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.crawlerConfiguration?.validate(name: "\(name).crawlerConfiguration")
+            try self.sourceConfiguration.validate(name: "\(name).sourceConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlerConfiguration = "crawlerConfiguration"
+            case sourceConfiguration = "sourceConfiguration"
+        }
+    }
+
+    public struct SalesforceSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The supported authentication type to authenticate and connect to your  Salesforce instance.
+        public let authType: SalesforceAuthType
+        /// The Amazon Resource Name of an Secrets Manager secret that  stores your authentication credentials for your SharePoint site/sites.  For more information on the key-value pairs that must be included in  your secret, depending on your authentication type, see  Salesforce connection configuration.
+        public let credentialsSecretArn: String
+        /// The Salesforce host URL or instance URL.
+        public let hostUrl: String
+
+        public init(authType: SalesforceAuthType, credentialsSecretArn: String, hostUrl: String) {
+            self.authType = authType
+            self.credentialsSecretArn = credentialsSecretArn
+            self.hostUrl = hostUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.credentialsSecretArn, name: "credentialsSecretArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):secretsmanager:[a-z0-9-]{1,20}:([0-9]{12}|):secret:[a-zA-Z0-9!/_+=.@-]{1,512}$")
+            try self.validate(self.hostUrl, name: "hostUrl", parent: name, pattern: "^https://[A-Za-z0-9][^\\s]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authType = "authType"
+            case credentialsSecretArn = "credentialsSecretArn"
+            case hostUrl = "hostUrl"
+        }
+    }
+
+    public struct SeedUrl: AWSEncodableShape & AWSDecodableShape {
+        /// A seed or starting point URL.
+        public let url: String?
+
+        public init(url: String? = nil) {
+            self.url = url
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.url, name: "url", parent: name, pattern: "^https?://[A-Za-z0-9][^\\s]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case url = "url"
+        }
+    }
+
+    public struct SemanticChunkingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The dissimilarity threshold for splitting chunks.
+        public let breakpointPercentileThreshold: Int
+        /// The buffer size.
+        public let bufferSize: Int
+        /// The maximum number of tokens that a chunk can contain.
+        public let maxTokens: Int
+
+        public init(breakpointPercentileThreshold: Int, bufferSize: Int, maxTokens: Int) {
+            self.breakpointPercentileThreshold = breakpointPercentileThreshold
+            self.bufferSize = bufferSize
+            self.maxTokens = maxTokens
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case breakpointPercentileThreshold = "breakpointPercentileThreshold"
+            case bufferSize = "bufferSize"
+            case maxTokens = "maxTokens"
+        }
+    }
+
     public struct ServerSideEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the resource.
         public let kmsKeyArn: String?
@@ -3518,6 +6314,92 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case kmsKeyArn = "kmsKeyArn"
+        }
+    }
+
+    public struct SharePointCrawlerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of filtering the SharePoint content. For example,  configuring regular expression patterns to include or exclude certain content.
+        public let filterConfiguration: CrawlFilterConfiguration?
+
+        public init(filterConfiguration: CrawlFilterConfiguration? = nil) {
+            self.filterConfiguration = filterConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.filterConfiguration?.validate(name: "\(name).filterConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterConfiguration = "filterConfiguration"
+        }
+    }
+
+    public struct SharePointDataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of the SharePoint content. For example, configuring  specific types of SharePoint content.
+        public let crawlerConfiguration: SharePointCrawlerConfiguration?
+        /// The endpoint information to connect to your SharePoint data source.
+        public let sourceConfiguration: SharePointSourceConfiguration
+
+        public init(crawlerConfiguration: SharePointCrawlerConfiguration? = nil, sourceConfiguration: SharePointSourceConfiguration) {
+            self.crawlerConfiguration = crawlerConfiguration
+            self.sourceConfiguration = sourceConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.crawlerConfiguration?.validate(name: "\(name).crawlerConfiguration")
+            try self.sourceConfiguration.validate(name: "\(name).sourceConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlerConfiguration = "crawlerConfiguration"
+            case sourceConfiguration = "sourceConfiguration"
+        }
+    }
+
+    public struct SharePointSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The supported authentication type to authenticate and connect  to your SharePoint site/sites.
+        public let authType: SharePointAuthType
+        /// The Amazon Resource Name of an Secrets Manager secret that  stores your authentication credentials for your SharePoint site/sites.  For more information on the key-value pairs that must be included in  your secret, depending on your authentication type, see  SharePoint connection configuration.
+        public let credentialsSecretArn: String
+        /// The domain of your SharePoint instance or site URL/URLs.
+        public let domain: String
+        /// The supported host type, whether online/cloud or server/on-premises.
+        public let hostType: SharePointHostType
+        /// A list of one or more SharePoint site URLs.
+        public let siteUrls: [String]
+        /// The identifier of your Microsoft 365 tenant.
+        public let tenantId: String?
+
+        public init(authType: SharePointAuthType, credentialsSecretArn: String, domain: String, hostType: SharePointHostType, siteUrls: [String], tenantId: String? = nil) {
+            self.authType = authType
+            self.credentialsSecretArn = credentialsSecretArn
+            self.domain = domain
+            self.hostType = hostType
+            self.siteUrls = siteUrls
+            self.tenantId = tenantId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.credentialsSecretArn, name: "credentialsSecretArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):secretsmanager:[a-z0-9-]{1,20}:([0-9]{12}|):secret:[a-zA-Z0-9!/_+=.@-]{1,512}$")
+            try self.validate(self.domain, name: "domain", parent: name, max: 50)
+            try self.validate(self.domain, name: "domain", parent: name, min: 1)
+            try self.siteUrls.forEach {
+                try validate($0, name: "siteUrls[]", parent: name, pattern: "^https://[A-Za-z0-9][^\\s]*$")
+            }
+            try self.validate(self.siteUrls, name: "siteUrls", parent: name, max: 100)
+            try self.validate(self.siteUrls, name: "siteUrls", parent: name, min: 1)
+            try self.validate(self.tenantId, name: "tenantId", parent: name, max: 36)
+            try self.validate(self.tenantId, name: "tenantId", parent: name, min: 36)
+            try self.validate(self.tenantId, name: "tenantId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authType = "authType"
+            case credentialsSecretArn = "credentialsSecretArn"
+            case domain = "domain"
+            case hostType = "hostType"
+            case siteUrls = "siteUrls"
+            case tenantId = "tenantId"
         }
     }
 
@@ -3550,7 +6432,7 @@ extension BedrockAgent {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
@@ -3617,6 +6499,42 @@ extension BedrockAgent {
         }
     }
 
+    public struct StorageFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains configurations for the service to use for storing the input into the node.
+        public let serviceConfiguration: StorageFlowNodeServiceConfiguration
+
+        public init(serviceConfiguration: StorageFlowNodeServiceConfiguration) {
+            self.serviceConfiguration = serviceConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.serviceConfiguration.validate(name: "\(name).serviceConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceConfiguration = "serviceConfiguration"
+        }
+    }
+
+    public struct StorageFlowNodeS3Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Amazon S3 bucket in which to store the input into the node.
+        public let bucketName: String
+
+        public init(bucketName: String) {
+            self.bucketName = bucketName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource to tag.
         public let resourceArn: String
@@ -3638,7 +6556,7 @@ extension BedrockAgent {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "(^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:(agent|agent-alias|knowledge-base)/[A-Z0-9]{10}(?:/[A-Z0-9]{10})?$)")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "(^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:(agent|agent-alias|knowledge-base|flow|prompt)/[A-Z0-9]{10}(?:/[A-Z0-9]{10})?$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:flow/([A-Z0-9]{10})/alias/([A-Z0-9]{10})$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:prompt/([A-Z0-9]{10})?(?::/d+)?$)")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -3655,6 +6573,88 @@ extension BedrockAgent {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TextPromptTemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// An array of the variables in the prompt template.
+        public let inputVariables: [PromptInputVariable]?
+        /// The message for the prompt.
+        public let text: String
+
+        public init(inputVariables: [PromptInputVariable]? = nil, text: String) {
+            self.inputVariables = inputVariables
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.inputVariables?.forEach {
+                try $0.validate(name: "\(name).inputVariables[]")
+            }
+            try self.validate(self.inputVariables, name: "inputVariables", parent: name, max: 5)
+            try self.validate(self.text, name: "text", parent: name, max: 200000)
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputVariables = "inputVariables"
+            case text = "text"
+        }
+    }
+
+    public struct Transformation: AWSEncodableShape & AWSDecodableShape {
+        /// When the service applies the transformation.
+        public let stepToApply: StepType
+        /// A Lambda function that processes documents.
+        public let transformationFunction: TransformationFunction
+
+        public init(stepToApply: StepType, transformationFunction: TransformationFunction) {
+            self.stepToApply = stepToApply
+            self.transformationFunction = transformationFunction
+        }
+
+        public func validate(name: String) throws {
+            try self.transformationFunction.validate(name: "\(name).transformationFunction")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stepToApply = "stepToApply"
+            case transformationFunction = "transformationFunction"
+        }
+    }
+
+    public struct TransformationFunction: AWSEncodableShape & AWSDecodableShape {
+        /// The Lambda function.
+        public let transformationLambdaConfiguration: TransformationLambdaConfiguration
+
+        public init(transformationLambdaConfiguration: TransformationLambdaConfiguration) {
+            self.transformationLambdaConfiguration = transformationLambdaConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.transformationLambdaConfiguration.validate(name: "\(name).transformationLambdaConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transformationLambdaConfiguration = "transformationLambdaConfiguration"
+        }
+    }
+
+    public struct TransformationLambdaConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The function's ARN identifier.
+        public let lambdaArn: String
+
+        public init(lambdaArn: String) {
+            self.lambdaArn = lambdaArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, max: 2048)
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaArn = "lambdaArn"
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -3678,7 +6678,7 @@ extension BedrockAgent {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "(^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:(agent|agent-alias|knowledge-base)/[A-Z0-9]{10}(?:/[A-Z0-9]{10})?$)")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "(^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:(agent|agent-alias|knowledge-base|flow|prompt)/[A-Z0-9]{10}(?:/[A-Z0-9]{10})?$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:flow/([A-Z0-9]{10})/alias/([A-Z0-9]{10})$|^arn:aws:bedrock:[a-zA-Z0-9-]+:/d{12}:prompt/([A-Z0-9]{10})?(?::/d+)?$)")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -3924,10 +6924,12 @@ extension BedrockAgent {
         public let idleSessionTTLInSeconds: Int?
         /// Specifies new instructions that tell the agent what it should do and how it should interact with users.
         public let instruction: String?
+        /// Specifies the new memory configuration for the agent.
+        public let memoryConfiguration: MemoryConfiguration?
         /// Contains configurations to override prompts in different parts of an agent sequence. For more information, see Advanced prompts.
         public let promptOverrideConfiguration: PromptOverrideConfiguration?
 
-        public init(agentId: String, agentName: String, agentResourceRoleArn: String, customerEncryptionKeyArn: String? = nil, description: String? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int? = nil, instruction: String? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil) {
+        public init(agentId: String, agentName: String, agentResourceRoleArn: String, customerEncryptionKeyArn: String? = nil, description: String? = nil, foundationModel: String? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, idleSessionTTLInSeconds: Int? = nil, instruction: String? = nil, memoryConfiguration: MemoryConfiguration? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil) {
             self.agentId = agentId
             self.agentName = agentName
             self.agentResourceRoleArn = agentResourceRoleArn
@@ -3937,6 +6939,7 @@ extension BedrockAgent {
             self.guardrailConfiguration = guardrailConfiguration
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.instruction = instruction
+            self.memoryConfiguration = memoryConfiguration
             self.promptOverrideConfiguration = promptOverrideConfiguration
         }
 
@@ -3952,6 +6955,7 @@ extension BedrockAgent {
             try container.encodeIfPresent(self.guardrailConfiguration, forKey: .guardrailConfiguration)
             try container.encodeIfPresent(self.idleSessionTTLInSeconds, forKey: .idleSessionTTLInSeconds)
             try container.encodeIfPresent(self.instruction, forKey: .instruction)
+            try container.encodeIfPresent(self.memoryConfiguration, forKey: .memoryConfiguration)
             try container.encodeIfPresent(self.promptOverrideConfiguration, forKey: .promptOverrideConfiguration)
         }
 
@@ -3973,6 +6977,7 @@ extension BedrockAgent {
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
             try self.validate(self.instruction, name: "instruction", parent: name, max: 4000)
             try self.validate(self.instruction, name: "instruction", parent: name, min: 40)
+            try self.memoryConfiguration?.validate(name: "\(name).memoryConfiguration")
             try self.promptOverrideConfiguration?.validate(name: "\(name).promptOverrideConfiguration")
         }
 
@@ -3985,6 +6990,7 @@ extension BedrockAgent {
             case guardrailConfiguration = "guardrailConfiguration"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case instruction = "instruction"
+            case memoryConfiguration = "memoryConfiguration"
             case promptOverrideConfiguration = "promptOverrideConfiguration"
         }
     }
@@ -4003,15 +7009,15 @@ extension BedrockAgent {
     }
 
     public struct UpdateDataSourceRequest: AWSEncodableShape {
-        /// The data deletion policy of the updated data source.
+        /// The data deletion policy for the data source that you want to update.
         public let dataDeletionPolicy: DataDeletionPolicy?
-        /// Contains details about the storage configuration of the data source.
+        /// The connection configuration for the data source that you want to update.
         public let dataSourceConfiguration: DataSourceConfiguration
         /// The unique identifier of the data source.
         public let dataSourceId: String
         /// Specifies a new description for the data source.
         public let description: String?
-        /// The unique identifier of the knowledge base to which the data source belongs.
+        /// The unique identifier of the knowledge base for the data source.
         public let knowledgeBaseId: String
         /// Specifies a new name for the data source.
         public let name: String
@@ -4052,6 +7058,7 @@ extension BedrockAgent {
             try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
             try self.serverSideEncryptionConfiguration?.validate(name: "\(name).serverSideEncryptionConfiguration")
+            try self.vectorIngestionConfiguration?.validate(name: "\(name).vectorIngestionConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4074,6 +7081,210 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case dataSource = "dataSource"
+        }
+    }
+
+    public struct UpdateFlowAliasRequest: AWSEncodableShape {
+        /// The unique identifier of the alias.
+        public let aliasIdentifier: String
+        /// A description for the flow alias.
+        public let description: String?
+        /// The unique identifier of the flow.
+        public let flowIdentifier: String
+        /// The name of the flow alias.
+        public let name: String
+        /// Contains information about the version to which to map the alias.
+        public let routingConfiguration: [FlowAliasRoutingConfigurationListItem]
+
+        public init(aliasIdentifier: String, description: String? = nil, flowIdentifier: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem]) {
+            self.aliasIdentifier = aliasIdentifier
+            self.description = description
+            self.flowIdentifier = flowIdentifier
+            self.name = name
+            self.routingConfiguration = routingConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aliasIdentifier, key: "aliasIdentifier")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.routingConfiguration, forKey: .routingConfiguration)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aliasIdentifier, name: "aliasIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(TSTALIASID|[0-9a-zA-Z]{10})$")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+            try self.routingConfiguration.forEach {
+                try $0.validate(name: "\(name).routingConfiguration[]")
+            }
+            try self.validate(self.routingConfiguration, name: "routingConfiguration", parent: name, max: 1)
+            try self.validate(self.routingConfiguration, name: "routingConfiguration", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case routingConfiguration = "routingConfiguration"
+        }
+    }
+
+    public struct UpdateFlowAliasResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow.
+        public let arn: String
+        /// The time at which the flow was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The description of the flow.
+        public let description: String?
+        /// The unique identifier of the flow.
+        public let flowId: String
+        /// The unique identifier of the alias.
+        public let id: String
+        /// The name of the flow alias.
+        public let name: String
+        /// Contains information about the version that the alias is mapped to.
+        public let routingConfiguration: [FlowAliasRoutingConfigurationListItem]
+        /// The time at which the flow alias was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        public init(arn: String, createdAt: Date, description: String? = nil, flowId: String, id: String, name: String, routingConfiguration: [FlowAliasRoutingConfigurationListItem], updatedAt: Date) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.flowId = flowId
+            self.id = id
+            self.name = name
+            self.routingConfiguration = routingConfiguration
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case flowId = "flowId"
+            case id = "id"
+            case name = "name"
+            case routingConfiguration = "routingConfiguration"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct UpdateFlowRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the KMS key to encrypt the flow.
+        public let customerEncryptionKeyArn: String?
+        /// A definition of the nodes and the connections between the nodes in the flow.
+        public let definition: FlowDefinition?
+        /// A description for the flow.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the service role with permissions to create and manage a flow. For more information, see Create a service role for flows in Amazon Bedrock in the Amazon Bedrock User Guide.
+        public let executionRoleArn: String
+        /// The unique identifier of the flow.
+        public let flowIdentifier: String
+        /// A name for the flow.
+        public let name: String
+
+        public init(customerEncryptionKeyArn: String? = nil, definition: FlowDefinition? = nil, description: String? = nil, executionRoleArn: String, flowIdentifier: String, name: String) {
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.definition = definition
+            self.description = description
+            self.executionRoleArn = executionRoleArn
+            self.flowIdentifier = flowIdentifier
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.customerEncryptionKeyArn, forKey: .customerEncryptionKeyArn)
+            try container.encodeIfPresent(self.definition, forKey: .definition)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.executionRoleArn, forKey: .executionRoleArn)
+            request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+            try container.encode(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, max: 2048)
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, min: 1)
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
+            try self.definition?.validate(name: "\(name).definition")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/(service-role/)?.+$")
+            try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case definition = "definition"
+            case description = "description"
+            case executionRoleArn = "executionRoleArn"
+            case name = "name"
+        }
+    }
+
+    public struct UpdateFlowResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow.
+        public let arn: String
+        /// The time at which the flow was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The Amazon Resource Name (ARN) of the KMS key that the flow was encrypted with.
+        public let customerEncryptionKeyArn: String?
+        /// A definition of the nodes and the connections between nodes in the flow.
+        public let definition: FlowDefinition?
+        /// The description of the flow.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see Create a service role for flows in Amazon Bedrock in the Amazon Bedrock User Guide.
+        public let executionRoleArn: String
+        /// The unique identifier of the flow.
+        public let id: String
+        /// The name of the flow.
+        public let name: String
+        /// The status of the flow. When you submit this request, the status will be NotPrepared. If updating fails, the status becomes Failed.
+        public let status: FlowStatus
+        /// The time at which the flow was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+        /// The version of the flow. When you update a flow, the version updated is the DRAFT version.
+        public let version: String
+
+        public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, definition: FlowDefinition? = nil, description: String? = nil, executionRoleArn: String, id: String, name: String, status: FlowStatus, updatedAt: Date, version: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.definition = definition
+            self.description = description
+            self.executionRoleArn = executionRoleArn
+            self.id = id
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case definition = "definition"
+            case description = "description"
+            case executionRoleArn = "executionRoleArn"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case updatedAt = "updatedAt"
+            case version = "version"
         }
     }
 
@@ -4144,16 +7355,160 @@ extension BedrockAgent {
         }
     }
 
+    public struct UpdatePromptRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the KMS key to encrypt the prompt.
+        public let customerEncryptionKeyArn: String?
+        /// The name of the default variant for the prompt. This value must match the name field in the relevant PromptVariant object.
+        public let defaultVariant: String?
+        /// A description for the prompt.
+        public let description: String?
+        /// A name for the prompt.
+        public let name: String
+        /// The unique identifier of the prompt.
+        public let promptIdentifier: String
+        /// A list of objects, each containing details about a variant of the prompt.
+        public let variants: [PromptVariant]?
+
+        public init(customerEncryptionKeyArn: String? = nil, defaultVariant: String? = nil, description: String? = nil, name: String, promptIdentifier: String, variants: [PromptVariant]? = nil) {
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.defaultVariant = defaultVariant
+            self.description = description
+            self.name = name
+            self.promptIdentifier = promptIdentifier
+            self.variants = variants
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.customerEncryptionKeyArn, forKey: .customerEncryptionKeyArn)
+            try container.encodeIfPresent(self.defaultVariant, forKey: .defaultVariant)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.name, forKey: .name)
+            request.encodePath(self.promptIdentifier, key: "promptIdentifier")
+            try container.encodeIfPresent(self.variants, forKey: .variants)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, max: 2048)
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, min: 1)
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
+            try self.validate(self.defaultVariant, name: "defaultVariant", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+            try self.validate(self.promptIdentifier, name: "promptIdentifier", parent: name, pattern: "^([0-9a-zA-Z]{10})|(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10})(?::[0-9]{1,5})?$")
+            try self.variants?.forEach {
+                try $0.validate(name: "\(name).variants[]")
+            }
+            try self.validate(self.variants, name: "variants", parent: name, max: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case defaultVariant = "defaultVariant"
+            case description = "description"
+            case name = "name"
+            case variants = "variants"
+        }
+    }
+
+    public struct UpdatePromptResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the prompt.
+        public let arn: String
+        /// The time at which the prompt was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The Amazon Resource Name (ARN) of the KMS key to encrypt the prompt.
+        public let customerEncryptionKeyArn: String?
+        /// The name of the default variant for the prompt. This value must match the name field in the relevant PromptVariant object.
+        public let defaultVariant: String?
+        /// The description of the prompt.
+        public let description: String?
+        /// The unique identifier of the prompt.
+        public let id: String
+        /// The name of the prompt.
+        public let name: String
+        /// The time at which the prompt was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+        /// A list of objects, each containing details about a variant of the prompt.
+        public let variants: [PromptVariant]?
+        /// The version of the prompt. When you update a prompt, the version updated is the DRAFT version.
+        public let version: String
+
+        public init(arn: String, createdAt: Date, customerEncryptionKeyArn: String? = nil, defaultVariant: String? = nil, description: String? = nil, id: String, name: String, updatedAt: Date, variants: [PromptVariant]? = nil, version: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.defaultVariant = defaultVariant
+            self.description = description
+            self.id = id
+            self.name = name
+            self.updatedAt = updatedAt
+            self.variants = variants
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case defaultVariant = "defaultVariant"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case updatedAt = "updatedAt"
+            case variants = "variants"
+            case version = "version"
+        }
+    }
+
+    public struct UrlConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// One or more seed or starting point URLs.
+        public let seedUrls: [SeedUrl]?
+
+        public init(seedUrls: [SeedUrl]? = nil) {
+            self.seedUrls = seedUrls
+        }
+
+        public func validate(name: String) throws {
+            try self.seedUrls?.forEach {
+                try $0.validate(name: "\(name).seedUrls[]")
+            }
+            try self.validate(self.seedUrls, name: "seedUrls", parent: name, max: 100)
+            try self.validate(self.seedUrls, name: "seedUrls", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case seedUrls = "seedUrls"
+        }
+    }
+
     public struct VectorIngestionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Details about how to chunk the documents in the data source. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried.
         public let chunkingConfiguration: ChunkingConfiguration?
+        /// A custom document transformer for parsed data source documents.
+        public let customTransformationConfiguration: CustomTransformationConfiguration?
+        /// A custom parser for data source documents.
+        public let parsingConfiguration: ParsingConfiguration?
 
-        public init(chunkingConfiguration: ChunkingConfiguration? = nil) {
+        public init(chunkingConfiguration: ChunkingConfiguration? = nil, customTransformationConfiguration: CustomTransformationConfiguration? = nil, parsingConfiguration: ParsingConfiguration? = nil) {
             self.chunkingConfiguration = chunkingConfiguration
+            self.customTransformationConfiguration = customTransformationConfiguration
+            self.parsingConfiguration = parsingConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.chunkingConfiguration?.validate(name: "\(name).chunkingConfiguration")
+            try self.customTransformationConfiguration?.validate(name: "\(name).customTransformationConfiguration")
+            try self.parsingConfiguration?.validate(name: "\(name).parsingConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case chunkingConfiguration = "chunkingConfiguration"
+            case customTransformationConfiguration = "customTransformationConfiguration"
+            case parsingConfiguration = "parsingConfiguration"
         }
     }
 
@@ -4181,6 +7536,98 @@ extension BedrockAgent {
         }
     }
 
+    public struct WebCrawlerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of crawl limits for the web URLs.
+        public let crawlerLimits: WebCrawlerLimits?
+        /// A list of one or more exclusion regular expression patterns to exclude  certain URLs. If you specify an inclusion and exclusion filter/pattern  and both match a URL, the exclusion filter takes precedence and the web  content of the URL isn’t crawled.
+        public let exclusionFilters: [String]?
+        /// A list of one or more inclusion regular expression patterns to include  certain URLs. If you specify an inclusion and exclusion filter/pattern  and both match a URL, the exclusion filter takes precedence and the web  content of the URL isn’t crawled.
+        public let inclusionFilters: [String]?
+        /// The scope of what is crawled for your URLs. You can choose to crawl only web pages that belong to the same host or primary  domain. For example, only web pages that contain the seed URL  "https://docs.aws.amazon.com/bedrock/latest/userguide/" and no other domains.  You can choose to include sub domains in addition to the host or primary domain.  For example, web pages that contain "aws.amazon.com" can also include sub domain  "docs.aws.amazon.com".
+        public let scope: WebScopeType?
+
+        public init(crawlerLimits: WebCrawlerLimits? = nil, exclusionFilters: [String]? = nil, inclusionFilters: [String]? = nil, scope: WebScopeType? = nil) {
+            self.crawlerLimits = crawlerLimits
+            self.exclusionFilters = exclusionFilters
+            self.inclusionFilters = inclusionFilters
+            self.scope = scope
+        }
+
+        public func validate(name: String) throws {
+            try self.exclusionFilters?.forEach {
+                try validate($0, name: "exclusionFilters[]", parent: name, max: 1000)
+                try validate($0, name: "exclusionFilters[]", parent: name, min: 1)
+            }
+            try self.validate(self.exclusionFilters, name: "exclusionFilters", parent: name, max: 25)
+            try self.validate(self.exclusionFilters, name: "exclusionFilters", parent: name, min: 1)
+            try self.inclusionFilters?.forEach {
+                try validate($0, name: "inclusionFilters[]", parent: name, max: 1000)
+                try validate($0, name: "inclusionFilters[]", parent: name, min: 1)
+            }
+            try self.validate(self.inclusionFilters, name: "inclusionFilters", parent: name, max: 25)
+            try self.validate(self.inclusionFilters, name: "inclusionFilters", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlerLimits = "crawlerLimits"
+            case exclusionFilters = "exclusionFilters"
+            case inclusionFilters = "inclusionFilters"
+            case scope = "scope"
+        }
+    }
+
+    public struct WebCrawlerLimits: AWSEncodableShape & AWSDecodableShape {
+        /// The max rate at which pages are crawled, up to 300 per minute per host.
+        public let rateLimit: Int?
+
+        public init(rateLimit: Int? = nil) {
+            self.rateLimit = rateLimit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rateLimit = "rateLimit"
+        }
+    }
+
+    public struct WebDataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Web Crawler configuration details for the web data source.
+        public let crawlerConfiguration: WebCrawlerConfiguration?
+        /// The source configuration details for the web data source.
+        public let sourceConfiguration: WebSourceConfiguration
+
+        public init(crawlerConfiguration: WebCrawlerConfiguration? = nil, sourceConfiguration: WebSourceConfiguration) {
+            self.crawlerConfiguration = crawlerConfiguration
+            self.sourceConfiguration = sourceConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.crawlerConfiguration?.validate(name: "\(name).crawlerConfiguration")
+            try self.sourceConfiguration.validate(name: "\(name).sourceConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlerConfiguration = "crawlerConfiguration"
+            case sourceConfiguration = "sourceConfiguration"
+        }
+    }
+
+    public struct WebSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of the URL/URLs.
+        public let urlConfiguration: UrlConfiguration
+
+        public init(urlConfiguration: UrlConfiguration) {
+            self.urlConfiguration = urlConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.urlConfiguration.validate(name: "\(name).urlConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case urlConfiguration = "urlConfiguration"
+        }
+    }
+
     public struct FunctionSchema: AWSEncodableShape & AWSDecodableShape {
         /// A list of functions that each define an action in the action group.
         public let functions: [Function]?
@@ -4197,6 +7644,74 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case functions = "functions"
+        }
+    }
+
+    public struct PromptInferenceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains inference configurations for a text prompt.
+        public let text: PromptModelInferenceConfiguration?
+
+        public init(text: PromptModelInferenceConfiguration? = nil) {
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.text?.validate(name: "\(name).text")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct PromptTemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains configurations for the text in a message for a prompt.
+        public let text: TextPromptTemplateConfiguration?
+
+        public init(text: TextPromptTemplateConfiguration? = nil) {
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.text?.validate(name: "\(name).text")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct RetrievalFlowNodeServiceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains configurations for the Amazon S3 location from which to retrieve data to return as the output from the node.
+        public let s3: RetrievalFlowNodeS3Configuration?
+
+        public init(s3: RetrievalFlowNodeS3Configuration? = nil) {
+            self.s3 = s3
+        }
+
+        public func validate(name: String) throws {
+            try self.s3?.validate(name: "\(name).s3")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+        }
+    }
+
+    public struct StorageFlowNodeServiceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains configurations for the Amazon S3 location in which to store the input into the node.
+        public let s3: StorageFlowNodeS3Configuration?
+
+        public init(s3: StorageFlowNodeS3Configuration? = nil) {
+            self.s3 = s3
+        }
+
+        public func validate(name: String) throws {
+            try self.s3?.validate(name: "\(name).s3")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
         }
     }
 }

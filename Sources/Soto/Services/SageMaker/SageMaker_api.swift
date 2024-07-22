@@ -737,6 +737,19 @@ public struct SageMaker: AWSService {
         )
     }
 
+    /// Creates a job that optimizes a model for inference performance. To create the job, you provide the location of a source model, and you provide the settings for the optimization techniques that you want the job to apply. When the job completes successfully, SageMaker uploads the new optimized model to the output destination that you specify. For more information about how to use this action, and about the supported optimization techniques, see Optimize model inference with Amazon SageMaker.
+    @Sendable
+    public func createOptimizationJob(_ input: CreateOptimizationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOptimizationJobResponse {
+        return try await self.client.execute(
+            operation: "CreateOptimizationJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a pipeline using a JSON pipeline definition.
     @Sendable
     public func createPipeline(_ input: CreatePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePipelineResponse {
@@ -750,7 +763,7 @@ public struct SageMaker: AWSService {
         )
     }
 
-    /// Creates a URL for a specified UserProfile in a Domain.  When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM.  The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the app. You can restrict access to this API and to the URL that it returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see Connect to Amazon SageMaker Studio Through an Interface VPC Endpoint .  The URL that you get from a call to CreatePresignedDomainUrl has a default timeout of 5 minutes. You can configure this value using ExpiresInSeconds. If you try to use the URL after the timeout limit expires, you are directed to the Amazon Web Services console sign-in page.
+    /// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM.  The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the app. You can restrict access to this API and to the URL that it returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see Connect to Amazon SageMaker Studio Through an Interface VPC Endpoint .  The URL that you get from a call to CreatePresignedDomainUrl has a default timeout of 5 minutes. You can configure this value using ExpiresInSeconds. If you try to use the URL after the timeout limit expires, you are directed to the Amazon Web Services console sign-in page.
     @Sendable
     public func createPresignedDomainUrl(_ input: CreatePresignedDomainUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePresignedDomainUrlResponse {
         return try await self.client.execute(
@@ -1458,6 +1471,19 @@ public struct SageMaker: AWSService {
     public func deleteNotebookInstanceLifecycleConfig(_ input: DeleteNotebookInstanceLifecycleConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
             operation: "DeleteNotebookInstanceLifecycleConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an optimization job.
+    @Sendable
+    public func deleteOptimizationJob(_ input: DeleteOptimizationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteOptimizationJob", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -2212,6 +2238,19 @@ public struct SageMaker: AWSService {
     public func describeNotebookInstanceLifecycleConfig(_ input: DescribeNotebookInstanceLifecycleConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNotebookInstanceLifecycleConfigOutput {
         return try await self.client.execute(
             operation: "DescribeNotebookInstanceLifecycleConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Provides the properties of the specified optimization job.
+    @Sendable
+    public func describeOptimizationJob(_ input: DescribeOptimizationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOptimizationJobResponse {
+        return try await self.client.execute(
+            operation: "DescribeOptimizationJob", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -3273,6 +3312,19 @@ public struct SageMaker: AWSService {
         )
     }
 
+    /// Lists the optimization jobs in your account and their properties.
+    @Sendable
+    public func listOptimizationJobs(_ input: ListOptimizationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOptimizationJobsResponse {
+        return try await self.client.execute(
+            operation: "ListOptimizationJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets a list of PipeLineExecutionStep objects.
     @Sendable
     public func listPipelineExecutionSteps(_ input: ListPipelineExecutionStepsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPipelineExecutionStepsResponse {
@@ -3850,6 +3902,19 @@ public struct SageMaker: AWSService {
     public func stopNotebookInstance(_ input: StopNotebookInstanceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
             operation: "StopNotebookInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Ends a running inference optimization job.
+    @Sendable
+    public func stopOptimizationJob(_ input: StopOptimizationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "StopOptimizationJob", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -5387,6 +5452,25 @@ extension SageMaker {
         )
     }
 
+    /// Lists the optimization jobs in your account and their properties.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listOptimizationJobsPaginator(
+        _ input: ListOptimizationJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListOptimizationJobsRequest, ListOptimizationJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listOptimizationJobs,
+            inputKey: \ListOptimizationJobsRequest.nextToken,
+            outputKey: \ListOptimizationJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Gets a list of PipeLineExecutionStep objects.
     /// Return PaginatorSequence for operation.
     ///
@@ -6582,6 +6666,24 @@ extension SageMaker.ListNotebookInstancesInput: AWSPaginateToken {
             nameContains: self.nameContains,
             nextToken: token,
             notebookInstanceLifecycleConfigNameContains: self.notebookInstanceLifecycleConfigNameContains,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            statusEquals: self.statusEquals
+        )
+    }
+}
+
+extension SageMaker.ListOptimizationJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListOptimizationJobsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter,
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            optimizationContains: self.optimizationContains,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,
             statusEquals: self.statusEquals

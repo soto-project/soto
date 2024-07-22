@@ -1642,6 +1642,8 @@ extension Batch {
     public struct EksAttemptDetail: AWSDecodableShape {
         /// The details for the final status of the containers for this job attempt.
         public let containers: [EksAttemptContainerDetail]?
+        /// The Amazon Resource Name (ARN) of the Amazon EKS cluster.
+        public let eksClusterArn: String?
         /// The details for the init containers.
         public let initContainers: [EksAttemptContainerDetail]?
         /// The name of the node for this job attempt.
@@ -1655,8 +1657,9 @@ extension Batch {
         /// The Unix timestamp (in milliseconds) for when the attempt was stopped. This happens when the attempt transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED.
         public let stoppedAt: Int64?
 
-        public init(containers: [EksAttemptContainerDetail]? = nil, initContainers: [EksAttemptContainerDetail]? = nil, nodeName: String? = nil, podName: String? = nil, startedAt: Int64? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
+        public init(containers: [EksAttemptContainerDetail]? = nil, eksClusterArn: String? = nil, initContainers: [EksAttemptContainerDetail]? = nil, nodeName: String? = nil, podName: String? = nil, startedAt: Int64? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
             self.containers = containers
+            self.eksClusterArn = eksClusterArn
             self.initContainers = initContainers
             self.nodeName = nodeName
             self.podName = podName
@@ -1667,6 +1670,7 @@ extension Batch {
 
         private enum CodingKeys: String, CodingKey {
             case containers = "containers"
+            case eksClusterArn = "eksClusterArn"
             case initContainers = "initContainers"
             case nodeName = "nodeName"
             case podName = "podName"
@@ -3043,6 +3047,12 @@ extension Batch {
             self.numNodes = numNodes
         }
 
+        public func validate(name: String) throws {
+            try self.nodePropertyOverrides?.forEach {
+                try $0.validate(name: "\(name).nodePropertyOverrides[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nodePropertyOverrides = "nodePropertyOverrides"
             case numNodes = "numNodes"
@@ -3061,6 +3071,12 @@ extension Batch {
             self.mainNode = mainNode
             self.nodeRangeProperties = nodeRangeProperties
             self.numNodes = numNodes
+        }
+
+        public func validate(name: String) throws {
+            try self.nodeRangeProperties?.forEach {
+                try $0.validate(name: "\(name).nodeRangeProperties[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3096,21 +3112,29 @@ extension Batch {
         public let containerOverrides: ContainerOverrides?
         /// An object that contains the properties that you want to replace for the existing Amazon ECS resources of a job.
         public let ecsPropertiesOverride: EcsPropertiesOverride?
+        /// An object that contains the properties that you want to replace for the existing Amazon EKS resources of a job.
+        public let eksPropertiesOverride: EksPropertiesOverride?
         /// An object that contains the instance types that you want to replace for the existing resources of a job.
         public let instanceTypes: [String]?
         /// The range of nodes, using node index values, that's used to override. A range of 0:3 indicates nodes with index values of 0 through 3. If the starting range value is omitted (:n), then 0 is used to start the range. If the ending range value is omitted (n:), then the highest possible node index is used to end the range.
         public let targetNodes: String?
 
-        public init(containerOverrides: ContainerOverrides? = nil, ecsPropertiesOverride: EcsPropertiesOverride? = nil, instanceTypes: [String]? = nil, targetNodes: String? = nil) {
+        public init(containerOverrides: ContainerOverrides? = nil, ecsPropertiesOverride: EcsPropertiesOverride? = nil, eksPropertiesOverride: EksPropertiesOverride? = nil, instanceTypes: [String]? = nil, targetNodes: String? = nil) {
             self.containerOverrides = containerOverrides
             self.ecsPropertiesOverride = ecsPropertiesOverride
+            self.eksPropertiesOverride = eksPropertiesOverride
             self.instanceTypes = instanceTypes
             self.targetNodes = targetNodes
+        }
+
+        public func validate(name: String) throws {
+            try self.eksPropertiesOverride?.validate(name: "\(name).eksPropertiesOverride")
         }
 
         private enum CodingKeys: String, CodingKey {
             case containerOverrides = "containerOverrides"
             case ecsPropertiesOverride = "ecsPropertiesOverride"
+            case eksPropertiesOverride = "eksPropertiesOverride"
             case instanceTypes = "instanceTypes"
             case targetNodes = "targetNodes"
         }
@@ -3121,21 +3145,29 @@ extension Batch {
         public let container: ContainerProperties?
         /// This is an object that represents the properties of the node range for a multi-node parallel job.
         public let ecsProperties: EcsProperties?
+        /// This is an object that represents the properties of the node range for a multi-node parallel job.
+        public let eksProperties: EksProperties?
         /// The instance types of the underlying host infrastructure of a multi-node parallel job.  This parameter isn't applicable to jobs that are running on Fargate resources. In addition, this list object is currently limited to one element.
         public let instanceTypes: [String]?
         /// The range of nodes, using node index values. A range of 0:3 indicates nodes with index values of 0 through 3. If the starting range value is omitted (:n), then 0 is used to start the range. If the ending range value is omitted (n:), then the highest possible node index is used to end the range. Your accumulative node ranges must account for all nodes (0:n). You can nest node ranges (for example, 0:10 and 4:5). In this case, the 4:5 range properties override the 0:10 properties.
         public let targetNodes: String?
 
-        public init(container: ContainerProperties? = nil, ecsProperties: EcsProperties? = nil, instanceTypes: [String]? = nil, targetNodes: String? = nil) {
+        public init(container: ContainerProperties? = nil, ecsProperties: EcsProperties? = nil, eksProperties: EksProperties? = nil, instanceTypes: [String]? = nil, targetNodes: String? = nil) {
             self.container = container
             self.ecsProperties = ecsProperties
+            self.eksProperties = eksProperties
             self.instanceTypes = instanceTypes
             self.targetNodes = targetNodes
+        }
+
+        public func validate(name: String) throws {
+            try self.eksProperties?.validate(name: "\(name).eksProperties")
         }
 
         private enum CodingKeys: String, CodingKey {
             case container = "container"
             case ecsProperties = "ecsProperties"
+            case eksProperties = "eksProperties"
             case instanceTypes = "instanceTypes"
             case targetNodes = "targetNodes"
         }
@@ -3187,6 +3219,7 @@ extension Batch {
 
         public func validate(name: String) throws {
             try self.eksProperties?.validate(name: "\(name).eksProperties")
+            try self.nodeProperties?.validate(name: "\(name).nodeProperties")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -3427,6 +3460,7 @@ extension Batch {
 
         public func validate(name: String) throws {
             try self.eksPropertiesOverride?.validate(name: "\(name).eksPropertiesOverride")
+            try self.nodeOverrides?.validate(name: "\(name).nodeOverrides")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)

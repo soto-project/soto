@@ -146,6 +146,12 @@ extension Firehose {
         public var description: String { return self.rawValue }
     }
 
+    public enum IcebergS3BackupMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allData = "AllData"
+        case failedDataOnly = "FailedDataOnly"
+        public var description: String { return self.rawValue }
+    }
+
     public enum KeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsOwnedCmk = "AWS_OWNED_CMK"
         case customerManagedCmk = "CUSTOMER_MANAGED_CMK"
@@ -756,6 +762,25 @@ extension Firehose {
         }
     }
 
+    public struct CatalogConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  Specifies the Glue catalog ARN indentifier of the destination Apache Iceberg Tables. You must specify the ARN in the format arn:aws:glue:region:account-id:catalog.  Amazon Data Firehose is in preview release and is subject to change.
+        public let catalogARN: String?
+
+        public init(catalogARN: String? = nil) {
+            self.catalogARN = catalogARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogARN, name: "catalogARN", parent: name, max: 512)
+            try self.validate(self.catalogARN, name: "catalogARN", parent: name, min: 1)
+            try self.validate(self.catalogARN, name: "catalogARN", parent: name, pattern: "^arn:")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogARN = "CatalogARN"
+        }
+    }
+
     public struct CloudWatchLoggingOptions: AWSEncodableShape & AWSDecodableShape {
         /// Enables or disables CloudWatch logging.
         public let enabled: Bool?
@@ -832,6 +857,8 @@ extension Firehose {
         public let extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration?
         /// Enables configuring Kinesis Firehose to deliver data to any HTTP endpoint destination. You can specify only one destination.
         public let httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration?
+        ///  Configure Apache Iceberg Tables destination.  Amazon Data Firehose is in preview release and is subject to change.
+        public let icebergDestinationConfiguration: IcebergDestinationConfiguration?
         /// When a Kinesis data stream is used as the source for the delivery stream, a KinesisStreamSourceConfiguration containing the Kinesis data stream Amazon Resource Name (ARN) and the role ARN for the source stream.
         public let kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration?
         public let mskSourceConfiguration: MSKSourceConfiguration?
@@ -846,7 +873,7 @@ extension Firehose {
         /// A set of tags to assign to the delivery stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the delivery stream. For more information about tags, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide. You can specify up to 50 tags when creating a delivery stream. If you specify tags in the CreateDeliveryStream action, Amazon Data Firehose performs an additional authorization on the firehose:TagDeliveryStream action to verify if users have permissions to create tags. If you do not provide this permission, requests to create new Firehose delivery streams with IAM resource tags will fail with an AccessDeniedException such as following.  AccessDeniedException  User: arn:aws:sts::x:assumed-role/x/x is not authorized to perform: firehose:TagDeliveryStream on resource: arn:aws:firehose:us-east-1:x:deliverystream/x with an explicit deny in an identity-based policy. For an example IAM policy, see Tag example.
         public let tags: [Tag]?
 
-        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, mskSourceConfiguration: MSKSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, snowflakeDestinationConfiguration: SnowflakeDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, icebergDestinationConfiguration: IcebergDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, mskSourceConfiguration: MSKSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, snowflakeDestinationConfiguration: SnowflakeDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
             self.amazonOpenSearchServerlessDestinationConfiguration = amazonOpenSearchServerlessDestinationConfiguration
             self.amazonopensearchserviceDestinationConfiguration = amazonopensearchserviceDestinationConfiguration
             self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
@@ -855,6 +882,7 @@ extension Firehose {
             self.elasticsearchDestinationConfiguration = elasticsearchDestinationConfiguration
             self.extendedS3DestinationConfiguration = extendedS3DestinationConfiguration
             self.httpEndpointDestinationConfiguration = httpEndpointDestinationConfiguration
+            self.icebergDestinationConfiguration = icebergDestinationConfiguration
             self.kinesisStreamSourceConfiguration = kinesisStreamSourceConfiguration
             self.mskSourceConfiguration = mskSourceConfiguration
             self.redshiftDestinationConfiguration = redshiftDestinationConfiguration
@@ -865,7 +893,7 @@ extension Firehose {
         }
 
         @available(*, deprecated, message: "Members s3DestinationConfiguration have been deprecated")
-        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, mskSourceConfiguration: MSKSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil, snowflakeDestinationConfiguration: SnowflakeDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, icebergDestinationConfiguration: IcebergDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, mskSourceConfiguration: MSKSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil, snowflakeDestinationConfiguration: SnowflakeDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
             self.amazonOpenSearchServerlessDestinationConfiguration = amazonOpenSearchServerlessDestinationConfiguration
             self.amazonopensearchserviceDestinationConfiguration = amazonopensearchserviceDestinationConfiguration
             self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
@@ -874,6 +902,7 @@ extension Firehose {
             self.elasticsearchDestinationConfiguration = elasticsearchDestinationConfiguration
             self.extendedS3DestinationConfiguration = extendedS3DestinationConfiguration
             self.httpEndpointDestinationConfiguration = httpEndpointDestinationConfiguration
+            self.icebergDestinationConfiguration = icebergDestinationConfiguration
             self.kinesisStreamSourceConfiguration = kinesisStreamSourceConfiguration
             self.mskSourceConfiguration = mskSourceConfiguration
             self.redshiftDestinationConfiguration = redshiftDestinationConfiguration
@@ -893,6 +922,7 @@ extension Firehose {
             try self.elasticsearchDestinationConfiguration?.validate(name: "\(name).elasticsearchDestinationConfiguration")
             try self.extendedS3DestinationConfiguration?.validate(name: "\(name).extendedS3DestinationConfiguration")
             try self.httpEndpointDestinationConfiguration?.validate(name: "\(name).httpEndpointDestinationConfiguration")
+            try self.icebergDestinationConfiguration?.validate(name: "\(name).icebergDestinationConfiguration")
             try self.kinesisStreamSourceConfiguration?.validate(name: "\(name).kinesisStreamSourceConfiguration")
             try self.mskSourceConfiguration?.validate(name: "\(name).mskSourceConfiguration")
             try self.redshiftDestinationConfiguration?.validate(name: "\(name).redshiftDestinationConfiguration")
@@ -915,6 +945,7 @@ extension Firehose {
             case elasticsearchDestinationConfiguration = "ElasticsearchDestinationConfiguration"
             case extendedS3DestinationConfiguration = "ExtendedS3DestinationConfiguration"
             case httpEndpointDestinationConfiguration = "HttpEndpointDestinationConfiguration"
+            case icebergDestinationConfiguration = "IcebergDestinationConfiguration"
             case kinesisStreamSourceConfiguration = "KinesisStreamSourceConfiguration"
             case mskSourceConfiguration = "MSKSourceConfiguration"
             case redshiftDestinationConfiguration = "RedshiftDestinationConfiguration"
@@ -1181,6 +1212,8 @@ extension Firehose {
         public let extendedS3DestinationDescription: ExtendedS3DestinationDescription?
         /// Describes the specified HTTP endpoint destination.
         public let httpEndpointDestinationDescription: HttpEndpointDestinationDescription?
+        ///  Describes a destination in Apache Iceberg Tables.  Amazon Data Firehose is in preview release and is subject to change.
+        public let icebergDestinationDescription: IcebergDestinationDescription?
         /// The destination in Amazon Redshift.
         public let redshiftDestinationDescription: RedshiftDestinationDescription?
         /// [Deprecated] The destination in Amazon S3.
@@ -1190,13 +1223,14 @@ extension Firehose {
         /// The destination in Splunk.
         public let splunkDestinationDescription: SplunkDestinationDescription?
 
-        public init(amazonOpenSearchServerlessDestinationDescription: AmazonOpenSearchServerlessDestinationDescription? = nil, amazonopensearchserviceDestinationDescription: AmazonopensearchserviceDestinationDescription? = nil, destinationId: String, elasticsearchDestinationDescription: ElasticsearchDestinationDescription? = nil, extendedS3DestinationDescription: ExtendedS3DestinationDescription? = nil, httpEndpointDestinationDescription: HttpEndpointDestinationDescription? = nil, redshiftDestinationDescription: RedshiftDestinationDescription? = nil, s3DestinationDescription: S3DestinationDescription? = nil, snowflakeDestinationDescription: SnowflakeDestinationDescription? = nil, splunkDestinationDescription: SplunkDestinationDescription? = nil) {
+        public init(amazonOpenSearchServerlessDestinationDescription: AmazonOpenSearchServerlessDestinationDescription? = nil, amazonopensearchserviceDestinationDescription: AmazonopensearchserviceDestinationDescription? = nil, destinationId: String, elasticsearchDestinationDescription: ElasticsearchDestinationDescription? = nil, extendedS3DestinationDescription: ExtendedS3DestinationDescription? = nil, httpEndpointDestinationDescription: HttpEndpointDestinationDescription? = nil, icebergDestinationDescription: IcebergDestinationDescription? = nil, redshiftDestinationDescription: RedshiftDestinationDescription? = nil, s3DestinationDescription: S3DestinationDescription? = nil, snowflakeDestinationDescription: SnowflakeDestinationDescription? = nil, splunkDestinationDescription: SplunkDestinationDescription? = nil) {
             self.amazonOpenSearchServerlessDestinationDescription = amazonOpenSearchServerlessDestinationDescription
             self.amazonopensearchserviceDestinationDescription = amazonopensearchserviceDestinationDescription
             self.destinationId = destinationId
             self.elasticsearchDestinationDescription = elasticsearchDestinationDescription
             self.extendedS3DestinationDescription = extendedS3DestinationDescription
             self.httpEndpointDestinationDescription = httpEndpointDestinationDescription
+            self.icebergDestinationDescription = icebergDestinationDescription
             self.redshiftDestinationDescription = redshiftDestinationDescription
             self.s3DestinationDescription = s3DestinationDescription
             self.snowflakeDestinationDescription = snowflakeDestinationDescription
@@ -1210,10 +1244,52 @@ extension Firehose {
             case elasticsearchDestinationDescription = "ElasticsearchDestinationDescription"
             case extendedS3DestinationDescription = "ExtendedS3DestinationDescription"
             case httpEndpointDestinationDescription = "HttpEndpointDestinationDescription"
+            case icebergDestinationDescription = "IcebergDestinationDescription"
             case redshiftDestinationDescription = "RedshiftDestinationDescription"
             case s3DestinationDescription = "S3DestinationDescription"
             case snowflakeDestinationDescription = "SnowflakeDestinationDescription"
             case splunkDestinationDescription = "SplunkDestinationDescription"
+        }
+    }
+
+    public struct DestinationTableConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  The name of the Apache Iceberg database.  Amazon Data Firehose is in preview release and is subject to change.
+        public let destinationDatabaseName: String
+        ///  Specifies the name of the Apache Iceberg Table.  Amazon Data Firehose is in preview release and is subject to change.
+        public let destinationTableName: String
+        ///  The table specific S3 error output prefix. All the errors that occurred while delivering to this table will be prefixed with this value in S3 destination.   Amazon Data Firehose is in preview release and is subject to change.
+        public let s3ErrorOutputPrefix: String?
+        ///  A list of unique keys for a given Apache Iceberg table. Firehose will use these for running Create/Update/Delete operations on the given Iceberg table.    Amazon Data Firehose is in preview release and is subject to change.
+        public let uniqueKeys: [String]?
+
+        public init(destinationDatabaseName: String, destinationTableName: String, s3ErrorOutputPrefix: String? = nil, uniqueKeys: [String]? = nil) {
+            self.destinationDatabaseName = destinationDatabaseName
+            self.destinationTableName = destinationTableName
+            self.s3ErrorOutputPrefix = s3ErrorOutputPrefix
+            self.uniqueKeys = uniqueKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationDatabaseName, name: "destinationDatabaseName", parent: name, max: 1024)
+            try self.validate(self.destinationDatabaseName, name: "destinationDatabaseName", parent: name, min: 1)
+            try self.validate(self.destinationDatabaseName, name: "destinationDatabaseName", parent: name, pattern: "^\\S+$")
+            try self.validate(self.destinationTableName, name: "destinationTableName", parent: name, max: 1024)
+            try self.validate(self.destinationTableName, name: "destinationTableName", parent: name, min: 1)
+            try self.validate(self.destinationTableName, name: "destinationTableName", parent: name, pattern: "^\\S+$")
+            try self.validate(self.s3ErrorOutputPrefix, name: "s3ErrorOutputPrefix", parent: name, max: 1024)
+            try self.validate(self.s3ErrorOutputPrefix, name: "s3ErrorOutputPrefix", parent: name, pattern: ".*")
+            try self.uniqueKeys?.forEach {
+                try validate($0, name: "uniqueKeys[]", parent: name, max: 1024)
+                try validate($0, name: "uniqueKeys[]", parent: name, min: 1)
+                try validate($0, name: "uniqueKeys[]", parent: name, pattern: "^\\S+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationDatabaseName = "DestinationDatabaseName"
+            case destinationTableName = "DestinationTableName"
+            case s3ErrorOutputPrefix = "S3ErrorOutputPrefix"
+            case uniqueKeys = "UniqueKeys"
         }
     }
 
@@ -2143,6 +2219,156 @@ extension Firehose {
         }
     }
 
+    public struct IcebergDestinationConfiguration: AWSEncodableShape {
+        public let bufferingHints: BufferingHints?
+        ///  Configuration describing where the destination Apache Iceberg Tables are persisted.  Amazon Data Firehose is in preview release and is subject to change.
+        public let catalogConfiguration: CatalogConfiguration
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        ///  Provides a list of DestinationTableConfigurations which Firehose uses to deliver data to Apache Iceberg tables.  Amazon Data Firehose is in preview release and is subject to change.
+        public let destinationTableConfigurationList: [DestinationTableConfiguration]?
+        public let processingConfiguration: ProcessingConfiguration?
+        public let retryOptions: RetryOptions?
+        ///  The Amazon Resource Name (ARN) of the Apache Iceberg tables role.  Amazon Data Firehose is in preview release and is subject to change.
+        public let roleARN: String
+        ///  Describes how Firehose will backup records. Currently,Firehose only supports FailedDataOnly for preview.  Amazon Data Firehose is in preview release and is subject to change.
+        public let s3BackupMode: IcebergS3BackupMode?
+        public let s3Configuration: S3DestinationConfiguration
+
+        public init(bufferingHints: BufferingHints? = nil, catalogConfiguration: CatalogConfiguration, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, destinationTableConfigurationList: [DestinationTableConfiguration]? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RetryOptions? = nil, roleARN: String, s3BackupMode: IcebergS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration) {
+            self.bufferingHints = bufferingHints
+            self.catalogConfiguration = catalogConfiguration
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.destinationTableConfigurationList = destinationTableConfigurationList
+            self.processingConfiguration = processingConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3BackupMode = s3BackupMode
+            self.s3Configuration = s3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.catalogConfiguration.validate(name: "\(name).catalogConfiguration")
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
+            try self.destinationTableConfigurationList?.forEach {
+                try $0.validate(name: "\(name).destinationTableConfigurationList[]")
+            }
+            try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try self.retryOptions?.validate(name: "\(name).retryOptions")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.s3Configuration.validate(name: "\(name).s3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bufferingHints = "BufferingHints"
+            case catalogConfiguration = "CatalogConfiguration"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case destinationTableConfigurationList = "DestinationTableConfigurationList"
+            case processingConfiguration = "ProcessingConfiguration"
+            case retryOptions = "RetryOptions"
+            case roleARN = "RoleARN"
+            case s3BackupMode = "S3BackupMode"
+            case s3Configuration = "S3Configuration"
+        }
+    }
+
+    public struct IcebergDestinationDescription: AWSDecodableShape {
+        public let bufferingHints: BufferingHints?
+        ///  Configuration describing where the destination Iceberg tables are persisted.  Amazon Data Firehose is in preview release and is subject to change.
+        public let catalogConfiguration: CatalogConfiguration?
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        ///  Provides a list of DestinationTableConfigurations which Firehose uses to deliver data to Apache Iceberg tables.  Amazon Data Firehose is in preview release and is subject to change.
+        public let destinationTableConfigurationList: [DestinationTableConfiguration]?
+        public let processingConfiguration: ProcessingConfiguration?
+        public let retryOptions: RetryOptions?
+        ///  The Amazon Resource Name (ARN) of the Apache Iceberg Tables role.  Amazon Data Firehose is in preview release and is subject to change.
+        public let roleARN: String?
+        ///  Describes how Firehose will backup records. Currently,Firehose only supports FailedDataOnly for preview.  Amazon Data Firehose is in preview release and is subject to change.
+        public let s3BackupMode: IcebergS3BackupMode?
+        public let s3DestinationDescription: S3DestinationDescription?
+
+        public init(bufferingHints: BufferingHints? = nil, catalogConfiguration: CatalogConfiguration? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, destinationTableConfigurationList: [DestinationTableConfiguration]? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RetryOptions? = nil, roleARN: String? = nil, s3BackupMode: IcebergS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil) {
+            self.bufferingHints = bufferingHints
+            self.catalogConfiguration = catalogConfiguration
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.destinationTableConfigurationList = destinationTableConfigurationList
+            self.processingConfiguration = processingConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3BackupMode = s3BackupMode
+            self.s3DestinationDescription = s3DestinationDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bufferingHints = "BufferingHints"
+            case catalogConfiguration = "CatalogConfiguration"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case destinationTableConfigurationList = "DestinationTableConfigurationList"
+            case processingConfiguration = "ProcessingConfiguration"
+            case retryOptions = "RetryOptions"
+            case roleARN = "RoleARN"
+            case s3BackupMode = "S3BackupMode"
+            case s3DestinationDescription = "S3DestinationDescription"
+        }
+    }
+
+    public struct IcebergDestinationUpdate: AWSEncodableShape {
+        public let bufferingHints: BufferingHints?
+        ///  Configuration describing where the destination Iceberg tables are persisted.  Amazon Data Firehose is in preview release and is subject to change.
+        public let catalogConfiguration: CatalogConfiguration?
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
+        ///  Provides a list of DestinationTableConfigurations which Firehose uses to deliver data to Apache Iceberg tables.  Amazon Data Firehose is in preview release and is subject to change.
+        public let destinationTableConfigurationList: [DestinationTableConfiguration]?
+        public let processingConfiguration: ProcessingConfiguration?
+        public let retryOptions: RetryOptions?
+        ///  The Amazon Resource Name (ARN) of the Apache Iceberg Tables role.  Amazon Data Firehose is in preview release and is subject to change.
+        public let roleARN: String?
+        ///  Describes how Firehose will backup records. Currently,Firehose only supports FailedDataOnly for preview.  Amazon Data Firehose is in preview release and is subject to change.
+        public let s3BackupMode: IcebergS3BackupMode?
+        public let s3Configuration: S3DestinationConfiguration?
+
+        public init(bufferingHints: BufferingHints? = nil, catalogConfiguration: CatalogConfiguration? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, destinationTableConfigurationList: [DestinationTableConfiguration]? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RetryOptions? = nil, roleARN: String? = nil, s3BackupMode: IcebergS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration? = nil) {
+            self.bufferingHints = bufferingHints
+            self.catalogConfiguration = catalogConfiguration
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.destinationTableConfigurationList = destinationTableConfigurationList
+            self.processingConfiguration = processingConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3BackupMode = s3BackupMode
+            self.s3Configuration = s3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.bufferingHints?.validate(name: "\(name).bufferingHints")
+            try self.catalogConfiguration?.validate(name: "\(name).catalogConfiguration")
+            try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
+            try self.destinationTableConfigurationList?.forEach {
+                try $0.validate(name: "\(name).destinationTableConfigurationList[]")
+            }
+            try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
+            try self.retryOptions?.validate(name: "\(name).retryOptions")
+            try self.validate(self.roleARN, name: "roleARN", parent: name, max: 512)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
+            try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "^arn:")
+            try self.s3Configuration?.validate(name: "\(name).s3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bufferingHints = "BufferingHints"
+            case catalogConfiguration = "CatalogConfiguration"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case destinationTableConfigurationList = "DestinationTableConfigurationList"
+            case processingConfiguration = "ProcessingConfiguration"
+            case retryOptions = "RetryOptions"
+            case roleARN = "RoleARN"
+            case s3BackupMode = "S3BackupMode"
+            case s3Configuration = "S3Configuration"
+        }
+    }
+
     public struct InputFormatConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Specifies which deserializer to use. You can choose either the Apache Hive JSON SerDe or the OpenX JSON SerDe. If both are non-null, the server rejects the request.
         public let deserializer: Deserializer?
@@ -2326,12 +2552,15 @@ extension Firehose {
         public let authenticationConfiguration: AuthenticationConfiguration
         /// The ARN of the Amazon MSK cluster.
         public let mskClusterARN: String
+        /// The start date and time in UTC for the offset position within your MSK topic from where Firehose begins to read. By default, this is set to timestamp when Firehose becomes Active.  If you want to create a Firehose stream with Earliest start position from SDK or CLI, you need to set the ReadFromTimestamp parameter to Epoch (1970-01-01T00:00:00Z).
+        public let readFromTimestamp: Date?
         /// The topic name within the Amazon MSK cluster.
         public let topicName: String
 
-        public init(authenticationConfiguration: AuthenticationConfiguration, mskClusterARN: String, topicName: String) {
+        public init(authenticationConfiguration: AuthenticationConfiguration, mskClusterARN: String, readFromTimestamp: Date? = nil, topicName: String) {
             self.authenticationConfiguration = authenticationConfiguration
             self.mskClusterARN = mskClusterARN
+            self.readFromTimestamp = readFromTimestamp
             self.topicName = topicName
         }
 
@@ -2348,6 +2577,7 @@ extension Firehose {
         private enum CodingKeys: String, CodingKey {
             case authenticationConfiguration = "AuthenticationConfiguration"
             case mskClusterARN = "MSKClusterARN"
+            case readFromTimestamp = "ReadFromTimestamp"
             case topicName = "TopicName"
         }
     }
@@ -2359,13 +2589,16 @@ extension Firehose {
         public let deliveryStartTimestamp: Date?
         /// The ARN of the Amazon MSK cluster.
         public let mskClusterARN: String?
+        /// The start date and time in UTC for the offset position within your MSK topic from where Firehose begins to read. By default, this is set to timestamp when Firehose becomes Active.  If you want to create a Firehose stream with Earliest start position from SDK or CLI, you need to set the ReadFromTimestampUTC parameter to Epoch (1970-01-01T00:00:00Z).
+        public let readFromTimestamp: Date?
         /// The topic name within the Amazon MSK cluster.
         public let topicName: String?
 
-        public init(authenticationConfiguration: AuthenticationConfiguration? = nil, deliveryStartTimestamp: Date? = nil, mskClusterARN: String? = nil, topicName: String? = nil) {
+        public init(authenticationConfiguration: AuthenticationConfiguration? = nil, deliveryStartTimestamp: Date? = nil, mskClusterARN: String? = nil, readFromTimestamp: Date? = nil, topicName: String? = nil) {
             self.authenticationConfiguration = authenticationConfiguration
             self.deliveryStartTimestamp = deliveryStartTimestamp
             self.mskClusterARN = mskClusterARN
+            self.readFromTimestamp = readFromTimestamp
             self.topicName = topicName
         }
 
@@ -2373,6 +2606,7 @@ extension Firehose {
             case authenticationConfiguration = "AuthenticationConfiguration"
             case deliveryStartTimestamp = "DeliveryStartTimestamp"
             case mskClusterARN = "MSKClusterARN"
+            case readFromTimestamp = "ReadFromTimestamp"
             case topicName = "TopicName"
         }
     }
@@ -3236,9 +3470,35 @@ extension Firehose {
         }
     }
 
+    public struct SnowflakeBufferingHints: AWSEncodableShape & AWSDecodableShape {
+        ///  Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 0.
+        public let intervalInSeconds: Int?
+        ///  Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 1.
+        public let sizeInMBs: Int?
+
+        public init(intervalInSeconds: Int? = nil, sizeInMBs: Int? = nil) {
+            self.intervalInSeconds = intervalInSeconds
+            self.sizeInMBs = sizeInMBs
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.intervalInSeconds, name: "intervalInSeconds", parent: name, max: 900)
+            try self.validate(self.intervalInSeconds, name: "intervalInSeconds", parent: name, min: 0)
+            try self.validate(self.sizeInMBs, name: "sizeInMBs", parent: name, max: 128)
+            try self.validate(self.sizeInMBs, name: "sizeInMBs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intervalInSeconds = "IntervalInSeconds"
+            case sizeInMBs = "SizeInMBs"
+        }
+    }
+
     public struct SnowflakeDestinationConfiguration: AWSEncodableShape {
         /// URL for accessing your Snowflake account. This URL must include your account identifier.  Note that the protocol (https://) and port number are optional.
         public let accountUrl: String
+        ///  Describes the buffering to perform before delivering data to the Snowflake destination. If you do not specify any value, Firehose uses the default values.
+        public let bufferingHints: SnowflakeBufferingHints?
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The name of the record content column
         public let contentColumnName: String?
@@ -3273,8 +3533,9 @@ extension Firehose {
         /// User login name for the Snowflake account.
         public let user: String?
 
-        public init(accountUrl: String, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, contentColumnName: String? = nil, database: String, dataLoadingOption: SnowflakeDataLoadingOption? = nil, keyPassphrase: String? = nil, metaDataColumnName: String? = nil, privateKey: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SnowflakeRetryOptions? = nil, roleARN: String, s3BackupMode: SnowflakeS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, schema: String, secretsManagerConfiguration: SecretsManagerConfiguration? = nil, snowflakeRoleConfiguration: SnowflakeRoleConfiguration? = nil, snowflakeVpcConfiguration: SnowflakeVpcConfiguration? = nil, table: String, user: String? = nil) {
+        public init(accountUrl: String, bufferingHints: SnowflakeBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, contentColumnName: String? = nil, database: String, dataLoadingOption: SnowflakeDataLoadingOption? = nil, keyPassphrase: String? = nil, metaDataColumnName: String? = nil, privateKey: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SnowflakeRetryOptions? = nil, roleARN: String, s3BackupMode: SnowflakeS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, schema: String, secretsManagerConfiguration: SecretsManagerConfiguration? = nil, snowflakeRoleConfiguration: SnowflakeRoleConfiguration? = nil, snowflakeVpcConfiguration: SnowflakeVpcConfiguration? = nil, table: String, user: String? = nil) {
             self.accountUrl = accountUrl
+            self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.contentColumnName = contentColumnName
             self.database = database
@@ -3299,6 +3560,7 @@ extension Firehose {
             try self.validate(self.accountUrl, name: "accountUrl", parent: name, max: 2048)
             try self.validate(self.accountUrl, name: "accountUrl", parent: name, min: 24)
             try self.validate(self.accountUrl, name: "accountUrl", parent: name, pattern: "^.+?\\.snowflakecomputing\\.com$")
+            try self.bufferingHints?.validate(name: "\(name).bufferingHints")
             try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.validate(self.contentColumnName, name: "contentColumnName", parent: name, max: 255)
             try self.validate(self.contentColumnName, name: "contentColumnName", parent: name, min: 1)
@@ -3330,6 +3592,7 @@ extension Firehose {
 
         private enum CodingKeys: String, CodingKey {
             case accountUrl = "AccountUrl"
+            case bufferingHints = "BufferingHints"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case contentColumnName = "ContentColumnName"
             case database = "Database"
@@ -3354,6 +3617,8 @@ extension Firehose {
     public struct SnowflakeDestinationDescription: AWSDecodableShape {
         /// URL for accessing your Snowflake account. This URL must include your account identifier.  Note that the protocol (https://) and port number are optional.
         public let accountUrl: String?
+        ///  Describes the buffering to perform before delivering data to the Snowflake destination. If you do not specify any value, Firehose uses the default values.
+        public let bufferingHints: SnowflakeBufferingHints?
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The name of the record content column
         public let contentColumnName: String?
@@ -3384,8 +3649,9 @@ extension Firehose {
         /// User login name for the Snowflake account.
         public let user: String?
 
-        public init(accountUrl: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, contentColumnName: String? = nil, database: String? = nil, dataLoadingOption: SnowflakeDataLoadingOption? = nil, metaDataColumnName: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SnowflakeRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: SnowflakeS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, schema: String? = nil, secretsManagerConfiguration: SecretsManagerConfiguration? = nil, snowflakeRoleConfiguration: SnowflakeRoleConfiguration? = nil, snowflakeVpcConfiguration: SnowflakeVpcConfiguration? = nil, table: String? = nil, user: String? = nil) {
+        public init(accountUrl: String? = nil, bufferingHints: SnowflakeBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, contentColumnName: String? = nil, database: String? = nil, dataLoadingOption: SnowflakeDataLoadingOption? = nil, metaDataColumnName: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SnowflakeRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: SnowflakeS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, schema: String? = nil, secretsManagerConfiguration: SecretsManagerConfiguration? = nil, snowflakeRoleConfiguration: SnowflakeRoleConfiguration? = nil, snowflakeVpcConfiguration: SnowflakeVpcConfiguration? = nil, table: String? = nil, user: String? = nil) {
             self.accountUrl = accountUrl
+            self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.contentColumnName = contentColumnName
             self.database = database
@@ -3406,6 +3672,7 @@ extension Firehose {
 
         private enum CodingKeys: String, CodingKey {
             case accountUrl = "AccountUrl"
+            case bufferingHints = "BufferingHints"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case contentColumnName = "ContentColumnName"
             case database = "Database"
@@ -3428,6 +3695,8 @@ extension Firehose {
     public struct SnowflakeDestinationUpdate: AWSEncodableShape {
         /// URL for accessing your Snowflake account. This URL must include your account identifier.  Note that the protocol (https://) and port number are optional.
         public let accountUrl: String?
+        ///  Describes the buffering to perform before delivering data to the Snowflake destination.
+        public let bufferingHints: SnowflakeBufferingHints?
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The name of the content metadata column
         public let contentColumnName: String?
@@ -3460,8 +3729,9 @@ extension Firehose {
         /// User login name for the Snowflake account.
         public let user: String?
 
-        public init(accountUrl: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, contentColumnName: String? = nil, database: String? = nil, dataLoadingOption: SnowflakeDataLoadingOption? = nil, keyPassphrase: String? = nil, metaDataColumnName: String? = nil, privateKey: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SnowflakeRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: SnowflakeS3BackupMode? = nil, s3Update: S3DestinationUpdate? = nil, schema: String? = nil, secretsManagerConfiguration: SecretsManagerConfiguration? = nil, snowflakeRoleConfiguration: SnowflakeRoleConfiguration? = nil, table: String? = nil, user: String? = nil) {
+        public init(accountUrl: String? = nil, bufferingHints: SnowflakeBufferingHints? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, contentColumnName: String? = nil, database: String? = nil, dataLoadingOption: SnowflakeDataLoadingOption? = nil, keyPassphrase: String? = nil, metaDataColumnName: String? = nil, privateKey: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SnowflakeRetryOptions? = nil, roleARN: String? = nil, s3BackupMode: SnowflakeS3BackupMode? = nil, s3Update: S3DestinationUpdate? = nil, schema: String? = nil, secretsManagerConfiguration: SecretsManagerConfiguration? = nil, snowflakeRoleConfiguration: SnowflakeRoleConfiguration? = nil, table: String? = nil, user: String? = nil) {
             self.accountUrl = accountUrl
+            self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.contentColumnName = contentColumnName
             self.database = database
@@ -3485,6 +3755,7 @@ extension Firehose {
             try self.validate(self.accountUrl, name: "accountUrl", parent: name, max: 2048)
             try self.validate(self.accountUrl, name: "accountUrl", parent: name, min: 24)
             try self.validate(self.accountUrl, name: "accountUrl", parent: name, pattern: "^.+?\\.snowflakecomputing\\.com$")
+            try self.bufferingHints?.validate(name: "\(name).bufferingHints")
             try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
             try self.validate(self.contentColumnName, name: "contentColumnName", parent: name, max: 255)
             try self.validate(self.contentColumnName, name: "contentColumnName", parent: name, min: 1)
@@ -3515,6 +3786,7 @@ extension Firehose {
 
         private enum CodingKeys: String, CodingKey {
             case accountUrl = "AccountUrl"
+            case bufferingHints = "BufferingHints"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case contentColumnName = "ContentColumnName"
             case database = "Database"
@@ -4001,6 +4273,8 @@ extension Firehose {
         public let extendedS3DestinationUpdate: ExtendedS3DestinationUpdate?
         /// Describes an update to the specified HTTP endpoint destination.
         public let httpEndpointDestinationUpdate: HttpEndpointDestinationUpdate?
+        ///  Describes an update for a destination in Apache Iceberg Tables.  Amazon Data Firehose is in preview release and is subject to change.
+        public let icebergDestinationUpdate: IcebergDestinationUpdate?
         /// Describes an update for a destination in Amazon Redshift.
         public let redshiftDestinationUpdate: RedshiftDestinationUpdate?
         /// [Deprecated] Describes an update for a destination in Amazon S3.
@@ -4010,7 +4284,7 @@ extension Firehose {
         /// Describes an update for a destination in Splunk.
         public let splunkDestinationUpdate: SplunkDestinationUpdate?
 
-        public init(amazonOpenSearchServerlessDestinationUpdate: AmazonOpenSearchServerlessDestinationUpdate? = nil, amazonopensearchserviceDestinationUpdate: AmazonopensearchserviceDestinationUpdate? = nil, currentDeliveryStreamVersionId: String, deliveryStreamName: String, destinationId: String, elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil, extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil, httpEndpointDestinationUpdate: HttpEndpointDestinationUpdate? = nil, redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil, snowflakeDestinationUpdate: SnowflakeDestinationUpdate? = nil, splunkDestinationUpdate: SplunkDestinationUpdate? = nil) {
+        public init(amazonOpenSearchServerlessDestinationUpdate: AmazonOpenSearchServerlessDestinationUpdate? = nil, amazonopensearchserviceDestinationUpdate: AmazonopensearchserviceDestinationUpdate? = nil, currentDeliveryStreamVersionId: String, deliveryStreamName: String, destinationId: String, elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil, extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil, httpEndpointDestinationUpdate: HttpEndpointDestinationUpdate? = nil, icebergDestinationUpdate: IcebergDestinationUpdate? = nil, redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil, snowflakeDestinationUpdate: SnowflakeDestinationUpdate? = nil, splunkDestinationUpdate: SplunkDestinationUpdate? = nil) {
             self.amazonOpenSearchServerlessDestinationUpdate = amazonOpenSearchServerlessDestinationUpdate
             self.amazonopensearchserviceDestinationUpdate = amazonopensearchserviceDestinationUpdate
             self.currentDeliveryStreamVersionId = currentDeliveryStreamVersionId
@@ -4019,6 +4293,7 @@ extension Firehose {
             self.elasticsearchDestinationUpdate = elasticsearchDestinationUpdate
             self.extendedS3DestinationUpdate = extendedS3DestinationUpdate
             self.httpEndpointDestinationUpdate = httpEndpointDestinationUpdate
+            self.icebergDestinationUpdate = icebergDestinationUpdate
             self.redshiftDestinationUpdate = redshiftDestinationUpdate
             self.s3DestinationUpdate = nil
             self.snowflakeDestinationUpdate = snowflakeDestinationUpdate
@@ -4026,7 +4301,7 @@ extension Firehose {
         }
 
         @available(*, deprecated, message: "Members s3DestinationUpdate have been deprecated")
-        public init(amazonOpenSearchServerlessDestinationUpdate: AmazonOpenSearchServerlessDestinationUpdate? = nil, amazonopensearchserviceDestinationUpdate: AmazonopensearchserviceDestinationUpdate? = nil, currentDeliveryStreamVersionId: String, deliveryStreamName: String, destinationId: String, elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil, extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil, httpEndpointDestinationUpdate: HttpEndpointDestinationUpdate? = nil, redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil, s3DestinationUpdate: S3DestinationUpdate? = nil, snowflakeDestinationUpdate: SnowflakeDestinationUpdate? = nil, splunkDestinationUpdate: SplunkDestinationUpdate? = nil) {
+        public init(amazonOpenSearchServerlessDestinationUpdate: AmazonOpenSearchServerlessDestinationUpdate? = nil, amazonopensearchserviceDestinationUpdate: AmazonopensearchserviceDestinationUpdate? = nil, currentDeliveryStreamVersionId: String, deliveryStreamName: String, destinationId: String, elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil, extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil, httpEndpointDestinationUpdate: HttpEndpointDestinationUpdate? = nil, icebergDestinationUpdate: IcebergDestinationUpdate? = nil, redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil, s3DestinationUpdate: S3DestinationUpdate? = nil, snowflakeDestinationUpdate: SnowflakeDestinationUpdate? = nil, splunkDestinationUpdate: SplunkDestinationUpdate? = nil) {
             self.amazonOpenSearchServerlessDestinationUpdate = amazonOpenSearchServerlessDestinationUpdate
             self.amazonopensearchserviceDestinationUpdate = amazonopensearchserviceDestinationUpdate
             self.currentDeliveryStreamVersionId = currentDeliveryStreamVersionId
@@ -4035,6 +4310,7 @@ extension Firehose {
             self.elasticsearchDestinationUpdate = elasticsearchDestinationUpdate
             self.extendedS3DestinationUpdate = extendedS3DestinationUpdate
             self.httpEndpointDestinationUpdate = httpEndpointDestinationUpdate
+            self.icebergDestinationUpdate = icebergDestinationUpdate
             self.redshiftDestinationUpdate = redshiftDestinationUpdate
             self.s3DestinationUpdate = s3DestinationUpdate
             self.snowflakeDestinationUpdate = snowflakeDestinationUpdate
@@ -4056,6 +4332,7 @@ extension Firehose {
             try self.elasticsearchDestinationUpdate?.validate(name: "\(name).elasticsearchDestinationUpdate")
             try self.extendedS3DestinationUpdate?.validate(name: "\(name).extendedS3DestinationUpdate")
             try self.httpEndpointDestinationUpdate?.validate(name: "\(name).httpEndpointDestinationUpdate")
+            try self.icebergDestinationUpdate?.validate(name: "\(name).icebergDestinationUpdate")
             try self.redshiftDestinationUpdate?.validate(name: "\(name).redshiftDestinationUpdate")
             try self.s3DestinationUpdate?.validate(name: "\(name).s3DestinationUpdate")
             try self.snowflakeDestinationUpdate?.validate(name: "\(name).snowflakeDestinationUpdate")
@@ -4071,6 +4348,7 @@ extension Firehose {
             case elasticsearchDestinationUpdate = "ElasticsearchDestinationUpdate"
             case extendedS3DestinationUpdate = "ExtendedS3DestinationUpdate"
             case httpEndpointDestinationUpdate = "HttpEndpointDestinationUpdate"
+            case icebergDestinationUpdate = "IcebergDestinationUpdate"
             case redshiftDestinationUpdate = "RedshiftDestinationUpdate"
             case s3DestinationUpdate = "S3DestinationUpdate"
             case snowflakeDestinationUpdate = "SnowflakeDestinationUpdate"

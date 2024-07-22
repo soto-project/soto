@@ -26,6 +26,30 @@ import Foundation
 extension QuickSight {
     // MARK: Enums
 
+    public enum AggType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `var` = "VAR"
+        case average = "AVERAGE"
+        case column = "COLUMN"
+        case count = "COUNT"
+        case custom = "CUSTOM"
+        case distinctCount = "DISTINCT_COUNT"
+        case max = "MAX"
+        case median = "MEDIAN"
+        case min = "MIN"
+        case percentile = "PERCENTILE"
+        case ptdAverage = "PTD_AVERAGE"
+        case ptdCount = "PTD_COUNT"
+        case ptdDistinctCount = "PTD_DISTINCT_COUNT"
+        case ptdMax = "PTD_MAX"
+        case ptdMin = "PTD_MIN"
+        case ptdSum = "PTD_SUM"
+        case stdev = "STDEV"
+        case stdevp = "STDEVP"
+        case sum = "SUM"
+        case varp = "VARP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AnalysisErrorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
         case columnGeographicRoleMismatch = "COLUMN_GEOGRAPHIC_ROLE_MISMATCH"
@@ -53,6 +77,11 @@ extension QuickSight {
 
     public enum AnchorOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case now = "NOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnchorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case today = "TODAY"
         public var description: String { return self.rawValue }
     }
 
@@ -306,6 +335,20 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum ComparisonMethodType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case diff = "DIFF"
+        case diffAsPerc = "DIFF_AS_PERC"
+        case movingAverage = "MOVING_AVERAGE"
+        case percDiff = "PERC_DIFF"
+        case percentOfTotal = "PERCENT_OF_TOTAL"
+        case popCurrentDiff = "POP_CURRENT_DIFF"
+        case popCurrentDiffAsPerc = "POP_CURRENT_DIFF_AS_PERC"
+        case popOvertimeDiff = "POP_OVERTIME_DIFF"
+        case popOvertimeDiffAsPerc = "POP_OVERTIME_DIFF_AS_PERC"
+        case runningSum = "RUNNING_SUM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConditionalFormattingIconDisplayOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case iconOnly = "ICON_ONLY"
         public var description: String { return self.rawValue }
@@ -330,6 +373,21 @@ extension QuickSight {
         case collective = "COLLECTIVE"
         case range = "RANGE"
         case singular = "SINGULAR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContributionAnalysisDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case decrease = "DECREASE"
+        case increase = "INCREASE"
+        case neutral = "NEUTRAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContributionAnalysisSortType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case absoluteDifference = "ABSOLUTE_DIFFERENCE"
+        case contributionPercentage = "CONTRIBUTION_PERCENTAGE"
+        case deviationFromExpected = "DEVIATION_FROM_EXPECTED"
+        case percentageDifference = "PERCENTAGE_DIFFERENCE"
         public var description: String { return self.rawValue }
     }
 
@@ -1000,6 +1058,13 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum NullFilterOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allValues = "ALL_VALUES"
+        case nonNullsOnly = "NON_NULLS_ONLY"
+        case nullsOnly = "NULLS_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NumberScale: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case billions = "BILLIONS"
@@ -1221,6 +1286,17 @@ extension QuickSight {
         case updateFailed = "UPDATE_FAILED"
         case updateInProgress = "UPDATE_IN_PROGRESS"
         case updateSuccessful = "UPDATE_SUCCESSFUL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReviewedAnswerErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case datasetDoesNotExist = "DATASET_DOES_NOT_EXIST"
+        case duplicatedAnswer = "DUPLICATED_ANSWER"
+        case internalError = "INTERNAL_ERROR"
+        case invalidData = "INVALID_DATA"
+        case invalidDatasetArn = "INVALID_DATASET_ARN"
+        case missingAnswer = "MISSING_ANSWER"
+        case missingRequiredFields = "MISSING_REQUIRED_FIELDS"
         public var description: String { return self.rawValue }
     }
 
@@ -1515,6 +1591,33 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum TopicIRFilterFunction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contains = "CONTAINS"
+        case containsString = "CONTAINS_STRING"
+        case endsWith = "ENDS_WITH"
+        case exact = "EXACT"
+        case last = "LAST"
+        case next = "NEXT"
+        case now = "NOW"
+        case previous = "PREVIOUS"
+        case startsWith = "STARTS_WITH"
+        case this = "THIS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TopicIRFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case acceptAllFilter = "ACCEPT_ALL_FILTER"
+        case categoryFilter = "CATEGORY_FILTER"
+        case dateRangeFilter = "DATE_RANGE_FILTER"
+        case equals = "EQUALS"
+        case numericEqualityFilter = "NUMERIC_EQUALITY_FILTER"
+        case numericRangeFilter = "NUMERIC_RANGE_FILTER"
+        case rankLimitFilter = "RANK_LIMIT_FILTER"
+        case relativeDateFilter = "RELATIVE_DATE_FILTER"
+        case topBottomFilter = "TOP_BOTTOM_FILTER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TopicNumericSeparatorSymbol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case comma = "COMMA"
         case dot = "DOT"
@@ -1544,6 +1647,12 @@ extension QuickSight {
         case hourly = "HOURLY"
         case monthly = "MONTHLY"
         case weekly = "WEEKLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TopicSortDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -1639,6 +1748,15 @@ extension QuickSight {
     public enum VisualCustomActionTrigger: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dataPointClick = "DATA_POINT_CLICK"
         case dataPointMenu = "DATA_POINT_MENU"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VisualRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case complimentary = "COMPLIMENTARY"
+        case fallback = "FALLBACK"
+        case fragment = "FRAGMENT"
+        case multiIntent = "MULTI_INTENT"
+        case primary = "PRIMARY"
         public var description: String { return self.rawValue }
     }
 
@@ -2253,6 +2371,40 @@ extension QuickSight {
         }
     }
 
+    public struct AggFunction: AWSEncodableShape & AWSDecodableShape {
+        /// The aggregation of an Agg function.
+        public let aggregation: AggType?
+        /// The aggregation parameters for an Agg function.
+        public let aggregationFunctionParameters: [String: String]?
+        /// The period of an Agg function.
+        public let period: TopicTimeGranularity?
+        /// The period field for an Agg function.
+        public let periodField: String?
+
+        public init(aggregation: AggType? = nil, aggregationFunctionParameters: [String: String]? = nil, period: TopicTimeGranularity? = nil, periodField: String? = nil) {
+            self.aggregation = aggregation
+            self.aggregationFunctionParameters = aggregationFunctionParameters
+            self.period = period
+            self.periodField = periodField
+        }
+
+        public func validate(name: String) throws {
+            try self.aggregationFunctionParameters?.forEach {
+                try validate($0.key, name: "aggregationFunctionParameters.key", parent: name, max: 256)
+                try validate($0.key, name: "aggregationFunctionParameters.key", parent: name, min: 1)
+                try validate($0.value, name: "aggregationFunctionParameters[\"\($0.key)\"]", parent: name, max: 1024)
+            }
+            try self.validate(self.periodField, name: "periodField", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregation = "Aggregation"
+            case aggregationFunctionParameters = "AggregationFunctionParameters"
+            case period = "Period"
+            case periodField = "PeriodField"
+        }
+    }
+
     public struct AggregationFunction: AWSEncodableShape & AWSDecodableShape {
         /// Aggregation for attributes.
         public let attributeAggregationFunction: AttributeAggregationFunction?
@@ -2279,6 +2431,27 @@ extension QuickSight {
             case categoricalAggregationFunction = "CategoricalAggregationFunction"
             case dateAggregationFunction = "DateAggregationFunction"
             case numericalAggregationFunction = "NumericalAggregationFunction"
+        }
+    }
+
+    public struct AggregationPartitionBy: AWSEncodableShape & AWSDecodableShape {
+        /// The field Name for an AggregationPartitionBy.
+        public let fieldName: String?
+        /// The TimeGranularity for an AggregationPartitionBy.
+        public let timeGranularity: TimeGranularity?
+
+        public init(fieldName: String? = nil, timeGranularity: TimeGranularity? = nil) {
+            self.fieldName = fieldName
+            self.timeGranularity = timeGranularity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldName, name: "fieldName", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "FieldName"
+            case timeGranularity = "TimeGranularity"
         }
     }
 
@@ -2591,6 +2764,27 @@ extension QuickSight {
             case lastUpdatedTime = "LastUpdatedTime"
             case name = "Name"
             case status = "Status"
+        }
+    }
+
+    public struct Anchor: AWSEncodableShape & AWSDecodableShape {
+        /// The AnchorType for the Anchor.
+        public let anchorType: AnchorType?
+        /// The offset of the Anchor.
+        public let offset: Int?
+        /// The TimeGranularity of the Anchor.
+        public let timeGranularity: TimeGranularity?
+
+        public init(anchorType: AnchorType? = nil, offset: Int? = nil, timeGranularity: TimeGranularity? = nil) {
+            self.anchorType = anchorType
+            self.offset = offset
+            self.timeGranularity = timeGranularity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anchorType = "AnchorType"
+            case offset = "Offset"
+            case timeGranularity = "TimeGranularity"
         }
     }
 
@@ -4707,6 +4901,170 @@ extension QuickSight {
         }
     }
 
+    public struct BatchCreateTopicReviewedAnswerRequest: AWSEncodableShape {
+        /// The definition of the Answers to be created.
+        public let answers: [CreateTopicReviewedAnswer]
+        /// The ID of the Amazon Web Services account that you want to create a reviewed answer in.
+        public let awsAccountId: String
+        /// The ID for the topic reviewed answer that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public let topicId: String
+
+        public init(answers: [CreateTopicReviewedAnswer], awsAccountId: String, topicId: String) {
+            self.answers = answers
+            self.awsAccountId = awsAccountId
+            self.topicId = topicId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.answers, forKey: .answers)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.topicId, key: "TopicId")
+        }
+
+        public func validate(name: String) throws {
+            try self.answers.forEach {
+                try $0.validate(name: "\(name).answers[]")
+            }
+            try self.validate(self.answers, name: "answers", parent: name, max: 100)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.topicId, name: "topicId", parent: name, max: 256)
+            try self.validate(self.topicId, name: "topicId", parent: name, pattern: "^[A-Za-z0-9-_.\\\\+]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answers = "Answers"
+        }
+    }
+
+    public struct BatchCreateTopicReviewedAnswerResponse: AWSDecodableShape {
+        /// The definition of Answers that are invalid and not created.
+        public let invalidAnswers: [InvalidTopicReviewedAnswer]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The definition of Answers that are successfully created.
+        public let succeededAnswers: [SucceededTopicReviewedAnswer]?
+        /// The Amazon Resource Name (ARN) of the topic.
+        public let topicArn: String?
+        /// The ID for the topic reviewed answer that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public let topicId: String?
+
+        public init(invalidAnswers: [InvalidTopicReviewedAnswer]? = nil, requestId: String? = nil, status: Int? = nil, succeededAnswers: [SucceededTopicReviewedAnswer]? = nil, topicArn: String? = nil, topicId: String? = nil) {
+            self.invalidAnswers = invalidAnswers
+            self.requestId = requestId
+            self.status = status
+            self.succeededAnswers = succeededAnswers
+            self.topicArn = topicArn
+            self.topicId = topicId
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.invalidAnswers = try container.decodeIfPresent([InvalidTopicReviewedAnswer].self, forKey: .invalidAnswers)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.succeededAnswers = try container.decodeIfPresent([SucceededTopicReviewedAnswer].self, forKey: .succeededAnswers)
+            self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
+            self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidAnswers = "InvalidAnswers"
+            case requestId = "RequestId"
+            case succeededAnswers = "SucceededAnswers"
+            case topicArn = "TopicArn"
+            case topicId = "TopicId"
+        }
+    }
+
+    public struct BatchDeleteTopicReviewedAnswerRequest: AWSEncodableShape {
+        /// The Answer IDs of the Answers to be deleted.
+        public let answerIds: [String]?
+        /// The ID of the Amazon Web Services account that you want to delete a reviewed answers in.
+        public let awsAccountId: String
+        /// The ID for the topic reviewed answer that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public let topicId: String
+
+        public init(answerIds: [String]? = nil, awsAccountId: String, topicId: String) {
+            self.answerIds = answerIds
+            self.awsAccountId = awsAccountId
+            self.topicId = topicId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.answerIds, forKey: .answerIds)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.topicId, key: "TopicId")
+        }
+
+        public func validate(name: String) throws {
+            try self.answerIds?.forEach {
+                try validate($0, name: "answerIds[]", parent: name, max: 256)
+                try validate($0, name: "answerIds[]", parent: name, pattern: "^[A-Za-z0-9-_.\\\\+]*$")
+            }
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.topicId, name: "topicId", parent: name, max: 256)
+            try self.validate(self.topicId, name: "topicId", parent: name, pattern: "^[A-Za-z0-9-_.\\\\+]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerIds = "AnswerIds"
+        }
+    }
+
+    public struct BatchDeleteTopicReviewedAnswerResponse: AWSDecodableShape {
+        /// The definition of Answers that are invalid and not deleted.
+        public let invalidAnswers: [InvalidTopicReviewedAnswer]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The definition of Answers that are successfully deleted.
+        public let succeededAnswers: [SucceededTopicReviewedAnswer]?
+        /// The Amazon Resource Name (ARN) of the topic.
+        public let topicArn: String?
+        /// The ID of the topic reviewed answer that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public let topicId: String?
+
+        public init(invalidAnswers: [InvalidTopicReviewedAnswer]? = nil, requestId: String? = nil, status: Int? = nil, succeededAnswers: [SucceededTopicReviewedAnswer]? = nil, topicArn: String? = nil, topicId: String? = nil) {
+            self.invalidAnswers = invalidAnswers
+            self.requestId = requestId
+            self.status = status
+            self.succeededAnswers = succeededAnswers
+            self.topicArn = topicArn
+            self.topicId = topicId
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.invalidAnswers = try container.decodeIfPresent([InvalidTopicReviewedAnswer].self, forKey: .invalidAnswers)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.succeededAnswers = try container.decodeIfPresent([SucceededTopicReviewedAnswer].self, forKey: .succeededAnswers)
+            self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
+            self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidAnswers = "InvalidAnswers"
+            case requestId = "RequestId"
+            case succeededAnswers = "SucceededAnswers"
+            case topicArn = "TopicArn"
+            case topicId = "TopicId"
+        }
+    }
+
     public struct BigQueryParameters: AWSEncodableShape & AWSDecodableShape {
         /// The storage location where you create a Google BigQuery data source.
         public let dataSetRegion: String?
@@ -5700,6 +6058,27 @@ extension QuickSight {
         }
     }
 
+    public struct CollectiveConstantEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The ConstantType of a CollectiveConstantEntry.
+        public let constantType: ConstantType?
+        /// The value of a CollectiveConstantEntry.
+        public let value: String?
+
+        public init(constantType: ConstantType? = nil, value: String? = nil) {
+            self.constantType = constantType
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constantType = "ConstantType"
+            case value = "Value"
+        }
+    }
+
     public struct ColorScale: AWSEncodableShape & AWSDecodableShape {
         /// Determines the color fill type.
         public let colorFillType: ColorFillType
@@ -6613,6 +6992,45 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case contributorDimensions = "ContributorDimensions"
             case measureFieldId = "MeasureFieldId"
+        }
+    }
+
+    public struct ContributionAnalysisFactor: AWSEncodableShape & AWSDecodableShape {
+        /// The field name of the ContributionAnalysisFactor.
+        public let fieldName: String?
+
+        public init(fieldName: String? = nil) {
+            self.fieldName = fieldName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldName, name: "fieldName", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "FieldName"
+        }
+    }
+
+    public struct ContributionAnalysisTimeRanges: AWSEncodableShape & AWSDecodableShape {
+        /// The end range for the ContributionAnalysisTimeRanges.
+        public let endRange: TopicIRFilterOption?
+        /// The start range for the ContributionAnalysisTimeRanges.
+        public let startRange: TopicIRFilterOption?
+
+        public init(endRange: TopicIRFilterOption? = nil, startRange: TopicIRFilterOption? = nil) {
+            self.endRange = endRange
+            self.startRange = startRange
+        }
+
+        public func validate(name: String) throws {
+            try self.endRange?.validate(name: "\(name).endRange")
+            try self.startRange?.validate(name: "\(name).startRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endRange = "EndRange"
+            case startRange = "StartRange"
         }
     }
 
@@ -8800,6 +9218,48 @@ extension QuickSight {
             case refreshArn = "RefreshArn"
             case requestId = "RequestId"
             case topicId = "TopicId"
+        }
+    }
+
+    public struct CreateTopicReviewedAnswer: AWSEncodableShape {
+        /// The answer ID for the CreateTopicReviewedAnswer.
+        public let answerId: String
+        /// The Dataset arn for the CreateTopicReviewedAnswer.
+        public let datasetArn: String
+        /// The Mir for the CreateTopicReviewedAnswer.
+        public let mir: TopicIR?
+        /// The PrimaryVisual for the CreateTopicReviewedAnswer.
+        public let primaryVisual: TopicVisual?
+        /// The Question to be created.
+        public let question: String
+        /// The template for the CreateTopicReviewedAnswer.
+        public let template: TopicTemplate?
+
+        public init(answerId: String, datasetArn: String, mir: TopicIR? = nil, primaryVisual: TopicVisual? = nil, question: String, template: TopicTemplate? = nil) {
+            self.answerId = answerId
+            self.datasetArn = datasetArn
+            self.mir = mir
+            self.primaryVisual = primaryVisual
+            self.question = question
+            self.template = template
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.answerId, name: "answerId", parent: name, max: 256)
+            try self.validate(self.answerId, name: "answerId", parent: name, pattern: "^[A-Za-z0-9-_.\\\\+]*$")
+            try self.mir?.validate(name: "\(name).mir")
+            try self.primaryVisual?.validate(name: "\(name).primaryVisual")
+            try self.validate(self.question, name: "question", parent: name, max: 256)
+            try self.template?.validate(name: "\(name).template")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerId = "AnswerId"
+            case datasetArn = "DatasetArn"
+            case mir = "Mir"
+            case primaryVisual = "PrimaryVisual"
+            case question = "Question"
+            case template = "Template"
         }
     }
 
@@ -11023,15 +11483,21 @@ extension QuickSight {
     }
 
     public struct DateTimePickerControlDisplayOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The date icon visibility of the DateTimePickerControlDisplayOptions.
+        public let dateIconVisibility: Visibility?
         /// Customize how dates are formatted in controls.
         public let dateTimeFormat: String?
+        /// The helper text visibility of the DateTimePickerControlDisplayOptions.
+        public let helperTextVisibility: Visibility?
         /// The configuration of info icon label options.
         public let infoIconLabelOptions: SheetControlInfoIconLabelOptions?
         /// The options to configure the title visibility, name, and font size.
         public let titleOptions: LabelOptions?
 
-        public init(dateTimeFormat: String? = nil, infoIconLabelOptions: SheetControlInfoIconLabelOptions? = nil, titleOptions: LabelOptions? = nil) {
+        public init(dateIconVisibility: Visibility? = nil, dateTimeFormat: String? = nil, helperTextVisibility: Visibility? = nil, infoIconLabelOptions: SheetControlInfoIconLabelOptions? = nil, titleOptions: LabelOptions? = nil) {
+            self.dateIconVisibility = dateIconVisibility
             self.dateTimeFormat = dateTimeFormat
+            self.helperTextVisibility = helperTextVisibility
             self.infoIconLabelOptions = infoIconLabelOptions
             self.titleOptions = titleOptions
         }
@@ -11044,7 +11510,9 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dateIconVisibility = "DateIconVisibility"
             case dateTimeFormat = "DateTimeFormat"
+            case helperTextVisibility = "HelperTextVisibility"
             case infoIconLabelOptions = "InfoIconLabelOptions"
             case titleOptions = "TitleOptions"
         }
@@ -17149,6 +17617,31 @@ extension QuickSight {
         }
     }
 
+    public struct FilterAggMetrics: AWSEncodableShape & AWSDecodableShape {
+        /// The function for the FilterAggMetrics.
+        public let function: AggType?
+        /// The metric operand of the FilterAggMetrics.
+        public let metricOperand: Identifier?
+        /// The sort direction for FilterAggMetrics.
+        public let sortDirection: TopicSortDirection?
+
+        public init(function: AggType? = nil, metricOperand: Identifier? = nil, sortDirection: TopicSortDirection? = nil) {
+            self.function = function
+            self.metricOperand = metricOperand
+            self.sortDirection = sortDirection
+        }
+
+        public func validate(name: String) throws {
+            try self.metricOperand?.validate(name: "\(name).metricOperand")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case function = "Function"
+            case metricOperand = "MetricOperand"
+            case sortDirection = "SortDirection"
+        }
+    }
+
     public struct FilterControl: AWSEncodableShape & AWSDecodableShape {
         /// A control from a filter that is scoped across more than one sheet. This represents your filter control on a sheet
         public let crossSheet: FilterCrossSheetControl?
@@ -20105,6 +20598,23 @@ extension QuickSight {
         }
     }
 
+    public struct Identifier: AWSEncodableShape & AWSDecodableShape {
+        /// The identity of the identifier.
+        public let identity: String
+
+        public init(identity: String) {
+            self.identity = identity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identity, name: "identity", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identity = "Identity"
+        }
+    }
+
     public struct IdentityCenterConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// A Boolean option that controls whether Trusted Identity Propagation should be used.
         public let enableIdentityPropagation: Bool?
@@ -20455,6 +20965,23 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case customValue = "CustomValue"
             case valueWhenUnsetOption = "ValueWhenUnsetOption"
+        }
+    }
+
+    public struct InvalidTopicReviewedAnswer: AWSDecodableShape {
+        /// The answer ID for the InvalidTopicReviewedAnswer.
+        public let answerId: String?
+        /// The error that is returned for the InvalidTopicReviewedAnswer.
+        public let error: ReviewedAnswerErrorCode?
+
+        public init(answerId: String? = nil, error: ReviewedAnswerErrorCode? = nil) {
+            self.answerId = answerId
+            self.error = error
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerId = "AnswerId"
+            case error = "Error"
         }
     }
 
@@ -23301,6 +23828,73 @@ extension QuickSight {
         }
     }
 
+    public struct ListTopicReviewedAnswersRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that containd the reviewed answers that you want listed.
+        public let awsAccountId: String
+        /// The ID for the topic that contains the reviewed answer that you want to list. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public let topicId: String
+
+        public init(awsAccountId: String, topicId: String) {
+            self.awsAccountId = awsAccountId
+            self.topicId = topicId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.topicId, key: "TopicId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.topicId, name: "topicId", parent: name, max: 256)
+            try self.validate(self.topicId, name: "topicId", parent: name, pattern: "^[A-Za-z0-9-_.\\\\+]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTopicReviewedAnswersResponse: AWSDecodableShape {
+        /// The definition of all Answers in the topic.
+        public let answers: [TopicReviewedAnswer]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The Amazon Resource Name (ARN) of the topic.
+        public let topicArn: String?
+        /// The ID for the topic that contains the reviewed answer that you want to list. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public let topicId: String?
+
+        public init(answers: [TopicReviewedAnswer]? = nil, requestId: String? = nil, status: Int? = nil, topicArn: String? = nil, topicId: String? = nil) {
+            self.answers = answers
+            self.requestId = requestId
+            self.status = status
+            self.topicArn = topicArn
+            self.topicId = topicId
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.answers = try container.decodeIfPresent([TopicReviewedAnswer].self, forKey: .answers)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
+            self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answers = "Answers"
+            case requestId = "RequestId"
+            case topicArn = "TopicArn"
+            case topicId = "TopicId"
+        }
+    }
+
     public struct ListTopicsRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that contains the topics that you want to list.
         public let awsAccountId: String
@@ -24070,6 +24664,23 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case aggregation = "Aggregation"
             case aggregationFunctionParameters = "AggregationFunctionParameters"
+        }
+    }
+
+    public struct NamedEntityRef: AWSEncodableShape & AWSDecodableShape {
+        /// The NamedEntityName for the NamedEntityRef.
+        public let namedEntityName: String?
+
+        public init(namedEntityName: String? = nil) {
+            self.namedEntityName = namedEntityName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.namedEntityName, name: "namedEntityName", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namedEntityName = "NamedEntityName"
         }
     }
 
@@ -29629,6 +30240,28 @@ extension QuickSight {
         }
     }
 
+    public struct Slot: AWSEncodableShape & AWSDecodableShape {
+        /// The slot ID of the slot.
+        public let slotId: String?
+        /// The visual ID for the slot.
+        public let visualId: String?
+
+        public init(slotId: String? = nil, visualId: String? = nil) {
+            self.slotId = slotId
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.slotId, name: "slotId", parent: name, max: 256)
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case slotId = "SlotId"
+            case visualId = "VisualId"
+        }
+    }
+
     public struct SmallMultiplesAxisProperties: AWSEncodableShape & AWSDecodableShape {
         /// Defines the placement of the axis. By default, axes are rendered OUTSIDE of the panels. Axes with INDEPENDENT scale are rendered INSIDE the panels.
         public let placement: SmallMultiplesAxisPlacement?
@@ -30663,6 +31296,19 @@ extension QuickSight {
             case totalCellStyle = "TotalCellStyle"
             case totalsVisibility = "TotalsVisibility"
             case valueCellStyle = "ValueCellStyle"
+        }
+    }
+
+    public struct SucceededTopicReviewedAnswer: AWSDecodableShape {
+        /// The answer ID for the SucceededTopicReviewedAnswer.
+        public let answerId: String?
+
+        public init(answerId: String? = nil) {
+            self.answerId = answerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerId = "AnswerId"
         }
     }
 
@@ -32804,6 +33450,45 @@ extension QuickSight {
         }
     }
 
+    public struct TopicConstantValue: AWSEncodableShape & AWSDecodableShape {
+        /// The constant type of a TopicConstantValue.
+        public let constantType: ConstantType?
+        /// The maximum for the TopicConstantValue.
+        public let maximum: String?
+        /// The minimum for the TopicConstantValue.
+        public let minimum: String?
+        /// The value of the TopicConstantValue.
+        public let value: String?
+        /// The value list of the TopicConstantValue.
+        public let valueList: [CollectiveConstantEntry]?
+
+        public init(constantType: ConstantType? = nil, maximum: String? = nil, minimum: String? = nil, value: String? = nil, valueList: [CollectiveConstantEntry]? = nil) {
+            self.constantType = constantType
+            self.maximum = maximum
+            self.minimum = minimum
+            self.value = value
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maximum, name: "maximum", parent: name, max: 1024)
+            try self.validate(self.minimum, name: "minimum", parent: name, max: 1024)
+            try self.validate(self.value, name: "value", parent: name, max: 1024)
+            try self.valueList?.forEach {
+                try $0.validate(name: "\(name).valueList[]")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 2000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constantType = "ConstantType"
+            case maximum = "Maximum"
+            case minimum = "Minimum"
+            case value = "Value"
+            case valueList = "ValueList"
+        }
+    }
+
     public struct TopicDateRangeFilter: AWSEncodableShape & AWSDecodableShape {
         /// The constant used in a date range filter.
         public let constant: TopicRangeFilterConstant?
@@ -32923,6 +33608,313 @@ extension QuickSight {
             case numericRangeFilter = "NumericRangeFilter"
             case operandFieldName = "OperandFieldName"
             case relativeDateFilter = "RelativeDateFilter"
+        }
+    }
+
+    public struct TopicIR: AWSEncodableShape & AWSDecodableShape {
+        /// The contribution analysis for the TopicIR.
+        public let contributionAnalysis: TopicIRContributionAnalysis?
+        /// The filters for the TopicIR.
+        public let filters: [[TopicIRFilterOption]]?
+        /// The GroupBy list for the TopicIR.
+        public let groupByList: [TopicIRGroupBy]?
+        /// The metrics for the TopicIR.
+        public let metrics: [TopicIRMetric]?
+        /// The sort for the TopicIR.
+        public let sort: TopicSortClause?
+        /// The visual for the TopicIR.
+        public let visual: VisualOptions?
+
+        public init(contributionAnalysis: TopicIRContributionAnalysis? = nil, filters: [[TopicIRFilterOption]]? = nil, groupByList: [TopicIRGroupBy]? = nil, metrics: [TopicIRMetric]? = nil, sort: TopicSortClause? = nil, visual: VisualOptions? = nil) {
+            self.contributionAnalysis = contributionAnalysis
+            self.filters = filters
+            self.groupByList = groupByList
+            self.metrics = metrics
+            self.sort = sort
+            self.visual = visual
+        }
+
+        public func validate(name: String) throws {
+            try self.contributionAnalysis?.validate(name: "\(name).contributionAnalysis")
+            try self.filters?.forEach {
+                try validate($0, name: "filters[]", parent: name, max: 2000)
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 2000)
+            try self.groupByList?.forEach {
+                try $0.validate(name: "\(name).groupByList[]")
+            }
+            try self.validate(self.groupByList, name: "groupByList", parent: name, max: 2000)
+            try self.metrics?.forEach {
+                try $0.validate(name: "\(name).metrics[]")
+            }
+            try self.validate(self.metrics, name: "metrics", parent: name, max: 2000)
+            try self.sort?.validate(name: "\(name).sort")
+            try self.visual?.validate(name: "\(name).visual")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contributionAnalysis = "ContributionAnalysis"
+            case filters = "Filters"
+            case groupByList = "GroupByList"
+            case metrics = "Metrics"
+            case sort = "Sort"
+            case visual = "Visual"
+        }
+    }
+
+    public struct TopicIRComparisonMethod: AWSEncodableShape & AWSDecodableShape {
+        /// The period for the TopicIRComparisonMethod.
+        public let period: TopicTimeGranularity?
+        /// The type for the TopicIRComparisonMethod.
+        public let type: ComparisonMethodType?
+        /// The window size for the TopicIRComparisonMethod.
+        public let windowSize: Int?
+
+        public init(period: TopicTimeGranularity? = nil, type: ComparisonMethodType? = nil, windowSize: Int? = nil) {
+            self.period = period
+            self.type = type
+            self.windowSize = windowSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case period = "Period"
+            case type = "Type"
+            case windowSize = "WindowSize"
+        }
+    }
+
+    public struct TopicIRContributionAnalysis: AWSEncodableShape & AWSDecodableShape {
+        /// The direction for the TopicIRContributionAnalysis.
+        public let direction: ContributionAnalysisDirection?
+        /// The factors for a TopicIRContributionAnalysis.
+        public let factors: [ContributionAnalysisFactor]?
+        /// The sort type for the TopicIRContributionAnalysis.
+        public let sortType: ContributionAnalysisSortType?
+        /// The time ranges for the TopicIRContributionAnalysis.
+        public let timeRanges: ContributionAnalysisTimeRanges?
+
+        public init(direction: ContributionAnalysisDirection? = nil, factors: [ContributionAnalysisFactor]? = nil, sortType: ContributionAnalysisSortType? = nil, timeRanges: ContributionAnalysisTimeRanges? = nil) {
+            self.direction = direction
+            self.factors = factors
+            self.sortType = sortType
+            self.timeRanges = timeRanges
+        }
+
+        public func validate(name: String) throws {
+            try self.factors?.forEach {
+                try $0.validate(name: "\(name).factors[]")
+            }
+            try self.validate(self.factors, name: "factors", parent: name, max: 50)
+            try self.timeRanges?.validate(name: "\(name).timeRanges")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case direction = "Direction"
+            case factors = "Factors"
+            case sortType = "SortType"
+            case timeRanges = "TimeRanges"
+        }
+    }
+
+    public struct TopicIRFilterOption: AWSEncodableShape & AWSDecodableShape {
+        /// The agg metrics for the TopicIRFilterOption.
+        public let aggMetrics: [FilterAggMetrics]?
+        /// The aggregation for the TopicIRFilterOption.
+        public let aggregation: AggType?
+        /// The aggregation function parameters for the TopicIRFilterOption.
+        public let aggregationFunctionParameters: [String: String]?
+        /// The AggregationPartitionBy for the TopicIRFilterOption.
+        public let aggregationPartitionBy: [AggregationPartitionBy]?
+        /// The anchor for the TopicIRFilterOption.
+        public let anchor: Anchor?
+        /// The constant for the TopicIRFilterOption.
+        public let constant: TopicConstantValue?
+        /// The filter class for the TopicIRFilterOption.
+        public let filterClass: FilterClass?
+        /// The filter type for the TopicIRFilterOption.
+        public let filterType: TopicIRFilterType?
+        /// The function for the TopicIRFilterOption.
+        public let function: TopicIRFilterFunction?
+        /// The inclusive for the TopicIRFilterOption.
+        public let inclusive: Bool?
+        /// The inverse for the TopicIRFilterOption.
+        public let inverse: Bool?
+        /// The last next offset for the TopicIRFilterOption.
+        public let lastNextOffset: TopicConstantValue?
+        /// The null filter for the TopicIRFilterOption.
+        public let nullFilter: NullFilterOption?
+        /// The operand field for the TopicIRFilterOption.
+        public let operandField: Identifier?
+        /// The range for the TopicIRFilterOption.
+        public let range: TopicConstantValue?
+        /// The sort direction for the TopicIRFilterOption.
+        public let sortDirection: TopicSortDirection?
+        /// The time granularity for the TopicIRFilterOption.
+        public let timeGranularity: TimeGranularity?
+        /// The TopBottomLimit for the TopicIRFilterOption.
+        public let topBottomLimit: TopicConstantValue?
+
+        public init(aggMetrics: [FilterAggMetrics]? = nil, aggregation: AggType? = nil, aggregationFunctionParameters: [String: String]? = nil, aggregationPartitionBy: [AggregationPartitionBy]? = nil, anchor: Anchor? = nil, constant: TopicConstantValue? = nil, filterClass: FilterClass? = nil, filterType: TopicIRFilterType? = nil, function: TopicIRFilterFunction? = nil, inclusive: Bool? = nil, inverse: Bool? = nil, lastNextOffset: TopicConstantValue? = nil, nullFilter: NullFilterOption? = nil, operandField: Identifier? = nil, range: TopicConstantValue? = nil, sortDirection: TopicSortDirection? = nil, timeGranularity: TimeGranularity? = nil, topBottomLimit: TopicConstantValue? = nil) {
+            self.aggMetrics = aggMetrics
+            self.aggregation = aggregation
+            self.aggregationFunctionParameters = aggregationFunctionParameters
+            self.aggregationPartitionBy = aggregationPartitionBy
+            self.anchor = anchor
+            self.constant = constant
+            self.filterClass = filterClass
+            self.filterType = filterType
+            self.function = function
+            self.inclusive = inclusive
+            self.inverse = inverse
+            self.lastNextOffset = lastNextOffset
+            self.nullFilter = nullFilter
+            self.operandField = operandField
+            self.range = range
+            self.sortDirection = sortDirection
+            self.timeGranularity = timeGranularity
+            self.topBottomLimit = topBottomLimit
+        }
+
+        public func validate(name: String) throws {
+            try self.aggMetrics?.forEach {
+                try $0.validate(name: "\(name).aggMetrics[]")
+            }
+            try self.validate(self.aggMetrics, name: "aggMetrics", parent: name, max: 100)
+            try self.aggregationFunctionParameters?.forEach {
+                try validate($0.key, name: "aggregationFunctionParameters.key", parent: name, max: 256)
+                try validate($0.key, name: "aggregationFunctionParameters.key", parent: name, min: 1)
+                try validate($0.value, name: "aggregationFunctionParameters[\"\($0.key)\"]", parent: name, max: 1024)
+            }
+            try self.aggregationPartitionBy?.forEach {
+                try $0.validate(name: "\(name).aggregationPartitionBy[]")
+            }
+            try self.validate(self.aggregationPartitionBy, name: "aggregationPartitionBy", parent: name, max: 50)
+            try self.constant?.validate(name: "\(name).constant")
+            try self.lastNextOffset?.validate(name: "\(name).lastNextOffset")
+            try self.operandField?.validate(name: "\(name).operandField")
+            try self.range?.validate(name: "\(name).range")
+            try self.topBottomLimit?.validate(name: "\(name).topBottomLimit")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggMetrics = "AggMetrics"
+            case aggregation = "Aggregation"
+            case aggregationFunctionParameters = "AggregationFunctionParameters"
+            case aggregationPartitionBy = "AggregationPartitionBy"
+            case anchor = "Anchor"
+            case constant = "Constant"
+            case filterClass = "FilterClass"
+            case filterType = "FilterType"
+            case function = "Function"
+            case inclusive = "Inclusive"
+            case inverse = "Inverse"
+            case lastNextOffset = "LastNextOffset"
+            case nullFilter = "NullFilter"
+            case operandField = "OperandField"
+            case range = "Range"
+            case sortDirection = "SortDirection"
+            case timeGranularity = "TimeGranularity"
+            case topBottomLimit = "TopBottomLimit"
+        }
+    }
+
+    public struct TopicIRGroupBy: AWSEncodableShape & AWSDecodableShape {
+        /// The display format for the TopicIRGroupBy.
+        public let displayFormat: DisplayFormat?
+        public let displayFormatOptions: DisplayFormatOptions?
+        /// The field name for the TopicIRGroupBy.
+        public let fieldName: Identifier?
+        /// The named entity for the TopicIRGroupBy.
+        public let namedEntity: NamedEntityRef?
+        /// The sort for the TopicIRGroupBy.
+        public let sort: TopicSortClause?
+        /// The time granularity for the TopicIRGroupBy.
+        public let timeGranularity: TopicTimeGranularity?
+
+        public init(displayFormat: DisplayFormat? = nil, displayFormatOptions: DisplayFormatOptions? = nil, fieldName: Identifier? = nil, namedEntity: NamedEntityRef? = nil, sort: TopicSortClause? = nil, timeGranularity: TopicTimeGranularity? = nil) {
+            self.displayFormat = displayFormat
+            self.displayFormatOptions = displayFormatOptions
+            self.fieldName = fieldName
+            self.namedEntity = namedEntity
+            self.sort = sort
+            self.timeGranularity = timeGranularity
+        }
+
+        public func validate(name: String) throws {
+            try self.displayFormatOptions?.validate(name: "\(name).displayFormatOptions")
+            try self.fieldName?.validate(name: "\(name).fieldName")
+            try self.namedEntity?.validate(name: "\(name).namedEntity")
+            try self.sort?.validate(name: "\(name).sort")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayFormat = "DisplayFormat"
+            case displayFormatOptions = "DisplayFormatOptions"
+            case fieldName = "FieldName"
+            case namedEntity = "NamedEntity"
+            case sort = "Sort"
+            case timeGranularity = "TimeGranularity"
+        }
+    }
+
+    public struct TopicIRMetric: AWSEncodableShape & AWSDecodableShape {
+        /// The calculated field references for the TopicIRMetric.
+        public let calculatedFieldReferences: [Identifier]?
+        /// The comparison method for the TopicIRMetric.
+        public let comparisonMethod: TopicIRComparisonMethod?
+        /// The display format for the TopicIRMetric.
+        public let displayFormat: DisplayFormat?
+        public let displayFormatOptions: DisplayFormatOptions?
+        /// The expression for the TopicIRMetric.
+        public let expression: String?
+        /// The function for the TopicIRMetric.
+        public let function: AggFunction?
+        /// The metric ID for the TopicIRMetric.
+        public let metricId: Identifier?
+        /// The named entity for the TopicIRMetric.
+        public let namedEntity: NamedEntityRef?
+        /// The operands for the TopicIRMetric.
+        public let operands: [Identifier]?
+
+        public init(calculatedFieldReferences: [Identifier]? = nil, comparisonMethod: TopicIRComparisonMethod? = nil, displayFormat: DisplayFormat? = nil, displayFormatOptions: DisplayFormatOptions? = nil, expression: String? = nil, function: AggFunction? = nil, metricId: Identifier? = nil, namedEntity: NamedEntityRef? = nil, operands: [Identifier]? = nil) {
+            self.calculatedFieldReferences = calculatedFieldReferences
+            self.comparisonMethod = comparisonMethod
+            self.displayFormat = displayFormat
+            self.displayFormatOptions = displayFormatOptions
+            self.expression = expression
+            self.function = function
+            self.metricId = metricId
+            self.namedEntity = namedEntity
+            self.operands = operands
+        }
+
+        public func validate(name: String) throws {
+            try self.calculatedFieldReferences?.forEach {
+                try $0.validate(name: "\(name).calculatedFieldReferences[]")
+            }
+            try self.validate(self.calculatedFieldReferences, name: "calculatedFieldReferences", parent: name, max: 250)
+            try self.displayFormatOptions?.validate(name: "\(name).displayFormatOptions")
+            try self.validate(self.expression, name: "expression", parent: name, max: 4096)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+            try self.function?.validate(name: "\(name).function")
+            try self.metricId?.validate(name: "\(name).metricId")
+            try self.namedEntity?.validate(name: "\(name).namedEntity")
+            try self.operands?.forEach {
+                try $0.validate(name: "\(name).operands[]")
+            }
+            try self.validate(self.operands, name: "operands", parent: name, max: 25)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculatedFieldReferences = "CalculatedFieldReferences"
+            case comparisonMethod = "ComparisonMethod"
+            case displayFormat = "DisplayFormat"
+            case displayFormatOptions = "DisplayFormatOptions"
+            case expression = "Expression"
+            case function = "Function"
+            case metricId = "MetricId"
+            case namedEntity = "NamedEntity"
+            case operands = "Operands"
         }
     }
 
@@ -33143,6 +34135,43 @@ extension QuickSight {
         }
     }
 
+    public struct TopicReviewedAnswer: AWSDecodableShape {
+        /// The answer ID of the reviewed answer.
+        public let answerId: String
+        /// The Amazon Resource Name (ARN) of the reviewed answer.
+        public let arn: String?
+        /// The Dataset ARN for the TopicReviewedAnswer.
+        public let datasetArn: String
+        /// The mir for the TopicReviewedAnswer.
+        public let mir: TopicIR?
+        /// The primary visual for the TopicReviewedAnswer.
+        public let primaryVisual: TopicVisual?
+        /// The question for the TopicReviewedAnswer.
+        public let question: String
+        /// The template for the TopicReviewedAnswer.
+        public let template: TopicTemplate?
+
+        public init(answerId: String, arn: String? = nil, datasetArn: String, mir: TopicIR? = nil, primaryVisual: TopicVisual? = nil, question: String, template: TopicTemplate? = nil) {
+            self.answerId = answerId
+            self.arn = arn
+            self.datasetArn = datasetArn
+            self.mir = mir
+            self.primaryVisual = primaryVisual
+            self.question = question
+            self.template = template
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerId = "AnswerId"
+            case arn = "Arn"
+            case datasetArn = "DatasetArn"
+            case mir = "Mir"
+            case primaryVisual = "PrimaryVisual"
+            case question = "Question"
+            case template = "Template"
+        }
+    }
+
     public struct TopicSingularFilterConstant: AWSEncodableShape & AWSDecodableShape {
         /// The type of the singular filter constant. Valid values for this structure are SINGULAR.
         public let constantType: ConstantType?
@@ -33161,6 +34190,27 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case constantType = "ConstantType"
             case singularConstant = "SingularConstant"
+        }
+    }
+
+    public struct TopicSortClause: AWSEncodableShape & AWSDecodableShape {
+        /// The operand for a TopicSortClause.
+        public let operand: Identifier?
+        /// The sort direction for the TopicSortClause.
+        public let sortDirection: TopicSortDirection?
+
+        public init(operand: Identifier? = nil, sortDirection: TopicSortDirection? = nil) {
+            self.operand = operand
+            self.sortDirection = sortDirection
+        }
+
+        public func validate(name: String) throws {
+            try self.operand?.validate(name: "\(name).operand")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operand = "Operand"
+            case sortDirection = "SortDirection"
         }
     }
 
@@ -33186,6 +34236,63 @@ extension QuickSight {
             case name = "Name"
             case topicId = "TopicId"
             case userExperienceVersion = "UserExperienceVersion"
+        }
+    }
+
+    public struct TopicTemplate: AWSEncodableShape & AWSDecodableShape {
+        /// The slots for the TopicTemplate.
+        public let slots: [Slot]?
+        /// The template type for the TopicTemplate.
+        public let templateType: String?
+
+        public init(slots: [Slot]? = nil, templateType: String? = nil) {
+            self.slots = slots
+            self.templateType = templateType
+        }
+
+        public func validate(name: String) throws {
+            try self.slots?.forEach {
+                try $0.validate(name: "\(name).slots[]")
+            }
+            try self.validate(self.templateType, name: "templateType", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case slots = "Slots"
+            case templateType = "TemplateType"
+        }
+    }
+
+    public struct TopicVisual: AWSEncodableShape & AWSDecodableShape {
+        /// The ir for the TopicVisual.
+        public let ir: TopicIR?
+        /// The role for the TopicVisual.
+        public let role: VisualRole?
+        /// The supporting visuals for the TopicVisual.
+        public let supportingVisuals: [TopicVisual]?
+        /// The visual ID for the TopicVisual.
+        public let visualId: String?
+
+        public init(ir: TopicIR? = nil, role: VisualRole? = nil, supportingVisuals: [TopicVisual]? = nil, visualId: String? = nil) {
+            self.ir = ir
+            self.role = role
+            self.supportingVisuals = supportingVisuals
+            self.visualId = visualId
+        }
+
+        public func validate(name: String) throws {
+            try self.ir?.validate(name: "\(name).ir")
+            try self.supportingVisuals?.forEach {
+                try $0.validate(name: "\(name).supportingVisuals[]")
+            }
+            try self.validate(self.visualId, name: "visualId", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ir = "Ir"
+            case role = "Role"
+            case supportingVisuals = "SupportingVisuals"
+            case visualId = "VisualId"
         }
     }
 
@@ -37155,6 +38262,23 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityStatus = "AvailabilityStatus"
+        }
+    }
+
+    public struct VisualOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The type for a VisualOptions.
+        public let type: String?
+
+        public init(type: String? = nil) {
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.type, name: "type", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
         }
     }
 

@@ -60,7 +60,6 @@ public struct DirectConnect: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2012-10-25",
             endpoint: endpoint,
-            serviceEndpoints: Self.serviceEndpoints,
             variantEndpoints: Self.variantEndpoints,
             errorType: DirectConnectErrorType.self,
             xmlNamespace: "http://directconnect.amazonaws.com/doc/2012-10-25/",
@@ -72,11 +71,6 @@ public struct DirectConnect: AWSService {
     }
 
 
-    /// custom endpoints for regions
-    static var serviceEndpoints: [String: String] {[
-        "us-gov-east-1": "directconnect.us-gov-east-1.amazonaws.com",
-        "us-gov-west-1": "directconnect.us-gov-west-1.amazonaws.com"
-    ]}
 
 
     /// FIPS and dualstack endpoints
@@ -86,6 +80,8 @@ public struct DirectConnect: AWSService {
             "ca-west-1": "directconnect-fips.ca-west-1.amazonaws.com",
             "us-east-1": "directconnect-fips.us-east-1.amazonaws.com",
             "us-east-2": "directconnect-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "directconnect-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "directconnect-fips.us-gov-west-1.amazonaws.com",
             "us-west-1": "directconnect-fips.us-west-1.amazonaws.com",
             "us-west-2": "directconnect-fips.us-west-2.amazonaws.com"
         ])

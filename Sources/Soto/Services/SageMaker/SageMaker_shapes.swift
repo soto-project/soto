@@ -1443,6 +1443,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum ListOptimizationJobsSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creationTime = "CreationTime"
+        case name = "Name"
+        case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ListWorkforcesSortByOptions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createDate = "CreateDate"
         case name = "Name"
@@ -1760,6 +1767,46 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum OptimizationJobDeploymentInstanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mlG512Xlarge = "ml.g5.12xlarge"
+        case mlG516Xlarge = "ml.g5.16xlarge"
+        case mlG524Xlarge = "ml.g5.24xlarge"
+        case mlG52Xlarge = "ml.g5.2xlarge"
+        case mlG548Xlarge = "ml.g5.48xlarge"
+        case mlG54Xlarge = "ml.g5.4xlarge"
+        case mlG58Xlarge = "ml.g5.8xlarge"
+        case mlG5Xlarge = "ml.g5.xlarge"
+        case mlG612Xlarge = "ml.g6.12xlarge"
+        case mlG616Xlarge = "ml.g6.16xlarge"
+        case mlG624Xlarge = "ml.g6.24xlarge"
+        case mlG62Xlarge = "ml.g6.2xlarge"
+        case mlG648Xlarge = "ml.g6.48xlarge"
+        case mlG64Xlarge = "ml.g6.4xlarge"
+        case mlG68Xlarge = "ml.g6.8xlarge"
+        case mlG6Xlarge = "ml.g6.xlarge"
+        case mlInf224Xlarge = "ml.inf2.24xlarge"
+        case mlInf248Xlarge = "ml.inf2.48xlarge"
+        case mlInf28Xlarge = "ml.inf2.8xlarge"
+        case mlInf2Xlarge = "ml.inf2.xlarge"
+        case mlP4D24Xlarge = "ml.p4d.24xlarge"
+        case mlP4De24Xlarge = "ml.p4de.24xlarge"
+        case mlP548Xlarge = "ml.p5.48xlarge"
+        case mlTrn12Xlarge = "ml.trn1.2xlarge"
+        case mlTrn132Xlarge = "ml.trn1.32xlarge"
+        case mlTrn1N32Xlarge = "ml.trn1n.32xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OptimizationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inprogress = "INPROGRESS"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OrderKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "Ascending"
         case descending = "Descending"
@@ -1818,6 +1865,14 @@ extension SageMaker {
         case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
         case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
         case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlG512Xlarge = "ml.g5.12xlarge"
+        case mlG516Xlarge = "ml.g5.16xlarge"
+        case mlG524Xlarge = "ml.g5.24xlarge"
+        case mlG52Xlarge = "ml.g5.2xlarge"
+        case mlG548Xlarge = "ml.g5.48xlarge"
+        case mlG54Xlarge = "ml.g5.4xlarge"
+        case mlG58Xlarge = "ml.g5.8xlarge"
+        case mlG5Xlarge = "ml.g5.xlarge"
         case mlM410Xlarge = "ml.m4.10xlarge"
         case mlM416Xlarge = "ml.m4.16xlarge"
         case mlM42Xlarge = "ml.m4.2xlarge"
@@ -1841,6 +1896,14 @@ extension SageMaker {
         case mlR52Xlarge = "ml.r5.2xlarge"
         case mlR54Xlarge = "ml.r5.4xlarge"
         case mlR58Xlarge = "ml.r5.8xlarge"
+        case mlR5D12Xlarge = "ml.r5d.12xlarge"
+        case mlR5D16Xlarge = "ml.r5d.16xlarge"
+        case mlR5D24Xlarge = "ml.r5d.24xlarge"
+        case mlR5D2Xlarge = "ml.r5d.2xlarge"
+        case mlR5D4Xlarge = "ml.r5d.4xlarge"
+        case mlR5D8Xlarge = "ml.r5d.8xlarge"
+        case mlR5DLarge = "ml.r5d.large"
+        case mlR5DXlarge = "ml.r5d.xlarge"
         case mlR5Large = "ml.r5.large"
         case mlR5Xlarge = "ml.r5.xlarge"
         case mlT32Xlarge = "ml.t3.2xlarge"
@@ -2703,6 +2766,26 @@ extension SageMaker {
         case mlP4D24Xlarge = "ml.p4d.24xlarge"
         case mlP4De24Xlarge = "ml.p4de.24xlarge"
         case mlP548Xlarge = "ml.p5.48xlarge"
+        case mlR512Xlarge = "ml.r5.12xlarge"
+        case mlR516Xlarge = "ml.r5.16xlarge"
+        case mlR524Xlarge = "ml.r5.24xlarge"
+        case mlR52Xlarge = "ml.r5.2xlarge"
+        case mlR54Xlarge = "ml.r5.4xlarge"
+        case mlR58Xlarge = "ml.r5.8xlarge"
+        case mlR5D12Xlarge = "ml.r5d.12xlarge"
+        case mlR5D16Xlarge = "ml.r5d.16xlarge"
+        case mlR5D24Xlarge = "ml.r5d.24xlarge"
+        case mlR5D2Xlarge = "ml.r5d.2xlarge"
+        case mlR5D4Xlarge = "ml.r5d.4xlarge"
+        case mlR5D8Xlarge = "ml.r5d.8xlarge"
+        case mlR5DLarge = "ml.r5d.large"
+        case mlR5DXlarge = "ml.r5d.xlarge"
+        case mlR5Large = "ml.r5.large"
+        case mlR5Xlarge = "ml.r5.xlarge"
+        case mlT32Xlarge = "ml.t3.2xlarge"
+        case mlT3Large = "ml.t3.large"
+        case mlT3Medium = "ml.t3.medium"
+        case mlT3Xlarge = "ml.t3.xlarge"
         case mlTrn12Xlarge = "ml.trn1.2xlarge"
         case mlTrn132Xlarge = "ml.trn1.32xlarge"
         case mlTrn1N32Xlarge = "ml.trn1n.32xlarge"
@@ -3063,6 +3146,56 @@ extension SageMaker {
         }
     }
 
+    public enum OptimizationConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Settings for the model compilation technique that's applied by a model optimization job.
+        case modelCompilationConfig(ModelCompilationConfig)
+        /// Settings for the model quantization technique that's applied by a model optimization job.
+        case modelQuantizationConfig(ModelQuantizationConfig)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .modelCompilationConfig:
+                let value = try container.decode(ModelCompilationConfig.self, forKey: .modelCompilationConfig)
+                self = .modelCompilationConfig(value)
+            case .modelQuantizationConfig:
+                let value = try container.decode(ModelQuantizationConfig.self, forKey: .modelQuantizationConfig)
+                self = .modelQuantizationConfig(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .modelCompilationConfig(let value):
+                try container.encode(value, forKey: .modelCompilationConfig)
+            case .modelQuantizationConfig(let value):
+                try container.encode(value, forKey: .modelQuantizationConfig)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .modelCompilationConfig(let value):
+                try value.validate(name: "\(name).modelCompilationConfig")
+            case .modelQuantizationConfig(let value):
+                try value.validate(name: "\(name).modelQuantizationConfig")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelCompilationConfig = "ModelCompilationConfig"
+            case modelQuantizationConfig = "ModelQuantizationConfig"
+        }
+    }
+
     public enum TrialComponentParameterValue: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The numeric value of a numeric hyperparameter. If you specify a value for this parameter, you can't specify the StringValue parameter.
         case numberValue(Double)
@@ -3325,6 +3458,29 @@ extension SageMaker {
         }
     }
 
+    public struct AdditionalModelDataSource: AWSEncodableShape & AWSDecodableShape {
+        /// A custom name for this AdditionalModelDataSource object.
+        public let channelName: String?
+        public let s3DataSource: S3ModelDataSource?
+
+        public init(channelName: String? = nil, s3DataSource: S3ModelDataSource? = nil) {
+            self.channelName = channelName
+            self.s3DataSource = s3DataSource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelName, name: "channelName", parent: name, max: 64)
+            try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
+            try self.validate(self.channelName, name: "channelName", parent: name, pattern: "^[A-Za-z0-9\\.\\-_]+$")
+            try self.s3DataSource?.validate(name: "\(name).s3DataSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelName = "ChannelName"
+            case s3DataSource = "S3DataSource"
+        }
+    }
+
     public struct AdditionalS3DataSource: AWSEncodableShape & AWSDecodableShape {
         /// The type of compression used for an additional data source used in inference or training. Specify None if your additional data source is not compressed.
         public let compressionType: CompressionType?
@@ -3573,6 +3729,27 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case validationProfiles = "ValidationProfiles"
             case validationRole = "ValidationRole"
+        }
+    }
+
+    public struct AmazonQSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the Amazon Q profile used within the domain.
+        public let qProfileArn: String?
+        /// Whether Amazon Q has been enabled within the domain.
+        public let status: FeatureStatus?
+
+        public init(qProfileArn: String? = nil, status: FeatureStatus? = nil) {
+            self.qProfileArn = qProfileArn
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.qProfileArn, name: "qProfileArn", parent: name, pattern: "^arn:[-.a-z0-9]{1,63}:codewhisperer:([-.a-z0-9]{0,63}:){2}([a-zA-Z0-9-_:/]){1,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qProfileArn = "QProfileArn"
+            case status = "Status"
         }
     }
 
@@ -6082,6 +6259,8 @@ extension SageMaker {
     }
 
     public struct ContainerDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// Data sources that are available to your model in addition to the one that you specify for ModelDataSource when you use the CreateModel action.
+        public let additionalModelDataSources: [AdditionalModelDataSource]?
         /// This parameter is ignored for models that contain only a PrimaryContainer. When a ContainerDefinition is part of an inference pipeline, the value of the parameter uniquely identifies the container for the purposes of logging and metrics. For information, see Use Logs and Metrics to Monitor an Inference Pipeline. If you don't specify a value for this parameter for a ContainerDefinition that is part of an inference pipeline, a unique name is automatically assigned based on the position of the ContainerDefinition in the pipeline. If you specify a value for the ContainerHostName for any ContainerDefinition that is part of an inference pipeline, you must specify a value for the ContainerHostName parameter of every ContainerDefinition in that pipeline.
         public let containerHostname: String?
         /// The environment variables to set in the Docker container. The maximum length of each key and value in the Environment map is 1024 bytes. The maximum length of all keys and values in the map, combined, is 32 KB. If you pass multiple containers to a CreateModel request, then the maximum length of all of their maps, combined, is also 32 KB.
@@ -6103,7 +6282,8 @@ extension SageMaker {
         /// Specifies additional configuration for multi-model endpoints.
         public let multiModelConfig: MultiModelConfig?
 
-        public init(containerHostname: String? = nil, environment: [String: String]? = nil, image: String? = nil, imageConfig: ImageConfig? = nil, inferenceSpecificationName: String? = nil, mode: ContainerMode? = nil, modelDataSource: ModelDataSource? = nil, modelDataUrl: String? = nil, modelPackageName: String? = nil, multiModelConfig: MultiModelConfig? = nil) {
+        public init(additionalModelDataSources: [AdditionalModelDataSource]? = nil, containerHostname: String? = nil, environment: [String: String]? = nil, image: String? = nil, imageConfig: ImageConfig? = nil, inferenceSpecificationName: String? = nil, mode: ContainerMode? = nil, modelDataSource: ModelDataSource? = nil, modelDataUrl: String? = nil, modelPackageName: String? = nil, multiModelConfig: MultiModelConfig? = nil) {
+            self.additionalModelDataSources = additionalModelDataSources
             self.containerHostname = containerHostname
             self.environment = environment
             self.image = image
@@ -6117,6 +6297,10 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
+            try self.additionalModelDataSources?.forEach {
+                try $0.validate(name: "\(name).additionalModelDataSources[]")
+            }
+            try self.validate(self.additionalModelDataSources, name: "additionalModelDataSources", parent: name, max: 5)
             try self.validate(self.containerHostname, name: "containerHostname", parent: name, max: 63)
             try self.validate(self.containerHostname, name: "containerHostname", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.environment?.forEach {
@@ -6141,6 +6325,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalModelDataSources = "AdditionalModelDataSources"
             case containerHostname = "ContainerHostname"
             case environment = "Environment"
             case image = "Image"
@@ -9366,6 +9551,94 @@ extension SageMaker {
         }
     }
 
+    public struct CreateOptimizationJobRequest: AWSEncodableShape {
+        /// The type of instance that hosts the optimized model that you create with the optimization job.
+        public let deploymentInstanceType: OptimizationJobDeploymentInstanceType?
+        /// The location of the source model to optimize with an optimization job.
+        public let modelSource: OptimizationJobModelSource?
+        /// Settings for each of the optimization techniques that the job applies.
+        public let optimizationConfigs: [OptimizationConfig]?
+        /// The environment variables to set in the model container.
+        public let optimizationEnvironment: [String: String]?
+        /// A custom name for the new optimization job.
+        public let optimizationJobName: String?
+        /// Details for where to store the optimized model that you create with the optimization job.
+        public let outputConfig: OptimizationJobOutputConfig?
+        /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to perform tasks on your behalf.  During model optimization, Amazon SageMaker needs your permission to:   Read input data from an S3 bucket   Write model artifacts to an S3 bucket   Write logs to Amazon CloudWatch Logs   Publish metrics to Amazon CloudWatch   You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. For more information, see Amazon SageMaker Roles.
+        public let roleArn: String?
+        public let stoppingCondition: StoppingCondition?
+        /// A list of key-value pairs associated with the optimization job. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
+        public let tags: [Tag]?
+        /// A VPC in Amazon VPC that your optimized model has access to.
+        public let vpcConfig: OptimizationVpcConfig?
+
+        public init(deploymentInstanceType: OptimizationJobDeploymentInstanceType? = nil, modelSource: OptimizationJobModelSource? = nil, optimizationConfigs: [OptimizationConfig]? = nil, optimizationEnvironment: [String: String]? = nil, optimizationJobName: String? = nil, outputConfig: OptimizationJobOutputConfig? = nil, roleArn: String? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, vpcConfig: OptimizationVpcConfig? = nil) {
+            self.deploymentInstanceType = deploymentInstanceType
+            self.modelSource = modelSource
+            self.optimizationConfigs = optimizationConfigs
+            self.optimizationEnvironment = optimizationEnvironment
+            self.optimizationJobName = optimizationJobName
+            self.outputConfig = outputConfig
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+            self.tags = tags
+            self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.modelSource?.validate(name: "\(name).modelSource")
+            try self.optimizationConfigs?.forEach {
+                try $0.validate(name: "\(name).optimizationConfigs[]")
+            }
+            try self.validate(self.optimizationConfigs, name: "optimizationConfigs", parent: name, max: 10)
+            try self.optimizationEnvironment?.forEach {
+                try validate($0.key, name: "optimizationEnvironment.key", parent: name, max: 256)
+                try validate($0.key, name: "optimizationEnvironment.key", parent: name, pattern: "^(?!\\s*$).+$")
+                try validate($0.value, name: "optimizationEnvironment[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.optimizationEnvironment, name: "optimizationEnvironment", parent: name, max: 25)
+            try self.validate(self.optimizationJobName, name: "optimizationJobName", parent: name, max: 63)
+            try self.validate(self.optimizationJobName, name: "optimizationJobName", parent: name, min: 1)
+            try self.validate(self.optimizationJobName, name: "optimizationJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.outputConfig?.validate(name: "\(name).outputConfig")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.stoppingCondition?.validate(name: "\(name).stoppingCondition")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentInstanceType = "DeploymentInstanceType"
+            case modelSource = "ModelSource"
+            case optimizationConfigs = "OptimizationConfigs"
+            case optimizationEnvironment = "OptimizationEnvironment"
+            case optimizationJobName = "OptimizationJobName"
+            case outputConfig = "OutputConfig"
+            case roleArn = "RoleArn"
+            case stoppingCondition = "StoppingCondition"
+            case tags = "Tags"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct CreateOptimizationJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the optimization job.
+        public let optimizationJobArn: String?
+
+        public init(optimizationJobArn: String? = nil) {
+            self.optimizationJobArn = optimizationJobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optimizationJobArn = "OptimizationJobArn"
+        }
+    }
+
     public struct CreatePipelineRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time.
         public let clientRequestToken: String?
@@ -10284,9 +10557,9 @@ extension SageMaker {
     public struct CreateUserProfileRequest: AWSEncodableShape {
         /// The ID of the associated Domain.
         public let domainId: String?
-        /// A specifier for the type of value specified in SingleSignOnUserValue.  Currently, the only supported value is "UserName". If the Domain's AuthMode is IAM Identity Center, this field is required.  If the Domain's AuthMode is not IAM Identity Center, this field cannot be specified.
+        /// A specifier for the type of value specified in SingleSignOnUserValue. Currently, the only supported value is "UserName". If the Domain's AuthMode is IAM Identity Center, this field is required. If the Domain's AuthMode is not IAM Identity Center, this field cannot be specified.
         public let singleSignOnUserIdentifier: String?
-        /// The username of the associated Amazon Web Services Single Sign-On User for this UserProfile.  If the Domain's AuthMode is IAM Identity Center, this field is required, and must match a valid username of a user in your directory.  If the Domain's AuthMode is not IAM Identity Center, this field cannot be specified.
+        /// The username of the associated Amazon Web Services Single Sign-On User for this UserProfile. If the Domain's AuthMode is IAM Identity Center, this field is required, and must match a valid username of a user in your directory. If the Domain's AuthMode is not IAM Identity Center, this field cannot be specified.
         public let singleSignOnUserValue: String?
         /// Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags that you specify for the User Profile are also added to all Apps that the User Profile launches.
         public let tags: [Tag]?
@@ -12038,6 +12311,25 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case notebookInstanceLifecycleConfigName = "NotebookInstanceLifecycleConfigName"
+        }
+    }
+
+    public struct DeleteOptimizationJobRequest: AWSEncodableShape {
+        /// The name that you assigned to the optimization job.
+        public let optimizationJobName: String?
+
+        public init(optimizationJobName: String? = nil) {
+            self.optimizationJobName = optimizationJobName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.optimizationJobName, name: "optimizationJobName", parent: name, max: 63)
+            try self.validate(self.optimizationJobName, name: "optimizationJobName", parent: name, min: 1)
+            try self.validate(self.optimizationJobName, name: "optimizationJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optimizationJobName = "OptimizationJobName"
         }
     }
 
@@ -16197,6 +16489,101 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeOptimizationJobRequest: AWSEncodableShape {
+        /// The name that you assigned to the optimization job.
+        public let optimizationJobName: String?
+
+        public init(optimizationJobName: String? = nil) {
+            self.optimizationJobName = optimizationJobName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.optimizationJobName, name: "optimizationJobName", parent: name, max: 63)
+            try self.validate(self.optimizationJobName, name: "optimizationJobName", parent: name, min: 1)
+            try self.validate(self.optimizationJobName, name: "optimizationJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optimizationJobName = "OptimizationJobName"
+        }
+    }
+
+    public struct DescribeOptimizationJobResponse: AWSDecodableShape {
+        /// The time when you created the optimization job.
+        public let creationTime: Date?
+        /// The type of instance that hosts the optimized model that you create with the optimization job.
+        public let deploymentInstanceType: OptimizationJobDeploymentInstanceType?
+        /// If the optimization job status is FAILED, the reason for the failure.
+        public let failureReason: String?
+        /// The time when the optimization job was last updated.
+        public let lastModifiedTime: Date?
+        /// The location of the source model to optimize with an optimization job.
+        public let modelSource: OptimizationJobModelSource?
+        /// Settings for each of the optimization techniques that the job applies.
+        public let optimizationConfigs: [OptimizationConfig]?
+        /// The time when the optimization job finished processing.
+        public let optimizationEndTime: Date?
+        /// The environment variables to set in the model container.
+        public let optimizationEnvironment: [String: String]?
+        /// The Amazon Resource Name (ARN) of the optimization job.
+        public let optimizationJobArn: String?
+        /// The name that you assigned to the optimization job.
+        public let optimizationJobName: String?
+        /// The current status of the optimization job.
+        public let optimizationJobStatus: OptimizationJobStatus?
+        /// Output values produced by an optimization job.
+        public let optimizationOutput: OptimizationOutput?
+        /// The time when the optimization job started.
+        public let optimizationStartTime: Date?
+        /// Details for where to store the optimized model that you create with the optimization job.
+        public let outputConfig: OptimizationJobOutputConfig?
+        /// The ARN of the IAM role that you assigned to the optimization job.
+        public let roleArn: String?
+        public let stoppingCondition: StoppingCondition?
+        /// A VPC in Amazon VPC that your optimized model has access to.
+        public let vpcConfig: OptimizationVpcConfig?
+
+        public init(creationTime: Date? = nil, deploymentInstanceType: OptimizationJobDeploymentInstanceType? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, modelSource: OptimizationJobModelSource? = nil, optimizationConfigs: [OptimizationConfig]? = nil, optimizationEndTime: Date? = nil, optimizationEnvironment: [String: String]? = nil, optimizationJobArn: String? = nil, optimizationJobName: String? = nil, optimizationJobStatus: OptimizationJobStatus? = nil, optimizationOutput: OptimizationOutput? = nil, optimizationStartTime: Date? = nil, outputConfig: OptimizationJobOutputConfig? = nil, roleArn: String? = nil, stoppingCondition: StoppingCondition? = nil, vpcConfig: OptimizationVpcConfig? = nil) {
+            self.creationTime = creationTime
+            self.deploymentInstanceType = deploymentInstanceType
+            self.failureReason = failureReason
+            self.lastModifiedTime = lastModifiedTime
+            self.modelSource = modelSource
+            self.optimizationConfigs = optimizationConfigs
+            self.optimizationEndTime = optimizationEndTime
+            self.optimizationEnvironment = optimizationEnvironment
+            self.optimizationJobArn = optimizationJobArn
+            self.optimizationJobName = optimizationJobName
+            self.optimizationJobStatus = optimizationJobStatus
+            self.optimizationOutput = optimizationOutput
+            self.optimizationStartTime = optimizationStartTime
+            self.outputConfig = outputConfig
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+            self.vpcConfig = vpcConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case deploymentInstanceType = "DeploymentInstanceType"
+            case failureReason = "FailureReason"
+            case lastModifiedTime = "LastModifiedTime"
+            case modelSource = "ModelSource"
+            case optimizationConfigs = "OptimizationConfigs"
+            case optimizationEndTime = "OptimizationEndTime"
+            case optimizationEnvironment = "OptimizationEnvironment"
+            case optimizationJobArn = "OptimizationJobArn"
+            case optimizationJobName = "OptimizationJobName"
+            case optimizationJobStatus = "OptimizationJobStatus"
+            case optimizationOutput = "OptimizationOutput"
+            case optimizationStartTime = "OptimizationStartTime"
+            case outputConfig = "OutputConfig"
+            case roleArn = "RoleArn"
+            case stoppingCondition = "StoppingCondition"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
     public struct DescribePipelineDefinitionForExecutionRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the pipeline execution.
         public let pipelineExecutionArn: String?
@@ -17717,6 +18104,8 @@ extension SageMaker {
     }
 
     public struct DomainSettings: AWSEncodableShape & AWSDecodableShape {
+        /// A collection of settings that configure the Amazon Q experience within the domain. The AuthMode that you use to create the domain must be SSO.
+        public let amazonQSettings: AmazonQSettings?
         /// A collection of settings that configure the domain's Docker interaction.
         public let dockerSettings: DockerSettings?
         /// The configuration for attaching a SageMaker user profile name to the execution role as a sts:SourceIdentity key.
@@ -17726,7 +18115,8 @@ extension SageMaker {
         /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
         public let securityGroupIds: [String]?
 
-        public init(dockerSettings: DockerSettings? = nil, executionRoleIdentityConfig: ExecutionRoleIdentityConfig? = nil, rStudioServerProDomainSettings: RStudioServerProDomainSettings? = nil, securityGroupIds: [String]? = nil) {
+        public init(amazonQSettings: AmazonQSettings? = nil, dockerSettings: DockerSettings? = nil, executionRoleIdentityConfig: ExecutionRoleIdentityConfig? = nil, rStudioServerProDomainSettings: RStudioServerProDomainSettings? = nil, securityGroupIds: [String]? = nil) {
+            self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
             self.rStudioServerProDomainSettings = rStudioServerProDomainSettings
@@ -17734,6 +18124,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
+            try self.amazonQSettings?.validate(name: "\(name).amazonQSettings")
             try self.dockerSettings?.validate(name: "\(name).dockerSettings")
             try self.rStudioServerProDomainSettings?.validate(name: "\(name).rStudioServerProDomainSettings")
             try self.securityGroupIds?.forEach {
@@ -17744,6 +18135,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amazonQSettings = "AmazonQSettings"
             case dockerSettings = "DockerSettings"
             case executionRoleIdentityConfig = "ExecutionRoleIdentityConfig"
             case rStudioServerProDomainSettings = "RStudioServerProDomainSettings"
@@ -17752,6 +18144,8 @@ extension SageMaker {
     }
 
     public struct DomainSettingsForUpdate: AWSEncodableShape {
+        /// A collection of settings that configure the Amazon Q experience within the domain.
+        public let amazonQSettings: AmazonQSettings?
         /// A collection of settings that configure the domain's Docker interaction.
         public let dockerSettings: DockerSettings?
         /// The configuration for attaching a SageMaker user profile name to the execution role as a sts:SourceIdentity key. This configuration can only be modified if there are no apps in the InService or Pending state.
@@ -17761,7 +18155,8 @@ extension SageMaker {
         /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
         public let securityGroupIds: [String]?
 
-        public init(dockerSettings: DockerSettings? = nil, executionRoleIdentityConfig: ExecutionRoleIdentityConfig? = nil, rStudioServerProDomainSettingsForUpdate: RStudioServerProDomainSettingsForUpdate? = nil, securityGroupIds: [String]? = nil) {
+        public init(amazonQSettings: AmazonQSettings? = nil, dockerSettings: DockerSettings? = nil, executionRoleIdentityConfig: ExecutionRoleIdentityConfig? = nil, rStudioServerProDomainSettingsForUpdate: RStudioServerProDomainSettingsForUpdate? = nil, securityGroupIds: [String]? = nil) {
+            self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
             self.rStudioServerProDomainSettingsForUpdate = rStudioServerProDomainSettingsForUpdate
@@ -17769,6 +18164,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
+            try self.amazonQSettings?.validate(name: "\(name).amazonQSettings")
             try self.dockerSettings?.validate(name: "\(name).dockerSettings")
             try self.rStudioServerProDomainSettingsForUpdate?.validate(name: "\(name).rStudioServerProDomainSettingsForUpdate")
             try self.securityGroupIds?.forEach {
@@ -17779,6 +18175,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amazonQSettings = "AmazonQSettings"
             case dockerSettings = "DockerSettings"
             case executionRoleIdentityConfig = "ExecutionRoleIdentityConfig"
             case rStudioServerProDomainSettingsForUpdate = "RStudioServerProDomainSettingsForUpdate"
@@ -26123,6 +26520,87 @@ extension SageMaker {
         }
     }
 
+    public struct ListOptimizationJobsRequest: AWSEncodableShape {
+        /// Filters the results to only those optimization jobs that were created after the specified time.
+        public let creationTimeAfter: Date?
+        /// Filters the results to only those optimization jobs that were created before the specified time.
+        public let creationTimeBefore: Date?
+        /// Filters the results to only those optimization jobs that were updated after the specified time.
+        public let lastModifiedTimeAfter: Date?
+        /// Filters the results to only those optimization jobs that were updated before the specified time.
+        public let lastModifiedTimeBefore: Date?
+        /// The maximum number of optimization jobs to return in the response. The default is 50.
+        public let maxResults: Int?
+        /// Filters the results to only those optimization jobs with a name that contains the specified string.
+        public let nameContains: String?
+        /// A token that you use to get the next set of results following a truncated response. If the response to the previous request was truncated, that response provides the value for this token.
+        public let nextToken: String?
+        /// Filters the results to only those optimization jobs that apply the specified optimization techniques. You can specify either Quantization or Compilation.
+        public let optimizationContains: String?
+        /// The field by which to sort the optimization jobs in the response. The default is CreationTime
+        public let sortBy: ListOptimizationJobsSortBy?
+        /// The sort order for results. The default is Ascending
+        public let sortOrder: SortOrder?
+        /// Filters the results to only those optimization jobs with the specified status.
+        public let statusEquals: OptimizationJobStatus?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, optimizationContains: String? = nil, sortBy: ListOptimizationJobsSortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: OptimizationJobStatus? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.lastModifiedTimeAfter = lastModifiedTimeAfter
+            self.lastModifiedTimeBefore = lastModifiedTimeBefore
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.optimizationContains = optimizationContains
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.statusEquals = statusEquals
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.optimizationContains, name: "optimizationContains", parent: name, max: 63)
+            try self.validate(self.optimizationContains, name: "optimizationContains", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case lastModifiedTimeAfter = "LastModifiedTimeAfter"
+            case lastModifiedTimeBefore = "LastModifiedTimeBefore"
+            case maxResults = "MaxResults"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case optimizationContains = "OptimizationContains"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case statusEquals = "StatusEquals"
+        }
+    }
+
+    public struct ListOptimizationJobsResponse: AWSDecodableShape {
+        /// The token to use in a subsequent request to get the next set of results following a truncated response.
+        public let nextToken: String?
+        /// A list of optimization jobs and their properties that matches any of the filters you specified in the request.
+        public let optimizationJobSummaries: [OptimizationJobSummary]?
+
+        public init(nextToken: String? = nil, optimizationJobSummaries: [OptimizationJobSummary]? = nil) {
+            self.nextToken = nextToken
+            self.optimizationJobSummaries = optimizationJobSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case optimizationJobSummaries = "OptimizationJobSummaries"
+        }
+    }
+
     public struct ListPipelineExecutionStepsRequest: AWSEncodableShape {
         /// The maximum number of pipeline execution steps to return in the response.
         public let maxResults: Int?
@@ -27926,6 +28404,34 @@ extension SageMaker {
         }
     }
 
+    public struct ModelCompilationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the optimization.
+        public let image: String?
+        /// Environment variables that override the default ones in the model container.
+        public let overrideEnvironment: [String: String]?
+
+        public init(image: String? = nil, overrideEnvironment: [String: String]? = nil) {
+            self.image = image
+            self.overrideEnvironment = overrideEnvironment
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.image, name: "image", parent: name, max: 255)
+            try self.validate(self.image, name: "image", parent: name, pattern: "^[\\S]+$")
+            try self.overrideEnvironment?.forEach {
+                try validate($0.key, name: "overrideEnvironment.key", parent: name, max: 256)
+                try validate($0.key, name: "overrideEnvironment.key", parent: name, pattern: "^(?!\\s*$).+$")
+                try validate($0.value, name: "overrideEnvironment[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.overrideEnvironment, name: "overrideEnvironment", parent: name, max: 25)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case image = "Image"
+            case overrideEnvironment = "OverrideEnvironment"
+        }
+    }
+
     public struct ModelConfiguration: AWSDecodableShape {
         /// The name of the compilation job used to create the recommended model artifacts.
         public let compilationJobName: String?
@@ -29034,6 +29540,34 @@ extension SageMaker {
             case batchTransformInput = "BatchTransformInput"
             case endpointInput = "EndpointInput"
             case groundTruthS3Input = "GroundTruthS3Input"
+        }
+    }
+
+    public struct ModelQuantizationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the optimization.
+        public let image: String?
+        /// Environment variables that override the default ones in the model container.
+        public let overrideEnvironment: [String: String]?
+
+        public init(image: String? = nil, overrideEnvironment: [String: String]? = nil) {
+            self.image = image
+            self.overrideEnvironment = overrideEnvironment
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.image, name: "image", parent: name, max: 255)
+            try self.validate(self.image, name: "image", parent: name, pattern: "^[\\S]+$")
+            try self.overrideEnvironment?.forEach {
+                try validate($0.key, name: "overrideEnvironment.key", parent: name, max: 256)
+                try validate($0.key, name: "overrideEnvironment.key", parent: name, pattern: "^(?!\\s*$).+$")
+                try validate($0.value, name: "overrideEnvironment[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.overrideEnvironment, name: "overrideEnvironment", parent: name, max: 25)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case image = "Image"
+            case overrideEnvironment = "OverrideEnvironment"
         }
     }
 
@@ -30346,6 +30880,172 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "KmsKeyId"
+        }
+    }
+
+    public struct OptimizationJobModelSource: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 location of a source model to optimize with an optimization job.
+        public let s3: OptimizationJobModelSourceS3?
+
+        public init(s3: OptimizationJobModelSourceS3? = nil) {
+            self.s3 = s3
+        }
+
+        public func validate(name: String) throws {
+            try self.s3?.validate(name: "\(name).s3")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "S3"
+        }
+    }
+
+    public struct OptimizationJobModelSourceS3: AWSEncodableShape & AWSDecodableShape {
+        /// The access configuration settings for the source ML model for an optimization job, where you can accept the model end-user license agreement (EULA).
+        public let modelAccessConfig: OptimizationModelAccessConfig?
+        /// An Amazon S3 URI that locates a source model to optimize with an optimization job.
+        public let s3Uri: String?
+
+        public init(modelAccessConfig: OptimizationModelAccessConfig? = nil, s3Uri: String? = nil) {
+            self.modelAccessConfig = modelAccessConfig
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelAccessConfig = "ModelAccessConfig"
+            case s3Uri = "S3Uri"
+        }
+    }
+
+    public struct OptimizationJobOutputConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of a key in Amazon Web Services KMS. SageMaker uses they key to encrypt the artifacts of the optimized model when SageMaker uploads the model to Amazon S3.
+        public let kmsKeyId: String?
+        /// The Amazon S3 URI for where to store the optimized model that you create with an optimization job.
+        public let s3OutputLocation: String?
+
+        public init(kmsKeyId: String? = nil, s3OutputLocation: String? = nil) {
+            self.kmsKeyId = kmsKeyId
+            self.s3OutputLocation = s3OutputLocation
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[a-zA-Z0-9:/_-]*$")
+            try self.validate(self.s3OutputLocation, name: "s3OutputLocation", parent: name, max: 1024)
+            try self.validate(self.s3OutputLocation, name: "s3OutputLocation", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case s3OutputLocation = "S3OutputLocation"
+        }
+    }
+
+    public struct OptimizationJobSummary: AWSDecodableShape {
+        /// The time when you created the optimization job.
+        public let creationTime: Date?
+        /// The type of instance that hosts the optimized model that you create with the optimization job.
+        public let deploymentInstanceType: OptimizationJobDeploymentInstanceType?
+        /// The time when the optimization job was last updated.
+        public let lastModifiedTime: Date?
+        /// The time when the optimization job finished processing.
+        public let optimizationEndTime: Date?
+        /// The Amazon Resource Name (ARN) of the optimization job.
+        public let optimizationJobArn: String?
+        /// The name that you assigned to the optimization job.
+        public let optimizationJobName: String?
+        /// The current status of the optimization job.
+        public let optimizationJobStatus: OptimizationJobStatus?
+        /// The time when the optimization job started.
+        public let optimizationStartTime: Date?
+        /// The optimization techniques that are applied by the optimization job.
+        public let optimizationTypes: [String]?
+
+        public init(creationTime: Date? = nil, deploymentInstanceType: OptimizationJobDeploymentInstanceType? = nil, lastModifiedTime: Date? = nil, optimizationEndTime: Date? = nil, optimizationJobArn: String? = nil, optimizationJobName: String? = nil, optimizationJobStatus: OptimizationJobStatus? = nil, optimizationStartTime: Date? = nil, optimizationTypes: [String]? = nil) {
+            self.creationTime = creationTime
+            self.deploymentInstanceType = deploymentInstanceType
+            self.lastModifiedTime = lastModifiedTime
+            self.optimizationEndTime = optimizationEndTime
+            self.optimizationJobArn = optimizationJobArn
+            self.optimizationJobName = optimizationJobName
+            self.optimizationJobStatus = optimizationJobStatus
+            self.optimizationStartTime = optimizationStartTime
+            self.optimizationTypes = optimizationTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case deploymentInstanceType = "DeploymentInstanceType"
+            case lastModifiedTime = "LastModifiedTime"
+            case optimizationEndTime = "OptimizationEndTime"
+            case optimizationJobArn = "OptimizationJobArn"
+            case optimizationJobName = "OptimizationJobName"
+            case optimizationJobStatus = "OptimizationJobStatus"
+            case optimizationStartTime = "OptimizationStartTime"
+            case optimizationTypes = "OptimizationTypes"
+        }
+    }
+
+    public struct OptimizationModelAccessConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies agreement to the model end-user license agreement (EULA). The AcceptEula value must be explicitly defined as True in order to accept the EULA that this model requires. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.
+        public let acceptEula: Bool?
+
+        public init(acceptEula: Bool? = nil) {
+            self.acceptEula = acceptEula
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptEula = "AcceptEula"
+        }
+    }
+
+    public struct OptimizationOutput: AWSDecodableShape {
+        /// The image that SageMaker recommends that you use to host the optimized model that you created with an optimization job.
+        public let recommendedInferenceImage: String?
+
+        public init(recommendedInferenceImage: String? = nil) {
+            self.recommendedInferenceImage = recommendedInferenceImage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommendedInferenceImage = "RecommendedInferenceImage"
+        }
+    }
+
+    public struct OptimizationVpcConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The VPC security group IDs, in the form sg-xxxxxxxx. Specify the security groups for the VPC that is specified in the Subnets field.
+        public let securityGroupIds: [String]?
+        /// The ID of the subnets in the VPC to which you want to connect your optimized model.
+        public let subnets: [String]?
+
+        public init(securityGroupIds: [String]? = nil, subnets: [String]? = nil) {
+            self.securityGroupIds = securityGroupIds
+            self.subnets = subnets
+        }
+
+        public func validate(name: String) throws {
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 32)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^[-0-9a-zA-Z]+$")
+            }
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
+            try self.subnets?.forEach {
+                try validate($0, name: "subnets[]", parent: name, max: 32)
+                try validate($0, name: "subnets[]", parent: name, pattern: "^[-0-9a-zA-Z]+$")
+            }
+            try self.validate(self.subnets, name: "subnets", parent: name, max: 16)
+            try self.validate(self.subnets, name: "subnets", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "SecurityGroupIds"
+            case subnets = "Subnets"
         }
     }
 
@@ -34804,6 +35504,25 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case notebookInstanceName = "NotebookInstanceName"
+        }
+    }
+
+    public struct StopOptimizationJobRequest: AWSEncodableShape {
+        /// The name that you assigned to the optimization job.
+        public let optimizationJobName: String?
+
+        public init(optimizationJobName: String? = nil) {
+            self.optimizationJobName = optimizationJobName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.optimizationJobName, name: "optimizationJobName", parent: name, max: 63)
+            try self.validate(self.optimizationJobName, name: "optimizationJobName", parent: name, min: 1)
+            try self.validate(self.optimizationJobName, name: "optimizationJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optimizationJobName = "OptimizationJobName"
         }
     }
 

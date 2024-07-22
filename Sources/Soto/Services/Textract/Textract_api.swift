@@ -74,6 +74,32 @@ public struct Textract: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "ap-northeast-2": "textract.ap-northeast-2.api.aws",
+            "ap-south-1": "textract.ap-south-1.api.aws",
+            "ap-southeast-1": "textract.ap-southeast-1.api.aws",
+            "ap-southeast-2": "textract.ap-southeast-2.api.aws",
+            "ca-central-1": "textract.ca-central-1.api.aws",
+            "eu-central-1": "textract.eu-central-1.api.aws",
+            "eu-west-1": "textract.eu-west-1.api.aws",
+            "eu-west-2": "textract.eu-west-2.api.aws",
+            "eu-west-3": "textract.eu-west-3.api.aws",
+            "us-east-1": "textract.us-east-1.api.aws",
+            "us-east-2": "textract.us-east-2.api.aws",
+            "us-gov-east-1": "textract.us-gov-east-1.api.aws",
+            "us-gov-west-1": "textract.us-gov-west-1.api.aws",
+            "us-west-1": "textract.us-west-1.api.aws",
+            "us-west-2": "textract.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "textract-fips.ca-central-1.api.aws",
+            "us-east-1": "textract-fips.us-east-1.api.aws",
+            "us-east-2": "textract-fips.us-east-2.api.aws",
+            "us-gov-east-1": "textract-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "textract-fips.us-gov-west-1.api.aws",
+            "us-west-1": "textract-fips.us-west-1.api.aws",
+            "us-west-2": "textract-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "textract-fips.ca-central-1.amazonaws.com",
             "us-east-1": "textract-fips.us-east-1.amazonaws.com",

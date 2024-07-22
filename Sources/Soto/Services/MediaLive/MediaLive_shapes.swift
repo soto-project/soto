@@ -136,6 +136,13 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum Algorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aes128 = "AES128"
+        case aes192 = "AES192"
+        case aes256 = "AES256"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AudioDescriptionAudioTypeControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case followInput = "FOLLOW_INPUT"
         case useConfigured = "USE_CONFIGURED"
@@ -1400,6 +1407,7 @@ extension MediaLive {
         case rtmpPull = "RTMP_PULL"
         case rtmpPush = "RTMP_PUSH"
         case rtpPush = "RTP_PUSH"
+        case srtCaller = "SRT_CALLER"
         case tsFile = "TS_FILE"
         case udpPush = "UDP_PUSH"
         case urlPull = "URL_PULL"
@@ -4381,12 +4389,14 @@ extension MediaLive {
         /// exactly two source URLs for redundancy.
         /// Only specify sources for PULL type Inputs. Leave Destinations empty.
         public let sources: [InputSourceRequest]?
+        /// The settings associated with an SRT input.
+        public let srtSettings: SrtSettingsRequest?
         /// A collection of key-value pairs.
         public let tags: [String: String]?
         public let type: InputType?
         public let vpc: InputVpcRequest?
 
-        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceSettings]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, requestId: String? = CreateInputRequest.idempotencyToken(), roleArn: String? = nil, sources: [InputSourceRequest]? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
+        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceSettings]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, requestId: String? = CreateInputRequest.idempotencyToken(), roleArn: String? = nil, sources: [InputSourceRequest]? = nil, srtSettings: SrtSettingsRequest? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
             self.destinations = destinations
             self.inputDevices = inputDevices
             self.inputSecurityGroups = inputSecurityGroups
@@ -4395,6 +4405,7 @@ extension MediaLive {
             self.requestId = requestId
             self.roleArn = roleArn
             self.sources = sources
+            self.srtSettings = srtSettings
             self.tags = tags
             self.type = type
             self.vpc = vpc
@@ -4409,6 +4420,7 @@ extension MediaLive {
             case requestId = "requestId"
             case roleArn = "roleArn"
             case sources = "sources"
+            case srtSettings = "srtSettings"
             case tags = "tags"
             case type = "type"
             case vpc = "vpc"
@@ -5524,12 +5536,14 @@ extension MediaLive {
         public let securityGroups: [String]?
         /// A list of the sources of the input (PULL-type).
         public let sources: [InputSource]?
+        /// The settings associated with an SRT input.
+        public let srtSettings: SrtSettings?
         public let state: InputState?
         /// A collection of key-value pairs.
         public let tags: [String: String]?
         public let type: InputType?
 
-        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
+        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, srtSettings: SrtSettings? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
             self.attachedChannels = attachedChannels
             self.destinations = destinations
@@ -5543,6 +5557,7 @@ extension MediaLive {
             self.roleArn = roleArn
             self.securityGroups = securityGroups
             self.sources = sources
+            self.srtSettings = srtSettings
             self.state = state
             self.tags = tags
             self.type = type
@@ -5562,6 +5577,7 @@ extension MediaLive {
             case roleArn = "roleArn"
             case securityGroups = "securityGroups"
             case sources = "sources"
+            case srtSettings = "srtSettings"
             case state = "state"
             case tags = "tags"
             case type = "type"
@@ -6191,7 +6207,6 @@ extension MediaLive {
 
     public struct Eac3AtmosSettings: AWSEncodableShape & AWSDecodableShape {
         /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
-        /// //  * @affectsRightSizing true
         public let bitrate: Double?
         /// Dolby Digital Plus with Dolby Atmos coding mode. Determines number of channels.
         public let codingMode: Eac3AtmosCodingMode?
@@ -7316,7 +7331,12 @@ extension MediaLive {
         public let colorSpaceSettings: H264ColorSpaceSettings?
         /// Entropy encoding mode.  Use cabac (must be in Main or High profile) or cavlc.
         public let entropyEncoding: H264EntropyEncoding?
-        /// Optional filters that you can apply to an encode.
+        /// Optional. Both filters reduce bandwidth by removing imperceptible details. You can enable one of the filters. We
+        /// recommend that you try both filters and observe the results to decide which one to use.
+        /// The Temporal Filter reduces bandwidth by removing imperceptible details in the content. It combines perceptual
+        /// filtering and motion compensated temporal filtering (MCTF). It operates independently of the compression level.
+        /// The Bandwidth Reduction filter is a perceptual filter located within the encoding loop. It adapts to the current
+        /// compression level to filter imperceptible signals. This filter works only when the resolution is 1080p or lower.
         public let filterSettings: H264FilterSettings?
         /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
         public let fixedAfd: FixedAfd?
@@ -7582,7 +7602,12 @@ extension MediaLive {
         public let colorMetadata: H265ColorMetadata?
         /// Color Space settings
         public let colorSpaceSettings: H265ColorSpaceSettings?
-        /// Optional filters that you can apply to an encode.
+        /// Optional. Both filters reduce bandwidth by removing imperceptible details. You can enable one of the filters. We
+        /// recommend that you try both filters and observe the results to decide which one to use.
+        /// The Temporal Filter reduces bandwidth by removing imperceptible details in the content. It combines perceptual
+        /// filtering and motion compensated temporal filtering (MCTF). It operates independently of the compression level.
+        /// The Bandwidth Reduction filter is a perceptual filter located within the encoding loop. It adapts to the current
+        /// compression level to filter imperceptible signals. This filter works only when the resolution is 1080p or lower.
         public let filterSettings: H265FilterSettings?
         /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
         public let fixedAfd: FixedAfd?
@@ -8378,12 +8403,14 @@ extension MediaLive {
         public let securityGroups: [String]?
         /// A list of the sources of the input (PULL-type).
         public let sources: [InputSource]?
+        /// The settings associated with an SRT input.
+        public let srtSettings: SrtSettings?
         public let state: InputState?
         /// A collection of key-value pairs.
         public let tags: [String: String]?
         public let type: InputType?
 
-        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
+        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, srtSettings: SrtSettings? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
             self.attachedChannels = attachedChannels
             self.destinations = destinations
@@ -8397,6 +8424,7 @@ extension MediaLive {
             self.roleArn = roleArn
             self.securityGroups = securityGroups
             self.sources = sources
+            self.srtSettings = srtSettings
             self.state = state
             self.tags = tags
             self.type = type
@@ -8416,6 +8444,7 @@ extension MediaLive {
             case roleArn = "roleArn"
             case securityGroups = "securityGroups"
             case sources = "sources"
+            case srtSettings = "srtSettings"
             case state = "state"
             case tags = "tags"
             case type = "type"
@@ -12681,6 +12710,120 @@ extension MediaLive {
         public init() {}
     }
 
+    public struct SrtCallerDecryption: AWSDecodableShape {
+        /// The algorithm used to encrypt content.
+        public let algorithm: Algorithm?
+        /// The ARN for the secret in Secrets Manager. Someone in your organization must create a secret and provide you with its ARN. The secret holds the passphrase that MediaLive uses to decrypt the source content.
+        public let passphraseSecretArn: String?
+
+        public init(algorithm: Algorithm? = nil, passphraseSecretArn: String? = nil) {
+            self.algorithm = algorithm
+            self.passphraseSecretArn = passphraseSecretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case algorithm = "algorithm"
+            case passphraseSecretArn = "passphraseSecretArn"
+        }
+    }
+
+    public struct SrtCallerDecryptionRequest: AWSEncodableShape {
+        /// The algorithm used to encrypt content.
+        public let algorithm: Algorithm?
+        /// The ARN for the secret in Secrets Manager. Someone in your organization must create a secret and provide you with its ARN. This secret holds the passphrase that MediaLive will use to decrypt the source content.
+        public let passphraseSecretArn: String?
+
+        public init(algorithm: Algorithm? = nil, passphraseSecretArn: String? = nil) {
+            self.algorithm = algorithm
+            self.passphraseSecretArn = passphraseSecretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case algorithm = "algorithm"
+            case passphraseSecretArn = "passphraseSecretArn"
+        }
+    }
+
+    public struct SrtCallerSource: AWSDecodableShape {
+        public let decryption: SrtCallerDecryption?
+        /// The preferred latency (in milliseconds) for implementing packet loss and recovery. Packet recovery is a key feature of SRT.
+        public let minimumLatency: Int?
+        /// The IP address at the upstream system (the listener) that MediaLive (the caller) connects to.
+        public let srtListenerAddress: String?
+        /// The port at the upstream system (the listener) that MediaLive (the caller) connects to.
+        public let srtListenerPort: String?
+        /// The stream ID, if the upstream system uses this identifier.
+        public let streamId: String?
+
+        public init(decryption: SrtCallerDecryption? = nil, minimumLatency: Int? = nil, srtListenerAddress: String? = nil, srtListenerPort: String? = nil, streamId: String? = nil) {
+            self.decryption = decryption
+            self.minimumLatency = minimumLatency
+            self.srtListenerAddress = srtListenerAddress
+            self.srtListenerPort = srtListenerPort
+            self.streamId = streamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case decryption = "decryption"
+            case minimumLatency = "minimumLatency"
+            case srtListenerAddress = "srtListenerAddress"
+            case srtListenerPort = "srtListenerPort"
+            case streamId = "streamId"
+        }
+    }
+
+    public struct SrtCallerSourceRequest: AWSEncodableShape {
+        public let decryption: SrtCallerDecryptionRequest?
+        /// The preferred latency (in milliseconds) for implementing packet loss and recovery. Packet recovery is a key feature of SRT. Obtain this value from the operator at the upstream system.
+        public let minimumLatency: Int?
+        /// The IP address at the upstream system (the listener) that MediaLive (the caller) will connect to.
+        public let srtListenerAddress: String?
+        /// The port at the upstream system (the listener) that MediaLive (the caller) will connect to.
+        public let srtListenerPort: String?
+        /// This value is required if the upstream system uses this identifier because without it, the SRT handshake between MediaLive (the caller) and the upstream system (the listener) might fail.
+        public let streamId: String?
+
+        public init(decryption: SrtCallerDecryptionRequest? = nil, minimumLatency: Int? = nil, srtListenerAddress: String? = nil, srtListenerPort: String? = nil, streamId: String? = nil) {
+            self.decryption = decryption
+            self.minimumLatency = minimumLatency
+            self.srtListenerAddress = srtListenerAddress
+            self.srtListenerPort = srtListenerPort
+            self.streamId = streamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case decryption = "decryption"
+            case minimumLatency = "minimumLatency"
+            case srtListenerAddress = "srtListenerAddress"
+            case srtListenerPort = "srtListenerPort"
+            case streamId = "streamId"
+        }
+    }
+
+    public struct SrtSettings: AWSDecodableShape {
+        public let srtCallerSources: [SrtCallerSource]?
+
+        public init(srtCallerSources: [SrtCallerSource]? = nil) {
+            self.srtCallerSources = srtCallerSources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case srtCallerSources = "srtCallerSources"
+        }
+    }
+
+    public struct SrtSettingsRequest: AWSEncodableShape {
+        public let srtCallerSources: [SrtCallerSourceRequest]?
+
+        public init(srtCallerSources: [SrtCallerSourceRequest]? = nil) {
+            self.srtCallerSources = srtCallerSources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case srtCallerSources = "srtCallerSources"
+        }
+    }
+
     public struct StandardHlsSettings: AWSEncodableShape & AWSDecodableShape {
         /// List all the audio groups that are used with the video output stream. Input all the audio GROUP-IDs that are associated to the video, separate by ','.
         public let audioRenditionSets: String?
@@ -14625,8 +14768,10 @@ extension MediaLive {
         /// exactly two source URLs for redundancy.
         /// Only specify sources for PULL type Inputs. Leave Destinations empty.
         public let sources: [InputSourceRequest]?
+        /// The settings associated with an SRT input.
+        public let srtSettings: SrtSettingsRequest?
 
-        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceRequest]? = nil, inputId: String, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil) {
+        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceRequest]? = nil, inputId: String, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil, srtSettings: SrtSettingsRequest? = nil) {
             self.destinations = destinations
             self.inputDevices = inputDevices
             self.inputId = inputId
@@ -14635,6 +14780,7 @@ extension MediaLive {
             self.name = name
             self.roleArn = roleArn
             self.sources = sources
+            self.srtSettings = srtSettings
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -14648,6 +14794,7 @@ extension MediaLive {
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
             try container.encodeIfPresent(self.sources, forKey: .sources)
+            try container.encodeIfPresent(self.srtSettings, forKey: .srtSettings)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14658,6 +14805,7 @@ extension MediaLive {
             case name = "name"
             case roleArn = "roleArn"
             case sources = "sources"
+            case srtSettings = "srtSettings"
         }
     }
 
