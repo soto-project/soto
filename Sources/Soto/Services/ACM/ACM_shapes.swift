@@ -95,13 +95,13 @@ extension ACM {
     }
 
     public enum KeyAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ecPrime256V1 = "EC_prime256v1"
-        case ecSecp384R1 = "EC_secp384r1"
-        case ecSecp521R1 = "EC_secp521r1"
-        case rsa1024 = "RSA_1024"
-        case rsa2048 = "RSA_2048"
-        case rsa3072 = "RSA_3072"
-        case rsa4096 = "RSA_4096"
+        case ecPrime256V1 = "EC-prime256v1"
+        case ecSecp384R1 = "EC-secp384r1"
+        case ecSecp521R1 = "EC-secp521r1"
+        case rsa1024 = "RSA-1024"
+        case rsa2048 = "RSA-2048"
+        case rsa3072 = "RSA-3072"
+        case rsa4096 = "RSA-4096"
         public var description: String { return self.rawValue }
     }
 

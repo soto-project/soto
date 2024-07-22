@@ -83,7 +83,34 @@ public struct LicenseManagerLinuxSubscriptions: AWSService {
 
     // MARK: API Calls
 
-    /// Lists the Linux subscriptions service settings.
+    /// Remove a third-party subscription provider from the Bring Your Own License (BYOL) subscriptions
+    /// 			registered to your account.
+    @Sendable
+    public func deregisterSubscriptionProvider(_ input: DeregisterSubscriptionProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterSubscriptionProviderResponse {
+        return try await self.client.execute(
+            operation: "DeregisterSubscriptionProvider", 
+            path: "/subscription/DeregisterSubscriptionProvider", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Get details for a Bring Your Own License (BYOL) subscription that's registered to your account.
+    @Sendable
+    public func getRegisteredSubscriptionProvider(_ input: GetRegisteredSubscriptionProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegisteredSubscriptionProviderResponse {
+        return try await self.client.execute(
+            operation: "GetRegisteredSubscriptionProvider", 
+            path: "/subscription/GetRegisteredSubscriptionProvider", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the Linux subscriptions service settings for your account.
     @Sendable
     public func getServiceSettings(_ input: GetServiceSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceSettingsResponse {
         return try await self.client.execute(
@@ -116,6 +143,72 @@ public struct LicenseManagerLinuxSubscriptions: AWSService {
             operation: "ListLinuxSubscriptions", 
             path: "/subscription/ListLinuxSubscriptions", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// List Bring Your Own License (BYOL) subscription registration resources for your account.
+    @Sendable
+    public func listRegisteredSubscriptionProviders(_ input: ListRegisteredSubscriptionProvidersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRegisteredSubscriptionProvidersResponse {
+        return try await self.client.execute(
+            operation: "ListRegisteredSubscriptionProviders", 
+            path: "/subscription/ListRegisteredSubscriptionProviders", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// List the metadata tags that are assigned to the
+    /// 			specified Amazon Web Services resource.
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Register the supported third-party subscription provider for your Bring Your Own License (BYOL) subscription.
+    @Sendable
+    public func registerSubscriptionProvider(_ input: RegisterSubscriptionProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterSubscriptionProviderResponse {
+        return try await self.client.execute(
+            operation: "RegisterSubscriptionProvider", 
+            path: "/subscription/RegisterSubscriptionProvider", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Add metadata tags to the specified Amazon Web Services resource.
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Remove one or more metadata tag from the specified Amazon Web Services resource.
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -186,6 +279,25 @@ extension LicenseManagerLinuxSubscriptions {
             logger: logger
         )
     }
+
+    /// List Bring Your Own License (BYOL) subscription registration resources for your account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listRegisteredSubscriptionProvidersPaginator(
+        _ input: ListRegisteredSubscriptionProvidersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRegisteredSubscriptionProvidersRequest, ListRegisteredSubscriptionProvidersResponse> {
+        return .init(
+            input: input,
+            command: self.listRegisteredSubscriptionProviders,
+            inputKey: \ListRegisteredSubscriptionProvidersRequest.nextToken,
+            outputKey: \ListRegisteredSubscriptionProvidersResponse.nextToken,
+            logger: logger
+        )
+    }
 }
 
 extension LicenseManagerLinuxSubscriptions.ListLinuxSubscriptionInstancesRequest: AWSPaginateToken {
@@ -204,6 +316,16 @@ extension LicenseManagerLinuxSubscriptions.ListLinuxSubscriptionsRequest: AWSPag
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension LicenseManagerLinuxSubscriptions.ListRegisteredSubscriptionProvidersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LicenseManagerLinuxSubscriptions.ListRegisteredSubscriptionProvidersRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            subscriptionProviderSources: self.subscriptionProviderSources
         )
     }
 }

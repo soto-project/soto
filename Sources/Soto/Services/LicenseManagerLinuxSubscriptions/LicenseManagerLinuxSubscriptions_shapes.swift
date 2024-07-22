@@ -64,7 +64,44 @@ extension LicenseManagerLinuxSubscriptions {
         public var description: String { return self.rawValue }
     }
 
+    public enum SubscriptionProviderSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// RedHat subscription provider namespace
+        case redHat = "RedHat"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubscriptionProviderStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// ACTIVE status
+        case active = "ACTIVE"
+        /// INVALID status
+        case invalid = "INVALID"
+        /// PENDING status
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct DeregisterSubscriptionProviderRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the subscription provider resource to deregister.
+        public let subscriptionProviderArn: String
+
+        public init(subscriptionProviderArn: String) {
+            self.subscriptionProviderArn = subscriptionProviderArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.subscriptionProviderArn, name: "subscriptionProviderArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,510}/[a-z0-9-\\.]{1,510}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionProviderArn = "SubscriptionProviderArn"
+        }
+    }
+
+    public struct DeregisterSubscriptionProviderResponse: AWSDecodableShape {
+        public init() {}
+    }
 
     public struct Filter: AWSEncodableShape {
         /// The type of name to filter by.
@@ -89,6 +126,60 @@ extension LicenseManagerLinuxSubscriptions {
             case name = "Name"
             case `operator` = "Operator"
             case values = "Values"
+        }
+    }
+
+    public struct GetRegisteredSubscriptionProviderRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the BYOL registration resource to get details for.
+        public let subscriptionProviderArn: String
+
+        public init(subscriptionProviderArn: String) {
+            self.subscriptionProviderArn = subscriptionProviderArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.subscriptionProviderArn, name: "subscriptionProviderArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,510}/[a-z0-9-\\.]{1,510}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionProviderArn = "SubscriptionProviderArn"
+        }
+    }
+
+    public struct GetRegisteredSubscriptionProviderResponse: AWSDecodableShape {
+        /// The timestamp from the last time License Manager retrieved subscription details
+        /// 			from your registered third-party Linux subscription provider.
+        public let lastSuccessfulDataRetrievalTime: String?
+        /// The Amazon Resource Name (ARN) of the third-party access secret stored in Secrets Manager for the BYOL
+        /// 			registration resource specified in the request.
+        public let secretArn: String?
+        /// The Amazon Resource Name (ARN) for the BYOL registration resource specified in the request.
+        public let subscriptionProviderArn: String?
+        /// The subscription provider for the BYOL registration resource specified
+        /// 			in the request.
+        public let subscriptionProviderSource: SubscriptionProviderSource?
+        /// The status of the Linux subscription provider access token from the last
+        /// 			successful subscription data request.
+        public let subscriptionProviderStatus: SubscriptionProviderStatus?
+        /// The detailed message from your subscription provider token status.
+        public let subscriptionProviderStatusMessage: String?
+
+        public init(lastSuccessfulDataRetrievalTime: String? = nil, secretArn: String? = nil, subscriptionProviderArn: String? = nil, subscriptionProviderSource: SubscriptionProviderSource? = nil, subscriptionProviderStatus: SubscriptionProviderStatus? = nil, subscriptionProviderStatusMessage: String? = nil) {
+            self.lastSuccessfulDataRetrievalTime = lastSuccessfulDataRetrievalTime
+            self.secretArn = secretArn
+            self.subscriptionProviderArn = subscriptionProviderArn
+            self.subscriptionProviderSource = subscriptionProviderSource
+            self.subscriptionProviderStatus = subscriptionProviderStatus
+            self.subscriptionProviderStatusMessage = subscriptionProviderStatusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastSuccessfulDataRetrievalTime = "LastSuccessfulDataRetrievalTime"
+            case secretArn = "SecretArn"
+            case subscriptionProviderArn = "SubscriptionProviderArn"
+            case subscriptionProviderSource = "SubscriptionProviderSource"
+            case subscriptionProviderStatus = "SubscriptionProviderStatus"
+            case subscriptionProviderStatusMessage = "SubscriptionProviderStatusMessage"
         }
     }
 
@@ -130,46 +221,70 @@ extension LicenseManagerLinuxSubscriptions {
         public let accountID: String?
         /// The AMI ID used to launch the instance.
         public let amiId: String?
+        /// Indicates that you have two different license subscriptions for
+        /// 			the same software on your instance.
+        public let dualSubscription: String?
         /// The instance ID of the resource.
         public let instanceID: String?
         /// The instance type of the resource.
         public let instanceType: String?
         /// The time in which the last discovery updated the instance details.
         public let lastUpdatedTime: String?
+        /// The operating system software version that runs on your instance.
+        public let osVersion: String?
         /// The product code for the instance. For more information, see Usage operation values in the License Manager User Guide .
         public let productCode: [String]?
         /// The Region the instance is running in.
         public let region: String?
+        /// Indicates that your instance uses a BYOL license subscription from
+        /// 			a third-party Linux subscription provider that you've registered with License Manager.
+        public let registeredWithSubscriptionProvider: String?
         /// The status of the instance.
         public let status: String?
-        /// The name of the subscription being used by the instance.
+        /// The name of the license subscription that the instance uses.
         public let subscriptionName: String?
+        /// The timestamp when you registered the third-party Linux subscription
+        /// 			provider for the subscription that the instance uses.
+        public let subscriptionProviderCreateTime: String?
+        /// The timestamp from the last time that the instance synced with the registered
+        /// 			third-party Linux subscription provider.
+        public let subscriptionProviderUpdateTime: String?
         /// The usage operation of the instance. For more information, see For more information, see Usage operation values in the License Manager User Guide.
         public let usageOperation: String?
 
-        public init(accountID: String? = nil, amiId: String? = nil, instanceID: String? = nil, instanceType: String? = nil, lastUpdatedTime: String? = nil, productCode: [String]? = nil, region: String? = nil, status: String? = nil, subscriptionName: String? = nil, usageOperation: String? = nil) {
+        public init(accountID: String? = nil, amiId: String? = nil, dualSubscription: String? = nil, instanceID: String? = nil, instanceType: String? = nil, lastUpdatedTime: String? = nil, osVersion: String? = nil, productCode: [String]? = nil, region: String? = nil, registeredWithSubscriptionProvider: String? = nil, status: String? = nil, subscriptionName: String? = nil, subscriptionProviderCreateTime: String? = nil, subscriptionProviderUpdateTime: String? = nil, usageOperation: String? = nil) {
             self.accountID = accountID
             self.amiId = amiId
+            self.dualSubscription = dualSubscription
             self.instanceID = instanceID
             self.instanceType = instanceType
             self.lastUpdatedTime = lastUpdatedTime
+            self.osVersion = osVersion
             self.productCode = productCode
             self.region = region
+            self.registeredWithSubscriptionProvider = registeredWithSubscriptionProvider
             self.status = status
             self.subscriptionName = subscriptionName
+            self.subscriptionProviderCreateTime = subscriptionProviderCreateTime
+            self.subscriptionProviderUpdateTime = subscriptionProviderUpdateTime
             self.usageOperation = usageOperation
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountID = "AccountID"
             case amiId = "AmiId"
+            case dualSubscription = "DualSubscription"
             case instanceID = "InstanceID"
             case instanceType = "InstanceType"
             case lastUpdatedTime = "LastUpdatedTime"
+            case osVersion = "OsVersion"
             case productCode = "ProductCode"
             case region = "Region"
+            case registeredWithSubscriptionProvider = "RegisteredWithSubscriptionProvider"
             case status = "Status"
             case subscriptionName = "SubscriptionName"
+            case subscriptionProviderCreateTime = "SubscriptionProviderCreateTime"
+            case subscriptionProviderUpdateTime = "SubscriptionProviderUpdateTime"
             case usageOperation = "UsageOperation"
         }
     }
@@ -197,11 +312,12 @@ extension LicenseManagerLinuxSubscriptions {
     }
 
     public struct ListLinuxSubscriptionInstancesRequest: AWSEncodableShape {
-        /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify. For example, you can filter by the name of AmiID with an optional operator to see subscriptions that match, partially match, or don't match a certain Amazon Machine Image (AMI) ID. The valid names for this filter are:    AmiID     InstanceID     AccountID     Status     Region     UsageOperation     ProductCode     InstanceType    The valid Operators for this filter are:    contains     equals     Notequal
+        /// An array of structures that you can use to filter the results by your specified criteria.  	For example, you can specify Region in the Name, with the  	contains operator to list all subscriptions that match a partial string in the  	Value, such as us-west. For each filter, you can specify one of the following values for the Name key  	to streamline results:    AccountID     AmiID     DualSubscription     InstanceID     InstanceType     ProductCode     Region     Status     UsageOperation    For each filter, you can use one of the following Operator values to  		define the behavior of the filter:    contains     equals     Notequal
         public let filters: [Filter]?
-        /// Maximum number of results to return in a single call.
+        /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// Token for the next set of results.
+        /// A token to specify where to start paginating. This
+        /// 	is the nextToken from a previously truncated response.
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -226,7 +342,10 @@ extension LicenseManagerLinuxSubscriptions {
     public struct ListLinuxSubscriptionInstancesResponse: AWSDecodableShape {
         /// An array that contains instance objects.
         public let instances: [Instance]?
-        /// Token for the next set of results.
+        /// The next token used for paginated responses. When this
+        /// 	field isn't empty, there are additional elements that the service hasn't
+        /// 	included in this request. Use this token with the next request to retrieve
+        /// 	additional objects.
         public let nextToken: String?
 
         public init(instances: [Instance]? = nil, nextToken: String? = nil) {
@@ -243,9 +362,10 @@ extension LicenseManagerLinuxSubscriptions {
     public struct ListLinuxSubscriptionsRequest: AWSEncodableShape {
         /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify. For example, you can filter by the name of Subscription with an optional operator to see subscriptions that match, partially match, or don't match a certain subscription's name. The valid names for this filter are:    Subscription    The valid Operators for this filter are:    contains     equals     Notequal
         public let filters: [Filter]?
-        /// Maximum number of results to return in a single call.
+        /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// Token for the next set of results.
+        /// A token to specify where to start paginating. This
+        /// 	is the nextToken from a previously truncated response.
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -268,7 +388,10 @@ extension LicenseManagerLinuxSubscriptions {
     }
 
     public struct ListLinuxSubscriptionsResponse: AWSDecodableShape {
-        /// Token for the next set of results.
+        /// The next token used for paginated responses. When this
+        /// 	field isn't empty, there are additional elements that the service hasn't
+        /// 	included in this request. Use this token with the next request to retrieve
+        /// 	additional objects.
         public let nextToken: String?
         /// An array that contains subscription objects.
         public let subscriptions: [Subscription]?
@@ -281,6 +404,174 @@ extension LicenseManagerLinuxSubscriptions {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case subscriptions = "Subscriptions"
+        }
+    }
+
+    public struct ListRegisteredSubscriptionProvidersRequest: AWSEncodableShape {
+        /// The maximum items to return in a request.
+        public let maxResults: Int?
+        /// A token to specify where to start paginating. This
+        /// 	is the nextToken from a previously truncated response.
+        public let nextToken: String?
+        /// To filter your results, specify which subscription providers to return
+        /// 			in the list.
+        public let subscriptionProviderSources: [SubscriptionProviderSource]?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, subscriptionProviderSources: [SubscriptionProviderSource]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.subscriptionProviderSources = subscriptionProviderSources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case subscriptionProviderSources = "SubscriptionProviderSources"
+        }
+    }
+
+    public struct ListRegisteredSubscriptionProvidersResponse: AWSDecodableShape {
+        /// The next token used for paginated responses. When this
+        /// 	field isn't empty, there are additional elements that the service hasn't
+        /// 	included in this request. Use this token with the next request to retrieve
+        /// 	additional objects.
+        public let nextToken: String?
+        /// The list of BYOL registration resources that fit the criteria
+        /// 			you specified in the request.
+        public let registeredSubscriptionProviders: [RegisteredSubscriptionProvider]?
+
+        public init(nextToken: String? = nil, registeredSubscriptionProviders: [RegisteredSubscriptionProvider]? = nil) {
+            self.nextToken = nextToken
+            self.registeredSubscriptionProviders = registeredSubscriptionProviders
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case registeredSubscriptionProviders = "RegisteredSubscriptionProviders"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource for which to list metadata tags.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,510}/[a-z0-9-\\.]{1,510}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The metadata tags for the requested resource.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct RegisterSubscriptionProviderRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the secret where you've stored your subscription provider's access token. For
+        /// 			RHEL subscriptions managed through the Red Hat Subscription Manager (RHSM), the secret contains
+        /// 			your Red Hat Offline token.
+        public let secretArn: String
+        /// The supported Linux subscription provider to register.
+        public let subscriptionProviderSource: SubscriptionProviderSource
+        /// The metadata tags to assign to your registered Linux subscription provider
+        /// 			resource.
+        public let tags: [String: String]?
+
+        public init(secretArn: String, subscriptionProviderSource: SubscriptionProviderSource, tags: [String: String]? = nil) {
+            self.secretArn = secretArn
+            self.subscriptionProviderSource = subscriptionProviderSource
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:secretsmanager:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:secret:[^/]{1,1023}$")
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretArn = "SecretArn"
+            case subscriptionProviderSource = "SubscriptionProviderSource"
+            case tags = "Tags"
+        }
+    }
+
+    public struct RegisterSubscriptionProviderResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Linux subscription provider resource that you registered.
+        public let subscriptionProviderArn: String?
+        /// The Linux subscription provider that you registered.
+        public let subscriptionProviderSource: SubscriptionProviderSource?
+        /// Indicates the status of the registration action for the Linux subscription provider
+        /// 			that you requested.
+        public let subscriptionProviderStatus: SubscriptionProviderStatus?
+
+        public init(subscriptionProviderArn: String? = nil, subscriptionProviderSource: SubscriptionProviderSource? = nil, subscriptionProviderStatus: SubscriptionProviderStatus? = nil) {
+            self.subscriptionProviderArn = subscriptionProviderArn
+            self.subscriptionProviderSource = subscriptionProviderSource
+            self.subscriptionProviderStatus = subscriptionProviderStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionProviderArn = "SubscriptionProviderArn"
+            case subscriptionProviderSource = "SubscriptionProviderSource"
+            case subscriptionProviderStatus = "SubscriptionProviderStatus"
+        }
+    }
+
+    public struct RegisteredSubscriptionProvider: AWSDecodableShape {
+        /// The timestamp from the last time that License Manager accessed third-party subscription data
+        /// 			for your account from your registered Linux subscription provider.
+        public let lastSuccessfulDataRetrievalTime: String?
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret that stores your registered Linux subscription provider
+        /// 			access token. For RHEL account subscriptions, this is the offline token.
+        public let secretArn: String?
+        /// The Amazon Resource Name (ARN) of the Linux subscription provider resource that you registered.
+        public let subscriptionProviderArn: String?
+        /// A supported third-party Linux subscription provider. License Manager currently supports
+        /// 			Red Hat subscriptions.
+        public let subscriptionProviderSource: SubscriptionProviderSource?
+        /// Indicates the status of your registered Linux subscription provider access token
+        /// 			from the last time License Manager retrieved subscription data. For RHEL account subscriptions,
+        /// 			this is the status of the offline token.
+        public let subscriptionProviderStatus: SubscriptionProviderStatus?
+        /// A detailed message that's associated with your BYOL subscription
+        /// 			provider token status.
+        public let subscriptionProviderStatusMessage: String?
+
+        public init(lastSuccessfulDataRetrievalTime: String? = nil, secretArn: String? = nil, subscriptionProviderArn: String? = nil, subscriptionProviderSource: SubscriptionProviderSource? = nil, subscriptionProviderStatus: SubscriptionProviderStatus? = nil, subscriptionProviderStatusMessage: String? = nil) {
+            self.lastSuccessfulDataRetrievalTime = lastSuccessfulDataRetrievalTime
+            self.secretArn = secretArn
+            self.subscriptionProviderArn = subscriptionProviderArn
+            self.subscriptionProviderSource = subscriptionProviderSource
+            self.subscriptionProviderStatus = subscriptionProviderStatus
+            self.subscriptionProviderStatusMessage = subscriptionProviderStatusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastSuccessfulDataRetrievalTime = "LastSuccessfulDataRetrievalTime"
+            case secretArn = "SecretArn"
+            case subscriptionProviderArn = "SubscriptionProviderArn"
+            case subscriptionProviderSource = "SubscriptionProviderSource"
+            case subscriptionProviderStatus = "SubscriptionProviderStatus"
+            case subscriptionProviderStatusMessage = "SubscriptionProviderStatusMessage"
         }
     }
 
@@ -303,6 +594,71 @@ extension LicenseManagerLinuxSubscriptions {
             case name = "Name"
             case type = "Type"
         }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services resource to which to add the specified
+        /// 			metadata tags.
+        public let resourceArn: String
+        /// The metadata tags to assign to the Amazon Web Services resource. Tags are
+        /// 			formatted as key value pairs.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,510}/[a-z0-9-\\.]{1,510}$")
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services resource to remove the metadata tags from.
+        public let resourceArn: String
+        /// A list of metadata tag keys to remove from the requested
+        /// 			resource.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{1,510}/[a-z0-9-\\.]{1,510}$")
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateServiceSettingsRequest: AWSEncodableShape {
@@ -366,6 +722,7 @@ extension LicenseManagerLinuxSubscriptions {
 public struct LicenseManagerLinuxSubscriptionsErrorType: AWSErrorType {
     enum Code: String {
         case internalServerException = "InternalServerException"
+        case resourceNotFoundException = "ResourceNotFoundException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
@@ -390,6 +747,8 @@ public struct LicenseManagerLinuxSubscriptionsErrorType: AWSErrorType {
 
     /// An exception occurred with the service.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// Unable to find the requested Amazon Web Services resource.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The provided input is not valid. Try your request again.

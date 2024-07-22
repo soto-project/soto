@@ -217,6 +217,23 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum NaturalLanguageQueryGenerationCurrentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disableComplete = "DISABLE_COMPLETE"
+        case disableFailed = "DISABLE_FAILED"
+        case disableInProgress = "DISABLE_IN_PROGRESS"
+        case enableComplete = "ENABLE_COMPLETE"
+        case enableFailed = "ENABLE_FAILED"
+        case enableInProgress = "ENABLE_IN_PROGRESS"
+        case notEnabled = "NOT_ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NaturalLanguageQueryGenerationDesiredState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NodeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case notAvailable = "NotAvailable"
@@ -509,6 +526,48 @@ extension OpenSearch {
     }
 
     // MARK: Shapes
+
+    public struct AIMLOptionsInput: AWSEncodableShape {
+        /// Container for parameters required for natural language query generation on the specified domain.
+        public let naturalLanguageQueryGenerationOptions: NaturalLanguageQueryGenerationOptionsInput?
+
+        public init(naturalLanguageQueryGenerationOptions: NaturalLanguageQueryGenerationOptionsInput? = nil) {
+            self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case naturalLanguageQueryGenerationOptions = "NaturalLanguageQueryGenerationOptions"
+        }
+    }
+
+    public struct AIMLOptionsOutput: AWSDecodableShape {
+        /// Container for parameters required for natural language query generation on the specified domain.
+        public let naturalLanguageQueryGenerationOptions: NaturalLanguageQueryGenerationOptionsOutput?
+
+        public init(naturalLanguageQueryGenerationOptions: NaturalLanguageQueryGenerationOptionsOutput? = nil) {
+            self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case naturalLanguageQueryGenerationOptions = "NaturalLanguageQueryGenerationOptions"
+        }
+    }
+
+    public struct AIMLOptionsStatus: AWSDecodableShape {
+        /// Machine learning options on the specified domain.
+        public let options: AIMLOptionsOutput?
+        public let status: OptionStatus?
+
+        public init(options: AIMLOptionsOutput? = nil, status: OptionStatus? = nil) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
 
     public struct AWSDomainInformation: AWSEncodableShape & AWSDecodableShape {
         /// Name of the domain.
@@ -1518,6 +1577,8 @@ extension OpenSearch {
         public let advancedOptions: [String: String]?
         /// Options for fine-grained access control.
         public let advancedSecurityOptions: AdvancedSecurityOptionsInput?
+        /// Options for all machine learning features for the specified domain.
+        public let aimlOptions: AIMLOptionsInput?
         /// Options for Auto-Tune.
         public let autoTuneOptions: AutoTuneOptionsInput?
         /// Container for the cluster configuration of a domain.
@@ -1551,10 +1612,11 @@ extension OpenSearch {
         /// Container for the values required to configure VPC access domains. If you don't specify these values, OpenSearch Service creates the domain with a public endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
         public let vpcOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineVersion: String? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, tagList: [Tag]? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineVersion: String? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, tagList: [Tag]? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
+            self.aimlOptions = aimlOptions
             self.autoTuneOptions = autoTuneOptions
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
@@ -1600,6 +1662,7 @@ extension OpenSearch {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
+            case aimlOptions = "AIMLOptions"
             case autoTuneOptions = "AutoTuneOptions"
             case clusterConfig = "ClusterConfig"
             case cognitoOptions = "CognitoOptions"
@@ -2820,6 +2883,8 @@ extension OpenSearch {
         public let advancedOptions: AdvancedOptionsStatus?
         /// Container for fine-grained access control settings for the domain.
         public let advancedSecurityOptions: AdvancedSecurityOptionsStatus?
+        /// Container for parameters required to enable all machine learning features.
+        public let aimlOptions: AIMLOptionsStatus?
         /// Container for Auto-Tune settings for the domain.
         public let autoTuneOptions: AutoTuneOptionsStatus?
         /// Container for information about the progress of an existing configuration change.
@@ -2853,10 +2918,11 @@ extension OpenSearch {
         /// The current VPC options for the domain and the status of any updates to their configuration.
         public let vpcOptions: VPCDerivedInfoStatus?
 
-        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfigStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineVersion: VersionStatus? = nil, ipAddressType: IPAddressTypeStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, offPeakWindowOptions: OffPeakWindowOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, softwareUpdateOptions: SoftwareUpdateOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
+        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, aimlOptions: AIMLOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfigStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineVersion: VersionStatus? = nil, ipAddressType: IPAddressTypeStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, offPeakWindowOptions: OffPeakWindowOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, softwareUpdateOptions: SoftwareUpdateOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
+            self.aimlOptions = aimlOptions
             self.autoTuneOptions = autoTuneOptions
             self.changeProgressDetails = changeProgressDetails
             self.clusterConfig = clusterConfig
@@ -2879,6 +2945,7 @@ extension OpenSearch {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
+            case aimlOptions = "AIMLOptions"
             case autoTuneOptions = "AutoTuneOptions"
             case changeProgressDetails = "ChangeProgressDetails"
             case clusterConfig = "ClusterConfig"
@@ -3121,6 +3188,8 @@ extension OpenSearch {
         public let advancedOptions: [String: String]?
         /// Settings for fine-grained access control.
         public let advancedSecurityOptions: AdvancedSecurityOptions?
+        /// Container for parameters required to enable all machine learning features.
+        public let aimlOptions: AIMLOptionsOutput?
         /// The Amazon Resource Name (ARN) of the domain. For more information, see IAM identifiers in the AWS Identity and Access Management User Guide.
         public let arn: String
         /// Auto-Tune settings for the domain.
@@ -3180,10 +3249,11 @@ extension OpenSearch {
         /// The VPC configuration for the domain.
         public let vpcOptions: VPCDerivedInfo?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainEndpointV2HostedZoneId: String? = nil, domainId: String, domainName: String, domainProcessingStatus: DomainProcessingStatusType? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, endpointV2: String? = nil, engineVersion: String? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, aimlOptions: AIMLOptionsOutput? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainEndpointV2HostedZoneId: String? = nil, domainId: String, domainName: String, domainProcessingStatus: DomainProcessingStatusType? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, endpointV2: String? = nil, engineVersion: String? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
+            self.aimlOptions = aimlOptions
             self.arn = arn
             self.autoTuneOptions = autoTuneOptions
             self.changeProgressDetails = changeProgressDetails
@@ -3219,6 +3289,7 @@ extension OpenSearch {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
+            case aimlOptions = "AIMLOptions"
             case arn = "ARN"
             case autoTuneOptions = "AutoTuneOptions"
             case changeProgressDetails = "ChangeProgressDetails"
@@ -4606,6 +4677,36 @@ extension OpenSearch {
         }
     }
 
+    public struct NaturalLanguageQueryGenerationOptionsInput: AWSEncodableShape {
+        /// The desired state of the natural language query generation feature. Valid values are ENABLED and DISABLED.
+        public let desiredState: NaturalLanguageQueryGenerationDesiredState?
+
+        public init(desiredState: NaturalLanguageQueryGenerationDesiredState? = nil) {
+            self.desiredState = desiredState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredState = "DesiredState"
+        }
+    }
+
+    public struct NaturalLanguageQueryGenerationOptionsOutput: AWSDecodableShape {
+        /// The current state of the natural language query generation feature, indicating completion, in progress, or failure.
+        public let currentState: NaturalLanguageQueryGenerationCurrentState?
+        /// The desired state of the natural language query generation feature. Valid values are ENABLED and DISABLED.
+        public let desiredState: NaturalLanguageQueryGenerationDesiredState?
+
+        public init(currentState: NaturalLanguageQueryGenerationCurrentState? = nil, desiredState: NaturalLanguageQueryGenerationDesiredState? = nil) {
+            self.currentState = currentState
+            self.desiredState = desiredState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentState = "CurrentState"
+            case desiredState = "DesiredState"
+        }
+    }
+
     public struct NodeToNodeEncryptionOptions: AWSEncodableShape & AWSDecodableShape {
         /// True to enable node-to-node encryption.
         public let enabled: Bool?
@@ -5679,6 +5780,8 @@ extension OpenSearch {
         public let advancedOptions: [String: String]?
         /// Options for fine-grained access control.
         public let advancedSecurityOptions: AdvancedSecurityOptionsInput?
+        /// Options for all machine learning features for the specified domain.
+        public let aimlOptions: AIMLOptionsInput?
         /// Options for Auto-Tune.
         public let autoTuneOptions: AutoTuneOptions?
         /// Changes that you want to make to the cluster configuration, such as the instance type and number of EC2 instances.
@@ -5712,10 +5815,11 @@ extension OpenSearch {
         /// Options to specify the subnets and security groups for a VPC endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
         public let vpcOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, dryRunMode: DryRunMode? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, dryRunMode: DryRunMode? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
+            self.aimlOptions = aimlOptions
             self.autoTuneOptions = autoTuneOptions
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
@@ -5740,6 +5844,7 @@ extension OpenSearch {
             try container.encodeIfPresent(self.accessPolicies, forKey: .accessPolicies)
             try container.encodeIfPresent(self.advancedOptions, forKey: .advancedOptions)
             try container.encodeIfPresent(self.advancedSecurityOptions, forKey: .advancedSecurityOptions)
+            try container.encodeIfPresent(self.aimlOptions, forKey: .aimlOptions)
             try container.encodeIfPresent(self.autoTuneOptions, forKey: .autoTuneOptions)
             try container.encodeIfPresent(self.clusterConfig, forKey: .clusterConfig)
             try container.encodeIfPresent(self.cognitoOptions, forKey: .cognitoOptions)
@@ -5779,6 +5884,7 @@ extension OpenSearch {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
+            case aimlOptions = "AIMLOptions"
             case autoTuneOptions = "AutoTuneOptions"
             case clusterConfig = "ClusterConfig"
             case cognitoOptions = "CognitoOptions"

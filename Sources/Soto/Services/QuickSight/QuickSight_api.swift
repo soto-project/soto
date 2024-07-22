@@ -73,6 +73,32 @@ public struct QuickSight: AWSService {
 
     // MARK: API Calls
 
+    /// Creates new reviewed answers for a Q Topic.
+    @Sendable
+    public func batchCreateTopicReviewedAnswer(_ input: BatchCreateTopicReviewedAnswerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchCreateTopicReviewedAnswerResponse {
+        return try await self.client.execute(
+            operation: "BatchCreateTopicReviewedAnswer", 
+            path: "/accounts/{AwsAccountId}/topics/{TopicId}/batch-create-reviewed-answers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes reviewed answers for Q Topic.
+    @Sendable
+    public func batchDeleteTopicReviewedAnswer(_ input: BatchDeleteTopicReviewedAnswerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteTopicReviewedAnswerResponse {
+        return try await self.client.execute(
+            operation: "BatchDeleteTopicReviewedAnswer", 
+            path: "/accounts/{AwsAccountId}/topics/{TopicId}/batch-delete-reviewed-answers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Cancels an ongoing ingestion of data into SPICE.
     @Sendable
     public func cancelIngestion(_ input: CancelIngestionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelIngestionResponse {
@@ -1690,6 +1716,19 @@ public struct QuickSight: AWSService {
         return try await self.client.execute(
             operation: "ListTopicRefreshSchedules", 
             path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists all reviewed answers for a Q Topic.
+    @Sendable
+    public func listTopicReviewedAnswers(_ input: ListTopicReviewedAnswersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTopicReviewedAnswersResponse {
+        return try await self.client.execute(
+            operation: "ListTopicReviewedAnswers", 
+            path: "/accounts/{AwsAccountId}/topics/{TopicId}/reviewed-answers", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 

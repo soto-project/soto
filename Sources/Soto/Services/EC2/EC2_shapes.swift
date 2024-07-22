@@ -1968,10 +1968,26 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum IpamExternalResourceVerificationTokenState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createComplete = "create-complete"
+        case createFailed = "create-failed"
+        case createInProgress = "create-in-progress"
+        case deleteComplete = "delete-complete"
+        case deleteFailed = "delete-failed"
+        case deleteInProgress = "delete-in-progress"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IpamManagementState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ignored = "ignored"
         case managed = "managed"
         case unmanaged = "unmanaged"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpamNetworkInterfaceAttachmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "available"
+        case inUse = "in-use"
         public var description: String { return self.rawValue }
     }
 
@@ -2664,6 +2680,7 @@ extension EC2 {
         case instanceEventWindow = "instance-event-window"
         case internetGateway = "internet-gateway"
         case ipam = "ipam"
+        case ipamExternalResourceVerificationToken = "ipam-external-resource-verification-token"
         case ipamPool = "ipam-pool"
         case ipamResourceDiscovery = "ipam-resource-discovery"
         case ipamResourceDiscoveryAssociation = "ipam-resource-discovery-association"
@@ -3001,6 +3018,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum TokenState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case expired = "expired"
+        case valid = "valid"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TpmSupportValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case v20 = "v2.0"
         public var description: String { return self.rawValue }
@@ -3230,6 +3253,12 @@ extension EC2 {
     public enum UserTrustProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case iamIdentityCenter = "iam-identity-center"
         case oidc = "oidc"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VerificationMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dnsToken = "dns-token"
+        case remarksX509 = "remarks-x509"
         public var description: String { return self.rawValue }
     }
 
@@ -9920,6 +9949,47 @@ extension EC2 {
         }
     }
 
+    public struct CreateIpamExternalResourceVerificationTokenRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM that will create the token.
+        public let ipamId: String?
+        /// Token tags.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+
+        public init(clientToken: String? = CreateIpamExternalResourceVerificationTokenRequest.idempotencyToken(), dryRun: Bool? = nil, ipamId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+            self.ipamId = ipamId
+            self.tagSpecifications = tagSpecifications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case dryRun = "DryRun"
+            case ipamId = "IpamId"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct CreateIpamExternalResourceVerificationTokenResult: AWSDecodableShape {
+        /// The verification token.
+        public let ipamExternalResourceVerificationToken: IpamExternalResourceVerificationToken?
+
+        public init(ipamExternalResourceVerificationToken: IpamExternalResourceVerificationToken? = nil) {
+            self.ipamExternalResourceVerificationToken = ipamExternalResourceVerificationToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamExternalResourceVerificationToken = "ipamExternalResourceVerificationToken"
+        }
+    }
+
     public struct CreateIpamPoolRequest: AWSEncodableShape {
         public struct _AllocationResourceTagsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -9947,7 +10017,7 @@ extension EC2 {
         public let dryRun: Bool?
         /// The ID of the scope in which you would like to create the IPAM pool.
         public let ipamScopeId: String?
-        /// In IPAM, the locale is the Amazon Web Services Region where you want to make an IPAM pool available for allocations. Only resources in the same Region as the locale of the pool can get IP address allocations from the pool. You can only allocate a CIDR for a VPC, for example, from an IPAM pool that shares a locale with the VPC’s Region. Note that once you choose a Locale for a pool, you cannot modify it. If you do not choose a locale, resources in Regions others than the IPAM's home region cannot use CIDRs from this pool. Possible values: Any Amazon Web Services Region, such as us-east-1.
+        /// The locale for the pool should be one of the following:   An Amazon Web Services Region where you want this IPAM pool to be available for allocations.   The network border group for an Amazon Web Services Local Zone where you want this IPAM pool to be available for allocations (supported Local Zones). This option is only available for IPAM IPv4 pools in the public scope.   If you do not choose a locale, resources in Regions others than the IPAM's home region cannot use CIDRs from this pool. Possible values: Any Amazon Web Services Region or supported Amazon Web Services Local Zone.
         public let locale: String?
         /// The IP address source for pools in the public scope. Only used for provisioning IP address CIDRs to pools in the public scope. Default is byoip. For more information, see Create IPv6 pools in the Amazon VPC IPAM User Guide.  By default, you can add only one Amazon-provided IPv6 CIDR block to a top-level IPv6 pool if PublicIpSource is amazon. For information on increasing the default limit, see  Quotas for your IPAM in the Amazon VPC IPAM User Guide.
         public let publicIpSource: IpamPoolPublicIpSource?
@@ -11081,17 +11151,21 @@ extension EC2 {
 
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// The Availability Zone (AZ) or Local Zone (LZ) network border group that the resource that the IP address is assigned to is in. Defaults to an AZ network border group. For more information on available Local Zones, see Local Zone availability in the Amazon EC2 User Guide.
+        public let networkBorderGroup: String?
         /// The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(dryRun: Bool? = nil, networkBorderGroup: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
+            self.networkBorderGroup = networkBorderGroup
             self.tagSpecifications = tagSpecifications
         }
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "DryRun"
+            case networkBorderGroup = "NetworkBorderGroup"
             case tagSpecifications = "TagSpecification"
         }
     }
@@ -14106,6 +14180,36 @@ extension EC2 {
         }
     }
 
+    public struct DeleteIpamExternalResourceVerificationTokenRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The token ID.
+        public let ipamExternalResourceVerificationTokenId: String?
+
+        public init(dryRun: Bool? = nil, ipamExternalResourceVerificationTokenId: String? = nil) {
+            self.dryRun = dryRun
+            self.ipamExternalResourceVerificationTokenId = ipamExternalResourceVerificationTokenId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case ipamExternalResourceVerificationTokenId = "IpamExternalResourceVerificationTokenId"
+        }
+    }
+
+    public struct DeleteIpamExternalResourceVerificationTokenResult: AWSDecodableShape {
+        /// The verification token.
+        public let ipamExternalResourceVerificationToken: IpamExternalResourceVerificationToken?
+
+        public init(ipamExternalResourceVerificationToken: IpamExternalResourceVerificationToken? = nil) {
+            self.ipamExternalResourceVerificationToken = ipamExternalResourceVerificationToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamExternalResourceVerificationToken = "ipamExternalResourceVerificationToken"
+        }
+    }
+
     public struct DeleteIpamPoolRequest: AWSEncodableShape {
         /// Enables you to quickly delete an IPAM pool and all resources within that pool, including provisioned CIDRs, allocations, and other pools.  You can only use this option to delete pools in the private scope or pools in the public scope with a source resource. A source resource is a resource used to provision CIDRs to a resource planning pool.
         public let cascade: Bool?
@@ -14838,16 +14942,20 @@ extension EC2 {
     public struct DeletePublicIpv4PoolRequest: AWSEncodableShape {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// The Availability Zone (AZ) or Local Zone (LZ) network border group that the resource that the IP address is assigned to is in. Defaults to an AZ network border group. For more information on available Local Zones, see Local Zone availability in the Amazon EC2 User Guide.
+        public let networkBorderGroup: String?
         /// The ID of the public IPv4 pool you want to delete.
         public let poolId: String?
 
-        public init(dryRun: Bool? = nil, poolId: String? = nil) {
+        public init(dryRun: Bool? = nil, networkBorderGroup: String? = nil, poolId: String? = nil) {
             self.dryRun = dryRun
+            self.networkBorderGroup = networkBorderGroup
             self.poolId = poolId
         }
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "DryRun"
+            case networkBorderGroup = "NetworkBorderGroup"
             case poolId = "PoolId"
         }
     }
@@ -19385,6 +19493,65 @@ extension EC2 {
         }
     }
 
+    public struct DescribeIpamExternalResourceVerificationTokensRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _IpamExternalResourceVerificationTokenIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters for the request. For more information about filtering, see Filtering CLI output. Available filters:    ipam-arn     ipam-external-resource-verification-token-arn     ipam-external-resource-verification-token-id     ipam-id     ipam-region     state     status     token-name     token-value
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// Verification token IDs.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamExternalResourceVerificationTokenIdsEncoding, String>>
+        public var ipamExternalResourceVerificationTokenIds: [String]?
+        /// The maximum number of tokens to return in one page of results.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamExternalResourceVerificationTokenIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.ipamExternalResourceVerificationTokenIds = ipamExternalResourceVerificationTokenIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case ipamExternalResourceVerificationTokenIds = "IpamExternalResourceVerificationTokenId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeIpamExternalResourceVerificationTokensResult: AWSDecodableShape {
+        public struct _IpamExternalResourceVerificationTokensEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Verification tokens.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamExternalResourceVerificationTokensEncoding, IpamExternalResourceVerificationToken>>
+        public var ipamExternalResourceVerificationTokens: [IpamExternalResourceVerificationToken]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(ipamExternalResourceVerificationTokens: [IpamExternalResourceVerificationToken]? = nil, nextToken: String? = nil) {
+            self.ipamExternalResourceVerificationTokens = ipamExternalResourceVerificationTokens
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamExternalResourceVerificationTokens = "ipamExternalResourceVerificationTokenSet"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct DescribeIpamPoolsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
         public struct _IpamPoolIdsEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -21135,7 +21302,7 @@ extension EC2 {
         /// The IDs of the placement groups.
         @OptionalCustomCoding<EC2ArrayCoder<_GroupIdsEncoding, String>>
         public var groupIds: [String]?
-        /// The names of the placement groups. Default: Describes all your placement groups, or only those otherwise specified.
+        /// The names of the placement groups. Constraints:   You can specify a name only if the placement group is owned by your account.   If a placement group is shared with your account, specifying the name results in an error. You must use the GroupId parameter instead.
         @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var groupNames: [String]?
 
@@ -28841,7 +29008,7 @@ extension EC2 {
         public let priority: Double?
         /// The ID of the subnet in which to launch the instances.
         public let subnetId: String?
-        /// The number of units provided by the specified instance type.  When specifying weights, the price used in the lowest-price and price-capacity-optimized allocation strategies is per unit hour (where the instance price is divided by the specified weight). However, if all the specified weights are above the requested TargetCapacity, resulting in only 1 instance being launched, the price used is per instance hour.
+        /// The number of units provided by the specified instance type. These are the same units that you chose to set the target capacity in terms of instances, or a performance characteristic such as vCPUs, memory, or I/O. If the target capacity divided by this value is not a whole number, Amazon EC2 rounds the number of instances to the next whole number. If this value is not specified, the default is 1.  When specifying weights, the price used in the lowest-price and price-capacity-optimized allocation strategies is per unit hour (where the instance price is divided by the specified weight). However, if all the specified weights are above the requested TargetCapacity, resulting in only 1 instance being launched, the price used is per instance hour.
         public let weightedCapacity: Double?
 
         public init(availabilityZone: String? = nil, imageId: String? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, maxPrice: String? = nil, placement: PlacementResponse? = nil, priority: Double? = nil, subnetId: String? = nil, weightedCapacity: Double? = nil) {
@@ -28886,7 +29053,7 @@ extension EC2 {
         public let priority: Double?
         /// The IDs of the subnets in which to launch the instances. Separate multiple subnet IDs using commas (for example, subnet-1234abcdeexample1, subnet-0987cdef6example2). A request of type instant can have only one subnet ID.
         public let subnetId: String?
-        /// The number of units provided by the specified instance type.  When specifying weights, the price used in the lowest-price and price-capacity-optimized allocation strategies is per unit hour (where the instance price is divided by the specified weight). However, if all the specified weights are above the requested TargetCapacity, resulting in only 1 instance being launched, the price used is per instance hour.
+        /// The number of units provided by the specified instance type. These are the same units that you chose to set the target capacity in terms of instances, or a performance characteristic such as vCPUs, memory, or I/O. If the target capacity divided by this value is not a whole number, Amazon EC2 rounds the number of instances to the next whole number. If this value is not specified, the default is 1.  When specifying weights, the price used in the lowest-price and price-capacity-optimized allocation strategies is per unit hour (where the instance price is divided by the specified weight). However, if all the specified weights are above the requested TargetCapacity, resulting in only 1 instance being launched, the price used is per instance hour.
         public let weightedCapacity: Double?
 
         public init(availabilityZone: String? = nil, imageId: String? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, instanceType: InstanceType? = nil, maxPrice: String? = nil, placement: Placement? = nil, priority: Double? = nil, subnetId: String? = nil, weightedCapacity: Double? = nil) {
@@ -35601,7 +35768,7 @@ extension EC2 {
         public let instanceId: String?
         /// The resource discovery ID.
         public let ipamResourceDiscoveryId: String?
-        /// The network border group that the resource that the IP address is assigned to is in.
+        /// The Availability Zone (AZ) or Local Zone (LZ) network border group that the resource that the IP address is assigned to is in. Defaults to an AZ network border group. For more information on available Local Zones, see Local Zone availability in the Amazon EC2 User Guide.
         public let networkBorderGroup: String?
         /// The description of the network interface that IP address is assigned to.
         public let networkInterfaceDescription: String?
@@ -35673,10 +35840,14 @@ extension EC2 {
     public struct IpamDiscoveredResourceCidr: AWSDecodableShape {
         public struct _ResourceTagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
+        /// The Availability Zone ID.
+        public let availabilityZoneId: String?
         /// The resource discovery ID.
         public let ipamResourceDiscoveryId: String?
         /// The percentage of IP address space in use. To convert the decimal to a percentage, multiply the decimal by 100. Note the following:   For resources that are VPCs, this is the percentage of IP address space in the VPC that's taken up by subnet CIDRs.    For resources that are subnets, if the subnet has an IPv4 CIDR provisioned to it, this is the percentage of IPv4 address space in the subnet that's in use. If the subnet has an IPv6 CIDR provisioned to it, the percentage of IPv6 address space in use is not represented. The percentage of IPv6 address space in use cannot currently be calculated.    For resources that are public IPv4 pools, this is the percentage of IP address space in the pool that's been allocated to Elastic IP addresses (EIPs).
         public let ipUsage: Double?
+        /// For elastic network interfaces, this is the status of whether or not the elastic network interface is attached.
+        public let networkInterfaceAttachmentStatus: IpamNetworkInterfaceAttachmentStatus?
         /// The resource CIDR.
         public let resourceCidr: String?
         /// The resource ID.
@@ -35695,9 +35866,11 @@ extension EC2 {
         /// The VPC ID.
         public let vpcId: String?
 
-        public init(ipamResourceDiscoveryId: String? = nil, ipUsage: Double? = nil, resourceCidr: String? = nil, resourceId: String? = nil, resourceOwnerId: String? = nil, resourceRegion: String? = nil, resourceTags: [IpamResourceTag]? = nil, resourceType: IpamResourceType? = nil, sampleTime: Date? = nil, vpcId: String? = nil) {
+        public init(availabilityZoneId: String? = nil, ipamResourceDiscoveryId: String? = nil, ipUsage: Double? = nil, networkInterfaceAttachmentStatus: IpamNetworkInterfaceAttachmentStatus? = nil, resourceCidr: String? = nil, resourceId: String? = nil, resourceOwnerId: String? = nil, resourceRegion: String? = nil, resourceTags: [IpamResourceTag]? = nil, resourceType: IpamResourceType? = nil, sampleTime: Date? = nil, vpcId: String? = nil) {
+            self.availabilityZoneId = availabilityZoneId
             self.ipamResourceDiscoveryId = ipamResourceDiscoveryId
             self.ipUsage = ipUsage
+            self.networkInterfaceAttachmentStatus = networkInterfaceAttachmentStatus
             self.resourceCidr = resourceCidr
             self.resourceId = resourceId
             self.resourceOwnerId = resourceOwnerId
@@ -35709,8 +35882,10 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZoneId = "availabilityZoneId"
             case ipamResourceDiscoveryId = "ipamResourceDiscoveryId"
             case ipUsage = "ipUsage"
+            case networkInterfaceAttachmentStatus = "networkInterfaceAttachmentStatus"
             case resourceCidr = "resourceCidr"
             case resourceId = "resourceId"
             case resourceOwnerId = "resourceOwnerId"
@@ -35736,6 +35911,62 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case code = "code"
             case message = "message"
+        }
+    }
+
+    public struct IpamExternalResourceVerificationToken: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// ARN of the IPAM that created the token.
+        public let ipamArn: String?
+        /// Token ARN.
+        public let ipamExternalResourceVerificationTokenArn: String?
+        /// The ID of the token.
+        public let ipamExternalResourceVerificationTokenId: String?
+        /// The ID of the IPAM that created the token.
+        public let ipamId: String?
+        /// Region of the IPAM that created the token.
+        public let ipamRegion: String?
+        /// Token expiration.
+        public let notAfter: Date?
+        /// Token state.
+        public let state: IpamExternalResourceVerificationTokenState?
+        /// Token status.
+        public let status: TokenState?
+        /// Token tags.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// Token name.
+        public let tokenName: String?
+        /// Token value.
+        public let tokenValue: String?
+
+        public init(ipamArn: String? = nil, ipamExternalResourceVerificationTokenArn: String? = nil, ipamExternalResourceVerificationTokenId: String? = nil, ipamId: String? = nil, ipamRegion: String? = nil, notAfter: Date? = nil, state: IpamExternalResourceVerificationTokenState? = nil, status: TokenState? = nil, tags: [Tag]? = nil, tokenName: String? = nil, tokenValue: String? = nil) {
+            self.ipamArn = ipamArn
+            self.ipamExternalResourceVerificationTokenArn = ipamExternalResourceVerificationTokenArn
+            self.ipamExternalResourceVerificationTokenId = ipamExternalResourceVerificationTokenId
+            self.ipamId = ipamId
+            self.ipamRegion = ipamRegion
+            self.notAfter = notAfter
+            self.state = state
+            self.status = status
+            self.tags = tags
+            self.tokenName = tokenName
+            self.tokenValue = tokenValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamArn = "ipamArn"
+            case ipamExternalResourceVerificationTokenArn = "ipamExternalResourceVerificationTokenArn"
+            case ipamExternalResourceVerificationTokenId = "ipamExternalResourceVerificationTokenId"
+            case ipamId = "ipamId"
+            case ipamRegion = "ipamRegion"
+            case notAfter = "notAfter"
+            case state = "state"
+            case status = "status"
+            case tags = "tagSet"
+            case tokenName = "tokenName"
+            case tokenValue = "tokenValue"
         }
     }
 
@@ -35785,7 +36016,7 @@ extension EC2 {
         public let ipamScopeArn: String?
         /// In IPAM, a scope is the highest-level container within IPAM. An IPAM contains two default scopes. Each scope represents the IP space for a single network. The private scope is intended for all private IP address space. The public scope is intended for all public IP address space. Scopes enable you to reuse IP addresses across multiple unconnected networks without causing IP address overlap or conflict.
         public let ipamScopeType: IpamScopeType?
-        /// The locale of the IPAM pool. In IPAM, the locale is the Amazon Web Services Region where you want to make an IPAM pool available for allocations. Only resources in the same Region as the locale of the pool can get IP address allocations from the pool. You can only allocate a CIDR for a VPC, for example, from an IPAM pool that shares a locale with the VPC’s Region. Note that once you choose a Locale for a pool, you cannot modify it. If you choose an Amazon Web Services Region for locale that has not been configured as an operating Region for the IPAM, you'll get an error.
+        /// The locale of the IPAM pool. The locale for the pool should be one of the following:   An Amazon Web Services Region where you want this IPAM pool to be available for allocations.   The network border group for an Amazon Web Services Local Zone where you want this IPAM pool to be available for allocations (supported Local Zones). This option is only available for IPAM IPv4 pools in the public scope.   If you choose an Amazon Web Services Region for locale that has not been configured as an operating Region for the IPAM, you'll get an error.
         public let locale: String?
         /// The Amazon Web Services account ID of the owner of the IPAM pool.
         public let ownerId: String?
@@ -36048,6 +36279,8 @@ extension EC2 {
     public struct IpamResourceCidr: AWSDecodableShape {
         public struct _ResourceTagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
+        /// The Availability Zone ID.
+        public let availabilityZoneId: String?
         /// The compliance status of the IPAM resource. For more information on compliance statuses, see Monitor CIDR usage by resource in the Amazon VPC IPAM User Guide.
         public let complianceStatus: IpamComplianceStatus?
         /// The IPAM ID for an IPAM resource.
@@ -36080,7 +36313,8 @@ extension EC2 {
         /// The ID of a VPC.
         public let vpcId: String?
 
-        public init(complianceStatus: IpamComplianceStatus? = nil, ipamId: String? = nil, ipamPoolId: String? = nil, ipamScopeId: String? = nil, ipUsage: Double? = nil, managementState: IpamManagementState? = nil, overlapStatus: IpamOverlapStatus? = nil, resourceCidr: String? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceOwnerId: String? = nil, resourceRegion: String? = nil, resourceTags: [IpamResourceTag]? = nil, resourceType: IpamResourceType? = nil, vpcId: String? = nil) {
+        public init(availabilityZoneId: String? = nil, complianceStatus: IpamComplianceStatus? = nil, ipamId: String? = nil, ipamPoolId: String? = nil, ipamScopeId: String? = nil, ipUsage: Double? = nil, managementState: IpamManagementState? = nil, overlapStatus: IpamOverlapStatus? = nil, resourceCidr: String? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceOwnerId: String? = nil, resourceRegion: String? = nil, resourceTags: [IpamResourceTag]? = nil, resourceType: IpamResourceType? = nil, vpcId: String? = nil) {
+            self.availabilityZoneId = availabilityZoneId
             self.complianceStatus = complianceStatus
             self.ipamId = ipamId
             self.ipamPoolId = ipamPoolId
@@ -36099,6 +36333,7 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZoneId = "availabilityZoneId"
             case complianceStatus = "complianceStatus"
             case ipamId = "ipamId"
             case ipamPoolId = "ipamPoolId"
@@ -37490,7 +37725,7 @@ extension EC2 {
         public let spotPrice: String?
         /// The ID of the subnet in which to launch the instances.
         public let subnetId: String?
-        /// The number of units provided by the specified instance type.  When specifying weights, the price used in the lowest-price and price-capacity-optimized allocation strategies is per unit hour (where the instance price is divided by the specified weight). However, if all the specified weights are above the requested TargetCapacity, resulting in only 1 instance being launched, the price used is per instance hour.
+        /// The number of units provided by the specified instance type. These are the same units that you chose to set the target capacity in terms of instances, or a performance characteristic such as vCPUs, memory, or I/O. If the target capacity divided by this value is not a whole number, Amazon EC2 rounds the number of instances to the next whole number. If this value is not specified, the default is 1.  When specifying weights, the price used in the lowestPrice and priceCapacityOptimized allocation strategies is per unit hour (where the instance price is divided by the specified weight). However, if all the specified weights are above the requested TargetCapacity, resulting in only 1 instance being launched, the price used is per instance hour.
         public let weightedCapacity: Double?
 
         public init(availabilityZone: String? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, priority: Double? = nil, spotPrice: String? = nil, subnetId: String? = nil, weightedCapacity: Double? = nil) {
@@ -44598,24 +44833,30 @@ extension EC2 {
     public struct ProvisionIpamPoolCidrRequest: AWSEncodableShape {
         /// The CIDR you want to assign to the IPAM pool. Either "NetmaskLength" or "Cidr" is required. This value will be null if you specify "NetmaskLength" and will be filled in during the provisioning process.
         public let cidr: String?
-        /// A signed document that proves that you are authorized to bring a specified IP address range to Amazon using BYOIP. This option applies to public pools only.
+        /// A signed document that proves that you are authorized to bring a specified IP address range to Amazon using BYOIP. This option only applies to IPv4 and IPv6 pools in the public scope.
         public let cidrAuthorizationContext: IpamCidrAuthorizationContext?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency.
         public let clientToken: String?
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// Verification token ID. This option only applies to IPv4 and IPv6 pools in the public scope.
+        public let ipamExternalResourceVerificationTokenId: String?
         /// The ID of the IPAM pool to which you want to assign a CIDR.
         public let ipamPoolId: String?
         /// The netmask length of the CIDR you'd like to provision to a pool. Can be used for provisioning Amazon-provided IPv6 CIDRs to top-level pools and for provisioning CIDRs to pools with source pools. Cannot be used to provision BYOIP CIDRs to top-level pools. Either "NetmaskLength" or "Cidr" is required.
         public let netmaskLength: Int?
+        /// The method for verifying control of a public IP address range. Defaults to remarks-x509 if not specified. This option only applies to IPv4 and IPv6 pools in the public scope.
+        public let verificationMethod: VerificationMethod?
 
-        public init(cidr: String? = nil, cidrAuthorizationContext: IpamCidrAuthorizationContext? = nil, clientToken: String? = ProvisionIpamPoolCidrRequest.idempotencyToken(), dryRun: Bool? = nil, ipamPoolId: String? = nil, netmaskLength: Int? = nil) {
+        public init(cidr: String? = nil, cidrAuthorizationContext: IpamCidrAuthorizationContext? = nil, clientToken: String? = ProvisionIpamPoolCidrRequest.idempotencyToken(), dryRun: Bool? = nil, ipamExternalResourceVerificationTokenId: String? = nil, ipamPoolId: String? = nil, netmaskLength: Int? = nil, verificationMethod: VerificationMethod? = nil) {
             self.cidr = cidr
             self.cidrAuthorizationContext = cidrAuthorizationContext
             self.clientToken = clientToken
             self.dryRun = dryRun
+            self.ipamExternalResourceVerificationTokenId = ipamExternalResourceVerificationTokenId
             self.ipamPoolId = ipamPoolId
             self.netmaskLength = netmaskLength
+            self.verificationMethod = verificationMethod
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -44623,8 +44864,10 @@ extension EC2 {
             case cidrAuthorizationContext = "CidrAuthorizationContext"
             case clientToken = "ClientToken"
             case dryRun = "DryRun"
+            case ipamExternalResourceVerificationTokenId = "IpamExternalResourceVerificationTokenId"
             case ipamPoolId = "IpamPoolId"
             case netmaskLength = "NetmaskLength"
+            case verificationMethod = "VerificationMethod"
         }
     }
 
@@ -44648,13 +44891,16 @@ extension EC2 {
         public let ipamPoolId: String?
         /// The netmask length of the CIDR you would like to allocate to the public IPv4 pool.
         public let netmaskLength: Int?
+        /// The Availability Zone (AZ) or Local Zone (LZ) network border group that the resource that the IP address is assigned to is in. Defaults to an AZ network border group. For more information on available Local Zones, see Local Zone availability in the Amazon EC2 User Guide.
+        public let networkBorderGroup: String?
         /// The ID of the public IPv4 pool you would like to use for this CIDR.
         public let poolId: String?
 
-        public init(dryRun: Bool? = nil, ipamPoolId: String? = nil, netmaskLength: Int? = nil, poolId: String? = nil) {
+        public init(dryRun: Bool? = nil, ipamPoolId: String? = nil, netmaskLength: Int? = nil, networkBorderGroup: String? = nil, poolId: String? = nil) {
             self.dryRun = dryRun
             self.ipamPoolId = ipamPoolId
             self.netmaskLength = netmaskLength
+            self.networkBorderGroup = networkBorderGroup
             self.poolId = poolId
         }
 
@@ -44662,6 +44908,7 @@ extension EC2 {
             case dryRun = "DryRun"
             case ipamPoolId = "IpamPoolId"
             case netmaskLength = "NetmaskLength"
+            case networkBorderGroup = "NetworkBorderGroup"
             case poolId = "PoolId"
         }
     }
@@ -49872,7 +50119,7 @@ extension EC2 {
         public var tagSpecifications: [SpotFleetTagSpecification]?
         /// The base64-encoded user data that instances use when starting up. User data is limited to 16 KB.
         public let userData: String?
-        /// The number of units provided by the specified instance type. These are the same units that you chose to set the target capacity in terms of instances, or a performance characteristic such as vCPUs, memory, or I/O. If the target capacity divided by this value is not a whole number, Amazon EC2 rounds the number of instances to the next whole number. If this value is not specified, the default is 1.
+        /// The number of units provided by the specified instance type. These are the same units that you chose to set the target capacity in terms of instances, or a performance characteristic such as vCPUs, memory, or I/O. If the target capacity divided by this value is not a whole number, Amazon EC2 rounds the number of instances to the next whole number. If this value is not specified, the default is 1.  When specifying weights, the price used in the lowestPrice and priceCapacityOptimized allocation strategies is per unit hour (where the instance price is divided by the specified weight). However, if all the specified weights are above the requested TargetCapacity, resulting in only 1 instance being launched, the price used is per instance hour.
         public let weightedCapacity: Double?
 
         public init(addressingType: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: InstanceType? = nil, kernelId: String? = nil, keyName: String? = nil, monitoring: SpotFleetMonitoring? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: SpotPlacement? = nil, ramdiskId: String? = nil, securityGroups: [GroupIdentifier]? = nil, spotPrice: String? = nil, subnetId: String? = nil, tagSpecifications: [SpotFleetTagSpecification]? = nil, userData: String? = nil, weightedCapacity: Double? = nil) {
@@ -54505,7 +54752,7 @@ extension EC2 {
     public struct VolumeModification: AWSDecodableShape {
         /// The modification completion or failure time.
         public let endTime: Date?
-        /// The current modification state. The modification state is null for unmodified volumes.
+        /// The current modification state.
         public let modificationState: VolumeModificationState?
         /// The original IOPS rate of the volume.
         public let originalIops: Int?

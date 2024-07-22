@@ -87,6 +87,12 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum GuardrailContextualGroundingFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case grounding = "GROUNDING"
+        case relevance = "RELEVANCE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GuardrailFilterStrength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
@@ -406,6 +412,8 @@ extension Bedrock {
         public let clientRequestToken: String?
         /// The content filter policies to configure for the guardrail.
         public let contentPolicyConfig: GuardrailContentPolicyConfig?
+        /// The contextual grounding policy configuration used to create a guardrail.
+        public let contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig?
         /// A description of the guardrail.
         public let description: String?
         /// The ARN of the KMS key that you use to encrypt the guardrail.
@@ -421,11 +429,12 @@ extension Bedrock {
         /// The word policy you configure for the guardrail.
         public let wordPolicyConfig: GuardrailWordPolicyConfig?
 
-        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, clientRequestToken: String? = CreateGuardrailRequest.idempotencyToken(), contentPolicyConfig: GuardrailContentPolicyConfig? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig? = nil, tags: [Tag]? = nil, topicPolicyConfig: GuardrailTopicPolicyConfig? = nil, wordPolicyConfig: GuardrailWordPolicyConfig? = nil) {
+        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, clientRequestToken: String? = CreateGuardrailRequest.idempotencyToken(), contentPolicyConfig: GuardrailContentPolicyConfig? = nil, contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig? = nil, tags: [Tag]? = nil, topicPolicyConfig: GuardrailTopicPolicyConfig? = nil, wordPolicyConfig: GuardrailWordPolicyConfig? = nil) {
             self.blockedInputMessaging = blockedInputMessaging
             self.blockedOutputsMessaging = blockedOutputsMessaging
             self.clientRequestToken = clientRequestToken
             self.contentPolicyConfig = contentPolicyConfig
+            self.contextualGroundingPolicyConfig = contextualGroundingPolicyConfig
             self.description = description
             self.kmsKeyId = kmsKeyId
             self.name = name
@@ -444,6 +453,7 @@ extension Bedrock {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.contentPolicyConfig?.validate(name: "\(name).contentPolicyConfig")
+            try self.contextualGroundingPolicyConfig?.validate(name: "\(name).contextualGroundingPolicyConfig")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
@@ -466,6 +476,7 @@ extension Bedrock {
             case blockedOutputsMessaging = "blockedOutputsMessaging"
             case clientRequestToken = "clientRequestToken"
             case contentPolicyConfig = "contentPolicyConfig"
+            case contextualGroundingPolicyConfig = "contextualGroundingPolicyConfig"
             case description = "description"
             case kmsKeyId = "kmsKeyId"
             case name = "name"
@@ -480,11 +491,11 @@ extension Bedrock {
         /// The time at which the guardrail was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
-        /// The ARN of the guardrail that was created.
+        /// The ARN of the guardrail.
         public let guardrailArn: String
         /// The unique identifier of the guardrail that was created.
         public let guardrailId: String
-        /// The version of the guardrail that was created. This value should be 1.
+        /// The version of the guardrail that was created.  This value will always be DRAFT.
         public let version: String
 
         public init(createdAt: Date, guardrailArn: String, guardrailId: String, version: String) {
@@ -507,7 +518,7 @@ extension Bedrock {
         public let clientRequestToken: String?
         /// A description of the guardrail version.
         public let description: String?
-        /// The unique identifier of the guardrail.
+        /// The unique identifier of the guardrail. This can be an ID or the ARN.
         public let guardrailIdentifier: String
 
         public init(clientRequestToken: String? = CreateGuardrailVersionRequest.idempotencyToken(), description: String? = nil, guardrailIdentifier: String) {
@@ -792,7 +803,7 @@ extension Bedrock {
     }
 
     public struct DeleteGuardrailRequest: AWSEncodableShape {
-        /// The unique identifier of the guardrail.
+        /// The unique identifier of the guardrail.  This can be an ID or the ARN.
         public let guardrailIdentifier: String
         /// The version of the guardrail.
         public let guardrailVersion: String?
@@ -1315,7 +1326,7 @@ extension Bedrock {
     }
 
     public struct GetGuardrailRequest: AWSEncodableShape {
-        /// The unique identifier of the guardrail for which to get details.
+        /// The unique identifier of the guardrail for which to get details.  This can be an ID or the ARN.
         public let guardrailIdentifier: String
         /// The version of the guardrail for which to get details. If you don't specify a version, the response returns details for the DRAFT version.
         public let guardrailVersion: String?
@@ -1348,6 +1359,8 @@ extension Bedrock {
         public let blockedOutputsMessaging: String
         /// The content policy that was configured for the guardrail.
         public let contentPolicy: GuardrailContentPolicy?
+        /// The contextual grounding policy used in the guardrail.
+        public let contextualGroundingPolicy: GuardrailContextualGroundingPolicy?
         /// The date and time at which the guardrail was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -1355,7 +1368,7 @@ extension Bedrock {
         public let description: String?
         /// Appears if the status of the guardrail is FAILED. A list of recommendations to carry out before retrying the request.
         public let failureRecommendations: [String]?
-        /// The ARN of the guardrail that was created.
+        /// The ARN of the guardrail.
         public let guardrailArn: String
         /// The unique identifier of the guardrail.
         public let guardrailId: String
@@ -1379,10 +1392,11 @@ extension Bedrock {
         /// The word policy that was configured for the guardrail.
         public let wordPolicy: GuardrailWordPolicy?
 
-        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicy: GuardrailContentPolicy? = nil, createdAt: Date, description: String? = nil, failureRecommendations: [String]? = nil, guardrailArn: String, guardrailId: String, kmsKeyArn: String? = nil, name: String, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicy? = nil, status: GuardrailStatus, statusReasons: [String]? = nil, topicPolicy: GuardrailTopicPolicy? = nil, updatedAt: Date, version: String, wordPolicy: GuardrailWordPolicy? = nil) {
+        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicy: GuardrailContentPolicy? = nil, contextualGroundingPolicy: GuardrailContextualGroundingPolicy? = nil, createdAt: Date, description: String? = nil, failureRecommendations: [String]? = nil, guardrailArn: String, guardrailId: String, kmsKeyArn: String? = nil, name: String, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicy? = nil, status: GuardrailStatus, statusReasons: [String]? = nil, topicPolicy: GuardrailTopicPolicy? = nil, updatedAt: Date, version: String, wordPolicy: GuardrailWordPolicy? = nil) {
             self.blockedInputMessaging = blockedInputMessaging
             self.blockedOutputsMessaging = blockedOutputsMessaging
             self.contentPolicy = contentPolicy
+            self.contextualGroundingPolicy = contextualGroundingPolicy
             self.createdAt = createdAt
             self.description = description
             self.failureRecommendations = failureRecommendations
@@ -1403,6 +1417,7 @@ extension Bedrock {
             case blockedInputMessaging = "blockedInputMessaging"
             case blockedOutputsMessaging = "blockedOutputsMessaging"
             case contentPolicy = "contentPolicy"
+            case contextualGroundingPolicy = "contextualGroundingPolicy"
             case createdAt = "createdAt"
             case description = "description"
             case failureRecommendations = "failureRecommendations"
@@ -1713,6 +1728,70 @@ extension Bedrock {
         }
     }
 
+    public struct GuardrailContextualGroundingFilter: AWSDecodableShape {
+        /// The threshold details for the guardrails contextual grounding filter.
+        public let threshold: Double
+        /// The filter type details for the guardrails contextual grounding filter.
+        public let type: GuardrailContextualGroundingFilterType
+
+        public init(threshold: Double, type: GuardrailContextualGroundingFilterType) {
+            self.threshold = threshold
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case threshold = "threshold"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailContextualGroundingFilterConfig: AWSEncodableShape {
+        /// The threshold details for the guardrails contextual grounding filter.
+        public let threshold: Double
+        /// The filter details for the guardrails contextual grounding filter.
+        public let type: GuardrailContextualGroundingFilterType
+
+        public init(threshold: Double, type: GuardrailContextualGroundingFilterType) {
+            self.threshold = threshold
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case threshold = "threshold"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailContextualGroundingPolicy: AWSDecodableShape {
+        /// The filter details for the guardrails contextual grounding policy.
+        public let filters: [GuardrailContextualGroundingFilter]
+
+        public init(filters: [GuardrailContextualGroundingFilter]) {
+            self.filters = filters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+        }
+    }
+
+    public struct GuardrailContextualGroundingPolicyConfig: AWSEncodableShape {
+        /// The filter configuration details for the guardrails contextual grounding policy.
+        public let filtersConfig: [GuardrailContextualGroundingFilterConfig]
+
+        public init(filtersConfig: [GuardrailContextualGroundingFilterConfig]) {
+            self.filtersConfig = filtersConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filtersConfig, name: "filtersConfig", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filtersConfig = "filtersConfig"
+        }
+    }
+
     public struct GuardrailManagedWords: AWSDecodableShape {
         /// ManagedWords$type The managed word type that was configured for the guardrail. (For now, we only offer profanity word list)
         public let type: GuardrailManagedWordsType
@@ -1759,7 +1838,7 @@ extension Bedrock {
     public struct GuardrailPiiEntityConfig: AWSEncodableShape {
         /// Configure guardrail action when the PII entity is detected.
         public let action: GuardrailSensitiveInformationAction
-        /// Configure guardrail type when the PII entity is detected.
+        /// Configure guardrail type when the PII entity is detected. The following PIIs are used to block or mask sensitive information:    General     ADDRESS  A physical address, such as "100 Main Street, Anytown, USA"  or "Suite #12, Building 123". An address can include information  such as the street, building, location, city, state, country, county,  zip code, precinct, and neighborhood.     AGE  An individual's age, including the quantity and unit of time. For  example, in the phrase "I am 40 years old," Guarrails recognizes "40 years"  as an age.     NAME  An individual's name. This entity type does not include titles, such as  Dr., Mr., Mrs., or Miss. guardrails doesn't apply this entity type to names that  are part of organizations or addresses. For example, guardrails recognizes  the "John Doe Organization" as an organization, and it recognizes "Jane Doe  Street" as an address.     EMAIL  An email address, such as marymajor@email.com.    PHONE  A phone number. This entity type also includes fax and pager numbers.     USERNAME  A user name that identifies an account, such as a login name, screen name,  nick name, or handle.     PASSWORD  An alphanumeric string that is used as a password, such as  "*very20special#pass*".     DRIVER_ID  The number assigned to a driver's license, which is an official  document permitting an individual to operate one or more motorized  vehicles on a public road. A driver's license number consists of  alphanumeric characters.     LICENSE_PLATE  A license plate for a vehicle is issued by the state or country where  the vehicle is registered. The format for passenger vehicles is typically  five to eight digits, consisting of upper-case letters and numbers. The  format varies depending on the location of the issuing state or country.     VEHICLE_IDENTIFICATION_NUMBER  A Vehicle Identification Number (VIN) uniquely identifies a vehicle.  VIN content and format are defined in the ISO 3779 specification.  Each country has specific codes and formats for VINs.       Finance     REDIT_DEBIT_CARD_CVV  A three-digit card verification code (CVV) that is present on VISA,  MasterCard, and Discover credit and debit cards. For American Express  credit or debit cards, the CVV is a four-digit numeric code.     CREDIT_DEBIT_CARD_EXPIRY  The expiration date for a credit or debit card. This number is usually  four digits long and is often formatted as month/year or  MM/YY. Guardrails recognizes expiration dates such as  01/21, 01/2021, and Jan 2021.     CREDIT_DEBIT_CARD_NUMBER  The number for a credit or debit card. These numbers can vary from 13 to 16  digits in length. However, Amazon Comprehend also recognizes credit or debit  card numbers when only the last four digits are present.     PIN  A four-digit personal identification number (PIN) with which you can  access your bank account.     INTERNATIONAL_BANK_ACCOUNT_NUMBER  An International Bank Account Number has specific formats in each country.  For more information, see www.iban.com/structure.    SWIFT_CODE  A SWIFT code is a standard format of Bank Identifier Code (BIC) used to specify  a particular bank or branch. Banks use these codes for money transfers such as  international wire transfers. SWIFT codes consist of eight or 11 characters. The 11-digit codes refer to specific  branches, while eight-digit codes (or 11-digit codes ending in 'XXX') refer to the  head or primary office.      IT     IP_ADDRESS  An IPv4 address, such as 198.51.100.0.     MAC_ADDRESS  A media access control (MAC) address is a unique identifier  assigned to a network interface controller (NIC).     URL  A web address, such as www.example.com.     AWS_ACCESS_KEY  A unique identifier that's associated with a secret access key;  you use the access key ID and secret access key to sign programmatic  Amazon Web Services requests cryptographically.     AWS_SECRET_KEY  A unique identifier that's associated with an access key. You use the  access key ID and secret access key to sign programmatic Amazon Web Services  requests cryptographically.       USA specific     US_BANK_ACCOUNT_NUMBER  A US bank account number, which is typically 10 to 12 digits long.                                    US_BANK_ROUTING_NUMBER  A US bank account routing number. These are typically nine digits long,                                      US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER  A US Individual Taxpayer Identification Number (ITIN) is a nine-digit number  that starts with a "9" and contain a "7" or "8" as the fourth digit. An ITIN  can be formatted with a space or a dash after the third and forth digits.     US_PASSPORT_NUMBER  A US passport number. Passport numbers range from six to nine alphanumeric  characters.     US_SOCIAL_SECURITY_NUMBER  A US Social Security Number (SSN) is a nine-digit number that is issued to  US citizens, permanent residents, and temporary working residents.                                        Canada specific     CA_HEALTH_NUMBER  A Canadian Health Service Number is a 10-digit unique identifier,  required for individuals to access healthcare benefits.     CA_SOCIAL_INSURANCE_NUMBER  A Canadian Social Insurance Number (SIN) is a nine-digit unique identifier,  required for individuals to access government programs and benefits. The SIN is formatted as three groups of three digits, such as  123-456-789. A SIN can be validated through a simple  check-digit process called the Luhn algorithm.      UK Specific     UK_NATIONAL_HEALTH_SERVICE_NUMBER  A UK National Health Service Number is a 10-17 digit number,  such as 485 777 3456. The current system formats the 10-digit  number with spaces after the third and sixth digits. The final digit is an  error-detecting checksum.    UK_NATIONAL_INSURANCE_NUMBER  A UK National Insurance Number (NINO) provides individuals with access to National  Insurance (social security) benefits. It is also used for some purposes in the UK  tax system. The number is nine digits long and starts with two letters, followed by six  numbers and one letter. A NINO can be formatted with a space or a dash after  the two letters and after the second, forth, and sixth digits.    UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER  A UK Unique Taxpayer Reference (UTR) is a 10-digit number that identifies a taxpayer or a business.       Custom     Regex filter - You can use a regular expressions to define patterns for a guardrail to recognize and act upon such as serial number, booking ID etc..
         public let type: GuardrailPiiEntityType
 
         public init(action: GuardrailSensitiveInformationAction, type: GuardrailPiiEntityType) {
@@ -2366,7 +2445,7 @@ extension Bedrock {
     }
 
     public struct ListGuardrailsRequest: AWSEncodableShape {
-        /// The unique identifier of the guardrail.
+        /// The unique identifier of the guardrail.  This can be an ID or the ARN.
         public let guardrailIdentifier: String?
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
@@ -2995,9 +3074,11 @@ extension Bedrock {
         public let blockedOutputsMessaging: String
         /// The content policy to configure for the guardrail.
         public let contentPolicyConfig: GuardrailContentPolicyConfig?
+        /// The contextual grounding policy configuration used to update a guardrail.
+        public let contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig?
         /// A description of the guardrail.
         public let description: String?
-        /// The unique identifier of the guardrail
+        /// The unique identifier of the guardrail.  This can be an ID or the ARN.
         public let guardrailIdentifier: String
         /// The ARN of the KMS key with which to encrypt the guardrail.
         public let kmsKeyId: String?
@@ -3010,10 +3091,11 @@ extension Bedrock {
         /// The word policy to configure for the guardrail.
         public let wordPolicyConfig: GuardrailWordPolicyConfig?
 
-        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicyConfig: GuardrailContentPolicyConfig? = nil, description: String? = nil, guardrailIdentifier: String, kmsKeyId: String? = nil, name: String, sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig? = nil, topicPolicyConfig: GuardrailTopicPolicyConfig? = nil, wordPolicyConfig: GuardrailWordPolicyConfig? = nil) {
+        public init(blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicyConfig: GuardrailContentPolicyConfig? = nil, contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig? = nil, description: String? = nil, guardrailIdentifier: String, kmsKeyId: String? = nil, name: String, sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig? = nil, topicPolicyConfig: GuardrailTopicPolicyConfig? = nil, wordPolicyConfig: GuardrailWordPolicyConfig? = nil) {
             self.blockedInputMessaging = blockedInputMessaging
             self.blockedOutputsMessaging = blockedOutputsMessaging
             self.contentPolicyConfig = contentPolicyConfig
+            self.contextualGroundingPolicyConfig = contextualGroundingPolicyConfig
             self.description = description
             self.guardrailIdentifier = guardrailIdentifier
             self.kmsKeyId = kmsKeyId
@@ -3029,6 +3111,7 @@ extension Bedrock {
             try container.encode(self.blockedInputMessaging, forKey: .blockedInputMessaging)
             try container.encode(self.blockedOutputsMessaging, forKey: .blockedOutputsMessaging)
             try container.encodeIfPresent(self.contentPolicyConfig, forKey: .contentPolicyConfig)
+            try container.encodeIfPresent(self.contextualGroundingPolicyConfig, forKey: .contextualGroundingPolicyConfig)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.guardrailIdentifier, key: "guardrailIdentifier")
             try container.encodeIfPresent(self.kmsKeyId, forKey: .kmsKeyId)
@@ -3044,6 +3127,7 @@ extension Bedrock {
             try self.validate(self.blockedOutputsMessaging, name: "blockedOutputsMessaging", parent: name, max: 500)
             try self.validate(self.blockedOutputsMessaging, name: "blockedOutputsMessaging", parent: name, min: 1)
             try self.contentPolicyConfig?.validate(name: "\(name).contentPolicyConfig")
+            try self.contextualGroundingPolicyConfig?.validate(name: "\(name).contextualGroundingPolicyConfig")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
@@ -3063,6 +3147,7 @@ extension Bedrock {
             case blockedInputMessaging = "blockedInputMessaging"
             case blockedOutputsMessaging = "blockedOutputsMessaging"
             case contentPolicyConfig = "contentPolicyConfig"
+            case contextualGroundingPolicyConfig = "contextualGroundingPolicyConfig"
             case description = "description"
             case kmsKeyId = "kmsKeyId"
             case name = "name"
@@ -3073,7 +3158,7 @@ extension Bedrock {
     }
 
     public struct UpdateGuardrailResponse: AWSDecodableShape {
-        /// The ARN of the guardrail that was created.
+        /// The ARN of the guardrail.
         public let guardrailArn: String
         /// The unique identifier of the guardrail
         public let guardrailId: String

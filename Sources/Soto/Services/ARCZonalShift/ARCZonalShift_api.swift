@@ -19,24 +19,29 @@
 
 /// Service object for interacting with AWS ARCZonalShift service.
 ///
-/// Welcome to the Zonal Shift API Reference Guide for Amazon Route 53 Application Recovery Controller (Route 53 ARC). You can start a zonal shift to move traffic for a load balancer resource away from an Availability Zone to
+/// Welcome to the API Reference Guide for zonal shift and zonal autoshift in Amazon Route 53 Application Recovery Controller (Route 53 ARC). You can start a zonal shift to move traffic for a load balancer resource away from an Availability Zone to
 /// 			help your application recover quickly from an impairment in an Availability Zone. For example,
 /// 			you can recover your application from a developer's bad code deployment or from an
-/// 			Amazon Web Services infrastructure failure in a single Availability Zone. You can also configure zonal autoshift for a load balancer resource. Zonal autoshift
-/// 			is a capability in Route 53 ARC where Amazon Web Services shifts away application resource
-/// 			traffic from an Availability Zone, on your behalf, to help reduce your time to recovery during events.
-/// 			Amazon Web Services shifts away traffic for resources that are enabled for zonal autoshift whenever Amazon Web Services
-/// 			determines that there's an issue in the Availability Zone that could potentially affect
-/// 			customers. To ensure that zonal autoshift is safe for your application, you must
+/// 			Amazon Web Services infrastructure failure in a single Availability Zone. You can also configure zonal autoshift for supported load balancer resources. Zonal autoshift
+/// 			is a capability in Route 53 ARC where you authorize Amazon Web Services to shift away application resource
+/// 			traffic from an Availability Zone during events, on your behalf, to help reduce your time to recovery.
+/// 			Amazon Web Services starts an autoshift when internal telemetry indicates that there is an Availability
+/// 			Zone impairment that could potentially impact customers. To help make sure that zonal autoshift is safe for your application, you must
 /// 			also configure practice runs when you enable zonal autoshift for a resource. Practice runs start
-/// 			weekly zonal shifts for a resource, to shift
-/// 			traffic for the resource out of an Availability Zone. Practice runs make sure, on a regular basis,
-/// 			that you have enough capacity in all the Availability Zones in an Amazon Web Services Region
-/// 			for your application to continue to operate normally
-/// 			when traffic for a resource is shifted away from one Availability Zone.  You must prescale resource capacity in all Availability Zones in the Region
-/// 			where your application is deployed, before you configure practice runs or enable zonal autoshift
-/// 			for a resource. You should not rely on scaling on demand when an autoshift or practice run
-/// 			starts.   For more information about using zonal shift and zonal autoshift, see the
+/// 			weekly zonal shifts for a resource, to shift traffic for the resource away from an Availability Zone.
+/// 			Practice runs help you to make sure, on a regular basis, that you have enough capacity in all the
+/// 			Availability Zones in an Amazon Web Services Region for your application to continue to operate normally
+/// 			when traffic for a resource is shifted away from one Availability Zone.  Before you configure practice runs or enable zonal autoshift, we strongly recommend
+/// 			that you prescale your application resource capacity in all Availability Zones in the Region where
+/// 			your application resources are deployed. You should not rely on scaling on demand when an
+/// 			autoshift or practice run starts. Zonal autoshift, including practice runs, works independently,
+/// 			and does not wait for auto scaling actions to complete. Relying on auto scaling, instead of
+/// 			pre-scaling, can result in loss of availability. If you use auto scaling to handle regular cycles of traffic, we strongly recommend that you configure
+/// 				the minimum capacity of your auto scaling to continue operating normally with the loss of an
+/// 				Availability Zone.   Be aware that Route 53 ARC does not inspect the health of individual resources. Amazon Web Services only starts an
+/// 			autoshift when Amazon Web Services telemetry detects that there is an Availability Zone impairment that could
+/// 			potentially impact customers. In some cases, resources might be shifted away that are not experiencing
+/// 			impact. For more information about using zonal shift and zonal autoshift, see the
 /// 			Amazon Route 53 Application Recovery Controller
 /// 				Developer Guide.
 public struct ARCZonalShift: AWSService {
@@ -109,7 +114,9 @@ public struct ARCZonalShift: AWSService {
     /// 			A practice run configuration includes specifications for blocked dates and blocked time windows,
     /// 		and for Amazon CloudWatch alarms that you create to use with practice runs. The alarms that you specify are an
     /// 			outcome alarm, to monitor application health during practice runs and,
-    /// 			optionally, a blocking alarm, to block practice runs from starting. For more information, see
+    /// 			optionally, a blocking alarm, to block practice runs from starting. When a resource has a practice run configuration, Route 53 ARC starts zonal shifts for the resource
+    /// 			weekly, to shift traffic for practice runs. Practice runs help you to ensure that
+    /// 			shifting away traffic from an Availability Zone during an autoshift is safe for your application. For more information, see
     ///
     /// 				Considerations when you configure zonal autoshift in the Amazon Route 53 Application Recovery Controller Developer Guide.
     @Sendable
@@ -139,6 +146,27 @@ public struct ARCZonalShift: AWSService {
         )
     }
 
+    /// Returns the status of autoshift observer notification. Autoshift observer
+    /// 			notification enables you to be notified, through Amazon EventBridge, when
+    /// 			there is an autoshift event for zonal autoshift. If the status is ENABLED,
+    /// 			Route 53 ARC includes all autoshift events when you use the EventBridge pattern
+    /// 			Autoshift In Progress. When the status is DISABLED,
+    /// 			Route 53 ARC includes only autoshift events for autoshifts when one or more of your
+    /// 			resources is included in the autoshift. For more information, see
+    ///
+    /// 				Notifications for practice runs and autoshifts in the Amazon Route 53 Application Recovery Controller Developer Guide.
+    @Sendable
+    public func getAutoshiftObserverNotificationStatus(_ input: GetAutoshiftObserverNotificationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutoshiftObserverNotificationStatusResponse {
+        return try await self.client.execute(
+            operation: "GetAutoshiftObserverNotificationStatus", 
+            path: "/autoshift-observer-notification", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Get information about a resource that's been registered for zonal shifts with Amazon Route 53 Application Recovery Controller in this Amazon Web Services Region. Resources that are registered for 		zonal shifts are managed resources in Route 53 ARC. You can start zonal shifts and configure zonal autoshift for managed resources. At this time, you can only start a zonal shift or configure zonal autoshift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
     @Sendable
     public func getManagedResource(_ input: GetManagedResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetManagedResourceResponse {
@@ -152,7 +180,10 @@ public struct ARCZonalShift: AWSService {
         )
     }
 
-    /// Returns the active autoshifts for a specified resource.
+    /// Returns a list of autoshifts for an Amazon Web Services Region. By default, the call returns
+    /// 			only ACTIVE autoshifts. Optionally, you can specify the status parameter to return
+    /// 			COMPLETED autoshifts.
+    ///
     @Sendable
     public func listAutoshifts(_ input: ListAutoshiftsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAutoshiftsResponse {
         return try await self.client.execute(
@@ -178,7 +209,7 @@ public struct ARCZonalShift: AWSService {
         )
     }
 
-    /// Lists all active and completed zonal shifts in Amazon Route 53 Application Recovery Controller in your Amazon Web Services account in this Amazon Web Services Region. 		ListZonalShifts returns customer-started zonal shifts, as well as practice run zonal shifts that Route 53 ARC started on  		your behalf for zonal autoshift. The ListZonalShifts operation does not list autoshifts. For more information about listing 		autoshifts, see "&gt;ListAutoshifts.
+    /// Lists all active and completed zonal shifts in Amazon Route 53 Application Recovery Controller in your Amazon Web Services account in this Amazon Web Services Region. 		ListZonalShifts returns customer-initiated zonal shifts, as well as practice run zonal shifts that Route 53 ARC started on  		your behalf for zonal autoshift. The ListZonalShifts operation does not list autoshifts. For more information about listing 		autoshifts, see "&gt;ListAutoshifts.
     @Sendable
     public func listZonalShifts(_ input: ListZonalShiftsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListZonalShiftsResponse {
         return try await self.client.execute(
@@ -204,6 +235,27 @@ public struct ARCZonalShift: AWSService {
         )
     }
 
+    /// Update the status of autoshift observer notification. Autoshift observer
+    /// 			notification enables you to be notified, through Amazon EventBridge, when
+    /// 			there is an autoshift event for zonal autoshift. If the status is ENABLED,
+    /// 			Route 53 ARC includes all autoshift events when you use the EventBridge pattern
+    /// 			Autoshift In Progress. When the status is DISABLED,
+    /// 			Route 53 ARC includes only autoshift events for autoshifts when one or more of your
+    /// 			resources is included in the autoshift. For more information, see
+    ///
+    /// 				Notifications for practice runs and autoshifts in the Amazon Route 53 Application Recovery Controller Developer Guide.
+    @Sendable
+    public func updateAutoshiftObserverNotificationStatus(_ input: UpdateAutoshiftObserverNotificationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAutoshiftObserverNotificationStatusResponse {
+        return try await self.client.execute(
+            operation: "UpdateAutoshiftObserverNotificationStatus", 
+            path: "/autoshift-observer-notification", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Update a practice run configuration to change one or more of the following: add,
     /// 			change, or remove the blocking alarm; change the outcome alarm; or add, change,
     /// 			or remove blocking dates or time windows.
@@ -219,10 +271,13 @@ public struct ARCZonalShift: AWSService {
         )
     }
 
-    /// You can update the zonal autoshift status for a resource, to enable or disable zonal
-    /// 			autoshift. When zonal autoshift is ENABLED, Amazon Web Services shifts away
-    /// 			resource traffic from an Availability Zone, on your behalf, when Amazon Web Services
-    /// 			determines that there's an issue in the Availability Zone that could potentially affect customers.
+    /// The zonal autoshift configuration for a resource includes the practice run configuration and the status for
+    /// 			running autoshifts, zonal autoshift status. When a resource has a practice run configuation, Route 53 ARC
+    /// 			starts weekly zonal shifts for the resource, to shift traffic away from an Availability Zone. Weekly practice
+    /// 			runs help you to make sure that your application can continue to operate normally with the loss of one Availability Zone. You can update the zonal autoshift autoshift status to enable or disable zonal autoshift. When zonal
+    /// 			autoshift is ENABLED, you authorize Amazon Web Services to shift away resource traffic for
+    /// 			an application from an Availability Zone during events, on your behalf, to help reduce time to recovery.
+    /// 			Traffic is also shifted away for the required weekly practice runs.
     @Sendable
     public func updateZonalAutoshiftConfiguration(_ input: UpdateZonalAutoshiftConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateZonalAutoshiftConfigurationResponse {
         return try await self.client.execute(
@@ -262,7 +317,10 @@ extension ARCZonalShift {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ARCZonalShift {
-    /// Returns the active autoshifts for a specified resource.
+    /// Returns a list of autoshifts for an Amazon Web Services Region. By default, the call returns
+    /// 			only ACTIVE autoshifts. Optionally, you can specify the status parameter to return
+    /// 			COMPLETED autoshifts.
+    ///
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -300,7 +358,7 @@ extension ARCZonalShift {
         )
     }
 
-    /// Lists all active and completed zonal shifts in Amazon Route 53 Application Recovery Controller in your Amazon Web Services account in this Amazon Web Services Region. 		ListZonalShifts returns customer-started zonal shifts, as well as practice run zonal shifts that Route 53 ARC started on  		your behalf for zonal autoshift. The ListZonalShifts operation does not list autoshifts. For more information about listing 		autoshifts, see "&gt;ListAutoshifts.
+    /// Lists all active and completed zonal shifts in Amazon Route 53 Application Recovery Controller in your Amazon Web Services account in this Amazon Web Services Region. 		ListZonalShifts returns customer-initiated zonal shifts, as well as practice run zonal shifts that Route 53 ARC started on  		your behalf for zonal autoshift. The ListZonalShifts operation does not list autoshifts. For more information about listing 		autoshifts, see "&gt;ListAutoshifts.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

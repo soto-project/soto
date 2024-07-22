@@ -97,6 +97,20 @@ public struct Cloud9: AWSService {
             "us-east-2": "cloud9.us-east-2.api.aws",
             "us-west-1": "cloud9.us-west-1.api.aws",
             "us-west-2": "cloud9.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "cloud9-fips.ca-central-1.api.aws",
+            "us-east-1": "cloud9-fips.us-east-1.api.aws",
+            "us-east-2": "cloud9-fips.us-east-2.api.aws",
+            "us-west-1": "cloud9-fips.us-west-1.api.aws",
+            "us-west-2": "cloud9-fips.us-west-2.api.aws"
+        ]),
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "cloud9-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "cloud9-fips.us-east-1.amazonaws.com",
+            "us-east-2": "cloud9-fips.us-east-2.amazonaws.com",
+            "us-west-1": "cloud9-fips.us-west-1.amazonaws.com",
+            "us-west-2": "cloud9-fips.us-west-2.amazonaws.com"
         ])
     ]}
 

@@ -161,6 +161,12 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum OutputStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PriceUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hourly = "HOURLY"
         public var description: String { return self.rawValue }
@@ -697,6 +703,8 @@ extension MediaConnect {
         public let minLatency: Int?
         /// The name of the output. This value must be unique within the current flow.
         public let name: String?
+        /// An indication of whether the new output should be enabled or disabled as soon as it is created. If you don't specify the outputStatus field in your request, MediaConnect sets it to ENABLED.
+        public let outputStatus: OutputStatus?
         /// The port to use when content is distributed to this output.
         public let port: Int?
         /// The protocol to use for the output.
@@ -712,7 +720,7 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, outputStatus: OutputStatus? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -721,6 +729,7 @@ extension MediaConnect {
             self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.minLatency = minLatency
             self.name = name
+            self.outputStatus = outputStatus
             self.port = port
             self.`protocol` = `protocol`
             self.remoteId = remoteId
@@ -739,6 +748,7 @@ extension MediaConnect {
             case mediaStreamOutputConfigurations = "mediaStreamOutputConfigurations"
             case minLatency = "minLatency"
             case name = "name"
+            case outputStatus = "outputStatus"
             case port = "port"
             case `protocol` = "protocol"
             case remoteId = "remoteId"
@@ -2801,6 +2811,8 @@ extension MediaConnect {
         public let name: String?
         /// The ARN of the output.
         public let outputArn: String?
+        /// An indication of whether the output is transmitting data or not.
+        public let outputStatus: OutputStatus?
         /// The port to use when content is distributed to this output.
         public let port: Int?
         /// Attributes related to the transport stream that are used in the output.
@@ -2808,7 +2820,7 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(bridgeArn: String? = nil, bridgePorts: [Int]? = nil, dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, listenerAddress: String? = nil, mediaLiveInputArn: String? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfiguration]? = nil, name: String? = nil, outputArn: String? = nil, port: Int? = nil, transport: Transport? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(bridgeArn: String? = nil, bridgePorts: [Int]? = nil, dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, listenerAddress: String? = nil, mediaLiveInputArn: String? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfiguration]? = nil, name: String? = nil, outputArn: String? = nil, outputStatus: OutputStatus? = nil, port: Int? = nil, transport: Transport? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.bridgeArn = bridgeArn
             self.bridgePorts = bridgePorts
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
@@ -2821,6 +2833,7 @@ extension MediaConnect {
             self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.name = name
             self.outputArn = outputArn
+            self.outputStatus = outputStatus
             self.port = port
             self.transport = transport
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
@@ -2839,6 +2852,7 @@ extension MediaConnect {
             case mediaStreamOutputConfigurations = "mediaStreamOutputConfigurations"
             case name = "name"
             case outputArn = "outputArn"
+            case outputStatus = "outputStatus"
             case port = "port"
             case transport = "transport"
             case vpcInterfaceAttachment = "vpcInterfaceAttachment"
@@ -4133,6 +4147,8 @@ extension MediaConnect {
         public let minLatency: Int?
         /// The ARN of the output that you want to update.
         public let outputArn: String
+        /// An indication of whether the output should transmit data or not. If you don't specify the outputStatus field in your request, MediaConnect leaves the value unchanged.
+        public let outputStatus: OutputStatus?
         /// The port to use when content is distributed to this output.
         public let port: Int?
         /// The protocol to use for the output.
@@ -4150,7 +4166,7 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, outputArn: String, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, outputArn: String, outputStatus: OutputStatus? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -4160,6 +4176,7 @@ extension MediaConnect {
             self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.minLatency = minLatency
             self.outputArn = outputArn
+            self.outputStatus = outputStatus
             self.port = port
             self.`protocol` = `protocol`
             self.remoteId = remoteId
@@ -4182,6 +4199,7 @@ extension MediaConnect {
             try container.encodeIfPresent(self.mediaStreamOutputConfigurations, forKey: .mediaStreamOutputConfigurations)
             try container.encodeIfPresent(self.minLatency, forKey: .minLatency)
             request.encodePath(self.outputArn, key: "OutputArn")
+            try container.encodeIfPresent(self.outputStatus, forKey: .outputStatus)
             try container.encodeIfPresent(self.port, forKey: .port)
             try container.encodeIfPresent(self.`protocol`, forKey: .`protocol`)
             try container.encodeIfPresent(self.remoteId, forKey: .remoteId)
@@ -4200,6 +4218,7 @@ extension MediaConnect {
             case maxLatency = "maxLatency"
             case mediaStreamOutputConfigurations = "mediaStreamOutputConfigurations"
             case minLatency = "minLatency"
+            case outputStatus = "outputStatus"
             case port = "port"
             case `protocol` = "protocol"
             case remoteId = "remoteId"

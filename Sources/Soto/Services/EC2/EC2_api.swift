@@ -1142,6 +1142,19 @@ public struct EC2: AWSService {
         )
     }
 
+    /// Create a verification token. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
+    @Sendable
+    public func createIpamExternalResourceVerificationToken(_ input: CreateIpamExternalResourceVerificationTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIpamExternalResourceVerificationTokenResult {
+        return try await self.client.execute(
+            operation: "CreateIpamExternalResourceVerificationToken", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Create an IP address pool for Amazon VPC IP Address Manager (IPAM). In IPAM, a pool is a collection of contiguous IP addresses CIDRs. Pools enable you to organize your IP addresses according to your routing and security needs. For example, if you have separate routing and security needs for development and production applications, you can create a pool for each. For more information, see Create a top-level pool in the Amazon VPC IPAM User Guide.
     @Sendable
     public func createIpamPool(_ input: CreateIpamPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIpamPoolResult {
@@ -2150,6 +2163,19 @@ public struct EC2: AWSService {
     public func deleteIpam(_ input: DeleteIpamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIpamResult {
         return try await self.client.execute(
             operation: "DeleteIpam", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Delete a verification token. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
+    @Sendable
+    public func deleteIpamExternalResourceVerificationToken(_ input: DeleteIpamExternalResourceVerificationTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIpamExternalResourceVerificationTokenResult {
+        return try await self.client.execute(
+            operation: "DeleteIpamExternalResourceVerificationToken", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -3788,6 +3814,19 @@ public struct EC2: AWSService {
         )
     }
 
+    /// Describe verification tokens. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
+    @Sendable
+    public func describeIpamExternalResourceVerificationTokens(_ input: DescribeIpamExternalResourceVerificationTokensRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIpamExternalResourceVerificationTokensResult {
+        return try await self.client.execute(
+            operation: "DescribeIpamExternalResourceVerificationTokens", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Get information about your IPAM pools.
     @Sendable
     public func describeIpamPools(_ input: DescribeIpamPoolsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIpamPoolsResult {
@@ -4154,7 +4193,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the specified placement groups or all of your placement groups. For more information, see Placement groups in the Amazon EC2 User Guide.
+    /// Describes the specified placement groups or all of your placement groups.  To describe a specific placement group that is shared with your account, you must specify the ID of the placement group using the GroupId parameter. Specifying the name of a shared placement group using the GroupNames parameter will result in an error.  For more information, see Placement groups in the Amazon EC2 User Guide.
     @Sendable
     public func describePlacementGroups(_ input: DescribePlacementGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePlacementGroupsResult {
         return try await self.client.execute(
@@ -4833,7 +4872,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most  recent modification request. For more information, see  Monitor the progress of volume modifications in the Amazon EBS User Guide.
+    /// Describes the most recent volume modification request for the specified EBS volumes. For more information, see  Monitor the progress of volume modifications in the Amazon EBS User Guide.
     @Sendable
     public func describeVolumesModifications(_ input: DescribeVolumesModificationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVolumesModificationsResult {
         return try await self.client.execute(
@@ -5890,7 +5929,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Gets the console output for the specified instance. For Linux instances, the instance console output displays the exact console output that would normally be displayed on a physical monitor attached to a computer. For Windows instances, the instance console output includes the last three system event log errors. By default, the console output returns buffered information that was posted shortly after an instance transition state (start, stop, reboot, or terminate). This information is available for at least one hour after the most recent post. Only the most recent 64 KB of console output is available. You can optionally retrieve the latest serial console output at any time during the instance lifecycle. This option is supported on instance types that use the Nitro hypervisor. For more information, see Instance console output in the Amazon EC2 User Guide.
+    /// Gets the console output for the specified instance. For Linux instances, the instance console output displays the exact console output that would normally be displayed on a physical monitor attached to a computer. For Windows instances, the instance console output includes the last three system event log errors. For more information, see Instance console output in the Amazon EC2 User Guide.
     @Sendable
     public func getConsoleOutput(_ input: GetConsoleOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConsoleOutputResult {
         return try await self.client.execute(
@@ -10390,7 +10429,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most  recent modification request. For more information, see  Monitor the progress of volume modifications in the Amazon EBS User Guide.
+    /// Describes the most recent volume modification request for the specified EBS volumes. For more information, see  Monitor the progress of volume modifications in the Amazon EBS User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

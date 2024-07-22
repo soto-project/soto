@@ -74,12 +74,51 @@ public struct BedrockAgentRuntime: AWSService {
 
     // MARK: API Calls
 
-    ///  The CLI doesn't support InvokeAgent.  Sends a prompt for the agent to process and respond to. Note the following fields for the request:   To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   End a conversation by setting endSession to true.   In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.   The response is returned in the bytes field of the chunk object.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the returnControl field.   Errors are also surfaced in the response.
+    /// Deletes memory from the specified memory identifier.
+    @Sendable
+    public func deleteAgentMemory(_ input: DeleteAgentMemoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAgentMemoryResponse {
+        return try await self.client.execute(
+            operation: "DeleteAgentMemory", 
+            path: "/agents/{agentId}/agentAliases/{agentAliasId}/memories", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets the sessions stored in the memory of the agent.
+    @Sendable
+    public func getAgentMemory(_ input: GetAgentMemoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentMemoryResponse {
+        return try await self.client.execute(
+            operation: "GetAgentMemory", 
+            path: "/agents/{agentId}/agentAliases/{agentAliasId}/memories", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeAgent.  Sends a prompt for the agent to process and respond to. Note the following fields for the request:   To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   End a conversation by setting endSession to true.   In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.   The response is returned in the bytes field of the chunk object.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the returnControl field.   Errors are also surfaced in the response.
     @Sendable
     public func invokeAgent(_ input: InvokeAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeAgentResponse {
         return try await self.client.execute(
             operation: "InvokeAgent", 
             path: "/agents/{agentId}/agentAliases/{agentAliasId}/sessions/{sessionId}/text", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Invokes an alias of a flow to run the inputs that you specify and return the output of each node as a stream. If there's an error, the error is returned. For more information, see Test a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+    @Sendable
+    public func invokeFlow(_ input: InvokeFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeFlowResponse {
+        return try await self.client.execute(
+            operation: "InvokeFlow", 
+            path: "/flows/{flowIdentifier}/aliases/{flowAliasIdentifier}", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -127,6 +166,25 @@ extension BedrockAgentRuntime {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension BedrockAgentRuntime {
+    /// Gets the sessions stored in the memory of the agent.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func getAgentMemoryPaginator(
+        _ input: GetAgentMemoryRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetAgentMemoryRequest, GetAgentMemoryResponse> {
+        return .init(
+            input: input,
+            command: self.getAgentMemory,
+            inputKey: \GetAgentMemoryRequest.nextToken,
+            outputKey: \GetAgentMemoryResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Queries a knowledge base and retrieves information from it.
     /// Return PaginatorSequence for operation.
     ///
@@ -143,6 +201,19 @@ extension BedrockAgentRuntime {
             inputKey: \RetrieveRequest.nextToken,
             outputKey: \RetrieveResponse.nextToken,
             logger: logger
+        )
+    }
+}
+
+extension BedrockAgentRuntime.GetAgentMemoryRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> BedrockAgentRuntime.GetAgentMemoryRequest {
+        return .init(
+            agentAliasId: self.agentAliasId,
+            agentId: self.agentId,
+            maxItems: self.maxItems,
+            memoryId: self.memoryId,
+            memoryType: self.memoryType,
+            nextToken: token
         )
     }
 }

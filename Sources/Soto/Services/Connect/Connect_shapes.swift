@@ -438,6 +438,17 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum NumberComparisonType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equal = "EQUAL"
+        case greater = "GREATER"
+        case greaterOrEqual = "GREATER_OR_EQUAL"
+        case lesser = "LESSER"
+        case lesserOrEqual = "LESSER_OR_EQUAL"
+        case notEqual = "NOT_EQUAL"
+        case range = "RANGE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NumericQuestionPropertyAutomationLabel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case agentInteractionDuration = "AGENT_INTERACTION_DURATION"
         case contactDuration = "CONTACT_DURATION"
@@ -892,6 +903,11 @@ extension Connect {
         case contains = "CONTAINS"
         case exact = "EXACT"
         case startsWith = "STARTS_WITH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetListType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case proficiencies = "PROFICIENCIES"
         public var description: String { return self.rawValue }
     }
 
@@ -1630,6 +1646,40 @@ extension Connect {
             case statusArn = "StatusArn"
             case statusName = "StatusName"
             case statusStartTimestamp = "StatusStartTimestamp"
+        }
+    }
+
+    public struct AgentStatusSearchCriteria: AWSEncodableShape {
+        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name,   description, state, type, displayOrder,  and resourceID.
+        public let andConditions: [AgentStatusSearchCriteria]?
+        /// A list of conditions which would be applied together with an OR condition.
+        public let orConditions: [AgentStatusSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name,   description, state, type, displayOrder,  and resourceID.
+        public let stringCondition: StringCondition?
+
+        public init(andConditions: [AgentStatusSearchCriteria]? = nil, orConditions: [AgentStatusSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andConditions = "AndConditions"
+            case orConditions = "OrConditions"
+            case stringCondition = "StringCondition"
+        }
+    }
+
+    public struct AgentStatusSearchFilter: AWSEncodableShape {
+        /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:    The top level list specifies conditions that need to be applied with OR operator.   The inner list specifies conditions that need to be applied with AND operator.
+        public let attributeFilter: ControlPlaneAttributeFilter?
+
+        public init(attributeFilter: ControlPlaneAttributeFilter? = nil) {
+            self.attributeFilter = attributeFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeFilter = "AttributeFilter"
         }
     }
 
@@ -3022,7 +3072,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -3109,6 +3159,19 @@ extension Connect {
         }
     }
 
+    public struct CommonAttributeAndCondition: AWSEncodableShape {
+        /// A leaf node condition which can be used to specify a tag condition.
+        public let tagConditions: [TagCondition]?
+
+        public init(tagConditions: [TagCondition]? = nil) {
+            self.tagConditions = tagConditions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagConditions = "TagConditions"
+        }
+    }
+
     public struct CompleteAttachedFileUploadRequest: AWSEncodableShape {
         /// The resource to which the attached file is (being) uploaded to. Cases are the only current supported resource.  This value must be a valid ARN.
         public let associatedResourceArn: String
@@ -3143,6 +3206,23 @@ extension Connect {
 
     public struct CompleteAttachedFileUploadResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct Condition: AWSEncodableShape {
+        /// A leaf node condition which can be used to specify a numeric condition.
+        public let numberCondition: NumberCondition?
+        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name and  value.
+        public let stringCondition: StringCondition?
+
+        public init(numberCondition: NumberCondition? = nil, stringCondition: StringCondition? = nil) {
+            self.numberCondition = numberCondition
+            self.stringCondition = stringCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberCondition = "NumberCondition"
+            case stringCondition = "StringCondition"
+        }
     }
 
     public struct ConnectionData: AWSDecodableShape {
@@ -3684,6 +3764,26 @@ extension Connect {
         }
     }
 
+    public struct ControlPlaneAttributeFilter: AWSEncodableShape {
+        /// A list of conditions which would be applied together with an AND condition.
+        public let andCondition: CommonAttributeAndCondition?
+        /// A list of conditions which would be applied together with an OR condition.
+        public let orConditions: [CommonAttributeAndCondition]?
+        public let tagCondition: TagCondition?
+
+        public init(andCondition: CommonAttributeAndCondition? = nil, orConditions: [CommonAttributeAndCondition]? = nil, tagCondition: TagCondition? = nil) {
+            self.andCondition = andCondition
+            self.orConditions = orConditions
+            self.tagCondition = tagCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andCondition = "AndCondition"
+            case orConditions = "OrConditions"
+            case tagCondition = "TagCondition"
+        }
+    }
+
     public struct ControlPlaneTagFilter: AWSEncodableShape {
         /// A list of conditions which would be applied together with an AND condition.
         public let andConditions: [TagCondition]?
@@ -3774,7 +3874,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -3880,7 +3980,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -3958,7 +4058,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -4114,7 +4214,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -4184,7 +4284,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -4268,7 +4368,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -4493,7 +4593,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -4581,7 +4681,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -4657,7 +4757,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -4749,7 +4849,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -4946,7 +5046,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -5110,7 +5210,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -5179,7 +5279,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -5241,7 +5341,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -5333,7 +5433,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -5426,7 +5526,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -5560,7 +5660,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -9518,7 +9618,7 @@ extension Connect {
         public let interval: IntervalDetails?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see Historical metrics definitions in the Amazon Connect Administrator Guide.  ABANDONMENT_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Abandonment rate   AGENT_ADHERENT_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Adherent time   AGENT_ANSWER_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent answer rate   AGENT_NON_ADHERENT_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Non-adherent time   AGENT_NON_RESPONSE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Agent non-response   AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: Agent non-response without customer abandons   AGENT_OCCUPANCY  Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy  UI name: Occupancy   AGENT_SCHEDULE_ADHERENCE  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Adherence   AGENT_SCHEDULED_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Scheduled time   AVG_ABANDON_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average queue abandon time   AVG_ACTIVE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average active time   AVG_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average after contact work time   Feature is a valid filter but not a valid grouping.   AVG_AGENT_CONNECTING_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Average agent API connecting time   The Negate key in Metric Level Filters is not applicable for this metric.   AVG_AGENT_PAUSE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent pause time   AVG_CASE_RELATED_CONTACTS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average contacts per case   AVG_CASE_RESOLUTION_TIME  Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average case resolution time   AVG_CONTACT_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average contact duration   Feature is a valid filter but not a valid grouping.   AVG_CONVERSATION_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average conversation duration   AVG_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Average flow time   AVG_GREETING_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent greeting time   AVG_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: Average handle time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME_ALL_CONTACTS  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time all contacts   AVG_HOLDS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average holds   Feature is a valid filter but not a valid grouping.   AVG_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction and customer hold time   AVG_INTERACTION_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction time   Feature is a valid filter but not a valid grouping.   AVG_INTERRUPTIONS_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruptions   AVG_INTERRUPTION_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruption time   AVG_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average non-talk time   AVG_QUEUE_ANSWER_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average queue answer time   Feature is a valid filter but not a valid grouping.   AVG_RESOLUTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average resolution time   AVG_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average talk time   AVG_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent talk time   AVG_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer talk time   CASES_CREATED  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases created   CONTACTS_CREATED  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts created   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED  Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: API contacts handled   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts handled (connected to agent timestamp)   CONTACTS_HOLD_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts hold disconnect   CONTACTS_ON_HOLD_AGENT_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold agent disconnect   CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold customer disconnect   CONTACTS_PUT_ON_HOLD  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts put on hold   CONTACTS_TRANSFERRED_OUT_EXTERNAL  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out external   CONTACTS_TRANSFERRED_OUT_INTERNAL  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out internal   CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts queued   CONTACTS_QUEUED_BY_ENQUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: Contacts queued (enqueue timestamp)   CONTACTS_REMOVED_FROM_QUEUE_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). UI name: This metric is not available in Amazon Connect admin website.   CONTACTS_RESOLVED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). UI name: Contacts resolved in X   CONTACTS_TRANSFERRED_OUT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out   Feature is a valid filter but not a valid grouping.   CONTACTS_TRANSFERRED_OUT_BY_AGENT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out by agent   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out queue   CURRENT_CASES  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Current cases   FLOWS_OUTCOME  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome   FLOWS_STARTED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows started   MAX_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Maximum flow time   MAX_QUEUED_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Maximum queued time   MIN_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Minimum flow time   PERCENT_CASES_FIRST_CONTACT_RESOLVED  Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved on first contact   PERCENT_CONTACTS_STEP_EXPIRED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_CONTACTS_STEP_JOINED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_FLOWS_OUTCOME  Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE  Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome percentage.  The FLOWS_OUTCOME_TYPE is not a valid grouping.   PERCENT_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Non-talk time percent   PERCENT_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Talk time percent   PERCENT_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Agent talk time percent   PERCENT_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Customer talk time percent   REOPENED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases reopened   RESOLVED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").  UI name: Service level X   STEP_CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  SUM_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: After contact work time   SUM_CONNECTING_TIME_AGENT  Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent API connecting time   The Negate key in Metric Level Filters is not applicable for this metric.   SUM_CONTACTS_ABANDONED  Unit: Count Metric filter:    Valid values: API| Incoming | Outbound | Transfer | Callback | Queue_Transfer| Disconnect    Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contact abandoned   SUM_CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").  UI name: Contacts abandoned in X seconds   SUM_CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").  UI name: Contacts answered in X seconds   SUM_CONTACT_FLOW_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact flow time   SUM_CONTACT_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent on contact time   SUM_CONTACTS_DISCONNECTED   Valid metric filter key: DISCONNECT_REASON  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contact disconnected   SUM_ERROR_STATUS_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Error status time   SUM_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact handle time   SUM_HOLD_TIME  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Customer hold time   SUM_IDLE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent idle time   SUM_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Agent interaction and hold time   SUM_INTERACTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent interaction time   SUM_NON_PRODUCTIVE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Non-Productive Time   SUM_ONLINE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Online time   SUM_RETRY_CALLBACK_ATTEMPTS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Callback attempts
+        /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see Historical metrics definitions in the Amazon Connect Administrator Guide.  ABANDONMENT_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Abandonment rate   AGENT_ADHERENT_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Adherent time   AGENT_ANSWER_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent answer rate   AGENT_NON_ADHERENT_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Non-adherent time   AGENT_NON_RESPONSE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Agent non-response   AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: Agent non-response without customer abandons   AGENT_OCCUPANCY  Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy  UI name: Occupancy   AGENT_SCHEDULE_ADHERENCE  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Adherence   AGENT_SCHEDULED_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Scheduled time   AVG_ABANDON_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average queue abandon time   AVG_ACTIVE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average active time   AVG_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average after contact work time   Feature is a valid filter but not a valid grouping.   AVG_AGENT_CONNECTING_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Average agent API connecting time   The Negate key in Metric Level Filters is not applicable for this metric.   AVG_AGENT_PAUSE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent pause time   AVG_CASE_RELATED_CONTACTS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average contacts per case   AVG_CASE_RESOLUTION_TIME  Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average case resolution time   AVG_CONTACT_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average contact duration   Feature is a valid filter but not a valid grouping.   AVG_CONVERSATION_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average conversation duration   AVG_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Average flow time   AVG_GREETING_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent greeting time   AVG_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: Average handle time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME_ALL_CONTACTS  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time all contacts   AVG_HOLDS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average holds   Feature is a valid filter but not a valid grouping.   AVG_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction and customer hold time   AVG_INTERACTION_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction time   Feature is a valid filter but not a valid grouping.   AVG_INTERRUPTIONS_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruptions   AVG_INTERRUPTION_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruption time   AVG_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average non-talk time   AVG_QUEUE_ANSWER_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average queue answer time   Feature is a valid filter but not a valid grouping.   AVG_RESOLUTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average resolution time   AVG_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average talk time   AVG_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent talk time   AVG_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer talk time   CASES_CREATED  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases created   CONTACTS_CREATED  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts created   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED  Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: API contacts handled   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts handled (connected to agent timestamp)   CONTACTS_HOLD_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts hold disconnect   CONTACTS_ON_HOLD_AGENT_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold agent disconnect   CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold customer disconnect   CONTACTS_PUT_ON_HOLD  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts put on hold   CONTACTS_TRANSFERRED_OUT_EXTERNAL  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out external   CONTACTS_TRANSFERRED_OUT_INTERNAL  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out internal   CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts queued   CONTACTS_QUEUED_BY_ENQUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: Contacts queued (enqueue timestamp)   CONTACTS_REMOVED_FROM_QUEUE_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). UI name: Contacts removed from queue in X seconds   CONTACTS_RESOLVED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). UI name: Contacts resolved in X   CONTACTS_TRANSFERRED_OUT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out   Feature is a valid filter but not a valid grouping.   CONTACTS_TRANSFERRED_OUT_BY_AGENT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out by agent   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out queue   CURRENT_CASES  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Current cases   FLOWS_OUTCOME  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome   FLOWS_STARTED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows started   MAX_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Maximum flow time   MAX_QUEUED_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Maximum queued time   MIN_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Minimum flow time   PERCENT_CASES_FIRST_CONTACT_RESOLVED  Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved on first contact   PERCENT_CONTACTS_STEP_EXPIRED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_CONTACTS_STEP_JOINED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_FLOWS_OUTCOME  Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE  Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome percentage.  The FLOWS_OUTCOME_TYPE is not a valid grouping.   PERCENT_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Non-talk time percent   PERCENT_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Talk time percent   PERCENT_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Agent talk time percent   PERCENT_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Customer talk time percent   REOPENED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases reopened   RESOLVED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").  UI name: Service level X   STEP_CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  SUM_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: After contact work time   SUM_CONNECTING_TIME_AGENT  Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent API connecting time   The Negate key in Metric Level Filters is not applicable for this metric.   SUM_CONTACTS_ABANDONED  Unit: Count Metric filter:    Valid values: API| Incoming | Outbound | Transfer | Callback | Queue_Transfer| Disconnect    Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contact abandoned   SUM_CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").  UI name: Contacts abandoned in X seconds   SUM_CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").  UI name: Contacts answered in X seconds   SUM_CONTACT_FLOW_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact flow time   SUM_CONTACT_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent on contact time   SUM_CONTACTS_DISCONNECTED   Valid metric filter key: DISCONNECT_REASON  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contact disconnected   SUM_ERROR_STATUS_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Error status time   SUM_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact handle time   SUM_HOLD_TIME  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Customer hold time   SUM_IDLE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent idle time   SUM_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Agent interaction and hold time   SUM_INTERACTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent interaction time   SUM_NON_PRODUCTIVE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Non-Productive Time   SUM_ONLINE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Online time   SUM_RETRY_CALLBACK_ATTEMPTS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Callback attempts
         public let metrics: [MetricV2]
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
@@ -10320,7 +10420,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -10960,6 +11060,23 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case lexBots = "LexBots"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCondition: AWSEncodableShape {
+        /// A list of Condition objects which would be applied together with an AND condition.
+        public let conditions: [Condition]?
+        /// The type of target list that will be used to filter the users.
+        public let targetListType: TargetListType?
+
+        public init(conditions: [Condition]? = nil, targetListType: TargetListType? = nil) {
+            self.conditions = conditions
+            self.targetListType = targetListType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditions = "Conditions"
+            case targetListType = "TargetListType"
         }
     }
 
@@ -13533,6 +13650,31 @@ extension Connect {
         }
     }
 
+    public struct NumberCondition: AWSEncodableShape {
+        /// The type of comparison to be made when evaluating the number condition.
+        public let comparisonType: NumberComparisonType?
+        /// The name of the field in the number condition.
+        public let fieldName: String?
+        /// The maxValue to be used while evaluating the number condition.
+        public let maxValue: Int?
+        /// The minValue to be used while evaluating the number condition.
+        public let minValue: Int?
+
+        public init(comparisonType: NumberComparisonType? = nil, fieldName: String? = nil, maxValue: Int? = nil, minValue: Int? = nil) {
+            self.comparisonType = comparisonType
+            self.fieldName = fieldName
+            self.maxValue = maxValue
+            self.minValue = minValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonType = "ComparisonType"
+            case fieldName = "FieldName"
+            case maxValue = "MaxValue"
+            case minValue = "MinValue"
+        }
+    }
+
     public struct NumberReference: AWSDecodableShape {
         /// Identifier of the number reference.
         public let name: String?
@@ -15278,6 +15420,65 @@ extension Connect {
         }
     }
 
+    public struct SearchAgentStatusesRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The search criteria to be used to return agent statuses.
+        public let searchCriteria: AgentStatusSearchCriteria?
+        /// Filters to be applied to search results.
+        public let searchFilter: AgentStatusSearchFilter?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: AgentStatusSearchCriteria? = nil, searchFilter: AgentStatusSearchFilter? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchCriteria = searchCriteria
+            self.searchFilter = searchFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchCriteria = "SearchCriteria"
+            case searchFilter = "SearchFilter"
+        }
+    }
+
+    public struct SearchAgentStatusesResponse: AWSDecodableShape {
+        /// The search criteria to be used to return agent statuses.
+        public let agentStatuses: [AgentStatus]?
+        /// The total number of agent statuses which matched your search query.
+        public let approximateTotalCount: Int64?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(agentStatuses: [AgentStatus]? = nil, approximateTotalCount: Int64? = nil, nextToken: String? = nil) {
+            self.agentStatuses = agentStatuses
+            self.approximateTotalCount = approximateTotalCount
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentStatuses = "AgentStatuses"
+            case approximateTotalCount = "ApproximateTotalCount"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct SearchAvailablePhoneNumbersRequest: AWSEncodableShape {
         /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
         public let instanceId: String?
@@ -15897,7 +16098,7 @@ extension Connect {
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        /// The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types.
+        /// The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types.  Supported resource types    AGENT   ROUTING_PROFILE   STANDARD_QUEUE   SECURITY_PROFILE   OPERATING_HOURS   PROMPT   CONTACT_FLOW   FLOW_MODULE
         public let resourceTypes: [String]?
         /// The search criteria to be used to return tags.
         public let searchCriteria: ResourceTagsSearchCriteria?
@@ -16064,6 +16265,65 @@ extension Connect {
             case approximateTotalCount = "ApproximateTotalCount"
             case nextToken = "NextToken"
             case securityProfiles = "SecurityProfiles"
+        }
+    }
+
+    public struct SearchUserHierarchyGroupsRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The search criteria to be used to return UserHierarchyGroups.
+        public let searchCriteria: UserHierarchyGroupSearchCriteria?
+        /// Filters to be applied to search results.
+        public let searchFilter: UserHierarchyGroupSearchFilter?
+
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: UserHierarchyGroupSearchCriteria? = nil, searchFilter: UserHierarchyGroupSearchFilter? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchCriteria = searchCriteria
+            self.searchFilter = searchFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchCriteria = "SearchCriteria"
+            case searchFilter = "SearchFilter"
+        }
+    }
+
+    public struct SearchUserHierarchyGroupsResponse: AWSDecodableShape {
+        /// The total number of userHierarchyGroups which matched your search query.
+        public let approximateTotalCount: Int64?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// Information about the userHierarchyGroups.
+        public let userHierarchyGroups: [HierarchyGroup]?
+
+        public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, userHierarchyGroups: [HierarchyGroup]? = nil) {
+            self.approximateTotalCount = approximateTotalCount
+            self.nextToken = nextToken
+            self.userHierarchyGroups = userHierarchyGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateTotalCount = "ApproximateTotalCount"
+            case nextToken = "NextToken"
+            case userHierarchyGroups = "UserHierarchyGroups"
         }
     }
 
@@ -16681,7 +16941,7 @@ extension Connect {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -17648,7 +17908,7 @@ extension Connect {
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -18243,7 +18503,7 @@ extension Connect {
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
@@ -20621,6 +20881,40 @@ extension Connect {
         }
     }
 
+    public struct UserHierarchyGroupSearchCriteria: AWSEncodableShape {
+        /// A list of conditions which would be applied together with an AND condition.
+        public let andConditions: [UserHierarchyGroupSearchCriteria]?
+        /// A list of conditions which would be applied together with an OR condition.
+        public let orConditions: [UserHierarchyGroupSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name,   parentId, levelId, and resourceID.
+        public let stringCondition: StringCondition?
+
+        public init(andConditions: [UserHierarchyGroupSearchCriteria]? = nil, orConditions: [UserHierarchyGroupSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andConditions = "AndConditions"
+            case orConditions = "OrConditions"
+            case stringCondition = "StringCondition"
+        }
+    }
+
+    public struct UserHierarchyGroupSearchFilter: AWSEncodableShape {
+        /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR or AND (List of List) input where:   The top level list specifies conditions that need to be applied with OR operator.   The inner list specifies conditions that need to be applied with AND operator.
+        public let attributeFilter: ControlPlaneAttributeFilter?
+
+        public init(attributeFilter: ControlPlaneAttributeFilter? = nil) {
+            self.attributeFilter = attributeFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeFilter = "AttributeFilter"
+        }
+    }
+
     public struct UserIdentityInfo: AWSEncodableShape & AWSDecodableShape {
         /// The email address. If you are using SAML for identity management and include this parameter, an error is returned.
         public let email: String?
@@ -20802,14 +21096,17 @@ extension Connect {
         public let andConditions: [UserSearchCriteria]?
         /// A leaf node condition which can be used to specify a hierarchy group condition.
         public let hierarchyGroupCondition: HierarchyGroupCondition?
+        /// A leaf node condition which can be used to specify a List condition to search users with attributes included in Lists like Proficiencies.
+        public let listCondition: ListCondition?
         /// A list of conditions which would be applied together with an OR condition.
         public let orConditions: [UserSearchCriteria]?
         /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are Username, FirstName, LastName, RoutingProfileId, SecurityProfileId, ResourceId.
         public let stringCondition: StringCondition?
 
-        public init(andConditions: [UserSearchCriteria]? = nil, hierarchyGroupCondition: HierarchyGroupCondition? = nil, orConditions: [UserSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
+        public init(andConditions: [UserSearchCriteria]? = nil, hierarchyGroupCondition: HierarchyGroupCondition? = nil, listCondition: ListCondition? = nil, orConditions: [UserSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
             self.andConditions = andConditions
             self.hierarchyGroupCondition = hierarchyGroupCondition
+            self.listCondition = listCondition
             self.orConditions = orConditions
             self.stringCondition = stringCondition
         }
@@ -20817,6 +21114,7 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case andConditions = "AndConditions"
             case hierarchyGroupCondition = "HierarchyGroupCondition"
+            case listCondition = "ListCondition"
             case orConditions = "OrConditions"
             case stringCondition = "StringCondition"
         }

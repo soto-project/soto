@@ -27,6 +27,7 @@ extension FSx {
     // MARK: Enums
 
     public enum AdministrativeActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case downloadDataFromBackup = "DOWNLOAD_DATA_FROM_BACKUP"
         case fileSystemAliasAssociation = "FILE_SYSTEM_ALIAS_ASSOCIATION"
         case fileSystemAliasDisassociation = "FILE_SYSTEM_ALIAS_DISASSOCIATION"
         case fileSystemUpdate = "FILE_SYSTEM_UPDATE"
@@ -257,6 +258,7 @@ extension FSx {
 
     public enum OntapDeploymentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiAz1 = "MULTI_AZ_1"
+        case multiAz2 = "MULTI_AZ_2"
         case singleAz1 = "SINGLE_AZ_1"
         case singleAz2 = "SINGLE_AZ_2"
         public var description: String { return self.rawValue }
@@ -287,6 +289,8 @@ extension FSx {
         case multiAz1 = "MULTI_AZ_1"
         case singleAz1 = "SINGLE_AZ_1"
         case singleAz2 = "SINGLE_AZ_2"
+        case singleAzHa1 = "SINGLE_AZ_HA_1"
+        case singleAzHa2 = "SINGLE_AZ_HA_2"
         public var description: String { return self.rawValue }
     }
 
@@ -368,6 +372,7 @@ extension FSx {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
+        case optimizing = "OPTIMIZING"
         case pending = "PENDING"
         case updatedOptimizing = "UPDATED_OPTIMIZING"
         public var description: String { return self.rawValue }
@@ -498,13 +503,13 @@ extension FSx {
     public struct AdministrativeAction: AWSDecodableShape {
         public let administrativeActionType: AdministrativeActionType?
         public let failureDetails: AdministrativeActionFailureDetails?
-        /// The percentage-complete status of a STORAGE_OPTIMIZATION administrative action. Does not apply to any other administrative action type.
+        /// The percentage-complete status of a STORAGE_OPTIMIZATION  or DOWNLOAD_DATA_FROM_BACKUP administrative action. Does not apply to any other administrative action type.
         public let progressPercent: Int?
         /// The remaining bytes to transfer for the FSx for OpenZFS snapshot that you're copying.
         public let remainingTransferBytes: Int64?
         /// The time that the administrative action request was received.
         public let requestTime: Date?
-        /// The status of the administrative action, as follows:    FAILED - Amazon FSx failed to process the administrative action successfully.    IN_PROGRESS - Amazon FSx is processing the administrative action.    PENDING - Amazon FSx is waiting to process the administrative action.    COMPLETED - Amazon FSx has finished processing the administrative task.    UPDATED_OPTIMIZING - For a storage-capacity increase update, Amazon FSx has updated the file system with the new storage capacity, and is now performing the storage-optimization process.
+        /// The status of the administrative action, as follows:    FAILED - Amazon FSx failed to process the administrative action successfully.    IN_PROGRESS - Amazon FSx is processing the administrative action.    PENDING - Amazon FSx is waiting to process the administrative action.    COMPLETED - Amazon FSx has finished processing the administrative task. For a backup restore to a second-generation FSx for ONTAP file system,  indicates that all data has been downloaded to the volume, and clients now have read-write access to volume.    UPDATED_OPTIMIZING - For a storage-capacity increase update, Amazon FSx has updated the file system with the new storage capacity, and is now performing the storage-optimization process.    PENDING - For a backup restore to a second-generation FSx for ONTAP file system,  indicates that the file metadata is being downloaded onto the volume. The volume's Lifecycle state is CREATING.    IN_PROGRESS - For a backup restore to a second-generation FSx for ONTAP file system,  indicates that all metadata has been downloaded to the new volume and client can access data with read-only access  while Amazon FSx downloads the file data to the volume. Track the progress of this process with the ProgressPercent element.
         public let status: Status?
         /// The target value for the administration action, provided in the UpdateFileSystem operation. Returned for FILE_SYSTEM_UPDATE administrative actions.
         public let targetFileSystemValues: FileSystem?
@@ -554,7 +559,7 @@ extension FSx {
     }
 
     public struct AggregateConfiguration: AWSDecodableShape {
-        /// The list of aggregates that this volume resides on. Aggregates are storage pools which make up your primary storage tier. Each high-availability (HA) pair has one aggregate. The names of the aggregates map to the names of the aggregates in the ONTAP CLI and REST API. For FlexVols, there will always be a single entry. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:   The strings in the value of Aggregates are not are not formatted as aggrX, where X is a number between 1 and 6.   The value of Aggregates contains aggregates that are not present.   One or more of the aggregates supplied are too close to the volume limit to support adding more volumes.
+        /// The list of aggregates that this volume resides on. Aggregates are storage pools which make up your primary storage tier. Each high-availability (HA) pair has one aggregate. The names of the aggregates map to the names of the aggregates in the ONTAP CLI and REST API. For FlexVols, there will always be a single entry. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:   The strings in the value of Aggregates are not are not formatted as aggrX, where X is a number between 1 and 12.   The value of Aggregates contains aggregates that are not present.   One or more of the aggregates supplied are too close to the volume limit to support adding more volumes.
         public let aggregates: [String]?
         /// The total number of constituents this FlexGroup volume has. Not applicable for FlexVols.
         public let totalConstituents: Int?
@@ -1547,7 +1552,7 @@ extension FSx {
     public struct CreateFileSystemOntapConfiguration: AWSEncodableShape {
         public let automaticBackupRetentionDays: Int?
         public let dailyAutomaticBackupStartTime: String?
-        /// Specifies the FSx for ONTAP file system deployment type to use in creating the file system.      MULTI_AZ_1 - (Default) A high availability file system configured for Multi-AZ redundancy to tolerate temporary Availability Zone (AZ) unavailability.      SINGLE_AZ_1 - A file system configured for Single-AZ redundancy.    SINGLE_AZ_2 - A file system configured with multiple high-availability (HA) pairs for Single-AZ redundancy.   For information about the use cases for Multi-AZ and Single-AZ deployments, refer to Choosing a file system deployment type.
+        /// Specifies the FSx for ONTAP file system deployment type to use in creating the file system.      MULTI_AZ_1 - A high availability file system configured for Multi-AZ redundancy to tolerate temporary Availability Zone (AZ) unavailability. This is a first-generation FSx for ONTAP file system.    MULTI_AZ_2 - A high availability file system configured for Multi-AZ redundancy to tolerate  temporary AZ unavailability. This is a second-generation FSx for ONTAP file system.    SINGLE_AZ_1 - A file system configured for Single-AZ redundancy. This is a first-generation FSx for ONTAP file system.    SINGLE_AZ_2 - A file system configured with multiple high-availability (HA) pairs for Single-AZ redundancy.  This is a second-generation FSx for ONTAP file system.   For information about the use cases for Multi-AZ and Single-AZ deployments, refer to Choosing a file system deployment type.
         public let deploymentType: OntapDeploymentType?
         /// The SSD IOPS configuration for the FSx for ONTAP file system.
         public let diskIopsConfiguration: DiskIopsConfiguration?
@@ -1555,15 +1560,15 @@ extension FSx {
         public let endpointIpAddressRange: String?
         /// The ONTAP administrative password for the fsxadmin user with which you administer your file system using the NetApp ONTAP CLI and REST API.
         public let fsxAdminPassword: String?
-        /// Specifies how many high-availability (HA) pairs of file servers will power your file system. Scale-up file systems are powered by 1 HA pair. The default value is 1.  FSx for ONTAP scale-out file systems are powered by up to 12 HA pairs. The value of this property affects the values of StorageCapacity,  Iops, and ThroughputCapacity. For more information, see  High-availability (HA) pairs in the FSx for ONTAP user guide. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:   The value of HAPairs is less than 1 or greater than 12.   The value of HAPairs is greater than 1 and the value of DeploymentType is SINGLE_AZ_1 or MULTI_AZ_1.
+        /// Specifies how many high-availability (HA) pairs of file servers will power your file system. First-generation file systems are powered by 1 HA pair. Second-generation multi-AZ file systems are powered by 1 HA pair. Second generation single-AZ file systems are powered by up to 12 HA pairs. The default value is 1.  The value of this property affects the values of StorageCapacity,  Iops, and ThroughputCapacity. For more information, see  High-availability (HA) pairs in the FSx for ONTAP user guide. Block storage protocol support  (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs. For more information, see  Using block storage protocols.  Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:   The value of HAPairs is less than 1 or greater than 12.   The value of HAPairs is greater than 1 and the value of DeploymentType is SINGLE_AZ_1, MULTI_AZ_1, or MULTI_AZ_2.
         public let haPairs: Int?
-        /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
+        /// Required when DeploymentType is set to MULTI_AZ_1 or MULTI_AZ_2. This specifies the subnet in which you want the preferred file server to be located.
         public let preferredSubnetId: String?
         /// (Multi-AZ only) Specifies the route tables in which Amazon FSx  creates the rules for routing traffic to the correct file server. You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located. By default, Amazon FSx  selects your VPC's default route table.  Amazon FSx manages these route tables for Multi-AZ file systems using tag-based authentication.  These route tables are tagged with Key: AmazonFSx; Value: ManagedByAmazonFSx.  When creating FSx for ONTAP Multi-AZ file systems using CloudFormation we recommend that you add the  Key: AmazonFSx; Value: ManagedByAmazonFSx tag manually.
         public let routeTableIds: [String]?
         /// Sets the throughput capacity for the file system that you're creating in megabytes per second (MBps). For more information, see  Managing throughput capacity  in the FSx for ONTAP User Guide. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:   The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value.   The value of ThroughputCapacity when divided by the value of HAPairs is outside of the valid range for ThroughputCapacity.
         public let throughputCapacity: Int?
-        /// Use to choose the throughput capacity per HA pair, rather than the total throughput for the file system.  You can define either the ThroughputCapacityPerHAPair or the ThroughputCapacity when creating a file system, but not both. This field and ThroughputCapacity are the same for scale-up file systems powered by one HA pair.   For SINGLE_AZ_1 and MULTI_AZ_1 file systems, valid values are 128, 256, 512, 1024, 2048, or 4096 MBps.   For SINGLE_AZ_2 file systems, valid values are 3072 or 6144 MBps.   Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:   The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value for file systems with one HA pair.   The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is a valid HA pair (a value between 2 and 12).   The value of ThroughputCapacityPerHAPair is not a valid value.
+        /// Use to choose the throughput capacity per HA pair, rather than the total throughput for the file system.  You can define either the ThroughputCapacityPerHAPair or the ThroughputCapacity when creating a file system, but not both. This field and ThroughputCapacity are the same for file systems powered by one HA pair.   For SINGLE_AZ_1 and MULTI_AZ_1 file systems, valid values are 128, 256, 512, 1024, 2048, or 4096 MBps.   For SINGLE_AZ_2, valid values are 1536, 3072, or 6144 MBps.   For MULTI_AZ_2, valid values are 384, 768, 1536, 3072, or 6144 MBps.   Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:   The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value for file systems with one HA pair.   The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is not a valid HA pair (a value between 1 and 12).   The value of ThroughputCapacityPerHAPair is not a valid value.
         public let throughputCapacityPerHAPair: Int?
         public let weeklyMaintenanceStartTime: String?
 
@@ -1638,7 +1643,7 @@ extension FSx {
         /// A Boolean value indicating whether tags for the file system should be copied to volumes. This value defaults to false. If it's set to true, all tags for the file system are copied to volumes where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to volumes. If you specify one or more tags when creating the volume, no tags are copied from the file system, regardless of this value.
         public let copyTagsToVolumes: Bool?
         public let dailyAutomaticBackupStartTime: String?
-        /// Specifies the file system deployment type. Single AZ deployment types are configured for redundancy within a single Availability Zone in an Amazon Web Services Region . Valid values are the following:    MULTI_AZ_1- Creates file systems with high availability that are configured for Multi-AZ redundancy to tolerate temporary unavailability in Availability Zones (AZs). Multi_AZ_1 is available only in the US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Tokyo), and Europe (Ireland) Amazon Web Services Regions.    SINGLE_AZ_1- Creates file systems with throughput capacities of 64 - 4,096 MB/s. Single_AZ_1 is available in all Amazon Web Services Regions where Amazon FSx  for OpenZFS is available.    SINGLE_AZ_2- Creates file systems with throughput capacities of 160 - 10,240 MB/s using an NVMe L2ARC cache. Single_AZ_2 is available only in the US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Tokyo), and Europe (Ireland) Amazon Web Services Regions.   For more information, see Deployment type availability and File system performance in the Amazon FSx for OpenZFS User Guide.
+        /// Specifies the file system deployment type. Valid values are the following:    MULTI_AZ_1- Creates file systems with high availability and durability by replicating your data and supporting failover across multiple Availability Zones in the same Amazon Web Services Region.    SINGLE_AZ_HA_2- Creates file systems with high availability and throughput capacities of 160 - 10,240 MB/s using an NVMe L2ARC cache by deploying a primary and standby file system within the same Availability Zone.    SINGLE_AZ_HA_1- Creates file systems with high availability and throughput capacities of 64 - 4,096 MB/s by deploying a primary and standby file system within the same Availability Zone.    SINGLE_AZ_2- Creates file systems with throughput capacities of 160 - 10,240 MB/s using an NVMe L2ARC cache that automatically recover within a single Availability Zone.    SINGLE_AZ_1- Creates file systems with throughput capacities of 64 - 4,096 MBs that automatically recover within a single Availability Zone.   For a list of which Amazon Web Services Regions each deployment type is available in, see Deployment type availability. For more information on the differences in performance between deployment types, see File system performance in the Amazon FSx for OpenZFS User Guide.
         public let deploymentType: OpenZFSDeploymentType?
         public let diskIopsConfiguration: DiskIopsConfiguration?
         /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx  API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
@@ -3853,7 +3858,7 @@ extension FSx {
         public let dataRepositoryAssociationIds: [String]?
         /// The Domain Name System (DNS) name for the cache.
         public let dnsName: String?
-        /// A structure providing details of any failures that occurred.
+        /// A structure providing details of any failures that occurred in creating a cache.
         public let failureDetails: FileCacheFailureDetails?
         /// The system-generated, unique ID of the cache.
         public let fileCacheId: String?
@@ -4441,7 +4446,7 @@ extension FSx {
     public struct OntapFileSystemConfiguration: AWSDecodableShape {
         public let automaticBackupRetentionDays: Int?
         public let dailyAutomaticBackupStartTime: String?
-        /// Specifies the FSx for ONTAP file system deployment type in use in the file system.     MULTI_AZ_1 - (Default) A high availability file system configured for Multi-AZ redundancy to tolerate temporary Availability Zone (AZ) unavailability.     SINGLE_AZ_1 - A file system configured for Single-AZ redundancy.    SINGLE_AZ_2 - A file system configured with multiple high-availability (HA) pairs for Single-AZ redundancy.   For information about the use cases for Multi-AZ and Single-AZ deployments, refer to Choosing Multi-AZ or Single-AZ file system deployment.
+        /// Specifies the FSx for ONTAP file system deployment type in use in the file system.     MULTI_AZ_1 - A high availability file system configured for Multi-AZ redundancy to tolerate temporary Availability Zone (AZ) unavailability. This is a first-generation FSx for ONTAP file system.    MULTI_AZ_2 - A high availability file system configured for Multi-AZ redundancy to tolerate  temporary AZ unavailability. This is a second-generation FSx for ONTAP file system.    SINGLE_AZ_1 - A file system configured for Single-AZ redundancy. This is a first-generation FSx for ONTAP file system.    SINGLE_AZ_2 - A file system configured with multiple high-availability (HA) pairs for Single-AZ redundancy.  This is a second-generation FSx for ONTAP file system.   For information about the use cases for Multi-AZ and Single-AZ deployments, refer to Choosing Multi-AZ or Single-AZ file system deployment.
         public let deploymentType: OntapDeploymentType?
         /// The SSD IOPS configuration for the ONTAP file system, specifying the number of provisioned IOPS and the provision mode.
         public let diskIopsConfiguration: DiskIopsConfiguration?
@@ -4451,13 +4456,13 @@ extension FSx {
         public let endpoints: FileSystemEndpoints?
         /// You can use the fsxadmin user account to access the NetApp ONTAP CLI and  REST API. The password value is always redacted in the response.
         public let fsxAdminPassword: String?
-        /// Specifies how many high-availability (HA) file server pairs the file system will have. The default value is 1. The value of this property affects the values of StorageCapacity, Iops, and ThroughputCapacity. For more information, see High-availability (HA) pairs in the FSx for ONTAP user guide. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:   The value of HAPairs is less than 1 or greater than 12.   The value of HAPairs is greater than 1 and the value of DeploymentType is SINGLE_AZ_1 or MULTI_AZ_1.
+        /// Specifies how many high-availability (HA) file server pairs the file system will have. The default value is 1. The value of this property affects the values of StorageCapacity,  Iops, and ThroughputCapacity. For more information, see High-availability (HA) pairs in the FSx for ONTAP user guide. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:   The value of HAPairs is less than 1 or greater than 12.   The value of HAPairs is greater than 1 and the value of DeploymentType is SINGLE_AZ_1, MULTI_AZ_1, or MULTI_AZ_2.
         public let haPairs: Int?
         public let preferredSubnetId: String?
         /// (Multi-AZ only) The VPC route tables in which your file system's endpoints are created.
         public let routeTableIds: [String]?
         public let throughputCapacity: Int?
-        /// Use to choose the throughput capacity per HA pair. When the value of HAPairs is equal to 1, the value of ThroughputCapacityPerHAPair is the total throughput for the file system. This field and ThroughputCapacity cannot be defined in the same API call, but one is required. This field and ThroughputCapacity are the same for file systems with one HA pair.   For SINGLE_AZ_1 and MULTI_AZ_1, valid values are 128, 256, 512, 1024, 2048, or 4096 MBps.   For SINGLE_AZ_2, valid values are 3072 or 6144 MBps.   Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:   The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value.   The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is a valid HA pair (a value between 2 and 12).   The value of ThroughputCapacityPerHAPair is not a valid value.
+        /// Use to choose the throughput capacity per HA pair. When the value of HAPairs is equal to 1, the value of ThroughputCapacityPerHAPair is the total throughput for the file system. This field and ThroughputCapacity cannot be defined in the same API call, but one is required. This field and ThroughputCapacity are the same for file systems with one HA pair.   For SINGLE_AZ_1 and MULTI_AZ_1 file systems, valid values are 128, 256, 512, 1024, 2048, or 4096 MBps.   For SINGLE_AZ_2, valid values are 1536, 3072, or 6144 MBps.   For MULTI_AZ_2, valid values are 384, 768, 1536, 3072, or 6144 MBps.   Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:   The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value.   The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is not a valid HA pair (a value between 1 and 12).   The value of ThroughputCapacityPerHAPair is not a valid value.
         public let throughputCapacityPerHAPair: Int?
         public let weeklyMaintenanceStartTime: String?
 
@@ -4650,7 +4655,7 @@ extension FSx {
         /// A Boolean value indicating whether tags for the volume should be copied to snapshots. This value defaults to false. If it's set to true, all tags for the volume are copied to snapshots where the user doesn't specify tags. If this value is true and you specify one or more tags, only the specified tags are copied to snapshots. If you specify one or more tags when creating the snapshot, no tags are copied from the volume, regardless of this value.
         public let copyTagsToVolumes: Bool?
         public let dailyAutomaticBackupStartTime: String?
-        /// Specifies the file-system deployment type. Amazon FSx for OpenZFS supports  MULTI_AZ_1, SINGLE_AZ_1, and SINGLE_AZ_2.
+        /// Specifies the file-system deployment type. Amazon FSx for OpenZFS supports  MULTI_AZ_1, SINGLE_AZ_HA_2, SINGLE_AZ_HA_1, SINGLE_AZ_2, and SINGLE_AZ_1.
         public let deploymentType: OpenZFSDeploymentType?
         public let diskIopsConfiguration: DiskIopsConfiguration?
         /// The IP address of the endpoint that is used to access data or to manage the file system.
@@ -5761,20 +5766,23 @@ extension FSx {
         public let diskIopsConfiguration: DiskIopsConfiguration?
         /// Update the password for the fsxadmin user by entering a new password.  You use the fsxadmin user to access the NetApp ONTAP CLI and REST API to manage your file system resources.  For more information, see  Managing resources using NetApp Applicaton.
         public let fsxAdminPassword: String?
+        /// Use to update the number of high-availability (HA) pairs for a second-generation single-AZ file system.  If you increase the number of HA pairs for your file system, you must specify proportional increases for StorageCapacity,  Iops, and ThroughputCapacity. For more information, see  High-availability (HA) pairs in the FSx for ONTAP user guide. Block storage protocol support  (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs. For more information, see  Using block storage protocols.
+        public let haPairs: Int?
         /// (Multi-AZ only) A list of IDs of existing virtual private cloud (VPC) route tables to disassociate (remove) from your Amazon FSx for NetApp ONTAP file system. You can use the  API operation to retrieve the list of VPC route table IDs for a file system.
         public let removeRouteTableIds: [String]?
         /// Enter a new value to change the amount of throughput capacity for the file system in megabytes per second (MBps). For more information, see  Managing throughput capacity  in the FSx for ONTAP User Guide. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:   The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value.   The value of ThroughputCapacity when divided by the value of HAPairs is outside of the valid range for ThroughputCapacity.
         public let throughputCapacity: Int?
-        /// Use to choose the throughput capacity per HA pair, rather than the total throughput for the file system.  This field and ThroughputCapacity cannot be defined in the same API call, but one is required. This field and ThroughputCapacity are the same for file systems with one HA pair.   For SINGLE_AZ_1 and MULTI_AZ_1, valid values are 128, 256, 512, 1024, 2048, or 4096 MBps.   For SINGLE_AZ_2, valid values are 3072 or 6144 MBps.   Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:   The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value for file systems with one HA pair.   The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is a valid HA pair (a value between 2 and 12).   The value of ThroughputCapacityPerHAPair is not a valid value.
+        /// Use to choose the throughput capacity per HA pair, rather than the total throughput for the file system.  This field and ThroughputCapacity cannot be defined in the same API call, but one is required. This field and ThroughputCapacity are the same for file systems with one HA pair.   For SINGLE_AZ_1 and MULTI_AZ_1 file systems, valid values are 128, 256, 512, 1024, 2048, or 4096 MBps.   For SINGLE_AZ_2, valid values are 1536, 3072, or 6144 MBps.   For MULTI_AZ_2, valid values are 384, 768, 1536, 3072, or 6144 MBps.   Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:   The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value for file systems with one HA pair.   The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is not a valid HA pair (a value between 1 and 12).   The value of ThroughputCapacityPerHAPair is not a valid value.
         public let throughputCapacityPerHAPair: Int?
         public let weeklyMaintenanceStartTime: String?
 
-        public init(addRouteTableIds: [String]? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, fsxAdminPassword: String? = nil, removeRouteTableIds: [String]? = nil, throughputCapacity: Int? = nil, throughputCapacityPerHAPair: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(addRouteTableIds: [String]? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, fsxAdminPassword: String? = nil, haPairs: Int? = nil, removeRouteTableIds: [String]? = nil, throughputCapacity: Int? = nil, throughputCapacityPerHAPair: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.addRouteTableIds = addRouteTableIds
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.diskIopsConfiguration = diskIopsConfiguration
             self.fsxAdminPassword = fsxAdminPassword
+            self.haPairs = haPairs
             self.removeRouteTableIds = removeRouteTableIds
             self.throughputCapacity = throughputCapacity
             self.throughputCapacityPerHAPair = throughputCapacityPerHAPair
@@ -5797,6 +5805,8 @@ extension FSx {
             try self.validate(self.fsxAdminPassword, name: "fsxAdminPassword", parent: name, max: 50)
             try self.validate(self.fsxAdminPassword, name: "fsxAdminPassword", parent: name, min: 8)
             try self.validate(self.fsxAdminPassword, name: "fsxAdminPassword", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{8,50}$")
+            try self.validate(self.haPairs, name: "haPairs", parent: name, max: 12)
+            try self.validate(self.haPairs, name: "haPairs", parent: name, min: 1)
             try self.removeRouteTableIds?.forEach {
                 try validate($0, name: "removeRouteTableIds[]", parent: name, max: 21)
                 try validate($0, name: "removeRouteTableIds[]", parent: name, min: 12)
@@ -5818,6 +5828,7 @@ extension FSx {
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case diskIopsConfiguration = "DiskIopsConfiguration"
             case fsxAdminPassword = "FsxAdminPassword"
+            case haPairs = "HAPairs"
             case removeRouteTableIds = "RemoveRouteTableIds"
             case throughputCapacity = "ThroughputCapacity"
             case throughputCapacityPerHAPair = "ThroughputCapacityPerHAPair"

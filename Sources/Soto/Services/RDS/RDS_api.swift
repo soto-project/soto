@@ -1313,7 +1313,7 @@ public struct RDS: AWSService {
         )
     }
 
-    /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
+    /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action. This API follows an eventual consistency model. This means that the result of the DescribePendingMaintenanceActions command might not be immediately visible to all subsequent RDS commands. Keep this in mind when you use DescribePendingMaintenanceActions immediately after using a previous API command such as ApplyPendingMaintenanceActions.
     @Sendable
     public func describePendingMaintenanceActions(_ input: DescribePendingMaintenanceActionsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> PendingMaintenanceActionsMessage {
         return try await self.client.execute(
@@ -2838,7 +2838,7 @@ extension RDS {
         )
     }
 
-    /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
+    /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action. This API follows an eventual consistency model. This means that the result of the DescribePendingMaintenanceActions command might not be immediately visible to all subsequent RDS commands. Keep this in mind when you use DescribePendingMaintenanceActions immediately after using a previous API command such as ApplyPendingMaintenanceActions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

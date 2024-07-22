@@ -45,6 +45,12 @@ extension BedrockRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum GuardrailAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case guardrailIntervened = "GUARDRAIL_INTERVENED"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GuardrailContentFilterConfidence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
@@ -65,6 +71,38 @@ extension BedrockRuntime {
 
     public enum GuardrailContentPolicyAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case blocked = "BLOCKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailContentQualifier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case groundingSource = "grounding_source"
+        case guardContent = "guard_content"
+        case query = "query"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailContentSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case input = "INPUT"
+        case output = "OUTPUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailContextualGroundingFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case grounding = "GROUNDING"
+        case relevance = "RELEVANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailContextualGroundingPolicyAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blocked = "BLOCKED"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailConverseContentQualifier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case groundingSource = "grounding_source"
+        case guardContent = "guard_content"
+        case query = "query"
         public var description: String { return self.rawValue }
     }
 
@@ -422,7 +460,7 @@ extension BedrockRuntime {
     }
 
     public enum SystemContentBlock: AWSEncodableShape, Sendable {
-        /// A content block to assess with the guardrail. Use with the Converse API (Converse and ConverseStream).  For more information, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide.
+        /// A content block to assess with the guardrail. Use with the Converse or ConverseStream API operations.  For more information, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide.
         case guardContent(GuardrailConverseContentBlock)
         /// A system prompt for the model.
         case text(String)
@@ -549,6 +587,69 @@ extension BedrockRuntime {
 
     public struct AnyToolChoice: AWSEncodableShape {
         public init() {}
+    }
+
+    public struct ApplyGuardrailRequest: AWSEncodableShape {
+        /// The content details used in the request to apply the guardrail.
+        public let content: [GuardrailContentBlock]
+        /// The guardrail identifier used in the request to apply the guardrail.
+        public let guardrailIdentifier: String
+        /// The guardrail version used in the request to apply the guardrail.
+        public let guardrailVersion: String
+        /// The source of data used in the request to apply the guardrail.
+        public let source: GuardrailContentSource
+
+        public init(content: [GuardrailContentBlock], guardrailIdentifier: String, guardrailVersion: String, source: GuardrailContentSource) {
+            self.content = content
+            self.guardrailIdentifier = guardrailIdentifier
+            self.guardrailVersion = guardrailVersion
+            self.source = source
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.content, forKey: .content)
+            request.encodePath(self.guardrailIdentifier, key: "guardrailIdentifier")
+            request.encodePath(self.guardrailVersion, key: "guardrailVersion")
+            try container.encode(self.source, forKey: .source)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case source = "source"
+        }
+    }
+
+    public struct ApplyGuardrailResponse: AWSDecodableShape {
+        /// The action taken in the response from the guardrail.
+        public let action: GuardrailAction
+        /// The assessment details in the response from the guardrail.
+        public let assessments: [GuardrailAssessment]
+        /// The output details in the response from the guardrail.
+        public let outputs: [GuardrailOutputContent]
+        /// The usage details in the response from the guardrail.
+        public let usage: GuardrailUsage
+
+        public init(action: GuardrailAction, assessments: [GuardrailAssessment], outputs: [GuardrailOutputContent], usage: GuardrailUsage) {
+            self.action = action
+            self.assessments = assessments
+            self.outputs = outputs
+            self.usage = usage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case assessments = "assessments"
+            case outputs = "outputs"
+            case usage = "usage"
+        }
     }
 
     public struct AutoToolChoice: AWSEncodableShape {
@@ -866,7 +967,7 @@ extension BedrockRuntime {
     public struct DocumentBlock: AWSEncodableShape & AWSDecodableShape {
         /// The format of a document, or its extension.
         public let format: DocumentFormat
-        /// A name for the document.
+        /// A name for the document. The name can only contain the following characters:   Alphanumeric characters   Whitespace characters (no more than one in a row)   Hyphens   Parentheses   Square brackets    This field is vulnerable to prompt injections, because the model might inadvertently interpret it as instructions. Therefore, we recommend that you specify a neutral name.
         public let name: String
         /// Contains the content of the document.
         public let source: DocumentSource
@@ -887,6 +988,8 @@ extension BedrockRuntime {
     public struct GuardrailAssessment: AWSDecodableShape {
         /// The content policy.
         public let contentPolicy: GuardrailContentPolicyAssessment?
+        /// The contextual grounding policy used for the guardrail assessment.
+        public let contextualGroundingPolicy: GuardrailContextualGroundingPolicyAssessment?
         /// The sensitive information policy.
         public let sensitiveInformationPolicy: GuardrailSensitiveInformationPolicyAssessment?
         /// The topic policy.
@@ -894,8 +997,9 @@ extension BedrockRuntime {
         /// The word policy.
         public let wordPolicy: GuardrailWordPolicyAssessment?
 
-        public init(contentPolicy: GuardrailContentPolicyAssessment? = nil, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicyAssessment? = nil, topicPolicy: GuardrailTopicPolicyAssessment? = nil, wordPolicy: GuardrailWordPolicyAssessment? = nil) {
+        public init(contentPolicy: GuardrailContentPolicyAssessment? = nil, contextualGroundingPolicy: GuardrailContextualGroundingPolicyAssessment? = nil, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicyAssessment? = nil, topicPolicy: GuardrailTopicPolicyAssessment? = nil, wordPolicy: GuardrailWordPolicyAssessment? = nil) {
             self.contentPolicy = contentPolicy
+            self.contextualGroundingPolicy = contextualGroundingPolicy
             self.sensitiveInformationPolicy = sensitiveInformationPolicy
             self.topicPolicy = topicPolicy
             self.wordPolicy = wordPolicy
@@ -903,6 +1007,7 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case contentPolicy = "contentPolicy"
+            case contextualGroundingPolicy = "contextualGroundingPolicy"
             case sensitiveInformationPolicy = "sensitiveInformationPolicy"
             case topicPolicy = "topicPolicy"
             case wordPolicy = "wordPolicy"
@@ -970,15 +1075,57 @@ extension BedrockRuntime {
         }
     }
 
+    public struct GuardrailContextualGroundingFilter: AWSDecodableShape {
+        /// The action performed by the guardrails contextual grounding filter.
+        public let action: GuardrailContextualGroundingPolicyAction
+        /// The score generated by contextual grounding filter.
+        public let score: Double
+        /// The threshold used by contextual grounding filter to determine whether the content is grounded or not.
+        public let threshold: Double
+        /// The contextual grounding filter type.
+        public let type: GuardrailContextualGroundingFilterType
+
+        public init(action: GuardrailContextualGroundingPolicyAction, score: Double, threshold: Double, type: GuardrailContextualGroundingFilterType) {
+            self.action = action
+            self.score = score
+            self.threshold = threshold
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case score = "score"
+            case threshold = "threshold"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailContextualGroundingPolicyAssessment: AWSDecodableShape {
+        /// The filter details for the guardrails contextual grounding filter.
+        public let filters: [GuardrailContextualGroundingFilter]?
+
+        public init(filters: [GuardrailContextualGroundingFilter]? = nil) {
+            self.filters = filters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+        }
+    }
+
     public struct GuardrailConverseTextBlock: AWSEncodableShape & AWSDecodableShape {
+        /// The qualifier details for the guardrails contextual grounding filter.
+        public let qualifiers: [GuardrailConverseContentQualifier]?
         /// The text that you want to guard.
         public let text: String
 
-        public init(text: String) {
+        public init(qualifiers: [GuardrailConverseContentQualifier]? = nil, text: String) {
+            self.qualifiers = qualifiers
             self.text = text
         }
 
         private enum CodingKeys: String, CodingKey {
+            case qualifiers = "qualifiers"
             case text = "text"
         }
     }
@@ -1018,6 +1165,19 @@ extension BedrockRuntime {
             case action = "action"
             case match = "match"
             case type = "type"
+        }
+    }
+
+    public struct GuardrailOutputContent: AWSDecodableShape {
+        /// The specific text for the output content produced by the guardrail.
+        public let text: String?
+
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
         }
     }
 
@@ -1115,6 +1275,23 @@ extension BedrockRuntime {
         }
     }
 
+    public struct GuardrailTextBlock: AWSEncodableShape {
+        /// The qualifiers describing the text block.
+        public let qualifiers: [GuardrailContentQualifier]?
+        /// The input text details to be evaluated by the guardrail.
+        public let text: String
+
+        public init(qualifiers: [GuardrailContentQualifier]? = nil, text: String) {
+            self.qualifiers = qualifiers
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qualifiers = "qualifiers"
+            case text = "text"
+        }
+    }
+
     public struct GuardrailTopic: AWSDecodableShape {
         /// The action the guardrail should take when it intervenes on a topic.
         public let action: GuardrailTopicPolicyAction
@@ -1167,6 +1344,39 @@ extension BedrockRuntime {
             case inputAssessment = "inputAssessment"
             case modelOutput = "modelOutput"
             case outputAssessments = "outputAssessments"
+        }
+    }
+
+    public struct GuardrailUsage: AWSDecodableShape {
+        /// The content policy units processed by the guardrail.
+        public let contentPolicyUnits: Int
+        /// The contextual grounding policy units processed by the guardrail.
+        public let contextualGroundingPolicyUnits: Int
+        /// The sensitive information policy free units processed by the guardrail.
+        public let sensitiveInformationPolicyFreeUnits: Int
+        /// The sensitive information policy units processed by the guardrail.
+        public let sensitiveInformationPolicyUnits: Int
+        /// The topic policy units processed by the guardrail.
+        public let topicPolicyUnits: Int
+        /// The word policy units processed by the guardrail.
+        public let wordPolicyUnits: Int
+
+        public init(contentPolicyUnits: Int, contextualGroundingPolicyUnits: Int, sensitiveInformationPolicyFreeUnits: Int, sensitiveInformationPolicyUnits: Int, topicPolicyUnits: Int, wordPolicyUnits: Int) {
+            self.contentPolicyUnits = contentPolicyUnits
+            self.contextualGroundingPolicyUnits = contextualGroundingPolicyUnits
+            self.sensitiveInformationPolicyFreeUnits = sensitiveInformationPolicyFreeUnits
+            self.sensitiveInformationPolicyUnits = sensitiveInformationPolicyUnits
+            self.topicPolicyUnits = topicPolicyUnits
+            self.wordPolicyUnits = wordPolicyUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentPolicyUnits = "contentPolicyUnits"
+            case contextualGroundingPolicyUnits = "contextualGroundingPolicyUnits"
+            case sensitiveInformationPolicyFreeUnits = "sensitiveInformationPolicyFreeUnits"
+            case sensitiveInformationPolicyUnits = "sensitiveInformationPolicyUnits"
+            case topicPolicyUnits = "topicPolicyUnits"
+            case wordPolicyUnits = "wordPolicyUnits"
         }
     }
 
@@ -1394,7 +1604,7 @@ extension BedrockRuntime {
     }
 
     public struct Message: AWSEncodableShape & AWSDecodableShape {
-        /// The message content.
+        /// The message content. Note the following restrictions:   You can include up to 20 images. Each image's size, height, and width must be no more than 3.75 MB, 8000 px, and 8000 px, respectively.   You can include up to five documents. Each document's size must be no more than 4.5 MB.   If you include a ContentBlock with a document field in the array, you must also include a ContentBlock with a text field.   You can only include images and documents if the role is user.
         public let content: [ContentBlock]
         /// The role that the message plays in the message.
         public let role: ConversationRole
@@ -1721,7 +1931,7 @@ extension BedrockRuntime {
     }
 
     public struct DocumentSource: AWSEncodableShape & AWSDecodableShape {
-        /// A base64-encoded string of a UTF-8 encoded file, that is the document to include in the message.
+        /// The raw bytes for the document. If you use an Amazon Web Services SDK, you don't need to encode the bytes in base64.
         public let bytes: AWSBase64Data?
 
         public init(bytes: AWSBase64Data? = nil) {
@@ -1730,6 +1940,19 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case bytes = "bytes"
+        }
+    }
+
+    public struct GuardrailContentBlock: AWSEncodableShape {
+        /// Text within content block to be evaluated by the guardrail.
+        public let text: GuardrailTextBlock?
+
+        public init(text: GuardrailTextBlock? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
         }
     }
 
@@ -1747,7 +1970,7 @@ extension BedrockRuntime {
     }
 
     public struct ImageSource: AWSEncodableShape & AWSDecodableShape {
-        /// The raw image bytes for the image. If you use an AWS SDK, you don't need to base64 encode the image bytes.
+        /// The raw image bytes for the image. If you use an AWS SDK, you don't need to encode the image bytes in base64.
         public let bytes: AWSBase64Data?
 
         public init(bytes: AWSBase64Data? = nil) {

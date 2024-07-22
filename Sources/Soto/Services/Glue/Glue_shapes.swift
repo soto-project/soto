@@ -949,7 +949,7 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -973,7 +973,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.column.forEach {
-                try validate($0, name: "column[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "column[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
         }
 
@@ -1102,7 +1102,7 @@ extension Glue {
             try self.tableSchema?.forEach {
                 try $0.validate(name: "\(name).tableSchema[]")
             }
-            try self.validate(self.tempDir, name: "tempDir", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.tempDir, name: "tempDir", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1148,7 +1148,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.data?.validate(name: "\(name).data")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1178,7 +1178,7 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1211,7 +1211,7 @@ extension Glue {
             try self.mapping.forEach {
                 try $0.validate(name: "\(name).mapping[]")
             }
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1248,15 +1248,15 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.connectionTable, name: "connectionTable", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n])*$")
-            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.connectorName, name: "connectorName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.connectionTable, name: "connectionTable", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.connectorName, name: "connectorName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
-            try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1407,14 +1407,14 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2694,15 +2694,15 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalDeltaOptions?.forEach {
-                try validate($0.key, name: "additionalDeltaOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-                try validate($0.value, name: "additionalDeltaOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.key, name: "additionalDeltaOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalDeltaOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2762,15 +2762,15 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalHudiOptions?.forEach {
-                try validate($0.key, name: "additionalHudiOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-                try validate($0.value, name: "additionalHudiOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.key, name: "additionalHudiOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalHudiOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2830,11 +2830,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.dataPreviewOptions?.validate(name: "\(name).dataPreviewOptions")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.streamingOptions?.validate(name: "\(name).streamingOptions")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.windowSize, name: "windowSize", parent: name, min: 0)
         }
 
@@ -2876,11 +2876,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.dataPreviewOptions?.validate(name: "\(name).dataPreviewOptions")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.streamingOptions?.validate(name: "\(name).streamingOptions")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.windowSize, name: "windowSize", parent: name, min: 0)
         }
 
@@ -2927,9 +2927,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3828,6 +3828,36 @@ extension Glue {
         }
     }
 
+    public struct ConditionExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The condition of the condition expression.
+        public let condition: String
+        /// The target column of the condition expressions.
+        public let targetColumn: String
+        /// The value of the condition expression.
+        public let value: String?
+
+        public init(condition: String, targetColumn: String, value: String? = nil) {
+            self.condition = condition
+            self.targetColumn = targetColumn
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.condition, name: "condition", parent: name, max: 128)
+            try self.validate(self.condition, name: "condition", parent: name, min: 1)
+            try self.validate(self.condition, name: "condition", parent: name, pattern: "^[A-Z\\_]+$")
+            try self.validate(self.targetColumn, name: "targetColumn", parent: name, max: 1024)
+            try self.validate(self.targetColumn, name: "targetColumn", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition = "Condition"
+            case targetColumn = "TargetColumn"
+            case value = "Value"
+        }
+    }
+
     public struct ConfigurationObject: AWSEncodableShape & AWSDecodableShape {
         /// A list of allowed values for the parameter.
         public let allowedValues: [String]?
@@ -4072,8 +4102,8 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
@@ -4106,13 +4136,13 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs?.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6301,13 +6331,13 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.className, name: "className", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.className, name: "className", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.code, name: "code", parent: name, pattern: "^[\\s\\S]*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
@@ -6362,7 +6392,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.validate(self.evaluationContext, name: "evaluationContext", parent: name, pattern: "^[A-Za-z0-9_-]*$")
-            try self.validate(self.resultsS3Prefix, name: "resultsS3Prefix", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.resultsS3Prefix, name: "resultsS3Prefix", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8231,11 +8261,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.redshiftTmpDir, name: "redshiftTmpDir", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.redshiftTmpDir, name: "redshiftTmpDir", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8270,7 +8300,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.dataPreviewOptions?.validate(name: "\(name).dataPreviewOptions")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.streamingOptions?.validate(name: "\(name).streamingOptions")
             try self.validate(self.windowSize, name: "windowSize", parent: name, min: 0)
         }
@@ -8306,7 +8336,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.dataPreviewOptions?.validate(name: "\(name).dataPreviewOptions")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.streamingOptions?.validate(name: "\(name).streamingOptions")
             try self.validate(self.windowSize, name: "windowSize", parent: name, min: 0)
         }
@@ -8338,8 +8368,8 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8400,7 +8430,7 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8430,7 +8460,7 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8463,7 +8493,7 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.nullTextList?.forEach {
                 try $0.validate(name: "\(name).nullTextList[]")
             }
@@ -8508,22 +8538,22 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
             try self.parameters?.forEach {
                 try $0.validate(name: "\(name).parameters[]")
             }
-            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.transformName, name: "transformName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.version, name: "version", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.transformName, name: "transformName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.version, name: "version", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8553,9 +8583,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8723,7 +8753,7 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.publishingOptions?.validate(name: "\(name).publishingOptions")
             try self.validate(self.ruleset, name: "ruleset", parent: name, max: 65536)
             try self.validate(self.ruleset, name: "ruleset", parent: name, min: 1)
@@ -8768,14 +8798,14 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalDataSources?.forEach {
-                try validate($0.key, name: "additionalDataSources.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-                try validate($0.value, name: "additionalDataSources[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.key, name: "additionalDataSources.key", parent: name, pattern: "^([^\\r\\n])*$")
+                try validate($0.value, name: "additionalDataSources[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.publishingOptions?.validate(name: "\(name).publishingOptions")
             try self.validate(self.ruleset, name: "ruleset", parent: name, max: 65536)
             try self.validate(self.ruleset, name: "ruleset", parent: name, min: 1)
@@ -8925,14 +8955,14 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.filledPath, name: "filledPath", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.imputedPath, name: "imputedPath", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.filledPath, name: "filledPath", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.imputedPath, name: "imputedPath", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8969,7 +8999,7 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9020,7 +9050,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.value.forEach {
-                try validate($0, name: "value[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "value[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
         }
 
@@ -12829,10 +12859,10 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.partitionPredicate, name: "partitionPredicate", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.partitionPredicate, name: "partitionPredicate", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12868,14 +12898,14 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13068,14 +13098,14 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.filterPredicate, name: "filterPredicate", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.filterPredicate, name: "filterPredicate", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.jobBookmarkKeys?.forEach {
-                try validate($0, name: "jobBookmarkKeys[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "jobBookmarkKeys[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
-            try self.validate(self.jobBookmarkKeysSortOrder, name: "jobBookmarkKeysSortOrder", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.jobBookmarkKeysSortOrder, name: "jobBookmarkKeysSortOrder", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.lowerBound, name: "lowerBound", parent: name, min: 0)
             try self.validate(self.numPartitions, name: "numPartitions", parent: name, min: 0)
-            try self.validate(self.partitionColumn, name: "partitionColumn", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.partitionColumn, name: "partitionColumn", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.upperBound, name: "upperBound", parent: name, min: 0)
         }
 
@@ -13122,11 +13152,11 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalOptions?.validate(name: "\(name).additionalOptions")
-            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.connectionTable, name: "connectionTable", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n])*$")
-            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.connectorName, name: "connectorName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.connectionTable, name: "connectionTable", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.connectorName, name: "connectorName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
@@ -13176,19 +13206,19 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalOptions?.forEach {
-                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
-            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.connectionTable, name: "connectionTable", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n])*$")
-            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.connectorName, name: "connectorName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.connectionTable, name: "connectionTable", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.connectorName, name: "connectorName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
@@ -13796,7 +13826,7 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 2)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 2)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13819,7 +13849,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.from, name: "from", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.from, name: "from", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13921,23 +13951,23 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.addRecordTimestamp, name: "addRecordTimestamp", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.assign, name: "assign", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.bootstrapServers, name: "bootstrapServers", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.classification, name: "classification", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.delimiter, name: "delimiter", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.emitConsumerLagMetrics, name: "emitConsumerLagMetrics", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.endingOffsets, name: "endingOffsets", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.addRecordTimestamp, name: "addRecordTimestamp", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.assign, name: "assign", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.bootstrapServers, name: "bootstrapServers", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.classification, name: "classification", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.delimiter, name: "delimiter", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.emitConsumerLagMetrics, name: "emitConsumerLagMetrics", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.endingOffsets, name: "endingOffsets", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.maxOffsetsPerTrigger, name: "maxOffsetsPerTrigger", parent: name, min: 0)
             try self.validate(self.minPartitions, name: "minPartitions", parent: name, min: 0)
             try self.validate(self.numRetries, name: "numRetries", parent: name, min: 0)
             try self.validate(self.pollTimeoutMs, name: "pollTimeoutMs", parent: name, min: 0)
             try self.validate(self.retryIntervalMs, name: "retryIntervalMs", parent: name, min: 0)
-            try self.validate(self.securityProtocol, name: "securityProtocol", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.startingOffsets, name: "startingOffsets", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.subscribePattern, name: "subscribePattern", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.topicName, name: "topicName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.securityProtocol, name: "securityProtocol", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.startingOffsets, name: "startingOffsets", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.subscribePattern, name: "subscribePattern", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.topicName, name: "topicName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14050,12 +14080,12 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.addRecordTimestamp, name: "addRecordTimestamp", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.classification, name: "classification", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.delimiter, name: "delimiter", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.addRecordTimestamp, name: "addRecordTimestamp", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.classification, name: "classification", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.delimiter, name: "delimiter", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.describeShardInterval, name: "describeShardInterval", parent: name, min: 0)
-            try self.validate(self.emitConsumerLagMetrics, name: "emitConsumerLagMetrics", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.endpointUrl, name: "endpointUrl", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.emitConsumerLagMetrics, name: "emitConsumerLagMetrics", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.endpointUrl, name: "endpointUrl", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.idleTimeBetweenReadsInMs, name: "idleTimeBetweenReadsInMs", parent: name, min: 0)
             try self.validate(self.maxFetchRecordsPerShard, name: "maxFetchRecordsPerShard", parent: name, min: 0)
             try self.validate(self.maxFetchTimeInMs, name: "maxFetchTimeInMs", parent: name, min: 0)
@@ -14063,10 +14093,10 @@ extension Glue {
             try self.validate(self.maxRetryIntervalMs, name: "maxRetryIntervalMs", parent: name, min: 0)
             try self.validate(self.numRetries, name: "numRetries", parent: name, min: 0)
             try self.validate(self.retryIntervalMs, name: "retryIntervalMs", parent: name, min: 0)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.roleSessionName, name: "roleSessionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.streamArn, name: "streamArn", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.roleSessionName, name: "roleSessionName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.streamArn, name: "streamArn", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15421,11 +15451,11 @@ extension Glue {
                 try $0.validate(name: "\(name).children[]")
             }
             try self.fromPath?.forEach {
-                try validate($0, name: "fromPath[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "fromPath[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
-            try self.validate(self.fromType, name: "fromType", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.toKey, name: "toKey", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.toType, name: "toType", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.fromType, name: "fromType", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.toKey, name: "toKey", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.toType, name: "toType", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15494,7 +15524,7 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 2)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 2)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.validate(self.source, name: "source", parent: name, pattern: "^[A-Za-z0-9_-]*$")
         }
 
@@ -15589,9 +15619,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15619,14 +15649,14 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15673,9 +15703,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15703,14 +15733,14 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15805,7 +15835,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.datatype.validate(name: "\(name).datatype")
-            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15937,9 +15967,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.label, name: "label", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.label, name: "label", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15964,9 +15994,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15994,14 +16024,14 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -16085,7 +16115,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.entityTypesToDetect.forEach {
-                try validate($0, name: "entityTypesToDetect[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "entityTypesToDetect[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
@@ -16094,8 +16124,8 @@ extension Glue {
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
             try self.validate(self.maskValue, name: "maskValue", parent: name, max: 256)
             try self.validate(self.maskValue, name: "maskValue", parent: name, pattern: "^[*A-Za-z0-9_-]*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.outputColumnName, name: "outputColumnName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.outputColumnName, name: "outputColumnName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.sampleFraction, name: "sampleFraction", parent: name, max: 1.0)
             try self.validate(self.sampleFraction, name: "sampleFraction", parent: name, min: 0.0)
             try self.validate(self.thresholdFraction, name: "thresholdFraction", parent: name, max: 1.0)
@@ -16342,9 +16372,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -16372,14 +16402,14 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -16819,12 +16849,15 @@ extension Glue {
         /// The name of the Glue Studio node.
         public let name: String
         /// A reference to the DataBrew recipe used by the node.
-        public let recipeReference: RecipeReference
+        public let recipeReference: RecipeReference?
+        /// Transform steps used in the recipe node.
+        public let recipeSteps: [RecipeStep]?
 
-        public init(inputs: [String], name: String, recipeReference: RecipeReference) {
+        public init(inputs: [String], name: String, recipeReference: RecipeReference? = nil, recipeSteps: [RecipeStep]? = nil) {
             self.inputs = inputs
             self.name = name
             self.recipeReference = recipeReference
+            self.recipeSteps = recipeSteps
         }
 
         public func validate(name: String) throws {
@@ -16833,14 +16866,48 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.recipeReference.validate(name: "\(name).recipeReference")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.recipeReference?.validate(name: "\(name).recipeReference")
+            try self.recipeSteps?.forEach {
+                try $0.validate(name: "\(name).recipeSteps[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case inputs = "Inputs"
             case name = "Name"
             case recipeReference = "RecipeReference"
+            case recipeSteps = "RecipeSteps"
+        }
+    }
+
+    public struct RecipeAction: AWSEncodableShape & AWSDecodableShape {
+        /// The operation of the recipe action.
+        public let operation: String
+        /// The parameters of the recipe action.
+        public let parameters: [String: String]?
+
+        public init(operation: String, parameters: [String: String]? = nil) {
+            self.operation = operation
+            self.parameters = parameters
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.operation, name: "operation", parent: name, max: 128)
+            try self.validate(self.operation, name: "operation", parent: name, min: 1)
+            try self.validate(self.operation, name: "operation", parent: name, pattern: "^[A-Z\\_]+$")
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 128)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^[A-Za-z0-9]+$")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 32768)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operation = "Operation"
+            case parameters = "Parameters"
         }
     }
 
@@ -16856,7 +16923,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.recipeArn, name: "recipeArn", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.recipeArn, name: "recipeArn", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.recipeVersion, name: "recipeVersion", parent: name, max: 16)
             try self.validate(self.recipeVersion, name: "recipeVersion", parent: name, min: 1)
         }
@@ -16864,6 +16931,30 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case recipeArn = "RecipeArn"
             case recipeVersion = "RecipeVersion"
+        }
+    }
+
+    public struct RecipeStep: AWSEncodableShape & AWSDecodableShape {
+        /// The transformation action of the recipe step.
+        public let action: RecipeAction
+        /// The condition expressions for the recipe step.
+        public let conditionExpressions: [ConditionExpression]?
+
+        public init(action: RecipeAction, conditionExpressions: [ConditionExpression]? = nil) {
+            self.action = action
+            self.conditionExpressions = conditionExpressions
+        }
+
+        public func validate(name: String) throws {
+            try self.action.validate(name: "\(name).action")
+            try self.conditionExpressions?.forEach {
+                try $0.validate(name: "\(name).conditionExpressions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case conditionExpressions = "ConditionExpressions"
         }
     }
 
@@ -16901,11 +16992,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.redshiftTmpDir, name: "redshiftTmpDir", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.tmpDirIAMRole, name: "tmpDirIAMRole", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.redshiftTmpDir, name: "redshiftTmpDir", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.tmpDirIAMRole, name: "tmpDirIAMRole", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -16944,16 +17035,16 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.redshiftTmpDir, name: "redshiftTmpDir", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.tmpDirIAMRole, name: "tmpDirIAMRole", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.redshiftTmpDir, name: "redshiftTmpDir", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.tmpDirIAMRole, name: "tmpDirIAMRole", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.upsertRedshiftOptions?.validate(name: "\(name).upsertRedshiftOptions")
         }
 
@@ -17087,9 +17178,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17197,12 +17288,12 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.sourcePath.forEach {
-                try validate($0, name: "sourcePath[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "sourcePath[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
             try self.targetPath.forEach {
-                try validate($0, name: "targetPath[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "targetPath[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
         }
 
@@ -17410,15 +17501,15 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalDeltaOptions?.forEach {
-                try validate($0.key, name: "additionalDeltaOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-                try validate($0.value, name: "additionalDeltaOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.key, name: "additionalDeltaOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalDeltaOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17452,15 +17543,15 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalHudiOptions?.forEach {
-                try validate($0.key, name: "additionalHudiOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-                try validate($0.value, name: "additionalHudiOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.key, name: "additionalHudiOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalHudiOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17493,10 +17584,10 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.partitionPredicate, name: "partitionPredicate", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.partitionPredicate, name: "partitionPredicate", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17532,14 +17623,14 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17616,20 +17707,20 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalOptions?.validate(name: "\(name).additionalOptions")
-            try self.validate(self.escaper, name: "escaper", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n])*$")
+            try self.validate(self.escaper, name: "escaper", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.exclusions?.forEach {
-                try validate($0, name: "exclusions[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "exclusions[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
-            try self.validate(self.groupFiles, name: "groupFiles", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.groupSize, name: "groupSize", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.groupFiles, name: "groupFiles", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.groupSize, name: "groupSize", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.maxBand, name: "maxBand", parent: name, min: 0)
             try self.validate(self.maxFilesInBand, name: "maxFilesInBand", parent: name, min: 0)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
             try self.paths.forEach {
-                try validate($0, name: "paths[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "paths[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
         }
 
@@ -17684,17 +17775,17 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalOptions?.forEach {
-                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17739,16 +17830,16 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalOptions?.forEach {
-                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.schemaChangePolicy?.validate(name: "\(name).schemaChangePolicy")
         }
 
@@ -17786,16 +17877,16 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalDeltaOptions?.forEach {
-                try validate($0.key, name: "additionalDeltaOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-                try validate($0.value, name: "additionalDeltaOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.key, name: "additionalDeltaOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalDeltaOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
             try self.additionalOptions?.validate(name: "\(name).additionalOptions")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
             try self.paths.forEach {
-                try validate($0, name: "paths[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "paths[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
         }
 
@@ -17826,7 +17917,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.samplePath, name: "samplePath", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.samplePath, name: "samplePath", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17864,14 +17955,14 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.compression, name: "compression", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.compression, name: "compression", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.schemaChangePolicy?.validate(name: "\(name).schemaChangePolicy")
         }
 
@@ -17936,8 +18027,8 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.schemaChangePolicy?.validate(name: "\(name).schemaChangePolicy")
         }
 
@@ -17979,17 +18070,17 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalOptions.forEach {
-                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
-            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -18034,16 +18125,16 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalOptions.forEach {
-                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.schemaChangePolicy?.validate(name: "\(name).schemaChangePolicy")
         }
 
@@ -18081,16 +18172,16 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalHudiOptions?.forEach {
-                try validate($0.key, name: "additionalHudiOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-                try validate($0.value, name: "additionalHudiOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.key, name: "additionalHudiOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalHudiOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
             try self.additionalOptions?.validate(name: "\(name).additionalOptions")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
             try self.paths.forEach {
-                try validate($0, name: "paths[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "paths[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
         }
 
@@ -18150,19 +18241,19 @@ extension Glue {
         public func validate(name: String) throws {
             try self.additionalOptions?.validate(name: "\(name).additionalOptions")
             try self.exclusions?.forEach {
-                try validate($0, name: "exclusions[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "exclusions[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
-            try self.validate(self.groupFiles, name: "groupFiles", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.groupSize, name: "groupSize", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.jsonPath, name: "jsonPath", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.groupFiles, name: "groupFiles", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.groupSize, name: "groupSize", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.jsonPath, name: "jsonPath", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.maxBand, name: "maxBand", parent: name, min: 0)
             try self.validate(self.maxFilesInBand, name: "maxFilesInBand", parent: name, min: 0)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
             try self.paths.forEach {
-                try validate($0, name: "paths[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "paths[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
         }
 
@@ -18224,18 +18315,18 @@ extension Glue {
         public func validate(name: String) throws {
             try self.additionalOptions?.validate(name: "\(name).additionalOptions")
             try self.exclusions?.forEach {
-                try validate($0, name: "exclusions[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "exclusions[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
-            try self.validate(self.groupFiles, name: "groupFiles", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.groupSize, name: "groupSize", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.groupFiles, name: "groupFiles", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.groupSize, name: "groupSize", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.maxBand, name: "maxBand", parent: name, min: 0)
             try self.validate(self.maxFilesInBand, name: "maxFilesInBand", parent: name, min: 0)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
             try self.paths.forEach {
-                try validate($0, name: "paths[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "paths[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
         }
 
@@ -18665,7 +18756,7 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -18696,7 +18787,7 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -18954,8 +19045,8 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalOptions?.forEach {
-                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
             try self.connection?.validate(name: "\(name).connection")
             try self.iamRole?.validate(name: "\(name).iamRole")
@@ -18969,7 +19060,7 @@ extension Glue {
             try self.tableSchema?.forEach {
                 try $0.validate(name: "\(name).tableSchema[]")
             }
-            try self.validate(self.tempDir, name: "tempDir", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.tempDir, name: "tempDir", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19013,7 +19104,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.data.validate(name: "\(name).data")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
@@ -19047,7 +19138,7 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19159,13 +19250,13 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalOptions?.forEach {
-                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
-            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.connectorName, name: "connectorName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.connectorName, name: "connectorName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
@@ -19209,18 +19300,18 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.additionalOptions?.forEach {
-                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
-            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.connectorName, name: "connectorName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.connectorName, name: "connectorName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.inputs.forEach {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
@@ -19263,7 +19354,7 @@ extension Glue {
                 try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
             }
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
             try self.outputSchemas?.forEach {
                 try $0.validate(name: "\(name).outputSchemas[]")
             }
@@ -19308,8 +19399,8 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
-            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.prob, name: "prob", parent: name, max: 1.0)
             try self.validate(self.prob, name: "prob", parent: name, min: 0.0)
             try self.validate(self.topk, name: "topk", parent: name, max: 100)
@@ -19345,7 +19436,7 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19367,7 +19458,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.alias, name: "alias", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n])*$")
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.validate(self.from, name: "from", parent: name, pattern: "^[A-Za-z0-9_-]*$")
         }
 
@@ -20975,11 +21066,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.validationMessage, name: "validationMessage", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.validationRule, name: "validationRule", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.validationMessage, name: "validationMessage", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.validationRule, name: "validationRule", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.value?.forEach {
-                try validate($0, name: "value[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "value[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
         }
 
@@ -21263,7 +21354,7 @@ extension Glue {
             }
             try self.validate(self.inputs, name: "inputs", parent: name, max: 2)
             try self.validate(self.inputs, name: "inputs", parent: name, min: 2)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([^\\r\\n])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -22663,10 +22754,10 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
-            try self.validate(self.tableLocation, name: "tableLocation", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
+            try self.validate(self.tableLocation, name: "tableLocation", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             try self.upsertKeys?.forEach {
-                try validate($0, name: "upsertKeys[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0, name: "upsertKeys[]", parent: name, pattern: "^([\\u0009\\u000B\\u000C\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF])*$")
             }
         }
 
