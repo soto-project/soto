@@ -168,6 +168,13 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum ModelCopyJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "Completed"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ModelCustomization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case continuedPreTraining = "CONTINUED_PRE_TRAINING"
         case fineTuning = "FINE_TUNING"
@@ -568,6 +575,68 @@ extension Bedrock {
         }
     }
 
+    public struct CreateModelCopyJobRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request,
+        /// 	       Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+        public let clientRequestToken: String?
+        /// The ARN of the KMS key that you use to encrypt the model copy.
+        public let modelKmsKeyId: String?
+        /// The Amazon Resource Name (ARN) of the model to be copied.
+        public let sourceModelArn: String
+        /// A name for the copied model.
+        public let targetModelName: String
+        /// Tags to associate with the target model. For more information, see Tag resources in the Amazon Bedrock User Guide.
+        public let targetModelTags: [Tag]?
+
+        public init(clientRequestToken: String? = CreateModelCopyJobRequest.idempotencyToken(), modelKmsKeyId: String? = nil, sourceModelArn: String, targetModelName: String, targetModelTags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.modelKmsKeyId = modelKmsKeyId
+            self.sourceModelArn = sourceModelArn
+            self.targetModelName = targetModelName
+            self.targetModelTags = targetModelTags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, min: 1)
+            try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, pattern: "^arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+))$")
+            try self.validate(self.sourceModelArn, name: "sourceModelArn", parent: name, max: 1011)
+            try self.validate(self.sourceModelArn, name: "sourceModelArn", parent: name, min: 20)
+            try self.validate(self.sourceModelArn, name: "sourceModelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
+            try self.validate(self.targetModelName, name: "targetModelName", parent: name, max: 63)
+            try self.validate(self.targetModelName, name: "targetModelName", parent: name, min: 1)
+            try self.validate(self.targetModelName, name: "targetModelName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
+            try self.targetModelTags?.forEach {
+                try $0.validate(name: "\(name).targetModelTags[]")
+            }
+            try self.validate(self.targetModelTags, name: "targetModelTags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case modelKmsKeyId = "modelKmsKeyId"
+            case sourceModelArn = "sourceModelArn"
+            case targetModelName = "targetModelName"
+            case targetModelTags = "targetModelTags"
+        }
+    }
+
+    public struct CreateModelCopyJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the model copy job.
+        public let jobArn: String
+
+        public init(jobArn: String) {
+            self.jobArn = jobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobArn = "jobArn"
+        }
+    }
+
     public struct CreateModelCustomizationJobRequest: AWSEncodableShape {
         /// Name of the base model.
         public let baseModelIdentifier: String
@@ -627,7 +696,7 @@ extension Bedrock {
             try self.validate(self.customModelKmsKeyId, name: "customModelKmsKeyId", parent: name, pattern: "^arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+))$")
             try self.validate(self.customModelName, name: "customModelName", parent: name, max: 63)
             try self.validate(self.customModelName, name: "customModelName", parent: name, min: 1)
-            try self.validate(self.customModelName, name: "customModelName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.customModelName, name: "customModelName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
             try self.customModelTags?.forEach {
                 try $0.validate(name: "\(name).customModelTags[]")
             }
@@ -755,14 +824,17 @@ extension Bedrock {
         public let modelArn: String
         /// The name of the custom model.
         public let modelName: String
+        /// The unique identifier of the account that owns the model.
+        public let ownerAccountId: String?
 
-        public init(baseModelArn: String, baseModelName: String, creationTime: Date, customizationType: CustomizationType? = nil, modelArn: String, modelName: String) {
+        public init(baseModelArn: String, baseModelName: String, creationTime: Date, customizationType: CustomizationType? = nil, modelArn: String, modelName: String, ownerAccountId: String? = nil) {
             self.baseModelArn = baseModelArn
             self.baseModelName = baseModelName
             self.creationTime = creationTime
             self.customizationType = customizationType
             self.modelArn = modelArn
             self.modelName = modelName
+            self.ownerAccountId = ownerAccountId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -772,6 +844,7 @@ extension Bedrock {
             case customizationType = "customizationType"
             case modelArn = "modelArn"
             case modelName = "modelName"
+            case ownerAccountId = "ownerAccountId"
         }
     }
 
@@ -1435,6 +1508,82 @@ extension Bedrock {
         }
     }
 
+    public struct GetModelCopyJobRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the model copy job.
+        public let jobArn: String
+
+        public init(jobArn: String) {
+            self.jobArn = jobArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobArn, key: "jobArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobArn, name: "jobArn", parent: name, max: 1011)
+            try self.validate(self.jobArn, name: "jobArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:model-copy-job/[a-z0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetModelCopyJobResponse: AWSDecodableShape {
+        /// The time at which the model copy job was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        /// An error message for why the model copy job failed.
+        public let failureMessage: String?
+        /// The Amazon Resource Name (ARN) of the model copy job.
+        public let jobArn: String
+        /// The unique identifier of the account that the model being copied originated from.
+        public let sourceAccountId: String
+        /// The Amazon Resource Name (ARN) of the original model being copied.
+        public let sourceModelArn: String
+        /// The name of the original model being copied.
+        public let sourceModelName: String?
+        /// The status of the model copy job.
+        public let status: ModelCopyJobStatus
+        /// The Amazon Resource Name (ARN) of the copied model.
+        public let targetModelArn: String
+        /// The Amazon Resource Name (ARN) of the KMS key encrypting the copied model.
+        public let targetModelKmsKeyArn: String?
+        /// The name of the copied model.
+        public let targetModelName: String?
+        /// The tags associated with the copied model.
+        public let targetModelTags: [Tag]?
+
+        public init(creationTime: Date, failureMessage: String? = nil, jobArn: String, sourceAccountId: String, sourceModelArn: String, sourceModelName: String? = nil, status: ModelCopyJobStatus, targetModelArn: String, targetModelKmsKeyArn: String? = nil, targetModelName: String? = nil, targetModelTags: [Tag]? = nil) {
+            self.creationTime = creationTime
+            self.failureMessage = failureMessage
+            self.jobArn = jobArn
+            self.sourceAccountId = sourceAccountId
+            self.sourceModelArn = sourceModelArn
+            self.sourceModelName = sourceModelName
+            self.status = status
+            self.targetModelArn = targetModelArn
+            self.targetModelKmsKeyArn = targetModelKmsKeyArn
+            self.targetModelName = targetModelName
+            self.targetModelTags = targetModelTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case failureMessage = "failureMessage"
+            case jobArn = "jobArn"
+            case sourceAccountId = "sourceAccountId"
+            case sourceModelArn = "sourceModelArn"
+            case sourceModelName = "sourceModelName"
+            case status = "status"
+            case targetModelArn = "targetModelArn"
+            case targetModelKmsKeyArn = "targetModelKmsKeyArn"
+            case targetModelName = "targetModelName"
+            case targetModelTags = "targetModelTags"
+        }
+    }
+
     public struct GetModelCustomizationJobRequest: AWSEncodableShape {
         /// Identifier for the customization job.
         public let jobIdentifier: String
@@ -1821,7 +1970,7 @@ extension Bedrock {
     public struct GuardrailPiiEntity: AWSDecodableShape {
         /// The configured guardrail action when PII entity is detected.
         public let action: GuardrailSensitiveInformationAction
-        /// The type of PII entity. For example, Social Security Number.
+        /// The type of PII entity. For exampvle, Social Security Number.
         public let type: GuardrailPiiEntityType
 
         public init(action: GuardrailSensitiveInformationAction, type: GuardrailPiiEntityType) {
@@ -2251,22 +2400,25 @@ extension Bedrock {
         public var creationTimeBefore: Date?
         /// Return custom models only if the foundation model Amazon Resource Name (ARN) matches this parameter.
         public let foundationModelArnEquals: String?
-        /// Maximum number of results to return in the response.
+        /// Return custom models depending on if the current account owns them (true) or if they were shared with the current account (false).
+        public let isOwned: Bool?
+        /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
         public let maxResults: Int?
         /// Return custom models only if the job name contains these characters.
         public let nameContains: String?
-        /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
+        /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
         /// The field to sort by in the returned list of models.
         public let sortBy: SortModelsBy?
         /// The sort order of the results.
         public let sortOrder: SortOrder?
 
-        public init(baseModelArnEquals: String? = nil, creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, foundationModelArnEquals: String? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortModelsBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(baseModelArnEquals: String? = nil, creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, foundationModelArnEquals: String? = nil, isOwned: Bool? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortModelsBy? = nil, sortOrder: SortOrder? = nil) {
             self.baseModelArnEquals = baseModelArnEquals
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.foundationModelArnEquals = foundationModelArnEquals
+            self.isOwned = isOwned
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
@@ -2281,6 +2433,7 @@ extension Bedrock {
             request.encodeQuery(self._creationTimeAfter, key: "creationTimeAfter")
             request.encodeQuery(self._creationTimeBefore, key: "creationTimeBefore")
             request.encodeQuery(self.foundationModelArnEquals, key: "foundationModelArnEquals")
+            request.encodeQuery(self.isOwned, key: "isOwned")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nameContains, key: "nameContains")
             request.encodeQuery(self.nextToken, key: "nextToken")
@@ -2297,7 +2450,7 @@ extension Bedrock {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
-            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
@@ -2309,7 +2462,7 @@ extension Bedrock {
     public struct ListCustomModelsResponse: AWSDecodableShape {
         /// Model summaries.
         public let modelSummaries: [CustomModelSummary]?
-        /// Continuation token for the next request to list the next set of results.
+        /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
         public init(modelSummaries: [CustomModelSummary]? = nil, nextToken: String? = nil) {
@@ -2496,6 +2649,93 @@ extension Bedrock {
         }
     }
 
+    public struct ListModelCopyJobsRequest: AWSEncodableShape {
+        /// Filters for model copy jobs created after the specified time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTimeAfter: Date?
+        /// Filters for model copy jobs created before the specified time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTimeBefore: Date?
+        /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+        public let maxResults: Int?
+        /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+        public let nextToken: String?
+        /// The field to sort by in the returned list of model copy jobs.
+        public let sortBy: SortJobsBy?
+        /// Specifies whether to sort the results in ascending or descending order.
+        public let sortOrder: SortOrder?
+        /// Filters for model copy jobs in which the account that the source model belongs to is equal to the value that you specify.
+        public let sourceAccountEquals: String?
+        /// Filters for model copy jobs in which the Amazon Resource Name (ARN) of the source model to is equal to the value that you specify.
+        public let sourceModelArnEquals: String?
+        /// Filters for model copy jobs whose status matches the value that you specify.
+        public let statusEquals: ModelCopyJobStatus?
+        /// Filters for model copy jobs in which the name of the copied model contains the string that you specify.
+        public let targetModelNameContains: String?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortJobsBy? = nil, sortOrder: SortOrder? = nil, sourceAccountEquals: String? = nil, sourceModelArnEquals: String? = nil, statusEquals: ModelCopyJobStatus? = nil, targetModelNameContains: String? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.sourceAccountEquals = sourceAccountEquals
+            self.sourceModelArnEquals = sourceModelArnEquals
+            self.statusEquals = statusEquals
+            self.targetModelNameContains = targetModelNameContains
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self._creationTimeAfter, key: "creationTimeAfter")
+            request.encodeQuery(self._creationTimeBefore, key: "creationTimeBefore")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sortBy, key: "sortBy")
+            request.encodeQuery(self.sortOrder, key: "sortOrder")
+            request.encodeQuery(self.sourceAccountEquals, key: "sourceAccountEquals")
+            request.encodeQuery(self.sourceModelArnEquals, key: "sourceModelArnEquals")
+            request.encodeQuery(self.statusEquals, key: "statusEquals")
+            request.encodeQuery(self.targetModelNameContains, key: "outputModelNameContains")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+            try self.validate(self.sourceAccountEquals, name: "sourceAccountEquals", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.sourceModelArnEquals, name: "sourceModelArnEquals", parent: name, max: 1011)
+            try self.validate(self.sourceModelArnEquals, name: "sourceModelArnEquals", parent: name, min: 20)
+            try self.validate(self.sourceModelArnEquals, name: "sourceModelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
+            try self.validate(self.targetModelNameContains, name: "targetModelNameContains", parent: name, max: 63)
+            try self.validate(self.targetModelNameContains, name: "targetModelNameContains", parent: name, min: 1)
+            try self.validate(self.targetModelNameContains, name: "targetModelNameContains", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListModelCopyJobsResponse: AWSDecodableShape {
+        /// A list of information about each model copy job.
+        public let modelCopyJobSummaries: [ModelCopyJobSummary]?
+        /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+        public let nextToken: String?
+
+        public init(modelCopyJobSummaries: [ModelCopyJobSummary]? = nil, nextToken: String? = nil) {
+            self.modelCopyJobSummaries = modelCopyJobSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelCopyJobSummaries = "modelCopyJobSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListModelCustomizationJobsRequest: AWSEncodableShape {
         /// Return customization jobs created after the specified time.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -2503,11 +2743,11 @@ extension Bedrock {
         /// Return customization jobs created before the specified time.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTimeBefore: Date?
-        /// Maximum number of results to return in the response.
+        /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
         public let maxResults: Int?
         /// Return customization jobs only if the job name contains these characters.
         public let nameContains: String?
-        /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
+        /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
         /// The field to sort by in the returned list of jobs.
         public let sortBy: SortJobsBy?
@@ -2557,7 +2797,7 @@ extension Bedrock {
     public struct ListModelCustomizationJobsResponse: AWSDecodableShape {
         /// Job summaries.
         public let modelCustomizationJobSummaries: [ModelCustomizationJobSummary]?
-        /// Page continuation token to use in the next request.
+        /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
         public init(modelCustomizationJobSummaries: [ModelCustomizationJobSummary]? = nil, nextToken: String? = nil) {
@@ -2716,6 +2956,60 @@ extension Bedrock {
             case imageDataDeliveryEnabled = "imageDataDeliveryEnabled"
             case s3Config = "s3Config"
             case textDataDeliveryEnabled = "textDataDeliveryEnabled"
+        }
+    }
+
+    public struct ModelCopyJobSummary: AWSDecodableShape {
+        /// The time that the model copy job was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        /// If a model fails to be copied, a message describing why the job failed is included here.
+        public let failureMessage: String?
+        /// The Amazon Resoource Name (ARN) of the model copy job.
+        public let jobArn: String
+        /// The unique identifier of the account that the model being copied originated from.
+        public let sourceAccountId: String
+        /// The Amazon Resource Name (ARN) of the original model being copied.
+        public let sourceModelArn: String
+        /// The name of the original model being copied.
+        public let sourceModelName: String?
+        /// The status of the model copy job.
+        public let status: ModelCopyJobStatus
+        /// The Amazon Resource Name (ARN) of the copied model.
+        public let targetModelArn: String
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the copied model.
+        public let targetModelKmsKeyArn: String?
+        /// The name of the copied model.
+        public let targetModelName: String?
+        /// Tags associated with the copied model.
+        public let targetModelTags: [Tag]?
+
+        public init(creationTime: Date, failureMessage: String? = nil, jobArn: String, sourceAccountId: String, sourceModelArn: String, sourceModelName: String? = nil, status: ModelCopyJobStatus, targetModelArn: String, targetModelKmsKeyArn: String? = nil, targetModelName: String? = nil, targetModelTags: [Tag]? = nil) {
+            self.creationTime = creationTime
+            self.failureMessage = failureMessage
+            self.jobArn = jobArn
+            self.sourceAccountId = sourceAccountId
+            self.sourceModelArn = sourceModelArn
+            self.sourceModelName = sourceModelName
+            self.status = status
+            self.targetModelArn = targetModelArn
+            self.targetModelKmsKeyArn = targetModelKmsKeyArn
+            self.targetModelName = targetModelName
+            self.targetModelTags = targetModelTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case failureMessage = "failureMessage"
+            case jobArn = "jobArn"
+            case sourceAccountId = "sourceAccountId"
+            case sourceModelArn = "sourceModelArn"
+            case sourceModelName = "sourceModelName"
+            case status = "status"
+            case targetModelArn = "targetModelArn"
+            case targetModelKmsKeyArn = "targetModelKmsKeyArn"
+            case targetModelName = "targetModelName"
+            case targetModelTags = "targetModelTags"
         }
     }
 
@@ -3412,7 +3706,7 @@ public struct BedrockErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The number of requests exceeds the limit. Resubmit your request later.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
+    /// The request contains more tags than can be associated with a resource (50 tags per resource).  The maximum number of tags includes both existing tags and those included in your current request.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// Input validation failed. Check your request parameters and retry the request.
     public static var validationException: Self { .init(.validationException) }

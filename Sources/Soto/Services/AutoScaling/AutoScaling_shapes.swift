@@ -1228,7 +1228,7 @@ extension AutoScaling {
             try self.trafficSources?.forEach {
                 try $0.validate(name: "\(name).trafficSources[]")
             }
-            try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, max: 2047)
+            try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, max: 5000)
             try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, min: 1)
             try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
@@ -5444,7 +5444,7 @@ extension AutoScaling {
                 try validate($0, name: "terminationPolicies[]", parent: name, min: 1)
                 try validate($0, name: "terminationPolicies[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             }
-            try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, max: 2047)
+            try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, max: 5000)
             try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, min: 1)
             try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }

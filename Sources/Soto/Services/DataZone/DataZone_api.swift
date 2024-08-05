@@ -227,6 +227,19 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Creates a data asset filter.
+    @Sendable
+    public func createAssetFilter(_ input: CreateAssetFilterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAssetFilterOutput {
+        return try await self.client.execute(
+            operation: "CreateAssetFilter", 
+            path: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a revision of the asset.
     @Sendable
     public func createAssetRevision(_ input: CreateAssetRevisionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAssetRevisionOutput {
@@ -467,6 +480,19 @@ public struct DataZone: AWSService {
         return try await self.client.execute(
             operation: "DeleteAsset", 
             path: "/v2/domains/{domainIdentifier}/assets/{identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an asset filter.
+    @Sendable
+    public func deleteAssetFilter(_ input: DeleteAssetFilterInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteAssetFilter", 
+            path: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters/{identifier}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -721,6 +747,19 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Gets an asset filter.
+    @Sendable
+    public func getAssetFilter(_ input: GetAssetFilterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssetFilterOutput {
+        return try await self.client.execute(
+            operation: "GetAssetFilter", 
+            path: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets an Amazon DataZone asset type.
     @Sendable
     public func getAssetType(_ input: GetAssetTypeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssetTypeOutput {
@@ -818,6 +857,19 @@ public struct DataZone: AWSService {
         return try await self.client.execute(
             operation: "GetEnvironmentBlueprintConfiguration", 
             path: "/v2/domains/{domainIdentifier}/environment-blueprint-configurations/{environmentBlueprintIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets the credentials of an environment in Amazon DataZone.
+    @Sendable
+    public func getEnvironmentCredentials(_ input: GetEnvironmentCredentialsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnvironmentCredentialsOutput {
+        return try await self.client.execute(
+            operation: "GetEnvironmentCredentials", 
+            path: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/credentials", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -1026,6 +1078,19 @@ public struct DataZone: AWSService {
         return try await self.client.execute(
             operation: "GetUserProfile", 
             path: "/v2/domains/{domainIdentifier}/user-profiles/{userIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists asset filters.
+    @Sendable
+    public func listAssetFilters(_ input: ListAssetFiltersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetFiltersOutput {
+        return try await self.client.execute(
+            operation: "ListAssetFilters", 
+            path: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -1501,6 +1566,19 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Updates an asset filter.
+    @Sendable
+    public func updateAssetFilter(_ input: UpdateAssetFilterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAssetFilterOutput {
+        return try await self.client.execute(
+            operation: "UpdateAssetFilter", 
+            path: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters/{identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates the specified data source in Amazon DataZone.
     @Sendable
     public func updateDataSource(_ input: UpdateDataSourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSourceOutput {
@@ -1684,6 +1762,25 @@ extension DataZone {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DataZone {
+    /// Lists asset filters.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAssetFiltersPaginator(
+        _ input: ListAssetFiltersInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAssetFiltersInput, ListAssetFiltersOutput> {
+        return .init(
+            input: input,
+            command: self.listAssetFilters,
+            inputKey: \ListAssetFiltersInput.nextToken,
+            outputKey: \ListAssetFiltersOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists data source run activities.
     /// Return PaginatorSequence for operation.
     ///
@@ -2137,6 +2234,18 @@ extension DataZone {
             inputKey: \SearchUserProfilesInput.nextToken,
             outputKey: \SearchUserProfilesOutput.nextToken,
             logger: logger
+        )
+    }
+}
+
+extension DataZone.ListAssetFiltersInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DataZone.ListAssetFiltersInput {
+        return .init(
+            assetIdentifier: self.assetIdentifier,
+            domainIdentifier: self.domainIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
         )
     }
 }

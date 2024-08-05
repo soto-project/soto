@@ -915,3 +915,303 @@ extension AppSync {
         self.config = from.config.with(patch: patch)
     }
 }
+
+// MARK: Paginators
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension AppSync {
+    /// Lists the API keys for a given API.  API keys are deleted automatically 60 days after they expire. However, they may still be included in the response until they have actually been deleted. You can safely call DeleteApiKey to manually delete a key before it's automatically deleted.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listApiKeysPaginator(
+        _ input: ListApiKeysRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApiKeysRequest, ListApiKeysResponse> {
+        return .init(
+            input: input,
+            command: self.listApiKeys,
+            inputKey: \ListApiKeysRequest.nextToken,
+            outputKey: \ListApiKeysResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists the data sources for a given API.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listDataSourcesPaginator(
+        _ input: ListDataSourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataSourcesRequest, ListDataSourcesResponse> {
+        return .init(
+            input: input,
+            command: self.listDataSources,
+            inputKey: \ListDataSourcesRequest.nextToken,
+            outputKey: \ListDataSourcesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists multiple custom domain names.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listDomainNamesPaginator(
+        _ input: ListDomainNamesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDomainNamesRequest, ListDomainNamesResponse> {
+        return .init(
+            input: input,
+            command: self.listDomainNames,
+            inputKey: \ListDomainNamesRequest.nextToken,
+            outputKey: \ListDomainNamesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// List multiple functions.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listFunctionsPaginator(
+        _ input: ListFunctionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFunctionsRequest, ListFunctionsResponse> {
+        return .init(
+            input: input,
+            command: self.listFunctions,
+            inputKey: \ListFunctionsRequest.nextToken,
+            outputKey: \ListFunctionsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists your GraphQL APIs.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listGraphqlApisPaginator(
+        _ input: ListGraphqlApisRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListGraphqlApisRequest, ListGraphqlApisResponse> {
+        return .init(
+            input: input,
+            command: self.listGraphqlApis,
+            inputKey: \ListGraphqlApisRequest.nextToken,
+            outputKey: \ListGraphqlApisResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists the resolvers for a given API and type.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listResolversPaginator(
+        _ input: ListResolversRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResolversRequest, ListResolversResponse> {
+        return .init(
+            input: input,
+            command: self.listResolvers,
+            inputKey: \ListResolversRequest.nextToken,
+            outputKey: \ListResolversResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// List the resolvers that are associated with a specific function.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listResolversByFunctionPaginator(
+        _ input: ListResolversByFunctionRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResolversByFunctionRequest, ListResolversByFunctionResponse> {
+        return .init(
+            input: input,
+            command: self.listResolversByFunction,
+            inputKey: \ListResolversByFunctionRequest.nextToken,
+            outputKey: \ListResolversByFunctionResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists the SourceApiAssociationSummary data.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listSourceApiAssociationsPaginator(
+        _ input: ListSourceApiAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSourceApiAssociationsRequest, ListSourceApiAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listSourceApiAssociations,
+            inputKey: \ListSourceApiAssociationsRequest.nextToken,
+            outputKey: \ListSourceApiAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists the types for a given API.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listTypesPaginator(
+        _ input: ListTypesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTypesRequest, ListTypesResponse> {
+        return .init(
+            input: input,
+            command: self.listTypes,
+            inputKey: \ListTypesRequest.nextToken,
+            outputKey: \ListTypesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists Type objects by the source API association ID.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listTypesByAssociationPaginator(
+        _ input: ListTypesByAssociationRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTypesByAssociationRequest, ListTypesByAssociationResponse> {
+        return .init(
+            input: input,
+            command: self.listTypesByAssociation,
+            inputKey: \ListTypesByAssociationRequest.nextToken,
+            outputKey: \ListTypesByAssociationResponse.nextToken,
+            logger: logger
+        )
+    }
+}
+
+extension AppSync.ListApiKeysRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppSync.ListApiKeysRequest {
+        return .init(
+            apiId: self.apiId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension AppSync.ListDataSourcesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppSync.ListDataSourcesRequest {
+        return .init(
+            apiId: self.apiId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension AppSync.ListDomainNamesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppSync.ListDomainNamesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension AppSync.ListFunctionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppSync.ListFunctionsRequest {
+        return .init(
+            apiId: self.apiId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension AppSync.ListGraphqlApisRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppSync.ListGraphqlApisRequest {
+        return .init(
+            apiType: self.apiType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            owner: self.owner
+        )
+    }
+}
+
+extension AppSync.ListResolversByFunctionRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppSync.ListResolversByFunctionRequest {
+        return .init(
+            apiId: self.apiId,
+            functionId: self.functionId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension AppSync.ListResolversRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppSync.ListResolversRequest {
+        return .init(
+            apiId: self.apiId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            typeName: self.typeName
+        )
+    }
+}
+
+extension AppSync.ListSourceApiAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppSync.ListSourceApiAssociationsRequest {
+        return .init(
+            apiId: self.apiId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension AppSync.ListTypesByAssociationRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppSync.ListTypesByAssociationRequest {
+        return .init(
+            associationId: self.associationId,
+            format: self.format,
+            maxResults: self.maxResults,
+            mergedApiIdentifier: self.mergedApiIdentifier,
+            nextToken: token
+        )
+    }
+}
+
+extension AppSync.ListTypesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AppSync.ListTypesRequest {
+        return .init(
+            apiId: self.apiId,
+            format: self.format,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}

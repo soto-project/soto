@@ -309,11 +309,11 @@ extension ApplicationSignals {
     }
 
     public struct GetServiceInput: AWSEncodableShape {
-        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let endTime: Date
         /// Use this field to specify which service you want to retrieve information for. You must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]
-        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, keyAttributes: [String: String], startTime: Date) {
@@ -381,21 +381,25 @@ extension ApplicationSignals {
     }
 
     public struct GetServiceOutput: AWSDecodableShape {
-        /// The end time of the data included in the response. In a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057.
+        /// The end time of the data included in the response. In a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057. This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let endTime: Date
+        /// An array of string-to-string maps that each contain information about one log group associated with this service. Each  string-to-string map includes the following fields:    "Type": "AWS::Resource"     "ResourceType": "AWS::Logs::LogGroup"     "Identifier": "name-of-log-group"
+        public let logGroupReferences: [[String: String]]?
         /// A structure containing information about the service.
         public let service: Service
-        /// The start time of the data included in the response. In a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057.
+        /// The start time of the data included in the response. In a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057. This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let startTime: Date
 
-        public init(endTime: Date, service: Service, startTime: Date) {
+        public init(endTime: Date, logGroupReferences: [[String: String]]? = nil, service: Service, startTime: Date) {
             self.endTime = endTime
+            self.logGroupReferences = logGroupReferences
             self.service = service
             self.startTime = startTime
         }
 
         private enum CodingKeys: String, CodingKey {
             case endTime = "EndTime"
+            case logGroupReferences = "LogGroupReferences"
             case service = "Service"
             case startTime = "StartTime"
         }
@@ -427,7 +431,7 @@ extension ApplicationSignals {
     }
 
     public struct ListServiceDependenciesInput: AWSEncodableShape {
-        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested end time will be rounded to the nearest hour.
         public let endTime: Date
         /// Use this field to specify which service you want to retrieve information for. You must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]
@@ -435,7 +439,7 @@ extension ApplicationSignals {
         public let maxResults: Int?
         /// Include this value, if it was returned by the previous operation, to get the next set of service dependencies.
         public let nextToken: String?
-        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, keyAttributes: [String: String], maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
@@ -475,13 +479,13 @@ extension ApplicationSignals {
     }
 
     public struct ListServiceDependenciesOutput: AWSDecodableShape {
-        /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let endTime: Date
         /// Include this value in your next use of this API to get next set  of service dependencies.
         public let nextToken: String?
         /// An array, where each object in the array contains information about one of the dependencies of this service.
         public let serviceDependencies: [ServiceDependency]
-        /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, nextToken: String? = nil, serviceDependencies: [ServiceDependency], startTime: Date) {
@@ -500,7 +504,7 @@ extension ApplicationSignals {
     }
 
     public struct ListServiceDependentsInput: AWSEncodableShape {
-        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let endTime: Date
         /// Use this field to specify which service you want to retrieve information for. You must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]
@@ -508,7 +512,7 @@ extension ApplicationSignals {
         public let maxResults: Int?
         /// Include this value, if it was returned by the previous operation, to get the next set of service dependents.
         public let nextToken: String?
-        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, keyAttributes: [String: String], maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
@@ -548,13 +552,13 @@ extension ApplicationSignals {
     }
 
     public struct ListServiceDependentsOutput: AWSDecodableShape {
-        /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let endTime: Date
         /// Include this value in your next use of this API to get next set  of service dependents.
         public let nextToken: String?
         /// An array, where each object in the array contains information about one of the dependents of this service.
         public let serviceDependents: [ServiceDependent]
-        /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, nextToken: String? = nil, serviceDependents: [ServiceDependent], startTime: Date) {
@@ -636,7 +640,7 @@ extension ApplicationSignals {
     }
 
     public struct ListServiceOperationsInput: AWSEncodableShape {
-        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested end time will be rounded to the nearest hour.
         public let endTime: Date
         /// Use this field to specify which service you want to retrieve information for. You must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]
@@ -644,7 +648,7 @@ extension ApplicationSignals {
         public let maxResults: Int?
         /// Include this value, if it was returned by the previous operation, to get the next set of service operations.
         public let nextToken: String?
-        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, keyAttributes: [String: String], maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
@@ -684,13 +688,13 @@ extension ApplicationSignals {
     }
 
     public struct ListServiceOperationsOutput: AWSDecodableShape {
-        /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let endTime: Date
         /// Include this value in your next use of this API to get next set  of service operations.
         public let nextToken: String?
         /// An array of structures that each contain information about one operation of this service.
         public let serviceOperations: [ServiceOperation]
-        /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, nextToken: String? = nil, serviceOperations: [ServiceOperation], startTime: Date) {
@@ -709,13 +713,13 @@ extension ApplicationSignals {
     }
 
     public struct ListServicesInput: AWSEncodableShape {
-        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let endTime: Date
         ///  The maximum number  of results  to return  in one operation.  If you omit this parameter,  the default of 50 is used.
         public let maxResults: Int?
         /// Include this value, if it was returned by the previous operation, to get the next set of services.
         public let nextToken: String?
-        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
@@ -743,13 +747,13 @@ extension ApplicationSignals {
     }
 
     public struct ListServicesOutput: AWSDecodableShape {
-        /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let endTime: Date
         /// Include this value in your next use of this API to get next set  of services.
         public let nextToken: String?
         /// An array of structures, where each structure contains some information about a service. To get complete information about a service, use  GetService.
         public let serviceSummaries: [ServiceSummary]
-        /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, nextToken: String? = nil, serviceSummaries: [ServiceSummary], startTime: Date) {
@@ -964,18 +968,22 @@ extension ApplicationSignals {
         public let attributeMaps: [[String: String]]?
         /// This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]
+        /// An array of string-to-string maps that each contain information about one log group associated with this service. Each  string-to-string map includes the following fields:    "Type": "AWS::Resource"     "ResourceType": "AWS::Logs::LogGroup"     "Identifier": "name-of-log-group"
+        public let logGroupReferences: [[String: String]]?
         /// An array of structures that each contain information about one metric associated with this service.
         public let metricReferences: [MetricReference]
 
-        public init(attributeMaps: [[String: String]]? = nil, keyAttributes: [String: String], metricReferences: [MetricReference]) {
+        public init(attributeMaps: [[String: String]]? = nil, keyAttributes: [String: String], logGroupReferences: [[String: String]]? = nil, metricReferences: [MetricReference]) {
             self.attributeMaps = attributeMaps
             self.keyAttributes = keyAttributes
+            self.logGroupReferences = logGroupReferences
             self.metricReferences = metricReferences
         }
 
         private enum CodingKeys: String, CodingKey {
             case attributeMaps = "AttributeMaps"
             case keyAttributes = "KeyAttributes"
+            case logGroupReferences = "LogGroupReferences"
             case metricReferences = "MetricReferences"
         }
     }

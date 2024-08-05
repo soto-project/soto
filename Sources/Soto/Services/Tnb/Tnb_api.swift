@@ -86,7 +86,7 @@ public struct Tnb: AWSService {
         )
     }
 
-    /// Creates a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. For more information, see Function packages in the Amazon Web Services Telco Network Builder User Guide.   Creating a function package is the first step for creating a network in AWS TNB. This request creates an empty container with an ID. The next step is to upload the actual CSAR zip file into that empty container. To upload function package content, see PutSolFunctionPackageContent.
+    /// Creates a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. For more information, see Function packages in the Amazon Web Services Telco Network Builder User Guide.  Creating a function package is the first step for creating a network in AWS TNB. This request creates an empty container with an ID. The next step is to upload the actual CSAR zip file into that empty container. To upload function package content, see PutSolFunctionPackageContent.
     @Sendable
     public func createSolFunctionPackage(_ input: CreateSolFunctionPackageInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSolFunctionPackageOutput {
         return try await self.client.execute(
@@ -112,7 +112,7 @@ public struct Tnb: AWSService {
         )
     }
 
-    /// Creates a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. For more information, see Network instances in the Amazon Web Services Telco Network Builder User Guide.   A network package consists of a network service descriptor (NSD) file (required) and any additional files (optional), such as scripts specific to your needs. For example, if you have multiple function packages in your network package, you can use the NSD to define which network functions should run in certain VPCs, subnets, or EKS clusters. This request creates an empty network package container with an ID. Once you create a network package, you can upload the network package content using PutSolNetworkPackageContent.
+    /// Creates a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. For more information, see Network instances in the Amazon Web Services Telco Network Builder User Guide.  A network package consists of a network service descriptor (NSD) file (required) and any additional files (optional), such as scripts specific to your needs. For example, if you have multiple function packages in your network package, you can use the NSD to define which network functions should run in certain VPCs, subnets, or EKS clusters. This request creates an empty network package container with an ID. Once you create a network package, you can upload the network package content using PutSolNetworkPackageContent.
     @Sendable
     public func createSolNetworkPackage(_ input: CreateSolNetworkPackageInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSolNetworkPackageOutput {
         return try await self.client.execute(
@@ -164,7 +164,7 @@ public struct Tnb: AWSService {
         )
     }
 
-    /// Gets the details of a network function instance, including the instantation state and metadata from the function package descriptor in the network function package. A network function instance is a function in a function package .
+    /// Gets the details of a network function instance, including the instantiation state and metadata from the function package descriptor in the network function package. A network function instance is a function in a function package .
     @Sendable
     public func getSolFunctionInstance(_ input: GetSolFunctionInstanceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSolFunctionInstanceOutput {
         return try await self.client.execute(
@@ -450,7 +450,7 @@ public struct Tnb: AWSService {
         )
     }
 
-    /// Update a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
+    /// Update a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Choose the updateType parameter to target the necessary update of the network instance.
     @Sendable
     public func updateSolNetworkInstance(_ input: UpdateSolNetworkInstanceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSolNetworkInstanceOutput {
         return try await self.client.execute(
@@ -643,7 +643,8 @@ extension Tnb.ListSolNetworkOperationsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Tnb.ListSolNetworkOperationsInput {
         return .init(
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            nsInstanceId: self.nsInstanceId
         )
     }
 }

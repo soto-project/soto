@@ -229,6 +229,19 @@ public struct ElasticLoadBalancingV2: AWSService {
         )
     }
 
+    /// Deletes a shared trust store association.
+    @Sendable
+    public func deleteSharedTrustStoreAssociation(_ input: DeleteSharedTrustStoreAssociationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSharedTrustStoreAssociationOutput {
+        return try await self.client.execute(
+            operation: "DeleteSharedTrustStoreAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes the specified target group. You can delete a target group if it is not referenced by any actions. Deleting a target group also deletes any associated health checks. Deleting a target group does not affect its registered targets. For example, any EC2 instances continue to run until you stop or terminate them.
     @Sendable
     public func deleteTargetGroup(_ input: DeleteTargetGroupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTargetGroupOutput {
@@ -424,7 +437,7 @@ public struct ElasticLoadBalancingV2: AWSService {
         )
     }
 
-    /// Describes the revocation files in use by the specified  trust store arn, or revocation ID.
+    /// Describes the revocation files in use by the specified trust store or revocation files.
     @Sendable
     public func describeTrustStoreRevocations(_ input: DescribeTrustStoreRevocationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTrustStoreRevocationsOutput {
         return try await self.client.execute(
@@ -437,11 +450,24 @@ public struct ElasticLoadBalancingV2: AWSService {
         )
     }
 
-    /// Describes all trust stores for a given account  by trust store arn’s or name.
+    /// Describes all trust stores for the specified account.
     @Sendable
     public func describeTrustStores(_ input: DescribeTrustStoresInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTrustStoresOutput {
         return try await self.client.execute(
             operation: "DescribeTrustStores", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the resource policy for a specified resource.
+    @Sendable
+    public func getResourcePolicy(_ input: GetResourcePolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyOutput {
+        return try await self.client.execute(
+            operation: "GetResourcePolicy", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -541,7 +567,7 @@ public struct ElasticLoadBalancingV2: AWSService {
         )
     }
 
-    /// Update the ca certificate bundle for a given trust store.
+    /// Update the ca certificate bundle for the specified trust store.
     @Sendable
     public func modifyTrustStore(_ input: ModifyTrustStoreInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyTrustStoreOutput {
         return try await self.client.execute(
@@ -748,7 +774,7 @@ extension ElasticLoadBalancingV2 {
         )
     }
 
-    /// Describes the revocation files in use by the specified  trust store arn, or revocation ID.
+    /// Describes the revocation files in use by the specified trust store or revocation files.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -767,7 +793,7 @@ extension ElasticLoadBalancingV2 {
         )
     }
 
-    /// Describes all trust stores for a given account  by trust store arn’s or name.
+    /// Describes all trust stores for the specified account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -111,7 +111,7 @@ public struct Bedrock: AWSService {
 
     // MARK: API Calls
 
-    /// API operation for creating and managing Amazon Bedrock automatic model evaluation jobs and model evaluation jobs that use human workers. To learn more about the requirements for creating a model evaluation job see, Model evaluations.
+    /// API operation for creating and managing Amazon Bedrock automatic model evaluation jobs and model evaluation jobs that use human workers. To learn more about the requirements for creating a model evaluation job see, Model evaluation.
     @Sendable
     public func createEvaluationJob(_ input: CreateEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEvaluationJobResponse {
         return try await self.client.execute(
@@ -143,6 +143,19 @@ public struct Bedrock: AWSService {
         return try await self.client.execute(
             operation: "CreateGuardrailVersion", 
             path: "/guardrails/{guardrailIdentifier}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Copies a model to another region so that it can be used there. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
+    @Sendable
+    public func createModelCopyJob(_ input: CreateModelCopyJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateModelCopyJobResponse {
+        return try await self.client.execute(
+            operation: "CreateModelCopyJob", 
+            path: "/model-copy-jobs", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -241,7 +254,7 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// Retrieves the properties associated with a model evaluation job, including the status of the job. For more information, see Model evaluations.
+    /// Retrieves the properties associated with a model evaluation job, including the status of the job. For more information, see Model evaluation.
     @Sendable
     public func getEvaluationJob(_ input: GetEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEvaluationJobResponse {
         return try await self.client.execute(
@@ -273,6 +286,19 @@ public struct Bedrock: AWSService {
         return try await self.client.execute(
             operation: "GetGuardrail", 
             path: "/guardrails/{guardrailIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves information about a model copy job. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
+    @Sendable
+    public func getModelCopyJob(_ input: GetModelCopyJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetModelCopyJobResponse {
+        return try await self.client.execute(
+            operation: "GetModelCopyJob", 
+            path: "/model-copy-jobs/{jobArn}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -364,6 +390,19 @@ public struct Bedrock: AWSService {
         return try await self.client.execute(
             operation: "ListGuardrails", 
             path: "/guardrails", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of model copy jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
+    @Sendable
+    public func listModelCopyJobs(_ input: ListModelCopyJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListModelCopyJobsResponse {
+        return try await self.client.execute(
+            operation: "ListModelCopyJobs", 
+            path: "/model-copy-jobs", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -572,6 +611,25 @@ extension Bedrock {
         )
     }
 
+    /// Returns a list of model copy jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listModelCopyJobsPaginator(
+        _ input: ListModelCopyJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListModelCopyJobsRequest, ListModelCopyJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listModelCopyJobs,
+            inputKey: \ListModelCopyJobsRequest.nextToken,
+            outputKey: \ListModelCopyJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns a list of model customization jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Custom models in the Amazon Bedrock User Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -618,6 +676,7 @@ extension Bedrock.ListCustomModelsRequest: AWSPaginateToken {
             creationTimeAfter: self.creationTimeAfter,
             creationTimeBefore: self.creationTimeBefore,
             foundationModelArnEquals: self.foundationModelArnEquals,
+            isOwned: self.isOwned,
             maxResults: self.maxResults,
             nameContains: self.nameContains,
             nextToken: token,
@@ -648,6 +707,23 @@ extension Bedrock.ListGuardrailsRequest: AWSPaginateToken {
             guardrailIdentifier: self.guardrailIdentifier,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Bedrock.ListModelCopyJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListModelCopyJobsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            sourceAccountEquals: self.sourceAccountEquals,
+            sourceModelArnEquals: self.sourceModelArnEquals,
+            statusEquals: self.statusEquals,
+            targetModelNameContains: self.targetModelNameContains
         )
     }
 }

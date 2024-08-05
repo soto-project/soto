@@ -247,9 +247,9 @@ extension MemoryDB {
         public let dataTiering: DataTieringStatus?
         /// A description of the cluster
         public let description: String?
-        /// The Redis engine patch version used by the cluster
+        /// The Redis OSS engine patch version used by the cluster
         public let enginePatchVersion: String?
-        /// The Redis engine version used by the cluster
+        /// The Redis OSS engine version used by the cluster
         public let engineVersion: String?
         /// The ID of the KMS key used to encrypt the cluster
         public let kmsKeyId: String?
@@ -348,7 +348,7 @@ extension MemoryDB {
     public struct ClusterConfiguration: AWSDecodableShape {
         /// The description of the cluster configuration
         public let description: String?
-        /// The Redis engine version used by the cluster
+        /// The Redis OSS engine version used by the cluster
         public let engineVersion: String?
         /// The specified maintenance window for the cluster
         public let maintenanceWindow: String?
@@ -534,7 +534,7 @@ extension MemoryDB {
         public let dataTiering: Bool?
         /// An optional description of the cluster.
         public let description: String?
-        /// The version number of the Redis engine to be used for the cluster.
+        /// The version number of the Redis OSS engine to be used for the cluster.
         public let engineVersion: String?
         /// The ID of the KMS key used to encrypt the cluster.
         public let kmsKeyId: String?
@@ -1059,7 +1059,7 @@ extension MemoryDB {
     public struct DescribeEngineVersionsRequest: AWSEncodableShape {
         /// If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
         public let defaultOnly: Bool?
-        /// The Redis engine version
+        /// The Redis OSS engine version
         public let engineVersion: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?

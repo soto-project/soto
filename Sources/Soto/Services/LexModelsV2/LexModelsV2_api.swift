@@ -228,7 +228,7 @@ public struct LexModelsV2: AWSService {
         )
     }
 
-    /// Adds a new resource policy statement to a bot or bot alias. If a resource policy exists, the statement is added to the current resource policy. If a policy doesn't exist, a new policy is created. You can't create a resource policy statement that allows cross-account access.
+    /// Adds a new resource policy statement to a bot or bot alias. If a resource policy exists, the statement is added to the current resource policy. If a policy doesn't exist, a new policy is created. You can't create a resource policy statement that allows cross-account access. You need to add the CreateResourcePolicy or UpdateResourcePolicy  action to the bot role in order to call the API.
     @Sendable
     public func createResourcePolicyStatement(_ input: CreateResourcePolicyStatementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResourcePolicyStatementResponse {
         return try await self.client.execute(
@@ -423,7 +423,7 @@ public struct LexModelsV2: AWSService {
         )
     }
 
-    /// Deletes a policy statement from a resource policy. If you delete the last statement from a policy, the policy is deleted. If you specify a statement ID that doesn't exist in the policy, or if the bot or bot alias doesn't have a policy attached, Amazon Lex returns an exception.
+    /// Deletes a policy statement from a resource policy. If you delete the last statement from a policy, the policy is deleted. If you specify a statement ID that doesn't exist in the policy, or if the bot or bot alias doesn't have a policy attached, Amazon Lex returns an exception. You need to add the DeleteResourcePolicy or UpdateResourcePolicy  action to the bot role in order to call the API.
     @Sendable
     public func deleteResourcePolicyStatement(_ input: DeleteResourcePolicyStatementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyStatementResponse {
         return try await self.client.execute(

@@ -410,7 +410,7 @@ extension RedshiftServerless {
         public let endTime: Date?
         /// The name of the namespace for which to create a scheduled action.
         public let namespaceName: String
-        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Cluster Management Guide
+        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Management Guide
         public let roleArn: String
         /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
         public let schedule: Schedule
@@ -645,6 +645,8 @@ extension RedshiftServerless {
         public let configParameters: [ConfigParameter]?
         /// The value that specifies whether to turn on enhanced virtual  private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
         public let enhancedVpcRouting: Bool?
+        /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
+        public let ipAddressType: String?
         /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
         public let maxCapacity: Int?
         /// The name of the namespace to associate with the workgroup.
@@ -662,10 +664,11 @@ extension RedshiftServerless {
         /// The name of the created workgroup.
         public let workgroupName: String
 
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, maxCapacity: Int? = nil, namespaceName: String, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, workgroupName: String) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, namespaceName: String, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, workgroupName: String) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.ipAddressType = ipAddressType
             self.maxCapacity = maxCapacity
             self.namespaceName = namespaceName
             self.port = port
@@ -677,6 +680,7 @@ extension RedshiftServerless {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.ipAddressType, name: "ipAddressType", parent: name, pattern: "^(ipv4|dualstack)$")
             try self.validate(self.namespaceName, name: "namespaceName", parent: name, max: 64)
             try self.validate(self.namespaceName, name: "namespaceName", parent: name, min: 3)
             try self.validate(self.namespaceName, name: "namespaceName", parent: name, pattern: "^[a-z0-9-]+$")
@@ -693,6 +697,7 @@ extension RedshiftServerless {
             case baseCapacity = "baseCapacity"
             case configParameters = "configParameters"
             case enhancedVpcRouting = "enhancedVpcRouting"
+            case ipAddressType = "ipAddressType"
             case maxCapacity = "maxCapacity"
             case namespaceName = "namespaceName"
             case port = "port"
@@ -2056,6 +2061,8 @@ extension RedshiftServerless {
     public struct NetworkInterface: AWSDecodableShape {
         /// The availability Zone.
         public let availabilityZone: String?
+        /// The IPv6 address of the network interface within the subnet.
+        public let ipv6Address: String?
         /// The unique identifier of the network interface.
         public let networkInterfaceId: String?
         /// The IPv4 address of the network interface within the subnet.
@@ -2063,8 +2070,9 @@ extension RedshiftServerless {
         /// The unique identifier of the subnet.
         public let subnetId: String?
 
-        public init(availabilityZone: String? = nil, networkInterfaceId: String? = nil, privateIpAddress: String? = nil, subnetId: String? = nil) {
+        public init(availabilityZone: String? = nil, ipv6Address: String? = nil, networkInterfaceId: String? = nil, privateIpAddress: String? = nil, subnetId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.ipv6Address = ipv6Address
             self.networkInterfaceId = networkInterfaceId
             self.privateIpAddress = privateIpAddress
             self.subnetId = subnetId
@@ -2072,6 +2080,7 @@ extension RedshiftServerless {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "availabilityZone"
+            case ipv6Address = "ipv6Address"
             case networkInterfaceId = "networkInterfaceId"
             case privateIpAddress = "privateIpAddress"
             case subnetId = "subnetId"
@@ -2418,7 +2427,7 @@ extension RedshiftServerless {
         public let namespaceName: String?
         /// An array of timestamps of when the next scheduled actions will trigger.
         public let nextInvocations: [Date]?
-        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Cluster Management Guide
+        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Management Guide
         public let roleArn: String?
         /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
         public let schedule: Schedule?
@@ -2908,7 +2917,7 @@ extension RedshiftServerless {
         public let enabled: Bool?
         /// The end time in UTC of the scheduled action to update.
         public let endTime: Date?
-        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Cluster Management Guide
+        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Management Guide
         public let roleArn: String?
         /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
         public let schedule: Schedule?
@@ -3064,6 +3073,8 @@ extension RedshiftServerless {
         public let configParameters: [ConfigParameter]?
         /// The value that specifies whether to turn on enhanced virtual  private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
         public let enhancedVpcRouting: Bool?
+        /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
+        public let ipAddressType: String?
         /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
         public let maxCapacity: Int?
         /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
@@ -3077,10 +3088,11 @@ extension RedshiftServerless {
         /// The name of the workgroup to update. You can't update the name of a workgroup once it is created.
         public let workgroupName: String
 
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, maxCapacity: Int? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, workgroupName: String) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, workgroupName: String) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.ipAddressType = ipAddressType
             self.maxCapacity = maxCapacity
             self.port = port
             self.publiclyAccessible = publiclyAccessible
@@ -3090,6 +3102,7 @@ extension RedshiftServerless {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.ipAddressType, name: "ipAddressType", parent: name, pattern: "^(ipv4|dualstack)$")
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 64)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^[a-z0-9-]+$")
@@ -3099,6 +3112,7 @@ extension RedshiftServerless {
             case baseCapacity = "baseCapacity"
             case configParameters = "configParameters"
             case enhancedVpcRouting = "enhancedVpcRouting"
+            case ipAddressType = "ipAddressType"
             case maxCapacity = "maxCapacity"
             case port = "port"
             case publiclyAccessible = "publiclyAccessible"
@@ -3215,6 +3229,8 @@ extension RedshiftServerless {
         public let endpoint: Endpoint?
         /// The value that specifies whether to enable enhanced virtual  private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
         public let enhancedVpcRouting: Bool?
+        /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
+        public let ipAddressType: String?
         /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
         public let maxCapacity: Int?
         /// The namespace the workgroup is associated with.
@@ -3240,7 +3256,7 @@ extension RedshiftServerless {
         /// The Amazon Redshift Serverless version of your workgroup. For more information about Amazon Redshift Serverless versions, seeCluster versions for Amazon Redshift.
         public let workgroupVersion: String?
 
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, creationDate: Date? = nil, crossAccountVpcs: [String]? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, maxCapacity: Int? = nil, namespaceName: String? = nil, patchVersion: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, status: WorkgroupStatus? = nil, subnetIds: [String]? = nil, workgroupArn: String? = nil, workgroupId: String? = nil, workgroupName: String? = nil, workgroupVersion: String? = nil) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, creationDate: Date? = nil, crossAccountVpcs: [String]? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, namespaceName: String? = nil, patchVersion: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, status: WorkgroupStatus? = nil, subnetIds: [String]? = nil, workgroupArn: String? = nil, workgroupId: String? = nil, workgroupName: String? = nil, workgroupVersion: String? = nil) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.creationDate = creationDate
@@ -3250,6 +3266,7 @@ extension RedshiftServerless {
             self.customDomainName = customDomainName
             self.endpoint = endpoint
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.ipAddressType = ipAddressType
             self.maxCapacity = maxCapacity
             self.namespaceName = namespaceName
             self.patchVersion = patchVersion
@@ -3274,6 +3291,7 @@ extension RedshiftServerless {
             case customDomainName = "customDomainName"
             case endpoint = "endpoint"
             case enhancedVpcRouting = "enhancedVpcRouting"
+            case ipAddressType = "ipAddressType"
             case maxCapacity = "maxCapacity"
             case namespaceName = "namespaceName"
             case patchVersion = "patchVersion"
@@ -3316,6 +3334,7 @@ public struct RedshiftServerlessErrorType: AWSErrorType {
         case insufficientCapacityException = "InsufficientCapacityException"
         case internalServerException = "InternalServerException"
         case invalidPaginationException = "InvalidPaginationException"
+        case ipv6CidrBlockNotFoundException = "Ipv6CidrBlockNotFoundException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
@@ -3351,6 +3370,8 @@ public struct RedshiftServerlessErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The provided pagination token is invalid.
     public static var invalidPaginationException: Self { .init(.invalidPaginationException) }
+    /// There are no subnets in your VPC with associated IPv6 CIDR blocks. To use dual-stack mode, associate an IPv6 CIDR block with each subnet in your VPC.
+    public static var ipv6CidrBlockNotFoundException: Self { .init(.ipv6CidrBlockNotFoundException) }
     /// The resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The service limit was exceeded.

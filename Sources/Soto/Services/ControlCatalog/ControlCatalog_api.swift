@@ -73,12 +73,38 @@ public struct ControlCatalog: AWSService {
 
     // MARK: API Calls
 
+    /// Returns details about a specific control, most notably a list of Amazon Web Services Regions where this control is supported. Input a value for the ControlArn parameter, in ARN form. GetControl accepts controltower or controlcatalog control ARNs as input. Returns a controlcatalog ARN format. In the API response, controls that have the value GLOBAL in the Scope field do not show the DeployableRegions field, because it does not apply. Controls that have the value REGIONAL in the Scope field return a value for the DeployableRegions field, as shown in the example.
+    @Sendable
+    public func getControl(_ input: GetControlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetControlResponse {
+        return try await self.client.execute(
+            operation: "GetControl", 
+            path: "/get-control", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a paginated list of common controls from the Amazon Web Services Control Catalog. You can apply an optional filter to see common controls that have a specific objective. If you don’t provide a filter, the operation returns all common controls.
     @Sendable
     public func listCommonControls(_ input: ListCommonControlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCommonControlsResponse {
         return try await self.client.execute(
             operation: "ListCommonControls", 
             path: "/common-controls", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a paginated list of all available controls in the Amazon Web Services Control Catalog library. Allows you to discover available controls. The list of controls is given as structures of type controlSummary. The ARN is returned in the global controlcatalog format, as shown in the examples.
+    @Sendable
+    public func listControls(_ input: ListControlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListControlsResponse {
+        return try await self.client.execute(
+            operation: "ListControls", 
+            path: "/list-controls", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -145,6 +171,25 @@ extension ControlCatalog {
         )
     }
 
+    /// Returns a paginated list of all available controls in the Amazon Web Services Control Catalog library. Allows you to discover available controls. The list of controls is given as structures of type controlSummary. The ARN is returned in the global controlcatalog format, as shown in the examples.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listControlsPaginator(
+        _ input: ListControlsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListControlsRequest, ListControlsResponse> {
+        return .init(
+            input: input,
+            command: self.listControls,
+            inputKey: \ListControlsRequest.nextToken,
+            outputKey: \ListControlsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns a paginated list of domains from the Amazon Web Services Control Catalog.
     /// Return PaginatorSequence for operation.
     ///
@@ -188,6 +233,15 @@ extension ControlCatalog.ListCommonControlsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ControlCatalog.ListCommonControlsRequest {
         return .init(
             commonControlFilter: self.commonControlFilter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ControlCatalog.ListControlsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ControlCatalog.ListControlsRequest {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token
         )

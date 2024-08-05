@@ -2733,7 +2733,6 @@ extension EC2 {
         case volume = "volume"
         case vpc = "vpc"
         case vpcBlockPublicAccessExclusion = "vpc-block-public-access-exclusion"
-        case vpcEncryptionControl = "vpc-encryption-control"
         case vpcEndpoint = "vpc-endpoint"
         case vpcEndpointConnection = "vpc-endpoint-connection"
         case vpcEndpointConnectionDeviceType = "vpc-endpoint-connection-device-type"
@@ -28994,7 +28993,7 @@ extension EC2 {
     public struct FleetLaunchTemplateOverrides: AWSDecodableShape {
         /// The Availability Zone in which to launch the instances.
         public let availabilityZone: String?
-        /// The ID of the AMI. An AMI is required to launch an instance. This parameter is only available for fleets of type instant. For fleets of type maintain and request, you must specify the AMI ID in the launch template.
+        /// The ID of the AMI in the format ami-17characters00000. Alternatively, you can specify a Systems Manager parameter, using one of the following formats. The Systems Manager parameter will resolve to an AMI ID on launch. To reference a public parameter:    resolve:ssm:public-parameter     To reference a parameter stored in the same account:    resolve:ssm:parameter-name      resolve:ssm:parameter-name:version-number      resolve:ssm:parameter-name:label     To reference a parameter shared from another Amazon Web Services account:    resolve:ssm:parameter-ARN      resolve:ssm:parameter-ARN:version-number      resolve:ssm:parameter-ARN:label     For more information, see Use a Systems Manager parameter instead of an AMI ID in the Amazon EC2 User Guide.  This parameter is only available for fleets of type instant. For fleets of type maintain and request, you must specify the AMI ID in the launch template.
         public let imageId: String?
         /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.  If you specify InstanceRequirements, you can't specify InstanceType.
         public let instanceRequirements: InstanceRequirements?
@@ -29039,7 +29038,7 @@ extension EC2 {
     public struct FleetLaunchTemplateOverridesRequest: AWSEncodableShape {
         /// The Availability Zone in which to launch the instances.
         public let availabilityZone: String?
-        /// The ID of the AMI. An AMI is required to launch an instance. This parameter is only available for fleets of type instant. For fleets of type maintain and request, you must specify the AMI ID in the launch template.
+        /// The ID of the AMI in the format ami-17characters00000. Alternatively, you can specify a Systems Manager parameter, using one of the following formats. The Systems Manager parameter will resolve to an AMI ID on launch. To reference a public parameter:    resolve:ssm:public-parameter     To reference a parameter stored in the same account:    resolve:ssm:parameter-name      resolve:ssm:parameter-name:version-number      resolve:ssm:parameter-name:label     To reference a parameter shared from another Amazon Web Services account:    resolve:ssm:parameter-ARN      resolve:ssm:parameter-ARN:version-number      resolve:ssm:parameter-ARN:label     For more information, see Use a Systems Manager parameter instead of an AMI ID in the Amazon EC2 User Guide.  This parameter is only available for fleets of type instant. For fleets of type maintain and request, you must specify the AMI ID in the launch template.
         public let imageId: String?
         /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.  If you specify InstanceRequirements, you can't specify InstanceType.
         public let instanceRequirements: InstanceRequirementsRequest?
@@ -46409,7 +46408,7 @@ extension EC2 {
         public let hibernationOptions: LaunchTemplateHibernationOptionsRequest?
         /// The name or Amazon Resource Name (ARN) of an IAM instance profile.
         public let iamInstanceProfile: LaunchTemplateIamInstanceProfileSpecificationRequest?
-        /// The ID of the AMI. Alternatively, you can specify a Systems Manager parameter, which will resolve to an AMI ID on launch. Valid formats:    ami-17characters00000     resolve:ssm:parameter-name     resolve:ssm:parameter-name:version-number     resolve:ssm:parameter-name:label     resolve:ssm:public-parameter     Currently, EC2 Fleet and Spot Fleet do not support specifying a Systems Manager parameter.  If the launch template will be used by an EC2 Fleet or Spot Fleet, you must specify the AMI ID.  For more information, see Use a Systems Manager parameter instead of an AMI ID in the Amazon EC2 User Guide.
+        /// The ID of the AMI in the format ami-17characters00000. Alternatively, you can specify a Systems Manager parameter, using one of the following formats. The Systems Manager parameter will resolve to an AMI ID on launch. To reference a public parameter:    resolve:ssm:public-parameter     To reference a parameter stored in the same account:    resolve:ssm:parameter-name      resolve:ssm:parameter-name:version-number      resolve:ssm:parameter-name:label     To reference a parameter shared from another Amazon Web Services account:    resolve:ssm:parameter-ARN      resolve:ssm:parameter-ARN:version-number      resolve:ssm:parameter-ARN:label     For more information, see Use a Systems Manager parameter instead of an AMI ID in the Amazon EC2 User Guide.  If the launch template will be used for an EC2 Fleet or Spot Fleet, note the following:   Only EC2 Fleets of type instant support specifying a Systems Manager parameter.   For EC2 Fleets of type maintain or request, or for Spot Fleets, you must specify the AMI ID.
         public let imageId: String?
         /// Indicates whether an instance stops or terminates when you initiate shutdown from the instance (using the operating system command for system shutdown). Default: stop
         public let instanceInitiatedShutdownBehavior: ShutdownBehavior?

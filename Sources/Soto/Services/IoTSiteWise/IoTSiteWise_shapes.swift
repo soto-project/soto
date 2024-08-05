@@ -119,6 +119,7 @@ extension IoTSiteWise {
 
     public enum CapabilitySyncStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inSync = "IN_SYNC"
+        case notApplicable = "NOT_APPLICABLE"
         case outOfSync = "OUT_OF_SYNC"
         case syncFailed = "SYNC_FAILED"
         case unknown = "UNKNOWN"
@@ -564,7 +565,7 @@ extension IoTSiteWise {
     public struct AssetCompositeModelSummary: AWSDecodableShape {
         /// A description of the composite model that this summary describes.
         public let description: String
-        /// An external ID to assign to the asset model. If the composite model is a derived composite model, or one nested inside a component model, you can only set the external ID using  UpdateAssetModelCompositeModel and specifying the derived ID of the model or property from the created model it's a part of.
+        /// An external ID to assign to the asset model. If the composite model is a derived composite model, or one nested inside a component model, you can only set the external ID using UpdateAssetModelCompositeModel and specifying the derived ID of the model or property from the created model it's a part of.
         public let externalId: String?
         /// The ID of the composite model that this summary describes.
         public let id: String
@@ -779,17 +780,17 @@ extension IoTSiteWise {
     }
 
     public struct AssetModelCompositeModelSummary: AWSDecodableShape {
-        /// The description of the the composite model that this summary describes..
+        /// The description of the composite model that this summary describes..
         public let description: String?
         /// The external ID of a composite model on this asset model. For more information, see Using external IDs in the IoT SiteWise User Guide.
         public let externalId: String?
-        /// The ID of the the composite model that this summary describes..
+        /// The ID of the composite model that this summary describes..
         public let id: String
-        /// The name of the the composite model that this summary describes..
+        /// The name of the composite model that this summary describes..
         public let name: String
         /// The path that includes all the pieces that make up the composite model.
         public let path: [AssetModelCompositeModelPathSegment]?
-        /// The type of asset model.    ASSET_MODEL – (default) An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
+        /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or  AWS/L4E_ANOMALY.
         public let type: String
 
         public init(description: String? = nil, externalId: String? = nil, id: String, name: String, path: [AssetModelCompositeModelPathSegment]? = nil, type: String) {
@@ -2336,7 +2337,7 @@ extension IoTSiteWise {
     public struct CompositionRelationshipSummary: AWSDecodableShape {
         /// The ID of a composite model on this asset model.
         public let assetModelCompositeModelId: String
-        /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or  AWS/L4E_ANOMALY.
+        /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or AWS/L4E_ANOMALY.
         public let assetModelCompositeModelType: String
         /// The ID of the asset model, in UUID format.
         public let assetModelId: String
@@ -2452,13 +2453,13 @@ extension IoTSiteWise {
     public struct CreateAssetModelCompositeModelRequest: AWSEncodableShape {
         /// A description for the composite model.
         public let assetModelCompositeModelDescription: String?
-        /// An external ID to assign to the composite model. If the composite model is a derived composite model, or one nested inside a component model, you can only set the external ID using  UpdateAssetModelCompositeModel and specifying the derived ID of the model or property from the created model it's a part of.
+        /// An external ID to assign to the composite model. If the composite model is a derived composite model, or one nested inside a component model, you can only set the external ID using UpdateAssetModelCompositeModel and specifying the derived ID of the model or property from the created model it's a part of.
         public let assetModelCompositeModelExternalId: String?
-        /// The ID of the composite model.  IoT SiteWise automatically generates a unique ID for you, so this parameter is never required. However,  if you prefer to supply your own ID instead, you can specify it here in UUID format. If you specify your own ID, it must be globally unique.
+        /// The ID of the composite model. IoT SiteWise automatically generates a unique ID for you, so this parameter is never required. However, if you prefer to supply your own ID instead, you can specify it here in UUID format. If you specify your own ID, it must be globally unique.
         public let assetModelCompositeModelId: String?
-        /// A unique, friendly name for the composite model.
+        /// A unique name for the composite model.
         public let assetModelCompositeModelName: String
-        /// The property definitions of the composite model. For more information, see . You can specify up to 200 properties per composite model. For more information, see Quotas in the IoT SiteWise User Guide.
+        /// The property definitions of the composite model. For more information, see  Inline custom composite models in the IoT SiteWise User Guide. You can specify up to 200 properties per composite model. For more information, see Quotas in the IoT SiteWise User Guide.
         public let assetModelCompositeModelProperties: [AssetModelPropertyDefinition]?
         /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or  AWS/L4E_ANOMALY.
         public let assetModelCompositeModelType: String
@@ -2466,7 +2467,7 @@ extension IoTSiteWise {
         public let assetModelId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The ID of a composite model on this asset.
+        /// The ID of a component model which is reused to create this composite model.
         public let composedAssetModelId: String?
         /// The ID of the parent composite model in this asset model relationship.
         public let parentAssetModelCompositeModelId: String?
@@ -2566,7 +2567,7 @@ extension IoTSiteWise {
     }
 
     public struct CreateAssetModelRequest: AWSEncodableShape {
-        /// The composite models that are part of this asset model. It groups properties (such as attributes, measurements, transforms, and metrics) and child composite models that model parts of your industrial equipment. Each composite model has a type that defines the properties that the composite model supports. Use composite models to define alarms on this asset model.  When creating custom composite models, you need to use CreateAssetModelCompositeModel. For more information, see .
+        /// The composite models that are part of this asset model. It groups properties (such as attributes, measurements, transforms, and metrics) and child composite models that model parts of your industrial equipment. Each composite model has a type that defines the properties that the composite model supports. Use composite models to define alarms on this asset model.  When creating custom composite models, you need to use CreateAssetModelCompositeModel. For more information, see Creating custom composite models (Components) in the IoT SiteWise User Guide.
         public let assetModelCompositeModels: [AssetModelCompositeModelDefinition]?
         /// A description for the asset model.
         public let assetModelDescription: String?
@@ -2576,7 +2577,7 @@ extension IoTSiteWise {
         public let assetModelHierarchies: [AssetModelHierarchyDefinition]?
         /// The ID to assign to the asset model, if desired. IoT SiteWise automatically generates a unique ID for you, so this parameter is never required. However, if you prefer to supply your own ID instead, you can specify it here in UUID format. If you specify your own ID, it must be globally unique.
         public let assetModelId: String?
-        /// A unique, friendly name for the asset model.
+        /// A unique name for the asset model.
         public let assetModelName: String
         /// The property definitions of the asset model. For more information, see Asset properties in the IoT SiteWise User Guide. You can specify up to 200 properties per asset model. For more information, see Quotas in the IoT SiteWise User Guide.
         public let assetModelProperties: [AssetModelPropertyDefinition]?
@@ -2901,7 +2902,7 @@ extension IoTSiteWise {
     }
 
     public struct CreateGatewayRequest: AWSEncodableShape {
-        /// A unique, friendly name for the gateway.
+        /// A unique name for the gateway.
         public let gatewayName: String
         /// The gateway's platform. You can only specify one platform in a gateway.
         public let gatewayPlatform: GatewayPlatform
@@ -3716,7 +3717,7 @@ extension IoTSiteWise {
         public let actionDefinitions: [ActionDefinition]?
         /// A description for the composite model.
         public let assetCompositeModelDescription: String
-        /// An external ID to assign to the asset model. If the composite model is a component-based composite model, or one nested inside a component model, you can only set the external ID using  UpdateAssetModelCompositeModel and specifying the derived ID of the model or property from the created model it's a part of.
+        /// An external ID to assign to the asset model. If the composite model is a component-based composite model, or one nested inside a component model, you can only set the external ID using UpdateAssetModelCompositeModel and specifying the derived ID of the model or property from the created model it's a part of.
         public let assetCompositeModelExternalId: String?
         /// The ID of a composite model on this asset.
         public let assetCompositeModelId: String
@@ -3728,7 +3729,7 @@ extension IoTSiteWise {
         public let assetCompositeModelProperties: [AssetProperty]
         /// The list of composite model summaries.
         public let assetCompositeModelSummaries: [AssetCompositeModelSummary]
-        /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or  AWS/L4E_ANOMALY.
+        /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or AWS/L4E_ANOMALY.
         public let assetCompositeModelType: String
         /// The ID of the asset, in UUID format. This ID uniquely identifies the asset within IoT SiteWise and can be used with other IoT SiteWise APIs.
         public let assetId: String
@@ -3807,7 +3808,7 @@ extension IoTSiteWise {
         public let assetModelCompositeModelProperties: [AssetModelProperty]
         /// The list of composite model summaries for the composite model.
         public let assetModelCompositeModelSummaries: [AssetModelCompositeModelSummary]
-        /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or  AWS/L4E_ANOMALY.
+        /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or AWS/L4E_ANOMALY.
         public let assetModelCompositeModelType: String
         /// The ID of the asset model, in UUID format.
         public let assetModelId: String
@@ -5010,20 +5011,25 @@ extension IoTSiteWise {
         public let greengrass: Greengrass?
         /// A gateway that runs on IoT Greengrass V2.
         public let greengrassV2: GreengrassV2?
+        /// A SiteWise Edge gateway that runs on a Siemens Industrial Edge Device.
+        public let siemensIE: SiemensIE?
 
-        public init(greengrass: Greengrass? = nil, greengrassV2: GreengrassV2? = nil) {
+        public init(greengrass: Greengrass? = nil, greengrassV2: GreengrassV2? = nil, siemensIE: SiemensIE? = nil) {
             self.greengrass = greengrass
             self.greengrassV2 = greengrassV2
+            self.siemensIE = siemensIE
         }
 
         public func validate(name: String) throws {
             try self.greengrass?.validate(name: "\(name).greengrass")
             try self.greengrassV2?.validate(name: "\(name).greengrassV2")
+            try self.siemensIE?.validate(name: "\(name).siemensIE")
         }
 
         private enum CodingKeys: String, CodingKey {
             case greengrass = "greengrass"
             case greengrassV2 = "greengrassV2"
+            case siemensIE = "siemensIE"
         }
     }
 
@@ -5034,7 +5040,7 @@ extension IoTSiteWise {
         public let gatewayCapabilitySummaries: [GatewayCapabilitySummary]?
         /// The ID of the gateway device.
         public let gatewayId: String
-        /// The name of the asset.
+        /// The name of the gateway.
         public let gatewayName: String
         public let gatewayPlatform: GatewayPlatform?
         /// The date the gateway was last updated, in Unix epoch time.
@@ -5402,7 +5408,7 @@ extension IoTSiteWise {
     }
 
     public struct Greengrass: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the Greengrass group. For more information about how to find a group's ARN, see ListGroups and GetGroup in the IoT Greengrass API Reference.
+        /// The ARN of the Greengrass group. For more information about how to find a group's ARN, see ListGroups and GetGroup in the IoT Greengrass V1 API Reference.
         public let groupArn: String
 
         public init(groupArn: String) {
@@ -5431,6 +5437,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, max: 128)
             try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, min: 1)
+            try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7211,6 +7218,25 @@ extension IoTSiteWise {
         }
     }
 
+    public struct SiemensIE: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the IoT Thing for your SiteWise Edge gateway.
+        public let iotCoreThingName: String
+
+        public init(iotCoreThingName: String) {
+            self.iotCoreThingName = iotCoreThingName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.iotCoreThingName, name: "iotCoreThingName", parent: name, max: 128)
+            try self.validate(self.iotCoreThingName, name: "iotCoreThingName", parent: name, min: 1)
+            try self.validate(self.iotCoreThingName, name: "iotCoreThingName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iotCoreThingName = "iotCoreThingName"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// The ARN of the resource to tag.
         public let resourceArn: String
@@ -7498,13 +7524,13 @@ extension IoTSiteWise {
     public struct UpdateAssetModelCompositeModelRequest: AWSEncodableShape {
         /// A description for the composite model.
         public let assetModelCompositeModelDescription: String?
-        /// An external ID to assign to the asset model. You can only set the external ID of the asset model if it wasn't set when it was created, or you're setting it to  the exact same thing as when it was created.
+        /// An external ID to assign to the asset model. You can only set the external ID of the asset model if it wasn't set when it was created, or you're setting it to the exact same thing as when it was created.
         public let assetModelCompositeModelExternalId: String?
         /// The ID of a composite model on this asset model.
         public let assetModelCompositeModelId: String
-        /// A unique, friendly name for the composite model.
+        /// A unique name for the composite model.
         public let assetModelCompositeModelName: String
-        /// The property definitions of the composite model. For more information, see . You can specify up to 200 properties per composite model. For more information, see Quotas in the IoT SiteWise User Guide.
+        /// The property definitions of the composite model. For more information, see  Inline custom composite models in the IoT SiteWise User Guide. You can specify up to 200 properties per composite model. For more information, see Quotas in the IoT SiteWise User Guide.
         public let assetModelCompositeModelProperties: [AssetModelProperty]?
         /// The ID of the asset model, in UUID format.
         public let assetModelId: String
@@ -7583,7 +7609,7 @@ extension IoTSiteWise {
     }
 
     public struct UpdateAssetModelRequest: AWSEncodableShape {
-        /// The composite models that are part of this asset model. It groups properties (such as attributes, measurements, transforms, and metrics) and child composite models that model parts of your industrial equipment. Each composite model has a type that defines the properties that the composite model supports. Use composite models to define alarms on this asset model.  When creating custom composite models, you need to use CreateAssetModelCompositeModel. For more information, see .
+        /// The composite models that are part of this asset model. It groups properties (such as attributes, measurements, transforms, and metrics) and child composite models that model parts of your industrial equipment. Each composite model has a type that defines the properties that the composite model supports. Use composite models to define alarms on this asset model.  When creating custom composite models, you need to use CreateAssetModelCompositeModel. For more information, see Creating custom composite models (Components) in the IoT SiteWise User Guide.
         public let assetModelCompositeModels: [AssetModelCompositeModel]?
         /// A description for the asset model.
         public let assetModelDescription: String?
@@ -7593,7 +7619,7 @@ extension IoTSiteWise {
         public let assetModelHierarchies: [AssetModelHierarchy]?
         /// The ID of the asset model to update. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let assetModelId: String
-        /// A unique, friendly name for the asset model.
+        /// A unique name for the asset model.
         public let assetModelName: String
         /// The updated property definitions of the asset model. For more information, see Asset properties in the IoT SiteWise User Guide. You can specify up to 200 properties per asset model. For more information, see Quotas in the IoT SiteWise User Guide.
         public let assetModelProperties: [AssetModelProperty]?
@@ -7885,7 +7911,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, max: 104857600)
+            try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, max: 10000000)
             try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, min: 1)
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, max: 512)
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, min: 1)
@@ -7921,7 +7947,7 @@ extension IoTSiteWise {
     public struct UpdateGatewayRequest: AWSEncodableShape {
         /// The ID of the gateway to update.
         public let gatewayId: String
-        /// A unique, friendly name for the gateway.
+        /// A unique name for the gateway.
         public let gatewayName: String
 
         public init(gatewayId: String, gatewayName: String) {
@@ -8118,7 +8144,7 @@ extension IoTSiteWise {
     }
 
     public struct VariableValue: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the hierarchy to query for the property ID. You can use the hierarchy's name instead of the hierarchy's ID.  If the hierarchy has an external ID, you can specify externalId: followed by the external ID. For more information, see Using external IDs in the IoT SiteWise User Guide. You use a hierarchy ID instead of a model ID because you can have several hierarchies using the same model and therefore the same propertyId. For example, you might have separately grouped assets that come from the same asset model. For more information, see Asset hierarchies in the IoT SiteWise User Guide.
+        /// The ID of the hierarchy to query for the property ID. You can use the hierarchy's name instead of the hierarchy's ID. If the hierarchy has an external ID, you can specify externalId: followed by the external ID. For more information, see Using external IDs in the IoT SiteWise User Guide. You use a hierarchy ID instead of a model ID because you can have several hierarchies using the same model and therefore the same propertyId. For example, you might have separately grouped assets that come from the same asset model. For more information, see Asset hierarchies in the IoT SiteWise User Guide.
         public let hierarchyId: String?
         /// The ID of the property to use as the variable. You can use the property name if it's from the same asset model. If the property has an external ID, you can specify externalId: followed by the external ID. For more information, see Using external IDs in the IoT SiteWise User Guide.
         public let propertyId: String?
@@ -8155,7 +8181,7 @@ extension IoTSiteWise {
         public let booleanValue: Bool?
         /// Asset property data of type double (floating point number).
         public let doubleValue: Double?
-        /// Asset property data of type integer (number that's greater than or equal to zero).
+        /// Asset property data of type integer (whole number).
         public let integerValue: Int?
         /// Asset property data of type string (sequence of characters).
         public let stringValue: String?

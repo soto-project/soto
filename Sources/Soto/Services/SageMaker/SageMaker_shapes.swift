@@ -18732,6 +18732,38 @@ extension SageMaker {
         }
     }
 
+    public struct EmrSettings: AWSEncodableShape & AWSDecodableShape {
+        /// An array of Amazon Resource Names (ARNs) of the IAM roles that the execution role of SageMaker can assume for performing operations or tasks related to Amazon EMR clusters or Amazon EMR Serverless applications. These roles define the permissions and access policies required when performing Amazon EMR-related operations, such as listing, connecting to, or terminating Amazon EMR clusters or Amazon EMR Serverless applications. They are typically used in cross-account access scenarios, where the Amazon EMR resources (clusters or serverless applications) are located in a different Amazon Web Services account than the SageMaker domain.
+        public let assumableRoleArns: [String]?
+        /// An array of Amazon Resource Names (ARNs) of the IAM roles used by the Amazon EMR cluster instances or job execution environments to access other Amazon Web Services services and resources needed during the  runtime of your Amazon EMR or Amazon EMR Serverless workloads, such as Amazon S3 for data access, Amazon CloudWatch for logging, or other Amazon Web Services services based on the particular workload requirements.
+        public let executionRoleArns: [String]?
+
+        public init(assumableRoleArns: [String]? = nil, executionRoleArns: [String]? = nil) {
+            self.assumableRoleArns = assumableRoleArns
+            self.executionRoleArns = executionRoleArns
+        }
+
+        public func validate(name: String) throws {
+            try self.assumableRoleArns?.forEach {
+                try validate($0, name: "assumableRoleArns[]", parent: name, max: 2048)
+                try validate($0, name: "assumableRoleArns[]", parent: name, min: 20)
+                try validate($0, name: "assumableRoleArns[]", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            }
+            try self.validate(self.assumableRoleArns, name: "assumableRoleArns", parent: name, max: 5)
+            try self.executionRoleArns?.forEach {
+                try validate($0, name: "executionRoleArns[]", parent: name, max: 2048)
+                try validate($0, name: "executionRoleArns[]", parent: name, min: 20)
+                try validate($0, name: "executionRoleArns[]", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            }
+            try self.validate(self.executionRoleArns, name: "executionRoleArns", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assumableRoleArns = "AssumableRoleArns"
+            case executionRoleArns = "ExecutionRoleArns"
+        }
+    }
+
     public struct EnableSagemakerServicecatalogPortfolioInput: AWSEncodableShape {
         public init() {}
     }
@@ -22008,13 +22040,16 @@ extension SageMaker {
         /// A list of custom SageMaker images that are configured to run as a JupyterLab app.
         public let customImages: [CustomImage]?
         public let defaultResourceSpec: ResourceSpec?
+        /// The configuration parameters that specify the IAM roles assumed by the execution role of  SageMaker (assumable roles) and the cluster instances or job execution environments  (execution roles or runtime roles) to manage and access resources required for running Amazon EMR clusters or Amazon EMR Serverless applications.
+        public let emrSettings: EmrSettings?
         /// The Amazon Resource Name (ARN) of the lifecycle configurations attached to the user profile or domain. To remove a lifecycle config, you must set LifecycleConfigArns to an empty list.
         public let lifecycleConfigArns: [String]?
 
-        public init(codeRepositories: [CodeRepository]? = nil, customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil, lifecycleConfigArns: [String]? = nil) {
+        public init(codeRepositories: [CodeRepository]? = nil, customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil, emrSettings: EmrSettings? = nil, lifecycleConfigArns: [String]? = nil) {
             self.codeRepositories = codeRepositories
             self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
+            self.emrSettings = emrSettings
             self.lifecycleConfigArns = lifecycleConfigArns
         }
 
@@ -22028,6 +22063,7 @@ extension SageMaker {
             }
             try self.validate(self.customImages, name: "customImages", parent: name, max: 200)
             try self.defaultResourceSpec?.validate(name: "\(name).defaultResourceSpec")
+            try self.emrSettings?.validate(name: "\(name).emrSettings")
             try self.lifecycleConfigArns?.forEach {
                 try validate($0, name: "lifecycleConfigArns[]", parent: name, max: 256)
                 try validate($0, name: "lifecycleConfigArns[]", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/")
@@ -22038,6 +22074,7 @@ extension SageMaker {
             case codeRepositories = "CodeRepositories"
             case customImages = "CustomImages"
             case defaultResourceSpec = "DefaultResourceSpec"
+            case emrSettings = "EmrSettings"
             case lifecycleConfigArns = "LifecycleConfigArns"
         }
     }

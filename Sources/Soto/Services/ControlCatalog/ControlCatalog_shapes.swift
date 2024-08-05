@@ -26,6 +26,19 @@ import Foundation
 extension ControlCatalog {
     // MARK: Enums
 
+    public enum ControlBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case detective = "DETECTIVE"
+        case preventive = "PREVENTIVE"
+        case proactive = "PROACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ControlScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case global = "GLOBAL"
+        case regional = "REGIONAL"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AssociatedDomainSummary: AWSDecodableShape {
@@ -118,6 +131,27 @@ extension ControlCatalog {
         }
     }
 
+    public struct ControlSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the control.
+        public let arn: String
+        /// A description of the control, as it may appear in the console. Describes the functionality of the control.
+        public let description: String
+        /// The display name of the control.
+        public let name: String
+
+        public init(arn: String, description: String, name: String) {
+            self.arn = arn
+            self.description = description
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
     public struct DomainResourceFilter: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the domain.
         public let arn: String?
@@ -163,6 +197,53 @@ extension ControlCatalog {
             case description = "Description"
             case lastUpdateTime = "LastUpdateTime"
             case name = "Name"
+        }
+    }
+
+    public struct GetControlRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the control. It has one of the following formats:  Global format   arn:{PARTITION}:controlcatalog:::control/{CONTROL_CATALOG_OPAQUE_ID}   Or Regional format   arn:{PARTITION}:controltower:{REGION}::control/{CONTROL_TOWER_OPAQUE_ID}  Here is a more general pattern that covers Amazon Web Services Control Tower and Control Catalog ARNs:  ^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\-]+$
+        public let controlArn: String
+
+        public init(controlArn: String) {
+            self.controlArn = controlArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.controlArn, name: "controlArn", parent: name, max: 2048)
+            try self.validate(self.controlArn, name: "controlArn", parent: name, min: 34)
+            try self.validate(self.controlArn, name: "controlArn", parent: name, pattern: "^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case controlArn = "ControlArn"
+        }
+    }
+
+    public struct GetControlResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the control.
+        public let arn: String
+        /// A term that identifies the control's functional behavior. One of Preventive, Deteictive, Proactive
+        public let behavior: ControlBehavior
+        /// A description of what the control does.
+        public let description: String
+        /// The display name of the control.
+        public let name: String
+        public let regionConfiguration: RegionConfiguration
+
+        public init(arn: String, behavior: ControlBehavior, description: String, name: String, regionConfiguration: RegionConfiguration) {
+            self.arn = arn
+            self.behavior = behavior
+            self.description = description
+            self.name = name
+            self.regionConfiguration = regionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case behavior = "Behavior"
+            case description = "Description"
+            case name = "Name"
+            case regionConfiguration = "RegionConfiguration"
         }
     }
 
@@ -213,6 +294,50 @@ extension ControlCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case commonControls = "CommonControls"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListControlsRequest: AWSEncodableShape {
+        /// The maximum number of results on a page or for an API request call.
+        public let maxResults: Int?
+        /// The pagination token that's used to fetch the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListControlsResponse: AWSDecodableShape {
+        /// Returns a list of controls, given as structures of type controlSummary.
+        public let controls: [ControlSummary]
+        /// The pagination token that's used to fetch the next set of results.
+        public let nextToken: String?
+
+        public init(controls: [ControlSummary], nextToken: String? = nil) {
+            self.controls = controls
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case controls = "Controls"
             case nextToken = "NextToken"
         }
     }
@@ -382,6 +507,23 @@ extension ControlCatalog {
             case name = "Name"
         }
     }
+
+    public struct RegionConfiguration: AWSDecodableShape {
+        /// Regions in which the control is available to be deployed.
+        public let deployableRegions: [String]?
+        /// The coverage of the control, if deployed. Scope is an enumerated type, with value Regional, or Global. A control with Global scope is effective in all Amazon Web Services Regions, regardless of the Region from which it is enabled, or to which it is deployed. A control implemented by an SCP is usually Global in scope. A control with Regional scope has operations that are restricted specifically to the Region from which it is enabled and to which it is deployed. Controls implemented by Config rules and CloudFormation hooks usually are Regional in scope.  Security Hub controls usually are Regional in scope.
+        public let scope: ControlScope
+
+        public init(deployableRegions: [String]? = nil, scope: ControlScope) {
+            self.deployableRegions = deployableRegions
+            self.scope = scope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deployableRegions = "DeployableRegions"
+            case scope = "Scope"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -391,6 +533,7 @@ public struct ControlCatalogErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case internalServerException = "InternalServerException"
+        case resourceNotFoundException = "ResourceNotFoundException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
@@ -417,6 +560,8 @@ public struct ControlCatalogErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// An internal service error occurred during the processing of your request. Try again later.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The requested resource does not exist.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The request has invalid or missing parameters.

@@ -342,6 +342,8 @@ extension BedrockRuntime {
         case metadata(ConverseStreamMetadataEvent)
         /// A streaming error occurred. Retry your request.
         case modelStreamErrorException(ModelStreamErrorException)
+        /// The service isn't currently available. Try again later.
+        case serviceUnavailableException(ServiceUnavailableException)
         /// The number of requests exceeds the limit. Resubmit your request later.
         case throttlingException(ThrottlingException)
         /// Input validation failed. Check your request parameters and retry the request.
@@ -381,6 +383,9 @@ extension BedrockRuntime {
             case .modelStreamErrorException:
                 let value = try container.decode(ModelStreamErrorException.self, forKey: .modelStreamErrorException)
                 self = .modelStreamErrorException(value)
+            case .serviceUnavailableException:
+                let value = try container.decode(ServiceUnavailableException.self, forKey: .serviceUnavailableException)
+                self = .serviceUnavailableException(value)
             case .throttlingException:
                 let value = try container.decode(ThrottlingException.self, forKey: .throttlingException)
                 self = .throttlingException(value)
@@ -399,6 +404,7 @@ extension BedrockRuntime {
             case messageStop = "messageStop"
             case metadata = "metadata"
             case modelStreamErrorException = "modelStreamErrorException"
+            case serviceUnavailableException = "serviceUnavailableException"
             case throttlingException = "throttlingException"
             case validationException = "validationException"
         }
@@ -413,7 +419,8 @@ extension BedrockRuntime {
         case modelStreamErrorException(ModelStreamErrorException)
         /// The request took too long to process. Processing time exceeded the model timeout length.
         case modelTimeoutException(ModelTimeoutException)
-        /// The number or frequency of requests exceeds the limit. Resubmit your request later.
+        case serviceUnavailableException(ServiceUnavailableException)
+        /// Your request was throttled because of service-wide limitations. Resubmit your request later or in a different region. You can also purchase Provisioned Throughput to increase the rate or number of tokens you can process.
         case throttlingException(ThrottlingException)
         /// Input validation failed. Check your request parameters and retry the request.
         case validationException(ValidationException)
@@ -440,6 +447,9 @@ extension BedrockRuntime {
             case .modelTimeoutException:
                 let value = try container.decode(ModelTimeoutException.self, forKey: .modelTimeoutException)
                 self = .modelTimeoutException(value)
+            case .serviceUnavailableException:
+                let value = try container.decode(ServiceUnavailableException.self, forKey: .serviceUnavailableException)
+                self = .serviceUnavailableException(value)
             case .throttlingException:
                 let value = try container.decode(ThrottlingException.self, forKey: .throttlingException)
                 self = .throttlingException(value)
@@ -454,6 +464,7 @@ extension BedrockRuntime {
             case internalServerException = "internalServerException"
             case modelStreamErrorException = "modelStreamErrorException"
             case modelTimeoutException = "modelTimeoutException"
+            case serviceUnavailableException = "serviceUnavailableException"
             case throttlingException = "throttlingException"
             case validationException = "validationException"
         }
@@ -1701,6 +1712,18 @@ extension BedrockRuntime {
         }
     }
 
+    public struct ServiceUnavailableException: AWSDecodableShape {
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct SpecificToolChoice: AWSEncodableShape {
         /// The name of the tool that the model must request.
         public let name: String
@@ -2026,6 +2049,7 @@ public struct BedrockRuntimeErrorType: AWSErrorType {
         case modelTimeoutException = "ModelTimeoutException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case serviceUnavailableException = "ServiceUnavailableException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
@@ -2062,9 +2086,11 @@ public struct BedrockRuntimeErrorType: AWSErrorType {
     public static var modelTimeoutException: Self { .init(.modelTimeoutException) }
     /// The specified resource ARN was not found. Check the ARN and try your request again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The number of requests exceeds the service quota. Resubmit your request later.
+    /// Your request exceeds the service quota for your account. You can view your quotas at Viewing service quotas. You can resubmit your request later.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
-    /// The number of requests exceeds the limit. Resubmit your request later.
+    /// The service isn't currently available. Try again later.
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// Your request was throttled because of service-wide limitations. Resubmit your request later or in a different region. You can also purchase Provisioned Throughput to increase the rate or number of tokens you can process.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// Input validation failed. Check your request parameters and retry the request.
     public static var validationException: Self { .init(.validationException) }

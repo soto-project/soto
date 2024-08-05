@@ -461,9 +461,9 @@ extension IVS {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.playbackRestrictionPolicyArn, name: "playbackRestrictionPolicyArn", parent: name, max: 128)
-            try self.validate(self.playbackRestrictionPolicyArn, name: "playbackRestrictionPolicyArn", parent: name, pattern: "^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+$")
+            try self.validate(self.playbackRestrictionPolicyArn, name: "playbackRestrictionPolicyArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+$$")
             try self.validate(self.recordingConfigurationArn, name: "recordingConfigurationArn", parent: name, max: 128)
-            try self.validate(self.recordingConfigurationArn, name: "recordingConfigurationArn", parent: name, pattern: "^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configuration/[a-zA-Z0-9-]+$")
+            try self.validate(self.recordingConfigurationArn, name: "recordingConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configuration/[a-zA-Z0-9-]+$$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1085,9 +1085,9 @@ extension IVS {
             try self.validate(self.filterByName, name: "filterByName", parent: name, max: 128)
             try self.validate(self.filterByName, name: "filterByName", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.filterByPlaybackRestrictionPolicyArn, name: "filterByPlaybackRestrictionPolicyArn", parent: name, max: 128)
-            try self.validate(self.filterByPlaybackRestrictionPolicyArn, name: "filterByPlaybackRestrictionPolicyArn", parent: name, pattern: "^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+$")
+            try self.validate(self.filterByPlaybackRestrictionPolicyArn, name: "filterByPlaybackRestrictionPolicyArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+$$")
             try self.validate(self.filterByRecordingConfigurationArn, name: "filterByRecordingConfigurationArn", parent: name, max: 128)
-            try self.validate(self.filterByRecordingConfigurationArn, name: "filterByRecordingConfigurationArn", parent: name, pattern: "^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configuration/[a-zA-Z0-9-]+$")
+            try self.validate(self.filterByRecordingConfigurationArn, name: "filterByRecordingConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configuration/[a-zA-Z0-9-]+$$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -2099,9 +2099,9 @@ extension IVS {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.playbackRestrictionPolicyArn, name: "playbackRestrictionPolicyArn", parent: name, max: 128)
-            try self.validate(self.playbackRestrictionPolicyArn, name: "playbackRestrictionPolicyArn", parent: name, pattern: "^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+$")
+            try self.validate(self.playbackRestrictionPolicyArn, name: "playbackRestrictionPolicyArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+$$")
             try self.validate(self.recordingConfigurationArn, name: "recordingConfigurationArn", parent: name, max: 128)
-            try self.validate(self.recordingConfigurationArn, name: "recordingConfigurationArn", parent: name, pattern: "^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configuration/[a-zA-Z0-9-]+$")
+            try self.validate(self.recordingConfigurationArn, name: "recordingConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configuration/[a-zA-Z0-9-]+$$")
         }
 
         private enum CodingKeys: String, CodingKey {

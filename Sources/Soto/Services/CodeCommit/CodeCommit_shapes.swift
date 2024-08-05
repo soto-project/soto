@@ -5311,6 +5311,7 @@ public struct CodeCommitErrorType: AWSErrorType {
         case noChangeException = "NoChangeException"
         case numberOfRuleTemplatesExceededException = "NumberOfRuleTemplatesExceededException"
         case numberOfRulesExceededException = "NumberOfRulesExceededException"
+        case operationNotAllowedException = "OperationNotAllowedException"
         case overrideAlreadySetException = "OverrideAlreadySetException"
         case overrideStatusRequiredException = "OverrideStatusRequiredException"
         case parentCommitDoesNotExistException = "ParentCommitDoesNotExistException"
@@ -5659,6 +5660,8 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var numberOfRuleTemplatesExceededException: Self { .init(.numberOfRuleTemplatesExceededException) }
     /// The approval rule cannot be added. The pull request has the maximum number of approval rules associated with it.
     public static var numberOfRulesExceededException: Self { .init(.numberOfRulesExceededException) }
+    /// The requested action is not allowed.
+    public static var operationNotAllowedException: Self { .init(.operationNotAllowedException) }
     /// The pull request has already had its approval rules set to override.
     public static var overrideAlreadySetException: Self { .init(.overrideAlreadySetException) }
     /// An override status is required, but no value was provided. Valid values include OVERRIDE and REVOKE.
