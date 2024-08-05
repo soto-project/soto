@@ -151,7 +151,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Creates a copy of an existing serverless cache’s snapshot. Available for Redis only.
+    /// Creates a copy of an existing serverless cache’s snapshot. Available for Redis OSS and Serverless Memcached only.
     @Sendable
     public func copyServerlessCacheSnapshot(_ input: CopyServerlessCacheSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyServerlessCacheSnapshotResponse {
         return try await self.client.execute(
@@ -164,7 +164,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Makes a copy of an existing snapshot.  This operation is valid for Redis only.   Users or groups that have permissions to use the CopySnapshot operation can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to control who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache operations, see Exporting Snapshots and Authentication & Access Control.  You could receive the following error messages.  Error Messages     Error Message: The S3 bucket %s is outside of the region.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The S3 bucket %s does not exist.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The S3 bucket %s is not owned by the authenticated user.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The authenticated user does not have sufficient permissions to perform the desired activity.  Solution: Contact your system administrator to get the needed permissions.    Error Message: The S3 bucket %s already contains an object with key %s.  Solution: Give the TargetSnapshotName a new and unique value. If exporting a snapshot, you could alternatively create a new Amazon S3 bucket and use this same value for TargetSnapshotName.    Error Message:  ElastiCache has not been granted READ permissions %s on the S3 Bucket.  Solution: Add List and Read permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.    Error Message:  ElastiCache has not been granted WRITE permissions %s on the S3 Bucket.  Solution: Add Upload/Delete permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.    Error Message:  ElastiCache has not been granted READ_ACP permissions %s on the S3 Bucket.  Solution: Add View Permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.
+    /// Makes a copy of an existing snapshot.  This operation is valid for Redis OSS only.   Users or groups that have permissions to use the CopySnapshot operation can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to control who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache operations, see Exporting Snapshots and Authentication & Access Control.  You could receive the following error messages.  Error Messages     Error Message: The S3 bucket %s is outside of the region.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The S3 bucket %s does not exist.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The S3 bucket %s is not owned by the authenticated user.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The authenticated user does not have sufficient permissions to perform the desired activity.  Solution: Contact your system administrator to get the needed permissions.    Error Message: The S3 bucket %s already contains an object with key %s.  Solution: Give the TargetSnapshotName a new and unique value. If exporting a snapshot, you could alternatively create a new Amazon S3 bucket and use this same value for TargetSnapshotName.    Error Message:  ElastiCache has not been granted READ permissions %s on the S3 Bucket.  Solution: Add List and Read permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.    Error Message:  ElastiCache has not been granted WRITE permissions %s on the S3 Bucket.  Solution: Add Upload/Delete permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.    Error Message:  ElastiCache has not been granted READ_ACP permissions %s on the S3 Bucket.  Solution: Add View Permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.
     @Sendable
     public func copySnapshot(_ input: CopySnapshotMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CopySnapshotResult {
         return try await self.client.execute(
@@ -177,7 +177,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine software, either Memcached or Redis. This operation is not supported for Redis (cluster mode enabled) clusters.
+    /// Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine software, either Memcached or Redis OSS. This operation is not supported for Redis OSS (cluster mode enabled) clusters.
     @Sendable
     public func createCacheCluster(_ input: CreateCacheClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCacheClusterResult {
         return try await self.client.execute(
@@ -229,7 +229,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Global Datastore for Redis offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore for Redis, you can create cross-region read replica clusters for ElastiCache for Redis to enable low-latency reads and disaster recovery across regions. For more information, see Replication Across Regions Using Global Datastore.    The GlobalReplicationGroupIdSuffix is the name of the Global datastore.   The PrimaryReplicationGroupId represents the name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
+    /// Global Datastore for Redis OSS offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore for Redis OSS, you can create cross-region read replica clusters for ElastiCache (Redis OSS) to enable low-latency reads and disaster recovery across regions. For more information, see Replication Across Regions Using Global Datastore.    The GlobalReplicationGroupIdSuffix is the name of the Global datastore.   The PrimaryReplicationGroupId represents the name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
     @Sendable
     public func createGlobalReplicationGroup(_ input: CreateGlobalReplicationGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGlobalReplicationGroupResult {
         return try await self.client.execute(
@@ -242,7 +242,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global datastore. A Redis (cluster mode disabled) replication group is a collection of nodes, where one of the nodes is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Redis cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI: node groups). Each shard has a primary node and up to 5 read-only replica nodes. The configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which is the maximum number or replicas allowed.  The node or shard limit can be increased to a maximum of 500 per cluster if the Redis engine version is 5.0.6 or higher. For example, you can choose to configure a 500 node cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500 shards (single primary and no replicas). Make sure there are enough available IP addresses to accommodate the increase. Common pitfalls include the subnets in the subnet group have too small a CIDR range or the subnets are shared and heavily used by other clusters. For more information, see Creating a Subnet Group. For versions below 5.0.6, the limit is 250 per cluster. To request a limit increase, see Amazon Service Limits and choose the limit type Nodes per cluster per instance type.  When a Redis (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. If you need to increase or decrease the number of node groups (console: shards), you can avail yourself of ElastiCache for Redis' scaling. For more information, see Scaling ElastiCache for Redis Clusters in the ElastiCache User Guide.  This operation is valid for Redis only.
+    /// Creates a Redis OSS (cluster mode disabled) or a Redis OSS (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global datastore. A Redis OSS (cluster mode disabled) replication group is a collection of nodes, where one of the nodes is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Redis OSS cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI: node groups). Each shard has a primary node and up to 5 read-only replica nodes. The configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which is the maximum number or replicas allowed.  The node or shard limit can be increased to a maximum of 500 per cluster if the Redis OSS  engine version is 5.0.6 or higher. For example, you can choose to configure a 500 node cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500 shards (single primary and no replicas). Make sure there are enough available IP addresses to accommodate the increase. Common pitfalls include the subnets in the subnet group have too small a CIDR range or the subnets are shared and heavily used by other clusters. For more information, see Creating a Subnet Group. For versions below 5.0.6, the limit is 250 per cluster. To request a limit increase, see Amazon Service Limits and choose the limit type Nodes per cluster per instance type.  When a Redis OSS (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. If you need to increase or decrease the number of node groups (console: shards), you can use ElastiCache (Redis OSS) scaling.  For more information, see Scaling ElastiCache (Redis OSS) Clusters in the ElastiCache User Guide.  This operation is valid for Redis OSS only.
     @Sendable
     public func createReplicationGroup(_ input: CreateReplicationGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReplicationGroupResult {
         return try await self.client.execute(
@@ -268,7 +268,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Redis only.
+    /// This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Redis OSS and Serverless Memcached only.
     @Sendable
     public func createServerlessCacheSnapshot(_ input: CreateServerlessCacheSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServerlessCacheSnapshotResponse {
         return try await self.client.execute(
@@ -281,7 +281,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Creates a copy of an entire cluster or replication group at a specific moment in time.  This operation is valid for Redis only.
+    /// Creates a copy of an entire cluster or replication group at a specific moment in time.  This operation is valid for Redis OSS only.
     @Sendable
     public func createSnapshot(_ input: CreateSnapshotMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSnapshotResult {
         return try await self.client.execute(
@@ -294,7 +294,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// For Redis engine version 6.0 onwards: Creates a Redis user. For more information, see Using Role Based Access Control (RBAC).
+    /// For Redis OSS engine version 6.0 onwards: Creates a Redis OSS user. For more information, see Using Role Based Access Control (RBAC).
     @Sendable
     public func createUser(_ input: CreateUserMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> User {
         return try await self.client.execute(
@@ -307,7 +307,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// For Redis engine version 6.0 onwards: Creates a Redis user group. For more information, see Using Role Based Access Control (RBAC)
+    /// For Redis OSS engine version 6.0 onwards: Creates a Redis OSS user group. For more information, see Using Role Based Access Control (RBAC)
     @Sendable
     public func createUserGroup(_ input: CreateUserGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> UserGroup {
         return try await self.client.execute(
@@ -333,7 +333,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Dynamically decreases the number of replicas in a Redis (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Redis (cluster mode enabled) replication group. This operation is performed with no cluster down time.
+    /// Dynamically decreases the number of replicas in a Redis OSS (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Redis OSS (cluster mode enabled) replication group. This operation is performed with no cluster down time.
     @Sendable
     public func decreaseReplicaCount(_ input: DecreaseReplicaCountMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DecreaseReplicaCountResult {
         return try await self.client.execute(
@@ -346,7 +346,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cluster; you cannot cancel or revert this operation. This operation is not valid for:   Redis (cluster mode enabled) clusters   Redis (cluster mode disabled) clusters   A cluster that is the last read replica of a replication group   A cluster that is the primary node of a replication group   A node group (shard) that has Multi-AZ mode enabled   A cluster from a Redis (cluster mode enabled) replication group   A cluster that is not in the available state
+    /// Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cluster; you cannot cancel or revert this operation. This operation is not valid for:   Redis OSS (cluster mode enabled) clusters   Redis OSS (cluster mode disabled) clusters   A cluster that is the last read replica of a replication group   A cluster that is the primary node of a replication group   A node group (shard) that has Multi-AZ mode enabled   A cluster from a Redis OSS (cluster mode enabled) replication group   A cluster that is not in the available state
     @Sendable
     public func deleteCacheCluster(_ input: DeleteCacheClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCacheClusterResult {
         return try await self.client.execute(
@@ -411,7 +411,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Deletes an existing replication group. By default, this operation deletes the entire replication group, including the primary/primaries and all of the read replicas. If the replication group has only one primary, you can optionally delete only the read replicas, while retaining the primary by setting RetainPrimaryCluster=true. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this operation.  This operation is valid for Redis only.
+    /// Deletes an existing replication group. By default, this operation deletes the entire replication group, including the primary/primaries and all of the read replicas. If the replication group has only one primary, you can optionally delete only the read replicas, while retaining the primary by setting RetainPrimaryCluster=true. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this operation.     CreateSnapshot permission is required to create a final snapshot.  Without this permission, the API call will fail with an Access Denied exception.   This operation is valid for Redis OSS only.
     @Sendable
     public func deleteReplicationGroup(_ input: DeleteReplicationGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReplicationGroupResult {
         return try await self.client.execute(
@@ -424,7 +424,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Deletes a specified existing serverless cache.
+    /// Deletes a specified existing serverless cache.   CreateServerlessCacheSnapshot permission is required to create a final snapshot.  Without this permission, the API call will fail with an Access Denied exception.
     @Sendable
     public func deleteServerlessCache(_ input: DeleteServerlessCacheRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServerlessCacheResponse {
         return try await self.client.execute(
@@ -437,7 +437,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Deletes an existing serverless cache snapshot. Available for Redis only.
+    /// Deletes an existing serverless cache snapshot. Available for Redis OSS and Serverless Memcached only.
     @Sendable
     public func deleteServerlessCacheSnapshot(_ input: DeleteServerlessCacheSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServerlessCacheSnapshotResponse {
         return try await self.client.execute(
@@ -450,7 +450,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert this operation.  This operation is valid for Redis only.
+    /// Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert this operation.  This operation is valid for Redis OSS only.
     @Sendable
     public func deleteSnapshot(_ input: DeleteSnapshotMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSnapshotResult {
         return try await self.client.execute(
@@ -463,7 +463,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// For Redis engine version 6.0 onwards: Deletes a user. The user will be removed from all user groups and in turn removed from all replication groups. For more information, see Using Role Based Access Control (RBAC).
+    /// For Redis OSS engine version 6.0 onwards: Deletes a user. The user will be removed from all user groups and in turn removed from all replication groups. For more information, see Using Role Based Access Control (RBAC).
     @Sendable
     public func deleteUser(_ input: DeleteUserMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> User {
         return try await self.client.execute(
@@ -476,7 +476,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// For Redis engine version 6.0 onwards: Deletes a user group. The user group must first be disassociated from the replication group before it can be deleted. For more information, see Using Role Based Access Control (RBAC).
+    /// For Redis OSS engine version 6.0 onwards: Deletes a user group. The user group must first be disassociated from the replication group before it can be deleted. For more information, see Using Role Based Access Control (RBAC).
     @Sendable
     public func deleteUserGroup(_ input: DeleteUserGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> UserGroup {
         return try await self.client.execute(
@@ -606,7 +606,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups.  This operation is valid for Redis only.
+    /// Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups.  This operation is valid for Redis OSS only.
     @Sendable
     public func describeReplicationGroups(_ input: DescribeReplicationGroupsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplicationGroupMessage {
         return try await self.client.execute(
@@ -645,7 +645,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Returns information about serverless cache snapshots.  By default, this API lists all of the customer’s serverless cache snapshots.  It can also describe a single serverless cache snapshot, or the snapshots associated with  a particular serverless cache. Available for Redis only.
+    /// Returns information about serverless cache snapshots.  By default, this API lists all of the customer’s serverless cache snapshots.  It can also describe a single serverless cache snapshot, or the snapshots associated with  a particular serverless cache. Available for Redis OSS and Serverless Memcached only.
     @Sendable
     public func describeServerlessCacheSnapshots(_ input: DescribeServerlessCacheSnapshotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServerlessCacheSnapshotsResponse {
         return try await self.client.execute(
@@ -684,7 +684,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.  This operation is valid for Redis only.
+    /// Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.  This operation is valid for Redis OSS only.
     @Sendable
     public func describeSnapshots(_ input: DescribeSnapshotsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSnapshotsListMessage {
         return try await self.client.execute(
@@ -749,7 +749,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Provides the functionality to export the serverless cache snapshot data to Amazon S3. Available for Redis only.
+    /// Provides the functionality to export the serverless cache snapshot data to Amazon S3. Available for Redis OSS only.
     @Sendable
     public func exportServerlessCacheSnapshot(_ input: ExportServerlessCacheSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportServerlessCacheSnapshotResponse {
         return try await self.client.execute(
@@ -788,7 +788,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Dynamically increases the number of replicas in a Redis (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Redis (cluster mode enabled) replication group. This operation is performed with no cluster down time.
+    /// Dynamically increases the number of replicas in a Redis OSS (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Redis OSS (cluster mode enabled) replication group. This operation is performed with no cluster down time.
     @Sendable
     public func increaseReplicaCount(_ input: IncreaseReplicaCountMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> IncreaseReplicaCountResult {
         return try await self.client.execute(
@@ -801,7 +801,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Lists all available node types that you can scale your Redis cluster's or replication group's current node type. When you use the ModifyCacheCluster or ModifyReplicationGroup operations to scale your cluster or replication group, the value of the CacheNodeType parameter must be one of the node types returned by this operation.
+    /// Lists all available node types that you can scale your Redis OSS cluster's or replication group's current node type. When you use the ModifyCacheCluster or ModifyReplicationGroup operations to scale your cluster or replication group, the value of the CacheNodeType parameter must be one of the node types returned by this operation.
     @Sendable
     public func listAllowedNodeTypeModifications(_ input: ListAllowedNodeTypeModificationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> AllowedNodeTypeModificationsMessage {
         return try await self.client.execute(
@@ -879,7 +879,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Modifies the settings for a replication group. This is limited to Redis 7 and newer.    Scaling for Amazon ElastiCache for Redis (cluster mode enabled) in the ElastiCache User Guide    ModifyReplicationGroupShardConfiguration in the ElastiCache API Reference    This operation is valid for Redis only.
+    /// Modifies the settings for a replication group. This is limited to Redis OSS 7 and newer.    Scaling for Amazon ElastiCache (Redis OSS) (cluster mode enabled) in the ElastiCache User Guide    ModifyReplicationGroupShardConfiguration in the ElastiCache API Reference    This operation is valid for Redis OSS only.
     @Sendable
     public func modifyReplicationGroup(_ input: ModifyReplicationGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyReplicationGroupResult {
         return try await self.client.execute(
@@ -944,7 +944,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see Managing Costs with Reserved Nodes for Redis or Managing Costs with Reserved Nodes for Memcached.
+    /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see Managing Costs with Reserved Nodes for Redis OSS or Managing Costs with Reserved Nodes for Memcached.
     @Sendable
     public func purchaseReservedCacheNodesOffering(_ input: PurchaseReservedCacheNodesOfferingMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> PurchaseReservedCacheNodesOfferingResult {
         return try await self.client.execute(
@@ -970,7 +970,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supported on Memcached and Redis (cluster mode disabled) clusters. Rebooting is not supported on Redis (cluster mode enabled) clusters. If you make changes to parameters that require a Redis (cluster mode enabled) cluster reboot for the changes to be applied, see Rebooting a Cluster for an alternate process.
+    /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supported on Memcached and Redis OSS (cluster mode disabled) clusters. Rebooting is not supported on Redis OSS (cluster mode enabled) clusters. If you make changes to parameters that require a Redis OSS (cluster mode enabled) cluster reboot for the changes to be applied, see Rebooting a Cluster for an alternate process.
     @Sendable
     public func rebootCacheCluster(_ input: RebootCacheClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> RebootCacheClusterResult {
         return try await self.client.execute(
@@ -1035,7 +1035,7 @@ public struct ElastiCache: AWSService {
         )
     }
 
-    /// Represents the input of a TestFailover operation which tests automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console). This API is designed for testing the behavior of your application in case of ElastiCache failover. It is not designed to be an operational tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large-scale operational events, Amazon may block this API.   Note the following    A customer can use this operation to test automatic failover on up to 15 shards (called node groups in the ElastiCache API and Amazon CLI) in any rolling 24-hour period.   If calling this operation on shards in different clusters (called replication groups in the API and CLI), the calls can be made concurrently.    If calling this operation multiple times on different shards in the same Redis (cluster mode enabled) replication group, the first node replacement must complete before a subsequent call can be made.   To determine whether the node replacement is complete you can check Events using the Amazon ElastiCache console, the Amazon CLI, or the ElastiCache API. Look for the following automatic failover related events, listed here in order of occurrance:   Replication group message: Test Failover API called for node group     Cache cluster message: Failover from primary node to replica node  completed    Replication group message: Failover from primary node to replica node  completed    Cache cluster message: Recovering cache nodes     Cache cluster message: Finished recovery for cache nodes     For more information see:    Viewing ElastiCache Events in the ElastiCache User Guide     DescribeEvents in the ElastiCache API Reference     Also see, Testing Multi-AZ  in the ElastiCache User Guide.
+    /// Represents the input of a TestFailover operation which tests automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console). This API is designed for testing the behavior of your application in case of ElastiCache failover. It is not designed to be an operational tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large-scale operational events, Amazon may block this API.   Note the following    A customer can use this operation to test automatic failover on up to 15 shards (called node groups in the ElastiCache API and Amazon CLI) in any rolling 24-hour period.   If calling this operation on shards in different clusters (called replication groups in the API and CLI), the calls can be made concurrently.    If calling this operation multiple times on different shards in the same Redis OSS (cluster mode enabled) replication group, the first node replacement must complete before a subsequent call can be made.   To determine whether the node replacement is complete you can check Events using the Amazon ElastiCache console, the Amazon CLI, or the ElastiCache API. Look for the following automatic failover related events, listed here in order of occurrance:   Replication group message: Test Failover API called for node group     Cache cluster message: Failover from primary node to replica node  completed    Replication group message: Failover from primary node to replica node  completed    Cache cluster message: Recovering cache nodes     Cache cluster message: Finished recovery for cache nodes     For more information see:    Viewing ElastiCache Events in the ElastiCache User Guide     DescribeEvents in the ElastiCache API Reference     Also see, Testing Multi-AZ  in the ElastiCache User Guide.
     @Sendable
     public func testFailover(_ input: TestFailoverMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> TestFailoverResult {
         return try await self.client.execute(
@@ -1246,7 +1246,7 @@ extension ElastiCache {
         )
     }
 
-    /// Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups.  This operation is valid for Redis only.
+    /// Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups.  This operation is valid for Redis OSS only.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1303,7 +1303,7 @@ extension ElastiCache {
         )
     }
 
-    /// Returns information about serverless cache snapshots.  By default, this API lists all of the customer’s serverless cache snapshots.  It can also describe a single serverless cache snapshot, or the snapshots associated with  a particular serverless cache. Available for Redis only.
+    /// Returns information about serverless cache snapshots.  By default, this API lists all of the customer’s serverless cache snapshots.  It can also describe a single serverless cache snapshot, or the snapshots associated with  a particular serverless cache. Available for Redis OSS and Serverless Memcached only.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1360,7 +1360,7 @@ extension ElastiCache {
         )
     }
 
-    /// Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.  This operation is valid for Redis only.
+    /// Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.  This operation is valid for Redis OSS only.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

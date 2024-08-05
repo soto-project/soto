@@ -348,6 +348,32 @@ public struct CodePipeline: AWSService {
         )
     }
 
+    /// Lists the rule executions that have occurred in a pipeline configured for conditions with rules.
+    @Sendable
+    public func listRuleExecutions(_ input: ListRuleExecutionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRuleExecutionsOutput {
+        return try await self.client.execute(
+            operation: "ListRuleExecutions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the rules for the condition.
+    @Sendable
+    public func listRuleTypes(_ input: ListRuleTypesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRuleTypesOutput {
+        return try await self.client.execute(
+            operation: "ListRuleTypes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
@@ -366,6 +392,19 @@ public struct CodePipeline: AWSService {
     public func listWebhooks(_ input: ListWebhooksInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWebhooksOutput {
         return try await self.client.execute(
             operation: "ListWebhooks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Used to override a stage condition.
+    @Sendable
+    public func overrideStageCondition(_ input: OverrideStageConditionInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "OverrideStageCondition", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -698,6 +737,25 @@ extension CodePipeline {
         )
     }
 
+    /// Lists the rule executions that have occurred in a pipeline configured for conditions with rules.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listRuleExecutionsPaginator(
+        _ input: ListRuleExecutionsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRuleExecutionsInput, ListRuleExecutionsOutput> {
+        return .init(
+            input: input,
+            command: self.listRuleExecutions,
+            inputKey: \ListRuleExecutionsInput.nextToken,
+            outputKey: \ListRuleExecutionsOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource.
     /// Return PaginatorSequence for operation.
     ///
@@ -774,6 +832,17 @@ extension CodePipeline.ListPipelinesInput: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension CodePipeline.ListRuleExecutionsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CodePipeline.ListRuleExecutionsInput {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pipelineName: self.pipelineName
         )
     }
 }

@@ -2282,14 +2282,17 @@ extension RDS {
         public let dbShardGroupIdentifier: String?
         /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
         public let maxACU: Double?
+        /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
+        public let minACU: Double?
         /// Specifies whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from  within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC.  Access to the DB shard group is ultimately controlled by the security group it uses.  That public access is not permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:   If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB shard group is private.   If the default VPC in the target Region has an internet gateway attached to it, the DB shard group is public.   If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies:   If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB shard group is private.   If the subnets are part of a VPC that has an internet gateway attached to it, the DB shard group is public.
         public let publiclyAccessible: Bool?
 
-        public init(computeRedundancy: Int? = nil, dbClusterIdentifier: String? = nil, dbShardGroupIdentifier: String? = nil, maxACU: Double? = nil, publiclyAccessible: Bool? = nil) {
+        public init(computeRedundancy: Int? = nil, dbClusterIdentifier: String? = nil, dbShardGroupIdentifier: String? = nil, maxACU: Double? = nil, minACU: Double? = nil, publiclyAccessible: Bool? = nil) {
             self.computeRedundancy = computeRedundancy
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbShardGroupIdentifier = dbShardGroupIdentifier
             self.maxACU = maxACU
+            self.minACU = minACU
             self.publiclyAccessible = publiclyAccessible
         }
 
@@ -2298,6 +2301,7 @@ extension RDS {
             case dbClusterIdentifier = "DBClusterIdentifier"
             case dbShardGroupIdentifier = "DBShardGroupIdentifier"
             case maxACU = "MaxACU"
+            case minACU = "MinACU"
             case publiclyAccessible = "PubliclyAccessible"
         }
     }
@@ -4961,18 +4965,21 @@ extension RDS {
         public let endpoint: String?
         /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
         public let maxACU: Double?
+        /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
+        public let minACU: Double?
         /// Indicates whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. For more information, see CreateDBShardGroup. This setting is only for Aurora Limitless Database.
         public let publiclyAccessible: Bool?
         /// The status of the DB shard group.
         public let status: String?
 
-        public init(computeRedundancy: Int? = nil, dbClusterIdentifier: String? = nil, dbShardGroupIdentifier: String? = nil, dbShardGroupResourceId: String? = nil, endpoint: String? = nil, maxACU: Double? = nil, publiclyAccessible: Bool? = nil, status: String? = nil) {
+        public init(computeRedundancy: Int? = nil, dbClusterIdentifier: String? = nil, dbShardGroupIdentifier: String? = nil, dbShardGroupResourceId: String? = nil, endpoint: String? = nil, maxACU: Double? = nil, minACU: Double? = nil, publiclyAccessible: Bool? = nil, status: String? = nil) {
             self.computeRedundancy = computeRedundancy
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbShardGroupIdentifier = dbShardGroupIdentifier
             self.dbShardGroupResourceId = dbShardGroupResourceId
             self.endpoint = endpoint
             self.maxACU = maxACU
+            self.minACU = minACU
             self.publiclyAccessible = publiclyAccessible
             self.status = status
         }
@@ -4984,6 +4991,7 @@ extension RDS {
             case dbShardGroupResourceId = "DBShardGroupResourceId"
             case endpoint = "Endpoint"
             case maxACU = "MaxACU"
+            case minACU = "MinACU"
             case publiclyAccessible = "PubliclyAccessible"
             case status = "Status"
         }
@@ -5452,11 +5460,11 @@ extension RDS {
     public struct DeleteDBClusterMessage: AWSEncodableShape {
         /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must match an existing DBClusterIdentifier.
         public let dbClusterIdentifier: String?
-        /// Specifies whether to remove automated backups immediately after the DB cluster is deleted. This parameter isn't case-sensitive. The default is to remove  automated backups immediately after the DB cluster is deleted.   You must delete automated backups for Amazon RDS Multi-AZ DB clusters. For more information about managing automated backups for RDS Multi-AZ DB clusters, see Managing automated backups.
+        /// Specifies whether to remove automated backups immediately after the DB cluster is deleted. This parameter isn't case-sensitive. The default is to remove  automated backups immediately after the DB cluster is deleted.
         public let deleteAutomatedBackups: Bool?
-        /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled.  Specifying this parameter and also skipping the creation of a final DB cluster snapshot  with the SkipFinalShapshot parameter results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
+        /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled.  If you specify this parameter and also skip the creation of a final DB cluster snapshot with the SkipFinalShapshot parameter, the request results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
         public let finalDBSnapshotIdentifier: String?
-        /// Specifies whether to skip the creation of a final DB cluster snapshot before the DB cluster is deleted. If skip is specified, no DB cluster snapshot is created. If skip isn't specified, a DB cluster snapshot  is created before the DB cluster is deleted. By default, skip isn't specified, and the DB cluster snapshot is created.  By default, this parameter is disabled.  You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is disabled.
+        /// Specifies whether to skip the creation of a final DB cluster snapshot before RDS deletes the DB cluster. If you set this value to true, RDS doesn't create a final DB cluster snapshot. If you set this value to false or don't specify it, RDS creates a DB cluster snapshot before it deletes the DB cluster. By default, this parameter is disabled, so RDS creates a final DB cluster snapshot.  If SkipFinalSnapshot is disabled, you must specify a value for the FinalDBSnapshotIdentifier parameter.
         public let skipFinalSnapshot: Bool?
 
         public init(dbClusterIdentifier: String? = nil, deleteAutomatedBackups: Bool? = nil, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
@@ -6103,7 +6111,7 @@ extension RDS {
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
-        /// A specific source to return parameters for. Valid Values:    user     engine     service
+        /// A specific source to return parameters for. Valid Values:    customer     engine     service
         public let source: String?
 
         public init(dbClusterParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
@@ -9485,10 +9493,13 @@ extension RDS {
         public let dbShardGroupIdentifier: String?
         /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
         public let maxACU: Double?
+        /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
+        public let minACU: Double?
 
-        public init(dbShardGroupIdentifier: String? = nil, maxACU: Double? = nil) {
+        public init(dbShardGroupIdentifier: String? = nil, maxACU: Double? = nil, minACU: Double? = nil) {
             self.dbShardGroupIdentifier = dbShardGroupIdentifier
             self.maxACU = maxACU
+            self.minACU = minACU
         }
 
         public func validate(name: String) throws {
@@ -9500,6 +9511,7 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case dbShardGroupIdentifier = "DBShardGroupIdentifier"
             case maxACU = "MaxACU"
+            case minACU = "MinACU"
         }
     }
 
@@ -9873,7 +9885,7 @@ extension RDS {
         public struct _OptionSettingsEncoding: ArrayCoderProperties { public static let member = "OptionSetting" }
         public struct _VpcSecurityGroupMembershipsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// A list of DBSecurityGroupMembership name strings used for this option.
+        /// A list of DB security groups used for this option.
         @OptionalCustomCoding<ArrayCoder<_DBSecurityGroupMembershipsEncoding, String>>
         public var dbSecurityGroupMemberships: [String]?
         /// The configuration of options to include in a group.
@@ -9885,7 +9897,7 @@ extension RDS {
         public let optionVersion: String?
         /// The optional port for the option.
         public let port: Int?
-        /// A list of VpcSecurityGroupMembership name strings used for this option.
+        /// A list of VPC security group names used for this option.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupMembershipsEncoding, String>>
         public var vpcSecurityGroupMemberships: [String]?
 

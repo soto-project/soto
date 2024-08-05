@@ -165,6 +165,12 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum FilterStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case invalid = "INVALID"
+        case valid = "VALID"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FormTypeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -460,6 +466,47 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssetFilterConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The column configuration of the asset filter.
+        case columnConfiguration(ColumnFilterConfiguration)
+        /// The row configuration of the asset filter.
+        case rowConfiguration(RowFilterConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .columnConfiguration:
+                let value = try container.decode(ColumnFilterConfiguration.self, forKey: .columnConfiguration)
+                self = .columnConfiguration(value)
+            case .rowConfiguration:
+                let value = try container.decode(RowFilterConfiguration.self, forKey: .rowConfiguration)
+                self = .rowConfiguration(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .columnConfiguration(let value):
+                try container.encode(value, forKey: .columnConfiguration)
+            case .rowConfiguration(let value):
+                try container.encode(value, forKey: .rowConfiguration)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnConfiguration = "columnConfiguration"
+            case rowConfiguration = "rowConfiguration"
+        }
+    }
+
     public enum DataSourceConfigurationInput: AWSEncodableShape, Sendable {
         /// The configuration of the Amazon Web Services Glue data source.
         case glueRunConfiguration(GlueRunConfigurationInput)
@@ -653,11 +700,179 @@ extension DataZone {
         }
     }
 
+    public enum RowFilter: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The 'and' clause of the row filter.
+        case and([RowFilter])
+        /// The expression of the row filter.
+        case expression(RowFilterExpression)
+        /// The 'or' clause of the row filter.
+        case or([RowFilter])
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .and:
+                let value = try container.decode([RowFilter].self, forKey: .and)
+                self = .and(value)
+            case .expression:
+                let value = try container.decode(RowFilterExpression.self, forKey: .expression)
+                self = .expression(value)
+            case .or:
+                let value = try container.decode([RowFilter].self, forKey: .or)
+                self = .or(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .and(let value):
+                try container.encode(value, forKey: .and)
+            case .expression(let value):
+                try container.encode(value, forKey: .expression)
+            case .or(let value):
+                try container.encode(value, forKey: .or)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case and = "and"
+            case expression = "expression"
+            case or = "or"
+        }
+    }
+
+    public enum RowFilterExpression: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The 'equal to' clause of the row filter expression.
+        case equalTo(EqualToExpression)
+        /// The 'greater than' clause of the row filter expression.
+        case greaterThan(GreaterThanExpression)
+        /// The 'greater than or equal to' clause of the filter expression.
+        case greaterThanOrEqualTo(GreaterThanOrEqualToExpression)
+        /// The 'in' clause of the row filter expression.
+        case `in`(InExpression)
+        /// The 'is not null' clause of the row filter expression.
+        case isNotNull(IsNotNullExpression)
+        /// The 'is null' clause of the row filter expression.
+        case isNull(IsNullExpression)
+        /// The 'less than' clause of the row filter expression.
+        case lessThan(LessThanExpression)
+        /// The 'less than or equal to' clause of the row filter expression.
+        case lessThanOrEqualTo(LessThanOrEqualToExpression)
+        /// The 'like' clause of the row filter expression.
+        case like(LikeExpression)
+        /// The 'no equal to' clause of the row filter expression.
+        case notEqualTo(NotEqualToExpression)
+        /// The 'not in' clause of the row filter expression.
+        case notIn(NotInExpression)
+        /// The 'not like' clause of the row filter expression.
+        case notLike(NotLikeExpression)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .equalTo:
+                let value = try container.decode(EqualToExpression.self, forKey: .equalTo)
+                self = .equalTo(value)
+            case .greaterThan:
+                let value = try container.decode(GreaterThanExpression.self, forKey: .greaterThan)
+                self = .greaterThan(value)
+            case .greaterThanOrEqualTo:
+                let value = try container.decode(GreaterThanOrEqualToExpression.self, forKey: .greaterThanOrEqualTo)
+                self = .greaterThanOrEqualTo(value)
+            case .`in`:
+                let value = try container.decode(InExpression.self, forKey: .`in`)
+                self = .`in`(value)
+            case .isNotNull:
+                let value = try container.decode(IsNotNullExpression.self, forKey: .isNotNull)
+                self = .isNotNull(value)
+            case .isNull:
+                let value = try container.decode(IsNullExpression.self, forKey: .isNull)
+                self = .isNull(value)
+            case .lessThan:
+                let value = try container.decode(LessThanExpression.self, forKey: .lessThan)
+                self = .lessThan(value)
+            case .lessThanOrEqualTo:
+                let value = try container.decode(LessThanOrEqualToExpression.self, forKey: .lessThanOrEqualTo)
+                self = .lessThanOrEqualTo(value)
+            case .like:
+                let value = try container.decode(LikeExpression.self, forKey: .like)
+                self = .like(value)
+            case .notEqualTo:
+                let value = try container.decode(NotEqualToExpression.self, forKey: .notEqualTo)
+                self = .notEqualTo(value)
+            case .notIn:
+                let value = try container.decode(NotInExpression.self, forKey: .notIn)
+                self = .notIn(value)
+            case .notLike:
+                let value = try container.decode(NotLikeExpression.self, forKey: .notLike)
+                self = .notLike(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .equalTo(let value):
+                try container.encode(value, forKey: .equalTo)
+            case .greaterThan(let value):
+                try container.encode(value, forKey: .greaterThan)
+            case .greaterThanOrEqualTo(let value):
+                try container.encode(value, forKey: .greaterThanOrEqualTo)
+            case .`in`(let value):
+                try container.encode(value, forKey: .`in`)
+            case .isNotNull(let value):
+                try container.encode(value, forKey: .isNotNull)
+            case .isNull(let value):
+                try container.encode(value, forKey: .isNull)
+            case .lessThan(let value):
+                try container.encode(value, forKey: .lessThan)
+            case .lessThanOrEqualTo(let value):
+                try container.encode(value, forKey: .lessThanOrEqualTo)
+            case .like(let value):
+                try container.encode(value, forKey: .like)
+            case .notEqualTo(let value):
+                try container.encode(value, forKey: .notEqualTo)
+            case .notIn(let value):
+                try container.encode(value, forKey: .notIn)
+            case .notLike(let value):
+                try container.encode(value, forKey: .notLike)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case equalTo = "equalTo"
+            case greaterThan = "greaterThan"
+            case greaterThanOrEqualTo = "greaterThanOrEqualTo"
+            case `in` = "in"
+            case isNotNull = "isNotNull"
+            case isNull = "isNull"
+            case lessThan = "lessThan"
+            case lessThanOrEqualTo = "lessThanOrEqualTo"
+            case like = "like"
+            case notEqualTo = "notEqualTo"
+            case notIn = "notIn"
+            case notLike = "notLike"
+        }
+    }
+
     public enum SearchInventoryResultItem: AWSDecodableShape, Sendable {
         /// The asset item included in the search results.
         case assetItem(AssetItem)
-        /// The data product item included in the search results.
-        case dataProductItem(DataProductSummary)
         /// The glossary item included in the search results.
         case glossaryItem(GlossaryItem)
         /// The glossary term item included in the search results.
@@ -676,9 +891,6 @@ extension DataZone {
             case .assetItem:
                 let value = try container.decode(AssetItem.self, forKey: .assetItem)
                 self = .assetItem(value)
-            case .dataProductItem:
-                let value = try container.decode(DataProductSummary.self, forKey: .dataProductItem)
-                self = .dataProductItem(value)
             case .glossaryItem:
                 let value = try container.decode(GlossaryItem.self, forKey: .glossaryItem)
                 self = .glossaryItem(value)
@@ -690,7 +902,6 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case assetItem = "assetItem"
-            case dataProductItem = "dataProductItem"
             case glossaryItem = "glossaryItem"
             case glossaryTermItem = "glossaryTermItem"
         }
@@ -1003,6 +1214,55 @@ extension DataZone {
             case subscribedPrincipals = "subscribedPrincipals"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
+        }
+    }
+
+    public struct AssetFilterSummary: AWSDecodableShape {
+        /// The ID of the data asset.
+        public let assetId: String
+        /// The timestamp at which the asset filter was created.
+        public let createdAt: Date?
+        /// The description of the asset filter.
+        public let description: String?
+        /// The ID of the domain where the asset filter lives.
+        public let domainId: String
+        /// The effective column names of the asset filter.
+        public let effectiveColumnNames: [String]?
+        /// The effective row filter of the asset filter.
+        public let effectiveRowFilter: String?
+        /// The error message that is displayed if the action does not succeed.
+        public let errorMessage: String?
+        /// The ID of the asset filter.
+        public let id: String
+        /// The name of the asset filter.
+        public let name: String
+        /// The status of the asset filter.
+        public let status: FilterStatus?
+
+        public init(assetId: String, createdAt: Date? = nil, description: String? = nil, domainId: String, effectiveColumnNames: [String]? = nil, effectiveRowFilter: String? = nil, errorMessage: String? = nil, id: String, name: String, status: FilterStatus? = nil) {
+            self.assetId = assetId
+            self.createdAt = createdAt
+            self.description = description
+            self.domainId = domainId
+            self.effectiveColumnNames = effectiveColumnNames
+            self.effectiveRowFilter = effectiveRowFilter
+            self.errorMessage = errorMessage
+            self.id = id
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
+            case createdAt = "createdAt"
+            case description = "description"
+            case domainId = "domainId"
+            case effectiveColumnNames = "effectiveColumnNames"
+            case effectiveRowFilter = "effectiveRowFilter"
+            case errorMessage = "errorMessage"
+            case id = "id"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -1517,6 +1777,19 @@ extension DataZone {
         }
     }
 
+    public struct ColumnFilterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to include column names.
+        public let includedColumnNames: [String]?
+
+        public init(includedColumnNames: [String]? = nil) {
+            self.includedColumnNames = includedColumnNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includedColumnNames = "includedColumnNames"
+        }
+    }
+
     public struct ConfigurableActionParameter: AWSDecodableShape {
         /// The key of the configurable action parameter.
         public let key: String?
@@ -1552,6 +1825,110 @@ extension DataZone {
             case auth = "auth"
             case parameters = "parameters"
             case type = "type"
+        }
+    }
+
+    public struct CreateAssetFilterInput: AWSEncodableShape {
+        /// The ID of the data asset.
+        public let assetIdentifier: String
+        /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The configuration of the asset filter.
+        public let configuration: AssetFilterConfiguration
+        /// The description of the asset filter.
+        public let description: String?
+        /// The ID of the domain in which you want to create an asset filter.
+        public let domainIdentifier: String
+        /// The name of the asset filter.
+        public let name: String
+
+        public init(assetIdentifier: String, clientToken: String? = CreateAssetFilterInput.idempotencyToken(), configuration: AssetFilterConfiguration, description: String? = nil, domainIdentifier: String, name: String) {
+            self.assetIdentifier = assetIdentifier
+            self.clientToken = clientToken
+            self.configuration = configuration
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetIdentifier, key: "assetIdentifier")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encode(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case configuration = "configuration"
+            case description = "description"
+            case name = "name"
+        }
+    }
+
+    public struct CreateAssetFilterOutput: AWSDecodableShape {
+        /// The ID of the asset.
+        public let assetId: String
+        /// The configuration of the asset filter.
+        public let configuration: AssetFilterConfiguration
+        /// The timestamp at which the asset filter was created.
+        public let createdAt: Date?
+        /// The description of the asset filter.
+        public let description: String?
+        /// The ID of the domain where the asset filter is created.
+        public let domainId: String
+        /// The column names in the asset filter.
+        public let effectiveColumnNames: [String]?
+        /// The row filter in the asset filter.
+        public let effectiveRowFilter: String?
+        /// The error message that is displayed if the asset filter is not created successfully.
+        public let errorMessage: String?
+        /// The ID of the asset filter.
+        public let id: String
+        /// The name of the asset filter.
+        public let name: String
+        /// The status of the asset filter.
+        public let status: FilterStatus?
+
+        public init(assetId: String, configuration: AssetFilterConfiguration, createdAt: Date? = nil, description: String? = nil, domainId: String, effectiveColumnNames: [String]? = nil, effectiveRowFilter: String? = nil, errorMessage: String? = nil, id: String, name: String, status: FilterStatus? = nil) {
+            self.assetId = assetId
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.description = description
+            self.domainId = domainId
+            self.effectiveColumnNames = effectiveColumnNames
+            self.effectiveRowFilter = effectiveRowFilter
+            self.errorMessage = errorMessage
+            self.id = id
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
+            case configuration = "configuration"
+            case createdAt = "createdAt"
+            case description = "description"
+            case domainId = "domainId"
+            case effectiveColumnNames = "effectiveColumnNames"
+            case effectiveRowFilter = "effectiveRowFilter"
+            case errorMessage = "errorMessage"
+            case id = "id"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -3677,63 +4054,6 @@ extension DataZone {
         }
     }
 
-    public struct DataProductItem: AWSDecodableShape {
-        public let domainId: String?
-        public let itemId: String?
-
-        public init(domainId: String? = nil, itemId: String? = nil) {
-            self.domainId = domainId
-            self.itemId = itemId
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case domainId = "domainId"
-            case itemId = "itemId"
-        }
-    }
-
-    public struct DataProductSummary: AWSDecodableShape {
-        public let createdAt: Date?
-        public let createdBy: String?
-        public let dataProductItems: [DataProductItem]?
-        public let description: String?
-        public let domainId: String
-        public let glossaryTerms: [String]?
-        public let id: String
-        public let name: String
-        public let owningProjectId: String
-        public let updatedAt: Date?
-        public let updatedBy: String?
-
-        public init(createdAt: Date? = nil, createdBy: String? = nil, dataProductItems: [DataProductItem]? = nil, description: String? = nil, domainId: String, glossaryTerms: [String]? = nil, id: String, name: String, owningProjectId: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
-            self.createdAt = createdAt
-            self.createdBy = createdBy
-            self.dataProductItems = dataProductItems
-            self.description = description
-            self.domainId = domainId
-            self.glossaryTerms = glossaryTerms
-            self.id = id
-            self.name = name
-            self.owningProjectId = owningProjectId
-            self.updatedAt = updatedAt
-            self.updatedBy = updatedBy
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case createdAt = "createdAt"
-            case createdBy = "createdBy"
-            case dataProductItems = "dataProductItems"
-            case description = "description"
-            case domainId = "domainId"
-            case glossaryTerms = "glossaryTerms"
-            case id = "id"
-            case name = "name"
-            case owningProjectId = "owningProjectId"
-            case updatedAt = "updatedAt"
-            case updatedBy = "updatedBy"
-        }
-    }
-
     public struct DataSourceErrorMessage: AWSDecodableShape {
         /// The details of the error message that is returned if the operation cannot be successfully completed.
         public let errorDetail: String?
@@ -3920,6 +4240,37 @@ extension DataZone {
             case type = "type"
             case updatedAt = "updatedAt"
         }
+    }
+
+    public struct DeleteAssetFilterInput: AWSEncodableShape {
+        /// The ID of the data asset.
+        public let assetIdentifier: String
+        /// The ID of the domain where you want to delete an asset filter.
+        public let domainIdentifier: String
+        /// The ID of the asset filter that you want to delete.
+        public let identifier: String
+
+        public init(assetIdentifier: String, domainIdentifier: String, identifier: String) {
+            self.assetIdentifier = assetIdentifier
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetIdentifier, key: "assetIdentifier")
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteAssetInput: AWSEncodableShape {
@@ -4833,6 +5184,8 @@ extension DataZone {
         public let environmentBlueprintId: String
         /// The ARN of the manage access role specified in the environment blueprint configuration.
         public let manageAccessRoleArn: String?
+        /// The provisioning configuration of a blueprint.
+        public let provisioningConfigurations: [ProvisioningConfiguration]?
         /// The ARN of the provisioning role specified in the environment blueprint configuration.
         public let provisioningRoleArn: String?
         /// The regional parameters of the environment blueprint.
@@ -4840,12 +5193,13 @@ extension DataZone {
         /// The timestamp of when the environment blueprint was updated.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
             self.enabledRegions = enabledRegions
             self.environmentBlueprintId = environmentBlueprintId
             self.manageAccessRoleArn = manageAccessRoleArn
+            self.provisioningConfigurations = provisioningConfigurations
             self.provisioningRoleArn = provisioningRoleArn
             self.regionalParameters = regionalParameters
             self.updatedAt = updatedAt
@@ -4857,6 +5211,7 @@ extension DataZone {
             case enabledRegions = "enabledRegions"
             case environmentBlueprintId = "environmentBlueprintId"
             case manageAccessRoleArn = "manageAccessRoleArn"
+            case provisioningConfigurations = "provisioningConfigurations"
             case provisioningRoleArn = "provisioningRoleArn"
             case regionalParameters = "regionalParameters"
             case updatedAt = "updatedAt"
@@ -5045,6 +5400,23 @@ extension DataZone {
             case provider = "provider"
             case status = "status"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct EqualToExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might be equal to an expression.
+        public let value: String
+
+        public init(columnName: String, value: String) {
+            self.columnName = columnName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case value = "value"
         }
     }
 
@@ -5264,6 +5636,90 @@ extension DataZone {
             case originProjectId = "originProjectId"
             case owningProjectId = "owningProjectId"
             case revision = "revision"
+            case status = "status"
+        }
+    }
+
+    public struct GetAssetFilterInput: AWSEncodableShape {
+        /// The ID of the data asset.
+        public let assetIdentifier: String
+        /// The ID of the domain where you want to get an asset filter.
+        public let domainIdentifier: String
+        /// The ID of the asset filter.
+        public let identifier: String
+
+        public init(assetIdentifier: String, domainIdentifier: String, identifier: String) {
+            self.assetIdentifier = assetIdentifier
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetIdentifier, key: "assetIdentifier")
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAssetFilterOutput: AWSDecodableShape {
+        /// The ID of the data asset.
+        public let assetId: String
+        /// The configuration of the asset filter.
+        public let configuration: AssetFilterConfiguration
+        /// The timestamp at which the asset filter was created.
+        public let createdAt: Date?
+        /// The description of the asset filter.
+        public let description: String?
+        /// The ID of the domain where you want to get an asset filter.
+        public let domainId: String
+        /// The column names of the asset filter.
+        public let effectiveColumnNames: [String]?
+        /// The row filter of the asset filter.
+        public let effectiveRowFilter: String?
+        /// The error message that is displayed if the action does not complete successfully.
+        public let errorMessage: String?
+        /// The ID of the asset filter.
+        public let id: String
+        /// The name of the asset filter.
+        public let name: String
+        /// The status of the asset filter.
+        public let status: FilterStatus?
+
+        public init(assetId: String, configuration: AssetFilterConfiguration, createdAt: Date? = nil, description: String? = nil, domainId: String, effectiveColumnNames: [String]? = nil, effectiveRowFilter: String? = nil, errorMessage: String? = nil, id: String, name: String, status: FilterStatus? = nil) {
+            self.assetId = assetId
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.description = description
+            self.domainId = domainId
+            self.effectiveColumnNames = effectiveColumnNames
+            self.effectiveRowFilter = effectiveRowFilter
+            self.errorMessage = errorMessage
+            self.id = id
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
+            case configuration = "configuration"
+            case createdAt = "createdAt"
+            case description = "description"
+            case domainId = "domainId"
+            case effectiveColumnNames = "effectiveColumnNames"
+            case effectiveRowFilter = "effectiveRowFilter"
+            case errorMessage = "errorMessage"
+            case id = "id"
+            case name = "name"
             case status = "status"
         }
     }
@@ -5867,6 +6323,8 @@ extension DataZone {
         public let environmentBlueprintId: String
         /// The ARN of the manage access role with which this blueprint is created.
         public let manageAccessRoleArn: String?
+        /// The provisioning configuration of a blueprint.
+        public let provisioningConfigurations: [ProvisioningConfiguration]?
         /// The ARN of the provisioning role with which this blueprint is created.
         public let provisioningRoleArn: String?
         /// The regional parameters of the blueprint.
@@ -5874,12 +6332,13 @@ extension DataZone {
         /// The timestamp of when this blueprint was upated.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
             self.enabledRegions = enabledRegions
             self.environmentBlueprintId = environmentBlueprintId
             self.manageAccessRoleArn = manageAccessRoleArn
+            self.provisioningConfigurations = provisioningConfigurations
             self.provisioningRoleArn = provisioningRoleArn
             self.regionalParameters = regionalParameters
             self.updatedAt = updatedAt
@@ -5891,6 +6350,7 @@ extension DataZone {
             case enabledRegions = "enabledRegions"
             case environmentBlueprintId = "environmentBlueprintId"
             case manageAccessRoleArn = "manageAccessRoleArn"
+            case provisioningConfigurations = "provisioningConfigurations"
             case provisioningRoleArn = "provisioningRoleArn"
             case regionalParameters = "regionalParameters"
             case updatedAt = "updatedAt"
@@ -5969,6 +6429,57 @@ extension DataZone {
             case provisioningProperties = "provisioningProperties"
             case updatedAt = "updatedAt"
             case userParameters = "userParameters"
+        }
+    }
+
+    public struct GetEnvironmentCredentialsInput: AWSEncodableShape {
+        /// The ID of the Amazon DataZone domain in which this environment and its credentials exist.
+        public let domainIdentifier: String
+        /// The ID of the environment whose credentials this operation gets.
+        public let environmentIdentifier: String
+
+        public init(domainIdentifier: String, environmentIdentifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.environmentIdentifier = environmentIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.environmentIdentifier, key: "environmentIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetEnvironmentCredentialsOutput: AWSDecodableShape {
+        /// The access key ID of the environment.
+        public let accessKeyId: String?
+        /// The expiration timestamp of the environment credentials.
+        public let expiration: Date?
+        /// The secret access key of the environment credentials.
+        public let secretAccessKey: String?
+        /// The session token of the environment credentials.
+        public let sessionToken: String?
+
+        public init(accessKeyId: String? = nil, expiration: Date? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
+            self.accessKeyId = accessKeyId
+            self.expiration = expiration
+            self.secretAccessKey = secretAccessKey
+            self.sessionToken = sessionToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "accessKeyId"
+            case expiration = "expiration"
+            case secretAccessKey = "secretAccessKey"
+            case sessionToken = "sessionToken"
         }
     }
 
@@ -7477,6 +7988,40 @@ extension DataZone {
         }
     }
 
+    public struct GreaterThanExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might be greater than an expression.
+        public let value: String
+
+        public init(columnName: String, value: String) {
+            self.columnName = columnName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case value = "value"
+        }
+    }
+
+    public struct GreaterThanOrEqualToExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might be greater than or equal to an expression.
+        public let value: String
+
+        public init(columnName: String, value: String) {
+            self.columnName = columnName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case value = "value"
+        }
+    }
+
     public struct GroupDetails: AWSDecodableShape {
         /// The identifier of the group in Amazon DataZone.
         public let groupId: String
@@ -7542,6 +8087,127 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case revision = "revision"
+        }
+    }
+
+    public struct InExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The values that might be in the expression.
+        public let values: [String]
+
+        public init(columnName: String, values: [String]) {
+            self.columnName = columnName
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case values = "values"
+        }
+    }
+
+    public struct IsNotNullExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+
+        public init(columnName: String) {
+            self.columnName = columnName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+        }
+    }
+
+    public struct IsNullExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+
+        public init(columnName: String) {
+            self.columnName = columnName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+        }
+    }
+
+    public struct LakeFormationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies certain Amazon S3 locations if you do not want Amazon DataZone to automatically register them in hybrid mode.
+        public let locationRegistrationExcludeS3Locations: [String]?
+        /// The role that is used to manage read/write access to the chosen Amazon S3 bucket(s) for Data Lake using AWS Lake Formation hybrid access mode.
+        public let locationRegistrationRole: String?
+
+        public init(locationRegistrationExcludeS3Locations: [String]? = nil, locationRegistrationRole: String? = nil) {
+            self.locationRegistrationExcludeS3Locations = locationRegistrationExcludeS3Locations
+            self.locationRegistrationRole = locationRegistrationRole
+        }
+
+        public func validate(name: String) throws {
+            try self.locationRegistrationExcludeS3Locations?.forEach {
+                try validate($0, name: "locationRegistrationExcludeS3Locations[]", parent: name, max: 1024)
+                try validate($0, name: "locationRegistrationExcludeS3Locations[]", parent: name, min: 1)
+                try validate($0, name: "locationRegistrationExcludeS3Locations[]", parent: name, pattern: "^s3://.+$")
+            }
+            try self.validate(self.locationRegistrationExcludeS3Locations, name: "locationRegistrationExcludeS3Locations", parent: name, max: 20)
+            try self.validate(self.locationRegistrationRole, name: "locationRegistrationRole", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationRegistrationExcludeS3Locations = "locationRegistrationExcludeS3Locations"
+            case locationRegistrationRole = "locationRegistrationRole"
+        }
+    }
+
+    public struct LessThanExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might be less than the expression.
+        public let value: String
+
+        public init(columnName: String, value: String) {
+            self.columnName = columnName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case value = "value"
+        }
+    }
+
+    public struct LessThanOrEqualToExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might be less than or equal to an expression.
+        public let value: String
+
+        public init(columnName: String, value: String) {
+            self.columnName = columnName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case value = "value"
+        }
+    }
+
+    public struct LikeExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might be like the expression.
+        public let value: String
+
+        public init(columnName: String, value: String) {
+            self.columnName = columnName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case value = "value"
         }
     }
 
@@ -7661,6 +8327,65 @@ extension DataZone {
             case revision = "revision"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
+        }
+    }
+
+    public struct ListAssetFiltersInput: AWSEncodableShape {
+        /// The ID of the data asset.
+        public let assetIdentifier: String
+        /// The ID of the domain where you want to list asset filters.
+        public let domainIdentifier: String
+        /// The maximum number of asset filters to return in a single call to ListAssetFilters. When the number of asset filters to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListAssetFilters to list the next set of asset filters.
+        public let maxResults: Int?
+        /// When the number of asset filters is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of asset filters, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAssetFilters to list the next set of asset filters.
+        public let nextToken: String?
+        /// The status of the asset filter.
+        public let status: FilterStatus?
+
+        public init(assetIdentifier: String, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, status: FilterStatus? = nil) {
+            self.assetIdentifier = assetIdentifier
+            self.domainIdentifier = domainIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetIdentifier, key: "assetIdentifier")
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAssetFiltersOutput: AWSDecodableShape {
+        /// The results of the ListAssetFilters action.
+        public let items: [AssetFilterSummary]
+        /// When the number of asset filters is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of asset filters, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAssetFilters to list the next set of asset filters.
+        public let nextToken: String?
+
+        public init(items: [AssetFilterSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -9127,6 +9852,57 @@ extension DataZone {
         }
     }
 
+    public struct NotEqualToExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might not be equal to the expression.
+        public let value: String
+
+        public init(columnName: String, value: String) {
+            self.columnName = columnName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case value = "value"
+        }
+    }
+
+    public struct NotInExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might not be in the expression.
+        public let values: [String]
+
+        public init(columnName: String, values: [String]) {
+            self.columnName = columnName
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case values = "values"
+        }
+    }
+
+    public struct NotLikeExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might not be like the expression.
+        public let value: String
+
+        public init(columnName: String, value: String) {
+            self.columnName = columnName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case value = "value"
+        }
+    }
+
     public struct NotificationOutput: AWSDecodableShape {
         /// The action link included in the notification.
         public let actionLink: String
@@ -9411,16 +10187,19 @@ extension DataZone {
         public let environmentBlueprintIdentifier: String
         /// The ARN of the manage access role.
         public let manageAccessRoleArn: String?
+        /// The provisioning configuration of a blueprint.
+        public let provisioningConfigurations: [ProvisioningConfiguration]?
         /// The ARN of the provisioning role.
         public let provisioningRoleArn: String?
         /// The regional parameters in the environment blueprint.
         public let regionalParameters: [String: [String: String]]?
 
-        public init(domainIdentifier: String, enabledRegions: [String], environmentBlueprintIdentifier: String, manageAccessRoleArn: String? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil) {
+        public init(domainIdentifier: String, enabledRegions: [String], environmentBlueprintIdentifier: String, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil) {
             self.domainIdentifier = domainIdentifier
             self.enabledRegions = enabledRegions
             self.environmentBlueprintIdentifier = environmentBlueprintIdentifier
             self.manageAccessRoleArn = manageAccessRoleArn
+            self.provisioningConfigurations = provisioningConfigurations
             self.provisioningRoleArn = provisioningRoleArn
             self.regionalParameters = regionalParameters
         }
@@ -9432,6 +10211,7 @@ extension DataZone {
             try container.encode(self.enabledRegions, forKey: .enabledRegions)
             request.encodePath(self.environmentBlueprintIdentifier, key: "environmentBlueprintIdentifier")
             try container.encodeIfPresent(self.manageAccessRoleArn, forKey: .manageAccessRoleArn)
+            try container.encodeIfPresent(self.provisioningConfigurations, forKey: .provisioningConfigurations)
             try container.encodeIfPresent(self.provisioningRoleArn, forKey: .provisioningRoleArn)
             try container.encodeIfPresent(self.regionalParameters, forKey: .regionalParameters)
         }
@@ -9445,6 +10225,9 @@ extension DataZone {
             }
             try self.validate(self.environmentBlueprintIdentifier, name: "environmentBlueprintIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.manageAccessRoleArn, name: "manageAccessRoleArn", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$")
+            try self.provisioningConfigurations?.forEach {
+                try $0.validate(name: "\(name).provisioningConfigurations[]")
+            }
             try self.validate(self.provisioningRoleArn, name: "provisioningRoleArn", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$")
             try self.regionalParameters?.forEach {
                 try validate($0.key, name: "regionalParameters.key", parent: name, max: 16)
@@ -9456,6 +10239,7 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case enabledRegions = "enabledRegions"
             case manageAccessRoleArn = "manageAccessRoleArn"
+            case provisioningConfigurations = "provisioningConfigurations"
             case provisioningRoleArn = "provisioningRoleArn"
             case regionalParameters = "regionalParameters"
         }
@@ -9472,6 +10256,8 @@ extension DataZone {
         public let environmentBlueprintId: String
         /// The ARN of the manage access role.
         public let manageAccessRoleArn: String?
+        /// The provisioning configuration of a blueprint.
+        public let provisioningConfigurations: [ProvisioningConfiguration]?
         /// The ARN of the provisioning role.
         public let provisioningRoleArn: String?
         /// The regional parameters in the environment blueprint.
@@ -9479,12 +10265,13 @@ extension DataZone {
         /// The timestamp of when the environment blueprint was updated.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
             self.enabledRegions = enabledRegions
             self.environmentBlueprintId = environmentBlueprintId
             self.manageAccessRoleArn = manageAccessRoleArn
+            self.provisioningConfigurations = provisioningConfigurations
             self.provisioningRoleArn = provisioningRoleArn
             self.regionalParameters = regionalParameters
             self.updatedAt = updatedAt
@@ -9496,6 +10283,7 @@ extension DataZone {
             case enabledRegions = "enabledRegions"
             case environmentBlueprintId = "environmentBlueprintId"
             case manageAccessRoleArn = "manageAccessRoleArn"
+            case provisioningConfigurations = "provisioningConfigurations"
             case provisioningRoleArn = "provisioningRoleArn"
             case regionalParameters = "regionalParameters"
             case updatedAt = "updatedAt"
@@ -9946,6 +10734,23 @@ extension DataZone {
             case subscriptionRequestId = "subscriptionRequestId"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
+        }
+    }
+
+    public struct RowFilterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The row filter.
+        public let rowFilter: RowFilter
+        /// Specifies whether the row filter is sensitive.
+        public let sensitive: Bool?
+
+        public init(rowFilter: RowFilter, sensitive: Bool? = nil) {
+            self.rowFilter = rowFilter
+            self.sensitive = sensitive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rowFilter = "rowFilter"
+            case sensitive = "sensitive"
         }
     }
 
@@ -11332,6 +12137,107 @@ extension DataZone {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateAssetFilterInput: AWSEncodableShape {
+        /// The ID of the data asset.
+        public let assetIdentifier: String
+        /// The configuration of the asset filter.
+        public let configuration: AssetFilterConfiguration?
+        /// The description of the asset filter.
+        public let description: String?
+        /// The ID of the domain where you want to update an asset filter.
+        public let domainIdentifier: String
+        /// The ID of the asset filter.
+        public let identifier: String
+        /// The name of the asset filter.
+        public let name: String?
+
+        public init(assetIdentifier: String, configuration: AssetFilterConfiguration? = nil, description: String? = nil, domainIdentifier: String, identifier: String, name: String? = nil) {
+            self.assetIdentifier = assetIdentifier
+            self.configuration = configuration
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetIdentifier, key: "assetIdentifier")
+            try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case description = "description"
+            case name = "name"
+        }
+    }
+
+    public struct UpdateAssetFilterOutput: AWSDecodableShape {
+        /// The ID of the data asset.
+        public let assetId: String
+        /// The configuration of the asset filter.
+        public let configuration: AssetFilterConfiguration
+        /// The timestamp at which the asset filter was created.
+        public let createdAt: Date?
+        /// The description of the asset filter.
+        public let description: String?
+        /// The ID of the domain where the asset filter was created.
+        public let domainId: String
+        /// The column names of the asset filter.
+        public let effectiveColumnNames: [String]?
+        /// The row filter of the asset filter.
+        public let effectiveRowFilter: String?
+        /// The error message that is displayed if the action is not completed successfully.
+        public let errorMessage: String?
+        /// The ID of the asset filter.
+        public let id: String
+        /// The name of the asset filter.
+        public let name: String
+        /// The status of the asset filter.
+        public let status: FilterStatus?
+
+        public init(assetId: String, configuration: AssetFilterConfiguration, createdAt: Date? = nil, description: String? = nil, domainId: String, effectiveColumnNames: [String]? = nil, effectiveRowFilter: String? = nil, errorMessage: String? = nil, id: String, name: String, status: FilterStatus? = nil) {
+            self.assetId = assetId
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.description = description
+            self.domainId = domainId
+            self.effectiveColumnNames = effectiveColumnNames
+            self.effectiveRowFilter = effectiveRowFilter
+            self.errorMessage = errorMessage
+            self.id = id
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
+            case configuration = "configuration"
+            case createdAt = "createdAt"
+            case description = "description"
+            case domainId = "domainId"
+            case effectiveColumnNames = "effectiveColumnNames"
+            case effectiveRowFilter = "effectiveRowFilter"
+            case errorMessage = "errorMessage"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+        }
     }
 
     public struct UpdateDataSourceInput: AWSEncodableShape {
@@ -12789,6 +13695,23 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case smithy = "smithy"
+        }
+    }
+
+    public struct ProvisioningConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Lake Formation configuration of the Data Lake blueprint.
+        public let lakeFormationConfiguration: LakeFormationConfiguration?
+
+        public init(lakeFormationConfiguration: LakeFormationConfiguration? = nil) {
+            self.lakeFormationConfiguration = lakeFormationConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.lakeFormationConfiguration?.validate(name: "\(name).lakeFormationConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lakeFormationConfiguration = "lakeFormationConfiguration"
         }
     }
 

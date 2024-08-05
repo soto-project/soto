@@ -26,6 +26,21 @@ import Foundation
 extension ConnectContactLens {
     // MARK: Enums
 
+    public enum PostContactSummaryFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failedSafetyGuidelines = "FAILED_SAFETY_GUIDELINES"
+        case insufficientConversationContent = "INSUFFICIENT_CONVERSATION_CONTENT"
+        case internalError = "INTERNAL_ERROR"
+        case invalidAnalysisConfiguration = "INVALID_ANALYSIS_CONFIGURATION"
+        case quotaExceeded = "QUOTA_EXCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PostContactSummaryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SentimentValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case negative = "NEGATIVE"
         case neutral = "NEUTRAL"
@@ -100,7 +115,7 @@ extension ConnectContactLens {
         public let contactId: String?
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String?
-        /// The maximimum number of results to return per page.
+        /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
@@ -169,19 +184,44 @@ extension ConnectContactLens {
         }
     }
 
+    public struct PostContactSummary: AWSDecodableShape {
+        /// The content of the summary.
+        public let content: String?
+        /// If the summary failed to be generated, one of the following failure codes occurs:    QUOTA_EXCEEDED: The number of concurrent analytics jobs reached your service quota.    INSUFFICIENT_CONVERSATION_CONTENT: The conversation needs to have at least one turn from both the participants in order to generate the summary.    FAILED_SAFETY_GUIDELINES: The generated summary cannot be provided because it failed to meet system safety guidelines.    INVALID_ANALYSIS_CONFIGURATION: This code occurs when, for example, you're using a  language  that isn't supported by generative AI-powered post-contact summaries.     INTERNAL_ERROR: Internal system error.
+        public let failureCode: PostContactSummaryFailureCode?
+        /// Whether the summary was successfully COMPLETED or FAILED to be generated.
+        public let status: PostContactSummaryStatus?
+
+        public init(content: String? = nil, failureCode: PostContactSummaryFailureCode? = nil, status: PostContactSummaryStatus? = nil) {
+            self.content = content
+            self.failureCode = failureCode
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case failureCode = "FailureCode"
+            case status = "Status"
+        }
+    }
+
     public struct RealtimeContactAnalysisSegment: AWSDecodableShape {
         /// The matched category rules.
         public let categories: Categories?
+        /// Information about the post-contact summary.
+        public let postContactSummary: PostContactSummary?
         /// The analyzed transcript.
         public let transcript: Transcript?
 
-        public init(categories: Categories? = nil, transcript: Transcript? = nil) {
+        public init(categories: Categories? = nil, postContactSummary: PostContactSummary? = nil, transcript: Transcript? = nil) {
             self.categories = categories
+            self.postContactSummary = postContactSummary
             self.transcript = transcript
         }
 
         private enum CodingKeys: String, CodingKey {
             case categories = "Categories"
+            case postContactSummary = "PostContactSummary"
             case transcript = "Transcript"
         }
     }
@@ -197,11 +237,11 @@ extension ConnectContactLens {
         public let id: String?
         /// List of positions where issues were detected on the transcript.
         public let issuesDetected: [IssueDetected]?
-        /// The identifier of the participant.
+        /// The identifier of the participant. Valid values are CUSTOMER or AGENT.
         public let participantId: String?
         /// The role of participant. For example, is it a customer, agent, or system.
         public let participantRole: String?
-        /// The sentiment of the detected for this piece of transcript.
+        /// The sentiment detected for this piece of transcript.
         public let sentiment: SentimentValue?
 
         public init(beginOffsetMillis: Int? = nil, content: String? = nil, endOffsetMillis: Int? = nil, id: String? = nil, issuesDetected: [IssueDetected]? = nil, participantId: String? = nil, participantRole: String? = nil, sentiment: SentimentValue? = nil) {

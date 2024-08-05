@@ -900,7 +900,7 @@ extension WorkSpaces {
     }
 
     public struct Capacity: AWSEncodableShape {
-        /// The desired number of user sessions for a multi-session pool.  This is not allowed for single-session pools.
+        /// The desired number of user sessions for the WorkSpaces in the pool.
         public let desiredUserSessions: Int
 
         public init(desiredUserSessions: Int) {
@@ -917,11 +917,11 @@ extension WorkSpaces {
     }
 
     public struct CapacityStatus: AWSDecodableShape {
-        /// The number of user sessions currently being used for pool sessions. This only applies to multi-session pools.
+        /// The number of user sessions currently being used for your pool.
         public let activeUserSessions: Int
-        /// The total number of session slots that are available for a pool of WorkSpaces.
+        /// The total number of user sessions that are available for streaming or are currently  streaming in your pool. ActualUserSessions = AvailableUserSessions + ActiveUserSessions
         public let actualUserSessions: Int
-        /// The number of user sessions currently being used for pool sessions. This only applies to multi-session pools.
+        /// The number of user sessions currently available for streaming from your pool. AvailableUserSessions = ActualUserSessions - ActiveUserSessions
         public let availableUserSessions: Int
         /// The total number of sessions slots that are either running or pending. This  represents the total number of concurrent streaming sessions your pool can support  in a steady state.
         public let desiredUserSessions: Int
@@ -5742,7 +5742,7 @@ extension WorkSpaces {
         public let protocols: [`Protocol`]?
         /// The size of the root volume. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
         public let rootVolumeSizeGib: Int?
-        /// The running mode. For more information, see Manage the WorkSpace Running Mode.  The MANUAL value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see Amazon WorkSpaces Core.
+        /// The running mode. For more information, see Manage the WorkSpace Running Mode.  The MANUAL value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see Amazon WorkSpaces Core.  Review your running mode to ensure you are using one that is optimal for your needs and budget. For more information on switching running modes, see  Can I switch between hourly and monthly billing?
         public let runningMode: RunningMode?
         /// The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60-minute intervals.
         public let runningModeAutoStopTimeoutInMinutes: Int?

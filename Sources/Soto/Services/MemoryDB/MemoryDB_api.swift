@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS MemoryDB service.
 ///
-/// MemoryDB for Redis is a fully managed, Redis-compatible, in-memory database that delivers ultra-fast performance and Multi-AZ durability for modern applications built using microservices architectures.  MemoryDB stores the entire database in-memory, enabling low latency and high throughput data access. It is compatible with Redis, a popular open source data store, enabling you to leverage Redis’ flexible and friendly data structures, APIs, and commands.
+/// MemoryDB is a fully managed, Redis OSS-compatible, in-memory database that delivers ultra-fast performance and Multi-AZ durability for modern applications built using microservices architectures.  MemoryDB stores the entire database in-memory, enabling low latency and high throughput data access. It is compatible with Redis OSS, a popular open source data store, enabling you to leverage Redis OSS’ flexible and friendly data structures, APIs, and commands.
 public struct MemoryDB: AWSService {
     // MARK: Member variables
 
@@ -198,7 +198,7 @@ public struct MemoryDB: AWSService {
         )
     }
 
-    /// Deletes a cluster. It also deletes all associated nodes and node endpoints
+    /// Deletes a cluster. It also deletes all associated nodes and node endpoints   CreateSnapshot permission is required to create a final snapshot.  Without this permission, the API call will fail with an Access Denied exception.
     @Sendable
     public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterResponse {
         return try await self.client.execute(
@@ -289,7 +289,7 @@ public struct MemoryDB: AWSService {
         )
     }
 
-    /// Returns a list of the available Redis engine versions.
+    /// Returns a list of the available Redis OSS engine versions.
     @Sendable
     public func describeEngineVersions(_ input: DescribeEngineVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEngineVersionsResponse {
         return try await self.client.execute(
@@ -629,7 +629,7 @@ extension MemoryDB {
         )
     }
 
-    /// Returns a list of the available Redis engine versions.
+    /// Returns a list of the available Redis OSS engine versions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

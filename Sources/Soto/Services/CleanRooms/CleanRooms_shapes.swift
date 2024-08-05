@@ -26,6 +26,13 @@ import Foundation
 extension CleanRooms {
     // MARK: Enums
 
+    public enum AdditionalAnalyses: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allowed = "ALLOWED"
+        case notAllowed = "NOT_ALLOWED"
+        case required = "REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AggregateFunctionName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case avg = "AVG"
         case count = "COUNT"
@@ -53,6 +60,7 @@ extension CleanRooms {
     public enum AnalysisRuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aggregation = "AGGREGATION"
         case custom = "CUSTOM"
+        case idMappingTable = "ID_MAPPING_TABLE"
         case list = "LIST"
         public var description: String { return self.rawValue }
     }
@@ -69,6 +77,12 @@ extension CleanRooms {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnalysisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case additionalAnalysis = "ADDITIONAL_ANALYSIS"
+        case directAnalysis = "DIRECT_ANALYSIS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CollaborationQueryLogStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -76,6 +90,13 @@ extension CleanRooms {
     }
 
     public enum ConfiguredTableAnalysisRuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aggregation = "AGGREGATION"
+        case custom = "CUSTOM"
+        case list = "LIST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfiguredTableAssociationAnalysisRuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aggregation = "AGGREGATION"
         case custom = "CUSTOM"
         case list = "LIST"
@@ -94,6 +115,12 @@ extension CleanRooms {
     public enum FilterableMemberStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case invited = "INVITED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdNamespaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case source = "SOURCE"
+        case target = "TARGET"
         public var description: String { return self.rawValue }
     }
 
@@ -227,14 +254,22 @@ extension CleanRooms {
     }
 
     public enum SchemaStatusReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case additionalAnalysesNotAllowed = "ADDITIONAL_ANALYSES_NOT_ALLOWED"
+        case additionalAnalysesNotConfigured = "ADDITIONAL_ANALYSES_NOT_CONFIGURED"
         case analysisProvidersNotConfigured = "ANALYSIS_PROVIDERS_NOT_CONFIGURED"
         case analysisRuleMissing = "ANALYSIS_RULE_MISSING"
+        case analysisRuleTypesNotCompatible = "ANALYSIS_RULE_TYPES_NOT_COMPATIBLE"
         case analysisTemplatesNotConfigured = "ANALYSIS_TEMPLATES_NOT_CONFIGURED"
+        case collaborationAnalysisRuleNotConfigured = "COLLABORATION_ANALYSIS_RULE_NOT_CONFIGURED"
         case differentialPrivacyPolicyNotConfigured = "DIFFERENTIAL_PRIVACY_POLICY_NOT_CONFIGURED"
+        case idMappingTableNotPopulated = "ID_MAPPING_TABLE_NOT_POPULATED"
+        case resultReceiversNotAllowed = "RESULT_RECEIVERS_NOT_ALLOWED"
+        case resultReceiversNotConfigured = "RESULT_RECEIVERS_NOT_CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
     public enum SchemaType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case idMappingTable = "ID_MAPPING_TABLE"
         case table = "TABLE"
         public var description: String { return self.rawValue }
     }
@@ -249,6 +284,8 @@ extension CleanRooms {
         case aggregation(AnalysisRuleAggregation)
         /// Analysis rule type that enables custom SQL queries on a configured table.
         case custom(AnalysisRuleCustom)
+        /// The ID mapping table.
+        case idMappingTable(AnalysisRuleIdMappingTable)
         /// Analysis rule type that enables only list queries on a configured table.
         case list(AnalysisRuleList)
 
@@ -268,6 +305,9 @@ extension CleanRooms {
             case .custom:
                 let value = try container.decode(AnalysisRuleCustom.self, forKey: .custom)
                 self = .custom(value)
+            case .idMappingTable:
+                let value = try container.decode(AnalysisRuleIdMappingTable.self, forKey: .idMappingTable)
+                self = .idMappingTable(value)
             case .list:
                 let value = try container.decode(AnalysisRuleList.self, forKey: .list)
                 self = .list(value)
@@ -277,6 +317,7 @@ extension CleanRooms {
         private enum CodingKeys: String, CodingKey {
             case aggregation = "aggregation"
             case custom = "custom"
+            case idMappingTable = "idMappingTable"
             case list = "list"
         }
     }
@@ -340,6 +381,66 @@ extension CleanRooms {
         }
     }
 
+    public enum ConfiguredTableAssociationAnalysisRulePolicyV1: AWSEncodableShape & AWSDecodableShape, Sendable {
+        ///  Analysis rule type that enables only aggregation queries on a configured table.
+        case aggregation(ConfiguredTableAssociationAnalysisRuleAggregation)
+        ///  Analysis rule type that enables the table owner to approve custom SQL queries on their configured tables. It supports differential privacy.
+        case custom(ConfiguredTableAssociationAnalysisRuleCustom)
+        ///  Analysis rule type that enables only list queries on a configured table.
+        case list(ConfiguredTableAssociationAnalysisRuleList)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .aggregation:
+                let value = try container.decode(ConfiguredTableAssociationAnalysisRuleAggregation.self, forKey: .aggregation)
+                self = .aggregation(value)
+            case .custom:
+                let value = try container.decode(ConfiguredTableAssociationAnalysisRuleCustom.self, forKey: .custom)
+                self = .custom(value)
+            case .list:
+                let value = try container.decode(ConfiguredTableAssociationAnalysisRuleList.self, forKey: .list)
+                self = .list(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .aggregation(let value):
+                try container.encode(value, forKey: .aggregation)
+            case .custom(let value):
+                try container.encode(value, forKey: .custom)
+            case .list(let value):
+                try container.encode(value, forKey: .list)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .aggregation(let value):
+                try value.validate(name: "\(name).aggregation")
+            case .custom(let value):
+                try value.validate(name: "\(name).custom")
+            case .list(let value):
+                try value.validate(name: "\(name).list")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregation = "aggregation"
+            case custom = "custom"
+            case list = "list"
+        }
+    }
+
     public enum ProtectedQueryOutput: AWSDecodableShape, Sendable {
         /// The list of member Amazon Web Services account(s) that received the results of the query.
         case memberList([ProtectedQuerySingleMemberOutput])
@@ -367,6 +468,56 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case memberList = "memberList"
+            case s3 = "s3"
+        }
+    }
+
+    public enum ProtectedQueryOutputConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        ///  Required configuration for a protected query with a member output type.
+        case member(ProtectedQueryMemberOutputConfiguration)
+        /// Required configuration for a protected query with an s3 output type.
+        case s3(ProtectedQueryS3OutputConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .member:
+                let value = try container.decode(ProtectedQueryMemberOutputConfiguration.self, forKey: .member)
+                self = .member(value)
+            case .s3:
+                let value = try container.decode(ProtectedQueryS3OutputConfiguration.self, forKey: .s3)
+                self = .s3(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .member(let value):
+                try container.encode(value, forKey: .member)
+            case .s3(let value):
+                try container.encode(value, forKey: .s3)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .member(let value):
+                try value.validate(name: "\(name).member")
+            case .s3(let value):
+                try value.validate(name: "\(name).s3")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case member = "member"
             case s3 = "s3"
         }
     }
@@ -487,6 +638,8 @@ extension CleanRooms {
     }
 
     public struct AnalysisRuleAggregation: AWSEncodableShape & AWSDecodableShape {
+        ///  An indicator as to whether additional analyses (such as Clean Rooms ML) can be applied to the output of the direct query.  The additionalAnalyses parameter is currently supported for the list analysis rule (AnalysisRuleList) and the custom analysis rule (AnalysisRuleCustom).
+        public let additionalAnalyses: AdditionalAnalyses?
         /// The columns that query runners are allowed to use in aggregation queries.
         public let aggregateColumns: [AggregateColumn]
         /// Which logical operators (if any) are to be used in an INNER JOIN match condition. Default is AND.
@@ -502,7 +655,8 @@ extension CleanRooms {
         /// Set of scalar functions that are allowed to be used on dimension columns and the output of aggregation of metrics.
         public let scalarFunctions: [ScalarFunctions]
 
-        public init(aggregateColumns: [AggregateColumn], allowedJoinOperators: [JoinOperator]? = nil, dimensionColumns: [String], joinColumns: [String], joinRequired: JoinRequiredOption? = nil, outputConstraints: [AggregationConstraint], scalarFunctions: [ScalarFunctions]) {
+        public init(additionalAnalyses: AdditionalAnalyses? = nil, aggregateColumns: [AggregateColumn], allowedJoinOperators: [JoinOperator]? = nil, dimensionColumns: [String], joinColumns: [String], joinRequired: JoinRequiredOption? = nil, outputConstraints: [AggregationConstraint], scalarFunctions: [ScalarFunctions]) {
+            self.additionalAnalyses = additionalAnalyses
             self.aggregateColumns = aggregateColumns
             self.allowedJoinOperators = allowedJoinOperators
             self.dimensionColumns = dimensionColumns
@@ -534,6 +688,7 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalAnalyses = "additionalAnalyses"
             case aggregateColumns = "aggregateColumns"
             case allowedJoinOperators = "allowedJoinOperators"
             case dimensionColumns = "dimensionColumns"
@@ -545,17 +700,23 @@ extension CleanRooms {
     }
 
     public struct AnalysisRuleCustom: AWSEncodableShape & AWSDecodableShape {
+        ///  An indicator as to whether additional analyses (such as Clean Rooms ML) can be applied to the output of the direct query.
+        public let additionalAnalyses: AdditionalAnalyses?
         /// The ARN of the analysis templates that are allowed by the custom analysis rule.
         public let allowedAnalyses: [String]
         /// The IDs of the Amazon Web Services accounts that are allowed to query by the custom analysis rule. Required when allowedAnalyses is ANY_QUERY.
         public let allowedAnalysisProviders: [String]?
         /// The differential privacy configuration.
         public let differentialPrivacy: DifferentialPrivacyConfiguration?
+        ///  A list of columns that aren't allowed to be shown in the query output.
+        public let disallowedOutputColumns: [String]?
 
-        public init(allowedAnalyses: [String], allowedAnalysisProviders: [String]? = nil, differentialPrivacy: DifferentialPrivacyConfiguration? = nil) {
+        public init(additionalAnalyses: AdditionalAnalyses? = nil, allowedAnalyses: [String], allowedAnalysisProviders: [String]? = nil, differentialPrivacy: DifferentialPrivacyConfiguration? = nil, disallowedOutputColumns: [String]? = nil) {
+            self.additionalAnalyses = additionalAnalyses
             self.allowedAnalyses = allowedAnalyses
             self.allowedAnalysisProviders = allowedAnalysisProviders
             self.differentialPrivacy = differentialPrivacy
+            self.disallowedOutputColumns = disallowedOutputColumns
         }
 
         public func validate(name: String) throws {
@@ -569,16 +730,46 @@ extension CleanRooms {
                 try validate($0, name: "allowedAnalysisProviders[]", parent: name, pattern: "^\\d+$")
             }
             try self.differentialPrivacy?.validate(name: "\(name).differentialPrivacy")
+            try self.disallowedOutputColumns?.forEach {
+                try validate($0, name: "disallowedOutputColumns[]", parent: name, max: 127)
+                try validate($0, name: "disallowedOutputColumns[]", parent: name, min: 1)
+                try validate($0, name: "disallowedOutputColumns[]", parent: name, pattern: "^[a-z0-9_](([a-z0-9_ ]+-)*([a-z0-9_ ]+))?$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalAnalyses = "additionalAnalyses"
             case allowedAnalyses = "allowedAnalyses"
             case allowedAnalysisProviders = "allowedAnalysisProviders"
             case differentialPrivacy = "differentialPrivacy"
+            case disallowedOutputColumns = "disallowedOutputColumns"
+        }
+    }
+
+    public struct AnalysisRuleIdMappingTable: AWSDecodableShape {
+        /// The columns that query runners are allowed to select, group by, or filter by.
+        public let dimensionColumns: [String]?
+        /// The columns that query runners are allowed to use in an INNER JOIN statement.
+        public let joinColumns: [String]
+        /// The query constraints of the analysis rule ID mapping table.
+        public let queryConstraints: [QueryConstraint]
+
+        public init(dimensionColumns: [String]? = nil, joinColumns: [String], queryConstraints: [QueryConstraint]) {
+            self.dimensionColumns = dimensionColumns
+            self.joinColumns = joinColumns
+            self.queryConstraints = queryConstraints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionColumns = "dimensionColumns"
+            case joinColumns = "joinColumns"
+            case queryConstraints = "queryConstraints"
         }
     }
 
     public struct AnalysisRuleList: AWSEncodableShape & AWSDecodableShape {
+        ///  An indicator as to whether additional analyses (such as Clean Rooms ML) can be applied to the output of the direct query.
+        public let additionalAnalyses: AdditionalAnalyses?
         /// The logical operators (if any) that are to be used in an INNER JOIN match condition. Default is AND.
         public let allowedJoinOperators: [JoinOperator]?
         /// Columns that can be used to join a configured table with the table of the member who can query and other members' configured tables.
@@ -586,7 +777,8 @@ extension CleanRooms {
         /// Columns that can be listed in the output.
         public let listColumns: [String]
 
-        public init(allowedJoinOperators: [JoinOperator]? = nil, joinColumns: [String], listColumns: [String]) {
+        public init(additionalAnalyses: AdditionalAnalyses? = nil, allowedJoinOperators: [JoinOperator]? = nil, joinColumns: [String], listColumns: [String]) {
+            self.additionalAnalyses = additionalAnalyses
             self.allowedJoinOperators = allowedJoinOperators
             self.joinColumns = joinColumns
             self.listColumns = listColumns
@@ -607,6 +799,7 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalAnalyses = "additionalAnalyses"
             case allowedJoinOperators = "allowedJoinOperators"
             case joinColumns = "joinColumns"
             case listColumns = "listColumns"
@@ -1265,6 +1458,115 @@ extension CleanRooms {
         }
     }
 
+    public struct CollaborationIdNamespaceAssociation: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the collaboration ID namespace association.
+        public let arn: String
+        /// The Amazon Resource Name (ARN) of the collaboration that contains the collaboration ID namespace association.
+        public let collaborationArn: String
+        /// The unique identifier of the collaboration that contains the collaboration ID namespace association.
+        public let collaborationId: String
+        /// The time at which the collaboration ID namespace association was created.
+        public let createTime: Date
+        /// The unique identifier of the Amazon Web Services account that created the collaboration ID namespace association.
+        public let creatorAccountId: String
+        /// The description of the collaboration ID namespace association.
+        public let description: String?
+        /// The unique identifier of the collaboration ID namespace association.
+        public let id: String
+        public let idMappingConfig: IdMappingConfig?
+        /// The input reference configuration that's necessary to create the collaboration ID namespace association.
+        public let inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig
+        /// The input reference properties that are needed to create the collaboration ID namespace association.
+        public let inputReferenceProperties: IdNamespaceAssociationInputReferenceProperties
+        /// The name of the collaboration ID namespace association.
+        public let name: String
+        /// The most recent time at which the collaboration ID namespace was updated.
+        public let updateTime: Date
+
+        public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, id: String, idMappingConfig: IdMappingConfig? = nil, inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig, inputReferenceProperties: IdNamespaceAssociationInputReferenceProperties, name: String, updateTime: Date) {
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.description = description
+            self.id = id
+            self.idMappingConfig = idMappingConfig
+            self.inputReferenceConfig = inputReferenceConfig
+            self.inputReferenceProperties = inputReferenceProperties
+            self.name = name
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case collaborationArn = "collaborationArn"
+            case collaborationId = "collaborationId"
+            case createTime = "createTime"
+            case creatorAccountId = "creatorAccountId"
+            case description = "description"
+            case id = "id"
+            case idMappingConfig = "idMappingConfig"
+            case inputReferenceConfig = "inputReferenceConfig"
+            case inputReferenceProperties = "inputReferenceProperties"
+            case name = "name"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct CollaborationIdNamespaceAssociationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the collaboration ID namespace association.
+        public let arn: String
+        /// The Amazon Resource Name (ARN) of the collaboration that contains this collaboration ID namespace association.
+        public let collaborationArn: String
+        /// The unique identifier of the collaboration that contains this collaboration ID namespace association.
+        public let collaborationId: String
+        /// The time at which the collaboration ID namespace association was created.
+        public let createTime: Date
+        /// The Amazon Web Services account that created this collaboration ID namespace association.
+        public let creatorAccountId: String
+        /// The description of the collaboration ID namepsace association.
+        public let description: String?
+        /// The unique identifier of the collaboration ID namespace association.
+        public let id: String
+        /// The input reference configuration that's used to create the collaboration ID namespace association.
+        public let inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig
+        /// The input reference properties that are used to create the collaboration ID namespace association.
+        public let inputReferenceProperties: IdNamespaceAssociationInputReferencePropertiesSummary
+        /// The name of the collaboration ID namespace association.
+        public let name: String
+        /// The most recent time at which the collaboration ID namespace association was updated.
+        public let updateTime: Date
+
+        public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, id: String, inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig, inputReferenceProperties: IdNamespaceAssociationInputReferencePropertiesSummary, name: String, updateTime: Date) {
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.creatorAccountId = creatorAccountId
+            self.description = description
+            self.id = id
+            self.inputReferenceConfig = inputReferenceConfig
+            self.inputReferenceProperties = inputReferenceProperties
+            self.name = name
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case collaborationArn = "collaborationArn"
+            case collaborationId = "collaborationId"
+            case createTime = "createTime"
+            case creatorAccountId = "creatorAccountId"
+            case description = "description"
+            case id = "id"
+            case inputReferenceConfig = "inputReferenceConfig"
+            case inputReferenceProperties = "inputReferenceProperties"
+            case name = "name"
+            case updateTime = "updateTime"
+        }
+    }
+
     public struct CollaborationPrivacyBudgetSummary: AWSDecodableShape {
         /// The includes epsilon provided and utility in terms of aggregations.
         public let budget: PrivacyBudget
@@ -1663,6 +1965,8 @@ extension CleanRooms {
     }
 
     public struct ConfiguredTableAssociation: AWSDecodableShape {
+        ///  The analysis rule types for the configured table association.
+        public let analysisRuleTypes: [ConfiguredTableAssociationAnalysisRuleType]?
         /// The unique ARN for the configured table association.
         public let arn: String
         /// The unique ARN for the configured table that the association refers to.
@@ -1686,7 +1990,8 @@ extension CleanRooms {
         /// The time the configured table association was last updated.
         public let updateTime: Date
 
-        public init(arn: String, configuredTableArn: String, configuredTableId: String, createTime: Date, description: String? = nil, id: String, membershipArn: String, membershipId: String, name: String, roleArn: String, updateTime: Date) {
+        public init(analysisRuleTypes: [ConfiguredTableAssociationAnalysisRuleType]? = nil, arn: String, configuredTableArn: String, configuredTableId: String, createTime: Date, description: String? = nil, id: String, membershipArn: String, membershipId: String, name: String, roleArn: String, updateTime: Date) {
+            self.analysisRuleTypes = analysisRuleTypes
             self.arn = arn
             self.configuredTableArn = configuredTableArn
             self.configuredTableId = configuredTableId
@@ -1701,6 +2006,7 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analysisRuleTypes = "analysisRuleTypes"
             case arn = "arn"
             case configuredTableArn = "configuredTableArn"
             case configuredTableId = "configuredTableId"
@@ -1712,6 +2018,133 @@ extension CleanRooms {
             case name = "name"
             case roleArn = "roleArn"
             case updateTime = "updateTime"
+        }
+    }
+
+    public struct ConfiguredTableAssociationAnalysisRule: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the configured table association.
+        public let configuredTableAssociationArn: String
+        ///  The unique identifier for the configured table association.
+        public let configuredTableAssociationId: String
+        ///  The creation time of the configured table association analysis rule.
+        public let createTime: Date
+        ///  The membership identifier for the configured table association analysis rule.
+        public let membershipIdentifier: String
+        ///  The policy of the configured table association analysis rule.
+        public let policy: ConfiguredTableAssociationAnalysisRulePolicy
+        ///  The type of the configured table association analysis rule.
+        public let type: ConfiguredTableAssociationAnalysisRuleType
+        ///  The update time of the configured table association analysis rule.
+        public let updateTime: Date
+
+        public init(configuredTableAssociationArn: String, configuredTableAssociationId: String, createTime: Date, membershipIdentifier: String, policy: ConfiguredTableAssociationAnalysisRulePolicy, type: ConfiguredTableAssociationAnalysisRuleType, updateTime: Date) {
+            self.configuredTableAssociationArn = configuredTableAssociationArn
+            self.configuredTableAssociationId = configuredTableAssociationId
+            self.createTime = createTime
+            self.membershipIdentifier = membershipIdentifier
+            self.policy = policy
+            self.type = type
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuredTableAssociationArn = "configuredTableAssociationArn"
+            case configuredTableAssociationId = "configuredTableAssociationId"
+            case createTime = "createTime"
+            case membershipIdentifier = "membershipIdentifier"
+            case policy = "policy"
+            case type = "type"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct ConfiguredTableAssociationAnalysisRuleAggregation: AWSEncodableShape & AWSDecodableShape {
+        ///  The list of resources or wildcards (ARNs) that are allowed to perform additional analysis on query output. The allowedAdditionalAnalyses parameter is currently supported for the list analysis rule (AnalysisRuleList) and the custom analysis rule (AnalysisRuleCustom).
+        public let allowedAdditionalAnalyses: [String]?
+        ///  The list of collaboration members who are allowed to receive results of queries run with this configured table.
+        public let allowedResultReceivers: [String]?
+
+        public init(allowedAdditionalAnalyses: [String]? = nil, allowedResultReceivers: [String]? = nil) {
+            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
+            self.allowedResultReceivers = allowedResultReceivers
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedAdditionalAnalyses?.forEach {
+                try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, max: 256)
+                try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:([\\d]{12}|\\*):membership/[\\*\\d\\w-]+/configuredaudiencemodelassociation/[\\*\\d\\w-]+$")
+            }
+            try self.validate(self.allowedAdditionalAnalyses, name: "allowedAdditionalAnalyses", parent: name, max: 25)
+            try self.allowedResultReceivers?.forEach {
+                try validate($0, name: "allowedResultReceivers[]", parent: name, max: 12)
+                try validate($0, name: "allowedResultReceivers[]", parent: name, min: 12)
+                try validate($0, name: "allowedResultReceivers[]", parent: name, pattern: "^\\d+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedAdditionalAnalyses = "allowedAdditionalAnalyses"
+            case allowedResultReceivers = "allowedResultReceivers"
+        }
+    }
+
+    public struct ConfiguredTableAssociationAnalysisRuleCustom: AWSEncodableShape & AWSDecodableShape {
+        ///  The list of resources or wildcards (ARNs) that are allowed to perform additional analysis on query output.
+        public let allowedAdditionalAnalyses: [String]?
+        ///  The list of collaboration members who are allowed to receive results of queries run with this configured table.
+        public let allowedResultReceivers: [String]?
+
+        public init(allowedAdditionalAnalyses: [String]? = nil, allowedResultReceivers: [String]? = nil) {
+            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
+            self.allowedResultReceivers = allowedResultReceivers
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedAdditionalAnalyses?.forEach {
+                try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, max: 256)
+                try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:([\\d]{12}|\\*):membership/[\\*\\d\\w-]+/configuredaudiencemodelassociation/[\\*\\d\\w-]+$")
+            }
+            try self.validate(self.allowedAdditionalAnalyses, name: "allowedAdditionalAnalyses", parent: name, max: 25)
+            try self.allowedResultReceivers?.forEach {
+                try validate($0, name: "allowedResultReceivers[]", parent: name, max: 12)
+                try validate($0, name: "allowedResultReceivers[]", parent: name, min: 12)
+                try validate($0, name: "allowedResultReceivers[]", parent: name, pattern: "^\\d+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedAdditionalAnalyses = "allowedAdditionalAnalyses"
+            case allowedResultReceivers = "allowedResultReceivers"
+        }
+    }
+
+    public struct ConfiguredTableAssociationAnalysisRuleList: AWSEncodableShape & AWSDecodableShape {
+        ///  The list of resources or wildcards (ARNs) that are allowed to perform additional analysis on query output.
+        public let allowedAdditionalAnalyses: [String]?
+        ///  The list of collaboration members who are allowed to receive results of queries run with this configured table.
+        public let allowedResultReceivers: [String]?
+
+        public init(allowedAdditionalAnalyses: [String]? = nil, allowedResultReceivers: [String]? = nil) {
+            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
+            self.allowedResultReceivers = allowedResultReceivers
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedAdditionalAnalyses?.forEach {
+                try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, max: 256)
+                try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:([\\d]{12}|\\*):membership/[\\*\\d\\w-]+/configuredaudiencemodelassociation/[\\*\\d\\w-]+$")
+            }
+            try self.validate(self.allowedAdditionalAnalyses, name: "allowedAdditionalAnalyses", parent: name, max: 25)
+            try self.allowedResultReceivers?.forEach {
+                try validate($0, name: "allowedResultReceivers[]", parent: name, max: 12)
+                try validate($0, name: "allowedResultReceivers[]", parent: name, min: 12)
+                try validate($0, name: "allowedResultReceivers[]", parent: name, pattern: "^\\d+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedAdditionalAnalyses = "allowedAdditionalAnalyses"
+            case allowedResultReceivers = "allowedResultReceivers"
         }
     }
 
@@ -1943,7 +2376,7 @@ extension CleanRooms {
     }
 
     public struct CreateCollaborationOutput: AWSDecodableShape {
-        /// The entire created collaboration object.
+        /// The collaboration.
         public let collaboration: Collaboration
 
         public init(collaboration: Collaboration) {
@@ -2032,7 +2465,7 @@ extension CleanRooms {
     }
 
     public struct CreateConfiguredTableAnalysisRuleInput: AWSEncodableShape {
-        /// The entire created configured table analysis rule object.
+        /// The analysis rule policy that was created for the configured table.
         public let analysisRulePolicy: ConfiguredTableAnalysisRulePolicy
         /// The type of analysis rule.
         public let analysisRuleType: ConfiguredTableAnalysisRuleType
@@ -2067,10 +2500,65 @@ extension CleanRooms {
     }
 
     public struct CreateConfiguredTableAnalysisRuleOutput: AWSDecodableShape {
-        /// The entire created analysis rule.
+        /// The analysis rule that was created for the configured table.
         public let analysisRule: ConfiguredTableAnalysisRule
 
         public init(analysisRule: ConfiguredTableAnalysisRule) {
+            self.analysisRule = analysisRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisRule = "analysisRule"
+        }
+    }
+
+    public struct CreateConfiguredTableAssociationAnalysisRuleInput: AWSEncodableShape {
+        /// The analysis rule policy that was created for the configured table association.
+        public let analysisRulePolicy: ConfiguredTableAssociationAnalysisRulePolicy
+        ///  The type of analysis rule.
+        public let analysisRuleType: ConfiguredTableAssociationAnalysisRuleType
+        ///  The unique ID for the configured table association. Currently accepts the configured table association ID.
+        public let configuredTableAssociationIdentifier: String
+        ///  A unique identifier for the membership that the configured table association belongs to. Currently accepts the membership ID.
+        public let membershipIdentifier: String
+
+        public init(analysisRulePolicy: ConfiguredTableAssociationAnalysisRulePolicy, analysisRuleType: ConfiguredTableAssociationAnalysisRuleType, configuredTableAssociationIdentifier: String, membershipIdentifier: String) {
+            self.analysisRulePolicy = analysisRulePolicy
+            self.analysisRuleType = analysisRuleType
+            self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
+            self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.analysisRulePolicy, forKey: .analysisRulePolicy)
+            try container.encode(self.analysisRuleType, forKey: .analysisRuleType)
+            request.encodePath(self.configuredTableAssociationIdentifier, key: "configuredTableAssociationIdentifier")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.analysisRulePolicy.validate(name: "\(name).analysisRulePolicy")
+            try self.validate(self.configuredTableAssociationIdentifier, name: "configuredTableAssociationIdentifier", parent: name, max: 36)
+            try self.validate(self.configuredTableAssociationIdentifier, name: "configuredTableAssociationIdentifier", parent: name, min: 36)
+            try self.validate(self.configuredTableAssociationIdentifier, name: "configuredTableAssociationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisRulePolicy = "analysisRulePolicy"
+            case analysisRuleType = "analysisRuleType"
+        }
+    }
+
+    public struct CreateConfiguredTableAssociationAnalysisRuleOutput: AWSDecodableShape {
+        /// The analysis rule for the conﬁgured table association. In the console, the ConfiguredTableAssociationAnalysisRule is referred to as the collaboration analysis rule.
+        public let analysisRule: ConfiguredTableAssociationAnalysisRule
+
+        public init(analysisRule: ConfiguredTableAssociationAnalysisRule) {
             self.analysisRule = analysisRule
         }
 
@@ -2145,7 +2633,7 @@ extension CleanRooms {
     }
 
     public struct CreateConfiguredTableAssociationOutput: AWSDecodableShape {
-        /// The entire configured table association object.
+        /// The configured table association.
         public let configuredTableAssociation: ConfiguredTableAssociation
 
         public init(configuredTableAssociation: ConfiguredTableAssociation) {
@@ -2221,6 +2709,156 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case configuredTable = "configuredTable"
+        }
+    }
+
+    public struct CreateIdMappingTableInput: AWSEncodableShape {
+        /// A description of the ID mapping table.
+        public let description: String?
+        /// The input reference configuration needed to create the ID mapping table.
+        public let inputReferenceConfig: IdMappingTableInputReferenceConfig
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services KMS key. This value is used to encrypt the mapping table data that is stored by Clean Rooms.
+        public let kmsKeyArn: String?
+        /// The unique identifier of the membership that contains the ID mapping table.
+        public let membershipIdentifier: String
+        /// A name for the ID mapping table.
+        public let name: String
+        /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, inputReferenceConfig: IdMappingTableInputReferenceConfig, kmsKeyArn: String? = nil, membershipIdentifier: String, name: String, tags: [String: String]? = nil) {
+            self.description = description
+            self.inputReferenceConfig = inputReferenceConfig
+            self.kmsKeyArn = kmsKeyArn
+            self.membershipIdentifier = membershipIdentifier
+            self.name = name
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.inputReferenceConfig, forKey: .inputReferenceConfig)
+            try container.encodeIfPresent(self.kmsKeyArn, forKey: .kmsKeyArn)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
+            try self.inputReferenceConfig.validate(name: "\(name).inputReferenceConfig")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws:kms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:key/[a-zA-Z0-9-]+$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case inputReferenceConfig = "inputReferenceConfig"
+            case kmsKeyArn = "kmsKeyArn"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateIdMappingTableOutput: AWSDecodableShape {
+        /// The ID mapping table that was created.
+        public let idMappingTable: IdMappingTable
+
+        public init(idMappingTable: IdMappingTable) {
+            self.idMappingTable = idMappingTable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idMappingTable = "idMappingTable"
+        }
+    }
+
+    public struct CreateIdNamespaceAssociationInput: AWSEncodableShape {
+        /// The description of the ID namespace association.
+        public let description: String?
+        /// The configuration settings for the ID mapping table.
+        public let idMappingConfig: IdMappingConfig?
+        /// The input reference configuration needed to create the ID namespace association.
+        public let inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig
+        /// The unique identifier of the membership that contains the ID namespace association.
+        public let membershipIdentifier: String
+        /// The name for the ID namespace association.
+        public let name: String
+        /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
+        public let tags: [String: String]?
+
+        public init(description: String? = nil, idMappingConfig: IdMappingConfig? = nil, inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig, membershipIdentifier: String, name: String, tags: [String: String]? = nil) {
+            self.description = description
+            self.idMappingConfig = idMappingConfig
+            self.inputReferenceConfig = inputReferenceConfig
+            self.membershipIdentifier = membershipIdentifier
+            self.name = name
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.idMappingConfig, forKey: .idMappingConfig)
+            try container.encode(self.inputReferenceConfig, forKey: .inputReferenceConfig)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
+            try self.inputReferenceConfig.validate(name: "\(name).inputReferenceConfig")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case idMappingConfig = "idMappingConfig"
+            case inputReferenceConfig = "inputReferenceConfig"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateIdNamespaceAssociationOutput: AWSDecodableShape {
+        /// The ID namespace association that was created.
+        public let idNamespaceAssociation: IdNamespaceAssociation
+
+        public init(idNamespaceAssociation: IdNamespaceAssociation) {
+            self.idNamespaceAssociation = idNamespaceAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idNamespaceAssociation = "idNamespaceAssociation"
         }
     }
 
@@ -2494,6 +3132,44 @@ extension CleanRooms {
         public init() {}
     }
 
+    public struct DeleteConfiguredTableAssociationAnalysisRuleInput: AWSEncodableShape {
+        /// The type of the analysis rule that you want to delete.
+        public let analysisRuleType: ConfiguredTableAssociationAnalysisRuleType
+        /// The identiﬁer for the conﬁgured table association that's related to the analysis rule that you want to delete.
+        public let configuredTableAssociationIdentifier: String
+        ///  A unique identifier for the membership that the configured table association belongs to. Currently accepts the membership ID.
+        public let membershipIdentifier: String
+
+        public init(analysisRuleType: ConfiguredTableAssociationAnalysisRuleType, configuredTableAssociationIdentifier: String, membershipIdentifier: String) {
+            self.analysisRuleType = analysisRuleType
+            self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
+            self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analysisRuleType, key: "analysisRuleType")
+            request.encodePath(self.configuredTableAssociationIdentifier, key: "configuredTableAssociationIdentifier")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configuredTableAssociationIdentifier, name: "configuredTableAssociationIdentifier", parent: name, max: 36)
+            try self.validate(self.configuredTableAssociationIdentifier, name: "configuredTableAssociationIdentifier", parent: name, min: 36)
+            try self.validate(self.configuredTableAssociationIdentifier, name: "configuredTableAssociationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteConfiguredTableAssociationAnalysisRuleOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteConfiguredTableAssociationInput: AWSEncodableShape {
         /// The unique ID for the configured table association to be deleted. Currently accepts the configured table ID.
         public let configuredTableAssociationIdentifier: String
@@ -2552,6 +3228,74 @@ extension CleanRooms {
     }
 
     public struct DeleteConfiguredTableOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteIdMappingTableInput: AWSEncodableShape {
+        /// The unique identifier of the ID mapping table that you want to delete.
+        public let idMappingTableIdentifier: String
+        /// The unique identifier of the membership that contains the ID mapping table that you want to delete.
+        public let membershipIdentifier: String
+
+        public init(idMappingTableIdentifier: String, membershipIdentifier: String) {
+            self.idMappingTableIdentifier = idMappingTableIdentifier
+            self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.idMappingTableIdentifier, key: "idMappingTableIdentifier")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.idMappingTableIdentifier, name: "idMappingTableIdentifier", parent: name, max: 36)
+            try self.validate(self.idMappingTableIdentifier, name: "idMappingTableIdentifier", parent: name, min: 36)
+            try self.validate(self.idMappingTableIdentifier, name: "idMappingTableIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteIdMappingTableOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteIdNamespaceAssociationInput: AWSEncodableShape {
+        /// The unique identifier of the ID namespace association that you want to delete.
+        public let idNamespaceAssociationIdentifier: String
+        /// The unique identifier of the membership that contains the ID namespace association that you want to delete.
+        public let membershipIdentifier: String
+
+        public init(idNamespaceAssociationIdentifier: String, membershipIdentifier: String) {
+            self.idNamespaceAssociationIdentifier = idNamespaceAssociationIdentifier
+            self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.idNamespaceAssociationIdentifier, key: "idNamespaceAssociationIdentifier")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.idNamespaceAssociationIdentifier, name: "idNamespaceAssociationIdentifier", parent: name, max: 36)
+            try self.validate(self.idNamespaceAssociationIdentifier, name: "idNamespaceAssociationIdentifier", parent: name, min: 36)
+            try self.validate(self.idNamespaceAssociationIdentifier, name: "idNamespaceAssociationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteIdNamespaceAssociationOutput: AWSDecodableShape {
         public init() {}
     }
 
@@ -2880,6 +3624,19 @@ extension CleanRooms {
         }
     }
 
+    public struct DirectAnalysisConfigurationDetails: AWSDecodableShape {
+        ///  The account IDs for the member who received the results of a protected query.
+        public let receiverAccountIds: [String]?
+
+        public init(receiverAccountIds: [String]? = nil) {
+            self.receiverAccountIds = receiverAccountIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case receiverAccountIds = "receiverAccountIds"
+        }
+    }
+
     public struct GetAnalysisTemplateInput: AWSEncodableShape {
         /// The identifier for the analysis template resource.
         public let analysisTemplateIdentifier: String
@@ -3005,6 +3762,49 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case collaborationConfiguredAudienceModelAssociation = "collaborationConfiguredAudienceModelAssociation"
+        }
+    }
+
+    public struct GetCollaborationIdNamespaceAssociationInput: AWSEncodableShape {
+        /// The unique identifier of the collaboration that contains the ID namespace association that you want to retrieve.
+        public let collaborationIdentifier: String
+        /// The unique identifier of the ID namespace association that you want to retrieve.
+        public let idNamespaceAssociationIdentifier: String
+
+        public init(collaborationIdentifier: String, idNamespaceAssociationIdentifier: String) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.idNamespaceAssociationIdentifier = idNamespaceAssociationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            request.encodePath(self.idNamespaceAssociationIdentifier, key: "idNamespaceAssociationIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.idNamespaceAssociationIdentifier, name: "idNamespaceAssociationIdentifier", parent: name, max: 36)
+            try self.validate(self.idNamespaceAssociationIdentifier, name: "idNamespaceAssociationIdentifier", parent: name, min: 36)
+            try self.validate(self.idNamespaceAssociationIdentifier, name: "idNamespaceAssociationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCollaborationIdNamespaceAssociationOutput: AWSDecodableShape {
+        /// The ID namespace association that you requested.
+        public let collaborationIdNamespaceAssociation: CollaborationIdNamespaceAssociation
+
+        public init(collaborationIdNamespaceAssociation: CollaborationIdNamespaceAssociation) {
+            self.collaborationIdNamespaceAssociation = collaborationIdNamespaceAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdNamespaceAssociation = "collaborationIdNamespaceAssociation"
         }
     }
 
@@ -3170,6 +3970,53 @@ extension CleanRooms {
         }
     }
 
+    public struct GetConfiguredTableAssociationAnalysisRuleInput: AWSEncodableShape {
+        ///  The type of analysis rule that you want to retrieve.
+        public let analysisRuleType: ConfiguredTableAssociationAnalysisRuleType
+        ///  The identiﬁer for the conﬁgured table association that's related to the analysis rule.
+        public let configuredTableAssociationIdentifier: String
+        ///  A unique identifier for the membership that the configured table association belongs to. Currently accepts the membership ID.
+        public let membershipIdentifier: String
+
+        public init(analysisRuleType: ConfiguredTableAssociationAnalysisRuleType, configuredTableAssociationIdentifier: String, membershipIdentifier: String) {
+            self.analysisRuleType = analysisRuleType
+            self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
+            self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analysisRuleType, key: "analysisRuleType")
+            request.encodePath(self.configuredTableAssociationIdentifier, key: "configuredTableAssociationIdentifier")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configuredTableAssociationIdentifier, name: "configuredTableAssociationIdentifier", parent: name, max: 36)
+            try self.validate(self.configuredTableAssociationIdentifier, name: "configuredTableAssociationIdentifier", parent: name, min: 36)
+            try self.validate(self.configuredTableAssociationIdentifier, name: "configuredTableAssociationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConfiguredTableAssociationAnalysisRuleOutput: AWSDecodableShape {
+        /// The analysis rule for the conﬁgured table association. In the console, the ConfiguredTableAssociationAnalysisRule is referred to as the collaboration analysis rule.
+        public let analysisRule: ConfiguredTableAssociationAnalysisRule
+
+        public init(analysisRule: ConfiguredTableAssociationAnalysisRule) {
+            self.analysisRule = analysisRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisRule = "analysisRule"
+        }
+    }
+
     public struct GetConfiguredTableAssociationInput: AWSEncodableShape {
         /// The unique ID for the configured table association to retrieve. Currently accepts the configured table ID.
         public let configuredTableAssociationIdentifier: String
@@ -3246,6 +4093,92 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case configuredTable = "configuredTable"
+        }
+    }
+
+    public struct GetIdMappingTableInput: AWSEncodableShape {
+        /// The unique identifier of the ID mapping table identifier that you want to retrieve.
+        public let idMappingTableIdentifier: String
+        /// The unique identifier of the membership that contains the ID mapping table that you want to retrieve.
+        public let membershipIdentifier: String
+
+        public init(idMappingTableIdentifier: String, membershipIdentifier: String) {
+            self.idMappingTableIdentifier = idMappingTableIdentifier
+            self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.idMappingTableIdentifier, key: "idMappingTableIdentifier")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.idMappingTableIdentifier, name: "idMappingTableIdentifier", parent: name, max: 36)
+            try self.validate(self.idMappingTableIdentifier, name: "idMappingTableIdentifier", parent: name, min: 36)
+            try self.validate(self.idMappingTableIdentifier, name: "idMappingTableIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetIdMappingTableOutput: AWSDecodableShape {
+        /// The ID mapping table that you requested.
+        public let idMappingTable: IdMappingTable
+
+        public init(idMappingTable: IdMappingTable) {
+            self.idMappingTable = idMappingTable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idMappingTable = "idMappingTable"
+        }
+    }
+
+    public struct GetIdNamespaceAssociationInput: AWSEncodableShape {
+        /// The unique identifier of the ID namespace association that you want to retrieve.
+        public let idNamespaceAssociationIdentifier: String
+        /// The unique identifier of the membership that contains the ID namespace association that you want to retrieve.
+        public let membershipIdentifier: String
+
+        public init(idNamespaceAssociationIdentifier: String, membershipIdentifier: String) {
+            self.idNamespaceAssociationIdentifier = idNamespaceAssociationIdentifier
+            self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.idNamespaceAssociationIdentifier, key: "idNamespaceAssociationIdentifier")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.idNamespaceAssociationIdentifier, name: "idNamespaceAssociationIdentifier", parent: name, max: 36)
+            try self.validate(self.idNamespaceAssociationIdentifier, name: "idNamespaceAssociationIdentifier", parent: name, min: 36)
+            try self.validate(self.idNamespaceAssociationIdentifier, name: "idNamespaceAssociationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetIdNamespaceAssociationOutput: AWSDecodableShape {
+        /// The ID namespace association that you requested.
+        public let idNamespaceAssociation: IdNamespaceAssociation
+
+        public init(idNamespaceAssociation: IdNamespaceAssociation) {
+            self.idNamespaceAssociation = idNamespaceAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idNamespaceAssociation = "idNamespaceAssociation"
         }
     }
 
@@ -3483,6 +4416,369 @@ extension CleanRooms {
         }
     }
 
+    public struct IdMappingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// An indicator as to whether you can use your column as a dimension column in the ID mapping table (TRUE) or not (FALSE). Default is FALSE.
+        public let allowUseAsDimensionColumn: Bool
+
+        public init(allowUseAsDimensionColumn: Bool) {
+            self.allowUseAsDimensionColumn = allowUseAsDimensionColumn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowUseAsDimensionColumn = "allowUseAsDimensionColumn"
+        }
+    }
+
+    public struct IdMappingTable: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ID mapping table.
+        public let arn: String
+        /// The Amazon Resource Name (ARN) of the collaboration that contains this ID mapping table.
+        public let collaborationArn: String
+        /// The unique identifier of the collaboration that contains this ID mapping table.
+        public let collaborationId: String
+        /// The time at which the ID mapping table was created.
+        public let createTime: Date
+        /// The description of the ID mapping table.
+        public let description: String?
+        /// The unique identifier of the ID mapping table.
+        public let id: String
+        /// The input reference configuration for the ID mapping table.
+        public let inputReferenceConfig: IdMappingTableInputReferenceConfig
+        /// The input reference properties for the ID mapping table.
+        public let inputReferenceProperties: IdMappingTableInputReferenceProperties
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services KMS key.
+        public let kmsKeyArn: String?
+        /// The Amazon Resource Name (ARN) of the membership resource for the ID mapping table.
+        public let membershipArn: String
+        /// The unique identifier of the membership resource for the ID mapping table.
+        public let membershipId: String
+        /// The name of the ID mapping table.
+        public let name: String
+        /// The most recent time at which the ID mapping table was updated.
+        public let updateTime: Date
+
+        public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, id: String, inputReferenceConfig: IdMappingTableInputReferenceConfig, inputReferenceProperties: IdMappingTableInputReferenceProperties, kmsKeyArn: String? = nil, membershipArn: String, membershipId: String, name: String, updateTime: Date) {
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.description = description
+            self.id = id
+            self.inputReferenceConfig = inputReferenceConfig
+            self.inputReferenceProperties = inputReferenceProperties
+            self.kmsKeyArn = kmsKeyArn
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.name = name
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case collaborationArn = "collaborationArn"
+            case collaborationId = "collaborationId"
+            case createTime = "createTime"
+            case description = "description"
+            case id = "id"
+            case inputReferenceConfig = "inputReferenceConfig"
+            case inputReferenceProperties = "inputReferenceProperties"
+            case kmsKeyArn = "kmsKeyArn"
+            case membershipArn = "membershipArn"
+            case membershipId = "membershipId"
+            case name = "name"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct IdMappingTableInputReferenceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the referenced resource in Entity Resolution. Valid values are ID mapping workflow ARNs.
+        public let inputReferenceArn: String
+        /// When TRUE, Clean Rooms manages permissions for the ID mapping table resource.  When FALSE, the resource owner manages permissions for the ID mapping table resource.
+        public let manageResourcePolicies: Bool
+
+        public init(inputReferenceArn: String, manageResourcePolicies: Bool) {
+            self.inputReferenceArn = inputReferenceArn
+            self.manageResourcePolicies = manageResourcePolicies
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inputReferenceArn, name: "inputReferenceArn", parent: name, max: 2048)
+            try self.validate(self.inputReferenceArn, name: "inputReferenceArn", parent: name, min: 20)
+            try self.validate(self.inputReferenceArn, name: "inputReferenceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):entityresolution:.*:[0-9]+:(idmappingworkflow/.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputReferenceArn = "inputReferenceArn"
+            case manageResourcePolicies = "manageResourcePolicies"
+        }
+    }
+
+    public struct IdMappingTableInputReferenceProperties: AWSDecodableShape {
+        /// The input source of the ID mapping table.
+        public let idMappingTableInputSource: [IdMappingTableInputSource]
+
+        public init(idMappingTableInputSource: [IdMappingTableInputSource]) {
+            self.idMappingTableInputSource = idMappingTableInputSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idMappingTableInputSource = "idMappingTableInputSource"
+        }
+    }
+
+    public struct IdMappingTableInputSource: AWSDecodableShape {
+        /// The unique identifier of the ID namespace association.
+        public let idNamespaceAssociationId: String
+        /// The type of the input source of the ID mapping table.
+        public let type: IdNamespaceType
+
+        public init(idNamespaceAssociationId: String, type: IdNamespaceType) {
+            self.idNamespaceAssociationId = idNamespaceAssociationId
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idNamespaceAssociationId = "idNamespaceAssociationId"
+            case type = "type"
+        }
+    }
+
+    public struct IdMappingTableSchemaTypeProperties: AWSDecodableShape {
+        /// Defines which ID namespace associations are used to create the ID mapping table.
+        public let idMappingTableInputSource: [IdMappingTableInputSource]
+
+        public init(idMappingTableInputSource: [IdMappingTableInputSource]) {
+            self.idMappingTableInputSource = idMappingTableInputSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idMappingTableInputSource = "idMappingTableInputSource"
+        }
+    }
+
+    public struct IdMappingTableSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of this ID mapping table.
+        public let arn: String
+        /// The Amazon Resource Name (ARN) of the collaboration that contains this ID mapping table.
+        public let collaborationArn: String
+        /// The unique identifier of the collaboration that contains this ID mapping table.
+        public let collaborationId: String
+        /// The time at which this ID mapping table was created.
+        public let createTime: Date
+        /// The description of this ID mapping table.
+        public let description: String?
+        /// The unique identifier of this ID mapping table.
+        public let id: String
+        /// The input reference configuration for the ID mapping table.
+        public let inputReferenceConfig: IdMappingTableInputReferenceConfig
+        /// The Amazon Resource Name (ARN) of the membership resource for this ID mapping table.
+        public let membershipArn: String
+        /// The unique identifier of the membership resource for this ID mapping table.
+        public let membershipId: String
+        /// The name of this ID mapping table.
+        public let name: String
+        /// The most recent time at which this ID mapping table was updated.
+        public let updateTime: Date
+
+        public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, id: String, inputReferenceConfig: IdMappingTableInputReferenceConfig, membershipArn: String, membershipId: String, name: String, updateTime: Date) {
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.description = description
+            self.id = id
+            self.inputReferenceConfig = inputReferenceConfig
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.name = name
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case collaborationArn = "collaborationArn"
+            case collaborationId = "collaborationId"
+            case createTime = "createTime"
+            case description = "description"
+            case id = "id"
+            case inputReferenceConfig = "inputReferenceConfig"
+            case membershipArn = "membershipArn"
+            case membershipId = "membershipId"
+            case name = "name"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct IdNamespaceAssociation: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ID namespace association.
+        public let arn: String
+        /// The Amazon Resource Name (ARN) of the collaboration that contains this ID namespace association.
+        public let collaborationArn: String
+        /// The unique identifier of the collaboration that contains this ID namespace association.
+        public let collaborationId: String
+        /// The time at which the ID namespace association was created.
+        public let createTime: Date
+        /// The description of the ID namespace association.
+        public let description: String?
+        /// The unique identifier for this ID namespace association.
+        public let id: String
+        /// The configuration settings for the ID mapping table.
+        public let idMappingConfig: IdMappingConfig?
+        /// The input reference configuration for the ID namespace association.
+        public let inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig
+        /// The input reference properties for the ID namespace association.
+        public let inputReferenceProperties: IdNamespaceAssociationInputReferenceProperties
+        /// The Amazon Resource Name (ARN) of the membership resource for this ID namespace association.
+        public let membershipArn: String
+        /// The unique identifier of the membership resource for this ID namespace association.
+        public let membershipId: String
+        /// The name of this ID namespace association.
+        public let name: String
+        /// The most recent time at which the ID namespace association was updated.
+        public let updateTime: Date
+
+        public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, id: String, idMappingConfig: IdMappingConfig? = nil, inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig, inputReferenceProperties: IdNamespaceAssociationInputReferenceProperties, membershipArn: String, membershipId: String, name: String, updateTime: Date) {
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.description = description
+            self.id = id
+            self.idMappingConfig = idMappingConfig
+            self.inputReferenceConfig = inputReferenceConfig
+            self.inputReferenceProperties = inputReferenceProperties
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.name = name
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case collaborationArn = "collaborationArn"
+            case collaborationId = "collaborationId"
+            case createTime = "createTime"
+            case description = "description"
+            case id = "id"
+            case idMappingConfig = "idMappingConfig"
+            case inputReferenceConfig = "inputReferenceConfig"
+            case inputReferenceProperties = "inputReferenceProperties"
+            case membershipArn = "membershipArn"
+            case membershipId = "membershipId"
+            case name = "name"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct IdNamespaceAssociationInputReferenceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Entity Resolution resource that is being associated to the collaboration. Valid resource ARNs are from the ID namespaces that you own.
+        public let inputReferenceArn: String
+        /// When TRUE, Clean Rooms manages permissions for the ID namespace association resource. When FALSE, the resource owner manages permissions for the ID namespace association resource.
+        public let manageResourcePolicies: Bool
+
+        public init(inputReferenceArn: String, manageResourcePolicies: Bool) {
+            self.inputReferenceArn = inputReferenceArn
+            self.manageResourcePolicies = manageResourcePolicies
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inputReferenceArn, name: "inputReferenceArn", parent: name, max: 256)
+            try self.validate(self.inputReferenceArn, name: "inputReferenceArn", parent: name, pattern: "^arn:aws:entityresolution:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:idnamespace/[\\d\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputReferenceArn = "inputReferenceArn"
+            case manageResourcePolicies = "manageResourcePolicies"
+        }
+    }
+
+    public struct IdNamespaceAssociationInputReferenceProperties: AWSDecodableShape {
+        /// Defines how ID mapping workflows are supported for this ID namespace association.
+        public let idMappingWorkflowsSupported: [String]
+        /// The ID namespace type for this ID namespace association.
+        public let idNamespaceType: IdNamespaceType
+
+        public init(idMappingWorkflowsSupported: [String], idNamespaceType: IdNamespaceType) {
+            self.idMappingWorkflowsSupported = idMappingWorkflowsSupported
+            self.idNamespaceType = idNamespaceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idMappingWorkflowsSupported = "idMappingWorkflowsSupported"
+            case idNamespaceType = "idNamespaceType"
+        }
+    }
+
+    public struct IdNamespaceAssociationInputReferencePropertiesSummary: AWSDecodableShape {
+        /// The ID namespace type for this ID namespace association.
+        public let idNamespaceType: IdNamespaceType
+
+        public init(idNamespaceType: IdNamespaceType) {
+            self.idNamespaceType = idNamespaceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idNamespaceType = "idNamespaceType"
+        }
+    }
+
+    public struct IdNamespaceAssociationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of this ID namespace association.
+        public let arn: String
+        /// The Amazon Resource Name (ARN) of the collaboration that contains this ID namespace association.
+        public let collaborationArn: String
+        /// The unique identifier of the collaboration that contains this ID namespace association.
+        public let collaborationId: String
+        /// The time at which this ID namespace association was created.
+        public let createTime: Date
+        /// The description of the ID namespace association.
+        public let description: String?
+        /// The unique identifier of this ID namespace association.
+        public let id: String
+        /// The input reference configuration details for this ID namespace association.
+        public let inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig
+        /// The input reference properties for this ID namespace association.
+        public let inputReferenceProperties: IdNamespaceAssociationInputReferencePropertiesSummary
+        /// The Amazon Resource Name (ARN) of the membership resource for this ID namespace association.
+        public let membershipArn: String
+        /// The unique identifier of the membership resource for this ID namespace association.
+        public let membershipId: String
+        /// The name of the ID namespace association.
+        public let name: String
+        /// The most recent time at which this ID namespace association has been updated.
+        public let updateTime: Date
+
+        public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, id: String, inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig, inputReferenceProperties: IdNamespaceAssociationInputReferencePropertiesSummary, membershipArn: String, membershipId: String, name: String, updateTime: Date) {
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.description = description
+            self.id = id
+            self.inputReferenceConfig = inputReferenceConfig
+            self.inputReferenceProperties = inputReferenceProperties
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.name = name
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case collaborationArn = "collaborationArn"
+            case collaborationId = "collaborationId"
+            case createTime = "createTime"
+            case description = "description"
+            case id = "id"
+            case inputReferenceConfig = "inputReferenceConfig"
+            case inputReferenceProperties = "inputReferenceProperties"
+            case membershipArn = "membershipArn"
+            case membershipId = "membershipId"
+            case name = "name"
+            case updateTime = "updateTime"
+        }
+    }
+
     public struct ListAnalysisTemplatesInput: AWSEncodableShape {
         /// The maximum size of the results that is returned per call.
         public let maxResults: Int?
@@ -3632,6 +4928,57 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case collaborationConfiguredAudienceModelAssociationSummaries = "collaborationConfiguredAudienceModelAssociationSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCollaborationIdNamespaceAssociationsInput: AWSEncodableShape {
+        /// The unique identifier of the collaboration that contains the ID namespace associations that you want to retrieve.
+        public let collaborationIdentifier: String
+        /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.&gt;
+        public let maxResults: Int?
+        /// The pagination token that's used to fetch the next set of results.
+        public let nextToken: String?
+
+        public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.collaborationIdentifier = collaborationIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCollaborationIdNamespaceAssociationsOutput: AWSDecodableShape {
+        /// The summary information of the collaboration ID namespace associations that you requested.
+        public let collaborationIdNamespaceAssociationSummaries: [CollaborationIdNamespaceAssociationSummary]
+        /// The token value provided to access the next page of results.
+        public let nextToken: String?
+
+        public init(collaborationIdNamespaceAssociationSummaries: [CollaborationIdNamespaceAssociationSummary], nextToken: String? = nil) {
+            self.collaborationIdNamespaceAssociationSummaries = collaborationIdNamespaceAssociationSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationIdNamespaceAssociationSummaries = "collaborationIdNamespaceAssociationSummaries"
             case nextToken = "nextToken"
         }
     }
@@ -3932,6 +5279,108 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case configuredTableSummaries = "configuredTableSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListIdMappingTablesInput: AWSEncodableShape {
+        /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+        public let maxResults: Int?
+        /// The unique identifier of the membership that contains the ID mapping tables that you want to view.
+        public let membershipIdentifier: String
+        /// The pagination token that's used to fetch the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.membershipIdentifier = membershipIdentifier
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListIdMappingTablesOutput: AWSDecodableShape {
+        /// The summary information of the ID mapping tables that you requested.
+        public let idMappingTableSummaries: [IdMappingTableSummary]
+        /// The token value provided to access the next page of results.
+        public let nextToken: String?
+
+        public init(idMappingTableSummaries: [IdMappingTableSummary], nextToken: String? = nil) {
+            self.idMappingTableSummaries = idMappingTableSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idMappingTableSummaries = "idMappingTableSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListIdNamespaceAssociationsInput: AWSEncodableShape {
+        /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+        public let maxResults: Int?
+        /// The unique identifier of the membership that contains the ID namespace association that you want to view.
+        public let membershipIdentifier: String
+        /// The pagination token that's used to fetch the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.membershipIdentifier = membershipIdentifier
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListIdNamespaceAssociationsOutput: AWSDecodableShape {
+        /// The summary information of the ID namespace associations that you requested.
+        public let idNamespaceAssociationSummaries: [IdNamespaceAssociationSummary]
+        /// The token value provided to access the next page of results.
+        public let nextToken: String?
+
+        public init(idNamespaceAssociationSummaries: [IdNamespaceAssociationSummary], nextToken: String? = nil) {
+            self.idNamespaceAssociationSummaries = idNamespaceAssociationSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idNamespaceAssociationSummaries = "idNamespaceAssociationSummaries"
             case nextToken = "nextToken"
         }
     }
@@ -4550,6 +5999,49 @@ extension CleanRooms {
         }
     }
 
+    public struct PopulateIdMappingTableInput: AWSEncodableShape {
+        /// The unique identifier of the ID mapping table that you want to populate.
+        public let idMappingTableIdentifier: String
+        /// The unique identifier of the membership that contains the ID mapping table that you want to populate.
+        public let membershipIdentifier: String
+
+        public init(idMappingTableIdentifier: String, membershipIdentifier: String) {
+            self.idMappingTableIdentifier = idMappingTableIdentifier
+            self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.idMappingTableIdentifier, key: "idMappingTableIdentifier")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.idMappingTableIdentifier, name: "idMappingTableIdentifier", parent: name, max: 36)
+            try self.validate(self.idMappingTableIdentifier, name: "idMappingTableIdentifier", parent: name, min: 36)
+            try self.validate(self.idMappingTableIdentifier, name: "idMappingTableIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct PopulateIdMappingTableOutput: AWSDecodableShape {
+        /// The unique identifier of the mapping job that will populate the ID mapping table.
+        public let idMappingJobId: String
+
+        public init(idMappingJobId: String) {
+            self.idMappingJobId = idMappingJobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idMappingJobId = "idMappingJobId"
+        }
+    }
+
     public struct PreviewPrivacyImpactInput: AWSEncodableShape {
         /// A unique identifier for one of your memberships for a collaboration. Accepts a membership ID.
         public let membershipIdentifier: String
@@ -4663,7 +6155,7 @@ extension CleanRooms {
         public let membershipArn: String
         /// The identifier for a membership resource.
         public let membershipId: String
-        /// Specifies the epislon and noise parameters for the privacy budget template.
+        /// Specifies the epsilon and noise parameters for the privacy budget template.
         public let parameters: PrivacyBudgetTemplateParametersOutput
         /// Specifies the type of the privacy budget template.
         public let privacyBudgetType: PrivacyBudgetType
@@ -4814,6 +6306,25 @@ extension CleanRooms {
         }
     }
 
+    public struct ProtectedQueryMemberOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier for the account.
+        public let accountId: String
+
+        public init(accountId: String) {
+            self.accountId = accountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+        }
+    }
+
     public struct ProtectedQueryResult: AWSDecodableShape {
         /// The output of the protected query.
         public let output: ProtectedQueryOutput
@@ -4929,7 +6440,7 @@ extension CleanRooms {
     }
 
     public struct ProtectedQueryStatistics: AWSDecodableShape {
-        /// The duration of the Protected Query, from creation until query completion.
+        /// The duration of the protected query, from creation until query completion.
         public let totalDurationInMillis: Int64?
 
         public init(totalDurationInMillis: Int64? = nil) {
@@ -4950,14 +6461,17 @@ extension CleanRooms {
         public let membershipArn: String
         /// The unique ID for the membership that initiated the protected query.
         public let membershipId: String
+        ///  The receiver configuration.
+        public let receiverConfigurations: [ReceiverConfiguration]
         /// The status of the protected query. Value values are `SUBMITTED`, `STARTED`, `CANCELLED`, `CANCELLING`, `FAILED`, `SUCCESS`, `TIMED_OUT`.
         public let status: ProtectedQueryStatus
 
-        public init(createTime: Date, id: String, membershipArn: String, membershipId: String, status: ProtectedQueryStatus) {
+        public init(createTime: Date, id: String, membershipArn: String, membershipId: String, receiverConfigurations: [ReceiverConfiguration], status: ProtectedQueryStatus) {
             self.createTime = createTime
             self.id = id
             self.membershipArn = membershipArn
             self.membershipId = membershipId
+            self.receiverConfigurations = receiverConfigurations
             self.status = status
         }
 
@@ -4966,6 +6480,7 @@ extension CleanRooms {
             case id = "id"
             case membershipArn = "membershipArn"
             case membershipId = "membershipId"
+            case receiverConfigurations = "receiverConfigurations"
             case status = "status"
         }
     }
@@ -4980,6 +6495,36 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case isResponsible = "isResponsible"
+        }
+    }
+
+    public struct QueryConstraintRequireOverlap: AWSDecodableShape {
+        /// The columns that are required to overlap.
+        public let columns: [String]?
+
+        public init(columns: [String]? = nil) {
+            self.columns = columns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns = "columns"
+        }
+    }
+
+    public struct ReceiverConfiguration: AWSDecodableShape {
+        ///  The type of analysis for the protected query. The results of the query can be analyzed directly (DIRECT_ANALYSIS) or used as input into additional analyses (ADDITIONAL_ANALYSIS), such as a query that is a seed for a lookalike ML model.
+        public let analysisType: AnalysisType
+        ///  The configuration details of the receiver configuration.
+        public let configurationDetails: ConfigurationDetails?
+
+        public init(analysisType: AnalysisType, configurationDetails: ConfigurationDetails? = nil) {
+            self.analysisType = analysisType
+            self.configurationDetails = configurationDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisType = "analysisType"
+            case configurationDetails = "configurationDetails"
         }
     }
 
@@ -5006,12 +6551,14 @@ extension CleanRooms {
         public let partitionKeys: [Column]
         /// Details about the status of the schema. Currently, only one entry is present.
         public let schemaStatusDetails: [SchemaStatusDetail]
+        /// The schema type properties.
+        public let schemaTypeProperties: SchemaTypeProperties?
         /// The type of schema. The only valid value is currently `TABLE`.
         public let type: SchemaType
         /// The time the schema was last updated.
         public let updateTime: Date
 
-        public init(analysisMethod: AnalysisMethod? = nil, analysisRuleTypes: [AnalysisRuleType], collaborationArn: String, collaborationId: String, columns: [Column], createTime: Date, creatorAccountId: String, description: String, name: String, partitionKeys: [Column], schemaStatusDetails: [SchemaStatusDetail], type: SchemaType, updateTime: Date) {
+        public init(analysisMethod: AnalysisMethod? = nil, analysisRuleTypes: [AnalysisRuleType], collaborationArn: String, collaborationId: String, columns: [Column], createTime: Date, creatorAccountId: String, description: String, name: String, partitionKeys: [Column], schemaStatusDetails: [SchemaStatusDetail], schemaTypeProperties: SchemaTypeProperties? = nil, type: SchemaType, updateTime: Date) {
             self.analysisMethod = analysisMethod
             self.analysisRuleTypes = analysisRuleTypes
             self.collaborationArn = collaborationArn
@@ -5023,6 +6570,7 @@ extension CleanRooms {
             self.name = name
             self.partitionKeys = partitionKeys
             self.schemaStatusDetails = schemaStatusDetails
+            self.schemaTypeProperties = schemaTypeProperties
             self.type = type
             self.updateTime = updateTime
         }
@@ -5039,6 +6587,7 @@ extension CleanRooms {
             case name = "name"
             case partitionKeys = "partitionKeys"
             case schemaStatusDetails = "schemaStatusDetails"
+            case schemaTypeProperties = "schemaTypeProperties"
             case type = "type"
             case updateTime = "updateTime"
         }
@@ -5069,15 +6618,18 @@ extension CleanRooms {
     public struct SchemaStatusDetail: AWSDecodableShape {
         /// The analysis rule type for which the schema status has been evaluated.
         public let analysisRuleType: AnalysisRuleType?
+        /// The type of analysis that can be performed on the schema. A schema can have an analysisType of DIRECT_ANALYSIS, ADDITIONAL_ANALYSIS_FOR_AUDIENCE_GENERATION, or both.
+        public let analysisType: AnalysisType
         /// The configuration details of the schema analysis rule for the given type.
         public let configurations: [SchemaConfiguration]?
         /// The reasons why the schema status is set to its current state.
         public let reasons: [SchemaStatusReason]?
-        /// The status of the schema.
+        /// The status of the schema, indicating if it is ready to query.
         public let status: SchemaStatus
 
-        public init(analysisRuleType: AnalysisRuleType? = nil, configurations: [SchemaConfiguration]? = nil, reasons: [SchemaStatusReason]? = nil, status: SchemaStatus) {
+        public init(analysisRuleType: AnalysisRuleType? = nil, analysisType: AnalysisType, configurations: [SchemaConfiguration]? = nil, reasons: [SchemaStatusReason]? = nil, status: SchemaStatus) {
             self.analysisRuleType = analysisRuleType
+            self.analysisType = analysisType
             self.configurations = configurations
             self.reasons = reasons
             self.status = status
@@ -5085,6 +6637,7 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case analysisRuleType = "analysisRuleType"
+            case analysisType = "analysisType"
             case configurations = "configurations"
             case reasons = "reasons"
             case status = "status"
@@ -5489,6 +7042,60 @@ extension CleanRooms {
         }
     }
 
+    public struct UpdateConfiguredTableAssociationAnalysisRuleInput: AWSEncodableShape {
+        ///  The updated analysis rule policy for the conﬁgured table association.
+        public let analysisRulePolicy: ConfiguredTableAssociationAnalysisRulePolicy
+        ///  The analysis rule type that you want to update.
+        public let analysisRuleType: ConfiguredTableAssociationAnalysisRuleType
+        ///  The identifier for the configured table association to update.
+        public let configuredTableAssociationIdentifier: String
+        ///  A unique identifier for the membership that the configured table association belongs to. Currently accepts the membership ID.
+        public let membershipIdentifier: String
+
+        public init(analysisRulePolicy: ConfiguredTableAssociationAnalysisRulePolicy, analysisRuleType: ConfiguredTableAssociationAnalysisRuleType, configuredTableAssociationIdentifier: String, membershipIdentifier: String) {
+            self.analysisRulePolicy = analysisRulePolicy
+            self.analysisRuleType = analysisRuleType
+            self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
+            self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.analysisRulePolicy, forKey: .analysisRulePolicy)
+            request.encodePath(self.analysisRuleType, key: "analysisRuleType")
+            request.encodePath(self.configuredTableAssociationIdentifier, key: "configuredTableAssociationIdentifier")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.analysisRulePolicy.validate(name: "\(name).analysisRulePolicy")
+            try self.validate(self.configuredTableAssociationIdentifier, name: "configuredTableAssociationIdentifier", parent: name, max: 36)
+            try self.validate(self.configuredTableAssociationIdentifier, name: "configuredTableAssociationIdentifier", parent: name, min: 36)
+            try self.validate(self.configuredTableAssociationIdentifier, name: "configuredTableAssociationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisRulePolicy = "analysisRulePolicy"
+        }
+    }
+
+    public struct UpdateConfiguredTableAssociationAnalysisRuleOutput: AWSDecodableShape {
+        ///  The updated analysis rule for the conﬁgured table association. In the console, the ConfiguredTableAssociationAnalysisRule is referred to as the collaboration analysis rule.
+        public let analysisRule: ConfiguredTableAssociationAnalysisRule
+
+        public init(analysisRule: ConfiguredTableAssociationAnalysisRule) {
+            self.analysisRule = analysisRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisRule = "analysisRule"
+        }
+    }
+
     public struct UpdateConfiguredTableAssociationInput: AWSEncodableShape {
         /// The unique identifier for the configured table association to update. Currently accepts the configured table association ID.
         public let configuredTableAssociationIdentifier: String
@@ -5597,6 +7204,129 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case configuredTable = "configuredTable"
+        }
+    }
+
+    public struct UpdateIdMappingTableInput: AWSEncodableShape {
+        /// A new description for the ID mapping table.
+        public let description: String?
+        /// The unique identifier of the ID mapping table that you want to update.
+        public let idMappingTableIdentifier: String
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services KMS key.
+        public let kmsKeyArn: String?
+        /// The unique identifier of the membership that contains the ID mapping table that you want to update.
+        public let membershipIdentifier: String
+
+        public init(description: String? = nil, idMappingTableIdentifier: String, kmsKeyArn: String? = nil, membershipIdentifier: String) {
+            self.description = description
+            self.idMappingTableIdentifier = idMappingTableIdentifier
+            self.kmsKeyArn = kmsKeyArn
+            self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.idMappingTableIdentifier, key: "idMappingTableIdentifier")
+            try container.encodeIfPresent(self.kmsKeyArn, forKey: .kmsKeyArn)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
+            try self.validate(self.idMappingTableIdentifier, name: "idMappingTableIdentifier", parent: name, max: 36)
+            try self.validate(self.idMappingTableIdentifier, name: "idMappingTableIdentifier", parent: name, min: 36)
+            try self.validate(self.idMappingTableIdentifier, name: "idMappingTableIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws:kms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:key/[a-zA-Z0-9-]+$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case kmsKeyArn = "kmsKeyArn"
+        }
+    }
+
+    public struct UpdateIdMappingTableOutput: AWSDecodableShape {
+        /// The updated ID mapping table.
+        public let idMappingTable: IdMappingTable
+
+        public init(idMappingTable: IdMappingTable) {
+            self.idMappingTable = idMappingTable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idMappingTable = "idMappingTable"
+        }
+    }
+
+    public struct UpdateIdNamespaceAssociationInput: AWSEncodableShape {
+        /// A new description for the ID namespace association.
+        public let description: String?
+        /// The configuration settings for the ID mapping table.
+        public let idMappingConfig: IdMappingConfig?
+        /// The unique identifier of the ID namespace association that you want to update.
+        public let idNamespaceAssociationIdentifier: String
+        /// The unique identifier of the membership that contains the ID namespace association that you want to update.
+        public let membershipIdentifier: String
+        /// A new name for the ID namespace association.
+        public let name: String?
+
+        public init(description: String? = nil, idMappingConfig: IdMappingConfig? = nil, idNamespaceAssociationIdentifier: String, membershipIdentifier: String, name: String? = nil) {
+            self.description = description
+            self.idMappingConfig = idMappingConfig
+            self.idNamespaceAssociationIdentifier = idNamespaceAssociationIdentifier
+            self.membershipIdentifier = membershipIdentifier
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.idMappingConfig, forKey: .idMappingConfig)
+            request.encodePath(self.idNamespaceAssociationIdentifier, key: "idNamespaceAssociationIdentifier")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
+            try self.validate(self.idNamespaceAssociationIdentifier, name: "idNamespaceAssociationIdentifier", parent: name, max: 36)
+            try self.validate(self.idNamespaceAssociationIdentifier, name: "idNamespaceAssociationIdentifier", parent: name, min: 36)
+            try self.validate(self.idNamespaceAssociationIdentifier, name: "idNamespaceAssociationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case idMappingConfig = "idMappingConfig"
+            case name = "name"
+        }
+    }
+
+    public struct UpdateIdNamespaceAssociationOutput: AWSDecodableShape {
+        /// The updated ID namespace association.
+        public let idNamespaceAssociation: IdNamespaceAssociation
+
+        public init(idNamespaceAssociation: IdNamespaceAssociation) {
+            self.idNamespaceAssociation = idNamespaceAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idNamespaceAssociation = "idNamespaceAssociation"
         }
     }
 
@@ -5781,11 +7511,41 @@ extension CleanRooms {
         }
     }
 
+    public struct ConfigurationDetails: AWSDecodableShape {
+        ///  The direct analysis configuration details.
+        public let directAnalysisConfigurationDetails: DirectAnalysisConfigurationDetails?
+
+        public init(directAnalysisConfigurationDetails: DirectAnalysisConfigurationDetails? = nil) {
+            self.directAnalysisConfigurationDetails = directAnalysisConfigurationDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directAnalysisConfigurationDetails = "directAnalysisConfigurationDetails"
+        }
+    }
+
     public struct ConfiguredTableAnalysisRulePolicy: AWSEncodableShape & AWSDecodableShape {
         /// Controls on the query specifications that can be run on a configured table.
         public let v1: ConfiguredTableAnalysisRulePolicyV1?
 
         public init(v1: ConfiguredTableAnalysisRulePolicyV1? = nil) {
+            self.v1 = v1
+        }
+
+        public func validate(name: String) throws {
+            try self.v1?.validate(name: "\(name).v1")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case v1 = "v1"
+        }
+    }
+
+    public struct ConfiguredTableAssociationAnalysisRulePolicy: AWSEncodableShape & AWSDecodableShape {
+        ///  The policy for the configured table association analysis rule.
+        public let v1: ConfiguredTableAssociationAnalysisRulePolicyV1?
+
+        public init(v1: ConfiguredTableAssociationAnalysisRulePolicyV1? = nil) {
             self.v1 = v1
         }
 
@@ -5904,20 +7664,29 @@ extension CleanRooms {
         }
     }
 
-    public struct ProtectedQueryOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Required configuration for a protected query with an `S3` output type.
-        public let s3: ProtectedQueryS3OutputConfiguration?
+    public struct QueryConstraint: AWSDecodableShape {
+        /// An array of column names that specifies which columns are required in the JOIN statement.
+        public let requireOverlap: QueryConstraintRequireOverlap?
 
-        public init(s3: ProtectedQueryS3OutputConfiguration? = nil) {
-            self.s3 = s3
-        }
-
-        public func validate(name: String) throws {
-            try self.s3?.validate(name: "\(name).s3")
+        public init(requireOverlap: QueryConstraintRequireOverlap? = nil) {
+            self.requireOverlap = requireOverlap
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3 = "s3"
+            case requireOverlap = "requireOverlap"
+        }
+    }
+
+    public struct SchemaTypeProperties: AWSDecodableShape {
+        /// The ID mapping table for the schema type properties.
+        public let idMappingTable: IdMappingTableSchemaTypeProperties?
+
+        public init(idMappingTable: IdMappingTableSchemaTypeProperties? = nil) {
+            self.idMappingTable = idMappingTable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idMappingTable = "idMappingTable"
         }
     }
 

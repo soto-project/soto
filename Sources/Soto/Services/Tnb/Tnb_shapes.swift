@@ -52,10 +52,13 @@ extension Tnb {
         case impaired = "IMPAIRED"
         case instantiateInProgress = "INSTANTIATE_IN_PROGRESS"
         case instantiated = "INSTANTIATED"
+        case intentToUpdateInProgress = "INTENT_TO_UPDATE_IN_PROGRESS"
         case notInstantiated = "NOT_INSTANTIATED"
         case stopped = "STOPPED"
         case terminateInProgress = "TERMINATE_IN_PROGRESS"
+        case updateFailed = "UPDATE_FAILED"
         case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updated = "UPDATED"
         public var description: String { return self.rawValue }
     }
 
@@ -109,6 +112,7 @@ extension Tnb {
 
     public enum UpdateSolNetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case modifyVnfInformation = "MODIFY_VNF_INFORMATION"
+        case updateNs = "UPDATE_NS"
         public var description: String { return self.rawValue }
     }
 
@@ -660,7 +664,7 @@ extension Tnb {
         public let tags: [String: String]?
         /// Function package usage state.
         public let usageState: UsageState
-        /// Function package descriptor  ID.
+        /// Function package descriptor ID.
         public let vnfdId: String?
         /// Function package descriptor version.
         public let vnfdVersion: String?
@@ -820,17 +824,29 @@ extension Tnb {
     public struct GetSolNetworkOperationMetadata: AWSDecodableShape {
         /// The date that the resource was created.
         public let createdAt: Date
+        /// Metadata related to the network operation occurrence for network instantiation. This is populated only if the lcmOperationType is INSTANTIATE.
+        public let instantiateMetadata: InstantiateMetadata?
         /// The date that the resource was last modified.
         public let lastModified: Date
+        /// Metadata related to the network operation occurrence for network function updates in a network instance. This is populated only if the lcmOperationType is UPDATE and the updateType is MODIFY_VNF_INFORMATION.
+        public let modifyVnfInfoMetadata: ModifyVnfInfoMetadata?
+        /// Metadata related to the network operation occurrence for network instance updates. This is populated only if the lcmOperationType is UPDATE and the updateType is UPDATE_NS.
+        public let updateNsMetadata: UpdateNsMetadata?
 
-        public init(createdAt: Date, lastModified: Date) {
+        public init(createdAt: Date, instantiateMetadata: InstantiateMetadata? = nil, lastModified: Date, modifyVnfInfoMetadata: ModifyVnfInfoMetadata? = nil, updateNsMetadata: UpdateNsMetadata? = nil) {
             self.createdAt = createdAt
+            self.instantiateMetadata = instantiateMetadata
             self.lastModified = lastModified
+            self.modifyVnfInfoMetadata = modifyVnfInfoMetadata
+            self.updateNsMetadata = updateNsMetadata
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
+            case instantiateMetadata = "instantiateMetadata"
             case lastModified = "lastModified"
+            case modifyVnfInfoMetadata = "modifyVnfInfoMetadata"
+            case updateNsMetadata = "updateNsMetadata"
         }
     }
 
@@ -853,8 +869,10 @@ extension Tnb {
         public let tags: [String: String]?
         /// All tasks associated with this operation occurrence.
         public let tasks: [GetSolNetworkOperationTaskDetails]?
+        /// Type of the update. Only present if the network operation lcmOperationType is UPDATE.
+        public let updateType: UpdateSolNetworkType?
 
-        public init(arn: String, error: ProblemDetails? = nil, id: String? = nil, lcmOperationType: LcmOperationType? = nil, metadata: GetSolNetworkOperationMetadata? = nil, nsInstanceId: String? = nil, operationState: NsLcmOperationState? = nil, tags: [String: String]? = nil, tasks: [GetSolNetworkOperationTaskDetails]? = nil) {
+        public init(arn: String, error: ProblemDetails? = nil, id: String? = nil, lcmOperationType: LcmOperationType? = nil, metadata: GetSolNetworkOperationMetadata? = nil, nsInstanceId: String? = nil, operationState: NsLcmOperationState? = nil, tags: [String: String]? = nil, tasks: [GetSolNetworkOperationTaskDetails]? = nil, updateType: UpdateSolNetworkType? = nil) {
             self.arn = arn
             self.error = error
             self.id = id
@@ -864,6 +882,7 @@ extension Tnb {
             self.operationState = operationState
             self.tags = tags
             self.tasks = tasks
+            self.updateType = updateType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -876,6 +895,7 @@ extension Tnb {
             case operationState = "operationState"
             case tags = "tags"
             case tasks = "tasks"
+            case updateType = "updateType"
         }
     }
 
@@ -1147,6 +1167,23 @@ extension Tnb {
         }
     }
 
+    public struct InstantiateMetadata: AWSDecodableShape {
+        /// The configurable properties used during instantiation.
+        public let additionalParamsForNs: String?
+        /// The network service descriptor used for instantiating the network instance.
+        public let nsdInfoId: String
+
+        public init(additionalParamsForNs: String? = nil, nsdInfoId: String) {
+            self.additionalParamsForNs = additionalParamsForNs
+            self.nsdInfoId = nsdInfoId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalParamsForNs = "additionalParamsForNs"
+            case nsdInfoId = "nsdInfoId"
+        }
+    }
+
     public struct InstantiateSolNetworkInstanceInput: AWSEncodableShape {
         /// Provides values for the configurable properties.
         public let additionalParamsForNs: String?
@@ -1154,7 +1191,7 @@ extension Tnb {
         public let dryRun: Bool?
         /// ID of the network instance.
         public let nsInstanceId: String
-        /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+        /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
 
         public init(additionalParamsForNs: String? = nil, dryRun: Bool? = nil, nsInstanceId: String, tags: [String: String]? = nil) {
@@ -1191,7 +1228,7 @@ extension Tnb {
     public struct InstantiateSolNetworkInstanceOutput: AWSDecodableShape {
         /// The identifier of the network operation.
         public let nsLcmOpOccId: String
-        /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+        /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
 
         public init(nsLcmOpOccId: String, tags: [String: String]? = nil) {
@@ -1528,8 +1565,10 @@ extension Tnb {
         public let nsInstanceId: String
         /// The state of the network operation.
         public let operationState: NsLcmOperationState
+        /// Type of the update. Only present if the network operation lcmOperationType is UPDATE.
+        public let updateType: UpdateSolNetworkType?
 
-        public init(arn: String, error: ProblemDetails? = nil, id: String, lcmOperationType: LcmOperationType, metadata: ListSolNetworkOperationsMetadata? = nil, nsInstanceId: String, operationState: NsLcmOperationState) {
+        public init(arn: String, error: ProblemDetails? = nil, id: String, lcmOperationType: LcmOperationType, metadata: ListSolNetworkOperationsMetadata? = nil, nsInstanceId: String, operationState: NsLcmOperationState, updateType: UpdateSolNetworkType? = nil) {
             self.arn = arn
             self.error = error
             self.id = id
@@ -1537,6 +1576,7 @@ extension Tnb {
             self.metadata = metadata
             self.nsInstanceId = nsInstanceId
             self.operationState = operationState
+            self.updateType = updateType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1547,6 +1587,7 @@ extension Tnb {
             case metadata = "metadata"
             case nsInstanceId = "nsInstanceId"
             case operationState = "operationState"
+            case updateType = "updateType"
         }
     }
 
@@ -1555,10 +1596,13 @@ extension Tnb {
         public let maxResults: Int?
         /// The token for the next page of results.
         public let nextToken: String?
+        /// Network instance id filter, to retrieve network operations associated to a network instance.
+        public let nsInstanceId: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, nsInstanceId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.nsInstanceId = nsInstanceId
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1566,6 +1610,11 @@ extension Tnb {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "max_results")
             request.encodeQuery(self.nextToken, key: "nextpage_opaque_marker")
+            request.encodeQuery(self.nsInstanceId, key: "nsInstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nsInstanceId, name: "nsInstanceId", parent: name, pattern: "^ni-[a-f0-9]{17}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1576,15 +1625,23 @@ extension Tnb {
         public let createdAt: Date
         /// The date that the resource was last modified.
         public let lastModified: Date
+        /// The network service descriptor id used for the operation. Only present if the updateType is UPDATE_NS.
+        public let nsdInfoId: String?
+        /// The network function id used for the operation. Only present if the updateType is MODIFY_VNF_INFO.
+        public let vnfInstanceId: String?
 
-        public init(createdAt: Date, lastModified: Date) {
+        public init(createdAt: Date, lastModified: Date, nsdInfoId: String? = nil, vnfInstanceId: String? = nil) {
             self.createdAt = createdAt
             self.lastModified = lastModified
+            self.nsdInfoId = nsdInfoId
+            self.vnfInstanceId = vnfInstanceId
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case lastModified = "lastModified"
+            case nsdInfoId = "nsdInfoId"
+            case vnfInstanceId = "vnfInstanceId"
         }
     }
 
@@ -1748,6 +1805,23 @@ extension Tnb {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct ModifyVnfInfoMetadata: AWSDecodableShape {
+        /// The configurable properties used during update of the network function instance.
+        public let vnfConfigurableProperties: String
+        /// The network function instance that was updated in the network instance.
+        public let vnfInstanceId: String
+
+        public init(vnfConfigurableProperties: String, vnfInstanceId: String) {
+            self.vnfConfigurableProperties = vnfConfigurableProperties
+            self.vnfInstanceId = vnfInstanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vnfConfigurableProperties = "vnfConfigurableProperties"
+            case vnfInstanceId = "vnfInstanceId"
         }
     }
 
@@ -1972,7 +2046,7 @@ extension Tnb {
     public struct TerminateSolNetworkInstanceInput: AWSEncodableShape {
         /// ID of the network instance.
         public let nsInstanceId: String
-        /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+        /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
 
         public init(nsInstanceId: String, tags: [String: String]? = nil) {
@@ -2004,7 +2078,7 @@ extension Tnb {
     public struct TerminateSolNetworkInstanceOutput: AWSDecodableShape {
         /// The identifier of the network operation.
         public let nsLcmOpOccId: String?
-        /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+        /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
 
         public init(nsLcmOpOccId: String? = nil, tags: [String: String]? = nil) {
@@ -2068,6 +2142,23 @@ extension Tnb {
         public init() {}
     }
 
+    public struct UpdateNsMetadata: AWSDecodableShape {
+        /// The configurable properties used during update.
+        public let additionalParamsForNs: String?
+        /// The network service descriptor used for updating the network instance.
+        public let nsdInfoId: String
+
+        public init(additionalParamsForNs: String? = nil, nsdInfoId: String) {
+            self.additionalParamsForNs = additionalParamsForNs
+            self.nsdInfoId = nsdInfoId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalParamsForNs = "additionalParamsForNs"
+            case nsdInfoId = "nsdInfoId"
+        }
+    }
+
     public struct UpdateSolFunctionPackageInput: AWSEncodableShape {
         /// Operational state of the function package.
         public let operationalState: OperationalState
@@ -2109,19 +2200,22 @@ extension Tnb {
     }
 
     public struct UpdateSolNetworkInstanceInput: AWSEncodableShape {
-        /// Identifies the network function information parameters and/or the configurable properties of the network function to be modified.
+        /// Identifies the network function information parameters and/or the configurable properties of the network function to be modified. Include this property only if the update type is MODIFY_VNF_INFORMATION.
         public let modifyVnfInfoData: UpdateSolNetworkModify?
         /// ID of the network instance.
         public let nsInstanceId: String
-        /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+        /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
-        /// The type of update.
+        /// Identifies the network service descriptor and the configurable properties of the descriptor, to be used for the update. Include this property only if the update type is UPDATE_NS.
+        public let updateNs: UpdateSolNetworkServiceData?
+        /// The type of update.   Use the MODIFY_VNF_INFORMATION update type, to update a specific network function configuration, in the network instance.   Use the UPDATE_NS update type, to update the network instance to a new network service descriptor.
         public let updateType: UpdateSolNetworkType
 
-        public init(modifyVnfInfoData: UpdateSolNetworkModify? = nil, nsInstanceId: String, tags: [String: String]? = nil, updateType: UpdateSolNetworkType) {
+        public init(modifyVnfInfoData: UpdateSolNetworkModify? = nil, nsInstanceId: String, tags: [String: String]? = nil, updateNs: UpdateSolNetworkServiceData? = nil, updateType: UpdateSolNetworkType) {
             self.modifyVnfInfoData = modifyVnfInfoData
             self.nsInstanceId = nsInstanceId
             self.tags = tags
+            self.updateNs = updateNs
             self.updateType = updateType
         }
 
@@ -2131,6 +2225,7 @@ extension Tnb {
             try container.encodeIfPresent(self.modifyVnfInfoData, forKey: .modifyVnfInfoData)
             request.encodePath(self.nsInstanceId, key: "nsInstanceId")
             try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.updateNs, forKey: .updateNs)
             try container.encode(self.updateType, forKey: .updateType)
         }
 
@@ -2142,11 +2237,13 @@ extension Tnb {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.updateNs?.validate(name: "\(name).updateNs")
         }
 
         private enum CodingKeys: String, CodingKey {
             case modifyVnfInfoData = "modifyVnfInfoData"
             case tags = "tags"
+            case updateNs = "updateNs"
             case updateType = "updateType"
         }
     }
@@ -2154,7 +2251,7 @@ extension Tnb {
     public struct UpdateSolNetworkInstanceOutput: AWSDecodableShape {
         /// The identifier of the network operation.
         public let nsLcmOpOccId: String?
-        /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+        /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
         public let tags: [String: String]?
 
         public init(nsLcmOpOccId: String? = nil, tags: [String: String]? = nil) {
@@ -2226,6 +2323,27 @@ extension Tnb {
 
         private enum CodingKeys: String, CodingKey {
             case nsdOperationalState = "nsdOperationalState"
+        }
+    }
+
+    public struct UpdateSolNetworkServiceData: AWSEncodableShape {
+        /// Values for the configurable properties declared in the network service descriptor.
+        public let additionalParamsForNs: String?
+        /// ID of the network service descriptor.
+        public let nsdInfoId: String
+
+        public init(additionalParamsForNs: String? = nil, nsdInfoId: String) {
+            self.additionalParamsForNs = additionalParamsForNs
+            self.nsdInfoId = nsdInfoId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nsdInfoId, name: "nsdInfoId", parent: name, pattern: "^np-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalParamsForNs = "additionalParamsForNs"
+            case nsdInfoId = "nsdInfoId"
         }
     }
 
