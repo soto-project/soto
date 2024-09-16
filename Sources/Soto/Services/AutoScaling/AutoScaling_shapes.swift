@@ -1098,7 +1098,7 @@ extension AutoScaling {
         public let desiredCapacityType: String?
         /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. This is useful if your instances do not immediately pass their health checks after they enter the InService state. For more information, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Default: 0 seconds
         public let healthCheckGracePeriod: Int?
-        /// A comma-separated value string of one or more health check types. The valid values are EC2, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see Health checks for instances in an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
+        /// A comma-separated value string of one or more health check types. The valid values are EC2, EBS, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see Health checks for instances in an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
         public let healthCheckType: String?
         /// The ID of the instance used to base the launch configuration on. If specified, Amazon EC2 Auto Scaling uses the configuration values from the specified instance to create a new launch configuration. To get the instance ID, use the Amazon EC2 DescribeInstances API operation. For more information, see Create an Auto Scaling group using parameters from an existing instance in the Amazon EC2 Auto Scaling User Guide.
         public let instanceId: String?
@@ -1228,7 +1228,7 @@ extension AutoScaling {
             try self.trafficSources?.forEach {
                 try $0.validate(name: "\(name).trafficSources[]")
             }
-            try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, max: 2047)
+            try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, max: 5000)
             try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, min: 1)
             try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
@@ -5359,7 +5359,7 @@ extension AutoScaling {
         public let desiredCapacityType: String?
         /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. This is useful if your instances do not immediately pass their health checks after they enter the InService state. For more information, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
         public let healthCheckGracePeriod: Int?
-        /// A comma-separated value string of one or more health check types. The valid values are EC2, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see Health checks for instances in an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
+        /// A comma-separated value string of one or more health check types. The valid values are EC2, EBS, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see Health checks for instances in an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
         public let healthCheckType: String?
         /// An instance maintenance policy. For more information, see Set instance maintenance policy in the Amazon EC2 Auto Scaling User Guide.
         public let instanceMaintenancePolicy: InstanceMaintenancePolicy?
@@ -5444,7 +5444,7 @@ extension AutoScaling {
                 try validate($0, name: "terminationPolicies[]", parent: name, min: 1)
                 try validate($0, name: "terminationPolicies[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             }
-            try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, max: 2047)
+            try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, max: 5000)
             try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, min: 1)
             try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }

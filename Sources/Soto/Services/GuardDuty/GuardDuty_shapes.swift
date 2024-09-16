@@ -200,6 +200,15 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum GroupByType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case account = "ACCOUNT"
+        case date = "DATE"
+        case findingType = "FINDING_TYPE"
+        case resource = "RESOURCE"
+        case severity = "SEVERITY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IpSetFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alienVault = "ALIEN_VAULT"
         case fireEye = "FIRE_EYE"
@@ -553,6 +562,27 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case blockPublicAccess = "blockPublicAccess"
+        }
+    }
+
+    public struct AccountStatistics: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account.
+        public let accountId: String?
+        /// The timestamp at which the finding for this account was last generated.
+        public let lastGeneratedAt: Date?
+        /// The total number of findings associated with an account.
+        public let totalFindings: Int?
+
+        public init(accountId: String? = nil, lastGeneratedAt: Date? = nil, totalFindings: Int? = nil) {
+            self.accountId = accountId
+            self.lastGeneratedAt = lastGeneratedAt
+            self.totalFindings = totalFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case lastGeneratedAt = "lastGeneratedAt"
+            case totalFindings = "totalFindings"
         }
     }
 
@@ -1348,7 +1378,7 @@ extension GuardDuty {
         public let clientToken: String?
         /// The description of the filter. Valid characters include alphanumeric characters, and special characters such as hyphen, period, colon, underscore, parentheses ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed, return, and whitespace.
         public let description: String?
-        /// The ID of the detector belonging to the GuardDuty account that you want to create a filter for.
+        /// The detector ID associated with the GuardDuty account for which you want to create a filter.
         public let detectorId: String
         /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   id   region   severity To filter on the basis of severity, the API and CLI use the following input list for the FindingCriteria condition:    Low: ["1", "2", "3"]     Medium: ["4", "5", "6"]     High: ["7", "8", "9"]    For more information, see Severity levels for GuardDuty findings.   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.outpostArn   resource.resourceType   resource.s3BucketDetails.publicAccess.effectivePermissions   resource.s3BucketDetails.name   resource.s3BucketDetails.tags.key   resource.s3BucketDetails.tags.value   resource.s3BucketDetails.type   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.ipAddressV6   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.dnsRequestAction.domainWithSuffix   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.ipAddressV6   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.action.awsApiCallAction.remoteAccountDetails.affiliated   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV6   service.action.kubernetesApiCallAction.namespace   service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn   service.action.kubernetesApiCallAction.requestUri   service.action.kubernetesApiCallAction.statusCode   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.localIpDetails.ipAddressV6   service.action.networkConnectionAction.protocol   service.action.awsApiCallAction.serviceName   service.action.awsApiCallAction.remoteAccountDetails.accountId   service.additionalInfo.threatListName   service.resourceRole   resource.eksClusterDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.namespace   resource.kubernetesDetails.kubernetesUserDetails.username   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix   service.ebsVolumeScanDetails.scanId   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash   resource.ecsClusterDetails.name   resource.ecsClusterDetails.taskDetails.containers.image   resource.ecsClusterDetails.taskDetails.definitionArn   resource.containerDetails.image   resource.rdsDbInstanceDetails.dbInstanceIdentifier   resource.rdsDbInstanceDetails.dbClusterIdentifier   resource.rdsDbInstanceDetails.engine   resource.rdsDbUserDetails.user   resource.rdsDbInstanceDetails.tags.key   resource.rdsDbInstanceDetails.tags.value   service.runtimeDetails.process.executableSha256   service.runtimeDetails.process.name   service.runtimeDetails.process.name   resource.lambdaDetails.functionName   resource.lambdaDetails.functionArn   resource.lambdaDetails.tags.key   resource.lambdaDetails.tags.value
         public let findingCriteria: FindingCriteria?
@@ -1431,7 +1461,7 @@ extension GuardDuty {
         public let activate: Bool?
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// The unique ID of the detector of the GuardDuty account that you want to create an IPSet for.
+        /// The unique ID of the detector of the GuardDuty account for which you want to create an IPSet.
         public let detectorId: String
         /// The format of the file that contains the IPSet.
         public let format: IpSetFormat?
@@ -1512,7 +1542,7 @@ extension GuardDuty {
         public let clientToken: String?
         /// Information about the protected resource that is associated with the created  Malware Protection plan. Presently, S3Bucket is the only supported  protected resource.
         public let protectedResource: CreateProtectedResource?
-        /// IAM role with permissions required to scan and add tags to the associated protected resource.
+        /// Amazon Resource Name (ARN) of the IAM role that has the permissions to scan and add tags to the associated protected resource.
         public let role: String?
         /// Tags added to the Malware Protection plan resource.
         public let tags: [String: String]?
@@ -1563,7 +1593,7 @@ extension GuardDuty {
     public struct CreateMembersRequest: AWSEncodableShape {
         /// A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account.
         public let accountDetails: [AccountDetail]?
-        /// The unique ID of the detector of the GuardDuty account that you want to associate member accounts with.
+        /// The unique ID of the detector of the GuardDuty account for which you want to associate member accounts.
         public let detectorId: String
 
         public init(accountDetails: [AccountDetail]? = nil, detectorId: String) {
@@ -1697,7 +1727,7 @@ extension GuardDuty {
     }
 
     public struct CreateSampleFindingsRequest: AWSEncodableShape {
-        /// The ID of the detector to create sample findings for.
+        /// The ID of the detector for which you need to create sample findings.
         public let detectorId: String
         /// The types of sample findings to generate.
         public let findingTypes: [String]?
@@ -1738,7 +1768,7 @@ extension GuardDuty {
         public let activate: Bool?
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// The unique ID of the detector of the GuardDuty account that you want to create a threatIntelSet for.
+        /// The unique ID of the detector of the GuardDuty account for which you want to create a ThreatIntelSet.
         public let detectorId: String
         /// The format of the file that contains the ThreatIntelSet.
         public let format: ThreatIntelSetFormat?
@@ -1925,6 +1955,31 @@ extension GuardDuty {
         }
     }
 
+    public struct DateStatistics: AWSDecodableShape {
+        /// The timestamp when the total findings count is observed. For example, Date would look like "2024-09-05T17:00:00-07:00" whereas LastGeneratedAt would look like 2024-09-05T17:12:29-07:00".
+        public let date: Date?
+        /// The timestamp at which the last finding in the findings count, was generated.
+        public let lastGeneratedAt: Date?
+        /// The severity of the findings generated on each date.
+        public let severity: Double?
+        /// The total number of findings that were generated per severity level on each date.
+        public let totalFindings: Int?
+
+        public init(date: Date? = nil, lastGeneratedAt: Date? = nil, severity: Double? = nil, totalFindings: Int? = nil) {
+            self.date = date
+            self.lastGeneratedAt = lastGeneratedAt
+            self.severity = severity
+            self.totalFindings = totalFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case date = "date"
+            case lastGeneratedAt = "lastGeneratedAt"
+            case severity = "severity"
+            case totalFindings = "totalFindings"
+        }
+    }
+
     public struct DeclineInvitationsRequest: AWSEncodableShape {
         /// A list of account IDs of the Amazon Web Services accounts that sent invitations to the current member account that you want to decline invitations from.
         public let accountIds: [String]?
@@ -2004,7 +2059,7 @@ extension GuardDuty {
     }
 
     public struct DeleteFilterRequest: AWSEncodableShape {
-        /// The unique ID of the detector that the filter is associated with.
+        /// The unique ID of the detector that is associated with the filter.
         public let detectorId: String
         /// The name of the filter that you want to delete.
         public let filterName: String
@@ -2193,7 +2248,7 @@ extension GuardDuty {
     }
 
     public struct DeleteThreatIntelSetRequest: AWSEncodableShape {
-        /// The unique ID of the detector that the threatIntelSet is associated with.
+        /// The unique ID of the detector that is associated with the threatIntelSet.
         public let detectorId: String
         /// The unique ID of the threatIntelSet that you want to delete.
         public let threatIntelSetId: String
@@ -2286,7 +2341,7 @@ extension GuardDuty {
     }
 
     public struct DescribeOrganizationConfigurationRequest: AWSEncodableShape {
-        /// The ID of the detector to retrieve information about the delegated administrator from.
+        /// The detector ID of the delegated administrator for which you need to retrieve the information.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items that you want in the response.
         public let maxResults: Int?
@@ -3093,15 +3148,66 @@ extension GuardDuty {
     }
 
     public struct FindingStatistics: AWSDecodableShape {
-        /// Represents a map of severity to count statistics for a set of findings.
+        /// Represents a list of map of severity to count statistics for a set of findings.
         public let countBySeverity: [String: Int]?
+        /// Represents a list of map of accounts with a findings count associated with each account.
+        public let groupedByAccount: [AccountStatistics]?
+        /// Represents a list of map of dates with a count of total findings generated on each date per severity level.
+        public let groupedByDate: [DateStatistics]?
+        /// Represents a list of map of finding types with a count of total findings generated for each type.  Based on the orderBy parameter, this request returns either the most occurring finding types or the least occurring finding types. If the orderBy parameter is ASC, this will represent the least occurring finding types in your account; otherwise, this will represent the most occurring finding types. The default value of orderBy is DESC.
+        public let groupedByFindingType: [FindingTypeStatistics]?
+        /// Represents a list of map of top resources with a count of total findings.
+        public let groupedByResource: [ResourceStatistics]?
+        /// Represents a list of map of total findings for each severity level.
+        public let groupedBySeverity: [SeverityStatistics]?
 
-        public init(countBySeverity: [String: Int]? = nil) {
+        public init(groupedByAccount: [AccountStatistics]? = nil, groupedByDate: [DateStatistics]? = nil, groupedByFindingType: [FindingTypeStatistics]? = nil, groupedByResource: [ResourceStatistics]? = nil, groupedBySeverity: [SeverityStatistics]? = nil) {
+            self.countBySeverity = nil
+            self.groupedByAccount = groupedByAccount
+            self.groupedByDate = groupedByDate
+            self.groupedByFindingType = groupedByFindingType
+            self.groupedByResource = groupedByResource
+            self.groupedBySeverity = groupedBySeverity
+        }
+
+        @available(*, deprecated, message: "Members countBySeverity have been deprecated")
+        public init(countBySeverity: [String: Int]? = nil, groupedByAccount: [AccountStatistics]? = nil, groupedByDate: [DateStatistics]? = nil, groupedByFindingType: [FindingTypeStatistics]? = nil, groupedByResource: [ResourceStatistics]? = nil, groupedBySeverity: [SeverityStatistics]? = nil) {
             self.countBySeverity = countBySeverity
+            self.groupedByAccount = groupedByAccount
+            self.groupedByDate = groupedByDate
+            self.groupedByFindingType = groupedByFindingType
+            self.groupedByResource = groupedByResource
+            self.groupedBySeverity = groupedBySeverity
         }
 
         private enum CodingKeys: String, CodingKey {
             case countBySeverity = "countBySeverity"
+            case groupedByAccount = "groupedByAccount"
+            case groupedByDate = "groupedByDate"
+            case groupedByFindingType = "groupedByFindingType"
+            case groupedByResource = "groupedByResource"
+            case groupedBySeverity = "groupedBySeverity"
+        }
+    }
+
+    public struct FindingTypeStatistics: AWSDecodableShape {
+        /// Name of the finding type.
+        public let findingType: String?
+        /// The timestamp at which this finding type was last generated in your environment.
+        public let lastGeneratedAt: Date?
+        /// The total number of findings associated with generated for each distinct finding type.
+        public let totalFindings: Int?
+
+        public init(findingType: String? = nil, lastGeneratedAt: Date? = nil, totalFindings: Int? = nil) {
+            self.findingType = findingType
+            self.lastGeneratedAt = lastGeneratedAt
+            self.totalFindings = totalFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingType = "findingType"
+            case lastGeneratedAt = "lastGeneratedAt"
+            case totalFindings = "totalFindings"
         }
     }
 
@@ -3188,9 +3294,9 @@ extension GuardDuty {
     }
 
     public struct GetCoverageStatisticsRequest: AWSEncodableShape {
-        /// The unique ID of the GuardDuty detector associated to the coverage statistics.
+        /// The unique ID of the GuardDuty detector.
         public let detectorId: String
-        /// Represents the criteria used to filter the coverage statistics
+        /// Represents the criteria used to filter the coverage statistics.
         public let filterCriteria: CoverageFilterCriteria?
         /// Represents the statistics type used to aggregate the coverage details.
         public let statisticsType: [CoverageStatisticsType]?
@@ -3310,7 +3416,7 @@ extension GuardDuty {
     }
 
     public struct GetFilterRequest: AWSEncodableShape {
-        /// The unique ID of the detector that the filter is associated with.
+        /// The unique ID of the detector that is associated with this filter.
         public let detectorId: String
         /// The name of the filter you want to get.
         public let filterName: String
@@ -3420,17 +3526,36 @@ extension GuardDuty {
     }
 
     public struct GetFindingsStatisticsRequest: AWSEncodableShape {
-        /// The ID of the detector that specifies the GuardDuty service whose findings' statistics you want to retrieve.
+        /// The ID of the detector whose findings statistics you want to retrieve.
         public let detectorId: String
         /// Represents the criteria that is used for querying findings.
         public let findingCriteria: FindingCriteria?
         /// The types of finding statistics to retrieve.
         public let findingStatisticTypes: [FindingStatisticType]?
+        /// Displays the findings statistics grouped by one of the listed valid values.
+        public let groupBy: GroupByType?
+        /// The maximum number of results to be returned in the response. The default value is 25. You can use this parameter only with the groupBy parameter.
+        public let maxResults: Int?
+        /// Displays the sorted findings in the requested order. The default value of orderBy is DESC. You can use this parameter only with the groupBy parameter.
+        public let orderBy: OrderBy?
 
-        public init(detectorId: String, findingCriteria: FindingCriteria? = nil, findingStatisticTypes: [FindingStatisticType]? = nil) {
+        public init(detectorId: String, findingCriteria: FindingCriteria? = nil, groupBy: GroupByType? = nil, maxResults: Int? = nil, orderBy: OrderBy? = nil) {
+            self.detectorId = detectorId
+            self.findingCriteria = findingCriteria
+            self.findingStatisticTypes = nil
+            self.groupBy = groupBy
+            self.maxResults = maxResults
+            self.orderBy = orderBy
+        }
+
+        @available(*, deprecated, message: "Members findingStatisticTypes have been deprecated")
+        public init(detectorId: String, findingCriteria: FindingCriteria? = nil, findingStatisticTypes: [FindingStatisticType]? = nil, groupBy: GroupByType? = nil, maxResults: Int? = nil, orderBy: OrderBy? = nil) {
             self.detectorId = detectorId
             self.findingCriteria = findingCriteria
             self.findingStatisticTypes = findingStatisticTypes
+            self.groupBy = groupBy
+            self.maxResults = maxResults
+            self.orderBy = orderBy
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -3439,35 +3564,47 @@ extension GuardDuty {
             request.encodePath(self.detectorId, key: "detectorId")
             try container.encodeIfPresent(self.findingCriteria, forKey: .findingCriteria)
             try container.encodeIfPresent(self.findingStatisticTypes, forKey: .findingStatisticTypes)
+            try container.encodeIfPresent(self.groupBy, forKey: .groupBy)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.orderBy, forKey: .orderBy)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
             try self.validate(self.findingStatisticTypes, name: "findingStatisticTypes", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case findingCriteria = "findingCriteria"
             case findingStatisticTypes = "findingStatisticTypes"
+            case groupBy = "groupBy"
+            case maxResults = "maxResults"
+            case orderBy = "orderBy"
         }
     }
 
     public struct GetFindingsStatisticsResponse: AWSDecodableShape {
         /// The finding statistics object.
         public let findingStatistics: FindingStatistics?
+        /// The pagination parameter to be used on the next list operation to retrieve more items. This parameter is currently not supported.
+        public let nextToken: String?
 
-        public init(findingStatistics: FindingStatistics? = nil) {
+        public init(findingStatistics: FindingStatistics? = nil, nextToken: String? = nil) {
             self.findingStatistics = findingStatistics
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case findingStatistics = "findingStatistics"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetIPSetRequest: AWSEncodableShape {
-        /// The unique ID of the detector that the IPSet is associated with.
+        /// The unique ID of the detector that is associated with the IPSet.
         public let detectorId: String
         /// The unique ID of the IPSet to retrieve.
         public let ipSetId: String
@@ -3564,7 +3701,7 @@ extension GuardDuty {
         public let createdAt: Date?
         /// Information about the protected resource that is associated with the created  Malware Protection plan. Presently, S3Bucket is the only supported  protected resource.
         public let protectedResource: CreateProtectedResource?
-        /// IAM role that includes the permissions required to scan and  add tags to the associated protected resource.
+        /// Amazon Resource Name (ARN) of the IAM role that includes the permissions to scan and  add tags to the associated protected resource.
         public let role: String?
         /// Malware Protection plan status.
         public let status: MalwareProtectionPlanStatus?
@@ -3597,7 +3734,7 @@ extension GuardDuty {
     }
 
     public struct GetMalwareScanSettingsRequest: AWSEncodableShape {
-        /// The unique ID of the detector that the scan setting is associated with.
+        /// The unique ID of the detector that is associated with this scan.
         public let detectorId: String
 
         public init(detectorId: String) {
@@ -3671,7 +3808,7 @@ extension GuardDuty {
     }
 
     public struct GetMemberDetectorsRequest: AWSEncodableShape {
-        /// The account ID of the member account.
+        /// A list of member account IDs.
         public let accountIds: [String]?
         /// The detector ID for the administrator account.
         public let detectorId: String
@@ -3837,7 +3974,7 @@ extension GuardDuty {
     }
 
     public struct GetThreatIntelSetRequest: AWSEncodableShape {
-        /// The unique ID of the detector that the threatIntelSet is associated with.
+        /// The unique ID of the detector that is associated with the threatIntelSet.
         public let detectorId: String
         /// The unique ID of the threatIntelSet that you want to get.
         public let threatIntelSetId: String
@@ -4116,7 +4253,7 @@ extension GuardDuty {
     public struct InviteMembersRequest: AWSEncodableShape {
         /// A list of account IDs of the accounts that you want to invite to GuardDuty as members.
         public let accountIds: [String]?
-        /// The unique ID of the detector of the GuardDuty account that you want to invite members with.
+        /// The unique ID of the detector of the GuardDuty account with which you want to invite members.
         public let detectorId: String
         /// A Boolean value that specifies whether you want to disable email notification to the accounts that you are inviting to GuardDuty as members.
         public let disableEmailNotification: Bool?
@@ -4671,7 +4808,7 @@ extension GuardDuty {
     }
 
     public struct ListFiltersRequest: AWSEncodableShape {
-        /// The unique ID of the detector that the filter is associated with.
+        /// The unique ID of the detector that is associated with the filter.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -4722,7 +4859,7 @@ extension GuardDuty {
     public struct ListFindingsRequest: AWSEncodableShape {
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to list.
         public let detectorId: String
-        /// Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.dnsRequestAction.domainWithSuffix   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000
+        /// Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.dnsRequestAction.domainWithSuffix   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.ebsVolumeScanDetails.scanId   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000
         public let findingCriteria: FindingCriteria?
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -4782,7 +4919,7 @@ extension GuardDuty {
     }
 
     public struct ListIPSetsRequest: AWSEncodableShape {
-        /// The unique ID of the detector that the IPSet is associated with.
+        /// The unique ID of the detector that is associated with IPSet.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -4908,7 +5045,7 @@ extension GuardDuty {
     }
 
     public struct ListMembersRequest: AWSEncodableShape {
-        /// The unique ID of the detector the member is associated with.
+        /// The unique ID of the detector that is associated with the member.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -5004,7 +5141,7 @@ extension GuardDuty {
     }
 
     public struct ListPublishingDestinationsRequest: AWSEncodableShape {
-        /// The ID of the detector to retrieve publishing destinations for.
+        /// The detector ID for which you want to retrieve the publishing destination.
         public let detectorId: String
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
@@ -5087,7 +5224,7 @@ extension GuardDuty {
     }
 
     public struct ListThreatIntelSetsRequest: AWSEncodableShape {
-        /// The unique ID of the detector that the threatIntelSet is associated with.
+        /// The unique ID of the detector that is associated with the threatIntelSet.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -6360,6 +6497,35 @@ extension GuardDuty {
         }
     }
 
+    public struct ResourceStatistics: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account.
+        public let accountId: String?
+        /// The timestamp at which the statistics for this resource was last generated.
+        public let lastGeneratedAt: Date?
+        /// ID associated with each resource. The following list provides the mapping of the resource type and resource ID.  Mapping of resource and resource ID    AccessKey - resource.accessKeyDetails.accessKeyId    Container - resource.containerDetails.id    ECSCluster - resource.ecsClusterDetails.name    EKSCluster - resource.eksClusterDetails.name    Instance - resource.instanceDetails.instanceId    KubernetesCluster - resource.kubernetesDetails.kubernetesWorkloadDetails.name    Lambda - resource.lambdaDetails.functionName    RDSDBInstance - resource.rdsDbInstanceDetails.dbInstanceIdentifier    S3Bucket - resource.s3BucketDetails.name    S3Object - resource.s3BucketDetails.name
+        public let resourceId: String?
+        /// The type of resource.
+        public let resourceType: String?
+        /// The total number of findings associated with this resource.
+        public let totalFindings: Int?
+
+        public init(accountId: String? = nil, lastGeneratedAt: Date? = nil, resourceId: String? = nil, resourceType: String? = nil, totalFindings: Int? = nil) {
+            self.accountId = accountId
+            self.lastGeneratedAt = lastGeneratedAt
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.totalFindings = totalFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case lastGeneratedAt = "lastGeneratedAt"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case totalFindings = "totalFindings"
+        }
+    }
+
     public struct RuntimeContext: AWSDecodableShape {
         /// Represents the communication protocol associated with the address. For example, the address family AF_INET is used for IP version of 4 protocol.
         public let addressFamily: String?
@@ -6589,7 +6755,7 @@ extension GuardDuty {
     public struct Scan: AWSDecodableShape {
         /// The ID for the account that belongs to the scan.
         public let accountId: String?
-        /// The unique detector ID of the administrator account that the request is associated with. Note that this value will be the same as the one used for DetectorId if the account is an administrator.
+        /// The unique detector ID of the administrator account that the request is associated with. If the account is an administrator, the AdminDetectorId will be the same as the one used for  DetectorId.
         public let adminDetectorId: String?
         /// List of volumes that were attached to the original instance to be scanned.
         public let attachedVolumes: [VolumeDetail]?
@@ -6980,6 +7146,27 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case type = "type"
             case value = "value"
+        }
+    }
+
+    public struct SeverityStatistics: AWSDecodableShape {
+        /// The timestamp at which a finding type for a specific severity was last generated.
+        public let lastGeneratedAt: Date?
+        /// The severity level associated with each finding type.
+        public let severity: Double?
+        /// The total number of findings associated with this severity.
+        public let totalFindings: Int?
+
+        public init(lastGeneratedAt: Date? = nil, severity: Double? = nil, totalFindings: Int? = nil) {
+            self.lastGeneratedAt = lastGeneratedAt
+            self.severity = severity
+            self.totalFindings = totalFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastGeneratedAt = "lastGeneratedAt"
+            case severity = "severity"
+            case totalFindings = "totalFindings"
         }
     }
 
@@ -7518,7 +7705,7 @@ extension GuardDuty {
     public struct UpdateFindingsFeedbackRequest: AWSEncodableShape {
         /// Additional feedback about the GuardDuty findings.
         public let comments: String?
-        /// The ID of the detector associated with the findings to update feedback for.
+        /// The ID of the detector that is associated with the findings for which you want to update  the feedback.
         public let detectorId: String
         /// The feedback for the finding.
         public let feedback: Feedback?
@@ -7619,7 +7806,7 @@ extension GuardDuty {
         public let malwareProtectionPlanId: String
         /// Information about the protected resource that is associated  with the created Malware Protection plan. Presently, S3Bucket is the only supported protected resource.
         public let protectedResource: UpdateProtectedResource?
-        /// IAM role with permissions required to scan and add tags to  the associated protected resource.
+        /// Amazon Resource Name (ARN) of the IAM role with permissions to scan and add tags to  the associated protected resource.
         public let role: String?
 
         public init(actions: MalwareProtectionPlanActions? = nil, malwareProtectionPlanId: String, protectedResource: UpdateProtectedResource? = nil, role: String? = nil) {

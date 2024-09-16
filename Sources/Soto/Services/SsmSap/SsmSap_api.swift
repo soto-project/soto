@@ -305,7 +305,7 @@ public struct SsmSap: AWSService {
         )
     }
 
-    /// Request is an operation to stop an application. Parameter ApplicationId is required.  Parameters StopConnectedEntity and  IncludeEc2InstanceShutdown are optional.
+    /// Request is an operation to stop an application. Parameter ApplicationId is required. Parameters StopConnectedEntity and IncludeEc2InstanceShutdown are optional.
     @Sendable
     public func stopApplication(_ input: StopApplicationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopApplicationOutput {
         return try await self.client.execute(

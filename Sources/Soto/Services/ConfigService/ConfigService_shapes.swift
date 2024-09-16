@@ -2391,7 +2391,7 @@ extension ConfigService {
         public func validate(name: String) throws {
             try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, max: 64)
             try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, min: 1)
-            try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, pattern: "\\S")
+            try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, pattern: "^[A-Za-z0-9-_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4969,7 +4969,7 @@ extension ConfigService {
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, max: 64)
             try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, min: 1)
-            try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, pattern: "\\S")
+            try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, pattern: "^[A-Za-z0-9-_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5060,7 +5060,7 @@ extension ConfigService {
         public func validate(name: String) throws {
             try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, max: 64)
             try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, min: 1)
-            try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, pattern: "\\S")
+            try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, pattern: "^[A-Za-z0-9-_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6480,7 +6480,7 @@ extension ConfigService {
             try self.validate(self.excludedAccounts, name: "excludedAccounts", parent: name, max: 1000)
             try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, max: 64)
             try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, min: 1)
-            try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, pattern: "\\S")
+            try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, pattern: "^[A-Za-z0-9-_]+$")
             try self.organizationCustomPolicyRuleMetadata?.validate(name: "\(name).organizationCustomPolicyRuleMetadata")
             try self.organizationCustomRuleMetadata?.validate(name: "\(name).organizationCustomRuleMetadata")
             try self.organizationManagedRuleMetadata?.validate(name: "\(name).organizationManagedRuleMetadata")

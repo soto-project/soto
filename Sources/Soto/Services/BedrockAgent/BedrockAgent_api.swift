@@ -87,7 +87,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Creates an agent that orchestrates interactions between foundation models, data sources, software applications, user conversations, and APIs to carry out tasks to help customers.   Specify the following fields for security purposes.    agentResourceRoleArn – The Amazon Resource Name (ARN) of the role with permissions to invoke API operations on an agent.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeAgent request begins a new session.     To enable your agent to retain conversational context across multiple sessions, include a memoryConfiguration object.  For more information, see Configure memory.   To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   If you agent fails to be created, the response returns a list of failureReasons alongside a list of recommendedActions for you to troubleshoot.
+    /// Creates an agent that orchestrates interactions between foundation models, data sources, software applications, user conversations, and APIs to carry out tasks to help customers.   Specify the following fields for security purposes.    agentResourceRoleArn – The Amazon Resource Name (ARN) of the role with permissions to invoke API operations on an agent.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeAgent request begins a new session.     To enable your agent to retain conversational context across multiple sessions, include a memoryConfiguration object.  For more information, see Configure memory.   To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   If your agent fails to be created, the response returns a list of failureReasons alongside a list of recommendedActions for you to troubleshoot.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
     @Sendable
     public func createAgent(_ input: CreateAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentResponse {
         return try await self.client.execute(
@@ -334,7 +334,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Deletes a prompt or a prompt version from the Prompt management tool. For more information, see Delete prompts from the Prompt management tool and Delete a version of a prompt from the Prompt management tool in the Amazon Bedrock User Guide.
+    /// Deletes a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see Delete prompts from the Prompt management tool and Delete a version of a prompt from the Prompt management tool in the Amazon Bedrock User Guide.
     @Sendable
     public func deletePrompt(_ input: DeletePromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePromptResponse {
         return try await self.client.execute(
@@ -503,7 +503,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Retrieves information about a prompt or a version of it. For more information, see View information about prompts using Prompt management and View information about a version of your prompt in the Amazon Bedrock User Guide.
+    /// Retrieves information about the working draft (DRAFT version) of a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see View information about prompts using Prompt management and View information about a version of your prompt in the Amazon Bedrock User Guide.
     @Sendable
     public func getPrompt(_ input: GetPromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPromptResponse {
         return try await self.client.execute(
@@ -659,7 +659,7 @@ public struct BedrockAgent: AWSService {
         )
     }
 
-    /// Returns a list of prompts from the Prompt management tool and information about each prompt. For more information, see View information about prompts using Prompt management in the Amazon Bedrock User Guide.
+    /// Returns either information about the working draft (DRAFT version) of each prompt in an account, or information about of all versions of a prompt, depending on whether you include the promptIdentifier field or not. For more information, see View information about prompts using Prompt management in the Amazon Bedrock User Guide.
     @Sendable
     public func listPrompts(_ input: ListPromptsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPromptsResponse {
         return try await self.client.execute(
@@ -1090,7 +1090,7 @@ extension BedrockAgent {
         )
     }
 
-    /// Returns a list of prompts from the Prompt management tool and information about each prompt. For more information, see View information about prompts using Prompt management in the Amazon Bedrock User Guide.
+    /// Returns either information about the working draft (DRAFT version) of each prompt in an account, or information about of all versions of a prompt, depending on whether you include the promptIdentifier field or not. For more information, see View information about prompts using Prompt management in the Amazon Bedrock User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

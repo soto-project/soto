@@ -80,6 +80,39 @@ public struct ElasticBeanstalk: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "elasticbeanstalk.af-south-1.api.aws",
+            "ap-east-1": "elasticbeanstalk.ap-east-1.api.aws",
+            "ap-northeast-1": "elasticbeanstalk.ap-northeast-1.api.aws",
+            "ap-northeast-2": "elasticbeanstalk.ap-northeast-2.api.aws",
+            "ap-northeast-3": "elasticbeanstalk.ap-northeast-3.api.aws",
+            "ap-south-1": "elasticbeanstalk.ap-south-1.api.aws",
+            "ap-southeast-1": "elasticbeanstalk.ap-southeast-1.api.aws",
+            "ap-southeast-2": "elasticbeanstalk.ap-southeast-2.api.aws",
+            "ap-southeast-3": "elasticbeanstalk.ap-southeast-3.api.aws",
+            "ca-central-1": "elasticbeanstalk.ca-central-1.api.aws",
+            "eu-central-1": "elasticbeanstalk.eu-central-1.api.aws",
+            "eu-north-1": "elasticbeanstalk.eu-north-1.api.aws",
+            "eu-south-1": "elasticbeanstalk.eu-south-1.api.aws",
+            "eu-west-1": "elasticbeanstalk.eu-west-1.api.aws",
+            "eu-west-2": "elasticbeanstalk.eu-west-2.api.aws",
+            "eu-west-3": "elasticbeanstalk.eu-west-3.api.aws",
+            "il-central-1": "elasticbeanstalk.il-central-1.api.aws",
+            "me-south-1": "elasticbeanstalk.me-south-1.api.aws",
+            "sa-east-1": "elasticbeanstalk.sa-east-1.api.aws",
+            "us-east-1": "elasticbeanstalk.us-east-1.api.aws",
+            "us-east-2": "elasticbeanstalk.us-east-2.api.aws",
+            "us-gov-east-1": "elasticbeanstalk.us-gov-east-1.api.aws",
+            "us-gov-west-1": "elasticbeanstalk.us-gov-west-1.api.aws",
+            "us-west-1": "elasticbeanstalk.us-west-1.api.aws",
+            "us-west-2": "elasticbeanstalk.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-east-1": "elasticbeanstalk-fips.us-east-1.api.aws",
+            "us-east-2": "elasticbeanstalk-fips.us-east-2.api.aws",
+            "us-west-1": "elasticbeanstalk-fips.us-west-1.api.aws",
+            "us-west-2": "elasticbeanstalk-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "us-east-1": "elasticbeanstalk-fips.us-east-1.amazonaws.com",
             "us-east-2": "elasticbeanstalk-fips.us-east-2.amazonaws.com",

@@ -59,6 +59,7 @@ public struct CleanRooms: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2022-02-17",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: CleanRoomsErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -70,6 +71,14 @@ public struct CleanRooms: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-east-1": "cleanrooms-fips.us-east-1.amazonaws.com",
+            "us-east-2": "cleanrooms-fips.us-east-2.amazonaws.com",
+            "us-west-2": "cleanrooms-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -190,6 +199,45 @@ public struct CleanRooms: AWSService {
         )
     }
 
+    ///  Creates a new analysis rule for an associated configured table.
+    @Sendable
+    public func createConfiguredTableAssociationAnalysisRule(_ input: CreateConfiguredTableAssociationAnalysisRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfiguredTableAssociationAnalysisRuleOutput {
+        return try await self.client.execute(
+            operation: "CreateConfiguredTableAssociationAnalysisRule", 
+            path: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}/analysisRule", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates an ID mapping table.
+    @Sendable
+    public func createIdMappingTable(_ input: CreateIdMappingTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIdMappingTableOutput {
+        return try await self.client.execute(
+            operation: "CreateIdMappingTable", 
+            path: "/memberships/{membershipIdentifier}/idmappingtables", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates an ID namespace association.
+    @Sendable
+    public func createIdNamespaceAssociation(_ input: CreateIdNamespaceAssociationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIdNamespaceAssociationOutput {
+        return try await self.client.execute(
+            operation: "CreateIdNamespaceAssociation", 
+            path: "/memberships/{membershipIdentifier}/idnamespaceassociations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a membership for a specific collaboration identifier and joins the collaboration.
     @Sendable
     public func createMembership(_ input: CreateMembershipInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMembershipOutput {
@@ -294,6 +342,45 @@ public struct CleanRooms: AWSService {
         )
     }
 
+    /// Deletes an analysis rule for a configured table association.
+    @Sendable
+    public func deleteConfiguredTableAssociationAnalysisRule(_ input: DeleteConfiguredTableAssociationAnalysisRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConfiguredTableAssociationAnalysisRuleOutput {
+        return try await self.client.execute(
+            operation: "DeleteConfiguredTableAssociationAnalysisRule", 
+            path: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}/analysisRule/{analysisRuleType}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an ID mapping table.
+    @Sendable
+    public func deleteIdMappingTable(_ input: DeleteIdMappingTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIdMappingTableOutput {
+        return try await self.client.execute(
+            operation: "DeleteIdMappingTable", 
+            path: "/memberships/{membershipIdentifier}/idmappingtables/{idMappingTableIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an ID namespace association.
+    @Sendable
+    public func deleteIdNamespaceAssociation(_ input: DeleteIdNamespaceAssociationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIdNamespaceAssociationOutput {
+        return try await self.client.execute(
+            operation: "DeleteIdNamespaceAssociation", 
+            path: "/memberships/{membershipIdentifier}/idnamespaceassociations/{idNamespaceAssociationIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration.
     @Sendable
     public func deleteMember(_ input: DeleteMemberInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMemberOutput {
@@ -385,6 +472,19 @@ public struct CleanRooms: AWSService {
         )
     }
 
+    /// Retrieves an ID namespace association from a specific collaboration.
+    @Sendable
+    public func getCollaborationIdNamespaceAssociation(_ input: GetCollaborationIdNamespaceAssociationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCollaborationIdNamespaceAssociationOutput {
+        return try await self.client.execute(
+            operation: "GetCollaborationIdNamespaceAssociation", 
+            path: "/collaborations/{collaborationIdentifier}/idnamespaceassociations/{idNamespaceAssociationIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns details about a specified privacy budget template.
     @Sendable
     public func getCollaborationPrivacyBudgetTemplate(_ input: GetCollaborationPrivacyBudgetTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCollaborationPrivacyBudgetTemplateOutput {
@@ -443,6 +543,45 @@ public struct CleanRooms: AWSService {
         return try await self.client.execute(
             operation: "GetConfiguredTableAssociation", 
             path: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Retrieves the analysis rule for a configured table association.
+    @Sendable
+    public func getConfiguredTableAssociationAnalysisRule(_ input: GetConfiguredTableAssociationAnalysisRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfiguredTableAssociationAnalysisRuleOutput {
+        return try await self.client.execute(
+            operation: "GetConfiguredTableAssociationAnalysisRule", 
+            path: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}/analysisRule/{analysisRuleType}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves an ID mapping table.
+    @Sendable
+    public func getIdMappingTable(_ input: GetIdMappingTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIdMappingTableOutput {
+        return try await self.client.execute(
+            operation: "GetIdMappingTable", 
+            path: "/memberships/{membershipIdentifier}/idmappingtables/{idMappingTableIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves an ID namespace association.
+    @Sendable
+    public func getIdNamespaceAssociation(_ input: GetIdNamespaceAssociationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIdNamespaceAssociationOutput {
+        return try await self.client.execute(
+            operation: "GetIdNamespaceAssociation", 
+            path: "/memberships/{membershipIdentifier}/idnamespaceassociations/{idNamespaceAssociationIdentifier}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -554,6 +693,19 @@ public struct CleanRooms: AWSService {
         )
     }
 
+    /// Returns a list of the ID namespace associations in a collaboration.
+    @Sendable
+    public func listCollaborationIdNamespaceAssociations(_ input: ListCollaborationIdNamespaceAssociationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCollaborationIdNamespaceAssociationsOutput {
+        return try await self.client.execute(
+            operation: "ListCollaborationIdNamespaceAssociations", 
+            path: "/collaborations/{collaborationIdentifier}/idnamespaceassociations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns an array that summarizes each privacy budget template in a specified collaboration.
     @Sendable
     public func listCollaborationPrivacyBudgetTemplates(_ input: ListCollaborationPrivacyBudgetTemplatesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCollaborationPrivacyBudgetTemplatesOutput {
@@ -625,6 +777,32 @@ public struct CleanRooms: AWSService {
         return try await self.client.execute(
             operation: "ListConfiguredTables", 
             path: "/configuredTables", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of ID mapping tables.
+    @Sendable
+    public func listIdMappingTables(_ input: ListIdMappingTablesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIdMappingTablesOutput {
+        return try await self.client.execute(
+            operation: "ListIdMappingTables", 
+            path: "/memberships/{membershipIdentifier}/idmappingtables", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of ID namespace associations.
+    @Sendable
+    public func listIdNamespaceAssociations(_ input: ListIdNamespaceAssociationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIdNamespaceAssociationsOutput {
+        return try await self.client.execute(
+            operation: "ListIdNamespaceAssociations", 
+            path: "/memberships/{membershipIdentifier}/idnamespaceassociations", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -717,6 +895,19 @@ public struct CleanRooms: AWSService {
             operation: "ListTagsForResource", 
             path: "/tags/{resourceArn}", 
             httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Defines the information that's necessary to populate an ID mapping table.
+    @Sendable
+    public func populateIdMappingTable(_ input: PopulateIdMappingTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PopulateIdMappingTableOutput {
+        return try await self.client.execute(
+            operation: "PopulateIdMappingTable", 
+            path: "/memberships/{membershipIdentifier}/idmappingtables/{idMappingTableIdentifier}/populate", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -853,6 +1044,45 @@ public struct CleanRooms: AWSService {
         )
     }
 
+    ///  Updates the analysis rule for a configured table association.
+    @Sendable
+    public func updateConfiguredTableAssociationAnalysisRule(_ input: UpdateConfiguredTableAssociationAnalysisRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConfiguredTableAssociationAnalysisRuleOutput {
+        return try await self.client.execute(
+            operation: "UpdateConfiguredTableAssociationAnalysisRule", 
+            path: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}/analysisRule/{analysisRuleType}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Provides the details that are necessary to update an ID mapping table.
+    @Sendable
+    public func updateIdMappingTable(_ input: UpdateIdMappingTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIdMappingTableOutput {
+        return try await self.client.execute(
+            operation: "UpdateIdMappingTable", 
+            path: "/memberships/{membershipIdentifier}/idmappingtables/{idMappingTableIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Provides the details that are necessary to update an ID namespace association.
+    @Sendable
+    public func updateIdNamespaceAssociation(_ input: UpdateIdNamespaceAssociationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIdNamespaceAssociationOutput {
+        return try await self.client.execute(
+            operation: "UpdateIdNamespaceAssociation", 
+            path: "/memberships/{membershipIdentifier}/idnamespaceassociations/{idNamespaceAssociationIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates a membership.
     @Sendable
     public func updateMembership(_ input: UpdateMembershipInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMembershipOutput {
@@ -925,6 +1155,25 @@ extension CleanRooms {
         )
     }
 
+    /// Returns a list of the ID namespace associations in a collaboration.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listCollaborationIdNamespaceAssociationsPaginator(
+        _ input: ListCollaborationIdNamespaceAssociationsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCollaborationIdNamespaceAssociationsInput, ListCollaborationIdNamespaceAssociationsOutput> {
+        return .init(
+            input: input,
+            command: self.listCollaborationIdNamespaceAssociations,
+            inputKey: \ListCollaborationIdNamespaceAssociationsInput.nextToken,
+            outputKey: \ListCollaborationIdNamespaceAssociationsOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns an array that summarizes each privacy budget template in a specified collaboration.
     /// Return PaginatorSequence for operation.
     ///
@@ -978,6 +1227,44 @@ extension CleanRooms {
             command: self.listConfiguredAudienceModelAssociations,
             inputKey: \ListConfiguredAudienceModelAssociationsInput.nextToken,
             outputKey: \ListConfiguredAudienceModelAssociationsOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of ID mapping tables.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listIdMappingTablesPaginator(
+        _ input: ListIdMappingTablesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIdMappingTablesInput, ListIdMappingTablesOutput> {
+        return .init(
+            input: input,
+            command: self.listIdMappingTables,
+            inputKey: \ListIdMappingTablesInput.nextToken,
+            outputKey: \ListIdMappingTablesOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of ID namespace associations.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listIdNamespaceAssociationsPaginator(
+        _ input: ListIdNamespaceAssociationsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIdNamespaceAssociationsInput, ListIdNamespaceAssociationsOutput> {
+        return .init(
+            input: input,
+            command: self.listIdNamespaceAssociations,
+            inputKey: \ListIdNamespaceAssociationsInput.nextToken,
+            outputKey: \ListIdNamespaceAssociationsOutput.nextToken,
             logger: logger
         )
     }
@@ -1050,6 +1337,16 @@ extension CleanRooms.ListCollaborationConfiguredAudienceModelAssociationsInput: 
     }
 }
 
+extension CleanRooms.ListCollaborationIdNamespaceAssociationsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CleanRooms.ListCollaborationIdNamespaceAssociationsInput {
+        return .init(
+            collaborationIdentifier: self.collaborationIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension CleanRooms.ListCollaborationPrivacyBudgetTemplatesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CleanRooms.ListCollaborationPrivacyBudgetTemplatesInput {
         return .init(
@@ -1073,6 +1370,26 @@ extension CleanRooms.ListCollaborationPrivacyBudgetsInput: AWSPaginateToken {
 
 extension CleanRooms.ListConfiguredAudienceModelAssociationsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CleanRooms.ListConfiguredAudienceModelAssociationsInput {
+        return .init(
+            maxResults: self.maxResults,
+            membershipIdentifier: self.membershipIdentifier,
+            nextToken: token
+        )
+    }
+}
+
+extension CleanRooms.ListIdMappingTablesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CleanRooms.ListIdMappingTablesInput {
+        return .init(
+            maxResults: self.maxResults,
+            membershipIdentifier: self.membershipIdentifier,
+            nextToken: token
+        )
+    }
+}
+
+extension CleanRooms.ListIdNamespaceAssociationsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CleanRooms.ListIdNamespaceAssociationsInput {
         return .init(
             maxResults: self.maxResults,
             membershipIdentifier: self.membershipIdentifier,

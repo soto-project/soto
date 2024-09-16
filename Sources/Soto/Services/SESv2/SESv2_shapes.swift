@@ -4174,11 +4174,11 @@ extension SESv2 {
         /// Indicates whether or not your account should have production access in the current Amazon Web Services Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities.  If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
         public let productionAccessEnabled: Bool?
         /// A description of the types of email that you plan to send.
-        public let useCaseDescription: String
+        public let useCaseDescription: String?
         /// The URL of your website. This information helps us better understand the type of content that you plan to send.
         public let websiteURL: String
 
-        public init(additionalContactEmailAddresses: [String]? = nil, contactLanguage: ContactLanguage? = nil, mailType: MailType, productionAccessEnabled: Bool? = nil, useCaseDescription: String, websiteURL: String) {
+        public init(additionalContactEmailAddresses: [String]? = nil, contactLanguage: ContactLanguage? = nil, mailType: MailType, productionAccessEnabled: Bool? = nil, useCaseDescription: String? = nil, websiteURL: String) {
             self.additionalContactEmailAddresses = additionalContactEmailAddresses
             self.contactLanguage = contactLanguage
             self.mailType = mailType
@@ -4196,7 +4196,6 @@ extension SESv2 {
             try self.validate(self.additionalContactEmailAddresses, name: "additionalContactEmailAddresses", parent: name, max: 4)
             try self.validate(self.additionalContactEmailAddresses, name: "additionalContactEmailAddresses", parent: name, min: 1)
             try self.validate(self.useCaseDescription, name: "useCaseDescription", parent: name, max: 5000)
-            try self.validate(self.useCaseDescription, name: "useCaseDescription", parent: name, min: 1)
             try self.validate(self.websiteURL, name: "websiteURL", parent: name, max: 1000)
             try self.validate(self.websiteURL, name: "websiteURL", parent: name, min: 1)
             try self.validate(self.websiteURL, name: "websiteURL", parent: name, pattern: "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?$")

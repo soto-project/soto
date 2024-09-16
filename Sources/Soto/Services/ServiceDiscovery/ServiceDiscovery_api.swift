@@ -86,6 +86,7 @@ public struct ServiceDiscovery: AWSService {
             "ap-southeast-2": "servicediscovery.ap-southeast-2.api.aws",
             "ap-southeast-3": "servicediscovery.ap-southeast-3.api.aws",
             "ap-southeast-4": "servicediscovery.ap-southeast-4.api.aws",
+            "ap-southeast-5": "servicediscovery.ap-southeast-5.api.aws",
             "ca-central-1": "servicediscovery.ca-central-1.api.aws",
             "ca-west-1": "servicediscovery.ca-west-1.api.aws",
             "cn-north-1": "servicediscovery.cn-north-1.api.amazonwebservices.com.cn",

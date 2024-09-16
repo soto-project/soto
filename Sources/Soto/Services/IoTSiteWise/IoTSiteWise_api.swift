@@ -238,7 +238,7 @@ public struct IoTSiteWise: AWSService {
         )
     }
 
-    /// Creates a custom composite model from specified property and hierarchy definitions. There are two types of custom composite models, inline and component-model-based.  Use component-model-based custom composite models to define standard, reusable components.  A component-model-based custom composite model consists of a name, a description, and the ID of the component model it references. A component-model-based custom composite model has no properties of its own; its referenced component model provides its associated properties to any created assets. For more information, see Custom composite models (Components) in the IoT SiteWise User Guide. Use inline custom composite models to organize the properties of an asset model. The properties of inline custom composite models are local to the asset model where they are included and can't be used to create multiple assets. To create a component-model-based model, specify the composedAssetModelId of an existing asset model with assetModelType of COMPONENT_MODEL. To create an inline model, specify the assetModelCompositeModelProperties and don't include an composedAssetModelId.
+    /// Creates a custom composite model from specified property and hierarchy definitions. There are two types of custom composite models, inline and component-model-based.  Use component-model-based custom composite models to define standard, reusable components. A component-model-based custom composite model consists of a name, a description, and the ID of the component model it references. A component-model-based custom composite model has no properties of its own; its referenced component model provides its associated properties to any created assets. For more information, see Custom composite models (Components) in the IoT SiteWise User Guide. Use inline custom composite models to organize the properties of an asset model. The properties of inline custom composite models are local to the asset model where they are included and can't be used to create multiple assets. To create a component-model-based model, specify the composedAssetModelId of an existing asset model with assetModelType of COMPONENT_MODEL. To create an inline model, specify the assetModelCompositeModelProperties and don't include an composedAssetModelId.
     @Sendable
     public func createAssetModelCompositeModel(_ input: CreateAssetModelCompositeModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAssetModelCompositeModelResponse {
         return try await self.client.execute(
@@ -252,7 +252,7 @@ public struct IoTSiteWise: AWSService {
         )
     }
 
-    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide.  Before you create a bulk import job, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to configure storage settings, see PutStorageConfiguration. Bulk import is designed to store historical data to IoT SiteWise. It does not trigger computations or notifications on  IoT SiteWise warm or cold tier storage.
+    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide.  Before you create a bulk import job, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to configure storage settings, see PutStorageConfiguration. Bulk import is designed to store historical data to IoT SiteWise. It does not trigger computations or notifications on IoT SiteWise warm or cold tier storage.
     @Sendable
     public func createBulkImportJob(_ input: CreateBulkImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBulkImportJobResponse {
         return try await self.client.execute(
@@ -364,7 +364,7 @@ public struct IoTSiteWise: AWSService {
         )
     }
 
-    /// Deletes a composite model. This action can't be undone. You must delete all assets created from a  composite model before you can delete the model. Also, you can't delete a composite model if a parent asset model exists that contains a property formula expression that depends on the asset model that you want to delete. For more information, see Deleting assets and models in the IoT SiteWise User Guide.
+    /// Deletes a composite model. This action can't be undone. You must delete all assets created from a composite model before you can delete the model. Also, you can't delete a composite model if a parent asset model exists that contains a property formula expression that depends on the asset model that you want to delete. For more information, see Deleting assets and models in the IoT SiteWise User Guide.
     @Sendable
     public func deleteAssetModelCompositeModel(_ input: DeleteAssetModelCompositeModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAssetModelCompositeModelResponse {
         return try await self.client.execute(
@@ -490,7 +490,7 @@ public struct IoTSiteWise: AWSService {
         )
     }
 
-    /// Retrieves information about an asset composite model (also known as an asset component).  An AssetCompositeModel is an instance of an AssetModelCompositeModel. If you want to see information about the model this is based on, call  DescribeAssetModelCompositeModel.
+    /// Retrieves information about an asset composite model (also known as an asset component). An AssetCompositeModel is an instance of an AssetModelCompositeModel. If you want to see information about the model this is based on, call DescribeAssetModelCompositeModel.
     @Sendable
     public func describeAssetCompositeModel(_ input: DescribeAssetCompositeModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAssetCompositeModelResponse {
         return try await self.client.execute(
@@ -910,7 +910,7 @@ public struct IoTSiteWise: AWSService {
         )
     }
 
-    /// Retrieves a paginated list of associated assets. You can use this operation to do the following:   List child assets associated to a parent asset by a hierarchy that you specify.   List an asset's parent asset.
+    /// Retrieves a paginated list of associated assets. You can use this operation to do the following:    CHILD - List all child assets associated to the asset.    PARENT - List the asset's parent asset.
     @Sendable
     public func listAssociatedAssets(_ input: ListAssociatedAssetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssociatedAssetsResponse {
         return try await self.client.execute(
@@ -1148,7 +1148,7 @@ public struct IoTSiteWise: AWSService {
         )
     }
 
-    /// Updates an asset model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see Updating assets and models in the IoT SiteWise User Guide.  This operation overwrites the existing model with the provided model. To avoid deleting your asset model's properties or hierarchies, you must include their IDs and definitions in the updated asset model payload. For more information, see DescribeAssetModel. If you remove a property from an asset model, IoT SiteWise deletes all previous data for that property. If you remove a hierarchy definition from an asset model, IoT SiteWise disassociates every asset associated with that hierarchy. You can't change the type or data type of an existing property.
+    /// Updates an asset model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see Updating assets and models in the IoT SiteWise User Guide.  If you remove a property from an asset model, IoT SiteWise deletes all previous data for that property. You can’t change the type or data type of an existing property. To replace an existing asset model property with a new one with the same name, do the following:   Submit an UpdateAssetModel request with the entire existing property removed.   Submit a second UpdateAssetModel request that includes the new property. The new asset property will have the same name as the previous one and IoT SiteWise will generate a new unique id.
     @Sendable
     public func updateAssetModel(_ input: UpdateAssetModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAssetModelResponse {
         return try await self.client.execute(
@@ -1540,7 +1540,7 @@ extension IoTSiteWise {
         )
     }
 
-    /// Retrieves a paginated list of associated assets. You can use this operation to do the following:   List child assets associated to a parent asset by a hierarchy that you specify.   List an asset's parent asset.
+    /// Retrieves a paginated list of associated assets. You can use this operation to do the following:    CHILD - List all child assets associated to the asset.    PARENT - List the asset's parent asset.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1823,6 +1823,7 @@ extension IoTSiteWise.ListAssetModelCompositeModelsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListAssetModelCompositeModelsRequest {
         return .init(
             assetModelId: self.assetModelId,
+            assetModelVersion: self.assetModelVersion,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -1833,6 +1834,7 @@ extension IoTSiteWise.ListAssetModelPropertiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListAssetModelPropertiesRequest {
         return .init(
             assetModelId: self.assetModelId,
+            assetModelVersion: self.assetModelVersion,
             filter: self.filter,
             maxResults: self.maxResults,
             nextToken: token
@@ -1844,6 +1846,7 @@ extension IoTSiteWise.ListAssetModelsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListAssetModelsRequest {
         return .init(
             assetModelTypes: self.assetModelTypes,
+            assetModelVersion: self.assetModelVersion,
             maxResults: self.maxResults,
             nextToken: token
         )

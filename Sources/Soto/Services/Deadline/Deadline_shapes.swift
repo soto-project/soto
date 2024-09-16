@@ -1658,7 +1658,7 @@ extension Deadline {
     }
 
     public struct BudgetActionToAdd: AWSEncodableShape {
-        /// A description for the budget action to add.
+        /// A description for the budget action to add.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
         /// The percentage threshold for the budget action to add.
         public let thresholdPercentage: Float
@@ -1716,9 +1716,9 @@ extension Deadline {
         public var createdAt: Date
         /// The user or system that created this resource.
         public let createdBy: String
-        /// The description of the budget summary.
+        /// The description of the budget summary.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
-        /// The display name of the budget summary to update.
+        /// The display name of the budget summary to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The status of the budget.    ACTIVE–The budget is being evaluated.    INACTIVE–The budget is inactive. This can include Expired, Canceled, or deleted Deleted statuses.
         public let status: BudgetStatus
@@ -1732,6 +1732,21 @@ extension Deadline {
         /// The resource used to track expenditure in the budget.
         public let usageTrackingResource: UsageTrackingResource
 
+        public init(approximateDollarLimit: Float, budgetId: String, createdAt: Date, createdBy: String, displayName: String, status: BudgetStatus, updatedAt: Date? = nil, updatedBy: String? = nil, usages: ConsumedUsages, usageTrackingResource: UsageTrackingResource) {
+            self.approximateDollarLimit = approximateDollarLimit
+            self.budgetId = budgetId
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = nil
+            self.displayName = displayName
+            self.status = status
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+            self.usages = usages
+            self.usageTrackingResource = usageTrackingResource
+        }
+
+        @available(*, deprecated, message: "Members description have been deprecated")
         public init(approximateDollarLimit: Float, budgetId: String, createdAt: Date, createdBy: String, description: String? = nil, displayName: String, status: BudgetStatus, updatedAt: Date? = nil, updatedBy: String? = nil, usages: ConsumedUsages, usageTrackingResource: UsageTrackingResource) {
             self.approximateDollarLimit = approximateDollarLimit
             self.budgetId = budgetId
@@ -1832,9 +1847,9 @@ extension Deadline {
         public let approximateDollarLimit: Float
         /// The unique token which the server uses to recognize retries of the same request.
         public let clientToken: String?
-        /// The description of the budget.
+        /// The description of the budget.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
-        /// The display name of the budget.
+        /// The display name of the budget.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The farm ID to include in this budget.
         public let farmId: String
@@ -1908,9 +1923,9 @@ extension Deadline {
     public struct CreateFarmRequest: AWSEncodableShape {
         /// The unique token which the server uses to recognize retries of the same request.
         public let clientToken: String?
-        /// The description of the farm.
+        /// The description of the farm.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
-        /// The display name of the farm.
+        /// The display name of the farm.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The ARN of the KMS key to use on the farm.
         public let kmsKeyArn: String?
@@ -1970,9 +1985,9 @@ extension Deadline {
         public let clientToken: String?
         /// The configuration settings for the fleet. Customer managed fleets are self-managed. Service managed Amazon EC2 fleets are managed by Deadline Cloud.
         public let configuration: FleetConfiguration
-        /// The description of the fleet.
+        /// The description of the fleet.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
-        /// The display name of the fleet.
+        /// The display name of the fleet.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The farm ID of the farm to connect to the fleet.
         public let farmId: String
@@ -2059,17 +2074,17 @@ extension Deadline {
         public let farmId: String
         /// The number of task failures before the job stops running and is marked as FAILED.
         public let maxFailedTasksCount: Int?
-        /// The maximum number of retries for a job.
+        /// The maximum number of retries for each task.
         public let maxRetriesPerTask: Int?
         /// The parameters for the job.
         public let parameters: [String: JobParameter]?
-        /// The priority of the job on a scale of 1 to 100. The highest priority is 1.
+        /// The priority of the job on a scale of 0 to 100. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
         public let priority: Int
         /// The ID of the queue that the job is submitted to.
         public let queueId: String
         /// The storage profile ID for the storage profile to connect to the job.
         public let storageProfileId: String?
-        /// The initial status of the job's tasks when they are created. Tasks that are created with a SUSPENDED status will not run until you update their status.
+        /// The initial job status when it is created. Jobs that are created with a SUSPENDED status will not run until manually requeued.
         public let targetTaskRunStatus: CreateJobTargetTaskRunStatus?
         /// The job template to use for this job.
         public let template: String
@@ -2228,7 +2243,7 @@ extension Deadline {
     public struct CreateMonitorRequest: AWSEncodableShape {
         /// The unique token which the server uses to recognize retries of the same request.
         public let clientToken: String?
-        /// The name that you give the monitor that is displayed in the Deadline Cloud console.
+        /// The name that you give the monitor that is displayed in the Deadline Cloud console.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The Amazon Resource Name (ARN) of the IAM Identity Center instance that authenticates monitor users.
         public let identityCenterInstanceArn: String
@@ -2400,9 +2415,9 @@ extension Deadline {
         public let clientToken: String?
         /// The default action to take on a queue if a budget isn't configured.
         public let defaultBudgetAction: DefaultQueueBudgetAction?
-        /// The description of the queue.
+        /// The description of the queue.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
-        /// The display name of the queue.
+        /// The display name of the queue.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The farm ID of the farm to connect to the queue.
         public let farmId: String
@@ -2497,7 +2512,7 @@ extension Deadline {
     public struct CreateStorageProfileRequest: AWSEncodableShape {
         /// The unique token which the server uses to recognize retries of the same request.
         public let clientToken: String?
-        /// The display name of the storage profile.
+        /// The display name of the storage profile.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The farm ID of the farm to connect to the storage profile.
         public let farmId: String
@@ -3416,7 +3431,7 @@ extension Deadline {
         public var createdAt: Date
         /// The user or system that created this resource.
         public let createdBy: String
-        /// The display name of the farm.
+        /// The display name of the farm.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The farm ID.
         public let farmId: String
@@ -3630,7 +3645,7 @@ extension Deadline {
         public var createdAt: Date
         /// The user or system that created this resource.
         public let createdBy: String
-        /// The display name of the fleet summary to update.
+        /// The display name of the fleet summary to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The farm ID.
         public let farmId: String
@@ -3725,9 +3740,9 @@ extension Deadline {
         public var createdAt: Date
         /// The user or system that created this resource.
         public let createdBy: String
-        /// The description of the budget.
+        /// The description of the budget.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
-        /// The display name of the budget.
+        /// The display name of the budget.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The date and time the queue stopped.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -3808,9 +3823,9 @@ extension Deadline {
         public var createdAt: Date
         /// The user or system that created this resource.
         public let createdBy: String
-        /// The description of the farm.
+        /// The description of the farm.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
-        /// The display name of the farm.
+        /// The display name of the farm.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The farm ID of the farm to get.
         public let farmId: String
@@ -3883,9 +3898,9 @@ extension Deadline {
         public var createdAt: Date
         /// The user or system that created this resource.
         public let createdBy: String
-        /// The description of the fleet.
+        /// The description of the fleet.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
-        /// The display name of the fleet.
+        /// The display name of the fleet.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The farm ID of the farm in the fleet.
         public let farmId: String
@@ -3989,7 +4004,7 @@ extension Deadline {
         public var createdAt: Date
         /// The user or system that created this resource.
         public let createdBy: String
-        /// The description of the job.
+        /// The description of the job.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
         /// The date and time the resource ended running.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -4159,7 +4174,7 @@ extension Deadline {
         public var createdAt: Date
         /// The user name of the person that created the monitor.
         public let createdBy: String
-        /// The name used to identify the monitor on the Deadline Cloud console.
+        /// The name used to identify the monitor on the Deadline Cloud console.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The Amazon Resource Name (ARN) that the IAM Identity Center assigned to the monitor when it was created.
         public let identityCenterApplicationArn: String
@@ -4394,9 +4409,9 @@ extension Deadline {
         public let createdBy: String
         /// The default action taken on a queue if a budget wasn't configured.
         public let defaultBudgetAction: DefaultQueueBudgetAction
-        /// The description of the queue.
+        /// The description of the queue.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
-        /// The display name of the queue.
+        /// The display name of the queue.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The farm ID for the queue.
         public let farmId: String
@@ -4682,7 +4697,7 @@ extension Deadline {
         public let nextToken: String?
         /// The statistics for the specified fleets or queues.
         public let statistics: [Statistics]?
-        /// The status of the aggregated results.
+        /// The status of the aggregated results. An aggregation may fail or time out if the results are too large. If this happens, you can call the StartSessionsStatisticsAggregation operation after you reduce the aggregation time frame, reduce the number of queues or fleets in the aggregation, or increase the period length. If you call the StartSessionsStatisticsAggregation  operation when the status is IN_PROGRESS, you will receive a ThrottlingException.
         public let status: SessionsStatisticsAggregationStatus
         /// A message that describes the status.
         public let statusMessage: String?
@@ -4746,7 +4761,7 @@ extension Deadline {
         public let createdBy: String
         /// The number of dependencies in the step.
         public let dependencyCounts: DependencyCounts?
-        /// The description of the step.
+        /// The description of the step.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
         /// The date and time the resource ended running.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -4851,7 +4866,7 @@ extension Deadline {
     }
 
     public struct GetStorageProfileForQueueResponse: AWSDecodableShape {
-        /// The display name of the storage profile connected to a queue.
+        /// The display name of the storage profile connected to a queue.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The location of the files for the storage profile within the queue.
         public let fileSystemLocations: [FileSystemLocation]?
@@ -4907,7 +4922,7 @@ extension Deadline {
         public var createdAt: Date
         /// The user or system that created this resource.
         public let createdBy: String
-        /// The display name of the storage profile.
+        /// The display name of the storage profile.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The location of the files for the storage profile.
         public let fileSystemLocations: [FileSystemLocation]?
@@ -5270,6 +5285,7 @@ extension Deadline {
         public func validate(name: String) throws {
             try self.validate(self.rootPrefix, name: "rootPrefix", parent: name, max: 63)
             try self.validate(self.rootPrefix, name: "rootPrefix", parent: name, min: 1)
+            try self.validate(self.rootPrefix, name: "rootPrefix", parent: name, pattern: "^[a-zA-Z0-9-_/]+$")
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 255)
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 1)
         }
@@ -5449,7 +5465,7 @@ extension Deadline {
         public var startedAt: Date?
         /// The task status to start with on the job.
         public let targetTaskRunStatus: JobTargetTaskRunStatus?
-        /// task run status for the job.    PENDING–pending and waiting for resources.    READY–ready to be processed.    ASSIGNED–assigned and will run next on a worker.    SCHEDULED–scheduled to be run on a worker.    INTERRUPTING–being interrupted.    RUNNING–running on a worker.    SUSPENDED–the task is suspended.    CANCELED–the task has been canceled.    FAILED–the task has failed.    SUCCEEDED–the task has succeeded.
+        /// The task run status for the job.    PENDING–pending and waiting for resources.    READY–ready to be processed.    ASSIGNED–assigned and will run next on a worker.    SCHEDULED–scheduled to be run on a worker.    INTERRUPTING–being interrupted.    RUNNING–running on a worker.    SUSPENDED–the task is suspended.    CANCELED–the task has been canceled.    FAILED–the task has failed.    SUCCEEDED–the task has succeeded.
         public let taskRunStatus: TaskRunStatus?
         /// The number of tasks running on the job.
         public let taskRunStatusCounts: [TaskRunStatus: Int]?
@@ -5842,7 +5858,7 @@ extension Deadline {
     }
 
     public struct ListFleetsRequest: AWSEncodableShape {
-        /// The display names of a list of fleets.
+        /// The display names of a list of fleets.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String?
         /// The farm ID of the fleets.
         public let farmId: String
@@ -6329,7 +6345,7 @@ extension Deadline {
         public let maxResults: Int?
         /// The token for the next set of results, or null to start from the beginning.
         public let nextToken: String?
-        /// The principal ID. This filter is only valid when using Nimble Studio credentials and should match the user ID in the credentials of the caller.
+        /// The principal IDs to include in the list of queues.
         public let principalId: String?
         /// The status of the queues listed.    ACTIVE–The queues are active.    SCHEDULING–The queues are scheduling.    SCHEDULING_BLOCKED–The queue scheduling is blocked for these queues.
         public let status: QueueStatus?
@@ -7112,7 +7128,7 @@ extension Deadline {
         public var createdAt: Date
         /// The user name of the person that created the monitor.
         public let createdBy: String
-        /// The name of the monitor that displays on the Deadline Cloud console.
+        /// The name of the monitor that displays on the Deadline Cloud console.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The Amazon Resource Name (ARN) that the IAM Identity Center assigned to the monitor when it was created.
         public let identityCenterApplicationArn: String
@@ -7392,7 +7408,7 @@ extension Deadline {
         public let createdBy: String
         /// The default action taken on a queue summary if a budget wasn't configured.
         public let defaultBudgetAction: DefaultQueueBudgetAction
-        /// The display name of the queue summary to update.
+        /// The display name of the queue summary to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The farm ID.
         public let farmId: String
@@ -7434,7 +7450,7 @@ extension Deadline {
     }
 
     public struct ResponseBudgetAction: AWSDecodableShape {
-        /// The budget action description.
+        /// The budget action description.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
         /// The percentage threshold for the budget.
         public let thresholdPercentage: Float
@@ -7546,7 +7562,7 @@ extension Deadline {
                 try validate($0, name: "queueIds[]", parent: name, pattern: "^queue-[0-9a-f]{32}$")
             }
             try self.validate(self.queueIds, name: "queueIds", parent: name, min: 1)
-            try self.validate(self.sortExpressions, name: "sortExpressions", parent: name, max: 1)
+            try self.validate(self.sortExpressions, name: "sortExpressions", parent: name, max: 5)
             try self.validate(self.sortExpressions, name: "sortExpressions", parent: name, min: 1)
         }
 
@@ -7628,7 +7644,7 @@ extension Deadline {
                 try validate($0, name: "queueIds[]", parent: name, pattern: "^queue-[0-9a-f]{32}$")
             }
             try self.validate(self.queueIds, name: "queueIds", parent: name, min: 1)
-            try self.validate(self.sortExpressions, name: "sortExpressions", parent: name, max: 1)
+            try self.validate(self.sortExpressions, name: "sortExpressions", parent: name, max: 5)
             try self.validate(self.sortExpressions, name: "sortExpressions", parent: name, min: 1)
         }
 
@@ -7711,7 +7727,7 @@ extension Deadline {
                 try validate($0, name: "queueIds[]", parent: name, pattern: "^queue-[0-9a-f]{32}$")
             }
             try self.validate(self.queueIds, name: "queueIds", parent: name, min: 1)
-            try self.validate(self.sortExpressions, name: "sortExpressions", parent: name, max: 1)
+            try self.validate(self.sortExpressions, name: "sortExpressions", parent: name, max: 5)
             try self.validate(self.sortExpressions, name: "sortExpressions", parent: name, min: 1)
         }
 
@@ -7807,7 +7823,7 @@ extension Deadline {
                 try validate($0, name: "fleetIds[]", parent: name, pattern: "^fleet-[0-9a-f]{32}$")
             }
             try self.validate(self.fleetIds, name: "fleetIds", parent: name, min: 1)
-            try self.validate(self.sortExpressions, name: "sortExpressions", parent: name, max: 1)
+            try self.validate(self.sortExpressions, name: "sortExpressions", parent: name, max: 5)
             try self.validate(self.sortExpressions, name: "sortExpressions", parent: name, min: 1)
         }
 
@@ -8526,7 +8542,7 @@ extension Deadline {
     }
 
     public struct StorageProfileSummary: AWSDecodableShape {
-        /// The display name of the storage profile summary to update.
+        /// The display name of the storage profile summary to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
         /// The operating system (OS) family.
         public let osFamily: StorageProfileOperatingSystemFamily
@@ -8811,9 +8827,9 @@ extension Deadline {
         public let budgetId: String
         /// The unique token which the server uses to recognize retries of the same request.
         public let clientToken: String?
-        /// The description of the budget to update.
+        /// The description of the budget to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
-        /// The display name of the budget to update.
+        /// The display name of the budget to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String?
         /// The farm ID of the budget to update.
         public let farmId: String
@@ -8885,9 +8901,9 @@ extension Deadline {
     }
 
     public struct UpdateFarmRequest: AWSEncodableShape {
-        /// The description of the farm to update.
+        /// The description of the farm to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
-        /// The display name of the farm to update.
+        /// The display name of the farm to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String?
         /// The farm ID to update.
         public let farmId: String
@@ -8928,9 +8944,9 @@ extension Deadline {
         public let clientToken: String?
         /// The fleet configuration to update.
         public let configuration: FleetConfiguration?
-        /// The description of the fleet to update.
+        /// The description of the fleet to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
-        /// The display name of the fleet to update.
+        /// The display name of the fleet to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String?
         /// The farm ID to update.
         public let farmId: String
@@ -9006,7 +9022,7 @@ extension Deadline {
         public let farmId: String
         /// The job ID to update.
         public let jobId: String
-        /// The status of a job in its lifecycle.
+        /// The status of a job in its lifecycle. When you change the status of the job to ARCHIVED, the job can't be scheduled or archived.  An archived jobs and its steps and tasks are deleted after 120 days. The job can't be recovered.
         public let lifecycleStatus: UpdateJobLifecycleStatus?
         /// The number of task failures before the job stops running and is marked as FAILED.
         public let maxFailedTasksCount: Int?
@@ -9073,7 +9089,7 @@ extension Deadline {
     }
 
     public struct UpdateMonitorRequest: AWSEncodableShape {
-        /// The new value to use for the monitor's display name.
+        /// The new value to use for the monitor's display name.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String?
         /// The unique identifier of the monitor to update.
         public let monitorId: String
@@ -9228,9 +9244,9 @@ extension Deadline {
         public let clientToken: String?
         /// The default action to take for a queue update if a budget isn't configured.
         public let defaultBudgetAction: DefaultQueueBudgetAction?
-        /// The description of the queue to update.
+        /// The description of the queue to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
-        /// The display name of the queue to update.
+        /// The display name of the queue to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String?
         /// The farm ID to update in the queue.
         public let farmId: String
@@ -9438,7 +9454,7 @@ extension Deadline {
     public struct UpdateStorageProfileRequest: AWSEncodableShape {
         /// The unique token which the server uses to recognize retries of the same request.
         public let clientToken: String?
-        /// The display name of the storage profile to update.
+        /// The display name of the storage profile to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String?
         /// The farm ID to update.
         public let farmId: String

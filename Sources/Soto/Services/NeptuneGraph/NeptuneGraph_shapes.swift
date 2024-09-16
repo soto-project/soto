@@ -26,6 +26,11 @@ import Foundation
 extension NeptuneGraph {
     // MARK: Enums
 
+    public enum BlankNodeHandling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case convertToIri = "convertToIri"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExplainMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `static` = "STATIC"
         case details = "DETAILS"
@@ -34,6 +39,7 @@ extension NeptuneGraph {
 
     public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
+        case ntriples = "NTRIPLES"
         case openCypher = "OPEN_CYPHER"
         public var description: String { return self.rawValue }
     }
@@ -232,7 +238,7 @@ extension NeptuneGraph {
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, min: 1)
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
             try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, max: 24576)
-            try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, min: 128)
+            try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, min: 32)
             try self.validate(self.replicaCount, name: "replicaCount", parent: name, max: 2)
             try self.validate(self.replicaCount, name: "replicaCount", parent: name, min: 0)
             try self.tags?.forEach {
@@ -399,6 +405,8 @@ extension NeptuneGraph {
     }
 
     public struct CreateGraphUsingImportTaskInput: AWSEncodableShape {
+        /// The method to handle blank nodes in the dataset. Currently, only convertToIri is supported,  meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples.  For more information, see Handling RDF values.
+        public let blankNodeHandling: BlankNodeHandling?
         /// Indicates whether or not to enable deletion protection on the graph. The graph can’t be deleted when deletion protection is enabled. (true or false).
         public let deletionProtection: Bool?
         /// If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that caused the error and continues if possible.
@@ -428,7 +436,8 @@ extension NeptuneGraph {
         /// Specifies the number of dimensions for vector embeddings that will be loaded into the graph. The value is specified as dimension=value. Max = 65,535
         public let vectorSearchConfiguration: VectorSearchConfiguration?
 
-        public init(deletionProtection: Bool? = nil, failOnError: Bool? = nil, format: Format? = nil, graphName: String, importOptions: ImportOptions? = nil, kmsKeyIdentifier: String? = nil, maxProvisionedMemory: Int? = nil, minProvisionedMemory: Int? = nil, publicConnectivity: Bool? = nil, replicaCount: Int? = nil, roleArn: String, source: String, tags: [String: String]? = nil, vectorSearchConfiguration: VectorSearchConfiguration? = nil) {
+        public init(blankNodeHandling: BlankNodeHandling? = nil, deletionProtection: Bool? = nil, failOnError: Bool? = nil, format: Format? = nil, graphName: String, importOptions: ImportOptions? = nil, kmsKeyIdentifier: String? = nil, maxProvisionedMemory: Int? = nil, minProvisionedMemory: Int? = nil, publicConnectivity: Bool? = nil, replicaCount: Int? = nil, roleArn: String, source: String, tags: [String: String]? = nil, vectorSearchConfiguration: VectorSearchConfiguration? = nil) {
+            self.blankNodeHandling = blankNodeHandling
             self.deletionProtection = deletionProtection
             self.failOnError = failOnError
             self.format = format
@@ -453,9 +462,9 @@ extension NeptuneGraph {
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, min: 1)
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
             try self.validate(self.maxProvisionedMemory, name: "maxProvisionedMemory", parent: name, max: 24576)
-            try self.validate(self.maxProvisionedMemory, name: "maxProvisionedMemory", parent: name, min: 128)
+            try self.validate(self.maxProvisionedMemory, name: "maxProvisionedMemory", parent: name, min: 32)
             try self.validate(self.minProvisionedMemory, name: "minProvisionedMemory", parent: name, max: 24576)
-            try self.validate(self.minProvisionedMemory, name: "minProvisionedMemory", parent: name, min: 128)
+            try self.validate(self.minProvisionedMemory, name: "minProvisionedMemory", parent: name, min: 32)
             try self.validate(self.replicaCount, name: "replicaCount", parent: name, max: 2)
             try self.validate(self.replicaCount, name: "replicaCount", parent: name, min: 0)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$")
@@ -470,6 +479,7 @@ extension NeptuneGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case blankNodeHandling = "blankNodeHandling"
             case deletionProtection = "deletionProtection"
             case failOnError = "failOnError"
             case format = "format"
@@ -488,7 +498,7 @@ extension NeptuneGraph {
     }
 
     public struct CreateGraphUsingImportTaskOutput: AWSDecodableShape {
-        /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
+        /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format, OPENCYPHER, which identifies the openCypher load format, or ntriples, which identifies the RDF n-triples format.
         public let format: Format?
         /// The unique identifier of the Neptune Analytics graph.
         public let graphId: String?
@@ -1988,7 +1998,7 @@ extension NeptuneGraph {
             try self.validate(self.graphName, name: "graphName", parent: name, min: 1)
             try self.validate(self.graphName, name: "graphName", parent: name, pattern: "^(?!g-)[a-z][a-z0-9]*(-[a-z0-9]+)*$")
             try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, max: 24576)
-            try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, min: 128)
+            try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, min: 32)
             try self.validate(self.replicaCount, name: "replicaCount", parent: name, max: 2)
             try self.validate(self.replicaCount, name: "replicaCount", parent: name, min: 0)
             try self.validate(self.snapshotIdentifier, name: "snapshotIdentifier", parent: name, pattern: "^gs-[a-z0-9]{10}$")
@@ -2080,6 +2090,8 @@ extension NeptuneGraph {
     }
 
     public struct StartImportTaskInput: AWSEncodableShape {
+        /// The method to handle blank nodes in the dataset. Currently, only convertToIri is supported,  meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples.  For more information, see Handling RDF values.
+        public let blankNodeHandling: BlankNodeHandling?
         /// If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that  caused the error and continues if possible.
         public let failOnError: Bool?
         /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or  OPENCYPHER, which identies the openCypher load format.
@@ -2092,7 +2104,8 @@ extension NeptuneGraph {
         /// A URL identifying the location of the data to be imported. This can be an Amazon S3 path, or can point to a  Neptune database endpoint or snapshot.
         public let source: String
 
-        public init(failOnError: Bool? = nil, format: Format? = nil, graphIdentifier: String, importOptions: ImportOptions? = nil, roleArn: String, source: String) {
+        public init(blankNodeHandling: BlankNodeHandling? = nil, failOnError: Bool? = nil, format: Format? = nil, graphIdentifier: String, importOptions: ImportOptions? = nil, roleArn: String, source: String) {
+            self.blankNodeHandling = blankNodeHandling
             self.failOnError = failOnError
             self.format = format
             self.graphIdentifier = graphIdentifier
@@ -2104,6 +2117,7 @@ extension NeptuneGraph {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.blankNodeHandling, forKey: .blankNodeHandling)
             try container.encodeIfPresent(self.failOnError, forKey: .failOnError)
             try container.encodeIfPresent(self.format, forKey: .format)
             request.encodePath(self.graphIdentifier, key: "graphIdentifier")
@@ -2118,6 +2132,7 @@ extension NeptuneGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case blankNodeHandling = "blankNodeHandling"
             case failOnError = "failOnError"
             case format = "format"
             case importOptions = "importOptions"
@@ -2268,7 +2283,7 @@ extension NeptuneGraph {
         public func validate(name: String) throws {
             try self.validate(self.graphIdentifier, name: "graphIdentifier", parent: name, pattern: "^g-[a-z0-9]{10}$")
             try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, max: 24576)
-            try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, min: 128)
+            try self.validate(self.provisionedMemory, name: "provisionedMemory", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {

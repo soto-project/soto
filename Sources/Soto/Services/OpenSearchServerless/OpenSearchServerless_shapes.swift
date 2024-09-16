@@ -396,6 +396,10 @@ extension OpenSearchServerless {
         public let dashboardEndpoint: String?
         /// A description of the collection.
         public let description: String?
+        /// A failure code associated with the request.
+        public let failureCode: String?
+        /// A message associated with the failure code.
+        public let failureMessage: String?
         /// A unique identifier for the collection.
         public let id: String?
         /// The ARN of the Amazon Web Services KMS key used to encrypt the collection.
@@ -411,12 +415,14 @@ extension OpenSearchServerless {
         /// The type of collection.
         public let type: CollectionType?
 
-        public init(arn: String? = nil, collectionEndpoint: String? = nil, createdDate: Int64? = nil, dashboardEndpoint: String? = nil, description: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil) {
+        public init(arn: String? = nil, collectionEndpoint: String? = nil, createdDate: Int64? = nil, dashboardEndpoint: String? = nil, description: String? = nil, failureCode: String? = nil, failureMessage: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil) {
             self.arn = arn
             self.collectionEndpoint = collectionEndpoint
             self.createdDate = createdDate
             self.dashboardEndpoint = dashboardEndpoint
             self.description = description
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
             self.id = id
             self.kmsKeyArn = kmsKeyArn
             self.lastModifiedDate = lastModifiedDate
@@ -432,6 +438,8 @@ extension OpenSearchServerless {
             case createdDate = "createdDate"
             case dashboardEndpoint = "dashboardEndpoint"
             case description = "description"
+            case failureCode = "failureCode"
+            case failureMessage = "failureMessage"
             case id = "id"
             case kmsKeyArn = "kmsKeyArn"
             case lastModifiedDate = "lastModifiedDate"
@@ -1478,7 +1486,7 @@ extension OpenSearchServerless {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resource, name: "resource", parent: name, pattern: "^index/[a-z][a-z0-9-]{3,32}/([a-z;0-9&$%][+.~=\\-_a-z;0-9&$%]*|\\*)$")
+            try self.validate(self.resource, name: "resource", parent: name, pattern: "^index/[a-z][a-z0-9-]{3,32}/([a-z;0-9&$%][+.~=\\-_a-z;0-9&$%]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2567,6 +2575,10 @@ extension OpenSearchServerless {
     public struct VpcEndpointDetail: AWSDecodableShape {
         /// The date the endpoint was created.
         public let createdDate: Int64?
+        /// A failure code associated with the request.
+        public let failureCode: String?
+        /// A message associated with the failure code.
+        public let failureMessage: String?
         /// The unique identifier of the endpoint.
         public let id: String?
         /// The name of the endpoint.
@@ -2580,8 +2592,10 @@ extension OpenSearchServerless {
         /// The ID of the VPC from which you access OpenSearch Serverless.
         public let vpcId: String?
 
-        public init(createdDate: Int64? = nil, id: String? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: VpcEndpointStatus? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+        public init(createdDate: Int64? = nil, failureCode: String? = nil, failureMessage: String? = nil, id: String? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: VpcEndpointStatus? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.createdDate = createdDate
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
             self.id = id
             self.name = name
             self.securityGroupIds = securityGroupIds
@@ -2592,6 +2606,8 @@ extension OpenSearchServerless {
 
         private enum CodingKeys: String, CodingKey {
             case createdDate = "createdDate"
+            case failureCode = "failureCode"
+            case failureMessage = "failureMessage"
             case id = "id"
             case name = "name"
             case securityGroupIds = "securityGroupIds"

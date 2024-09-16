@@ -66,6 +66,8 @@ extension TimestreamInfluxDB {
         case failed = "FAILED"
         case modifying = "MODIFYING"
         case updating = "UPDATING"
+        case updatingDeploymentType = "UPDATING_DEPLOYMENT_TYPE"
+        case updatingInstanceType = "UPDATING_INSTANCE_TYPE"
         public var description: String { return self.rawValue }
     }
 
@@ -132,7 +134,7 @@ extension TimestreamInfluxDB {
             try self.validate(self.allocatedStorage, name: "allocatedStorage", parent: name, min: 20)
             try self.validate(self.bucket, name: "bucket", parent: name, max: 64)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 2)
-            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^[^_][^\"]*$")
+            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^[^_\"][^\"]*$")
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, max: 64)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, min: 3)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, pattern: "^[a-zA-Z0-9]+$")
@@ -691,6 +693,7 @@ extension TimestreamInfluxDB {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -730,6 +733,7 @@ extension TimestreamInfluxDB {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -883,15 +887,21 @@ extension TimestreamInfluxDB {
     }
 
     public struct UpdateDbInstanceInput: AWSEncodableShape {
+        /// The Timestream for InfluxDB DB instance type to run InfluxDB on.
+        public let dbInstanceType: DbInstanceType?
         /// The id of the DB parameter group to assign to your DB instance. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
         public let dbParameterGroupIdentifier: String?
+        /// Specifies whether the DB instance will be deployed as a standalone instance or with a Multi-AZ standby for high availability.
+        public let deploymentType: DeploymentType?
         /// The id of the DB instance.
         public let identifier: String
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
 
-        public init(dbParameterGroupIdentifier: String? = nil, identifier: String, logDeliveryConfiguration: LogDeliveryConfiguration? = nil) {
+        public init(dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, deploymentType: DeploymentType? = nil, identifier: String, logDeliveryConfiguration: LogDeliveryConfiguration? = nil) {
+            self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
+            self.deploymentType = deploymentType
             self.identifier = identifier
             self.logDeliveryConfiguration = logDeliveryConfiguration
         }
@@ -906,7 +916,9 @@ extension TimestreamInfluxDB {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dbInstanceType = "dbInstanceType"
             case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
+            case deploymentType = "deploymentType"
             case identifier = "identifier"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
         }

@@ -86,6 +86,7 @@ public struct CloudControl: AWSService {
             "ap-southeast-2": "cloudcontrolapi.ap-southeast-2.api.aws",
             "ap-southeast-3": "cloudcontrolapi.ap-southeast-3.api.aws",
             "ap-southeast-4": "cloudcontrolapi.ap-southeast-4.api.aws",
+            "ap-southeast-5": "cloudcontrolapi.ap-southeast-5.api.aws",
             "ca-central-1": "cloudcontrolapi.ca-central-1.api.aws",
             "ca-west-1": "cloudcontrolapi.ca-west-1.api.aws",
             "cn-north-1": "cloudcontrolapi.cn-north-1.api.amazonwebservices.com.cn",

@@ -1775,6 +1775,23 @@
         "com.amazonaws.elasticloadbalancingv2#Default": {
             "type": "boolean"
         },
+        "com.amazonaws.elasticloadbalancingv2#DeleteAssociationSameAccountException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.elasticloadbalancingv2#ErrorDescription"
+                }
+            },
+            "traits": {
+                "aws.protocols#awsQueryError": {
+                    "code": "DeleteAssociationSameAccount",
+                    "httpResponseCode": 400
+                },
+                "smithy.api#documentation": "<p>The specified association cannot be within the same account.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 400
+            }
+        },
         "com.amazonaws.elasticloadbalancingv2#DeleteListener": {
             "type": "operation",
             "input": {
@@ -1928,6 +1945,70 @@
             }
         },
         "com.amazonaws.elasticloadbalancingv2#DeleteRuleOutput": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.elasticloadbalancingv2#DeleteSharedTrustStoreAssociation": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.elasticloadbalancingv2#DeleteSharedTrustStoreAssociationInput"
+            },
+            "output": {
+                "target": "com.amazonaws.elasticloadbalancingv2#DeleteSharedTrustStoreAssociationOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.elasticloadbalancingv2#DeleteAssociationSameAccountException"
+                },
+                {
+                    "target": "com.amazonaws.elasticloadbalancingv2#TrustStoreAssociationNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.elasticloadbalancingv2#TrustStoreNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Deletes a shared trust store association.</p>",
+                "smithy.api#examples": [
+                    {
+                        "title": "Delete a shared trust store association",
+                        "documentation": "This example deletes the association between the specified trust store and the specified load balancer.",
+                        "input": {
+                            "TrustStoreArn": "arn:aws:elasticloadbalancing:us-east-1:123456789012:truststore/my-trust-store/73e2d6bc24d8a063",
+                            "ResourceArn": "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/app/my-load-balancer/80233fa81d678c2c"
+                        }
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.elasticloadbalancingv2#DeleteSharedTrustStoreAssociationInput": {
+            "type": "structure",
+            "members": {
+                "TrustStoreArn": {
+                    "target": "com.amazonaws.elasticloadbalancingv2#TrustStoreArn",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the trust store.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ResourceArn": {
+                    "target": "com.amazonaws.elasticloadbalancingv2#ResourceArn",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the resource.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.elasticloadbalancingv2#DeleteSharedTrustStoreAssociationOutput": {
             "type": "structure",
             "members": {},
             "traits": {
@@ -2143,6 +2224,63 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.elasticloadbalancingv2#DescribeListenerAttributes": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.elasticloadbalancingv2#DescribeListenerAttributesInput"
+            },
+            "output": {
+                "target": "com.amazonaws.elasticloadbalancingv2#DescribeListenerAttributesOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.elasticloadbalancingv2#ListenerNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Describes the attributes for the specified listener.</p>",
+                "smithy.api#examples": [
+                    {
+                        "title": "Describe listener attributes",
+                        "documentation": "This example describes the attributes of the specified listener.",
+                        "input": {
+                            "ListenerArn": "aws:elasticloadbalancing:us-east-1:123456789012:listener/net/my-listener/73e2d6bc24d8a067/d5dc06411fa5bcea"
+                        },
+                        "output": {}
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.elasticloadbalancingv2#DescribeListenerAttributesInput": {
+            "type": "structure",
+            "members": {
+                "ListenerArn": {
+                    "target": "com.amazonaws.elasticloadbalancingv2#ListenerArn",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the listener.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.elasticloadbalancingv2#DescribeListenerAttributesOutput": {
+            "type": "structure",
+            "members": {
+                "Attributes": {
+                    "target": "com.amazonaws.elasticloadbalancingv2#ListenerAttributes",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about the listener attributes.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.elasticloadbalancingv2#DescribeListenerCertificates": {
             "type": "operation",
             "input": {
@@ -2157,7 +2295,12 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Describes the default certificate and the certificate list for the specified HTTPS or TLS\n      listener.</p>\n         <p>If the default certificate is also in the certificate list, it appears twice in the\n      results (once with <code>IsDefault</code> set to true and once with <code>IsDefault</code> set\n      to false).</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#https-listener-certificates\">SSL certificates</a> in the <i>Application Load Balancers Guide</i> or\n        <a href=\"https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#tls-listener-certificate\">Server certificates</a> in the <i>Network Load Balancers\n      Guide</i>.</p>"
+                "smithy.api#documentation": "<p>Describes the default certificate and the certificate list for the specified HTTPS or TLS\n      listener.</p>\n         <p>If the default certificate is also in the certificate list, it appears twice in the\n      results (once with <code>IsDefault</code> set to true and once with <code>IsDefault</code> set\n      to false).</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#https-listener-certificates\">SSL certificates</a> in the <i>Application Load Balancers Guide</i> or\n        <a href=\"https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#tls-listener-certificate\">Server certificates</a> in the <i>Network Load Balancers\n      Guide</i>.</p>",
+                "smithy.api#paginated": {
+                    "inputToken": "Marker",
+                    "outputToken": "NextMarker",
+                    "items": "Certificates"
+                }
             }
         },
         "com.amazonaws.elasticloadbalancingv2#DescribeListenerCertificatesInput": {
@@ -2638,7 +2781,12 @@
                             ]
                         }
                     }
-                ]
+                ],
+                "smithy.api#paginated": {
+                    "inputToken": "Marker",
+                    "outputToken": "NextMarker",
+                    "items": "Rules"
+                }
             }
         },
         "com.amazonaws.elasticloadbalancingv2#DescribeRulesInput": {
@@ -3295,7 +3443,7 @@
                 "Include": {
                     "target": "com.amazonaws.elasticloadbalancingv2#ListOfDescribeTargetHealthIncludeOptions",
                     "traits": {
-                        "smithy.api#documentation": "<p>Used to inclue anomaly detection information.</p>"
+                        "smithy.api#documentation": "<p>Used to include anomaly detection information.</p>"
                     }
                 }
             },
@@ -3459,7 +3607,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Describes the revocation files in use by the specified \n      trust store arn, or revocation ID.</p>",
+                "smithy.api#documentation": "<p>Describes the revocation files in use by the specified trust store or revocation\n      files.</p>",
                 "smithy.api#paginated": {
                     "inputToken": "Marker",
                     "outputToken": "NextMarker",
@@ -3535,7 +3683,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Describes all trust stores for a given account \n      by trust store arn’s or name.</p>",
+                "smithy.api#documentation": "<p>Describes all trust stores for the specified account.</p>",
                 "smithy.api#paginated": {
                     "inputToken": "Marker",
                     "outputToken": "NextMarker",
@@ -3721,6 +3869,9 @@
                     "target": "com.amazonaws.elasticloadbalancingv2#DeleteRule"
                 },
                 {
+                    "target": "com.amazonaws.elasticloadbalancingv2#DeleteSharedTrustStoreAssociation"
+                },
+                {
                     "target": "com.amazonaws.elasticloadbalancingv2#DeleteTargetGroup"
                 },
                 {
@@ -3731,6 +3882,9 @@
                 },
                 {
                     "target": "com.amazonaws.elasticloadbalancingv2#DescribeAccountLimits"
+                },
+                {
+                    "target": "com.amazonaws.elasticloadbalancingv2#DescribeListenerAttributes"
                 },
                 {
                     "target": "com.amazonaws.elasticloadbalancingv2#DescribeListenerCertificates"
@@ -3772,6 +3926,9 @@
                     "target": "com.amazonaws.elasticloadbalancingv2#DescribeTrustStores"
                 },
                 {
+                    "target": "com.amazonaws.elasticloadbalancingv2#GetResourcePolicy"
+                },
+                {
                     "target": "com.amazonaws.elasticloadbalancingv2#GetTrustStoreCaCertificatesBundle"
                 },
                 {
@@ -3779,6 +3936,9 @@
                 },
                 {
                     "target": "com.amazonaws.elasticloadbalancingv2#ModifyListener"
+                },
+                {
+                    "target": "com.amazonaws.elasticloadbalancingv2#ModifyListenerAttributes"
                 },
                 {
                     "target": "com.amazonaws.elasticloadbalancingv2#ModifyLoadBalancerAttributes"
@@ -4952,6 +5112,62 @@
                 "smithy.api#documentation": "<p>Information about a forward action.</p>"
             }
         },
+        "com.amazonaws.elasticloadbalancingv2#GetResourcePolicy": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.elasticloadbalancingv2#GetResourcePolicyInput"
+            },
+            "output": {
+                "target": "com.amazonaws.elasticloadbalancingv2#GetResourcePolicyOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.elasticloadbalancingv2#ResourceNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Retrieves the resource policy for a specified resource.</p>",
+                "smithy.api#examples": [
+                    {
+                        "title": "Retrieve a resource policy",
+                        "documentation": "This example retrieves the resource policy for the specified trust store.",
+                        "input": {
+                            "ResourceArn": "arn:aws:elasticloadbalancing:us-east-1:123456789012:truststore/my-trust-store/73e2d6bc24d8a067"
+                        }
+                    }
+                ]
+            }
+        },
+        "com.amazonaws.elasticloadbalancingv2#GetResourcePolicyInput": {
+            "type": "structure",
+            "members": {
+                "ResourceArn": {
+                    "target": "com.amazonaws.elasticloadbalancingv2#ResourceArn",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the resource.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.elasticloadbalancingv2#GetResourcePolicyOutput": {
+            "type": "structure",
+            "members": {
+                "Policy": {
+                    "target": "com.amazonaws.elasticloadbalancingv2#Policy",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The content of the resource policy.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.elasticloadbalancingv2#GetTrustStoreCaCertificatesBundle": {
             "type": "operation",
             "input": {
@@ -5459,6 +5675,45 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.elasticloadbalancingv2#ListenerArn"
+            }
+        },
+        "com.amazonaws.elasticloadbalancingv2#ListenerAttribute": {
+            "type": "structure",
+            "members": {
+                "Key": {
+                    "target": "com.amazonaws.elasticloadbalancingv2#ListenerAttributeKey",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the attribute.</p>\n         <p>The following attribute is supported by Network Load Balancers, and Gateway Load Balancers.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>tcp.idle_timeout.seconds</code> - The tcp idle timeout value, in seconds. The \n          valid range is 60-6000 seconds. The default is 350 seconds.</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "Value": {
+                    "target": "com.amazonaws.elasticloadbalancingv2#ListenerAttributeValue",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The value of the attribute.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about a listener attribute.</p>"
+            }
+        },
+        "com.amazonaws.elasticloadbalancingv2#ListenerAttributeKey": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 256
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9._]+$"
+            }
+        },
+        "com.amazonaws.elasticloadbalancingv2#ListenerAttributeValue": {
+            "type": "string"
+        },
+        "com.amazonaws.elasticloadbalancingv2#ListenerAttributes": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.elasticloadbalancingv2#ListenerAttribute"
             }
         },
         "com.amazonaws.elasticloadbalancingv2#ListenerNotFoundException": {
@@ -5980,6 +6235,64 @@
                 ]
             }
         },
+        "com.amazonaws.elasticloadbalancingv2#ModifyListenerAttributes": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.elasticloadbalancingv2#ModifyListenerAttributesInput"
+            },
+            "output": {
+                "target": "com.amazonaws.elasticloadbalancingv2#ModifyListenerAttributesOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.elasticloadbalancingv2#InvalidConfigurationRequestException"
+                },
+                {
+                    "target": "com.amazonaws.elasticloadbalancingv2#ListenerNotFoundException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Modifies the specified attributes of the specified listener.</p>"
+            }
+        },
+        "com.amazonaws.elasticloadbalancingv2#ModifyListenerAttributesInput": {
+            "type": "structure",
+            "members": {
+                "ListenerArn": {
+                    "target": "com.amazonaws.elasticloadbalancingv2#ListenerArn",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the listener.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Attributes": {
+                    "target": "com.amazonaws.elasticloadbalancingv2#ListenerAttributes",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The listener attributes.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.elasticloadbalancingv2#ModifyListenerAttributesOutput": {
+            "type": "structure",
+            "members": {
+                "Attributes": {
+                    "target": "com.amazonaws.elasticloadbalancingv2#ListenerAttributes",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about the listener attributes.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.elasticloadbalancingv2#ModifyListenerInput": {
             "type": "structure",
             "members": {
@@ -6484,7 +6797,7 @@
                     "target": "com.amazonaws.elasticloadbalancingv2#TargetGroupAttributes",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The attributes.</p>",
+                        "smithy.api#documentation": "<p>The target group attributes.</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -6499,7 +6812,7 @@
                 "Attributes": {
                     "target": "com.amazonaws.elasticloadbalancingv2#TargetGroupAttributes",
                     "traits": {
-                        "smithy.api#documentation": "<p>Information about the attributes.</p>"
+                        "smithy.api#documentation": "<p>Information about the target group attributes.</p>"
                     }
                 }
             },
@@ -6611,7 +6924,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Update the ca certificate bundle for a given trust store.</p>"
+                "smithy.api#documentation": "<p>Update the ca certificate bundle for the specified trust store.</p>"
             }
         },
         "com.amazonaws.elasticloadbalancingv2#ModifyTrustStoreInput": {
@@ -6686,6 +6999,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Indicates whether expired client certificates are ignored.</p>"
                     }
+                },
+                "TrustStoreAssociationStatus": {
+                    "target": "com.amazonaws.elasticloadbalancingv2#TrustStoreAssociationStatusEnum",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates a shared trust stores association status.</p>"
+                    }
                 }
             },
             "traits": {
@@ -6751,6 +7070,14 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Information about a path pattern condition.</p>"
+            }
+        },
+        "com.amazonaws.elasticloadbalancingv2#Policy": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1
+                }
             }
         },
         "com.amazonaws.elasticloadbalancingv2#Port": {
@@ -7268,6 +7595,23 @@
                 "smithy.api#httpError": 400
             }
         },
+        "com.amazonaws.elasticloadbalancingv2#ResourceNotFoundException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.elasticloadbalancingv2#ErrorDescription"
+                }
+            },
+            "traits": {
+                "aws.protocols#awsQueryError": {
+                    "code": "ResourceNotFound",
+                    "httpResponseCode": 400
+                },
+                "smithy.api#documentation": "<p>The specified resource does not exist.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 400
+            }
+        },
         "com.amazonaws.elasticloadbalancingv2#RevocationContent": {
             "type": "structure",
             "members": {
@@ -7600,7 +7944,7 @@
                     "target": "com.amazonaws.elasticloadbalancingv2#IpAddressType",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>Note: Internal load balancers must use the <code>ipv4</code> IP address type.</p>\n         <p>[Application Load Balancers] The IP address type. The possible values are \n      <code>ipv4</code> (for only IPv4 addresses), <code>dualstack</code> (for IPv4 and \n      IPv6 addresses), and <code>dualstack-without-public-ipv4</code> (for IPv6 only public \n      addresses, with private IPv4 and IPv6 addresses).</p>\n         <p>[Network Load Balancers] The IP address type. The possible values are \n      <code>ipv4</code> (for only IPv4 addresses) and <code>dualstack</code> \n      (for IPv4 and IPv6 addresses). You can’t specify <code>dualstack</code> \n      for a load balancer with a UDP or TCP_UDP listener.</p>\n         <p>[Gateway Load Balancers] The IP address type. The possible values are \n      <code>ipv4</code> (for only IPv4 addresses) and <code>dualstack</code> \n      (for IPv4 and IPv6 addresses).</p>",
+                        "smithy.api#documentation": "<p>Note: Internal load balancers must use the <code>ipv4</code> IP address type.</p>\n         <p>[Application Load Balancers] The IP address type. The possible values are \n      <code>ipv4</code> (for only IPv4 addresses), <code>dualstack</code> (for IPv4 and \n      IPv6 addresses), and <code>dualstack-without-public-ipv4</code> (for IPv6 only public \n      addresses, with private IPv4 and IPv6 addresses).</p>\n         <p>Note: Application Load Balancer authentication only supports IPv4 addresses when \n      connecting to an Identity Provider (IdP) or Amazon Cognito endpoint. Without a public \n      IPv4 address the load balancer cannot complete the authentication process, resulting \n      in HTTP 500 errors.</p>\n         <p>[Network Load Balancers] The IP address type. The possible values are \n      <code>ipv4</code> (for only IPv4 addresses) and <code>dualstack</code> \n      (for IPv4 and IPv6 addresses). You can’t specify <code>dualstack</code> \n      for a load balancer with a UDP or TCP_UDP listener.</p>\n         <p>[Gateway Load Balancers] The IP address type. The possible values are \n      <code>ipv4</code> (for only IPv4 addresses) and <code>dualstack</code> \n      (for IPv4 and IPv6 addresses).</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -8949,8 +9293,42 @@
                 "smithy.api#documentation": "<p>Information about the resources a trust store is associated with.</p>"
             }
         },
+        "com.amazonaws.elasticloadbalancingv2#TrustStoreAssociationNotFoundException": {
+            "type": "structure",
+            "members": {
+                "Message": {
+                    "target": "com.amazonaws.elasticloadbalancingv2#ErrorDescription"
+                }
+            },
+            "traits": {
+                "aws.protocols#awsQueryError": {
+                    "code": "AssociationNotFound",
+                    "httpResponseCode": 400
+                },
+                "smithy.api#documentation": "<p>The specified association does not exist.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 400
+            }
+        },
         "com.amazonaws.elasticloadbalancingv2#TrustStoreAssociationResourceArn": {
             "type": "string"
+        },
+        "com.amazonaws.elasticloadbalancingv2#TrustStoreAssociationStatusEnum": {
+            "type": "enum",
+            "members": {
+                "ACTIVE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "active"
+                    }
+                },
+                "REMOVED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "removed"
+                    }
+                }
+            }
         },
         "com.amazonaws.elasticloadbalancingv2#TrustStoreAssociations": {
             "type": "list",

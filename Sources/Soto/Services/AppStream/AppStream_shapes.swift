@@ -100,6 +100,12 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
+    public enum DynamicAppProvidersEnabled: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FleetAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case domainJoinInfo = "DOMAIN_JOIN_INFO"
         case iamRoleArn = "IAM_ROLE_ARN"
@@ -181,6 +187,12 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImageSharedWithOthers: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `false` = "FALSE"
+        case `true` = "TRUE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImageState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case copying = "COPYING"
@@ -196,6 +208,12 @@ extension AppStream {
         case imageBuilderNotAvailable = "IMAGE_BUILDER_NOT_AVAILABLE"
         case imageCopyFailure = "IMAGE_COPY_FAILURE"
         case internalError = "INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LatestAppstreamAgentVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `false` = "FALSE"
+        case `true` = "TRUE"
         public var description: String { return self.rawValue }
     }
 
@@ -219,6 +237,7 @@ extension AppStream {
 
     public enum PlatformType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonLinux2 = "AMAZON_LINUX2"
+        case rhel8 = "RHEL8"
         case windows = "WINDOWS"
         case windowsServer2016 = "WINDOWS_SERVER_2016"
         case windowsServer2019 = "WINDOWS_SERVER_2019"
@@ -277,6 +296,25 @@ extension AppStream {
     public enum StreamView: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case app = "APP"
         case desktop = "DESKTOP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThemeAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case footerLinks = "FOOTER_LINKS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThemeState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ThemeStyling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blue = "BLUE"
+        case lightBlue = "LIGHT_BLUE"
+        case pink = "PINK"
+        case red = "RED"
         public var description: String { return self.rawValue }
     }
 
@@ -1316,7 +1354,7 @@ extension AppStream {
         public let computeCapacity: ComputeCapacity?
         /// The description to display.
         public let description: String?
-        /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance.  Specify a value between 60 and 360000.
+        /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance.  Specify a value between 60 and 36000.
         public let disconnectTimeoutInSeconds: Int?
         /// The fleet name to display.
         public let displayName: String?
@@ -1328,13 +1366,13 @@ extension AppStream {
         public let fleetType: FleetType?
         /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
         public let iamRoleArn: String?
-        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If they try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 3600. The default value is 0.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
+        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If they try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
         public let idleDisconnectTimeoutInSeconds: Int?
         /// The ARN of the public, private, or shared image to use.
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
-        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.24xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
         public let instanceType: String?
         /// The maximum concurrent sessions of the Elastic fleet. This is required for Elastic fleets, and not allowed for other fleet types.
         public let maxConcurrentSessions: Int?
@@ -1750,6 +1788,64 @@ extension AppStream {
         }
     }
 
+    public struct CreateThemeForStackRequest: AWSEncodableShape {
+        /// The S3 location of the favicon. The favicon enables users to recognize their application streaming site in a browser full of tabs or bookmarks. It is displayed at the top of the browser tab for the application streaming site during users' streaming sessions.
+        public let faviconS3Location: S3Location?
+        /// The links that are displayed in the footer of the streaming application catalog page. These links are helpful resources for users, such as the organization's IT support and product marketing sites.
+        public let footerLinks: [ThemeFooterLink]?
+        /// The organization logo that appears on the streaming application catalog page.
+        public let organizationLogoS3Location: S3Location?
+        /// The name of the stack for the theme.
+        public let stackName: String?
+        /// The color theme that is applied to website links, text, and buttons. These colors are also applied as accents in the background for the streaming application catalog page.
+        public let themeStyling: ThemeStyling?
+        /// The title that is displayed at the top of the browser tab during users' application streaming sessions.
+        public let titleText: String?
+
+        public init(faviconS3Location: S3Location? = nil, footerLinks: [ThemeFooterLink]? = nil, organizationLogoS3Location: S3Location? = nil, stackName: String? = nil, themeStyling: ThemeStyling? = nil, titleText: String? = nil) {
+            self.faviconS3Location = faviconS3Location
+            self.footerLinks = footerLinks
+            self.organizationLogoS3Location = organizationLogoS3Location
+            self.stackName = stackName
+            self.themeStyling = themeStyling
+            self.titleText = titleText
+        }
+
+        public func validate(name: String) throws {
+            try self.faviconS3Location?.validate(name: "\(name).faviconS3Location")
+            try self.footerLinks?.forEach {
+                try $0.validate(name: "\(name).footerLinks[]")
+            }
+            try self.organizationLogoS3Location?.validate(name: "\(name).organizationLogoS3Location")
+            try self.validate(self.stackName, name: "stackName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.validate(self.titleText, name: "titleText", parent: name, max: 300)
+            try self.validate(self.titleText, name: "titleText", parent: name, min: 1)
+            try self.validate(self.titleText, name: "titleText", parent: name, pattern: "^[-@./#&+\\w\\s]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case faviconS3Location = "FaviconS3Location"
+            case footerLinks = "FooterLinks"
+            case organizationLogoS3Location = "OrganizationLogoS3Location"
+            case stackName = "StackName"
+            case themeStyling = "ThemeStyling"
+            case titleText = "TitleText"
+        }
+    }
+
+    public struct CreateThemeForStackResult: AWSDecodableShape {
+        ///  The theme object that contains the metadata of the custom branding.
+        public let theme: Theme?
+
+        public init(theme: Theme? = nil) {
+            self.theme = theme
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case theme = "Theme"
+        }
+    }
+
     public struct CreateUpdatedImageRequest: AWSEncodableShape {
         /// Indicates whether to display the status of image update availability before AppStream 2.0 initiates the process of creating a new updated image. If this value is set to true, AppStream 2.0 displays whether image updates are available. If this value is set to false, AppStream 2.0 initiates the process of creating a new updated image without displaying whether image updates are available.
         public let dryRun: Bool?
@@ -2110,6 +2206,27 @@ extension AppStream {
     }
 
     public struct DeleteStackResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteThemeForStackRequest: AWSEncodableShape {
+        /// The name of the stack for the theme.
+        public let stackName: String?
+
+        public init(stackName: String? = nil) {
+            self.stackName = stackName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.stackName, name: "stackName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+        }
+    }
+
+    public struct DeleteThemeForStackResult: AWSDecodableShape {
         public init() {}
     }
 
@@ -2775,6 +2892,36 @@ extension AppStream {
         }
     }
 
+    public struct DescribeThemeForStackRequest: AWSEncodableShape {
+        /// The name of the stack for the theme.
+        public let stackName: String?
+
+        public init(stackName: String? = nil) {
+            self.stackName = stackName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.stackName, name: "stackName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+        }
+    }
+
+    public struct DescribeThemeForStackResult: AWSDecodableShape {
+        ///  The theme object that contains the metadata of the custom branding.
+        public let theme: Theme?
+
+        public init(theme: Theme? = nil) {
+            self.theme = theme
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case theme = "Theme"
+        }
+    }
+
     public struct DescribeUsageReportSubscriptionsRequest: AWSEncodableShape {
         /// The maximum size of each page of results.
         public let maxResults: Int?
@@ -3243,7 +3390,7 @@ extension AppStream {
         public let createdTime: Date?
         /// The description to display.
         public let description: String?
-        /// The amount of time that a streaming session remains active after users disconnect. If they try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 360000.
+        /// The amount of time that a streaming session remains active after users disconnect. If they try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 36000.
         public let disconnectTimeoutInSeconds: Int?
         /// The fleet name to display.
         public let displayName: String?
@@ -3257,7 +3404,7 @@ extension AppStream {
         public let fleetType: FleetType?
         /// The ARN of the IAM role that is applied to the fleet. To assume a role, the fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
         public let iamRoleArn: String?
-        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 3600. The default value is 0.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
+        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
         public let idleDisconnectTimeoutInSeconds: Int?
         /// The ARN for the public, private, or shared image.
         public let imageArn: String?
@@ -3375,6 +3522,8 @@ extension AppStream {
         public let description: String?
         /// The image name to display.
         public let displayName: String?
+        /// Indicates whether dynamic app providers are enabled within an AppStream 2.0 image or not.
+        public let dynamicAppProvidersEnabled: DynamicAppProvidersEnabled?
         /// The name of the image builder that was used to create the private image. If the image is shared, this value is null.
         public let imageBuilderName: String?
         /// Indicates whether an image builder can be launched from this image.
@@ -3383,6 +3532,10 @@ extension AppStream {
         public let imageErrors: [ResourceError]?
         /// The permissions to provide to the destination AWS account for the specified image.
         public let imagePermissions: ImagePermissions?
+        /// Indicates whether the image is shared with another account ID.
+        public let imageSharedWithOthers: ImageSharedWithOthers?
+        /// Indicates whether the image is using the latest AppStream 2.0 agent version or not.
+        public let latestAppstreamAgentVersion: LatestAppstreamAgentVersion?
         /// The name of the image.
         public let name: String?
         /// The operating system platform of the image.
@@ -3393,10 +3546,12 @@ extension AppStream {
         public let state: ImageState?
         /// The reason why the last state change occurred.
         public let stateChangeReason: ImageStateChangeReason?
+        /// The supported instances families that determine which image a customer can use when the customer launches a fleet or image builder. The following instances families are supported:   General Purpose   Compute Optimized   Memory Optimized   Graphics   Graphics Design   Graphics Pro   Graphics G4   Graphics G5
+        public let supportedInstanceFamilies: [String]?
         /// Indicates whether the image is public or private.
         public let visibility: VisibilityType?
 
-        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imageErrors: [ResourceError]? = nil, imagePermissions: ImagePermissions? = nil, name: String? = nil, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, visibility: VisibilityType? = nil) {
+        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, dynamicAppProvidersEnabled: DynamicAppProvidersEnabled? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imageErrors: [ResourceError]? = nil, imagePermissions: ImagePermissions? = nil, imageSharedWithOthers: ImageSharedWithOthers? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, name: String? = nil, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, supportedInstanceFamilies: [String]? = nil, visibility: VisibilityType? = nil) {
             self.applications = applications
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -3404,15 +3559,19 @@ extension AppStream {
             self.createdTime = createdTime
             self.description = description
             self.displayName = displayName
+            self.dynamicAppProvidersEnabled = dynamicAppProvidersEnabled
             self.imageBuilderName = imageBuilderName
             self.imageBuilderSupported = imageBuilderSupported
             self.imageErrors = imageErrors
             self.imagePermissions = imagePermissions
+            self.imageSharedWithOthers = imageSharedWithOthers
+            self.latestAppstreamAgentVersion = latestAppstreamAgentVersion
             self.name = name
             self.platform = platform
             self.publicBaseImageReleasedDate = publicBaseImageReleasedDate
             self.state = state
             self.stateChangeReason = stateChangeReason
+            self.supportedInstanceFamilies = supportedInstanceFamilies
             self.visibility = visibility
         }
 
@@ -3424,15 +3583,19 @@ extension AppStream {
             case createdTime = "CreatedTime"
             case description = "Description"
             case displayName = "DisplayName"
+            case dynamicAppProvidersEnabled = "DynamicAppProvidersEnabled"
             case imageBuilderName = "ImageBuilderName"
             case imageBuilderSupported = "ImageBuilderSupported"
             case imageErrors = "ImageErrors"
             case imagePermissions = "ImagePermissions"
+            case imageSharedWithOthers = "ImageSharedWithOthers"
+            case latestAppstreamAgentVersion = "LatestAppstreamAgentVersion"
             case name = "Name"
             case platform = "Platform"
             case publicBaseImageReleasedDate = "PublicBaseImageReleasedDate"
             case state = "State"
             case stateChangeReason = "StateChangeReason"
+            case supportedInstanceFamilies = "SupportedInstanceFamilies"
             case visibility = "Visibility"
         }
     }
@@ -3462,6 +3625,8 @@ extension AppStream {
         public let imageBuilderErrors: [ResourceError]?
         /// The instance type for the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
         public let instanceType: String?
+        /// Indicates whether the image builder is using the latest AppStream 2.0 agent version or not.
+        public let latestAppstreamAgentVersion: LatestAppstreamAgentVersion?
         /// The name of the image builder.
         public let name: String?
         public let networkAccessConfiguration: NetworkAccessConfiguration?
@@ -3474,7 +3639,7 @@ extension AppStream {
         /// The VPC configuration of the image builder.
         public let vpcConfig: VpcConfig?
 
-        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, instanceType: String? = nil, name: String? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, platform: PlatformType? = nil, state: ImageBuilderState? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, instanceType: String? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, name: String? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, platform: PlatformType? = nil, state: ImageBuilderState? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -3487,6 +3652,7 @@ extension AppStream {
             self.imageArn = imageArn
             self.imageBuilderErrors = imageBuilderErrors
             self.instanceType = instanceType
+            self.latestAppstreamAgentVersion = latestAppstreamAgentVersion
             self.name = name
             self.networkAccessConfiguration = networkAccessConfiguration
             self.platform = platform
@@ -3508,6 +3674,7 @@ extension AppStream {
             case imageArn = "ImageArn"
             case imageBuilderErrors = "ImageBuilderErrors"
             case instanceType = "InstanceType"
+            case latestAppstreamAgentVersion = "LatestAppstreamAgentVersion"
             case name = "Name"
             case networkAccessConfiguration = "NetworkAccessConfiguration"
             case platform = "Platform"
@@ -4254,6 +4421,72 @@ extension AppStream {
         public init() {}
     }
 
+    public struct Theme: AWSDecodableShape {
+        /// The time the theme was created.
+        public let createdTime: Date?
+        /// The stack that has the custom branding theme.
+        public let stackName: String?
+        /// The state of the theme.
+        public let state: ThemeState?
+        /// The URL of the icon that displays at the top of a user's browser tab during streaming sessions.
+        public let themeFaviconURL: String?
+        /// The website links that display in the catalog page footer.
+        public let themeFooterLinks: [ThemeFooterLink]?
+        /// The URL of the logo that displays in the catalog page header.
+        public let themeOrganizationLogoURL: String?
+        /// The color that is used for the website links, text, buttons, and catalog page background.
+        public let themeStyling: ThemeStyling?
+        /// The browser tab page title.
+        public let themeTitleText: String?
+
+        public init(createdTime: Date? = nil, stackName: String? = nil, state: ThemeState? = nil, themeFaviconURL: String? = nil, themeFooterLinks: [ThemeFooterLink]? = nil, themeOrganizationLogoURL: String? = nil, themeStyling: ThemeStyling? = nil, themeTitleText: String? = nil) {
+            self.createdTime = createdTime
+            self.stackName = stackName
+            self.state = state
+            self.themeFaviconURL = themeFaviconURL
+            self.themeFooterLinks = themeFooterLinks
+            self.themeOrganizationLogoURL = themeOrganizationLogoURL
+            self.themeStyling = themeStyling
+            self.themeTitleText = themeTitleText
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case stackName = "StackName"
+            case state = "State"
+            case themeFaviconURL = "ThemeFaviconURL"
+            case themeFooterLinks = "ThemeFooterLinks"
+            case themeOrganizationLogoURL = "ThemeOrganizationLogoURL"
+            case themeStyling = "ThemeStyling"
+            case themeTitleText = "ThemeTitleText"
+        }
+    }
+
+    public struct ThemeFooterLink: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the websites that display in the catalog page footer.
+        public let displayName: String?
+        /// The URL of the websites that display in the catalog page footer.
+        public let footerLinkURL: String?
+
+        public init(displayName: String? = nil, footerLinkURL: String? = nil) {
+            self.displayName = displayName
+            self.footerLinkURL = footerLinkURL
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 300)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[-@./#&+\\w\\s]*$")
+            try self.validate(self.footerLinkURL, name: "footerLinkURL", parent: name, max: 1000)
+            try self.validate(self.footerLinkURL, name: "footerLinkURL", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "DisplayName"
+            case footerLinkURL = "FooterLinkURL"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
@@ -4537,7 +4770,7 @@ extension AppStream {
         public let deleteVpcConfig: Bool?
         /// The description to display.
         public let description: String?
-        /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance.  Specify a value between 60 and 360000.
+        /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance.  Specify a value between 60 and 36000.
         public let disconnectTimeoutInSeconds: Int?
         /// The fleet name to display.
         public let displayName: String?
@@ -4547,7 +4780,7 @@ extension AppStream {
         public let enableDefaultInternetAccess: Bool?
         /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
         public let iamRoleArn: String?
-        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected.  To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 3600. The default value is 0.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
+        /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected.  To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
         public let idleDisconnectTimeoutInSeconds: Int?
         /// The ARN of the public, private, or shared image to use.
         public let imageArn: String?
@@ -4826,6 +5059,72 @@ extension AppStream {
         }
     }
 
+    public struct UpdateThemeForStackRequest: AWSEncodableShape {
+        /// The attributes to delete.
+        public let attributesToDelete: [ThemeAttribute]?
+        /// The S3 location of the favicon. The favicon enables users to recognize their application streaming site in a browser full of tabs or bookmarks. It is displayed at the top of the browser tab for the application streaming site during users' streaming sessions.
+        public let faviconS3Location: S3Location?
+        /// The links that are displayed in the footer of the streaming application catalog page. These links are helpful resources for users, such as the organization's IT support and product marketing sites.
+        public let footerLinks: [ThemeFooterLink]?
+        /// The organization logo that appears on the streaming application catalog page.
+        public let organizationLogoS3Location: S3Location?
+        /// The name of the stack for the theme.
+        public let stackName: String?
+        /// Specifies whether custom branding should be applied to catalog page or not.
+        public let state: ThemeState?
+        /// The color theme that is applied to website links, text, and buttons. These colors are also applied as accents in the background for the streaming application catalog page.
+        public let themeStyling: ThemeStyling?
+        /// The title that is displayed at the top of the browser tab during users' application streaming sessions.
+        public let titleText: String?
+
+        public init(attributesToDelete: [ThemeAttribute]? = nil, faviconS3Location: S3Location? = nil, footerLinks: [ThemeFooterLink]? = nil, organizationLogoS3Location: S3Location? = nil, stackName: String? = nil, state: ThemeState? = nil, themeStyling: ThemeStyling? = nil, titleText: String? = nil) {
+            self.attributesToDelete = attributesToDelete
+            self.faviconS3Location = faviconS3Location
+            self.footerLinks = footerLinks
+            self.organizationLogoS3Location = organizationLogoS3Location
+            self.stackName = stackName
+            self.state = state
+            self.themeStyling = themeStyling
+            self.titleText = titleText
+        }
+
+        public func validate(name: String) throws {
+            try self.faviconS3Location?.validate(name: "\(name).faviconS3Location")
+            try self.footerLinks?.forEach {
+                try $0.validate(name: "\(name).footerLinks[]")
+            }
+            try self.organizationLogoS3Location?.validate(name: "\(name).organizationLogoS3Location")
+            try self.validate(self.stackName, name: "stackName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.validate(self.titleText, name: "titleText", parent: name, max: 300)
+            try self.validate(self.titleText, name: "titleText", parent: name, min: 1)
+            try self.validate(self.titleText, name: "titleText", parent: name, pattern: "^[-@./#&+\\w\\s]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributesToDelete = "AttributesToDelete"
+            case faviconS3Location = "FaviconS3Location"
+            case footerLinks = "FooterLinks"
+            case organizationLogoS3Location = "OrganizationLogoS3Location"
+            case stackName = "StackName"
+            case state = "State"
+            case themeStyling = "ThemeStyling"
+            case titleText = "TitleText"
+        }
+    }
+
+    public struct UpdateThemeForStackResult: AWSDecodableShape {
+        ///  The theme object that contains the metadata of the custom branding.
+        public let theme: Theme?
+
+        public init(theme: Theme? = nil) {
+            self.theme = theme
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case theme = "Theme"
+        }
+    }
+
     public struct UsageReportSubscription: AWSDecodableShape {
         /// The time when the last usage report was generated.
         public let lastGeneratedReportDate: Date?
@@ -4895,7 +5194,7 @@ extension AppStream {
     public struct UserSetting: AWSEncodableShape & AWSDecodableShape {
         /// The action that is enabled or disabled.
         public let action: Action?
-        /// Specifies the number of characters that can be copied by end users from the local device to the remote session, and to the local device from the remote session. This can be specified only for the CLIPBOARD_COPY_FROM_LOCAL_DEVICE and CLIPBOARD_COPY_TO_LOCAL_DEVICE actions. This defaults to 20,971,520 (20 MB) when unspecified and the permission is ENABLED. This can't be specified when the permission is DISABLED.  This can only be specified for AlwaysOn and OnDemand fleets. The attribute is not supported on Elastic fleets. The value can be between 1 and 20,971,520 (20 MB).
+        /// Specifies the number of characters that can be copied by end users from the local device to the remote session, and to the local device from the remote session. This can be specified only for the CLIPBOARD_COPY_FROM_LOCAL_DEVICE and CLIPBOARD_COPY_TO_LOCAL_DEVICE actions. This defaults to 20,971,520 (20 MB) when unspecified and the permission is ENABLED. This can't be specified when the permission is DISABLED.  The value can be between 1 and 20,971,520 (20 MB).
         public let maximumLength: Int?
         /// Indicates whether the action is enabled or disabled.
         public let permission: Permission?

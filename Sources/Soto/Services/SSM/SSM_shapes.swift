@@ -3187,7 +3187,7 @@ extension SSM {
         public let operatingSystem: OperatingSystem?
         /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
         public let rejectedPatches: [String]?
-        /// The action for Patch Manager to take on patches included in the RejectedPackages list.     ALLOW_AS_DEPENDENCY : A package in the Rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as InstalledOther. This is the default action if no option is specified.    BLOCK: Packages in the Rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. If a package was installed before it was added to the Rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as InstalledRejected.
+        /// The action for Patch Manager to take on patches included in the RejectedPackages list.  ALLOW_AS_DEPENDENCY   Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified.  Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified.  BLOCK   All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
         public let rejectedPatchesAction: PatchAction?
         /// Information about the patches to use to update the managed nodes, including target operating systems and source repositories. Applies to Linux managed nodes only.
         public let sources: [PatchSource]?
@@ -6960,8 +6960,7 @@ extension SSM {
         public let name: String?
         /// The priority of the task when it runs. The lower the number, the higher the priority. Tasks that have the same priority are scheduled in parallel.
         public let priority: Int?
-        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) service role to use to publish Amazon Simple Notification Service
-        /// (Amazon SNS) notifications for maintenance window Run Command tasks.
+        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up maintenance windows in the in the Amazon Web Services Systems Manager User Guide.
         public let serviceRoleArn: String?
         /// The targets where the task should run.
         public let targets: [Target]?
@@ -7731,7 +7730,7 @@ extension SSM {
         public let associationStatus: String?
         /// The fully qualified host name of the managed node.
         public let computerName: String?
-        /// The Identity and Access Management (IAM) role assigned to the on-premises Systems Manager managed node. This call doesn't return the IAM role for Amazon Elastic Compute Cloud (Amazon EC2) instances. To retrieve the IAM role for an EC2 instance, use the Amazon EC2 DescribeInstances operation. For information, see DescribeInstances in the Amazon EC2 API Reference or describe-instances in the Amazon Web Services CLI Command Reference.
+        /// The role assigned to an Amazon EC2 instance configured with a Systems Manager Quick Setup host management configuration or the role assigned to an on-premises managed node. This call doesn't return the IAM role for unmanaged Amazon EC2 instances (instances not configured for Systems Manager). To retrieve the role for an unmanaged instance, use the Amazon EC2 DescribeInstances operation. For information, see DescribeInstances in the Amazon EC2 API Reference or describe-instances in the Amazon Web Services CLI Command Reference.
         public let iamRole: String?
         /// The managed node ID.
         public let instanceId: String?
@@ -9689,8 +9688,7 @@ extension SSM {
         public let outputS3KeyPrefix: String?
         /// The parameters for the RUN_COMMAND task execution.
         public let parameters: [String: [String]]?
-        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) service role to use to publish Amazon Simple Notification Service
-        /// (Amazon SNS) notifications for maintenance window Run Command tasks.
+        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up maintenance windows in the in the Amazon Web Services Systems Manager User Guide.
         public let serviceRoleArn: String?
         /// If this time is reached and the command hasn't already started running, it doesn't run.
         public let timeoutSeconds: Int?
@@ -9813,8 +9811,7 @@ extension SSM {
         public let name: String?
         /// The priority of the task in the maintenance window. The lower the number, the higher the priority. Tasks that have the same priority are scheduled in parallel.
         public let priority: Int?
-        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) service role to use to publish Amazon Simple Notification Service
-        /// (Amazon SNS) notifications for maintenance window Run Command tasks.
+        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up maintenance windows in the in the Amazon Web Services Systems Manager User Guide.
         public let serviceRoleArn: String?
         /// The targets (either managed nodes or tags). Managed nodes are specified using Key=instanceids,Values=,. Tags are specified using Key=,Values=.
         public let targets: [Target]?
@@ -10994,7 +10991,7 @@ extension SSM {
         public let baselineId: String?
         /// The name of the patch baseline.
         public let baselineName: String?
-        /// Whether this is the default baseline. Amazon Web Services Systems Manager supports creating multiple default patch baselines. For example, you can create a default patch baseline for each operating system.
+        /// Indicates whether this is the default baseline. Amazon Web Services Systems Manager supports creating multiple default patch baselines. For example, you can create a default patch baseline for each operating system.
         public let defaultBaseline: Bool?
         /// Defines the operating system the patch baseline applies to. The default value is WINDOWS.
         public let operatingSystem: OperatingSystem?
@@ -11143,9 +11140,9 @@ extension SSM {
     }
 
     public struct PatchRule: AWSEncodableShape & AWSDecodableShape {
-        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. Not supported on Debian Server or Ubuntu Server.
+        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released.  This parameter is marked as not required, but your request must include a value for either ApproveAfterDays or ApproveUntilDate.  Not supported for Debian Server or Ubuntu Server.
         public let approveAfterDays: Int?
-        /// The cutoff date for auto approval of released patches. Any patches released on or before this date are installed automatically. Not supported on Debian Server or Ubuntu Server. Enter dates in the format YYYY-MM-DD. For example, 2021-12-31.
+        /// The cutoff date for auto approval of released patches. Any patches released on or before this date are installed automatically. Enter dates in the format YYYY-MM-DD. For example, 2021-12-31.  This parameter is marked as not required, but your request must include a value for either ApproveUntilDate or ApproveAfterDays.  Not supported for Debian Server or Ubuntu Server.
         public let approveUntilDate: String?
         /// A compliance severity level for all approved patches in a patch baseline.
         public let complianceLevel: PatchComplianceLevel?
@@ -14012,8 +14009,7 @@ extension SSM {
         public let name: String?
         /// The updated priority value.
         public let priority: Int?
-        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) service role to use to publish Amazon Simple Notification Service
-        /// (Amazon SNS) notifications for maintenance window Run Command tasks.
+        /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses a service-linked role in your account. If no appropriate service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security posture, we strongly recommend creating a custom policy and custom service role for running your maintenance window tasks. The policy can be crafted to provide only the permissions needed for your particular maintenance window tasks. For more information, see Setting up maintenance windows in the in the Amazon Web Services Systems Manager User Guide.
         public let serviceRoleArn: String?
         /// The updated target values.
         public let targets: [Target]?
@@ -14271,7 +14267,7 @@ extension SSM {
         public let name: String?
         /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the Amazon Web Services Systems Manager User Guide.
         public let rejectedPatches: [String]?
-        /// The action for Patch Manager to take on patches included in the RejectedPackages list.     ALLOW_AS_DEPENDENCY : A package in the Rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as InstalledOther. This is the default action if no option is specified.    BLOCK: Packages in the Rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. If a package was installed before it was added to the Rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as InstalledRejected.
+        /// The action for Patch Manager to take on patches included in the RejectedPackages list.  ALLOW_AS_DEPENDENCY   Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified.  Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified.  BLOCK   All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
         public let rejectedPatchesAction: PatchAction?
         /// If True, then all fields that are required by the CreatePatchBaseline operation are also required for this API request. Optional fields that aren't specified are set to null.
         public let replace: Bool?

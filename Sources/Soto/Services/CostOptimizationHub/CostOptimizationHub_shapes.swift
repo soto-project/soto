@@ -94,6 +94,11 @@ extension CostOptimizationHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum SummaryMetrics: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case savingsPercentage = "SavingsPercentage"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceDetails: AWSDecodableShape, Sendable {
         /// The Compute Savings Plans recommendation details.
         case computeSavingsPlans(ComputeSavingsPlans)
@@ -981,7 +986,7 @@ extension CostOptimizationHub {
     }
 
     public struct ListEnrollmentStatusesResponse: AWSDecodableShape {
-        /// The enrollment status of all member accounts in the organization if the account is the management account.
+        /// The enrollment status of all member accounts in the organization if the account is the management account or delegated administrator.
         public let includeMemberAccounts: Bool?
         /// The enrollment status of a specific account ID, including creation and last updated timestamps.
         public let items: [AccountEnrollmentStatus]?
@@ -1005,15 +1010,18 @@ extension CostOptimizationHub {
         public let filter: Filter?
         /// The grouping of recommendations by a dimension.
         public let groupBy: String
-        /// The maximum number of recommendations that are returned for the request.
+        /// The maximum number of recommendations to be returned for the request.
         public let maxResults: Int?
+        /// Additional metrics to be returned for the request. The only valid value is savingsPercentage.
+        public let metrics: [SummaryMetrics]?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(filter: Filter? = nil, groupBy: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filter: Filter? = nil, groupBy: String, maxResults: Int? = nil, metrics: [SummaryMetrics]? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.groupBy = groupBy
             self.maxResults = maxResults
+            self.metrics = metrics
             self.nextToken = nextToken
         }
 
@@ -1021,12 +1029,15 @@ extension CostOptimizationHub {
             try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.metrics, name: "metrics", parent: name, max: 100)
+            try self.validate(self.metrics, name: "metrics", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case filter = "filter"
             case groupBy = "groupBy"
             case maxResults = "maxResults"
+            case metrics = "metrics"
             case nextToken = "nextToken"
         }
     }
@@ -1038,16 +1049,19 @@ extension CostOptimizationHub {
         public let estimatedTotalDedupedSavings: Double?
         /// The dimension used to group the recommendations by.
         public let groupBy: String?
-        /// List of all savings recommendations.
+        /// A list of all savings recommendations.
         public let items: [RecommendationSummary]?
+        /// The results or descriptions for the additional metrics, based on whether the metrics were or were not requested.
+        public let metrics: SummaryMetricsResult?
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(currencyCode: String? = nil, estimatedTotalDedupedSavings: Double? = nil, groupBy: String? = nil, items: [RecommendationSummary]? = nil, nextToken: String? = nil) {
+        public init(currencyCode: String? = nil, estimatedTotalDedupedSavings: Double? = nil, groupBy: String? = nil, items: [RecommendationSummary]? = nil, metrics: SummaryMetricsResult? = nil, nextToken: String? = nil) {
             self.currencyCode = currencyCode
             self.estimatedTotalDedupedSavings = estimatedTotalDedupedSavings
             self.groupBy = groupBy
             self.items = items
+            self.metrics = metrics
             self.nextToken = nextToken
         }
 
@@ -1056,6 +1070,7 @@ extension CostOptimizationHub {
             case estimatedTotalDedupedSavings = "estimatedTotalDedupedSavings"
             case groupBy = "groupBy"
             case items = "items"
+            case metrics = "metrics"
             case nextToken = "nextToken"
         }
     }
@@ -1736,6 +1751,19 @@ extension CostOptimizationHub {
         }
     }
 
+    public struct SummaryMetricsResult: AWSDecodableShape {
+        /// The savings percentage based on your Amazon Web Services spend over the past 30 days.  Savings percentage is only supported when filtering by Region, account ID, or tags.
+        public let savingsPercentage: String?
+
+        public init(savingsPercentage: String? = nil) {
+            self.savingsPercentage = savingsPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case savingsPercentage = "savingsPercentage"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key that's associated with the tag.
         public let key: String?
@@ -1754,7 +1782,7 @@ extension CostOptimizationHub {
     }
 
     public struct UpdateEnrollmentStatusRequest: AWSEncodableShape {
-        /// Indicates whether to enroll member accounts of the organization if the account is the management account.
+        /// Indicates whether to enroll member accounts of the organization if the account is the management account or delegated administrator.
         public let includeMemberAccounts: Bool?
         /// Sets the account status.
         public let status: EnrollmentStatus

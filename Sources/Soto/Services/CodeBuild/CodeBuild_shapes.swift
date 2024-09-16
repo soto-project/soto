@@ -50,6 +50,7 @@ extension CodeBuild {
         case codeconnections = "CODECONNECTIONS"
         case oauth = "OAUTH"
         case personalAccessToken = "PERSONAL_ACCESS_TOKEN"
+        case secretsManager = "SECRETS_MANAGER"
         public var description: String { return self.rawValue }
     }
 
@@ -131,6 +132,7 @@ extension CodeBuild {
         case linuxContainer = "LINUX_CONTAINER"
         case linuxGpuContainer = "LINUX_GPU_CONTAINER"
         case linuxLambdaContainer = "LINUX_LAMBDA_CONTAINER"
+        case macArm = "MAC_ARM"
         case windowsContainer = "WINDOWS_CONTAINER"
         case windowsServer2019Container = "WINDOWS_SERVER_2019_CONTAINER"
         public var description: String { return self.rawValue }
@@ -151,6 +153,8 @@ extension CodeBuild {
     public enum FleetContextCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case actionRequired = "ACTION_REQUIRED"
         case createFailed = "CREATE_FAILED"
+        case insufficientCapacity = "INSUFFICIENT_CAPACITY"
+        case pendingDeletion = "PENDING_DELETION"
         case updateFailed = "UPDATE_FAILED"
         public var description: String { return self.rawValue }
     }
@@ -326,6 +330,7 @@ extension CodeBuild {
     public enum SourceAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case codeconnections = "CODECONNECTIONS"
         case oauth = "OAUTH"
+        case secretsManager = "SECRETS_MANAGER"
         public var description: String { return self.rawValue }
     }
 
@@ -1242,10 +1247,12 @@ extension CodeBuild {
         public let baseCapacity: Int
         /// Information about the compute resources the compute fleet uses. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 70 GB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 3 GB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see Build environment compute types in the CodeBuild User Guide.
         public let computeType: ComputeType
-        /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
+        /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type MAC_ARM is available for Medium fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  and EU (Frankfurt)   The environment type MAC_ARM is available for Large fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
         public let environmentType: EnvironmentType
         /// The service role associated with the compute fleet. For more information, see  Allow a user to add a permission policy for a fleet service role in the CodeBuild User Guide.
         public let fleetServiceRole: String?
+        /// The Amazon Machine Image (AMI) of the compute fleet.
+        public let imageId: String?
         /// The name of the compute fleet.
         public let name: String
         /// The compute fleet overflow behavior.   For overflow behavior QUEUE, your overflow builds need to wait on  the existing fleet instance to become available.   For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you choose to set your overflow behavior to on-demand while creating a VPC-connected  fleet, make sure that you add the required VPC permissions to your project service role. For more  information, see Example  policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface.
@@ -1256,11 +1263,12 @@ extension CodeBuild {
         public let tags: [Tag]?
         public let vpcConfig: VpcConfig?
 
-        public init(baseCapacity: Int, computeType: ComputeType, environmentType: EnvironmentType, fleetServiceRole: String? = nil, name: String, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(baseCapacity: Int, computeType: ComputeType, environmentType: EnvironmentType, fleetServiceRole: String? = nil, imageId: String? = nil, name: String, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.baseCapacity = baseCapacity
             self.computeType = computeType
             self.environmentType = environmentType
             self.fleetServiceRole = fleetServiceRole
+            self.imageId = imageId
             self.name = name
             self.overflowBehavior = overflowBehavior
             self.scalingConfiguration = scalingConfiguration
@@ -1271,6 +1279,7 @@ extension CodeBuild {
         public func validate(name: String) throws {
             try self.validate(self.baseCapacity, name: "baseCapacity", parent: name, min: 1)
             try self.validate(self.fleetServiceRole, name: "fleetServiceRole", parent: name, min: 1)
+            try self.validate(self.imageId, name: "imageId", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 2)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{1,127}$")
@@ -1287,6 +1296,7 @@ extension CodeBuild {
             case computeType = "computeType"
             case environmentType = "environmentType"
             case fleetServiceRole = "fleetServiceRole"
+            case imageId = "imageId"
             case name = "name"
             case overflowBehavior = "overflowBehavior"
             case scalingConfiguration = "scalingConfiguration"
@@ -1975,12 +1985,14 @@ extension CodeBuild {
         public let computeType: ComputeType?
         /// The time at which the compute fleet was created.
         public let created: Date?
-        /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
+        /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type MAC_ARM is available for Medium fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  and EU (Frankfurt)   The environment type MAC_ARM is available for Large fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
         public let environmentType: EnvironmentType?
         /// The service role associated with the compute fleet. For more information, see  Allow a user to add a permission policy for a fleet service role in the CodeBuild User Guide.
         public let fleetServiceRole: String?
         /// The ID of the compute fleet.
         public let id: String?
+        /// The Amazon Machine Image (AMI) of the compute fleet.
+        public let imageId: String?
         /// The time at which the compute fleet was last modified.
         public let lastModified: Date?
         /// The name of the compute fleet.
@@ -1995,7 +2007,7 @@ extension CodeBuild {
         public let tags: [Tag]?
         public let vpcConfig: VpcConfig?
 
-        public init(arn: String? = nil, baseCapacity: Int? = nil, computeType: ComputeType? = nil, created: Date? = nil, environmentType: EnvironmentType? = nil, fleetServiceRole: String? = nil, id: String? = nil, lastModified: Date? = nil, name: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationOutput? = nil, status: FleetStatus? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String? = nil, baseCapacity: Int? = nil, computeType: ComputeType? = nil, created: Date? = nil, environmentType: EnvironmentType? = nil, fleetServiceRole: String? = nil, id: String? = nil, imageId: String? = nil, lastModified: Date? = nil, name: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationOutput? = nil, status: FleetStatus? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.baseCapacity = baseCapacity
             self.computeType = computeType
@@ -2003,6 +2015,7 @@ extension CodeBuild {
             self.environmentType = environmentType
             self.fleetServiceRole = fleetServiceRole
             self.id = id
+            self.imageId = imageId
             self.lastModified = lastModified
             self.name = name
             self.overflowBehavior = overflowBehavior
@@ -2020,6 +2033,7 @@ extension CodeBuild {
             case environmentType = "environmentType"
             case fleetServiceRole = "fleetServiceRole"
             case id = "id"
+            case imageId = "imageId"
             case lastModified = "lastModified"
             case name = "name"
             case overflowBehavior = "overflowBehavior"
@@ -2139,13 +2153,13 @@ extension CodeBuild {
     }
 
     public struct ImportSourceCredentialsInput: AWSEncodableShape {
-        ///  The type of authentication used to connect to a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created using the CodeBuild console. Note that CODECONNECTIONS is only valid for  GitLab and GitLab Self Managed.
+        ///  The type of authentication used to connect to a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created using the CodeBuild console.
         public let authType: AuthType
         ///  The source provider used for this project.
         public let serverType: ServerType
         ///  Set to false to prevent overwriting the repository source credentials. Set to true to overwrite the repository source credentials. The default value is true.
         public let shouldOverwrite: Bool?
-        ///  For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is either the access token or the app password. For the authType CODECONNECTIONS,  this is the connectionArn.
+        ///  For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is either the access token or the app password. For the authType CODECONNECTIONS,  this is the connectionArn. For the authType SECRETS_MANAGER, this is the secretArn.
         public let token: String
         ///  The Bitbucket username when the authType is BASIC_AUTH. This parameter is not valid for other types of source providers or connections.
         public let username: String?
@@ -3172,7 +3186,7 @@ extension CodeBuild {
     }
 
     public struct ProjectSource: AWSEncodableShape & AWSDecodableShape {
-        /// Information about the authorization settings for CodeBuild to access the source code to be built. This information is for the CodeBuild console's use only. Your code should not get or set this information directly.
+        /// Information about the authorization settings for CodeBuild to access the source code to be built.
         public let auth: SourceAuth?
         /// The buildspec file declaration to use for the builds in this build project. If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same Amazon Web Services Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location.
         public let buildspec: String?
@@ -3695,7 +3709,7 @@ extension CodeBuild {
     public struct SourceAuth: AWSEncodableShape & AWSDecodableShape {
         /// The resource value that applies to the specified authorization type.
         public let resource: String?
-        /// The authorization type to use. Valid options are OAUTH or CODECONNECTIONS.
+        /// The authorization type to use. Valid options are OAUTH, CODECONNECTIONS, or SECRETS_MANAGER.
         public let type: SourceAuthType
 
         public init(resource: String? = nil, type: SourceAuthType) {
@@ -3712,9 +3726,9 @@ extension CodeBuild {
     public struct SourceCredentialsInfo: AWSDecodableShape {
         ///  The Amazon Resource Name (ARN) of the token.
         public let arn: String?
-        ///  The type of authentication used by the credentials. Valid options are OAUTH, BASIC_AUTH, PERSONAL_ACCESS_TOKEN, or CODECONNECTIONS.
+        ///  The type of authentication used by the credentials. Valid options are OAUTH, BASIC_AUTH, PERSONAL_ACCESS_TOKEN, CODECONNECTIONS, or SECRETS_MANAGER.
         public let authType: AuthType?
-        /// The connection ARN if your serverType type is GITLAB or GITLAB_SELF_MANAGED and your authType is CODECONNECTIONS.
+        /// The connection ARN if your authType is CODECONNECTIONS or SECRETS_MANAGER.
         public let resource: String?
         ///  The type of source provider. The valid options are GITHUB, GITHUB_ENTERPRISE, GITLAB, GITLAB_SELF_MANAGED, or BITBUCKET.
         public let serverType: ServerType?
@@ -4263,10 +4277,12 @@ extension CodeBuild {
         public let baseCapacity: Int?
         /// Information about the compute resources the compute fleet uses. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_XLARGE: Use up to 70 GB memory and 36 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.   If you use BUILD_GENERAL1_SMALL:    For environment type LINUX_CONTAINER, you can use up to 3 GB memory and 2 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 16 GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.   For environment type ARM_CONTAINER, you can use up to 4 GB memory and 2 vCPUs on ARM-based processors for builds.   If you use BUILD_GENERAL1_LARGE:    For environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.    For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.   For environment type ARM_CONTAINER, you can use up to 16 GB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see Build environment compute types in the CodeBuild User Guide.
         public let computeType: ComputeType?
-        /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
+        /// The environment type of the compute fleet.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney),  EU (Frankfurt), and South America (São Paulo).   The environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),  EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).   The environment type MAC_ARM is available for Medium fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  and EU (Frankfurt)   The environment type MAC_ARM is available for Large fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt),  Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).   For more information, see Build environment compute types in the CodeBuild user guide.
         public let environmentType: EnvironmentType?
         /// The service role associated with the compute fleet. For more information, see  Allow a user to add a permission policy for a fleet service role in the CodeBuild User Guide.
         public let fleetServiceRole: String?
+        /// The Amazon Machine Image (AMI) of the compute fleet.
+        public let imageId: String?
         /// The compute fleet overflow behavior.   For overflow behavior QUEUE, your overflow builds need to wait on  the existing fleet instance to become available.   For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you choose to set your overflow behavior to on-demand while creating a VPC-connected  fleet, make sure that you add the required VPC permissions to your project service role. For more  information, see Example  policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface.
         public let overflowBehavior: FleetOverflowBehavior?
         /// The scaling configuration of the compute fleet.
@@ -4275,12 +4291,13 @@ extension CodeBuild {
         public let tags: [Tag]?
         public let vpcConfig: VpcConfig?
 
-        public init(arn: String, baseCapacity: Int? = nil, computeType: ComputeType? = nil, environmentType: EnvironmentType? = nil, fleetServiceRole: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String, baseCapacity: Int? = nil, computeType: ComputeType? = nil, environmentType: EnvironmentType? = nil, fleetServiceRole: String? = nil, imageId: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.baseCapacity = baseCapacity
             self.computeType = computeType
             self.environmentType = environmentType
             self.fleetServiceRole = fleetServiceRole
+            self.imageId = imageId
             self.overflowBehavior = overflowBehavior
             self.scalingConfiguration = scalingConfiguration
             self.tags = tags
@@ -4291,6 +4308,7 @@ extension CodeBuild {
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.validate(self.baseCapacity, name: "baseCapacity", parent: name, min: 1)
             try self.validate(self.fleetServiceRole, name: "fleetServiceRole", parent: name, min: 1)
+            try self.validate(self.imageId, name: "imageId", parent: name, min: 1)
             try self.scalingConfiguration?.validate(name: "\(name).scalingConfiguration")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -4305,6 +4323,7 @@ extension CodeBuild {
             case computeType = "computeType"
             case environmentType = "environmentType"
             case fleetServiceRole = "fleetServiceRole"
+            case imageId = "imageId"
             case overflowBehavior = "overflowBehavior"
             case scalingConfiguration = "scalingConfiguration"
             case tags = "tags"

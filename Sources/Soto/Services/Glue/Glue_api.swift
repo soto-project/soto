@@ -289,6 +289,19 @@ public struct Glue: AWSService {
         )
     }
 
+    /// Annotate datapoints over time for a specific data quality statistic.
+    @Sendable
+    public func batchPutDataQualityStatisticAnnotation(_ input: BatchPutDataQualityStatisticAnnotationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchPutDataQualityStatisticAnnotationResponse {
+        return try await self.client.execute(
+            operation: "BatchPutDataQualityStatisticAnnotation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Stops one or more job runs for a specified job definition.
     @Sendable
     public func batchStopJobRun(_ input: BatchStopJobRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchStopJobRunResponse {
@@ -1251,6 +1264,32 @@ public struct Glue: AWSService {
         )
     }
 
+    /// Retrieve the training status of the model along with more information (CompletedOn, StartedOn, FailureReason).
+    @Sendable
+    public func getDataQualityModel(_ input: GetDataQualityModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataQualityModelResponse {
+        return try await self.client.execute(
+            operation: "GetDataQualityModel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieve a statistic's predictions for a given Profile ID.
+    @Sendable
+    public func getDataQualityModelResult(_ input: GetDataQualityModelResultRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataQualityModelResultResponse {
+        return try await self.client.execute(
+            operation: "GetDataQualityModelResult", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves the result of a data quality rule evaluation.
     @Sendable
     public func getDataQualityResult(_ input: GetDataQualityResultRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataQualityResultResponse {
@@ -2057,6 +2096,32 @@ public struct Glue: AWSService {
         )
     }
 
+    /// Retrieve annotations for a data quality statistic.
+    @Sendable
+    public func listDataQualityStatisticAnnotations(_ input: ListDataQualityStatisticAnnotationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataQualityStatisticAnnotationsResponse {
+        return try await self.client.execute(
+            operation: "ListDataQualityStatisticAnnotations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list of data quality statistics.
+    @Sendable
+    public func listDataQualityStatistics(_ input: ListDataQualityStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataQualityStatisticsResponse {
+        return try await self.client.execute(
+            operation: "ListDataQualityStatistics", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves the names of all DevEndpoint resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     @Sendable
     public func listDevEndpoints(_ input: ListDevEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDevEndpointsResponse {
@@ -2218,6 +2283,19 @@ public struct Glue: AWSService {
     public func putDataCatalogEncryptionSettings(_ input: PutDataCatalogEncryptionSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDataCatalogEncryptionSettingsResponse {
         return try await self.client.execute(
             operation: "PutDataCatalogEncryptionSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Annotate all datapoints for a Profile.
+    @Sendable
+    public func putDataQualityProfileAnnotation(_ input: PutDataQualityProfileAnnotationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDataQualityProfileAnnotationResponse {
+        return try await self.client.execute(
+            operation: "PutDataQualityProfileAnnotation", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -3926,9 +4004,11 @@ extension Glue.GetTableVersionsRequest: AWSPaginateToken {
 extension Glue.GetTablesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetTablesRequest {
         return .init(
+            attributesToGet: self.attributesToGet,
             catalogId: self.catalogId,
             databaseName: self.databaseName,
             expression: self.expression,
+            includeStatusDetails: self.includeStatusDetails,
             maxResults: self.maxResults,
             nextToken: token,
             queryAsOfTime: self.queryAsOfTime,
@@ -4187,6 +4267,7 @@ extension Glue.SearchTablesRequest: AWSPaginateToken {
         return .init(
             catalogId: self.catalogId,
             filters: self.filters,
+            includeStatusDetails: self.includeStatusDetails,
             maxResults: self.maxResults,
             nextToken: token,
             resourceShareType: self.resourceShareType,

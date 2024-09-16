@@ -550,6 +550,8 @@ extension Pipes {
         public let enrichment: String?
         /// The parameters required to set up enrichment on your pipe.
         public let enrichmentParameters: PipeEnrichmentParameters?
+        /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt pipe data. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt pipe data. For more information, see Managing keys in the Key Management Service Developer Guide.
+        public let kmsKeyIdentifier: String?
         /// The logging configuration settings for the pipe.
         public let logConfiguration: PipeLogConfigurationParameters?
         /// The name of the pipe.
@@ -567,11 +569,12 @@ extension Pipes {
         /// The parameters required to set up a target for your pipe. For more information about pipe target parameters, including how to use dynamic path parameters, see Target parameters in the Amazon EventBridge User Guide.
         public let targetParameters: PipeTargetParameters?
 
-        public init(description: String? = nil, desiredState: RequestedPipeState? = nil, enrichment: String? = nil, enrichmentParameters: PipeEnrichmentParameters? = nil, logConfiguration: PipeLogConfigurationParameters? = nil, name: String, roleArn: String, source: String, sourceParameters: PipeSourceParameters? = nil, tags: [String: String]? = nil, target: String, targetParameters: PipeTargetParameters? = nil) {
+        public init(description: String? = nil, desiredState: RequestedPipeState? = nil, enrichment: String? = nil, enrichmentParameters: PipeEnrichmentParameters? = nil, kmsKeyIdentifier: String? = nil, logConfiguration: PipeLogConfigurationParameters? = nil, name: String, roleArn: String, source: String, sourceParameters: PipeSourceParameters? = nil, tags: [String: String]? = nil, target: String, targetParameters: PipeTargetParameters? = nil) {
             self.description = description
             self.desiredState = desiredState
             self.enrichment = enrichment
             self.enrichmentParameters = enrichmentParameters
+            self.kmsKeyIdentifier = kmsKeyIdentifier
             self.logConfiguration = logConfiguration
             self.name = name
             self.roleArn = roleArn
@@ -589,6 +592,7 @@ extension Pipes {
             try container.encodeIfPresent(self.desiredState, forKey: .desiredState)
             try container.encodeIfPresent(self.enrichment, forKey: .enrichment)
             try container.encodeIfPresent(self.enrichmentParameters, forKey: .enrichmentParameters)
+            try container.encodeIfPresent(self.kmsKeyIdentifier, forKey: .kmsKeyIdentifier)
             try container.encodeIfPresent(self.logConfiguration, forKey: .logConfiguration)
             request.encodePath(self.name, key: "Name")
             try container.encode(self.roleArn, forKey: .roleArn)
@@ -605,6 +609,8 @@ extension Pipes {
             try self.validate(self.enrichment, name: "enrichment", parent: name, max: 1600)
             try self.validate(self.enrichment, name: "enrichment", parent: name, pattern: "^$|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)$")
             try self.enrichmentParameters?.validate(name: "\(name).enrichmentParameters")
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, pattern: "^[a-zA-Z0-9_\\-/:]*$")
             try self.logConfiguration?.validate(name: "\(name).logConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -634,6 +640,7 @@ extension Pipes {
             case desiredState = "DesiredState"
             case enrichment = "Enrichment"
             case enrichmentParameters = "EnrichmentParameters"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
             case logConfiguration = "LogConfiguration"
             case roleArn = "RoleArn"
             case source = "Source"
@@ -790,6 +797,8 @@ extension Pipes {
         public let enrichment: String?
         /// The parameters required to set up enrichment on your pipe.
         public let enrichmentParameters: PipeEnrichmentParameters?
+        /// The identifier of the KMS customer managed key for EventBridge to use to encrypt pipe data, if one has been specified. For more information, see Data encryption in EventBridge in the Amazon EventBridge User Guide.
+        public let kmsKeyIdentifier: String?
         /// When the pipe was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let lastModifiedTime: Date?
         /// The logging configuration settings for the pipe.
@@ -811,7 +820,7 @@ extension Pipes {
         /// The parameters required to set up a target for your pipe. For more information about pipe target parameters, including how to use dynamic path parameters, see Target parameters in the Amazon EventBridge User Guide.
         public let targetParameters: PipeTargetParameters?
 
-        public init(arn: String? = nil, creationTime: Date? = nil, currentState: PipeState? = nil, description: String? = nil, desiredState: RequestedPipeStateDescribeResponse? = nil, enrichment: String? = nil, enrichmentParameters: PipeEnrichmentParameters? = nil, lastModifiedTime: Date? = nil, logConfiguration: PipeLogConfiguration? = nil, name: String? = nil, roleArn: String? = nil, source: String? = nil, sourceParameters: PipeSourceParameters? = nil, stateReason: String? = nil, tags: [String: String]? = nil, target: String? = nil, targetParameters: PipeTargetParameters? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, currentState: PipeState? = nil, description: String? = nil, desiredState: RequestedPipeStateDescribeResponse? = nil, enrichment: String? = nil, enrichmentParameters: PipeEnrichmentParameters? = nil, kmsKeyIdentifier: String? = nil, lastModifiedTime: Date? = nil, logConfiguration: PipeLogConfiguration? = nil, name: String? = nil, roleArn: String? = nil, source: String? = nil, sourceParameters: PipeSourceParameters? = nil, stateReason: String? = nil, tags: [String: String]? = nil, target: String? = nil, targetParameters: PipeTargetParameters? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.currentState = currentState
@@ -819,6 +828,7 @@ extension Pipes {
             self.desiredState = desiredState
             self.enrichment = enrichment
             self.enrichmentParameters = enrichmentParameters
+            self.kmsKeyIdentifier = kmsKeyIdentifier
             self.lastModifiedTime = lastModifiedTime
             self.logConfiguration = logConfiguration
             self.name = name
@@ -839,6 +849,7 @@ extension Pipes {
             case desiredState = "DesiredState"
             case enrichment = "Enrichment"
             case enrichmentParameters = "EnrichmentParameters"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
             case lastModifiedTime = "LastModifiedTime"
             case logConfiguration = "LogConfiguration"
             case name = "Name"
@@ -2438,7 +2449,7 @@ extension Pipes {
         public let bucketName: String?
         /// The Amazon Web Services account that owns the Amazon S3 bucket to which EventBridge delivers the log records for the pipe.
         public let bucketOwner: String?
-        /// The format EventBridge uses for the log records.    json: JSON     plain: Plain text    w3c: W3C extended logging file format
+        /// The format EventBridge uses for the log records. EventBridge currently only supports json formatting.
         public let outputFormat: S3OutputFormat?
         /// The prefix text with which to begin Amazon S3 log object names. For more information, see Organizing objects using prefixes in the Amazon Simple Storage Service User Guide.
         public let prefix: String?
@@ -2463,7 +2474,7 @@ extension Pipes {
         public let bucketName: String
         /// Specifies the Amazon Web Services account that owns the Amazon S3 bucket to which EventBridge delivers the log records for the pipe.
         public let bucketOwner: String
-        /// How EventBridge should format the log records.    json: JSON     plain: Plain text    w3c: W3C extended logging file format
+        /// How EventBridge should format the log records. EventBridge currently only supports json formatting.
         public let outputFormat: S3OutputFormat?
         /// Specifies any prefix text with which to begin Amazon S3 log object names. You can use prefixes to organize the data that you store in Amazon S3 buckets. A prefix is a string of characters at the beginning of the object key name. A prefix can be any length, subject to the maximum length of the object key name (1,024 bytes). For more information, see Organizing objects using prefixes in the Amazon Simple Storage Service User Guide.
         public let prefix: String?
@@ -2508,7 +2519,7 @@ extension Pipes {
     }
 
     public struct SelfManagedKafkaAccessConfigurationVpc: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the security groups associated with the stream. These security groups must all be in the same VPC. You can specify as many as five security groups. If you do not specify a security group, the default security group for the VPC is used.
+        /// Specifies the security groups associated with the stream. These security groups must all be in the same VPC. You can specify as many as five security groups.
         public let securityGroup: [String]?
         /// Specifies the subnets associated with the stream. These subnets must all be in the same VPC. You can specify as many as 16 subnets.
         public let subnets: [String]?
@@ -2787,6 +2798,8 @@ extension Pipes {
         public let enrichment: String?
         /// The parameters required to set up enrichment on your pipe.
         public let enrichmentParameters: PipeEnrichmentParameters?
+        /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt pipe data. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. To update a pipe that is using the default Amazon Web Services owned key to use a customer managed key instead, or update a pipe that is using a customer managed key to use a different customer managed key, specify a customer managed key identifier. To update a pipe that is using a customer managed key to use the default Amazon Web Services owned key, specify an empty string. For more information, see Managing keys in the Key Management Service Developer Guide.
+        public let kmsKeyIdentifier: String?
         /// The logging configuration settings for the pipe.
         public let logConfiguration: PipeLogConfigurationParameters?
         /// The name of the pipe.
@@ -2800,11 +2813,12 @@ extension Pipes {
         /// The parameters required to set up a target for your pipe. For more information about pipe target parameters, including how to use dynamic path parameters, see Target parameters in the Amazon EventBridge User Guide.
         public let targetParameters: PipeTargetParameters?
 
-        public init(description: String? = nil, desiredState: RequestedPipeState? = nil, enrichment: String? = nil, enrichmentParameters: PipeEnrichmentParameters? = nil, logConfiguration: PipeLogConfigurationParameters? = nil, name: String, roleArn: String, sourceParameters: UpdatePipeSourceParameters? = nil, target: String? = nil, targetParameters: PipeTargetParameters? = nil) {
+        public init(description: String? = nil, desiredState: RequestedPipeState? = nil, enrichment: String? = nil, enrichmentParameters: PipeEnrichmentParameters? = nil, kmsKeyIdentifier: String? = nil, logConfiguration: PipeLogConfigurationParameters? = nil, name: String, roleArn: String, sourceParameters: UpdatePipeSourceParameters? = nil, target: String? = nil, targetParameters: PipeTargetParameters? = nil) {
             self.description = description
             self.desiredState = desiredState
             self.enrichment = enrichment
             self.enrichmentParameters = enrichmentParameters
+            self.kmsKeyIdentifier = kmsKeyIdentifier
             self.logConfiguration = logConfiguration
             self.name = name
             self.roleArn = roleArn
@@ -2820,6 +2834,7 @@ extension Pipes {
             try container.encodeIfPresent(self.desiredState, forKey: .desiredState)
             try container.encodeIfPresent(self.enrichment, forKey: .enrichment)
             try container.encodeIfPresent(self.enrichmentParameters, forKey: .enrichmentParameters)
+            try container.encodeIfPresent(self.kmsKeyIdentifier, forKey: .kmsKeyIdentifier)
             try container.encodeIfPresent(self.logConfiguration, forKey: .logConfiguration)
             request.encodePath(self.name, key: "Name")
             try container.encode(self.roleArn, forKey: .roleArn)
@@ -2834,6 +2849,8 @@ extension Pipes {
             try self.validate(self.enrichment, name: "enrichment", parent: name, max: 1600)
             try self.validate(self.enrichment, name: "enrichment", parent: name, pattern: "^$|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-]+):([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.+)$")
             try self.enrichmentParameters?.validate(name: "\(name).enrichmentParameters")
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, pattern: "^[a-zA-Z0-9_\\-/:]*$")
             try self.logConfiguration?.validate(name: "\(name).logConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -2853,6 +2870,7 @@ extension Pipes {
             case desiredState = "DesiredState"
             case enrichment = "Enrichment"
             case enrichmentParameters = "EnrichmentParameters"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
             case logConfiguration = "LogConfiguration"
             case roleArn = "RoleArn"
             case sourceParameters = "SourceParameters"

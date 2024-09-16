@@ -58,6 +58,7 @@ extension FIS {
     }
 
     public enum ExperimentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "cancelled"
         case completed = "completed"
         case failed = "failed"
         case initiating = "initiating"
@@ -65,6 +66,19 @@ extension FIS {
         case running = "running"
         case stopped = "stopped"
         case stopping = "stopping"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SafetyLeverStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disengaged = "disengaged"
+        case engaged = "engaged"
+        case engaging = "engaging"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SafetyLeverStatusInput: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disengaged = "disengaged"
+        case engaged = "engaged"
         public var description: String { return self.rawValue }
     }
 
@@ -718,6 +732,27 @@ extension FIS {
         }
     }
 
+    public struct ExperimentError: AWSDecodableShape {
+        /// The Amazon Web Services Account ID where the experiment failure occurred.
+        public let accountId: String?
+        /// The error code for the failed experiment.
+        public let code: String?
+        /// Context for the section of the experiment template that failed.
+        public let location: String?
+
+        public init(accountId: String? = nil, code: String? = nil, location: String? = nil) {
+            self.accountId = accountId
+            self.code = code
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case code = "code"
+            case location = "location"
+        }
+    }
+
     public struct ExperimentLogConfiguration: AWSDecodableShape {
         /// The configuration for experiment logging to Amazon CloudWatch Logs.
         public let cloudWatchLogsConfiguration: ExperimentCloudWatchLogsLogConfiguration?
@@ -778,17 +813,21 @@ extension FIS {
     }
 
     public struct ExperimentState: AWSDecodableShape {
+        /// The error information of the experiment when the action has failed.
+        public let error: ExperimentError?
         /// The reason for the state.
         public let reason: String?
         /// The state of the experiment.
         public let status: ExperimentStatus?
 
-        public init(reason: String? = nil, status: ExperimentStatus? = nil) {
+        public init(error: ExperimentError? = nil, reason: String? = nil, status: ExperimentStatus? = nil) {
+            self.error = error
             self.reason = reason
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case error = "error"
             case reason = "reason"
             case status = "status"
         }
@@ -1416,6 +1455,41 @@ extension FIS {
         }
     }
 
+    public struct GetSafetyLeverRequest: AWSEncodableShape {
+        ///  The ID of the safety lever.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 64)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\S]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSafetyLeverResponse: AWSDecodableShape {
+        ///  Information about the safety lever.
+        public let safetyLever: SafetyLever?
+
+        public init(safetyLever: SafetyLever? = nil) {
+            self.safetyLever = safetyLever
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case safetyLever = "safetyLever"
+        }
+    }
+
     public struct GetTargetAccountConfigurationRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID of the target account.
         public let accountId: String
@@ -1893,6 +1967,44 @@ extension FIS {
             case resourceType = "resourceType"
             case targetInformation = "targetInformation"
             case targetName = "targetName"
+        }
+    }
+
+    public struct SafetyLever: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the safety lever.
+        public let arn: String?
+        ///  The ID of the safety lever.
+        public let id: String?
+        ///  The state of the safety lever.
+        public let state: SafetyLeverState?
+
+        public init(arn: String? = nil, id: String? = nil, state: SafetyLeverState? = nil) {
+            self.arn = arn
+            self.id = id
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case state = "state"
+        }
+    }
+
+    public struct SafetyLeverState: AWSDecodableShape {
+        ///  The reason for the state of the safety lever.
+        public let reason: String?
+        ///  The state of the safety lever.
+        public let status: SafetyLeverStatus?
+
+        public init(reason: String? = nil, status: SafetyLeverStatus? = nil) {
+            self.reason = reason
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "reason"
+            case status = "status"
         }
     }
 
@@ -2435,6 +2547,64 @@ extension FIS {
             case resourceTags = "resourceTags"
             case resourceType = "resourceType"
             case selectionMode = "selectionMode"
+        }
+    }
+
+    public struct UpdateSafetyLeverStateInput: AWSEncodableShape {
+        ///  The reason for updating the state of the safety lever.
+        public let reason: String
+        ///  The updated state of the safety lever.
+        public let status: SafetyLeverStatusInput
+
+        public init(reason: String, status: SafetyLeverStatusInput) {
+            self.reason = reason
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "reason"
+            case status = "status"
+        }
+    }
+
+    public struct UpdateSafetyLeverStateRequest: AWSEncodableShape {
+        ///  The ID of the safety lever.
+        public let id: String
+        ///  The state of the safety lever.
+        public let state: UpdateSafetyLeverStateInput
+
+        public init(id: String, state: UpdateSafetyLeverStateInput) {
+            self.id = id
+            self.state = state
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            try container.encode(self.state, forKey: .state)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 64)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\S]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+        }
+    }
+
+    public struct UpdateSafetyLeverStateResponse: AWSDecodableShape {
+        ///  Information about the safety lever.
+        public let safetyLever: SafetyLever?
+
+        public init(safetyLever: SafetyLever? = nil) {
+            self.safetyLever = safetyLever
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case safetyLever = "safetyLever"
         }
     }
 

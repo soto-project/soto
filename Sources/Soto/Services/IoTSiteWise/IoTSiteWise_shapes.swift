@@ -57,6 +57,12 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssetModelVersionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case latest = "LATEST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssetRelationshipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hierarchy = "HIERARCHY"
         public var description: String { return self.rawValue }
@@ -119,6 +125,7 @@ extension IoTSiteWise {
 
     public enum CapabilitySyncStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inSync = "IN_SYNC"
+        case notApplicable = "NOT_APPLICABLE"
         case outOfSync = "OUT_OF_SYNC"
         case syncFailed = "SYNC_FAILED"
         case unknown = "UNKNOWN"
@@ -564,7 +571,7 @@ extension IoTSiteWise {
     public struct AssetCompositeModelSummary: AWSDecodableShape {
         /// A description of the composite model that this summary describes.
         public let description: String
-        /// An external ID to assign to the asset model. If the composite model is a derived composite model, or one nested inside a component model, you can only set the external ID using  UpdateAssetModelCompositeModel and specifying the derived ID of the model or property from the created model it's a part of.
+        /// An external ID to assign to the asset model. If the composite model is a derived composite model, or one nested inside a component model, you can only set the external ID using UpdateAssetModelCompositeModel and specifying the derived ID of the model or property from the created model it's a part of.
         public let externalId: String?
         /// The ID of the composite model that this summary describes.
         public let id: String
@@ -779,17 +786,17 @@ extension IoTSiteWise {
     }
 
     public struct AssetModelCompositeModelSummary: AWSDecodableShape {
-        /// The description of the the composite model that this summary describes..
+        /// The description of the composite model that this summary describes..
         public let description: String?
         /// The external ID of a composite model on this asset model. For more information, see Using external IDs in the IoT SiteWise User Guide.
         public let externalId: String?
-        /// The ID of the the composite model that this summary describes..
+        /// The ID of the composite model that this summary describes..
         public let id: String
-        /// The name of the the composite model that this summary describes..
+        /// The name of the composite model that this summary describes..
         public let name: String
         /// The path that includes all the pieces that make up the composite model.
         public let path: [AssetModelCompositeModelPathSegment]?
-        /// The type of asset model.    ASSET_MODEL – (default) An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
+        /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or  AWS/L4E_ANOMALY.
         public let type: String
 
         public init(description: String? = nil, externalId: String? = nil, id: String, name: String, path: [AssetModelCompositeModelPathSegment]? = nil, type: String) {
@@ -1116,8 +1123,10 @@ extension IoTSiteWise {
         public let name: String
         /// The current status of the asset model.
         public let status: AssetModelStatus
+        /// The version number of the asset model.
+        public let version: String?
 
-        public init(arn: String, assetModelType: AssetModelType? = nil, creationDate: Date, description: String, externalId: String? = nil, id: String, lastUpdateDate: Date, name: String, status: AssetModelStatus) {
+        public init(arn: String, assetModelType: AssetModelType? = nil, creationDate: Date, description: String, externalId: String? = nil, id: String, lastUpdateDate: Date, name: String, status: AssetModelStatus, version: String? = nil) {
             self.arn = arn
             self.assetModelType = assetModelType
             self.creationDate = creationDate
@@ -1127,6 +1136,7 @@ extension IoTSiteWise {
             self.lastUpdateDate = lastUpdateDate
             self.name = name
             self.status = status
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1139,6 +1149,7 @@ extension IoTSiteWise {
             case lastUpdateDate = "lastUpdateDate"
             case name = "name"
             case status = "status"
+            case version = "version"
         }
     }
 
@@ -2336,7 +2347,7 @@ extension IoTSiteWise {
     public struct CompositionRelationshipSummary: AWSDecodableShape {
         /// The ID of a composite model on this asset model.
         public let assetModelCompositeModelId: String
-        /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or  AWS/L4E_ANOMALY.
+        /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or AWS/L4E_ANOMALY.
         public let assetModelCompositeModelType: String
         /// The ID of the asset model, in UUID format.
         public let assetModelId: String
@@ -2452,13 +2463,13 @@ extension IoTSiteWise {
     public struct CreateAssetModelCompositeModelRequest: AWSEncodableShape {
         /// A description for the composite model.
         public let assetModelCompositeModelDescription: String?
-        /// An external ID to assign to the composite model. If the composite model is a derived composite model, or one nested inside a component model, you can only set the external ID using  UpdateAssetModelCompositeModel and specifying the derived ID of the model or property from the created model it's a part of.
+        /// An external ID to assign to the composite model. If the composite model is a derived composite model, or one nested inside a component model, you can only set the external ID using UpdateAssetModelCompositeModel and specifying the derived ID of the model or property from the created model it's a part of.
         public let assetModelCompositeModelExternalId: String?
-        /// The ID of the composite model.  IoT SiteWise automatically generates a unique ID for you, so this parameter is never required. However,  if you prefer to supply your own ID instead, you can specify it here in UUID format. If you specify your own ID, it must be globally unique.
+        /// The ID of the composite model. IoT SiteWise automatically generates a unique ID for you, so this parameter is never required. However, if you prefer to supply your own ID instead, you can specify it here in UUID format. If you specify your own ID, it must be globally unique.
         public let assetModelCompositeModelId: String?
-        /// A unique, friendly name for the composite model.
+        /// A unique name for the composite model.
         public let assetModelCompositeModelName: String
-        /// The property definitions of the composite model. For more information, see . You can specify up to 200 properties per composite model. For more information, see Quotas in the IoT SiteWise User Guide.
+        /// The property definitions of the composite model. For more information, see  Inline custom composite models in the IoT SiteWise User Guide. You can specify up to 200 properties per composite model. For more information, see Quotas in the IoT SiteWise User Guide.
         public let assetModelCompositeModelProperties: [AssetModelPropertyDefinition]?
         /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or  AWS/L4E_ANOMALY.
         public let assetModelCompositeModelType: String
@@ -2466,12 +2477,18 @@ extension IoTSiteWise {
         public let assetModelId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The ID of a composite model on this asset.
+        /// The ID of a component model which is reused to create this composite model.
         public let composedAssetModelId: String?
+        /// The expected current entity tag (ETag) for the asset model’s latest or active version (specified using matchForVersionType).    The create request is rejected if the tag does not match the latest or active version's current entity tag. See Optimistic locking for asset model writes in the IoT SiteWise User Guide.
+        public let ifMatch: String?
+        /// Accepts * to reject the create request if an active version  (specified using matchForVersionType as ACTIVE) already exists for the asset model.
+        public let ifNoneMatch: String?
+        /// Specifies the asset model version type (LATEST or ACTIVE) used in  conjunction with If-Match or If-None-Match headers to determine the target ETag for the create operation.
+        public let matchForVersionType: AssetModelVersionType?
         /// The ID of the parent composite model in this asset model relationship.
         public let parentAssetModelCompositeModelId: String?
 
-        public init(assetModelCompositeModelDescription: String? = nil, assetModelCompositeModelExternalId: String? = nil, assetModelCompositeModelId: String? = nil, assetModelCompositeModelName: String, assetModelCompositeModelProperties: [AssetModelPropertyDefinition]? = nil, assetModelCompositeModelType: String, assetModelId: String, clientToken: String? = CreateAssetModelCompositeModelRequest.idempotencyToken(), composedAssetModelId: String? = nil, parentAssetModelCompositeModelId: String? = nil) {
+        public init(assetModelCompositeModelDescription: String? = nil, assetModelCompositeModelExternalId: String? = nil, assetModelCompositeModelId: String? = nil, assetModelCompositeModelName: String, assetModelCompositeModelProperties: [AssetModelPropertyDefinition]? = nil, assetModelCompositeModelType: String, assetModelId: String, clientToken: String? = CreateAssetModelCompositeModelRequest.idempotencyToken(), composedAssetModelId: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, matchForVersionType: AssetModelVersionType? = nil, parentAssetModelCompositeModelId: String? = nil) {
             self.assetModelCompositeModelDescription = assetModelCompositeModelDescription
             self.assetModelCompositeModelExternalId = assetModelCompositeModelExternalId
             self.assetModelCompositeModelId = assetModelCompositeModelId
@@ -2481,6 +2498,9 @@ extension IoTSiteWise {
             self.assetModelId = assetModelId
             self.clientToken = clientToken
             self.composedAssetModelId = composedAssetModelId
+            self.ifMatch = ifMatch
+            self.ifNoneMatch = ifNoneMatch
+            self.matchForVersionType = matchForVersionType
             self.parentAssetModelCompositeModelId = parentAssetModelCompositeModelId
         }
 
@@ -2496,6 +2516,9 @@ extension IoTSiteWise {
             request.encodePath(self.assetModelId, key: "assetModelId")
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.composedAssetModelId, forKey: .composedAssetModelId)
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            request.encodeHeader(self.ifNoneMatch, key: "If-None-Match")
+            request.encodeHeader(self.matchForVersionType, key: "Match-For-Version-Type")
             try container.encodeIfPresent(self.parentAssetModelCompositeModelId, forKey: .parentAssetModelCompositeModelId)
         }
 
@@ -2527,6 +2550,8 @@ extension IoTSiteWise {
             try self.validate(self.composedAssetModelId, name: "composedAssetModelId", parent: name, max: 139)
             try self.validate(self.composedAssetModelId, name: "composedAssetModelId", parent: name, min: 13)
             try self.validate(self.composedAssetModelId, name: "composedAssetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.ifMatch, name: "ifMatch", parent: name, pattern: "^[\\w-]{43}$")
+            try self.validate(self.ifNoneMatch, name: "ifNoneMatch", parent: name, pattern: "^\\*$")
             try self.validate(self.parentAssetModelCompositeModelId, name: "parentAssetModelCompositeModelId", parent: name, max: 139)
             try self.validate(self.parentAssetModelCompositeModelId, name: "parentAssetModelCompositeModelId", parent: name, min: 13)
             try self.validate(self.parentAssetModelCompositeModelId, name: "parentAssetModelCompositeModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
@@ -2566,7 +2591,7 @@ extension IoTSiteWise {
     }
 
     public struct CreateAssetModelRequest: AWSEncodableShape {
-        /// The composite models that are part of this asset model. It groups properties (such as attributes, measurements, transforms, and metrics) and child composite models that model parts of your industrial equipment. Each composite model has a type that defines the properties that the composite model supports. Use composite models to define alarms on this asset model.  When creating custom composite models, you need to use CreateAssetModelCompositeModel. For more information, see .
+        /// The composite models that are part of this asset model. It groups properties (such as attributes, measurements, transforms, and metrics) and child composite models that model parts of your industrial equipment. Each composite model has a type that defines the properties that the composite model supports. Use composite models to define alarms on this asset model.  When creating custom composite models, you need to use CreateAssetModelCompositeModel. For more information, see Creating custom composite models (Components) in the IoT SiteWise User Guide.
         public let assetModelCompositeModels: [AssetModelCompositeModelDefinition]?
         /// A description for the asset model.
         public let assetModelDescription: String?
@@ -2576,7 +2601,7 @@ extension IoTSiteWise {
         public let assetModelHierarchies: [AssetModelHierarchyDefinition]?
         /// The ID to assign to the asset model, if desired. IoT SiteWise automatically generates a unique ID for you, so this parameter is never required. However, if you prefer to supply your own ID instead, you can specify it here in UUID format. If you specify your own ID, it must be globally unique.
         public let assetModelId: String?
-        /// A unique, friendly name for the asset model.
+        /// A unique name for the asset model.
         public let assetModelName: String
         /// The property definitions of the asset model. For more information, see Asset properties in the IoT SiteWise User Guide. You can specify up to 200 properties per asset model. For more information, see Quotas in the IoT SiteWise User Guide.
         public let assetModelProperties: [AssetModelPropertyDefinition]?
@@ -2901,7 +2926,7 @@ extension IoTSiteWise {
     }
 
     public struct CreateGatewayRequest: AWSEncodableShape {
-        /// A unique, friendly name for the gateway.
+        /// A unique name for the gateway.
         public let gatewayName: String
         /// The gateway's platform. You can only specify one platform in a gateway.
         public let gatewayPlatform: GatewayPlatform
@@ -3262,11 +3287,20 @@ extension IoTSiteWise {
         public let assetModelId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
+        /// The expected current entity tag (ETag) for the asset model’s latest or active version (specified using matchForVersionType).    The delete request is rejected if the tag does not match the latest or active version's current entity tag. See Optimistic locking for asset model writes in the IoT SiteWise User Guide.
+        public let ifMatch: String?
+        /// Accepts * to reject the delete request if an active version  (specified using matchForVersionType as ACTIVE) already exists for the asset model.
+        public let ifNoneMatch: String?
+        /// Specifies the asset model version type (LATEST or ACTIVE) used in  conjunction with If-Match or If-None-Match headers to determine the target ETag for the delete operation.
+        public let matchForVersionType: AssetModelVersionType?
 
-        public init(assetModelCompositeModelId: String, assetModelId: String, clientToken: String? = DeleteAssetModelCompositeModelRequest.idempotencyToken()) {
+        public init(assetModelCompositeModelId: String, assetModelId: String, clientToken: String? = DeleteAssetModelCompositeModelRequest.idempotencyToken(), ifMatch: String? = nil, ifNoneMatch: String? = nil, matchForVersionType: AssetModelVersionType? = nil) {
             self.assetModelCompositeModelId = assetModelCompositeModelId
             self.assetModelId = assetModelId
             self.clientToken = clientToken
+            self.ifMatch = ifMatch
+            self.ifNoneMatch = ifNoneMatch
+            self.matchForVersionType = matchForVersionType
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -3275,6 +3309,9 @@ extension IoTSiteWise {
             request.encodePath(self.assetModelCompositeModelId, key: "assetModelCompositeModelId")
             request.encodePath(self.assetModelId, key: "assetModelId")
             request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            request.encodeHeader(self.ifNoneMatch, key: "If-None-Match")
+            request.encodeHeader(self.matchForVersionType, key: "Match-For-Version-Type")
         }
 
         public func validate(name: String) throws {
@@ -3287,6 +3324,8 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.ifMatch, name: "ifMatch", parent: name, pattern: "^[\\w-]{43}$")
+            try self.validate(self.ifNoneMatch, name: "ifNoneMatch", parent: name, pattern: "^\\*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3309,10 +3348,19 @@ extension IoTSiteWise {
         public let assetModelId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
+        /// The expected current entity tag (ETag) for the asset model’s latest or active version (specified using matchForVersionType).    The delete request is rejected if the tag does not match the latest or active version's current entity tag. See Optimistic locking for asset model writes in the IoT SiteWise User Guide.
+        public let ifMatch: String?
+        /// Accepts * to reject the delete request if an active version  (specified using matchForVersionType as ACTIVE) already exists for the asset model.
+        public let ifNoneMatch: String?
+        /// Specifies the asset model version type (LATEST or ACTIVE) used in  conjunction with If-Match or If-None-Match headers to determine the target ETag for the delete operation.
+        public let matchForVersionType: AssetModelVersionType?
 
-        public init(assetModelId: String, clientToken: String? = DeleteAssetModelRequest.idempotencyToken()) {
+        public init(assetModelId: String, clientToken: String? = DeleteAssetModelRequest.idempotencyToken(), ifMatch: String? = nil, ifNoneMatch: String? = nil, matchForVersionType: AssetModelVersionType? = nil) {
             self.assetModelId = assetModelId
             self.clientToken = clientToken
+            self.ifMatch = ifMatch
+            self.ifNoneMatch = ifNoneMatch
+            self.matchForVersionType = matchForVersionType
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -3320,6 +3368,9 @@ extension IoTSiteWise {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.assetModelId, key: "assetModelId")
             request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            request.encodeHeader(self.ifNoneMatch, key: "If-None-Match")
+            request.encodeHeader(self.matchForVersionType, key: "Match-For-Version-Type")
         }
 
         public func validate(name: String) throws {
@@ -3329,6 +3380,8 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.ifMatch, name: "ifMatch", parent: name, pattern: "^[\\w-]{43}$")
+            try self.validate(self.ifNoneMatch, name: "ifNoneMatch", parent: name, pattern: "^\\*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3716,7 +3769,7 @@ extension IoTSiteWise {
         public let actionDefinitions: [ActionDefinition]?
         /// A description for the composite model.
         public let assetCompositeModelDescription: String
-        /// An external ID to assign to the asset model. If the composite model is a component-based composite model, or one nested inside a component model, you can only set the external ID using  UpdateAssetModelCompositeModel and specifying the derived ID of the model or property from the created model it's a part of.
+        /// An external ID to assign to the asset model. If the composite model is a component-based composite model, or one nested inside a component model, you can only set the external ID using UpdateAssetModelCompositeModel and specifying the derived ID of the model or property from the created model it's a part of.
         public let assetCompositeModelExternalId: String?
         /// The ID of a composite model on this asset.
         public let assetCompositeModelId: String
@@ -3728,7 +3781,7 @@ extension IoTSiteWise {
         public let assetCompositeModelProperties: [AssetProperty]
         /// The list of composite model summaries.
         public let assetCompositeModelSummaries: [AssetCompositeModelSummary]
-        /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or  AWS/L4E_ANOMALY.
+        /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or AWS/L4E_ANOMALY.
         public let assetCompositeModelType: String
         /// The ID of the asset, in UUID format. This ID uniquely identifies the asset within IoT SiteWise and can be used with other IoT SiteWise APIs.
         public let assetId: String
@@ -3765,10 +3818,13 @@ extension IoTSiteWise {
         public let assetModelCompositeModelId: String
         /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let assetModelId: String
+        /// The version alias that specifies the latest or active version of the asset model.  The details are returned in the response. The default value is LATEST. See  Asset model versions in the IoT SiteWise User Guide.
+        public let assetModelVersion: String?
 
-        public init(assetModelCompositeModelId: String, assetModelId: String) {
+        public init(assetModelCompositeModelId: String, assetModelId: String, assetModelVersion: String? = nil) {
             self.assetModelCompositeModelId = assetModelCompositeModelId
             self.assetModelId = assetModelId
+            self.assetModelVersion = assetModelVersion
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -3776,6 +3832,7 @@ extension IoTSiteWise {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.assetModelCompositeModelId, key: "assetModelCompositeModelId")
             request.encodePath(self.assetModelId, key: "assetModelId")
+            request.encodeQuery(self.assetModelVersion, key: "assetModelVersion")
         }
 
         public func validate(name: String) throws {
@@ -3785,6 +3842,7 @@ extension IoTSiteWise {
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelVersion, name: "assetModelVersion", parent: name, pattern: "^(LATEST|ACTIVE)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3807,7 +3865,7 @@ extension IoTSiteWise {
         public let assetModelCompositeModelProperties: [AssetModelProperty]
         /// The list of composite model summaries for the composite model.
         public let assetModelCompositeModelSummaries: [AssetModelCompositeModelSummary]
-        /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or  AWS/L4E_ANOMALY.
+        /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or AWS/L4E_ANOMALY.
         public let assetModelCompositeModelType: String
         /// The ID of the asset model, in UUID format.
         public let assetModelId: String
@@ -3846,11 +3904,14 @@ extension IoTSiteWise {
     public struct DescribeAssetModelRequest: AWSEncodableShape {
         /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let assetModelId: String
+        /// The version alias that specifies the latest or active version of the asset model.  The details are returned in the response. The default value is LATEST. See  Asset model versions in the IoT SiteWise User Guide.
+        public let assetModelVersion: String?
         ///  Whether or not to exclude asset model properties from the response.
         public let excludeProperties: Bool?
 
-        public init(assetModelId: String, excludeProperties: Bool? = nil) {
+        public init(assetModelId: String, assetModelVersion: String? = nil, excludeProperties: Bool? = nil) {
             self.assetModelId = assetModelId
+            self.assetModelVersion = assetModelVersion
             self.excludeProperties = excludeProperties
         }
 
@@ -3858,6 +3919,7 @@ extension IoTSiteWise {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.assetModelId, key: "assetModelId")
+            request.encodeQuery(self.assetModelVersion, key: "assetModelVersion")
             request.encodeQuery(self.excludeProperties, key: "excludeProperties")
         }
 
@@ -3865,6 +3927,7 @@ extension IoTSiteWise {
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelVersion, name: "assetModelVersion", parent: name, pattern: "^(LATEST|ACTIVE)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3897,8 +3960,12 @@ extension IoTSiteWise {
         public let assetModelStatus: AssetModelStatus
         /// The type of asset model.    ASSET_MODEL – (default) An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
         public let assetModelType: AssetModelType?
+        /// The version of the asset model. See  Asset model versions in the IoT SiteWise User Guide.
+        public let assetModelVersion: String?
+        /// The entity tag (ETag) is a hash of the retrieved version of the asset model. It's used to make concurrent updates safely to the resource. See Optimistic locking for asset model writes in the IoT SiteWise User Guide.  See  Optimistic locking for asset model writes  in the IoT SiteWise User Guide.
+        public let eTag: String?
 
-        public init(assetModelArn: String, assetModelCompositeModels: [AssetModelCompositeModel]? = nil, assetModelCompositeModelSummaries: [AssetModelCompositeModelSummary]? = nil, assetModelCreationDate: Date, assetModelDescription: String, assetModelExternalId: String? = nil, assetModelHierarchies: [AssetModelHierarchy], assetModelId: String, assetModelLastUpdateDate: Date, assetModelName: String, assetModelProperties: [AssetModelProperty], assetModelStatus: AssetModelStatus, assetModelType: AssetModelType? = nil) {
+        public init(assetModelArn: String, assetModelCompositeModels: [AssetModelCompositeModel]? = nil, assetModelCompositeModelSummaries: [AssetModelCompositeModelSummary]? = nil, assetModelCreationDate: Date, assetModelDescription: String, assetModelExternalId: String? = nil, assetModelHierarchies: [AssetModelHierarchy], assetModelId: String, assetModelLastUpdateDate: Date, assetModelName: String, assetModelProperties: [AssetModelProperty], assetModelStatus: AssetModelStatus, assetModelType: AssetModelType? = nil, assetModelVersion: String? = nil, eTag: String? = nil) {
             self.assetModelArn = assetModelArn
             self.assetModelCompositeModels = assetModelCompositeModels
             self.assetModelCompositeModelSummaries = assetModelCompositeModelSummaries
@@ -3912,6 +3979,28 @@ extension IoTSiteWise {
             self.assetModelProperties = assetModelProperties
             self.assetModelStatus = assetModelStatus
             self.assetModelType = assetModelType
+            self.assetModelVersion = assetModelVersion
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.assetModelArn = try container.decode(String.self, forKey: .assetModelArn)
+            self.assetModelCompositeModels = try container.decodeIfPresent([AssetModelCompositeModel].self, forKey: .assetModelCompositeModels)
+            self.assetModelCompositeModelSummaries = try container.decodeIfPresent([AssetModelCompositeModelSummary].self, forKey: .assetModelCompositeModelSummaries)
+            self.assetModelCreationDate = try container.decode(Date.self, forKey: .assetModelCreationDate)
+            self.assetModelDescription = try container.decode(String.self, forKey: .assetModelDescription)
+            self.assetModelExternalId = try container.decodeIfPresent(String.self, forKey: .assetModelExternalId)
+            self.assetModelHierarchies = try container.decode([AssetModelHierarchy].self, forKey: .assetModelHierarchies)
+            self.assetModelId = try container.decode(String.self, forKey: .assetModelId)
+            self.assetModelLastUpdateDate = try container.decode(Date.self, forKey: .assetModelLastUpdateDate)
+            self.assetModelName = try container.decode(String.self, forKey: .assetModelName)
+            self.assetModelProperties = try container.decode([AssetModelProperty].self, forKey: .assetModelProperties)
+            self.assetModelStatus = try container.decode(AssetModelStatus.self, forKey: .assetModelStatus)
+            self.assetModelType = try container.decodeIfPresent(AssetModelType.self, forKey: .assetModelType)
+            self.assetModelVersion = try container.decodeIfPresent(String.self, forKey: .assetModelVersion)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3928,6 +4017,7 @@ extension IoTSiteWise {
             case assetModelProperties = "assetModelProperties"
             case assetModelStatus = "assetModelStatus"
             case assetModelType = "assetModelType"
+            case assetModelVersion = "assetModelVersion"
         }
     }
 
@@ -5010,20 +5100,25 @@ extension IoTSiteWise {
         public let greengrass: Greengrass?
         /// A gateway that runs on IoT Greengrass V2.
         public let greengrassV2: GreengrassV2?
+        /// A SiteWise Edge gateway that runs on a Siemens Industrial Edge Device.
+        public let siemensIE: SiemensIE?
 
-        public init(greengrass: Greengrass? = nil, greengrassV2: GreengrassV2? = nil) {
+        public init(greengrass: Greengrass? = nil, greengrassV2: GreengrassV2? = nil, siemensIE: SiemensIE? = nil) {
             self.greengrass = greengrass
             self.greengrassV2 = greengrassV2
+            self.siemensIE = siemensIE
         }
 
         public func validate(name: String) throws {
             try self.greengrass?.validate(name: "\(name).greengrass")
             try self.greengrassV2?.validate(name: "\(name).greengrassV2")
+            try self.siemensIE?.validate(name: "\(name).siemensIE")
         }
 
         private enum CodingKeys: String, CodingKey {
             case greengrass = "greengrass"
             case greengrassV2 = "greengrassV2"
+            case siemensIE = "siemensIE"
         }
     }
 
@@ -5034,7 +5129,7 @@ extension IoTSiteWise {
         public let gatewayCapabilitySummaries: [GatewayCapabilitySummary]?
         /// The ID of the gateway device.
         public let gatewayId: String
-        /// The name of the asset.
+        /// The name of the gateway.
         public let gatewayName: String
         public let gatewayPlatform: GatewayPlatform?
         /// The date the gateway was last updated, in Unix epoch time.
@@ -5402,7 +5497,7 @@ extension IoTSiteWise {
     }
 
     public struct Greengrass: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the Greengrass group. For more information about how to find a group's ARN, see ListGroups and GetGroup in the IoT Greengrass API Reference.
+        /// The ARN of the Greengrass group. For more information about how to find a group's ARN, see ListGroups and GetGroup in the IoT Greengrass V1 API Reference.
         public let groupArn: String
 
         public init(groupArn: String) {
@@ -5431,6 +5526,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, max: 128)
             try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, min: 1)
+            try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5773,13 +5869,16 @@ extension IoTSiteWise {
     public struct ListAssetModelCompositeModelsRequest: AWSEncodableShape {
         /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let assetModelId: String
+        /// The version alias that specifies the latest or active version of the asset model.  The details are returned in the response. The default value is LATEST. See  Asset model versions in the IoT SiteWise User Guide.
+        public let assetModelVersion: String?
         /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
-        public init(assetModelId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(assetModelId: String, assetModelVersion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assetModelId = assetModelId
+            self.assetModelVersion = assetModelVersion
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -5788,6 +5887,7 @@ extension IoTSiteWise {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.assetModelId, key: "assetModelId")
+            request.encodeQuery(self.assetModelVersion, key: "assetModelVersion")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
@@ -5796,6 +5896,7 @@ extension IoTSiteWise {
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelVersion, name: "assetModelVersion", parent: name, pattern: "^(LATEST|ACTIVE)$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
@@ -5826,6 +5927,8 @@ extension IoTSiteWise {
     public struct ListAssetModelPropertiesRequest: AWSEncodableShape {
         /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let assetModelId: String
+        /// The version alias that specifies the latest or active version of the asset model.  The details are returned in the response. The default value is LATEST. See  Asset model versions in the IoT SiteWise User Guide.
+        public let assetModelVersion: String?
         ///  Filters the requested list of asset model properties. You can choose one of the following options:    ALL – The list includes all asset model properties for a given asset model ID.     BASE – The list includes only base asset model properties for a given asset model ID.    Default: BASE
         public let filter: ListAssetModelPropertiesFilter?
         /// The maximum number of results to return for each paginated request. If not specified, the default value is 50.
@@ -5833,8 +5936,9 @@ extension IoTSiteWise {
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
-        public init(assetModelId: String, filter: ListAssetModelPropertiesFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(assetModelId: String, assetModelVersion: String? = nil, filter: ListAssetModelPropertiesFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assetModelId = assetModelId
+            self.assetModelVersion = assetModelVersion
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5844,6 +5948,7 @@ extension IoTSiteWise {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.assetModelId, key: "assetModelId")
+            request.encodeQuery(self.assetModelVersion, key: "assetModelVersion")
             request.encodeQuery(self.filter, key: "filter")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
@@ -5853,6 +5958,7 @@ extension IoTSiteWise {
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 139)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 13)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
+            try self.validate(self.assetModelVersion, name: "assetModelVersion", parent: name, pattern: "^(LATEST|ACTIVE)$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
@@ -5881,15 +5987,18 @@ extension IoTSiteWise {
     }
 
     public struct ListAssetModelsRequest: AWSEncodableShape {
-        /// The type of asset model.    ASSET_MODEL – (default) An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
+        /// The type of asset model. If you don't provide an assetModelTypes, all types of asset models are returned.    ASSET_MODEL – An asset model that you can use to create assets. 		Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite 		models of other asset models. You can't create assets directly from this type of asset model.
         public let assetModelTypes: [AssetModelType]?
+        /// The version alias that specifies the latest or active version of the asset model.  The details are returned in the response. The default value is LATEST. See  Asset model versions in the IoT SiteWise User Guide.
+        public let assetModelVersion: String?
         /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
-        public init(assetModelTypes: [AssetModelType]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(assetModelTypes: [AssetModelType]? = nil, assetModelVersion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assetModelTypes = assetModelTypes
+            self.assetModelVersion = assetModelVersion
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -5898,11 +6007,13 @@ extension IoTSiteWise {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.assetModelTypes, key: "assetModelTypes")
+            request.encodeQuery(self.assetModelVersion, key: "assetModelVersion")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.assetModelVersion, name: "assetModelVersion", parent: name, pattern: "^(LATEST|ACTIVE)$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
@@ -6104,13 +6215,13 @@ extension IoTSiteWise {
     public struct ListAssociatedAssetsRequest: AWSEncodableShape {
         /// The ID of the asset to query. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let assetId: String
-        /// The ID of the hierarchy by which child assets are associated to the asset. (This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.) To find a hierarchy ID, use the DescribeAsset or DescribeAssetModel operations. This parameter is required if you choose CHILD for traversalDirection. For more information, see Asset hierarchies in the IoT SiteWise User Guide.
+        /// (Optional) If you don't provide a hierarchyId, all the immediate assets in the traversalDirection will be returned.   The ID of the hierarchy by which child assets are associated to the asset. (This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.) For more information, see Asset hierarchies in the IoT SiteWise User Guide.
         public let hierarchyId: String?
         /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
-        /// The direction to list associated assets. Choose one of the following options:    CHILD – The list includes all child assets associated to the asset. The hierarchyId parameter is required if you choose CHILD.    PARENT – The list includes the asset's parent asset.   Default: CHILD
+        /// The direction to list associated assets. Choose one of the following options:    CHILD – The list includes all child assets associated to the asset.    PARENT – The list includes the asset's parent asset.   Default: CHILD
         public let traversalDirection: TraversalDirection?
 
         public init(assetId: String, hierarchyId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, traversalDirection: TraversalDirection? = nil) {
@@ -7211,6 +7322,25 @@ extension IoTSiteWise {
         }
     }
 
+    public struct SiemensIE: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the IoT Thing for your SiteWise Edge gateway.
+        public let iotCoreThingName: String
+
+        public init(iotCoreThingName: String) {
+            self.iotCoreThingName = iotCoreThingName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.iotCoreThingName, name: "iotCoreThingName", parent: name, max: 128)
+            try self.validate(self.iotCoreThingName, name: "iotCoreThingName", parent: name, min: 1)
+            try self.validate(self.iotCoreThingName, name: "iotCoreThingName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iotCoreThingName = "iotCoreThingName"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// The ARN of the resource to tag.
         public let resourceArn: String
@@ -7498,20 +7628,26 @@ extension IoTSiteWise {
     public struct UpdateAssetModelCompositeModelRequest: AWSEncodableShape {
         /// A description for the composite model.
         public let assetModelCompositeModelDescription: String?
-        /// An external ID to assign to the asset model. You can only set the external ID of the asset model if it wasn't set when it was created, or you're setting it to  the exact same thing as when it was created.
+        /// An external ID to assign to the asset model. You can only set the external ID of the asset model if it wasn't set when it was created, or you're setting it to the exact same thing as when it was created.
         public let assetModelCompositeModelExternalId: String?
         /// The ID of a composite model on this asset model.
         public let assetModelCompositeModelId: String
-        /// A unique, friendly name for the composite model.
+        /// A unique name for the composite model.
         public let assetModelCompositeModelName: String
-        /// The property definitions of the composite model. For more information, see . You can specify up to 200 properties per composite model. For more information, see Quotas in the IoT SiteWise User Guide.
+        /// The property definitions of the composite model. For more information, see  Inline custom composite models in the IoT SiteWise User Guide. You can specify up to 200 properties per composite model. For more information, see Quotas in the IoT SiteWise User Guide.
         public let assetModelCompositeModelProperties: [AssetModelProperty]?
         /// The ID of the asset model, in UUID format.
         public let assetModelId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
+        /// The expected current entity tag (ETag) for the asset model’s latest or active version (specified using matchForVersionType).    The update request is rejected if the tag does not match the latest or active version's current entity tag. See Optimistic locking for asset model writes in the IoT SiteWise User Guide.
+        public let ifMatch: String?
+        /// Accepts * to reject the update request if an active version  (specified using matchForVersionType as ACTIVE) already exists for the asset model.
+        public let ifNoneMatch: String?
+        /// Specifies the asset model version type (LATEST or ACTIVE) used in  conjunction with If-Match or If-None-Match headers to determine the target ETag for the update operation.
+        public let matchForVersionType: AssetModelVersionType?
 
-        public init(assetModelCompositeModelDescription: String? = nil, assetModelCompositeModelExternalId: String? = nil, assetModelCompositeModelId: String, assetModelCompositeModelName: String, assetModelCompositeModelProperties: [AssetModelProperty]? = nil, assetModelId: String, clientToken: String? = UpdateAssetModelCompositeModelRequest.idempotencyToken()) {
+        public init(assetModelCompositeModelDescription: String? = nil, assetModelCompositeModelExternalId: String? = nil, assetModelCompositeModelId: String, assetModelCompositeModelName: String, assetModelCompositeModelProperties: [AssetModelProperty]? = nil, assetModelId: String, clientToken: String? = UpdateAssetModelCompositeModelRequest.idempotencyToken(), ifMatch: String? = nil, ifNoneMatch: String? = nil, matchForVersionType: AssetModelVersionType? = nil) {
             self.assetModelCompositeModelDescription = assetModelCompositeModelDescription
             self.assetModelCompositeModelExternalId = assetModelCompositeModelExternalId
             self.assetModelCompositeModelId = assetModelCompositeModelId
@@ -7519,6 +7655,9 @@ extension IoTSiteWise {
             self.assetModelCompositeModelProperties = assetModelCompositeModelProperties
             self.assetModelId = assetModelId
             self.clientToken = clientToken
+            self.ifMatch = ifMatch
+            self.ifNoneMatch = ifNoneMatch
+            self.matchForVersionType = matchForVersionType
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -7531,6 +7670,9 @@ extension IoTSiteWise {
             try container.encodeIfPresent(self.assetModelCompositeModelProperties, forKey: .assetModelCompositeModelProperties)
             request.encodePath(self.assetModelId, key: "assetModelId")
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            request.encodeHeader(self.ifNoneMatch, key: "If-None-Match")
+            request.encodeHeader(self.matchForVersionType, key: "Match-For-Version-Type")
         }
 
         public func validate(name: String) throws {
@@ -7555,6 +7697,8 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.ifMatch, name: "ifMatch", parent: name, pattern: "^[\\w-]{43}$")
+            try self.validate(self.ifNoneMatch, name: "ifNoneMatch", parent: name, pattern: "^\\*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7583,7 +7727,7 @@ extension IoTSiteWise {
     }
 
     public struct UpdateAssetModelRequest: AWSEncodableShape {
-        /// The composite models that are part of this asset model. It groups properties (such as attributes, measurements, transforms, and metrics) and child composite models that model parts of your industrial equipment. Each composite model has a type that defines the properties that the composite model supports. Use composite models to define alarms on this asset model.  When creating custom composite models, you need to use CreateAssetModelCompositeModel. For more information, see .
+        /// The composite models that are part of this asset model. It groups properties (such as attributes, measurements, transforms, and metrics) and child composite models that model parts of your industrial equipment. Each composite model has a type that defines the properties that the composite model supports. Use composite models to define alarms on this asset model.  When creating custom composite models, you need to use CreateAssetModelCompositeModel. For more information, see Creating custom composite models (Components) in the IoT SiteWise User Guide.
         public let assetModelCompositeModels: [AssetModelCompositeModel]?
         /// A description for the asset model.
         public let assetModelDescription: String?
@@ -7593,14 +7737,20 @@ extension IoTSiteWise {
         public let assetModelHierarchies: [AssetModelHierarchy]?
         /// The ID of the asset model to update. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let assetModelId: String
-        /// A unique, friendly name for the asset model.
+        /// A unique name for the asset model.
         public let assetModelName: String
         /// The updated property definitions of the asset model. For more information, see Asset properties in the IoT SiteWise User Guide. You can specify up to 200 properties per asset model. For more information, see Quotas in the IoT SiteWise User Guide.
         public let assetModelProperties: [AssetModelProperty]?
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
+        /// The expected current entity tag (ETag) for the asset model’s latest or active version (specified using matchForVersionType).    The update request is rejected if the tag does not match the latest or active version's current entity tag. See Optimistic locking for asset model writes in the IoT SiteWise User Guide.
+        public let ifMatch: String?
+        /// Accepts * to reject the update request if an active version  (specified using matchForVersionType as ACTIVE) already exists for the asset model.
+        public let ifNoneMatch: String?
+        /// Specifies the asset model version type (LATEST or ACTIVE) used in  conjunction with If-Match or If-None-Match headers to determine the target ETag for the update operation.
+        public let matchForVersionType: AssetModelVersionType?
 
-        public init(assetModelCompositeModels: [AssetModelCompositeModel]? = nil, assetModelDescription: String? = nil, assetModelExternalId: String? = nil, assetModelHierarchies: [AssetModelHierarchy]? = nil, assetModelId: String, assetModelName: String, assetModelProperties: [AssetModelProperty]? = nil, clientToken: String? = UpdateAssetModelRequest.idempotencyToken()) {
+        public init(assetModelCompositeModels: [AssetModelCompositeModel]? = nil, assetModelDescription: String? = nil, assetModelExternalId: String? = nil, assetModelHierarchies: [AssetModelHierarchy]? = nil, assetModelId: String, assetModelName: String, assetModelProperties: [AssetModelProperty]? = nil, clientToken: String? = UpdateAssetModelRequest.idempotencyToken(), ifMatch: String? = nil, ifNoneMatch: String? = nil, matchForVersionType: AssetModelVersionType? = nil) {
             self.assetModelCompositeModels = assetModelCompositeModels
             self.assetModelDescription = assetModelDescription
             self.assetModelExternalId = assetModelExternalId
@@ -7609,6 +7759,9 @@ extension IoTSiteWise {
             self.assetModelName = assetModelName
             self.assetModelProperties = assetModelProperties
             self.clientToken = clientToken
+            self.ifMatch = ifMatch
+            self.ifNoneMatch = ifNoneMatch
+            self.matchForVersionType = matchForVersionType
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -7622,6 +7775,9 @@ extension IoTSiteWise {
             try container.encode(self.assetModelName, forKey: .assetModelName)
             try container.encodeIfPresent(self.assetModelProperties, forKey: .assetModelProperties)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            request.encodeHeader(self.ifNoneMatch, key: "If-None-Match")
+            request.encodeHeader(self.matchForVersionType, key: "Match-For-Version-Type")
         }
 
         public func validate(name: String) throws {
@@ -7649,6 +7805,8 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.ifMatch, name: "ifMatch", parent: name, pattern: "^[\\w-]{43}$")
+            try self.validate(self.ifNoneMatch, name: "ifNoneMatch", parent: name, pattern: "^\\*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7885,7 +8043,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, max: 104857600)
+            try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, max: 10000000)
             try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, min: 1)
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, max: 512)
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, min: 1)
@@ -7921,7 +8079,7 @@ extension IoTSiteWise {
     public struct UpdateGatewayRequest: AWSEncodableShape {
         /// The ID of the gateway to update.
         public let gatewayId: String
-        /// A unique, friendly name for the gateway.
+        /// A unique name for the gateway.
         public let gatewayName: String
 
         public init(gatewayId: String, gatewayName: String) {
@@ -8118,7 +8276,7 @@ extension IoTSiteWise {
     }
 
     public struct VariableValue: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the hierarchy to query for the property ID. You can use the hierarchy's name instead of the hierarchy's ID.  If the hierarchy has an external ID, you can specify externalId: followed by the external ID. For more information, see Using external IDs in the IoT SiteWise User Guide. You use a hierarchy ID instead of a model ID because you can have several hierarchies using the same model and therefore the same propertyId. For example, you might have separately grouped assets that come from the same asset model. For more information, see Asset hierarchies in the IoT SiteWise User Guide.
+        /// The ID of the hierarchy to query for the property ID. You can use the hierarchy's name instead of the hierarchy's ID. If the hierarchy has an external ID, you can specify externalId: followed by the external ID. For more information, see Using external IDs in the IoT SiteWise User Guide. You use a hierarchy ID instead of a model ID because you can have several hierarchies using the same model and therefore the same propertyId. For example, you might have separately grouped assets that come from the same asset model. For more information, see Asset hierarchies in the IoT SiteWise User Guide.
         public let hierarchyId: String?
         /// The ID of the property to use as the variable. You can use the property name if it's from the same asset model. If the property has an external ID, you can specify externalId: followed by the external ID. For more information, see Using external IDs in the IoT SiteWise User Guide.
         public let propertyId: String?
@@ -8155,7 +8313,7 @@ extension IoTSiteWise {
         public let booleanValue: Bool?
         /// Asset property data of type double (floating point number).
         public let doubleValue: Double?
-        /// Asset property data of type integer (number that's greater than or equal to zero).
+        /// Asset property data of type integer (whole number).
         public let integerValue: Int?
         /// Asset property data of type string (sequence of characters).
         public let stringValue: String?
@@ -8207,6 +8365,7 @@ public struct IoTSiteWiseErrorType: AWSErrorType {
         case internalFailureException = "InternalFailureException"
         case invalidRequestException = "InvalidRequestException"
         case limitExceededException = "LimitExceededException"
+        case preconditionFailedException = "PreconditionFailedException"
         case queryTimeoutException = "QueryTimeoutException"
         case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
         case resourceNotFoundException = "ResourceNotFoundException"
@@ -8245,6 +8404,8 @@ public struct IoTSiteWiseErrorType: AWSErrorType {
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// You've reached the limit for a resource. For example, this can occur if you're trying to associate more than the allowed number of child assets or attempting to create more than the allowed number of properties for an asset model. For more information, see Quotas in the IoT SiteWise User Guide.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The precondition in one or more of the request-header fields evaluated to FALSE.
+    public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
     /// The query timed out.
     public static var queryTimeoutException: Self { .init(.queryTimeoutException) }
     /// The resource already exists.

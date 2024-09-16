@@ -1466,13 +1466,13 @@ extension Personalize {
         public let name: String
         ///  We don't recommend enabling automated machine learning. Instead, match your use case to the available Amazon Personalize  recipes. For more information, see Choosing a recipe.  Whether to perform automated machine learning (AutoML). The default is false. For this case, you must specify recipeArn. When set to true, Amazon Personalize analyzes your training data and selects the optimal USER_PERSONALIZATION recipe and hyperparameters. In this case, you must omit recipeArn. Amazon Personalize determines the optimal recipe by running tests with different values for the hyperparameters. AutoML lengthens the training process as compared to selecting a specific recipe.
         public let performAutoML: Bool?
-        /// Whether the solution uses automatic training to create new solution versions (trained models). The default is True and the solution automatically creates new solution versions every 7 days. You can change the training frequency by specifying a schedulingExpression in the AutoTrainingConfig as part of solution configuration. For more information about automatic training, see Configuring automatic training.  Automatic solution version creation starts one hour after the solution is ACTIVE. If you manually create a solution version within the hour, the solution skips the first automatic training.   After training starts, you can get the solution version's Amazon Resource Name (ARN) with the ListSolutionVersions API operation.  To get its status, use the DescribeSolutionVersion.
+        /// Whether the solution uses automatic training to create new solution versions (trained models). The default is True and the solution automatically creates new solution versions every 7 days. You can change the training frequency by specifying a schedulingExpression in the AutoTrainingConfig as part of solution configuration. For more information about automatic training, see Configuring automatic training.  Automatic solution version creation starts within one hour after the solution is ACTIVE. If you manually create a solution version within the hour, the solution skips the first automatic training.   After training starts, you can get the solution version's Amazon Resource Name (ARN) with the ListSolutionVersions API operation.  To get its status, use the DescribeSolutionVersion.
         public let performAutoTraining: Bool?
         /// Whether to perform hyperparameter optimization (HPO) on the specified or selected recipe. The default is false. When performing AutoML, this parameter is always true and you should not set it to false.
         public let performHPO: Bool?
         /// The Amazon Resource Name (ARN) of the recipe to use for model training. This is required when performAutoML is false. For information about different Amazon Personalize recipes and their ARNs,  see Choosing a recipe.
         public let recipeArn: String?
-        /// The configuration to use with the solution. When performAutoML is set to true, Amazon Personalize only evaluates the autoMLConfig section of the solution configuration.  Amazon Personalize doesn't support configuring the hpoObjective  at this time.
+        /// The configuration properties for the solution. When performAutoML is set to true, Amazon Personalize only evaluates the autoMLConfig section of the solution configuration.  Amazon Personalize doesn't support configuring the hpoObjective  at this time.
         public let solutionConfig: SolutionConfig?
         /// A list of tags to apply to the solution.
         public let tags: [Tag]?
@@ -4492,7 +4492,7 @@ extension Personalize {
         public let lastUpdatedDateTime: Date?
         /// The configuration details of the recommender update.
         public let recommenderConfig: RecommenderConfig?
-        /// The status of the recommender update. A recommender can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   STOP PENDING > STOP IN_PROGRESS > INACTIVE > START PENDING > START IN_PROGRESS > ACTIVE   DELETE PENDING > DELETE IN_PROGRESS
+        /// The status of the recommender update. A recommender update can be in one of the following states: CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
         public let status: String?
 
         public init(creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, recommenderConfig: RecommenderConfig? = nil, status: String? = nil) {
@@ -4547,6 +4547,8 @@ extension Personalize {
         public let eventType: String?
         /// The date and time (in Unix time) that the solution was last updated.
         public let lastUpdatedDateTime: Date?
+        /// Provides a summary of the latest updates to the solution.
+        public let latestSolutionUpdate: SolutionUpdateSummary?
         /// Describes the latest version of the solution, including the status and the ARN.
         public let latestSolutionVersion: SolutionVersionSummary?
         /// The name of the solution.
@@ -4566,12 +4568,13 @@ extension Personalize {
         /// The status of the solution. A solution can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
 
-        public init(autoMLResult: AutoMLResult? = nil, creationDateTime: Date? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, lastUpdatedDateTime: Date? = nil, latestSolutionVersion: SolutionVersionSummary? = nil, name: String? = nil, performAutoML: Bool? = nil, performAutoTraining: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, status: String? = nil) {
+        public init(autoMLResult: AutoMLResult? = nil, creationDateTime: Date? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, lastUpdatedDateTime: Date? = nil, latestSolutionUpdate: SolutionUpdateSummary? = nil, latestSolutionVersion: SolutionVersionSummary? = nil, name: String? = nil, performAutoML: Bool? = nil, performAutoTraining: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, status: String? = nil) {
             self.autoMLResult = autoMLResult
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
             self.eventType = eventType
             self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.latestSolutionUpdate = latestSolutionUpdate
             self.latestSolutionVersion = latestSolutionVersion
             self.name = name
             self.performAutoML = performAutoML
@@ -4589,6 +4592,7 @@ extension Personalize {
             case datasetGroupArn = "datasetGroupArn"
             case eventType = "eventType"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case latestSolutionUpdate = "latestSolutionUpdate"
             case latestSolutionVersion = "latestSolutionVersion"
             case name = "name"
             case performAutoML = "performAutoML"
@@ -4690,6 +4694,55 @@ extension Personalize {
             case name = "name"
             case recipeArn = "recipeArn"
             case solutionArn = "solutionArn"
+            case status = "status"
+        }
+    }
+
+    public struct SolutionUpdateConfig: AWSEncodableShape & AWSDecodableShape {
+        public let autoTrainingConfig: AutoTrainingConfig?
+
+        public init(autoTrainingConfig: AutoTrainingConfig? = nil) {
+            self.autoTrainingConfig = autoTrainingConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.autoTrainingConfig?.validate(name: "\(name).autoTrainingConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoTrainingConfig = "autoTrainingConfig"
+        }
+    }
+
+    public struct SolutionUpdateSummary: AWSDecodableShape {
+        /// The date and time (in Unix format) that the solution update was created.
+        public let creationDateTime: Date?
+        /// If a solution update fails, the reason behind the failure.
+        public let failureReason: String?
+        /// The date and time (in Unix time) that the solution update was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// Whether the solution automatically creates solution versions.
+        public let performAutoTraining: Bool?
+        /// The configuration details of the solution.
+        public let solutionUpdateConfig: SolutionUpdateConfig?
+        /// The status of the solution update. A solution update can be in one of the following states: CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+        public let status: String?
+
+        public init(creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, performAutoTraining: Bool? = nil, solutionUpdateConfig: SolutionUpdateConfig? = nil, status: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.failureReason = failureReason
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.performAutoTraining = performAutoTraining
+            self.solutionUpdateConfig = solutionUpdateConfig
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case performAutoTraining = "performAutoTraining"
+            case solutionUpdateConfig = "solutionUpdateConfig"
             case status = "status"
         }
     }
@@ -5195,6 +5248,46 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case recommenderArn = "recommenderArn"
+        }
+    }
+
+    public struct UpdateSolutionRequest: AWSEncodableShape {
+        /// Whether the solution uses automatic training to create new solution versions (trained models). You can change the training frequency by specifying a schedulingExpression in the AutoTrainingConfig as part of solution configuration.   If you turn on automatic training, the first automatic training starts within one hour after the solution update completes. If you manually create a solution version within the hour, the solution skips the first automatic training.  For more information about automatic training, see Configuring automatic training.   After training starts, you can get the solution version's Amazon Resource Name (ARN) with the ListSolutionVersions API operation.  To get its status, use the DescribeSolutionVersion.
+        public let performAutoTraining: Bool?
+        /// The Amazon Resource Name (ARN) of the solution to update.
+        public let solutionArn: String
+        /// The new configuration details of the solution.
+        public let solutionUpdateConfig: SolutionUpdateConfig?
+
+        public init(performAutoTraining: Bool? = nil, solutionArn: String, solutionUpdateConfig: SolutionUpdateConfig? = nil) {
+            self.performAutoTraining = performAutoTraining
+            self.solutionArn = solutionArn
+            self.solutionUpdateConfig = solutionUpdateConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.solutionArn, name: "solutionArn", parent: name, max: 256)
+            try self.validate(self.solutionArn, name: "solutionArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
+            try self.solutionUpdateConfig?.validate(name: "\(name).solutionUpdateConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case performAutoTraining = "performAutoTraining"
+            case solutionArn = "solutionArn"
+            case solutionUpdateConfig = "solutionUpdateConfig"
+        }
+    }
+
+    public struct UpdateSolutionResponse: AWSDecodableShape {
+        /// The same solution Amazon Resource Name (ARN) as given in the request.
+        public let solutionArn: String?
+
+        public init(solutionArn: String? = nil) {
+            self.solutionArn = solutionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case solutionArn = "solutionArn"
         }
     }
 }

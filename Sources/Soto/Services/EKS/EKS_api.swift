@@ -85,6 +85,7 @@ public struct EKS: AWSService {
             "ap-southeast-2": "fips.eks.ap-southeast-2.amazonaws.com",
             "ap-southeast-3": "fips.eks.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "fips.eks.ap-southeast-4.amazonaws.com",
+            "ap-southeast-5": "fips.eks.ap-southeast-5.amazonaws.com",
             "ca-central-1": "fips.eks.ca-central-1.amazonaws.com",
             "ca-west-1": "fips.eks.ca-west-1.amazonaws.com",
             "eu-central-1": "fips.eks.eu-central-1.amazonaws.com",

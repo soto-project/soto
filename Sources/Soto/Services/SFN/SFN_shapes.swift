@@ -26,6 +26,12 @@ import Foundation
 extension SFN {
     // MARK: Enums
 
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsOwnedKey = "AWS_OWNED_KEY"
+        case customerManagedKmsKey = "CUSTOMER_MANAGED_KMS_KEY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExecutionRedriveFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case notRedriven = "NOT_REDRIVEN"
         case redriven = "REDRIVEN"
@@ -114,6 +120,12 @@ extension SFN {
         public var description: String { return self.rawValue }
     }
 
+    public enum IncludedData: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allData = "ALL_DATA"
+        case metadataOnly = "METADATA_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InspectionLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case debug = "DEBUG"
         case info = "INFO"
@@ -172,6 +184,7 @@ extension SFN {
 
     public enum ValidateStateMachineDefinitionSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
+        case warning = "WARNING"
         public var description: String { return self.rawValue }
     }
 
@@ -357,17 +370,21 @@ extension SFN {
     }
 
     public struct CreateActivityInput: AWSEncodableShape {
+        /// Settings to configure server-side encryption.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The name of the activity to create. This name must be unique for your Amazon Web Services account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the Step Functions Developer Guide. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
         /// The list of tags to add to a resource. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [Tag]?
 
-        public init(name: String, tags: [Tag]? = nil) {
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, name: String, tags: [Tag]? = nil) {
+            self.encryptionConfiguration = encryptionConfiguration
             self.name = name
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.tags?.forEach {
@@ -376,6 +393,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "encryptionConfiguration"
             case name = "name"
             case tags = "tags"
         }
@@ -451,6 +469,8 @@ extension SFN {
     public struct CreateStateMachineInput: AWSEncodableShape {
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
+        /// Settings to configure server-side encryption.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// Defines what execution history events are logged and where they are logged.  By default, the level is set to OFF. For more information see Log Levels in the Step Functions User Guide.
         public let loggingConfiguration: LoggingConfiguration?
         /// The name of the state machine.  A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
@@ -468,8 +488,9 @@ extension SFN {
         /// Sets description about the state machine version. You can only set the description if the publish parameter is set to true. Otherwise, if you set versionDescription, but publish to false, this API action throws ValidationException.
         public let versionDescription: String?
 
-        public init(definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, publish: Bool? = nil, roleArn: String, tags: [Tag]? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType? = nil, versionDescription: String? = nil) {
+        public init(definition: String, encryptionConfiguration: EncryptionConfiguration? = nil, loggingConfiguration: LoggingConfiguration? = nil, name: String, publish: Bool? = nil, roleArn: String, tags: [Tag]? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType? = nil, versionDescription: String? = nil) {
             self.definition = definition
+            self.encryptionConfiguration = encryptionConfiguration
             self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.publish = publish
@@ -483,6 +504,7 @@ extension SFN {
         public func validate(name: String) throws {
             try self.validate(self.definition, name: "definition", parent: name, max: 1048576)
             try self.validate(self.definition, name: "definition", parent: name, min: 1)
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -496,6 +518,7 @@ extension SFN {
 
         private enum CodingKeys: String, CodingKey {
             case definition = "definition"
+            case encryptionConfiguration = "encryptionConfiguration"
             case loggingConfiguration = "loggingConfiguration"
             case name = "name"
             case publish = "publish"
@@ -639,18 +662,22 @@ extension SFN {
         public let activityArn: String
         /// The date the activity is created.
         public let creationDate: Date
+        /// Settings for configured server-side encryption.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The name of the activity. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
 
-        public init(activityArn: String, creationDate: Date, name: String) {
+        public init(activityArn: String, creationDate: Date, encryptionConfiguration: EncryptionConfiguration? = nil, name: String) {
             self.activityArn = activityArn
             self.creationDate = creationDate
+            self.encryptionConfiguration = encryptionConfiguration
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
             case activityArn = "activityArn"
             case creationDate = "creationDate"
+            case encryptionConfiguration = "encryptionConfiguration"
             case name = "name"
         }
     }
@@ -658,9 +685,12 @@ extension SFN {
     public struct DescribeExecutionInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the execution to describe.
         public let executionArn: String
+        /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call DescribeStateMachine API with includedData = METADATA_ONLY to get a successful response without the encrypted definition.
+        public let includedData: IncludedData?
 
-        public init(executionArn: String) {
+        public init(executionArn: String, includedData: IncludedData? = nil) {
             self.executionArn = executionArn
+            self.includedData = includedData
         }
 
         public func validate(name: String) throws {
@@ -670,6 +700,7 @@ extension SFN {
 
         private enum CodingKeys: String, CodingKey {
             case executionArn = "executionArn"
+            case includedData = "includedData"
         }
     }
 
@@ -889,9 +920,12 @@ extension SFN {
     public struct DescribeStateMachineForExecutionInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the execution you want state machine information for.
         public let executionArn: String
+        /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the API with includedData = METADATA_ONLY to get a successful response without the encrypted definition.
+        public let includedData: IncludedData?
 
-        public init(executionArn: String) {
+        public init(executionArn: String, includedData: IncludedData? = nil) {
             self.executionArn = executionArn
+            self.includedData = includedData
         }
 
         public func validate(name: String) throws {
@@ -901,12 +935,15 @@ extension SFN {
 
         private enum CodingKeys: String, CodingKey {
             case executionArn = "executionArn"
+            case includedData = "includedData"
         }
     }
 
     public struct DescribeStateMachineForExecutionOutput: AWSDecodableShape {
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
+        /// Settings to configure server-side encryption.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// A user-defined or an auto-generated string that identifies a Map state. This ﬁeld is returned only if the executionArn is a child workflow execution that was started by a Distributed Map state.
         public let label: String?
         public let loggingConfiguration: LoggingConfiguration?
@@ -925,8 +962,9 @@ extension SFN {
         /// The date and time the state machine associated with an execution was updated. For a newly created state machine, this is the creation date.
         public let updateDate: Date
 
-        public init(definition: String, label: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, mapRunArn: String? = nil, name: String, revisionId: String? = nil, roleArn: String, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil, updateDate: Date) {
+        public init(definition: String, encryptionConfiguration: EncryptionConfiguration? = nil, label: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, mapRunArn: String? = nil, name: String, revisionId: String? = nil, roleArn: String, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil, updateDate: Date) {
             self.definition = definition
+            self.encryptionConfiguration = encryptionConfiguration
             self.label = label
             self.loggingConfiguration = loggingConfiguration
             self.mapRunArn = mapRunArn
@@ -940,6 +978,7 @@ extension SFN {
 
         private enum CodingKeys: String, CodingKey {
             case definition = "definition"
+            case encryptionConfiguration = "encryptionConfiguration"
             case label = "label"
             case loggingConfiguration = "loggingConfiguration"
             case mapRunArn = "mapRunArn"
@@ -953,10 +992,13 @@ extension SFN {
     }
 
     public struct DescribeStateMachineInput: AWSEncodableShape {
+        /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the API with includedData = METADATA_ONLY to get a successful response without the encrypted definition.   When calling a labelled ARN for an encrypted state machine, the includedData = METADATA_ONLY parameter will not apply because Step Functions needs to decrypt the entire state machine definition to get the Distributed Map state’s definition. In this case, the API caller needs to have kms:Decrypt permission.
+        public let includedData: IncludedData?
         /// The Amazon Resource Name (ARN) of the state machine for which you want the information. If you specify a state machine version ARN, this API returns details about that version. The version ARN is a combination of state machine ARN and the version number separated by a colon (:). For example, stateMachineARN:1.
         public let stateMachineArn: String
 
-        public init(stateMachineArn: String) {
+        public init(includedData: IncludedData? = nil, stateMachineArn: String) {
+            self.includedData = includedData
             self.stateMachineArn = stateMachineArn
         }
 
@@ -966,6 +1008,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case includedData = "includedData"
             case stateMachineArn = "stateMachineArn"
         }
     }
@@ -973,10 +1016,12 @@ extension SFN {
     public struct DescribeStateMachineOutput: AWSDecodableShape {
         /// The date the state machine is created. For a state machine version, creationDate is the date the version was created.
         public let creationDate: Date
-        /// The Amazon States Language definition of the state machine. See Amazon States Language.
+        /// The Amazon States Language definition of the state machine. See Amazon States Language. If called with includedData = METADATA_ONLY, the returned definition will be {}.
         public let definition: String
         /// The description of the state machine version.
         public let description: String?
+        /// Settings to configure server-side encryption.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// A user-defined or an auto-generated string that identifies a Map state. This parameter is present only if the stateMachineArn specified in input is a qualified state machine ARN.
         public let label: String?
         public let loggingConfiguration: LoggingConfiguration?
@@ -995,10 +1040,11 @@ extension SFN {
         /// The type of the state machine (STANDARD or EXPRESS).
         public let type: StateMachineType
 
-        public init(creationDate: Date, definition: String, description: String? = nil, label: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, name: String, revisionId: String? = nil, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType) {
+        public init(creationDate: Date, definition: String, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, label: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, name: String, revisionId: String? = nil, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType) {
             self.creationDate = creationDate
             self.definition = definition
             self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
             self.label = label
             self.loggingConfiguration = loggingConfiguration
             self.name = name
@@ -1014,6 +1060,7 @@ extension SFN {
             case creationDate = "creationDate"
             case definition = "definition"
             case description = "description"
+            case encryptionConfiguration = "encryptionConfiguration"
             case label = "label"
             case loggingConfiguration = "loggingConfiguration"
             case name = "name"
@@ -1022,6 +1069,34 @@ extension SFN {
             case stateMachineArn = "stateMachineArn"
             case status = "status"
             case tracingConfiguration = "tracingConfiguration"
+            case type = "type"
+        }
+    }
+
+    public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Maximum duration that Step Functions will reuse data keys. When the period expires, Step Functions will call GenerateDataKey. Only applies to customer managed keys.
+        public let kmsDataKeyReusePeriodSeconds: Int?
+        /// An alias, alias ARN, key ID, or key ARN of a symmetric encryption KMS key to encrypt data. To specify a KMS key in a different Amazon Web Services  account, you must use the key ARN or alias ARN.
+        public let kmsKeyId: String?
+        /// Encryption type
+        public let type: EncryptionType
+
+        public init(kmsDataKeyReusePeriodSeconds: Int? = nil, kmsKeyId: String? = nil, type: EncryptionType) {
+            self.kmsDataKeyReusePeriodSeconds = kmsDataKeyReusePeriodSeconds
+            self.kmsKeyId = kmsKeyId
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsDataKeyReusePeriodSeconds, name: "kmsDataKeyReusePeriodSeconds", parent: name, max: 900)
+            try self.validate(self.kmsDataKeyReusePeriodSeconds, name: "kmsDataKeyReusePeriodSeconds", parent: name, min: 60)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsDataKeyReusePeriodSeconds = "kmsDataKeyReusePeriodSeconds"
+            case kmsKeyId = "kmsKeyId"
             case type = "type"
         }
     }
@@ -2353,7 +2428,7 @@ extension SFN {
         public func validate(name: String) throws {
             try self.validate(self.cause, name: "cause", parent: name, max: 32768)
             try self.validate(self.error, name: "error", parent: name, max: 256)
-            try self.validate(self.taskToken, name: "taskToken", parent: name, max: 1024)
+            try self.validate(self.taskToken, name: "taskToken", parent: name, max: 2048)
             try self.validate(self.taskToken, name: "taskToken", parent: name, min: 1)
         }
 
@@ -2377,7 +2452,7 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.taskToken, name: "taskToken", parent: name, max: 1024)
+            try self.validate(self.taskToken, name: "taskToken", parent: name, max: 2048)
             try self.validate(self.taskToken, name: "taskToken", parent: name, min: 1)
         }
 
@@ -2403,7 +2478,7 @@ extension SFN {
 
         public func validate(name: String) throws {
             try self.validate(self.output, name: "output", parent: name, max: 262144)
-            try self.validate(self.taskToken, name: "taskToken", parent: name, max: 1024)
+            try self.validate(self.taskToken, name: "taskToken", parent: name, max: 2048)
             try self.validate(self.taskToken, name: "taskToken", parent: name, min: 1)
         }
 
@@ -2470,6 +2545,8 @@ extension SFN {
     }
 
     public struct StartSyncExecutionInput: AWSEncodableShape {
+        /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the API with includedData = METADATA_ONLY to get a successful response without the encrypted definition.
+        public let includedData: IncludedData?
         /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"   Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
         /// The name of the execution.
@@ -2479,7 +2556,8 @@ extension SFN {
         /// Passes the X-Ray trace header. The trace header can also be passed in the request payload.
         public let traceHeader: String?
 
-        public init(input: String? = nil, name: String? = nil, stateMachineArn: String, traceHeader: String? = nil) {
+        public init(includedData: IncludedData? = nil, input: String? = nil, name: String? = nil, stateMachineArn: String, traceHeader: String? = nil) {
+            self.includedData = includedData
             self.input = input
             self.name = name
             self.stateMachineArn = stateMachineArn
@@ -2497,6 +2575,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case includedData = "includedData"
             case input = "input"
             case name = "name"
             case stateMachineArn = "stateMachineArn"
@@ -3176,6 +3255,8 @@ extension SFN {
     public struct UpdateStateMachineInput: AWSEncodableShape {
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String?
+        /// Settings to configure server-side encryption.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// Use the LoggingConfiguration data type to set CloudWatch Logs options.
         public let loggingConfiguration: LoggingConfiguration?
         /// Specifies whether the state machine version is published. The default is false. To publish a version after updating the state machine, set publish to true.
@@ -3189,8 +3270,9 @@ extension SFN {
         /// An optional description of the state machine version to publish. You can only specify the versionDescription parameter if you've set publish to true.
         public let versionDescription: String?
 
-        public init(definition: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, publish: Bool? = nil, roleArn: String? = nil, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil, versionDescription: String? = nil) {
+        public init(definition: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, loggingConfiguration: LoggingConfiguration? = nil, publish: Bool? = nil, roleArn: String? = nil, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil, versionDescription: String? = nil) {
             self.definition = definition
+            self.encryptionConfiguration = encryptionConfiguration
             self.loggingConfiguration = loggingConfiguration
             self.publish = publish
             self.roleArn = roleArn
@@ -3202,6 +3284,7 @@ extension SFN {
         public func validate(name: String) throws {
             try self.validate(self.definition, name: "definition", parent: name, max: 1048576)
             try self.validate(self.definition, name: "definition", parent: name, min: 1)
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
@@ -3212,6 +3295,7 @@ extension SFN {
 
         private enum CodingKeys: String, CodingKey {
             case definition = "definition"
+            case encryptionConfiguration = "encryptionConfiguration"
             case loggingConfiguration = "loggingConfiguration"
             case publish = "publish"
             case roleArn = "roleArn"
@@ -3270,21 +3354,31 @@ extension SFN {
     public struct ValidateStateMachineDefinitionInput: AWSEncodableShape {
         /// The Amazon States Language definition of the state machine. For more information, see Amazon States Language (ASL).
         public let definition: String
+        /// The maximum number of diagnostics that are returned per call. The default and maximum value is 100. Setting the value to 0 will also use the default of 100. If the number of diagnostics returned in the response exceeds maxResults, the value of the truncated field in the response will be set to true.
+        public let maxResults: Int?
+        /// Minimum level of diagnostics to return. ERROR returns only ERROR diagnostics, whereas WARNING returns both WARNING and ERROR diagnostics. The default is ERROR.
+        public let severity: ValidateStateMachineDefinitionSeverity?
         /// The target type of state machine for this definition. The default is STANDARD.
         public let type: StateMachineType?
 
-        public init(definition: String, type: StateMachineType? = nil) {
+        public init(definition: String, maxResults: Int? = nil, severity: ValidateStateMachineDefinitionSeverity? = nil, type: StateMachineType? = nil) {
             self.definition = definition
+            self.maxResults = maxResults
+            self.severity = severity
             self.type = type
         }
 
         public func validate(name: String) throws {
             try self.validate(self.definition, name: "definition", parent: name, max: 1048576)
             try self.validate(self.definition, name: "definition", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case definition = "definition"
+            case maxResults = "maxResults"
+            case severity = "severity"
             case type = "type"
         }
     }
@@ -3294,15 +3388,19 @@ extension SFN {
         public let diagnostics: [ValidateStateMachineDefinitionDiagnostic]
         /// The result value will be OK when no syntax errors are found, or FAIL if the workflow definition does not pass verification.
         public let result: ValidateStateMachineDefinitionResultCode
+        /// The result value will be true if the number of diagnostics found in the workflow definition exceeds maxResults. When all diagnostics results are returned, the value will be false.
+        public let truncated: Bool?
 
-        public init(diagnostics: [ValidateStateMachineDefinitionDiagnostic], result: ValidateStateMachineDefinitionResultCode) {
+        public init(diagnostics: [ValidateStateMachineDefinitionDiagnostic], result: ValidateStateMachineDefinitionResultCode, truncated: Bool? = nil) {
             self.diagnostics = diagnostics
             self.result = result
+            self.truncated = truncated
         }
 
         private enum CodingKeys: String, CodingKey {
             case diagnostics = "diagnostics"
             case result = "result"
+            case truncated = "truncated"
         }
     }
 }
@@ -3312,6 +3410,7 @@ extension SFN {
 /// Error enum for SFN
 public struct SFNErrorType: AWSErrorType {
     enum Code: String {
+        case activityAlreadyExists = "ActivityAlreadyExists"
         case activityDoesNotExist = "ActivityDoesNotExist"
         case activityLimitExceeded = "ActivityLimitExceeded"
         case activityWorkerLimitExceeded = "ActivityWorkerLimitExceeded"
@@ -3322,12 +3421,16 @@ public struct SFNErrorType: AWSErrorType {
         case executionNotRedrivable = "ExecutionNotRedrivable"
         case invalidArn = "InvalidArn"
         case invalidDefinition = "InvalidDefinition"
+        case invalidEncryptionConfiguration = "InvalidEncryptionConfiguration"
         case invalidExecutionInput = "InvalidExecutionInput"
         case invalidLoggingConfiguration = "InvalidLoggingConfiguration"
         case invalidName = "InvalidName"
         case invalidOutput = "InvalidOutput"
         case invalidToken = "InvalidToken"
         case invalidTracingConfiguration = "InvalidTracingConfiguration"
+        case kmsAccessDeniedException = "KmsAccessDeniedException"
+        case kmsInvalidStateException = "KmsInvalidStateException"
+        case kmsThrottlingException = "KmsThrottlingException"
         case missingRequiredParameter = "MissingRequiredParameter"
         case resourceNotFound = "ResourceNotFound"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
@@ -3360,6 +3463,8 @@ public struct SFNErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Activity already exists. EncryptionConfiguration may not be updated.
+    public static var activityAlreadyExists: Self { .init(.activityAlreadyExists) }
     /// The specified activity does not exist.
     public static var activityDoesNotExist: Self { .init(.activityDoesNotExist) }
     /// The maximum number of activities has been reached. Existing activities must be deleted before a new activity can be created.
@@ -3380,8 +3485,11 @@ public struct SFNErrorType: AWSErrorType {
     public static var invalidArn: Self { .init(.invalidArn) }
     /// The provided Amazon States Language definition is not valid.
     public static var invalidDefinition: Self { .init(.invalidDefinition) }
+    /// Received when encryptionConfiguration is specified but various conditions exist which make the configuration invalid. For example, if type is set to CUSTOMER_MANAGED_KMS_KEY, but kmsKeyId is null, or kmsDataKeyReusePeriodSeconds is not between 60 and 900, or the KMS key is not symmetric or inactive.
+    public static var invalidEncryptionConfiguration: Self { .init(.invalidEncryptionConfiguration) }
     /// The provided JSON input data is not valid.
     public static var invalidExecutionInput: Self { .init(.invalidExecutionInput) }
+    /// Configuration is not valid.
     public static var invalidLoggingConfiguration: Self { .init(.invalidLoggingConfiguration) }
     /// The provided name is not valid.
     public static var invalidName: Self { .init(.invalidName) }
@@ -3391,6 +3499,12 @@ public struct SFNErrorType: AWSErrorType {
     public static var invalidToken: Self { .init(.invalidToken) }
     /// Your tracingConfiguration key does not match, or enabled has not been set to true or false.
     public static var invalidTracingConfiguration: Self { .init(.invalidTracingConfiguration) }
+    /// Either your KMS key policy or API caller does not have the required permissions.
+    public static var kmsAccessDeniedException: Self { .init(.kmsAccessDeniedException) }
+    /// The KMS key is not in valid state, for example: Disabled or Deleted.
+    public static var kmsInvalidStateException: Self { .init(.kmsInvalidStateException) }
+    /// Received when KMS returns ThrottlingException for a KMS call that Step Functions makes on behalf of the caller.
+    public static var kmsThrottlingException: Self { .init(.kmsThrottlingException) }
     /// Request is missing a required parameter. This error occurs if both definition and roleArn are not specified.
     public static var missingRequiredParameter: Self { .init(.missingRequiredParameter) }
     /// Could not find the referenced resource.
@@ -3405,6 +3519,7 @@ public struct SFNErrorType: AWSErrorType {
     public static var stateMachineDoesNotExist: Self { .init(.stateMachineDoesNotExist) }
     /// The maximum number of state machines has been reached. Existing state machines must be deleted before a new state machine can be created.
     public static var stateMachineLimitExceeded: Self { .init(.stateMachineLimitExceeded) }
+    /// State machine type is not supported.
     public static var stateMachineTypeNotSupported: Self { .init(.stateMachineTypeNotSupported) }
     /// The activity does not exist.
     public static var taskDoesNotExist: Self { .init(.taskDoesNotExist) }

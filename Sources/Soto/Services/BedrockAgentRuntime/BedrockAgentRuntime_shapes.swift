@@ -26,6 +26,19 @@ import Foundation
 extension BedrockAgentRuntime {
     // MARK: Enums
 
+    public enum ActionInvocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case result = "RESULT"
+        case userConfirmation = "USER_CONFIRMATION"
+        case userConfirmationAndResult = "USER_CONFIRMATION_AND_RESULT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfirmationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case confirm = "CONFIRM"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CreationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case overridden = "OVERRIDDEN"
@@ -380,6 +393,8 @@ extension BedrockAgentRuntime {
         case invocationInput(InvocationInput)
         /// The input for the orchestration step.   The type is ORCHESTRATION.   The text contains the prompt.   The inferenceConfiguration, parserMode, and overrideLambda values are set in the PromptOverrideConfiguration object that was set when the agent was created or updated.
         case modelInvocationInput(ModelInvocationInput)
+        /// Contains information pertaining to the output from the foundation model that is being invoked.
+        case modelInvocationOutput(OrchestrationModelInvocationOutput)
         /// Details about the observation (the output of the action group Lambda or knowledge base) made by the agent.
         case observation(Observation)
         /// Details about the reasoning, based on the input, that the agent uses to justify carrying out an action group or getting information from a knowledge base.
@@ -401,6 +416,9 @@ extension BedrockAgentRuntime {
             case .modelInvocationInput:
                 let value = try container.decode(ModelInvocationInput.self, forKey: .modelInvocationInput)
                 self = .modelInvocationInput(value)
+            case .modelInvocationOutput:
+                let value = try container.decode(OrchestrationModelInvocationOutput.self, forKey: .modelInvocationOutput)
+                self = .modelInvocationOutput(value)
             case .observation:
                 let value = try container.decode(Observation.self, forKey: .observation)
                 self = .observation(value)
@@ -413,6 +431,7 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case invocationInput = "invocationInput"
             case modelInvocationInput = "modelInvocationInput"
+            case modelInvocationOutput = "modelInvocationOutput"
             case observation = "observation"
             case rationale = "rationale"
         }
@@ -643,7 +662,6 @@ extension BedrockAgentRuntime {
                 try value.forEach {
                     try $0.validate(name: "\(name).andAll[]")
                 }
-                try self.validate(value, name: "andAll", parent: name, max: 5)
                 try self.validate(value, name: "andAll", parent: name, min: 2)
             case .equals(let value):
                 try value.validate(name: "\(name).equals")
@@ -667,7 +685,6 @@ extension BedrockAgentRuntime {
                 try value.forEach {
                     try $0.validate(name: "\(name).orAll[]")
                 }
-                try self.validate(value, name: "orAll", parent: name, max: 5)
                 try self.validate(value, name: "orAll", parent: name, min: 2)
             case .startsWith(let value):
                 try value.validate(name: "\(name).startsWith")
@@ -813,6 +830,8 @@ extension BedrockAgentRuntime {
     public struct ApiInvocationInput: AWSDecodableShape {
         /// The action group that the API operation belongs to.
         public let actionGroup: String
+        /// Contains information about the API operation to invoke.
+        public let actionInvocationType: ActionInvocationType?
         /// The path to the API operation.
         public let apiPath: String?
         /// The HTTP method of the API operation.
@@ -822,8 +841,9 @@ extension BedrockAgentRuntime {
         /// The request body to provide for the API request, as the agent elicited from the user.
         public let requestBody: ApiRequestBody?
 
-        public init(actionGroup: String, apiPath: String? = nil, httpMethod: String? = nil, parameters: [ApiParameter]? = nil, requestBody: ApiRequestBody? = nil) {
+        public init(actionGroup: String, actionInvocationType: ActionInvocationType? = nil, apiPath: String? = nil, httpMethod: String? = nil, parameters: [ApiParameter]? = nil, requestBody: ApiRequestBody? = nil) {
             self.actionGroup = actionGroup
+            self.actionInvocationType = actionInvocationType
             self.apiPath = apiPath
             self.httpMethod = httpMethod
             self.parameters = parameters
@@ -832,6 +852,7 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case actionGroup = "actionGroup"
+            case actionInvocationType = "actionInvocationType"
             case apiPath = "apiPath"
             case httpMethod = "httpMethod"
             case parameters = "parameters"
@@ -878,6 +899,8 @@ extension BedrockAgentRuntime {
         public let actionGroup: String
         /// The path to the API operation.
         public let apiPath: String?
+        /// Controls the API operations or functions to invoke based on the user confirmation.
+        public let confirmationState: ConfirmationState?
         /// The HTTP method for the API operation.
         public let httpMethod: String?
         /// http status code from API execution response (for example: 200, 400, 500).
@@ -887,9 +910,10 @@ extension BedrockAgentRuntime {
         /// Controls the final response state returned to end user when API/Function execution failed. When this state is FAILURE, the request would fail with dependency failure exception. When this state is REPROMPT, the API/function response will be sent to model for re-prompt
         public let responseState: ResponseState?
 
-        public init(actionGroup: String, apiPath: String? = nil, httpMethod: String? = nil, httpStatusCode: Int? = nil, responseBody: [String: ContentBody]? = nil, responseState: ResponseState? = nil) {
+        public init(actionGroup: String, apiPath: String? = nil, confirmationState: ConfirmationState? = nil, httpMethod: String? = nil, httpStatusCode: Int? = nil, responseBody: [String: ContentBody]? = nil, responseState: ResponseState? = nil) {
             self.actionGroup = actionGroup
             self.apiPath = apiPath
+            self.confirmationState = confirmationState
             self.httpMethod = httpMethod
             self.httpStatusCode = httpStatusCode
             self.responseBody = responseBody
@@ -899,6 +923,7 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case actionGroup = "actionGroup"
             case apiPath = "apiPath"
+            case confirmationState = "confirmationState"
             case httpMethod = "httpMethod"
             case httpStatusCode = "httpStatusCode"
             case responseBody = "responseBody"
@@ -965,7 +990,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct ByteContentFile: AWSEncodableShape {
-        /// The byte value of the file to attach, encoded as Base-64 string. The maximum size of all files that is attached is 10MB. You can attach a maximum of 5 files.
+        /// The raw bytes of the file to attach. The maximum size of all files that is attached is 10MB. You can attach a maximum of 5 files.
         public let data: AWSBase64Data
         /// The MIME type of data contained in the file used for chat.
         public let mediaType: String
@@ -1201,9 +1226,9 @@ extension BedrockAgentRuntime {
 
         public func validate(name: String) throws {
             try self.generationConfiguration?.validate(name: "\(name).generationConfiguration")
-            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 1011)
-            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 20)
-            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))$")
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))))|(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):inference-profile/[a-zA-Z0-9-:.]+)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
             try self.sources.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
@@ -1323,11 +1348,11 @@ extension BedrockAgentRuntime {
     }
 
     public struct FlowInput: AWSEncodableShape {
-        /// Contains information about an input into the flow.
+        /// Contains information about an input into the prompt flow.
         public let content: FlowInputContent
-        /// A name for the input of the flow input node.
+        /// The name of the flow input node that begins the prompt flow.
         public let nodeName: String
-        /// A name for the output of the flow input node.
+        /// The name of the output from the flow input node that begins the prompt flow.
         public let nodeOutputName: String
 
         public init(content: FlowInputContent, nodeName: String, nodeOutputName: String) {
@@ -1349,11 +1374,11 @@ extension BedrockAgentRuntime {
     }
 
     public struct FlowOutputEvent: AWSDecodableShape {
-        /// The output of the node.
+        /// The content in the output.
         public let content: FlowOutputContent
-        /// The name of the node to which input was provided.
+        /// The name of the flow output node that the output is from.
         public let nodeName: String
-        /// The type of node to which input was provided.
+        /// The type of the node that the output is from.
         public let nodeType: NodeType
 
         public init(content: FlowOutputContent, nodeName: String, nodeType: NodeType) {
@@ -1372,19 +1397,23 @@ extension BedrockAgentRuntime {
     public struct FunctionInvocationInput: AWSDecodableShape {
         /// The action group that the function belongs to.
         public let actionGroup: String
+        /// Contains information about the function to invoke,
+        public let actionInvocationType: ActionInvocationType?
         /// The name of the function.
         public let function: String?
         /// A list of parameters of the function.
         public let parameters: [FunctionParameter]?
 
-        public init(actionGroup: String, function: String? = nil, parameters: [FunctionParameter]? = nil) {
+        public init(actionGroup: String, actionInvocationType: ActionInvocationType? = nil, function: String? = nil, parameters: [FunctionParameter]? = nil) {
             self.actionGroup = actionGroup
+            self.actionInvocationType = actionInvocationType
             self.function = function
             self.parameters = parameters
         }
 
         private enum CodingKeys: String, CodingKey {
             case actionGroup = "actionGroup"
+            case actionInvocationType = "actionInvocationType"
             case function = "function"
             case parameters = "parameters"
         }
@@ -1414,6 +1443,8 @@ extension BedrockAgentRuntime {
     public struct FunctionResult: AWSEncodableShape {
         /// The action group that the function belongs to.
         public let actionGroup: String
+        /// Contains the user confirmation information about the function that was called.
+        public let confirmationState: ConfirmationState?
         /// The name of the function that was called.
         public let function: String?
         /// The response from the function call using the parameters. The key of the object is the content type (currently, only TEXT is supported). The response may be returned directly or from the Lambda function.
@@ -1421,8 +1452,9 @@ extension BedrockAgentRuntime {
         /// Controls the final response state returned to end user when API/Function execution failed. When this state is FAILURE, the request would fail with dependency failure exception. When this state is REPROMPT, the API/function response will be sent to model for re-prompt
         public let responseState: ResponseState?
 
-        public init(actionGroup: String, function: String? = nil, responseBody: [String: ContentBody]? = nil, responseState: ResponseState? = nil) {
+        public init(actionGroup: String, confirmationState: ConfirmationState? = nil, function: String? = nil, responseBody: [String: ContentBody]? = nil, responseState: ResponseState? = nil) {
             self.actionGroup = actionGroup
+            self.confirmationState = confirmationState
             self.function = function
             self.responseBody = responseBody
             self.responseState = responseState
@@ -1430,6 +1462,7 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case actionGroup = "actionGroup"
+            case confirmationState = "confirmationState"
             case function = "function"
             case responseBody = "responseBody"
             case responseState = "responseState"
@@ -1831,7 +1864,7 @@ extension BedrockAgentRuntime {
         public let temperature: Float?
         /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for topK is the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topK to 50, the model selects the next token from among the top 50 most likely choices.
         public let topK: Int?
-        /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for Top P determines the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topP to 80, the model only selects the next token from the top 80% of the probability distribution of next tokens.
+        /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for Top P determines the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topP to 0.8, the model only selects the next token from the top 80% of the probability distribution of next tokens.
         public let topP: Float?
 
         public init(maximumLength: Int? = nil, stopSequences: [String]? = nil, temperature: Float? = nil, topK: Int? = nil, topP: Float? = nil) {
@@ -2180,9 +2213,9 @@ extension BedrockAgentRuntime {
     public struct KnowledgeBaseRetrieveAndGenerateConfiguration: AWSEncodableShape {
         /// Contains configurations for response generation based on the knowledge base query results.
         public let generationConfiguration: GenerationConfiguration?
-        /// The unique identifier of the knowledge base that is queried and the foundation model used for generation.
+        /// The unique identifier of the knowledge base that is queried.
         public let knowledgeBaseId: String
-        /// The ARN of the foundation model used to generate a response.
+        /// The ARN of the foundation model or inference profile used to generate a response.
         public let modelArn: String
         /// Settings for how the model processes the prompt prior to retrieval and generation.
         public let orchestrationConfiguration: OrchestrationConfiguration?
@@ -2201,9 +2234,9 @@ extension BedrockAgentRuntime {
             try self.generationConfiguration?.validate(name: "\(name).generationConfiguration")
             try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 10)
             try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]+$")
-            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 1011)
-            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 20)
-            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))$")
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))))|(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):inference-profile/[a-zA-Z0-9-:.]+)|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
             try self.retrievalConfiguration?.validate(name: "\(name).retrievalConfiguration")
         }
 
@@ -2269,6 +2302,19 @@ extension BedrockAgentRuntime {
             case sessionId = "sessionId"
             case sessionStartTime = "sessionStartTime"
             case summaryText = "summaryText"
+        }
+    }
+
+    public struct Metadata: AWSDecodableShape {
+        /// Contains details of the foundation model usage.
+        public let usage: Usage?
+
+        public init(usage: Usage? = nil) {
+            self.usage = usage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case usage = "usage"
         }
     }
 
@@ -2356,6 +2402,27 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case queryTransformationConfiguration = "queryTransformationConfiguration"
+        }
+    }
+
+    public struct OrchestrationModelInvocationOutput: AWSDecodableShape {
+        /// Contains information about the foundation model output.
+        public let metadata: Metadata?
+        /// Contains details of the raw response from the foundation model output.
+        public let rawResponse: RawResponse?
+        /// The unique identifier of the trace.
+        public let traceId: String?
+
+        public init(metadata: Metadata? = nil, rawResponse: RawResponse? = nil, traceId: String? = nil) {
+            self.metadata = metadata
+            self.rawResponse = rawResponse
+            self.traceId = traceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "metadata"
+            case rawResponse = "rawResponse"
+            case traceId = "traceId"
         }
     }
 
@@ -2540,6 +2607,19 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case text = "text"
             case traceId = "traceId"
+        }
+    }
+
+    public struct RawResponse: AWSDecodableShape {
+        /// The foundation model's raw output content.
+        public let content: String?
+
+        public init(content: String? = nil) {
+            self.content = content
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
         }
     }
 
@@ -3127,6 +3207,23 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct Usage: AWSDecodableShape {
+        /// Contains information about the input tokens from the foundation model usage.
+        public let inputTokens: Int?
+        /// Contains information about the output tokens from the foundation model usage.
+        public let outputTokens: Int?
+
+        public init(inputTokens: Int? = nil, outputTokens: Int? = nil) {
+            self.inputTokens = inputTokens
+            self.outputTokens = outputTokens
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputTokens = "inputTokens"
+            case outputTokens = "outputTokens"
+        }
+    }
+
     public struct ValidationException: AWSDecodableShape {
         public let message: String?
 
@@ -3140,7 +3237,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct FlowInputContent: AWSEncodableShape {
-        /// The input for the flow input node.
+        /// The input to send to the prompt flow input node.
         public let document: String?
 
         public init(document: String? = nil) {
@@ -3153,7 +3250,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct FlowOutputContent: AWSDecodableShape {
-        /// A name for the output of the flow.
+        /// The content in the output.
         public let document: String?
 
         public init(document: String? = nil) {

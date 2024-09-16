@@ -2288,6 +2288,8 @@ extension EMR {
     public struct InstanceFleetModifyConfig: AWSEncodableShape {
         /// A unique identifier for the instance fleet.
         public let instanceFleetId: String?
+        /// An array of InstanceTypeConfig objects that specify how Amazon EMR provisions Amazon EC2 instances when it fulfills On-Demand and Spot capacities. For more information, see InstanceTypeConfig.
+        public let instanceTypeConfigs: [InstanceTypeConfig]?
         /// The resize specification for the instance fleet.
         public let resizeSpecifications: InstanceFleetResizingSpecifications?
         /// The target capacity of On-Demand units for the instance fleet. For more information see InstanceFleetConfig$TargetOnDemandCapacity.
@@ -2295,14 +2297,18 @@ extension EMR {
         /// The target capacity of Spot units for the instance fleet. For more information, see InstanceFleetConfig$TargetSpotCapacity.
         public let targetSpotCapacity: Int?
 
-        public init(instanceFleetId: String? = nil, resizeSpecifications: InstanceFleetResizingSpecifications? = nil, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
+        public init(instanceFleetId: String? = nil, instanceTypeConfigs: [InstanceTypeConfig]? = nil, resizeSpecifications: InstanceFleetResizingSpecifications? = nil, targetOnDemandCapacity: Int? = nil, targetSpotCapacity: Int? = nil) {
             self.instanceFleetId = instanceFleetId
+            self.instanceTypeConfigs = instanceTypeConfigs
             self.resizeSpecifications = resizeSpecifications
             self.targetOnDemandCapacity = targetOnDemandCapacity
             self.targetSpotCapacity = targetSpotCapacity
         }
 
         public func validate(name: String) throws {
+            try self.instanceTypeConfigs?.forEach {
+                try $0.validate(name: "\(name).instanceTypeConfigs[]")
+            }
             try self.resizeSpecifications?.validate(name: "\(name).resizeSpecifications")
             try self.validate(self.targetOnDemandCapacity, name: "targetOnDemandCapacity", parent: name, min: 0)
             try self.validate(self.targetSpotCapacity, name: "targetSpotCapacity", parent: name, min: 0)
@@ -2310,6 +2316,7 @@ extension EMR {
 
         private enum CodingKeys: String, CodingKey {
             case instanceFleetId = "InstanceFleetId"
+            case instanceTypeConfigs = "InstanceTypeConfigs"
             case resizeSpecifications = "ResizeSpecifications"
             case targetOnDemandCapacity = "TargetOnDemandCapacity"
             case targetSpotCapacity = "TargetSpotCapacity"
@@ -2317,9 +2324,9 @@ extension EMR {
     }
 
     public struct InstanceFleetProvisioningSpecifications: AWSEncodableShape & AWSDecodableShape {
-        ///  The launch specification for On-Demand Instances in the instance fleet, which determines the allocation strategy.   The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances allocation strategy is available in Amazon EMR releases 5.12.1 and later.
+        ///  The launch specification for On-Demand Instances in the instance fleet, which determines the allocation strategy and capacity reservation options.  The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances allocation strategy is available in Amazon EMR releases 5.12.1 and later.
         public let onDemandSpecification: OnDemandProvisioningSpecification?
-        /// The launch specification for Spot instances in the fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy.
+        /// The launch specification for Spot instances in the fleet, which determines the allocation strategy, defined duration, and provisioning timeout behavior.
         public let spotSpecification: SpotProvisioningSpecification?
 
         public init(onDemandSpecification: OnDemandProvisioningSpecification? = nil, spotSpecification: SpotProvisioningSpecification? = nil) {
@@ -2339,9 +2346,9 @@ extension EMR {
     }
 
     public struct InstanceFleetResizingSpecifications: AWSEncodableShape & AWSDecodableShape {
-        /// The resize specification for On-Demand Instances in the instance fleet, which contains the resize timeout period.
+        /// The resize specification for On-Demand Instances in the instance fleet, which contains the allocation strategy, capacity reservation options, and the resize timeout period.
         public let onDemandResizeSpecification: OnDemandResizingSpecification?
-        /// The resize specification for Spot Instances in the instance fleet, which contains the resize timeout period.
+        /// The resize specification for Spot Instances in the instance fleet, which contains the allocation strategy and the resize timeout period.
         public let spotResizeSpecification: SpotResizingSpecification?
 
         public init(onDemandResizeSpecification: OnDemandResizingSpecification? = nil, spotResizeSpecification: SpotResizingSpecification? = nil) {
@@ -4072,18 +4079,26 @@ extension EMR {
     }
 
     public struct OnDemandResizingSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the allocation strategy to use to launch On-Demand instances during a resize. The default is lowest-price.
+        public let allocationStrategy: OnDemandProvisioningAllocationStrategy?
+        public let capacityReservationOptions: OnDemandCapacityReservationOptions?
         /// On-Demand resize timeout in minutes. If On-Demand Instances are not provisioned within this time, the resize workflow stops. The minimum value is 5 minutes, and the maximum value is 10,080 minutes (7 days). The timeout applies to all resize workflows on the Instance Fleet. The resize could be triggered by Amazon EMR Managed Scaling or by the customer (via Amazon EMR Console, Amazon EMR CLI modify-instance-fleet or Amazon EMR SDK ModifyInstanceFleet API) or by Amazon EMR due to Amazon EC2 Spot Reclamation.
         public let timeoutDurationMinutes: Int?
 
-        public init(timeoutDurationMinutes: Int? = nil) {
+        public init(allocationStrategy: OnDemandProvisioningAllocationStrategy? = nil, capacityReservationOptions: OnDemandCapacityReservationOptions? = nil, timeoutDurationMinutes: Int? = nil) {
+            self.allocationStrategy = allocationStrategy
+            self.capacityReservationOptions = capacityReservationOptions
             self.timeoutDurationMinutes = timeoutDurationMinutes
         }
 
         public func validate(name: String) throws {
+            try self.capacityReservationOptions?.validate(name: "\(name).capacityReservationOptions")
             try self.validate(self.timeoutDurationMinutes, name: "timeoutDurationMinutes", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allocationStrategy = "AllocationStrategy"
+            case capacityReservationOptions = "CapacityReservationOptions"
             case timeoutDurationMinutes = "TimeoutDurationMinutes"
         }
     }
@@ -4969,10 +4984,13 @@ extension EMR {
     }
 
     public struct SpotResizingSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the allocation strategy to use to launch Spot instances during a resize. If you run Amazon EMR releases 6.9.0 or higher, the default is price-capacity-optimized. If you run Amazon EMR releases 6.8.0 or lower, the default is capacity-optimized.
+        public let allocationStrategy: SpotProvisioningAllocationStrategy?
         /// Spot resize timeout in minutes. If Spot Instances are not provisioned within this time, the resize workflow will stop provisioning of Spot instances. Minimum value is 5 minutes and maximum value is 10,080 minutes (7 days). The timeout applies to all resize workflows on the Instance Fleet. The resize could be triggered by Amazon EMR Managed Scaling or by the customer (via Amazon EMR Console, Amazon EMR CLI modify-instance-fleet or Amazon EMR SDK ModifyInstanceFleet API) or by Amazon EMR due to Amazon EC2 Spot Reclamation.
         public let timeoutDurationMinutes: Int?
 
-        public init(timeoutDurationMinutes: Int? = nil) {
+        public init(allocationStrategy: SpotProvisioningAllocationStrategy? = nil, timeoutDurationMinutes: Int? = nil) {
+            self.allocationStrategy = allocationStrategy
             self.timeoutDurationMinutes = timeoutDurationMinutes
         }
 
@@ -4981,6 +4999,7 @@ extension EMR {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allocationStrategy = "AllocationStrategy"
             case timeoutDurationMinutes = "TimeoutDurationMinutes"
         }
     }

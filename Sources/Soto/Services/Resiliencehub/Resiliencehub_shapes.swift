@@ -43,6 +43,8 @@ extension Resiliencehub {
 
     public enum AppComplianceStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case changesDetected = "ChangesDetected"
+        case missingPolicy = "MissingPolicy"
+        case notApplicable = "NotApplicable"
         case notAssessed = "NotAssessed"
         case policyBreached = "PolicyBreached"
         case policyMet = "PolicyMet"
@@ -77,6 +79,8 @@ extension Resiliencehub {
     }
 
     public enum ComplianceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case missingPolicy = "MissingPolicy"
+        case notApplicable = "NotApplicable"
         case policyBreached = "PolicyBreached"
         case policyMet = "PolicyMet"
         public var description: String { return self.rawValue }
@@ -156,6 +160,27 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
+    public enum GroupingRecommendationConfidenceLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "High"
+        case medium = "Medium"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GroupingRecommendationRejectionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case distinctBusinessPurpose = "DistinctBusinessPurpose"
+        case distinctUserGroupHandling = "DistinctUserGroupHandling"
+        case other = "Other"
+        case separateDataConcern = "SeparateDataConcern"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GroupingRecommendationStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accepted = "Accepted"
+        case pendingDecision = "PendingDecision"
+        case rejected = "Rejected"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HaArchitecture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case backupAndRestore = "BackupAndRestore"
         case multiSite = "MultiSite"
@@ -181,6 +206,7 @@ extension Resiliencehub {
         case breachedCanMeet = "BreachedCanMeet"
         case breachedUnattainable = "BreachedUnattainable"
         case metCanImprove = "MetCanImprove"
+        case missingPolicy = "MissingPolicy"
         public var description: String { return self.rawValue }
     }
 
@@ -263,6 +289,14 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourcesGroupingRecGenStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        case pending = "Pending"
+        case success = "Success"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SopServiceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ssm = "SSM"
         public var description: String { return self.rawValue }
@@ -290,6 +324,71 @@ extension Resiliencehub {
     }
 
     // MARK: Shapes
+
+    public struct AcceptGroupingRecommendationEntry: AWSEncodableShape {
+        /// Indicates the identifier of the grouping recommendation.
+        public let groupingRecommendationId: String
+
+        public init(groupingRecommendationId: String) {
+            self.groupingRecommendationId = groupingRecommendationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupingRecommendationId, name: "groupingRecommendationId", parent: name, max: 255)
+            try self.validate(self.groupingRecommendationId, name: "groupingRecommendationId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupingRecommendationId = "groupingRecommendationId"
+        }
+    }
+
+    public struct AcceptResourceGroupingRecommendationsRequest: AWSEncodableShape {
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
+        /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
+        public let appArn: String
+        /// Indicates the list of resource grouping recommendations you want to include in your application.
+        public let entries: [AcceptGroupingRecommendationEntry]
+
+        public init(appArn: String, entries: [AcceptGroupingRecommendationEntry]) {
+            self.appArn = appArn
+            self.entries = entries
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+            try self.entries.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try self.validate(self.entries, name: "entries", parent: name, max: 30)
+            try self.validate(self.entries, name: "entries", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appArn = "appArn"
+            case entries = "entries"
+        }
+    }
+
+    public struct AcceptResourceGroupingRecommendationsResponse: AWSDecodableShape {
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
+        /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
+        public let appArn: String
+        /// Indicates the list of resource grouping recommendations that could not be included in your application.
+        public let failedEntries: [FailedGroupingRecommendationEntry]
+
+        public init(appArn: String, failedEntries: [FailedGroupingRecommendationEntry]) {
+            self.appArn = appArn
+            self.failedEntries = failedEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appArn = "appArn"
+            case failedEntries = "failedEntries"
+        }
+    }
 
     public struct AddDraftAppVersionResourceMappingsRequest: AWSEncodableShape {
         /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
@@ -526,13 +625,15 @@ extension Resiliencehub {
         public let resourceErrorsDetails: ResourceErrorsDetails?
         /// Starting time for the action.
         public let startTime: Date?
+        /// Indicates a concise summary that provides an overview of the Resilience Hub assessment.
+        public let summary: AssessmentSummary?
         /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource.
         /// Each tag consists of a key/value pair.
         public let tags: [String: String]?
         /// Version name of the published application.
         public let versionName: String?
 
-        public init(appArn: String? = nil, appVersion: String? = nil, assessmentArn: String, assessmentName: String? = nil, assessmentStatus: AssessmentStatus, compliance: [DisruptionType: DisruptionCompliance]? = nil, complianceStatus: ComplianceStatus? = nil, cost: Cost? = nil, driftStatus: DriftStatus? = nil, endTime: Date? = nil, invoker: AssessmentInvoker, message: String? = nil, policy: ResiliencyPolicy? = nil, resiliencyScore: ResiliencyScore? = nil, resourceErrorsDetails: ResourceErrorsDetails? = nil, startTime: Date? = nil, tags: [String: String]? = nil, versionName: String? = nil) {
+        public init(appArn: String? = nil, appVersion: String? = nil, assessmentArn: String, assessmentName: String? = nil, assessmentStatus: AssessmentStatus, compliance: [DisruptionType: DisruptionCompliance]? = nil, complianceStatus: ComplianceStatus? = nil, cost: Cost? = nil, driftStatus: DriftStatus? = nil, endTime: Date? = nil, invoker: AssessmentInvoker, message: String? = nil, policy: ResiliencyPolicy? = nil, resiliencyScore: ResiliencyScore? = nil, resourceErrorsDetails: ResourceErrorsDetails? = nil, startTime: Date? = nil, summary: AssessmentSummary? = nil, tags: [String: String]? = nil, versionName: String? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
             self.assessmentArn = assessmentArn
@@ -549,6 +650,7 @@ extension Resiliencehub {
             self.resiliencyScore = resiliencyScore
             self.resourceErrorsDetails = resourceErrorsDetails
             self.startTime = startTime
+            self.summary = summary
             self.tags = tags
             self.versionName = versionName
         }
@@ -570,6 +672,7 @@ extension Resiliencehub {
             case resiliencyScore = "resiliencyScore"
             case resourceErrorsDetails = "resourceErrorsDetails"
             case startTime = "startTime"
+            case summary = "summary"
             case tags = "tags"
             case versionName = "versionName"
         }
@@ -590,7 +693,7 @@ extension Resiliencehub {
         public let assessmentName: String?
         /// Current status of the assessment for the resiliency policy.
         public let assessmentStatus: AssessmentStatus
-        /// TCurrent status of compliance for the resiliency policy.
+        /// Current status of compliance for the resiliency policy.
         public let complianceStatus: ComplianceStatus?
         /// Cost for an application.
         public let cost: Cost?
@@ -817,6 +920,44 @@ extension Resiliencehub {
             case creationTime = "creationTime"
             case identifier = "identifier"
             case versionName = "versionName"
+        }
+    }
+
+    public struct AssessmentRiskRecommendation: AWSDecodableShape {
+        /// Indicates the Application Components (AppComponents) that were assessed as part of the assessnent and are associated with the identified risk and recommendation.  This property is available only in the US East (N. Virginia) Region.
+        public let appComponents: [String]?
+        /// Indicates the recommendation provided by the Resilience Hub to address the identified risks in the application.  This property is available only in the US East (N. Virginia) Region.
+        public let recommendation: String?
+        /// Indicates the description of the potential risk identified in the application as part of the Resilience Hub assessment.  This property is available only in the US East (N. Virginia) Region.
+        public let risk: String?
+
+        public init(appComponents: [String]? = nil, recommendation: String? = nil, risk: String? = nil) {
+            self.appComponents = appComponents
+            self.recommendation = recommendation
+            self.risk = risk
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appComponents = "appComponents"
+            case recommendation = "recommendation"
+            case risk = "risk"
+        }
+    }
+
+    public struct AssessmentSummary: AWSDecodableShape {
+        /// Indicates the top risks and recommendations identified by the Resilience Hub assessment,  each representing a specific risk and the corresponding recommendation to address it.  This property is available only in the US East (N. Virginia) Region.
+        public let riskRecommendations: [AssessmentRiskRecommendation]?
+        /// Indicates a concise summary that provides an overview of the Resilience Hub assessment.  This property is available only in the US East (N. Virginia) Region.
+        public let summary: String?
+
+        public init(riskRecommendations: [AssessmentRiskRecommendation]? = nil, summary: String? = nil) {
+            self.riskRecommendations = riskRecommendations
+            self.summary = summary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case riskRecommendations = "riskRecommendations"
+            case summary = "summary"
         }
     }
 
@@ -2266,6 +2407,52 @@ extension Resiliencehub {
         }
     }
 
+    public struct DescribeResourceGroupingRecommendationTaskRequest: AWSEncodableShape {
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
+        /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
+        public let appArn: String
+        /// Indicates the identifier of the grouping recommendation task.
+        public let groupingId: String?
+
+        public init(appArn: String, groupingId: String? = nil) {
+            self.appArn = appArn
+            self.groupingId = groupingId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+            try self.validate(self.groupingId, name: "groupingId", parent: name, max: 255)
+            try self.validate(self.groupingId, name: "groupingId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appArn = "appArn"
+            case groupingId = "groupingId"
+        }
+    }
+
+    public struct DescribeResourceGroupingRecommendationTaskResponse: AWSDecodableShape {
+        /// Indicates the error that occurred while generating a grouping recommendation.
+        public let errorMessage: String?
+        /// Indicates the identifier of the grouping recommendation task.
+        public let groupingId: String
+        /// Status of the action.
+        public let status: ResourcesGroupingRecGenStatusType
+
+        public init(errorMessage: String? = nil, groupingId: String, status: ResourcesGroupingRecGenStatusType) {
+            self.errorMessage = errorMessage
+            self.groupingId = groupingId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+            case groupingId = "groupingId"
+            case status = "status"
+        }
+    }
+
     public struct DisruptionCompliance: AWSDecodableShape {
         /// The Recovery Point Objective (RPO) that is achievable, in seconds.
         public let achievableRpoInSecs: Int?
@@ -2397,6 +2584,23 @@ extension Resiliencehub {
         }
     }
 
+    public struct FailedGroupingRecommendationEntry: AWSDecodableShape {
+        /// Indicates the error that occurred while implementing a grouping recommendation.
+        public let errorMessage: String
+        /// Indicates the identifier of the grouping recommendation.
+        public let groupingRecommendationId: String
+
+        public init(errorMessage: String, groupingRecommendationId: String) {
+            self.errorMessage = errorMessage
+            self.groupingRecommendationId = groupingRecommendationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+            case groupingRecommendationId = "groupingRecommendationId"
+        }
+    }
+
     public struct FailurePolicy: AWSEncodableShape & AWSDecodableShape {
         /// Recovery Point Objective (RPO) in seconds.
         public let rpoInSecs: Int
@@ -2416,6 +2620,101 @@ extension Resiliencehub {
         private enum CodingKeys: String, CodingKey {
             case rpoInSecs = "rpoInSecs"
             case rtoInSecs = "rtoInSecs"
+        }
+    }
+
+    public struct GroupingAppComponent: AWSDecodableShape {
+        /// Indicates the identifier of an AppComponent.
+        public let appComponentId: String
+        /// Indicates the name of an AppComponent.
+        public let appComponentName: String
+        /// Indicates the type of an AppComponent.
+        public let appComponentType: String
+
+        public init(appComponentId: String, appComponentName: String, appComponentType: String) {
+            self.appComponentId = appComponentId
+            self.appComponentName = appComponentName
+            self.appComponentType = appComponentType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appComponentId = "appComponentId"
+            case appComponentName = "appComponentName"
+            case appComponentType = "appComponentType"
+        }
+    }
+
+    public struct GroupingRecommendation: AWSDecodableShape {
+        /// Indicates the confidence level of Resilience Hub on the grouping recommendation.
+        public let confidenceLevel: GroupingRecommendationConfidenceLevel
+        /// Indicates the creation time of the grouping recommendation.
+        public let creationTime: Date
+        /// Indicates the name of the recommended Application Component (AppComponent).
+        public let groupingAppComponent: GroupingAppComponent
+        /// Indicates all the reasons available for rejecting a grouping recommendation.
+        public let groupingRecommendationId: String
+        /// Indicates all the reasons available for rejecting a grouping recommendation.
+        public let recommendationReasons: [String]
+        /// Indicates the reason you had selected while rejecting a grouping recommendation.
+        public let rejectionReason: GroupingRecommendationRejectionReason?
+        /// Indicates the resources that are grouped in a recommended AppComponent.
+        public let resources: [GroupingResource]
+        /// Indicates the confidence level of the grouping recommendation.
+        public let score: Double
+        /// Indicates the status of grouping resources into AppComponents.
+        public let status: GroupingRecommendationStatusType
+
+        public init(confidenceLevel: GroupingRecommendationConfidenceLevel, creationTime: Date, groupingAppComponent: GroupingAppComponent, groupingRecommendationId: String, recommendationReasons: [String], rejectionReason: GroupingRecommendationRejectionReason? = nil, resources: [GroupingResource], score: Double, status: GroupingRecommendationStatusType) {
+            self.confidenceLevel = confidenceLevel
+            self.creationTime = creationTime
+            self.groupingAppComponent = groupingAppComponent
+            self.groupingRecommendationId = groupingRecommendationId
+            self.recommendationReasons = recommendationReasons
+            self.rejectionReason = rejectionReason
+            self.resources = resources
+            self.score = score
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidenceLevel = "confidenceLevel"
+            case creationTime = "creationTime"
+            case groupingAppComponent = "groupingAppComponent"
+            case groupingRecommendationId = "groupingRecommendationId"
+            case recommendationReasons = "recommendationReasons"
+            case rejectionReason = "rejectionReason"
+            case resources = "resources"
+            case score = "score"
+            case status = "status"
+        }
+    }
+
+    public struct GroupingResource: AWSDecodableShape {
+        /// Indicates the logical identifier of the resource.
+        public let logicalResourceId: LogicalResourceId
+        /// Indicates the physical identifier of the resource.
+        public let physicalResourceId: PhysicalResourceId
+        /// Indicates the resource name.
+        public let resourceName: String
+        /// Indicates the resource type.
+        public let resourceType: String
+        /// Indicates the identifier of the source AppComponents in which the resources were previously grouped into.
+        public let sourceAppComponentIds: [String]
+
+        public init(logicalResourceId: LogicalResourceId, physicalResourceId: PhysicalResourceId, resourceName: String, resourceType: String, sourceAppComponentIds: [String]) {
+            self.logicalResourceId = logicalResourceId
+            self.physicalResourceId = physicalResourceId
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+            self.sourceAppComponentIds = sourceAppComponentIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logicalResourceId = "logicalResourceId"
+            case physicalResourceId = "physicalResourceId"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
+            case sourceAppComponentIds = "sourceAppComponentIds"
         }
     }
 
@@ -2551,9 +2850,9 @@ extension Resiliencehub {
         /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let assessmentArn: String
-        /// Indicates the maximum number of applications requested.
+        /// Indicates the maximum number of compliance drifts requested.
         public let maxResults: Int?
-        /// Indicates the unique token number of the next application to be checked for compliance and regulatory requirements from the list of applications.
+        /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
 
         public init(assessmentArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2579,7 +2878,7 @@ extension Resiliencehub {
     public struct ListAppAssessmentComplianceDriftsResponse: AWSDecodableShape {
         /// Indicates compliance drifts (recovery time objective (RTO) and recovery point objective (RPO)) detected for an assessed entity.
         public let complianceDrifts: [ComplianceDrift]
-        /// Token number of the next application to be checked for compliance and regulatory requirements from the list of applications.
+        /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
 
         public init(complianceDrifts: [ComplianceDrift], nextToken: String? = nil) {
@@ -3112,7 +3411,7 @@ extension Resiliencehub {
         public let name: String?
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
-        /// The application list is sorted based on the values of lastAppComplianceEvaluationTime field. By default, application list is sorted in ascending order. To sort the appliation list in descending order, set this field to True.
+        /// The application list is sorted based on the values of lastAppComplianceEvaluationTime field. By default, application list is sorted in ascending order. To sort the application list in descending order, set this field to True.
         public let reverseOrder: Bool?
         /// Indicates the upper limit of the range that is used to filter the applications based on their last assessment times.
         public let toLastAssessmentTime: Date?
@@ -3287,6 +3586,57 @@ extension Resiliencehub {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case resiliencyPolicies = "resiliencyPolicies"
+        }
+    }
+
+    public struct ListResourceGroupingRecommendationsRequest: AWSEncodableShape {
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
+        /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
+        public let appArn: String?
+        /// Maximum number of grouping recommendations to be displayed per Resilience Hub application.
+        public let maxResults: Int?
+        /// Null, or the token from a previous call to get the next set of results.
+        public let nextToken: String?
+
+        public init(appArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.appArn = appArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.appArn, key: "appArn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListResourceGroupingRecommendationsResponse: AWSDecodableShape {
+        /// List of resource grouping recommendations generated by Resilience Hub.
+        public let groupingRecommendations: [GroupingRecommendation]
+        /// Null, or the token from a previous call to get the next set of results.
+        public let nextToken: String?
+
+        public init(groupingRecommendations: [GroupingRecommendation], nextToken: String? = nil) {
+            self.groupingRecommendations = groupingRecommendations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupingRecommendations = "groupingRecommendations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3903,6 +4253,75 @@ extension Resiliencehub {
         }
     }
 
+    public struct RejectGroupingRecommendationEntry: AWSEncodableShape {
+        /// Indicates the identifier of the grouping recommendation.
+        public let groupingRecommendationId: String
+        /// Indicates the reason you had selected while rejecting a grouping recommendation.
+        public let rejectionReason: GroupingRecommendationRejectionReason?
+
+        public init(groupingRecommendationId: String, rejectionReason: GroupingRecommendationRejectionReason? = nil) {
+            self.groupingRecommendationId = groupingRecommendationId
+            self.rejectionReason = rejectionReason
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupingRecommendationId, name: "groupingRecommendationId", parent: name, max: 255)
+            try self.validate(self.groupingRecommendationId, name: "groupingRecommendationId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupingRecommendationId = "groupingRecommendationId"
+            case rejectionReason = "rejectionReason"
+        }
+    }
+
+    public struct RejectResourceGroupingRecommendationsRequest: AWSEncodableShape {
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
+        /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
+        public let appArn: String
+        /// Indicates the list of resource grouping recommendations you have selected to exclude from your application.
+        public let entries: [RejectGroupingRecommendationEntry]
+
+        public init(appArn: String, entries: [RejectGroupingRecommendationEntry]) {
+            self.appArn = appArn
+            self.entries = entries
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+            try self.entries.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try self.validate(self.entries, name: "entries", parent: name, max: 30)
+            try self.validate(self.entries, name: "entries", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appArn = "appArn"
+            case entries = "entries"
+        }
+    }
+
+    public struct RejectResourceGroupingRecommendationsResponse: AWSDecodableShape {
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
+        /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
+        public let appArn: String
+        /// Indicates the list of resource grouping recommendations that failed to get excluded in your application.
+        public let failedEntries: [FailedGroupingRecommendationEntry]
+
+        public init(appArn: String, failedEntries: [FailedGroupingRecommendationEntry]) {
+            self.appArn = appArn
+            self.failedEntries = failedEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appArn = "appArn"
+            case failedEntries = "failedEntries"
+        }
+    }
+
     public struct RemoveDraftAppVersionResourceMappingsRequest: AWSEncodableShape {
         /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
         /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
@@ -4394,6 +4813,52 @@ extension Resiliencehub {
 
         private enum CodingKeys: String, CodingKey {
             case assessment = "assessment"
+        }
+    }
+
+    public struct StartResourceGroupingRecommendationTaskRequest: AWSEncodableShape {
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
+        /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
+        public let appArn: String
+
+        public init(appArn: String) {
+            self.appArn = appArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appArn = "appArn"
+        }
+    }
+
+    public struct StartResourceGroupingRecommendationTaskResponse: AWSDecodableShape {
+        /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
+        /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
+        public let appArn: String
+        /// Indicates the error that occurred while executing a grouping recommendation task.
+        public let errorMessage: String?
+        /// Indicates the identifier of the grouping recommendation task.
+        public let groupingId: String
+        /// Status of the action.
+        public let status: ResourcesGroupingRecGenStatusType
+
+        public init(appArn: String, errorMessage: String? = nil, groupingId: String, status: ResourcesGroupingRecGenStatusType) {
+            self.appArn = appArn
+            self.errorMessage = errorMessage
+            self.groupingId = groupingId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appArn = "appArn"
+            case errorMessage = "errorMessage"
+            case groupingId = "groupingId"
+            case status = "status"
         }
     }
 

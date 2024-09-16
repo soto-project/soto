@@ -196,6 +196,11 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReferenceCreationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `import` = "IMPORT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReferenceFile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case index = "INDEX"
         case source = "SOURCE"
@@ -1391,13 +1396,13 @@ extension Omics {
     }
 
     public struct CreateRunGroupRequest: AWSEncodableShape {
-        /// The maximum number of CPUs to use in the group.
+        /// The maximum number of CPUs that can run concurrently across all active runs in the run group.
         public let maxCpus: Int?
-        /// A maximum run time for the group in minutes.
+        /// The maximum time for each run (in minutes). If a run exceeds the maximum run time, the run fails automatically.
         public let maxDuration: Int?
-        /// The maximum GPUs that can be used by a run group.
+        /// The maximum number of GPUs that can run concurrently across all active runs in the run group.
         public let maxGpus: Int?
-        /// The maximum number of concurrent runs for the group.
+        /// The maximum number of runs that can be running at the same time.
         public let maxRuns: Int?
         /// A name for the group.
         public let name: String?
@@ -1697,7 +1702,7 @@ extension Omics {
         public let parameterTemplate: [String: WorkflowParameter]?
         /// To ensure that requests don't run multiple times, specify a unique ID for each request.
         public let requestId: String
-        /// The storage capacity for the workflow in gibibytes.
+        /// The default storage capacity for the workflow runs, in gibibytes.
         public let storageCapacity: Int?
         /// Tags for the workflow.
         public let tags: [String: String]?
@@ -2760,6 +2765,8 @@ extension Omics {
     public struct GetReadSetMetadataResponse: AWSDecodableShape {
         /// The read set's ARN.
         public let arn: String
+        /// The read set's creation job ID.
+        public let creationJobId: String?
         /// When the read set was created.
         public let creationTime: Date
         ///  The creation type of the read set.
@@ -2791,8 +2798,9 @@ extension Omics {
         /// The read set's subject ID.
         public let subjectId: String?
 
-        public init(arn: String, creationTime: Date, creationType: CreationType? = nil, description: String? = nil, etag: ETag? = nil, files: ReadSetFiles? = nil, fileType: FileType, id: String, name: String? = nil, referenceArn: String? = nil, sampleId: String? = nil, sequenceInformation: SequenceInformation? = nil, sequenceStoreId: String, status: ReadSetStatus, statusMessage: String? = nil, subjectId: String? = nil) {
+        public init(arn: String, creationJobId: String? = nil, creationTime: Date, creationType: CreationType? = nil, description: String? = nil, etag: ETag? = nil, files: ReadSetFiles? = nil, fileType: FileType, id: String, name: String? = nil, referenceArn: String? = nil, sampleId: String? = nil, sequenceInformation: SequenceInformation? = nil, sequenceStoreId: String, status: ReadSetStatus, statusMessage: String? = nil, subjectId: String? = nil) {
             self.arn = arn
+            self.creationJobId = creationJobId
             self.creationTime = creationTime
             self.creationType = creationType
             self.description = description
@@ -2812,6 +2820,7 @@ extension Omics {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case creationJobId = "creationJobId"
             case creationTime = "creationTime"
             case creationType = "creationType"
             case description = "description"
@@ -2989,8 +2998,12 @@ extension Omics {
     public struct GetReferenceMetadataResponse: AWSDecodableShape {
         /// The reference's ARN.
         public let arn: String
+        /// The reference's creation job ID.
+        public let creationJobId: String?
         /// When the reference was created.
         public let creationTime: Date
+        /// The reference's creation type.
+        public let creationType: ReferenceCreationType?
         /// The reference's description.
         public let description: String?
         /// The reference's files.
@@ -3008,9 +3021,11 @@ extension Omics {
         /// When the reference was updated.
         public let updateTime: Date
 
-        public init(arn: String, creationTime: Date, description: String? = nil, files: ReferenceFiles? = nil, id: String, md5: String, name: String? = nil, referenceStoreId: String, status: ReferenceStatus? = nil, updateTime: Date) {
+        public init(arn: String, creationJobId: String? = nil, creationTime: Date, creationType: ReferenceCreationType? = nil, description: String? = nil, files: ReferenceFiles? = nil, id: String, md5: String, name: String? = nil, referenceStoreId: String, status: ReferenceStatus? = nil, updateTime: Date) {
             self.arn = arn
+            self.creationJobId = creationJobId
             self.creationTime = creationTime
+            self.creationType = creationType
             self.description = description
             self.files = files
             self.id = id
@@ -3023,7 +3038,9 @@ extension Omics {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case creationJobId = "creationJobId"
             case creationTime = "creationTime"
+            case creationType = "creationType"
             case description = "description"
             case files = "files"
             case id = "id"
@@ -3798,7 +3815,7 @@ extension Omics {
         public let status: WorkflowStatus?
         /// The workflow's status message.
         public let statusMessage: String?
-        /// The workflow's storage capacity in gibibytes.
+        /// The workflow's default run storage capacity in gibibytes.
         public let storageCapacity: Int?
         /// The workflow's tags.
         public let tags: [String: String]?
@@ -3907,6 +3924,8 @@ extension Omics {
         public let generatedFrom: String?
         /// The source's name.
         public let name: String?
+        /// The source's read set ID.
+        public let readSetId: String?
         /// The source's genome reference ARN.
         public let referenceArn: String?
         /// The source's sample ID.
@@ -3924,10 +3943,11 @@ extension Omics {
         /// The source's tags.
         public let tags: [String: String]?
 
-        public init(description: String? = nil, generatedFrom: String? = nil, name: String? = nil, referenceArn: String? = nil, sampleId: String, sourceFiles: SourceFiles, sourceFileType: FileType, status: ReadSetImportJobItemStatus, statusMessage: String? = nil, subjectId: String, tags: [String: String]? = nil) {
+        public init(description: String? = nil, generatedFrom: String? = nil, name: String? = nil, readSetId: String? = nil, referenceArn: String? = nil, sampleId: String, sourceFiles: SourceFiles, sourceFileType: FileType, status: ReadSetImportJobItemStatus, statusMessage: String? = nil, subjectId: String, tags: [String: String]? = nil) {
             self.description = description
             self.generatedFrom = generatedFrom
             self.name = name
+            self.readSetId = readSetId
             self.referenceArn = referenceArn
             self.sampleId = sampleId
             self.sourceFiles = sourceFiles
@@ -3942,6 +3962,7 @@ extension Omics {
             case description = "description"
             case generatedFrom = "generatedFrom"
             case name = "name"
+            case readSetId = "readSetId"
             case referenceArn = "referenceArn"
             case sampleId = "sampleId"
             case sourceFiles = "sourceFiles"
@@ -4012,6 +4033,8 @@ extension Omics {
         public let description: String?
         /// The source's name.
         public let name: String?
+        /// The source's reference ID.
+        public let referenceId: String?
         /// The source file's location in Amazon S3.
         public let sourceFile: String?
         /// The source's status.
@@ -4021,9 +4044,10 @@ extension Omics {
         /// The source's tags.
         public let tags: [String: String]?
 
-        public init(description: String? = nil, name: String? = nil, sourceFile: String? = nil, status: ReferenceImportJobItemStatus, statusMessage: String? = nil, tags: [String: String]? = nil) {
+        public init(description: String? = nil, name: String? = nil, referenceId: String? = nil, sourceFile: String? = nil, status: ReferenceImportJobItemStatus, statusMessage: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.name = name
+            self.referenceId = referenceId
             self.sourceFile = sourceFile
             self.status = status
             self.statusMessage = statusMessage
@@ -4033,6 +4057,7 @@ extension Omics {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case name = "name"
+            case referenceId = "referenceId"
             case sourceFile = "sourceFile"
             case status = "status"
             case statusMessage = "statusMessage"

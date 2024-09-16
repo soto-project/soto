@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS PinpointSMSVoiceV2 service.
 ///
-/// Welcome to the Amazon Pinpoint SMS and Voice, version 2 API Reference. This guide provides information about Amazon Pinpoint SMS and Voice, version 2 API resources, including supported HTTP methods, parameters, and schemas. Amazon Pinpoint is an Amazon Web Services service that you can use to engage with your recipients across multiple messaging channels. The Amazon Pinpoint SMS and Voice, version 2 API provides programmatic access to options that are unique to the SMS and voice channels. Amazon Pinpoint SMS and Voice, version 2 resources such as phone numbers, sender IDs, and opt-out lists can be used by the Amazon Pinpoint API. If you're new to Amazon Pinpoint SMS, it's also helpful to review the  Amazon Pinpoint SMS User Guide. The Amazon Pinpoint Developer Guide provides tutorials, code samples, and procedures that demonstrate how to use Amazon Pinpoint SMS features programmatically and how to integrate Amazon Pinpoint functionality into mobile apps and other types of applications. The guide also provides key information, such as Amazon Pinpoint integration with other Amazon Web Services services, and the quotas that apply to use of the service.  Regional availability  The Amazon Pinpoint SMS and Voice, version 2 API Reference is available in several Amazon Web Services Regions and it provides an endpoint for each of these Regions. For a list of all the Regions and endpoints where the API is currently available, see Amazon Web Services Service Endpoints and Amazon Pinpoint endpoints and quotas in the Amazon Web Services General Reference. To learn more about Amazon Web Services Regions, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference. In each Region, Amazon Web Services maintains multiple Availability Zones. These Availability Zones are physically isolated from each other, but are united by private, low-latency, high-throughput, and highly redundant network connections. These Availability Zones enable us to provide very high levels of availability and redundancy, while also minimizing latency. To learn more about the number of Availability Zones that are available in each Region, see Amazon Web Services Global Infrastructure.
+/// Welcome to the AWS End User Messaging SMS and Voice, version 2 API Reference. This guide provides information about AWS End User Messaging SMS and Voice, version 2 API resources, including supported HTTP methods, parameters, and schemas. Amazon Pinpoint is an Amazon Web Services service that you can use to engage with your recipients across multiple messaging channels. The AWS End User Messaging SMS and Voice, version 2 API provides programmatic access to options that are unique to the SMS and voice channels. AWS End User Messaging SMS and Voice, version 2 resources such as phone numbers, sender IDs, and opt-out lists can be used by the Amazon Pinpoint API. If you're new to AWS End User Messaging SMS and Voice, it's also helpful to review the  AWS End User Messaging SMS User Guide. The AWS End User Messaging SMS User Guide provides tutorials, code samples, and procedures that demonstrate how to use AWS End User Messaging SMS and Voice features programmatically and how to integrate functionality into mobile apps and other types of applications. The guide also provides key information, such as AWS End User Messaging SMS and Voice integration with other Amazon Web Services services, and the quotas that apply to use of the service.  Regional availability  The AWS End User Messaging SMS and Voice version 2 API Reference is available in several Amazon Web Services Regions and it provides an endpoint for each of these Regions. For a list of all the Regions and endpoints where the API is currently available, see Amazon Web Services Service Endpoints and Amazon Pinpoint endpoints and quotas in the Amazon Web Services General Reference. To learn more about Amazon Web Services Regions, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference. In each Region, Amazon Web Services maintains multiple Availability Zones. These Availability Zones are physically isolated from each other, but are united by private, low-latency, high-throughput, and highly redundant network connections. These Availability Zones enable us to provide very high levels of availability and redundancy, while also minimizing latency. To learn more about the number of Availability Zones that are available in each Region, see Amazon Web Services Global Infrastructure.
 public struct PinpointSMSVoiceV2: AWSService {
     // MARK: Member variables
 
@@ -126,7 +126,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
-    /// Creates a new event destination in a configuration set. An event destination is a location where you send message events. The event options are Amazon CloudWatch, Amazon Kinesis Data Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can send information about that event to an event destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic. Each configuration set can contain between 0 and 5 event destinations. Each event destination can contain a reference to a single destination, such as a CloudWatch or Kinesis Data Firehose destination.
+    /// Creates a new event destination in a configuration set. An event destination is a location where you send message events. The event options are Amazon CloudWatch, Amazon Data Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can send information about that event to an event destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic. Each configuration set can contain between 0 and 5 event destinations. Each event destination can contain a reference to a single destination, such as a CloudWatch or Firehose destination.
     @Sendable
     public func createEventDestination(_ input: CreateEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEventDestinationResult {
         return try await self.client.execute(
@@ -139,7 +139,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
-    /// Creates a new opt-out list. If the opt-out list name already exists, an error is returned. An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out keywords, see  SMS opt out  in the Amazon Pinpoint User Guide.
+    /// Creates a new opt-out list. If the opt-out list name already exists, an error is returned. An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out keywords, see  SMS opt out  in the AWS End User Messaging SMS User Guide.
     @Sendable
     public func createOptOutList(_ input: CreateOptOutListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOptOutListResult {
         return try await self.client.execute(
@@ -308,7 +308,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
-    /// Deletes an existing keyword from an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, Amazon Pinpoint responds with a customizable message. Keywords "HELP" and "STOP" can't be deleted or modified.
+    /// Deletes an existing keyword from an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message. Keywords "HELP" and "STOP" can't be deleted or modified.
     @Sendable
     public func deleteKeyword(_ input: DeleteKeywordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKeywordResult {
         return try await self.client.execute(
@@ -425,7 +425,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
-    /// Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Amazon Pinpoint quotas  in the Amazon Pinpoint Developer Guide.
+    /// Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas  in the AWS End User Messaging SMS User Guide.
     @Sendable
     public func deleteTextMessageSpendLimitOverride(_ input: DeleteTextMessageSpendLimitOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTextMessageSpendLimitOverrideResult {
         return try await self.client.execute(
@@ -451,7 +451,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
-    /// Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the EnforcedLimit equal to the MaxLimit, which is controlled by Amazon Web Services. For more information on spending limits (quotas) see Amazon Pinpoint quotas in the Amazon Pinpoint Developer Guide.
+    /// Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the EnforcedLimit equal to the MaxLimit, which is controlled by Amazon Web Services. For more information on spending limits (quotas) see Quotas  in the AWS End User Messaging SMS User Guide.
     @Sendable
     public func deleteVoiceMessageSpendLimitOverride(_ input: DeleteVoiceMessageSpendLimitOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVoiceMessageSpendLimitOverrideResult {
         return try await self.client.execute(
@@ -464,7 +464,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
-    /// Describes attributes of your Amazon Web Services account. The supported account attributes include account tier, which indicates whether your account is in the sandbox or production environment. When you're ready to move your account out of the sandbox, create an Amazon Web Services Support case for a service limit increase request. New Amazon Pinpoint accounts are placed into an SMS or voice sandbox. The sandbox protects both Amazon Web Services end recipients and SMS or voice recipients from fraud and abuse.
+    /// Describes attributes of your Amazon Web Services account. The supported account attributes include account tier, which indicates whether your account is in the sandbox or production environment. When you're ready to move your account out of the sandbox, create an Amazon Web Services Support case for a service limit increase request. New accounts are placed into an SMS or voice sandbox. The sandbox protects both Amazon Web Services end recipients and SMS or voice recipients from fraud and abuse.
     @Sendable
     public func describeAccountAttributes(_ input: DescribeAccountAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountAttributesResult {
         return try await self.client.execute(
@@ -477,7 +477,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
-    /// Describes the current Amazon Pinpoint SMS Voice V2 resource quotas for your account. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. When you establish an Amazon Web Services account, the account has initial quotas on the maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can create in a given Region. For more information see  Amazon Pinpoint quotas  in the Amazon Pinpoint Developer Guide.
+    /// Describes the current AWS End User Messaging SMS and Voice SMS Voice V2 resource quotas for your account. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. When you establish an Amazon Web Services account, the account has initial quotas on the maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can create in a given Region. For more information see Quotas  in the AWS End User Messaging SMS User Guide.
     @Sendable
     public func describeAccountLimits(_ input: DescribeAccountLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountLimitsResult {
         return try await self.client.execute(
@@ -503,7 +503,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
-    /// Describes the specified keywords or all keywords on your origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, Amazon Pinpoint responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
+    /// Describes the specified keywords or all keywords on your origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
     @Sendable
     public func describeKeywords(_ input: DescribeKeywordsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeKeywordsResult {
         return try await self.client.execute(
@@ -685,7 +685,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
-    /// Describes the current Amazon Pinpoint monthly spend limits for sending voice and text messages. When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see  Requesting increases to your monthly SMS spending quota for Amazon Pinpoint in the Amazon Pinpoint User Guide.
+    /// Describes the current monthly spend limits for sending voice and text messages. When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see  Requesting increases to your monthly SMS, MMS, or Voice spending quota in the AWS End User Messaging SMS User Guide.
     @Sendable
     public func describeSpendLimits(_ input: DescribeSpendLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSpendLimitsResult {
         return try await self.client.execute(
@@ -802,7 +802,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
-    /// Creates or updates a keyword configuration on an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, Amazon Pinpoint responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
+    /// Creates or updates a keyword configuration on an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
     @Sendable
     public func putKeyword(_ input: PutKeywordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutKeywordResult {
         return try await self.client.execute(
@@ -867,7 +867,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
-    /// Request an origination phone number for use in your account. For more information on phone number request see  Requesting a number  in the Amazon Pinpoint User Guide.
+    /// Request an origination phone number for use in your account. For more information on phone number request see Request a phone number in the AWS End User Messaging SMS User Guide.
     @Sendable
     public func requestPhoneNumber(_ input: RequestPhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RequestPhoneNumberResult {
         return try await self.client.execute(
@@ -919,7 +919,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
-    /// Creates a new text message and sends it to a recipient's phone number. SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information, see Message Parts per Second (MPS) limits in the Amazon Pinpoint User Guide.
+    /// Creates a new text message and sends it to a recipient's phone number. SendTextMessage only sends an SMS message to one recipient each time it is invoked. SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see Message Parts per Second (MPS) limits in the AWS End User Messaging SMS User Guide.
     @Sendable
     public func sendTextMessage(_ input: SendTextMessageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendTextMessageResult {
         return try await self.client.execute(
@@ -932,7 +932,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
-    /// Allows you to send a request that sends a voice message through Amazon Pinpoint. This operation uses Amazon Polly to convert a text script into a voice message.
+    /// Allows you to send a request that sends a voice message. This operation uses Amazon Polly to convert a text script into a voice message.
     @Sendable
     public func sendVoiceMessage(_ input: SendVoiceMessageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendVoiceMessageResult {
         return try await self.client.execute(
@@ -1036,7 +1036,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
-    /// Adds or overwrites only the specified tags for the specified Amazon Pinpoint SMS Voice, version 2 resource. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see  Tagging Amazon Pinpoint resources in the Amazon Pinpoint Developer Guide.
+    /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see Tags  in the AWS End User Messaging SMS User Guide.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResult {
         return try await self.client.execute(
@@ -1049,7 +1049,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
-    /// Removes the association of the specified tags from an Amazon Pinpoint SMS Voice V2 resource. For more information on tags see  Tagging Amazon Pinpoint resources in the Amazon Pinpoint Developer Guide.
+    /// Removes the association of the specified tags from a resource. For more information on tags see Tags  in the AWS End User Messaging SMS User Guide.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResult {
         return try await self.client.execute(
@@ -1062,7 +1062,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
-    /// Updates an existing event destination in a configuration set. You can update the IAM role ARN for CloudWatch Logs and Kinesis Data Firehose. You can also enable or disable the event destination. You may want to update an event destination to change its matching event types or updating the destination resource ARN. You can't change an event destination's type between CloudWatch Logs, Kinesis Data Firehose, and Amazon SNS.
+    /// Updates an existing event destination in a configuration set. You can update the IAM role ARN for CloudWatch Logs and Firehose. You can also enable or disable the event destination. You may want to update an event destination to change its matching event types or updating the destination resource ARN. You can't change an event destination's type between CloudWatch Logs, Firehose, and Amazon SNS.
     @Sendable
     public func updateEventDestination(_ input: UpdateEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEventDestinationResult {
         return try await self.client.execute(

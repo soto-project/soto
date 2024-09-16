@@ -26,6 +26,12 @@ import Foundation
 extension Amplify {
     // MARK: Enums
 
+    public enum CacheConfigType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case amplifyManaged = "AMPLIFY_MANAGED"
+        case amplifyManagedNoCookies = "AMPLIFY_MANAGED_NO_COOKIES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CertificateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amplifyManaged = "AMPLIFY_MANAGED"
         case custom = "CUSTOM"
@@ -114,6 +120,8 @@ extension Amplify {
         public let basicAuthCredentials: String?
         /// Describes the content of the build specification (build spec) for the Amplify app.
         public let buildSpec: String?
+        /// The cache configuration for the Amplify app. If you don't specify the cache configuration type, Amplify uses the default AMPLIFY_MANAGED setting.
+        public let cacheConfig: CacheConfig?
         /// Creates a date and time for the Amplify app.
         public let createTime: Date
         /// Describes the custom HTTP headers for the Amplify app.
@@ -138,7 +146,7 @@ extension Amplify {
         public let iamServiceRoleArn: String?
         /// The name for the Amplify app.
         public let name: String
-        /// The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC.
+        /// The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC. If you are deploying an SSG only app with Next.js 14 or later, you must use the platform type WEB_COMPUTE.
         public let platform: Platform
         /// Describes the information about a production branch of the Amplify app.
         public let productionBranch: ProductionBranch?
@@ -151,13 +159,14 @@ extension Amplify {
         /// Updates the date and time for the Amplify app.
         public let updateTime: Date
 
-        public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, createTime: Date, customHeaders: String? = nil, customRules: [CustomRule]? = nil, defaultDomain: String, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String? = nil, repositoryCloneMethod: RepositoryCloneMethod? = nil, tags: [String: String]? = nil, updateTime: Date) {
+        public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, createTime: Date, customHeaders: String? = nil, customRules: [CustomRule]? = nil, defaultDomain: String, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String? = nil, repositoryCloneMethod: RepositoryCloneMethod? = nil, tags: [String: String]? = nil, updateTime: Date) {
             self.appArn = appArn
             self.appId = appId
             self.autoBranchCreationConfig = autoBranchCreationConfig
             self.autoBranchCreationPatterns = autoBranchCreationPatterns
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
+            self.cacheConfig = cacheConfig
             self.createTime = createTime
             self.customHeaders = customHeaders
             self.customRules = customRules
@@ -185,6 +194,7 @@ extension Amplify {
             case autoBranchCreationPatterns = "autoBranchCreationPatterns"
             case basicAuthCredentials = "basicAuthCredentials"
             case buildSpec = "buildSpec"
+            case cacheConfig = "cacheConfig"
             case createTime = "createTime"
             case customHeaders = "customHeaders"
             case customRules = "customRules"
@@ -462,12 +472,25 @@ extension Amplify {
         }
     }
 
+    public struct CacheConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The type of cache configuration to use for an Amplify app. The AMPLIFY_MANAGED cache configuration automatically applies an optimized cache configuration for your app based on its platform, routing rules, and rewrite rules. This is the default setting. The AMPLIFY_MANAGED_NO_COOKIES cache configuration type is the same as AMPLIFY_MANAGED, except that it excludes all cookies from the cache key.
+        public let type: CacheConfigType
+
+        public init(type: CacheConfigType) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+        }
+    }
+
     public struct Certificate: AWSDecodableShape {
         /// The DNS record for certificate verification.
         public let certificateVerificationDNSRecord: String?
         /// The Amazon resource name (ARN) for a custom certificate that you have already added to Certificate Manager in your Amazon Web Services account.  This field is required only when the certificate type is CUSTOM.
         public let customCertificateArn: String?
-        /// The type of SSL/TLS certificate that you want to use. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see Importing certificates into Certificate Manager in the ACM User guide .
+        /// The type of SSL/TLS certificate that you want to use. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see Importing certificates into Certificate Manager in the ACM User guide.
         public let type: CertificateType
 
         public init(certificateVerificationDNSRecord: String? = nil, customCertificateArn: String? = nil, type: CertificateType) {
@@ -516,6 +539,8 @@ extension Amplify {
         public let basicAuthCredentials: String?
         /// The build specification (build spec) for an Amplify app.
         public let buildSpec: String?
+        /// The cache configuration for the Amplify app.
+        public let cacheConfig: CacheConfig?
         /// The custom HTTP headers for an Amplify app.
         public let customHeaders: String?
         /// The custom rewrite and redirect rules for an Amplify app.
@@ -538,19 +563,20 @@ extension Amplify {
         public let name: String
         /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
         public let oauthToken: String?
-        /// The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC.
+        /// The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC. If you are deploying an SSG only app with Next.js version 14 or later, you must set the platform type to WEB_COMPUTE and set the artifacts baseDirectory to .next in the application's build settings. For an example of the build specification settings, see Amplify build settings for a Next.js 14 SSG application in the Amplify Hosting User Guide.
         public let platform: Platform?
         /// The Git repository for the Amplify app.
         public let repository: String?
         /// The tag for an Amplify app.
         public let tags: [String: String]?
 
-        public init(accessToken: String? = nil, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, customHeaders: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil, tags: [String: String]? = nil) {
+        public init(accessToken: String? = nil, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, customHeaders: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil, tags: [String: String]? = nil) {
             self.accessToken = accessToken
             self.autoBranchCreationConfig = autoBranchCreationConfig
             self.autoBranchCreationPatterns = autoBranchCreationPatterns
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
+            self.cacheConfig = cacheConfig
             self.customHeaders = customHeaders
             self.customRules = customRules
             self.description = description
@@ -620,6 +646,7 @@ extension Amplify {
             case autoBranchCreationPatterns = "autoBranchCreationPatterns"
             case basicAuthCredentials = "basicAuthCredentials"
             case buildSpec = "buildSpec"
+            case cacheConfig = "cacheConfig"
             case customHeaders = "customHeaders"
             case customRules = "customRules"
             case description = "description"
@@ -2627,6 +2654,8 @@ extension Amplify {
         public let basicAuthCredentials: String?
         /// The build specification (build spec) for an Amplify app.
         public let buildSpec: String?
+        /// The cache configuration for the Amplify app.
+        public let cacheConfig: CacheConfig?
         /// The custom HTTP headers for an Amplify app.
         public let customHeaders: String?
         /// The custom redirect and rewrite rules for an Amplify app.
@@ -2649,18 +2678,19 @@ extension Amplify {
         public let name: String?
         /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
         public let oauthToken: String?
-        /// The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC.
+        /// The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC. If you are deploying an SSG only app with Next.js version 14 or later, you must set the platform type to WEB_COMPUTE.
         public let platform: Platform?
         /// The name of the Git repository for an Amplify app.
         public let repository: String?
 
-        public init(accessToken: String? = nil, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, customHeaders: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String? = nil, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil) {
+        public init(accessToken: String? = nil, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, customHeaders: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String? = nil, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil) {
             self.accessToken = accessToken
             self.appId = appId
             self.autoBranchCreationConfig = autoBranchCreationConfig
             self.autoBranchCreationPatterns = autoBranchCreationPatterns
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
+            self.cacheConfig = cacheConfig
             self.customHeaders = customHeaders
             self.customRules = customRules
             self.description = description
@@ -2685,6 +2715,7 @@ extension Amplify {
             try container.encodeIfPresent(self.autoBranchCreationPatterns, forKey: .autoBranchCreationPatterns)
             try container.encodeIfPresent(self.basicAuthCredentials, forKey: .basicAuthCredentials)
             try container.encodeIfPresent(self.buildSpec, forKey: .buildSpec)
+            try container.encodeIfPresent(self.cacheConfig, forKey: .cacheConfig)
             try container.encodeIfPresent(self.customHeaders, forKey: .customHeaders)
             try container.encodeIfPresent(self.customRules, forKey: .customRules)
             try container.encodeIfPresent(self.description, forKey: .description)
@@ -2748,6 +2779,7 @@ extension Amplify {
             case autoBranchCreationPatterns = "autoBranchCreationPatterns"
             case basicAuthCredentials = "basicAuthCredentials"
             case buildSpec = "buildSpec"
+            case cacheConfig = "cacheConfig"
             case customHeaders = "customHeaders"
             case customRules = "customRules"
             case description = "description"

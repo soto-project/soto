@@ -4423,7 +4423,7 @@ extension WAFV2 {
             try self.validate(self.customKeys, name: "customKeys", parent: name, max: 5)
             try self.forwardedIPConfig?.validate(name: "\(name).forwardedIPConfig")
             try self.validate(self.limit, name: "limit", parent: name, max: 2000000000)
-            try self.validate(self.limit, name: "limit", parent: name, min: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 10)
             try self.scopeDownStatement?.validate(name: "\(name).scopeDownStatement")
         }
 

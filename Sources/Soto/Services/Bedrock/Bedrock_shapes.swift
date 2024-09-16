@@ -40,6 +40,7 @@ extension Bedrock {
 
     public enum EvaluationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "Completed"
+        case deleting = "Deleting"
         case failed = "Failed"
         case inProgress = "InProgress"
         case stopped = "Stopped"
@@ -162,9 +163,26 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum InferenceProfileStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InferenceProfileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case systemDefined = "SYSTEM_DEFINED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InferenceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case onDemand = "ON_DEMAND"
         case provisioned = "PROVISIONED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelCopyJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "Completed"
+        case failed = "Failed"
+        case inProgress = "InProgress"
         public var description: String { return self.rawValue }
     }
 
@@ -183,6 +201,27 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum ModelImportJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "Completed"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelInvocationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "Completed"
+        case expired = "Expired"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        case partiallyCompleted = "PartiallyCompleted"
+        case scheduled = "Scheduled"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        case submitted = "Submitted"
+        case validating = "Validating"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ModelModality: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case embedding = "EMBEDDING"
         case image = "IMAGE"
@@ -195,6 +234,11 @@ extension Bedrock {
         case failed = "Failed"
         case inService = "InService"
         case updating = "Updating"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3InputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case jsonl = "JSONL"
         public var description: String { return self.rawValue }
     }
 
@@ -292,6 +336,83 @@ extension Bedrock {
         }
     }
 
+    public struct BatchDeleteEvaluationJobError: AWSDecodableShape {
+        /// A HTTP status code of the model evaluation job being deleted.
+        public let code: String
+        /// The ARN of the model evaluation job being deleted.
+        public let jobIdentifier: String
+        /// A status message about the model evaluation job deletion.
+        public let message: String?
+
+        public init(code: String, jobIdentifier: String, message: String? = nil) {
+            self.code = code
+            self.jobIdentifier = jobIdentifier
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case jobIdentifier = "jobIdentifier"
+            case message = "message"
+        }
+    }
+
+    public struct BatchDeleteEvaluationJobItem: AWSDecodableShape {
+        /// The ARN of model evaluation job to be deleted.
+        public let jobIdentifier: String
+        /// The status of the job's deletion.
+        public let jobStatus: EvaluationJobStatus
+
+        public init(jobIdentifier: String, jobStatus: EvaluationJobStatus) {
+            self.jobIdentifier = jobIdentifier
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobIdentifier = "jobIdentifier"
+            case jobStatus = "jobStatus"
+        }
+    }
+
+    public struct BatchDeleteEvaluationJobRequest: AWSEncodableShape {
+        /// An array of model evaluation job ARNs to be deleted.
+        public let jobIdentifiers: [String]
+
+        public init(jobIdentifiers: [String]) {
+            self.jobIdentifiers = jobIdentifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.jobIdentifiers.forEach {
+                try validate($0, name: "jobIdentifiers[]", parent: name, max: 1011)
+                try validate($0, name: "jobIdentifiers[]", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:evaluation-job/[a-z0-9]{12})$")
+            }
+            try self.validate(self.jobIdentifiers, name: "jobIdentifiers", parent: name, max: 25)
+            try self.validate(self.jobIdentifiers, name: "jobIdentifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobIdentifiers = "jobIdentifiers"
+        }
+    }
+
+    public struct BatchDeleteEvaluationJobResponse: AWSDecodableShape {
+        /// A JSON object containing the HTTP status codes and the ARNs of model evaluation jobs that failed to be deleted.
+        public let errors: [BatchDeleteEvaluationJobError]
+        /// The list of model evaluation jobs to be deleted.
+        public let evaluationJobs: [BatchDeleteEvaluationJobItem]
+
+        public init(errors: [BatchDeleteEvaluationJobError], evaluationJobs: [BatchDeleteEvaluationJobItem]) {
+            self.errors = errors
+            self.evaluationJobs = evaluationJobs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case evaluationJobs = "evaluationJobs"
+        }
+    }
+
     public struct CloudWatchConfig: AWSEncodableShape & AWSDecodableShape {
         /// S3 configuration for delivering a large amount of data.
         public let largeDataDeliveryS3Config: S3Config?
@@ -359,7 +480,7 @@ extension Bedrock {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.customerEncryptionKeyId, name: "customerEncryptionKeyId", parent: name, max: 2048)
             try self.validate(self.customerEncryptionKeyId, name: "customerEncryptionKeyId", parent: name, min: 1)
-            try self.validate(self.customerEncryptionKeyId, name: "customerEncryptionKeyId", parent: name, pattern: "^arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+))$")
+            try self.validate(self.customerEncryptionKeyId, name: "customerEncryptionKeyId", parent: name, pattern: "^(arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)$")
             try self.evaluationConfig.validate(name: "\(name).evaluationConfig")
             try self.inferenceConfig.validate(name: "\(name).inferenceConfig")
             try self.validate(self.jobDescription, name: "jobDescription", parent: name, max: 200)
@@ -458,7 +579,7 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
-            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+))$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^(arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)$")
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-zA-Z-_]+$")
@@ -568,6 +689,67 @@ extension Bedrock {
         }
     }
 
+    public struct CreateModelCopyJobRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+        public let clientRequestToken: String?
+        /// The ARN of the KMS key that you use to encrypt the model copy.
+        public let modelKmsKeyId: String?
+        /// The Amazon Resource Name (ARN) of the model to be copied.
+        public let sourceModelArn: String
+        /// A name for the copied model.
+        public let targetModelName: String
+        /// Tags to associate with the target model. For more information, see Tag resources in the Amazon Bedrock User Guide.
+        public let targetModelTags: [Tag]?
+
+        public init(clientRequestToken: String? = CreateModelCopyJobRequest.idempotencyToken(), modelKmsKeyId: String? = nil, sourceModelArn: String, targetModelName: String, targetModelTags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.modelKmsKeyId = modelKmsKeyId
+            self.sourceModelArn = sourceModelArn
+            self.targetModelName = targetModelName
+            self.targetModelTags = targetModelTags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, min: 1)
+            try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, pattern: "^(arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)$")
+            try self.validate(self.sourceModelArn, name: "sourceModelArn", parent: name, max: 1011)
+            try self.validate(self.sourceModelArn, name: "sourceModelArn", parent: name, min: 20)
+            try self.validate(self.sourceModelArn, name: "sourceModelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
+            try self.validate(self.targetModelName, name: "targetModelName", parent: name, max: 63)
+            try self.validate(self.targetModelName, name: "targetModelName", parent: name, min: 1)
+            try self.validate(self.targetModelName, name: "targetModelName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
+            try self.targetModelTags?.forEach {
+                try $0.validate(name: "\(name).targetModelTags[]")
+            }
+            try self.validate(self.targetModelTags, name: "targetModelTags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case modelKmsKeyId = "modelKmsKeyId"
+            case sourceModelArn = "sourceModelArn"
+            case targetModelName = "targetModelName"
+            case targetModelTags = "targetModelTags"
+        }
+    }
+
+    public struct CreateModelCopyJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the model copy job.
+        public let jobArn: String
+
+        public init(jobArn: String) {
+            self.jobArn = jobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobArn = "jobArn"
+        }
+    }
+
     public struct CreateModelCustomizationJobRequest: AWSEncodableShape {
         /// Name of the base model.
         public let baseModelIdentifier: String
@@ -624,10 +806,10 @@ extension Bedrock {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.customModelKmsKeyId, name: "customModelKmsKeyId", parent: name, max: 2048)
             try self.validate(self.customModelKmsKeyId, name: "customModelKmsKeyId", parent: name, min: 1)
-            try self.validate(self.customModelKmsKeyId, name: "customModelKmsKeyId", parent: name, pattern: "^arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+))$")
+            try self.validate(self.customModelKmsKeyId, name: "customModelKmsKeyId", parent: name, pattern: "^(arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)$")
             try self.validate(self.customModelName, name: "customModelName", parent: name, max: 63)
             try self.validate(self.customModelName, name: "customModelName", parent: name, min: 1)
-            try self.validate(self.customModelName, name: "customModelName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.customModelName, name: "customModelName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
             try self.customModelTags?.forEach {
                 try $0.validate(name: "\(name).customModelTags[]")
             }
@@ -667,6 +849,167 @@ extension Bedrock {
 
     public struct CreateModelCustomizationJobResponse: AWSDecodableShape {
         /// Amazon Resource Name (ARN) of the fine tuning job
+        public let jobArn: String
+
+        public init(jobArn: String) {
+            self.jobArn = jobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobArn = "jobArn"
+        }
+    }
+
+    public struct CreateModelImportJobRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information,  see Ensuring idempotency.
+        public let clientRequestToken: String?
+        /// The imported model is encrypted at rest using this key.
+        public let importedModelKmsKeyId: String?
+        /// The name of the imported model.
+        public let importedModelName: String
+        /// Tags to attach to the imported model.
+        public let importedModelTags: [Tag]?
+        /// The name of the import job.
+        public let jobName: String
+        /// Tags to attach to this import job.
+        public let jobTags: [Tag]?
+        /// The data source for the imported model.
+        public let modelDataSource: ModelDataSource
+        /// The Amazon Resource Name (ARN) of the model import job.
+        public let roleArn: String
+        /// VPC configuration parameters for the private Virtual Private Cloud (VPC) that contains the resources you are using for the import job.
+        public let vpcConfig: VpcConfig?
+
+        public init(clientRequestToken: String? = nil, importedModelKmsKeyId: String? = nil, importedModelName: String, importedModelTags: [Tag]? = nil, jobName: String, jobTags: [Tag]? = nil, modelDataSource: ModelDataSource, roleArn: String, vpcConfig: VpcConfig? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.importedModelKmsKeyId = importedModelKmsKeyId
+            self.importedModelName = importedModelName
+            self.importedModelTags = importedModelTags
+            self.jobName = jobName
+            self.jobTags = jobTags
+            self.modelDataSource = modelDataSource
+            self.roleArn = roleArn
+            self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.importedModelKmsKeyId, name: "importedModelKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.importedModelKmsKeyId, name: "importedModelKmsKeyId", parent: name, min: 1)
+            try self.validate(self.importedModelKmsKeyId, name: "importedModelKmsKeyId", parent: name, pattern: "^(arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)$")
+            try self.validate(self.importedModelName, name: "importedModelName", parent: name, max: 63)
+            try self.validate(self.importedModelName, name: "importedModelName", parent: name, min: 1)
+            try self.validate(self.importedModelName, name: "importedModelName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.importedModelTags?.forEach {
+                try $0.validate(name: "\(name).importedModelTags[]")
+            }
+            try self.validate(self.importedModelTags, name: "importedModelTags", parent: name, max: 200)
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 63)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9\\+\\-\\.])*$")
+            try self.jobTags?.forEach {
+                try $0.validate(name: "\(name).jobTags[]")
+            }
+            try self.validate(self.jobTags, name: "jobTags", parent: name, max: 200)
+            try self.modelDataSource.validate(name: "\(name).modelDataSource")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+$")
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case importedModelKmsKeyId = "importedModelKmsKeyId"
+            case importedModelName = "importedModelName"
+            case importedModelTags = "importedModelTags"
+            case jobName = "jobName"
+            case jobTags = "jobTags"
+            case modelDataSource = "modelDataSource"
+            case roleArn = "roleArn"
+            case vpcConfig = "vpcConfig"
+        }
+    }
+
+    public struct CreateModelImportJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the model import job.
+        public let jobArn: String
+
+        public init(jobArn: String) {
+            self.jobArn = jobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobArn = "jobArn"
+        }
+    }
+
+    public struct CreateModelInvocationJobRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+        public let clientRequestToken: String?
+        /// Details about the location of the input to the batch inference job.
+        public let inputDataConfig: ModelInvocationJobInputDataConfig
+        /// A name to give the batch inference job.
+        public let jobName: String
+        /// The unique identifier of the foundation model to use for the batch inference job.
+        public let modelId: String
+        /// Details about the location of the output of the batch inference job.
+        public let outputDataConfig: ModelInvocationJobOutputDataConfig
+        /// The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at Create a service role for batch inference.
+        public let roleArn: String
+        /// Any tags to associate with the batch inference job. For more information, see Tagging Amazon Bedrock resources.
+        public let tags: [Tag]?
+        /// The number of hours after which to force the batch inference job to time out.
+        public let timeoutDurationInHours: Int?
+
+        public init(clientRequestToken: String? = CreateModelInvocationJobRequest.idempotencyToken(), inputDataConfig: ModelInvocationJobInputDataConfig, jobName: String, modelId: String, outputDataConfig: ModelInvocationJobOutputDataConfig, roleArn: String, tags: [Tag]? = nil, timeoutDurationInHours: Int? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.inputDataConfig = inputDataConfig
+            self.jobName = jobName
+            self.modelId = modelId
+            self.outputDataConfig = outputDataConfig
+            self.roleArn = roleArn
+            self.tags = tags
+            self.timeoutDurationInHours = timeoutDurationInHours
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]{1,256}(-*[a-zA-Z0-9]){0,256}$")
+            try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 63)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[a-zA-Z0-9]{1,63}(-*[a-zA-Z0-9\\+\\-\\.]){0,63}$")
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
+            try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-:]{1,63}/[a-z0-9]{12}$)|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}$)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(([0-9a-zA-Z][_-]?)+)$")
+            try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.timeoutDurationInHours, name: "timeoutDurationInHours", parent: name, max: 168)
+            try self.validate(self.timeoutDurationInHours, name: "timeoutDurationInHours", parent: name, min: 24)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case inputDataConfig = "inputDataConfig"
+            case jobName = "jobName"
+            case modelId = "modelId"
+            case outputDataConfig = "outputDataConfig"
+            case roleArn = "roleArn"
+            case tags = "tags"
+            case timeoutDurationInHours = "timeoutDurationInHours"
+        }
+    }
+
+    public struct CreateModelInvocationJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the batch inference job.
         public let jobArn: String
 
         public init(jobArn: String) {
@@ -755,14 +1098,17 @@ extension Bedrock {
         public let modelArn: String
         /// The name of the custom model.
         public let modelName: String
+        /// The unique identifier of the account that owns the model.
+        public let ownerAccountId: String?
 
-        public init(baseModelArn: String, baseModelName: String, creationTime: Date, customizationType: CustomizationType? = nil, modelArn: String, modelName: String) {
+        public init(baseModelArn: String, baseModelName: String, creationTime: Date, customizationType: CustomizationType? = nil, modelArn: String, modelName: String, ownerAccountId: String? = nil) {
             self.baseModelArn = baseModelArn
             self.baseModelName = baseModelName
             self.creationTime = creationTime
             self.customizationType = customizationType
             self.modelArn = modelArn
             self.modelName = modelName
+            self.ownerAccountId = ownerAccountId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -772,6 +1118,7 @@ extension Bedrock {
             case customizationType = "customizationType"
             case modelArn = "modelArn"
             case modelName = "modelName"
+            case ownerAccountId = "ownerAccountId"
         }
     }
 
@@ -830,6 +1177,33 @@ extension Bedrock {
     }
 
     public struct DeleteGuardrailResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteImportedModelRequest: AWSEncodableShape {
+        /// Name of the imported model to delete.
+        public let modelIdentifier: String
+
+        public init(modelIdentifier: String) {
+            self.modelIdentifier = modelIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.modelIdentifier, key: "modelIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, max: 1011)
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, min: 1)
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:imported-model/[a-z0-9]{12})|(([0-9a-zA-Z][_-]?)+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteImportedModelResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -894,7 +1268,7 @@ extension Bedrock {
     public struct EvaluationDataset: AWSEncodableShape & AWSDecodableShape {
         /// For custom prompt datasets, you must specify the location in Amazon S3 where the prompt dataset is saved.
         public let datasetLocation: EvaluationDatasetLocation?
-        /// Used to specify supported built-in prompt datasets. Valid values are Builtin.Bold, Builtin.BoolQ, Builtin.NaturalQuestions, Builtin.Gigaword, Builtin.RealToxicityPrompts, Builtin.TriviaQa, Builtin.T-Rex, Builtin.WomensEcommerceClothingReviews and Builtin.Wikitext2.
+        /// Used to specify supported built-in prompt datasets. Valid values are Builtin.Bold, Builtin.BoolQ, Builtin.NaturalQuestions, Builtin.Gigaword, Builtin.RealToxicityPrompts, Builtin.TriviaQA, Builtin.T-Rex, Builtin.WomensEcommerceClothingReviews and Builtin.Wikitext2.
         public let name: String
 
         public init(datasetLocation: EvaluationDatasetLocation? = nil, name: String) {
@@ -958,7 +1332,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1435,6 +1809,217 @@ extension Bedrock {
         }
     }
 
+    public struct GetImportedModelRequest: AWSEncodableShape {
+        /// Name or Amazon Resource Name (ARN) of the imported model.
+        public let modelIdentifier: String
+
+        public init(modelIdentifier: String) {
+            self.modelIdentifier = modelIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.modelIdentifier, key: "modelIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, max: 1011)
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, min: 1)
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:imported-model/[a-z0-9]{12})|(([0-9a-zA-Z][_-]?)+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetImportedModelResponse: AWSDecodableShape {
+        /// Creation time of the imported model.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// Job Amazon Resource Name (ARN) associated with the imported model.
+        public let jobArn: String?
+        /// Job name associated with the imported model.
+        public let jobName: String?
+        /// The architecture of the imported model.
+        public let modelArchitecture: String?
+        /// The Amazon Resource Name (ARN) associated with this imported model.
+        public let modelArn: String?
+        /// The data source for this imported model.
+        public let modelDataSource: ModelDataSource?
+        /// The imported model is encrypted at rest using this key.
+        public let modelKmsKeyArn: String?
+        /// The name of the imported model.
+        public let modelName: String?
+
+        public init(creationTime: Date? = nil, jobArn: String? = nil, jobName: String? = nil, modelArchitecture: String? = nil, modelArn: String? = nil, modelDataSource: ModelDataSource? = nil, modelKmsKeyArn: String? = nil, modelName: String? = nil) {
+            self.creationTime = creationTime
+            self.jobArn = jobArn
+            self.jobName = jobName
+            self.modelArchitecture = modelArchitecture
+            self.modelArn = modelArn
+            self.modelDataSource = modelDataSource
+            self.modelKmsKeyArn = modelKmsKeyArn
+            self.modelName = modelName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case jobArn = "jobArn"
+            case jobName = "jobName"
+            case modelArchitecture = "modelArchitecture"
+            case modelArn = "modelArn"
+            case modelDataSource = "modelDataSource"
+            case modelKmsKeyArn = "modelKmsKeyArn"
+            case modelName = "modelName"
+        }
+    }
+
+    public struct GetInferenceProfileRequest: AWSEncodableShape {
+        /// The unique identifier of the inference profile.
+        public let inferenceProfileIdentifier: String
+
+        public init(inferenceProfileIdentifier: String) {
+            self.inferenceProfileIdentifier = inferenceProfileIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.inferenceProfileIdentifier, key: "inferenceProfileIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inferenceProfileIdentifier, name: "inferenceProfileIdentifier", parent: name, max: 2048)
+            try self.validate(self.inferenceProfileIdentifier, name: "inferenceProfileIdentifier", parent: name, min: 1)
+            try self.validate(self.inferenceProfileIdentifier, name: "inferenceProfileIdentifier", parent: name, pattern: "^(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):inference-profile/)?[a-zA-Z0-9-:.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetInferenceProfileResponse: AWSDecodableShape {
+        /// The time at which the inference profile was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The description of the inference profile.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the inference profile.
+        public let inferenceProfileArn: String
+        /// The unique identifier of the inference profile.
+        public let inferenceProfileId: String
+        /// The name of the inference profile.
+        public let inferenceProfileName: String
+        /// A list of information about each model in the inference profile.
+        public let models: [InferenceProfileModel]
+        /// The status of the inference profile. ACTIVE means that the inference profile is available to use.
+        public let status: InferenceProfileStatus
+        /// The type of the inference profile. SYSTEM_DEFINED means that the inference profile is defined by Amazon Bedrock.
+        public let type: InferenceProfileType
+        /// The time at which the inference profile was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        public init(createdAt: Date? = nil, description: String? = nil, inferenceProfileArn: String, inferenceProfileId: String, inferenceProfileName: String, models: [InferenceProfileModel], status: InferenceProfileStatus, type: InferenceProfileType, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.inferenceProfileArn = inferenceProfileArn
+            self.inferenceProfileId = inferenceProfileId
+            self.inferenceProfileName = inferenceProfileName
+            self.models = models
+            self.status = status
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case description = "description"
+            case inferenceProfileArn = "inferenceProfileArn"
+            case inferenceProfileId = "inferenceProfileId"
+            case inferenceProfileName = "inferenceProfileName"
+            case models = "models"
+            case status = "status"
+            case type = "type"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct GetModelCopyJobRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the model copy job.
+        public let jobArn: String
+
+        public init(jobArn: String) {
+            self.jobArn = jobArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobArn, key: "jobArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobArn, name: "jobArn", parent: name, max: 1011)
+            try self.validate(self.jobArn, name: "jobArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:model-copy-job/[a-z0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetModelCopyJobResponse: AWSDecodableShape {
+        /// The time at which the model copy job was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        /// An error message for why the model copy job failed.
+        public let failureMessage: String?
+        /// The Amazon Resource Name (ARN) of the model copy job.
+        public let jobArn: String
+        /// The unique identifier of the account that the model being copied originated from.
+        public let sourceAccountId: String
+        /// The Amazon Resource Name (ARN) of the original model being copied.
+        public let sourceModelArn: String
+        /// The name of the original model being copied.
+        public let sourceModelName: String?
+        /// The status of the model copy job.
+        public let status: ModelCopyJobStatus
+        /// The Amazon Resource Name (ARN) of the copied model.
+        public let targetModelArn: String
+        /// The Amazon Resource Name (ARN) of the KMS key encrypting the copied model.
+        public let targetModelKmsKeyArn: String?
+        /// The name of the copied model.
+        public let targetModelName: String?
+        /// The tags associated with the copied model.
+        public let targetModelTags: [Tag]?
+
+        public init(creationTime: Date, failureMessage: String? = nil, jobArn: String, sourceAccountId: String, sourceModelArn: String, sourceModelName: String? = nil, status: ModelCopyJobStatus, targetModelArn: String, targetModelKmsKeyArn: String? = nil, targetModelName: String? = nil, targetModelTags: [Tag]? = nil) {
+            self.creationTime = creationTime
+            self.failureMessage = failureMessage
+            self.jobArn = jobArn
+            self.sourceAccountId = sourceAccountId
+            self.sourceModelArn = sourceModelArn
+            self.sourceModelName = sourceModelName
+            self.status = status
+            self.targetModelArn = targetModelArn
+            self.targetModelKmsKeyArn = targetModelKmsKeyArn
+            self.targetModelName = targetModelName
+            self.targetModelTags = targetModelTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case failureMessage = "failureMessage"
+            case jobArn = "jobArn"
+            case sourceAccountId = "sourceAccountId"
+            case sourceModelArn = "sourceModelArn"
+            case sourceModelName = "sourceModelName"
+            case status = "status"
+            case targetModelArn = "targetModelArn"
+            case targetModelKmsKeyArn = "targetModelKmsKeyArn"
+            case targetModelName = "targetModelName"
+            case targetModelTags = "targetModelTags"
+        }
+    }
+
     public struct GetModelCustomizationJobRequest: AWSEncodableShape {
         /// Identifier for the customization job.
         public let jobIdentifier: String
@@ -1550,6 +2135,183 @@ extension Bedrock {
             case validationDataConfig = "validationDataConfig"
             case validationMetrics = "validationMetrics"
             case vpcConfig = "vpcConfig"
+        }
+    }
+
+    public struct GetModelImportJobRequest: AWSEncodableShape {
+        /// The identifier of the import job.
+        public let jobIdentifier: String
+
+        public init(jobIdentifier: String) {
+            self.jobIdentifier = jobIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobIdentifier, key: "jobIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobIdentifier, name: "jobIdentifier", parent: name, max: 1011)
+            try self.validate(self.jobIdentifier, name: "jobIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:model-import-job/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9\\+\\-\\.])*)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetModelImportJobResponse: AWSDecodableShape {
+        /// The time the resource was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// Time that the resource transitioned to terminal state.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// Information about why the import job failed.
+        public let failureMessage: String?
+        /// The Amazon Resource Name (ARN) of the imported model.
+        public let importedModelArn: String?
+        /// The imported model is encrypted at rest using this key.
+        public let importedModelKmsKeyArn: String?
+        /// The name of the imported model.
+        public let importedModelName: String?
+        /// The Amazon Resource Name (ARN) of the import job.
+        public let jobArn: String?
+        /// The name of the import job.
+        public let jobName: String?
+        /// Time the resource was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
+        /// The data source for the imported model.
+        public let modelDataSource: ModelDataSource?
+        /// The Amazon Resource Name (ARN) of the IAM role associated with this job.
+        public let roleArn: String?
+        /// The status of the job. A successful job transitions from in-progress to completed when the imported model is ready to use. If the job failed, the failure message contains information about why the job failed.
+        public let status: ModelImportJobStatus?
+        /// The Virtual Private Cloud (VPC) configuration of the import model job.
+        public let vpcConfig: VpcConfig?
+
+        public init(creationTime: Date? = nil, endTime: Date? = nil, failureMessage: String? = nil, importedModelArn: String? = nil, importedModelKmsKeyArn: String? = nil, importedModelName: String? = nil, jobArn: String? = nil, jobName: String? = nil, lastModifiedTime: Date? = nil, modelDataSource: ModelDataSource? = nil, roleArn: String? = nil, status: ModelImportJobStatus? = nil, vpcConfig: VpcConfig? = nil) {
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.failureMessage = failureMessage
+            self.importedModelArn = importedModelArn
+            self.importedModelKmsKeyArn = importedModelKmsKeyArn
+            self.importedModelName = importedModelName
+            self.jobArn = jobArn
+            self.jobName = jobName
+            self.lastModifiedTime = lastModifiedTime
+            self.modelDataSource = modelDataSource
+            self.roleArn = roleArn
+            self.status = status
+            self.vpcConfig = vpcConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case endTime = "endTime"
+            case failureMessage = "failureMessage"
+            case importedModelArn = "importedModelArn"
+            case importedModelKmsKeyArn = "importedModelKmsKeyArn"
+            case importedModelName = "importedModelName"
+            case jobArn = "jobArn"
+            case jobName = "jobName"
+            case lastModifiedTime = "lastModifiedTime"
+            case modelDataSource = "modelDataSource"
+            case roleArn = "roleArn"
+            case status = "status"
+            case vpcConfig = "vpcConfig"
+        }
+    }
+
+    public struct GetModelInvocationJobRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the batch inference job.
+        public let jobIdentifier: String
+
+        public init(jobIdentifier: String) {
+            self.jobIdentifier = jobIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobIdentifier, key: "jobIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobIdentifier, name: "jobIdentifier", parent: name, max: 1011)
+            try self.validate(self.jobIdentifier, name: "jobIdentifier", parent: name, pattern: "^((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:model-invocation-job/)?[a-z0-9]{12})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetModelInvocationJobResponse: AWSDecodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+        public let clientRequestToken: String?
+        /// The time at which the batch inference job ended.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// Details about the location of the input to the batch inference job.
+        public let inputDataConfig: ModelInvocationJobInputDataConfig
+        /// The Amazon Resource Name (ARN) of the batch inference job.
+        public let jobArn: String
+        /// The time at which the batch inference job times or timed out.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var jobExpirationTime: Date?
+        /// The name of the batch inference job.
+        public let jobName: String?
+        /// The time at which the batch inference job was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
+        /// If the batch inference job failed, this field contains a message describing why the job failed.
+        public let message: String?
+        /// The unique identifier of the foundation model used for model inference.
+        public let modelId: String
+        /// Details about the location of the output of the batch inference job.
+        public let outputDataConfig: ModelInvocationJobOutputDataConfig
+        /// The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at Create a service role for batch inference.
+        public let roleArn: String
+        /// The status of the batch inference job.
+        public let status: ModelInvocationJobStatus?
+        /// The time at which the batch inference job was submitted.
+        @CustomCoding<ISO8601DateCoder>
+        public var submitTime: Date
+        /// The number of hours after which batch inference job was set to time out.
+        public let timeoutDurationInHours: Int?
+
+        public init(clientRequestToken: String? = nil, endTime: Date? = nil, inputDataConfig: ModelInvocationJobInputDataConfig, jobArn: String, jobExpirationTime: Date? = nil, jobName: String? = nil, lastModifiedTime: Date? = nil, message: String? = nil, modelId: String, outputDataConfig: ModelInvocationJobOutputDataConfig, roleArn: String, status: ModelInvocationJobStatus? = nil, submitTime: Date, timeoutDurationInHours: Int? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.endTime = endTime
+            self.inputDataConfig = inputDataConfig
+            self.jobArn = jobArn
+            self.jobExpirationTime = jobExpirationTime
+            self.jobName = jobName
+            self.lastModifiedTime = lastModifiedTime
+            self.message = message
+            self.modelId = modelId
+            self.outputDataConfig = outputDataConfig
+            self.roleArn = roleArn
+            self.status = status
+            self.submitTime = submitTime
+            self.timeoutDurationInHours = timeoutDurationInHours
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case endTime = "endTime"
+            case inputDataConfig = "inputDataConfig"
+            case jobArn = "jobArn"
+            case jobExpirationTime = "jobExpirationTime"
+            case jobName = "jobName"
+            case lastModifiedTime = "lastModifiedTime"
+            case message = "message"
+            case modelId = "modelId"
+            case outputDataConfig = "outputDataConfig"
+            case roleArn = "roleArn"
+            case status = "status"
+            case submitTime = "submitTime"
+            case timeoutDurationInHours = "timeoutDurationInHours"
         }
     }
 
@@ -1821,7 +2583,7 @@ extension Bedrock {
     public struct GuardrailPiiEntity: AWSDecodableShape {
         /// The configured guardrail action when PII entity is detected.
         public let action: GuardrailSensitiveInformationAction
-        /// The type of PII entity. For example, Social Security Number.
+        /// The type of PII entity. For exampvle, Social Security Number.
         public let type: GuardrailPiiEntityType
 
         public init(action: GuardrailSensitiveInformationAction, type: GuardrailPiiEntityType) {
@@ -2240,6 +3002,88 @@ extension Bedrock {
         }
     }
 
+    public struct ImportedModelSummary: AWSDecodableShape {
+        /// Creation time of the imported model.
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        /// The Amazon Resource Name (ARN) of the imported model.
+        public let modelArn: String
+        /// Name of the imported model.
+        public let modelName: String
+
+        public init(creationTime: Date, modelArn: String, modelName: String) {
+            self.creationTime = creationTime
+            self.modelArn = modelArn
+            self.modelName = modelName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case modelArn = "modelArn"
+            case modelName = "modelName"
+        }
+    }
+
+    public struct InferenceProfileModel: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the model.
+        public let modelArn: String?
+
+        public init(modelArn: String? = nil) {
+            self.modelArn = modelArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelArn = "modelArn"
+        }
+    }
+
+    public struct InferenceProfileSummary: AWSDecodableShape {
+        /// The time at which the inference profile was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The description of the inference profile.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the inference profile.
+        public let inferenceProfileArn: String
+        /// The unique identifier of the inference profile.
+        public let inferenceProfileId: String
+        /// The name of the inference profile.
+        public let inferenceProfileName: String
+        /// A list of information about each model in the inference profile.
+        public let models: [InferenceProfileModel]
+        /// The status of the inference profile. ACTIVE means that the inference profile is available to use.
+        public let status: InferenceProfileStatus
+        /// The type of the inference profile. SYSTEM_DEFINED means that the inference profile is defined by Amazon Bedrock.
+        public let type: InferenceProfileType
+        /// The time at which the inference profile was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        public init(createdAt: Date? = nil, description: String? = nil, inferenceProfileArn: String, inferenceProfileId: String, inferenceProfileName: String, models: [InferenceProfileModel], status: InferenceProfileStatus, type: InferenceProfileType, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.inferenceProfileArn = inferenceProfileArn
+            self.inferenceProfileId = inferenceProfileId
+            self.inferenceProfileName = inferenceProfileName
+            self.models = models
+            self.status = status
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case description = "description"
+            case inferenceProfileArn = "inferenceProfileArn"
+            case inferenceProfileId = "inferenceProfileId"
+            case inferenceProfileName = "inferenceProfileName"
+            case models = "models"
+            case status = "status"
+            case type = "type"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct ListCustomModelsRequest: AWSEncodableShape {
         /// Return custom models only if the base model Amazon Resource Name (ARN) matches this parameter.
         public let baseModelArnEquals: String?
@@ -2251,22 +3095,25 @@ extension Bedrock {
         public var creationTimeBefore: Date?
         /// Return custom models only if the foundation model Amazon Resource Name (ARN) matches this parameter.
         public let foundationModelArnEquals: String?
-        /// Maximum number of results to return in the response.
+        /// Return custom models depending on if the current account owns them (true) or if they were shared with the current account (false).
+        public let isOwned: Bool?
+        /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
         public let maxResults: Int?
         /// Return custom models only if the job name contains these characters.
         public let nameContains: String?
-        /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
+        /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
         /// The field to sort by in the returned list of models.
         public let sortBy: SortModelsBy?
         /// The sort order of the results.
         public let sortOrder: SortOrder?
 
-        public init(baseModelArnEquals: String? = nil, creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, foundationModelArnEquals: String? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortModelsBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(baseModelArnEquals: String? = nil, creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, foundationModelArnEquals: String? = nil, isOwned: Bool? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortModelsBy? = nil, sortOrder: SortOrder? = nil) {
             self.baseModelArnEquals = baseModelArnEquals
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.foundationModelArnEquals = foundationModelArnEquals
+            self.isOwned = isOwned
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
@@ -2281,6 +3128,7 @@ extension Bedrock {
             request.encodeQuery(self._creationTimeAfter, key: "creationTimeAfter")
             request.encodeQuery(self._creationTimeBefore, key: "creationTimeBefore")
             request.encodeQuery(self.foundationModelArnEquals, key: "foundationModelArnEquals")
+            request.encodeQuery(self.isOwned, key: "isOwned")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nameContains, key: "nameContains")
             request.encodeQuery(self.nextToken, key: "nextToken")
@@ -2297,7 +3145,7 @@ extension Bedrock {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
-            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
@@ -2309,7 +3157,7 @@ extension Bedrock {
     public struct ListCustomModelsResponse: AWSDecodableShape {
         /// Model summaries.
         public let modelSummaries: [CustomModelSummary]?
-        /// Continuation token for the next request to list the next set of results.
+        /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
         public init(modelSummaries: [CustomModelSummary]? = nil, nextToken: String? = nil) {
@@ -2496,6 +3344,210 @@ extension Bedrock {
         }
     }
 
+    public struct ListImportedModelsRequest: AWSEncodableShape {
+        /// Return imported models that were created after the specified time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTimeAfter: Date?
+        /// Return imported models that created before the specified time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTimeBefore: Date?
+        /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+        public let maxResults: Int?
+        /// Return imported models only if the model name contains these characters.
+        public let nameContains: String?
+        /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+        public let nextToken: String?
+        /// The field to sort by in the returned list of imported models.
+        public let sortBy: SortModelsBy?
+        /// Specifies whetehr to sort the results in ascending or descending order.
+        public let sortOrder: SortOrder?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortModelsBy? = nil, sortOrder: SortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self._creationTimeAfter, key: "creationTimeAfter")
+            request.encodeQuery(self._creationTimeBefore, key: "creationTimeBefore")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nameContains, key: "nameContains")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sortBy, key: "sortBy")
+            request.encodeQuery(self.sortOrder, key: "sortOrder")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListImportedModelsResponse: AWSDecodableShape {
+        /// Model summaries.
+        public let modelSummaries: [ImportedModelSummary]?
+        /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+        public let nextToken: String?
+
+        public init(modelSummaries: [ImportedModelSummary]? = nil, nextToken: String? = nil) {
+            self.modelSummaries = modelSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelSummaries = "modelSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListInferenceProfilesRequest: AWSEncodableShape {
+        /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+        public let maxResults: Int?
+        /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListInferenceProfilesResponse: AWSDecodableShape {
+        /// A list of information about each inference profile that you can use.
+        public let inferenceProfileSummaries: [InferenceProfileSummary]?
+        /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+        public let nextToken: String?
+
+        public init(inferenceProfileSummaries: [InferenceProfileSummary]? = nil, nextToken: String? = nil) {
+            self.inferenceProfileSummaries = inferenceProfileSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inferenceProfileSummaries = "inferenceProfileSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListModelCopyJobsRequest: AWSEncodableShape {
+        /// Filters for model copy jobs created after the specified time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTimeAfter: Date?
+        /// Filters for model copy jobs created before the specified time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTimeBefore: Date?
+        /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+        public let maxResults: Int?
+        /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+        public let nextToken: String?
+        /// The field to sort by in the returned list of model copy jobs.
+        public let sortBy: SortJobsBy?
+        /// Specifies whether to sort the results in ascending or descending order.
+        public let sortOrder: SortOrder?
+        /// Filters for model copy jobs in which the account that the source model belongs to is equal to the value that you specify.
+        public let sourceAccountEquals: String?
+        /// Filters for model copy jobs in which the Amazon Resource Name (ARN) of the source model to is equal to the value that you specify.
+        public let sourceModelArnEquals: String?
+        /// Filters for model copy jobs whose status matches the value that you specify.
+        public let statusEquals: ModelCopyJobStatus?
+        /// Filters for model copy jobs in which the name of the copied model contains the string that you specify.
+        public let targetModelNameContains: String?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortJobsBy? = nil, sortOrder: SortOrder? = nil, sourceAccountEquals: String? = nil, sourceModelArnEquals: String? = nil, statusEquals: ModelCopyJobStatus? = nil, targetModelNameContains: String? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.sourceAccountEquals = sourceAccountEquals
+            self.sourceModelArnEquals = sourceModelArnEquals
+            self.statusEquals = statusEquals
+            self.targetModelNameContains = targetModelNameContains
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self._creationTimeAfter, key: "creationTimeAfter")
+            request.encodeQuery(self._creationTimeBefore, key: "creationTimeBefore")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sortBy, key: "sortBy")
+            request.encodeQuery(self.sortOrder, key: "sortOrder")
+            request.encodeQuery(self.sourceAccountEquals, key: "sourceAccountEquals")
+            request.encodeQuery(self.sourceModelArnEquals, key: "sourceModelArnEquals")
+            request.encodeQuery(self.statusEquals, key: "statusEquals")
+            request.encodeQuery(self.targetModelNameContains, key: "outputModelNameContains")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+            try self.validate(self.sourceAccountEquals, name: "sourceAccountEquals", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.sourceModelArnEquals, name: "sourceModelArnEquals", parent: name, max: 1011)
+            try self.validate(self.sourceModelArnEquals, name: "sourceModelArnEquals", parent: name, min: 20)
+            try self.validate(self.sourceModelArnEquals, name: "sourceModelArnEquals", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}))$")
+            try self.validate(self.targetModelNameContains, name: "targetModelNameContains", parent: name, max: 63)
+            try self.validate(self.targetModelNameContains, name: "targetModelNameContains", parent: name, min: 1)
+            try self.validate(self.targetModelNameContains, name: "targetModelNameContains", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListModelCopyJobsResponse: AWSDecodableShape {
+        /// A list of information about each model copy job.
+        public let modelCopyJobSummaries: [ModelCopyJobSummary]?
+        /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+        public let nextToken: String?
+
+        public init(modelCopyJobSummaries: [ModelCopyJobSummary]? = nil, nextToken: String? = nil) {
+            self.modelCopyJobSummaries = modelCopyJobSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelCopyJobSummaries = "modelCopyJobSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListModelCustomizationJobsRequest: AWSEncodableShape {
         /// Return customization jobs created after the specified time.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -2503,11 +3555,11 @@ extension Bedrock {
         /// Return customization jobs created before the specified time.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTimeBefore: Date?
-        /// Maximum number of results to return in the response.
+        /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
         public let maxResults: Int?
         /// Return customization jobs only if the job name contains these characters.
         public let nameContains: String?
-        /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
+        /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
         /// The field to sort by in the returned list of jobs.
         public let sortBy: SortJobsBy?
@@ -2557,7 +3609,7 @@ extension Bedrock {
     public struct ListModelCustomizationJobsResponse: AWSDecodableShape {
         /// Job summaries.
         public let modelCustomizationJobSummaries: [ModelCustomizationJobSummary]?
-        /// Page continuation token to use in the next request.
+        /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
         public init(modelCustomizationJobSummaries: [ModelCustomizationJobSummary]? = nil, nextToken: String? = nil) {
@@ -2567,6 +3619,156 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case modelCustomizationJobSummaries = "modelCustomizationJobSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListModelImportJobsRequest: AWSEncodableShape {
+        /// Return import jobs that were created after the specified time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTimeAfter: Date?
+        /// Return import jobs that were created before the specified time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTimeBefore: Date?
+        /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+        public let maxResults: Int?
+        /// Return imported jobs only if the job name contains these characters.
+        public let nameContains: String?
+        /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+        public let nextToken: String?
+        /// The field to sort by in the returned list of imported jobs.
+        public let sortBy: SortJobsBy?
+        /// Specifies whether to sort the results in ascending or descending order.
+        public let sortOrder: SortOrder?
+        /// Return imported jobs with the specified status.
+        public let statusEquals: ModelImportJobStatus?
+
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortJobsBy? = nil, sortOrder: SortOrder? = nil, statusEquals: ModelImportJobStatus? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.statusEquals = statusEquals
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self._creationTimeAfter, key: "creationTimeAfter")
+            request.encodeQuery(self._creationTimeBefore, key: "creationTimeBefore")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nameContains, key: "nameContains")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sortBy, key: "sortBy")
+            request.encodeQuery(self.sortOrder, key: "sortOrder")
+            request.encodeQuery(self.statusEquals, key: "statusEquals")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9\\+\\-\\.])*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListModelImportJobsResponse: AWSDecodableShape {
+        /// Import job summaries.
+        public let modelImportJobSummaries: [ModelImportJobSummary]?
+        /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+        public let nextToken: String?
+
+        public init(modelImportJobSummaries: [ModelImportJobSummary]? = nil, nextToken: String? = nil) {
+            self.modelImportJobSummaries = modelImportJobSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelImportJobSummaries = "modelImportJobSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListModelInvocationJobsRequest: AWSEncodableShape {
+        /// The maximum number of results to return. If there are more results than the number that you specify, a nextToken value is returned. Use the nextToken in a request to return the next batch of results.
+        public let maxResults: Int?
+        /// Specify a string to filter for batch inference jobs whose names contain the string.
+        public let nameContains: String?
+        /// If there were more results than the value you specified in the maxResults field in a previous ListModelInvocationJobs request, the response would have returned a nextToken value. To see the next batch of results, send the nextToken value in another request.
+        public let nextToken: String?
+        /// An attribute by which to sort the results.
+        public let sortBy: SortJobsBy?
+        /// Specifies whether to sort the results by ascending or descending order.
+        public let sortOrder: SortOrder?
+        /// Specify a status to filter for batch inference jobs whose statuses match the string you specify.
+        public let statusEquals: ModelInvocationJobStatus?
+        /// Specify a time to filter for batch inference jobs that were submitted after the time you specify.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var submitTimeAfter: Date?
+        /// Specify a time to filter for batch inference jobs that were submitted before the time you specify.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var submitTimeBefore: Date?
+
+        public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortJobsBy? = nil, sortOrder: SortOrder? = nil, statusEquals: ModelInvocationJobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.statusEquals = statusEquals
+            self.submitTimeAfter = submitTimeAfter
+            self.submitTimeBefore = submitTimeBefore
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nameContains, key: "nameContains")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sortBy, key: "sortBy")
+            request.encodeQuery(self.sortOrder, key: "sortOrder")
+            request.encodeQuery(self.statusEquals, key: "statusEquals")
+            request.encodeQuery(self._submitTimeAfter, key: "submitTimeAfter")
+            request.encodeQuery(self._submitTimeBefore, key: "submitTimeBefore")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9]{1,63}(-*[a-zA-Z0-9\\+\\-\\.]){0,63}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListModelInvocationJobsResponse: AWSDecodableShape {
+        /// A list of items, each of which contains a summary about a batch inference job.
+        public let invocationJobSummaries: [ModelInvocationJobSummary]?
+        /// If there are more results than can fit in the response, a nextToken is returned. Use the nextToken in a request to return the next batch of results.
+        public let nextToken: String?
+
+        public init(invocationJobSummaries: [ModelInvocationJobSummary]? = nil, nextToken: String? = nil) {
+            self.invocationJobSummaries = invocationJobSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invocationJobSummaries = "invocationJobSummaries"
             case nextToken = "nextToken"
         }
     }
@@ -2664,7 +3866,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:provisioned-model/[a-z0-9]{12}$)|(:guardrail/[a-z0-9]+$)|(:evaluation-job/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model)/[a-z0-9]{12}$)))")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2716,6 +3918,60 @@ extension Bedrock {
             case imageDataDeliveryEnabled = "imageDataDeliveryEnabled"
             case s3Config = "s3Config"
             case textDataDeliveryEnabled = "textDataDeliveryEnabled"
+        }
+    }
+
+    public struct ModelCopyJobSummary: AWSDecodableShape {
+        /// The time that the model copy job was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        /// If a model fails to be copied, a message describing why the job failed is included here.
+        public let failureMessage: String?
+        /// The Amazon Resoource Name (ARN) of the model copy job.
+        public let jobArn: String
+        /// The unique identifier of the account that the model being copied originated from.
+        public let sourceAccountId: String
+        /// The Amazon Resource Name (ARN) of the original model being copied.
+        public let sourceModelArn: String
+        /// The name of the original model being copied.
+        public let sourceModelName: String?
+        /// The status of the model copy job.
+        public let status: ModelCopyJobStatus
+        /// The Amazon Resource Name (ARN) of the copied model.
+        public let targetModelArn: String
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the copied model.
+        public let targetModelKmsKeyArn: String?
+        /// The name of the copied model.
+        public let targetModelName: String?
+        /// Tags associated with the copied model.
+        public let targetModelTags: [Tag]?
+
+        public init(creationTime: Date, failureMessage: String? = nil, jobArn: String, sourceAccountId: String, sourceModelArn: String, sourceModelName: String? = nil, status: ModelCopyJobStatus, targetModelArn: String, targetModelKmsKeyArn: String? = nil, targetModelName: String? = nil, targetModelTags: [Tag]? = nil) {
+            self.creationTime = creationTime
+            self.failureMessage = failureMessage
+            self.jobArn = jobArn
+            self.sourceAccountId = sourceAccountId
+            self.sourceModelArn = sourceModelArn
+            self.sourceModelName = sourceModelName
+            self.status = status
+            self.targetModelArn = targetModelArn
+            self.targetModelKmsKeyArn = targetModelKmsKeyArn
+            self.targetModelName = targetModelName
+            self.targetModelTags = targetModelTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case failureMessage = "failureMessage"
+            case jobArn = "jobArn"
+            case sourceAccountId = "sourceAccountId"
+            case sourceModelArn = "sourceModelArn"
+            case sourceModelName = "sourceModelName"
+            case status = "status"
+            case targetModelArn = "targetModelArn"
+            case targetModelKmsKeyArn = "targetModelKmsKeyArn"
+            case targetModelName = "targetModelName"
+            case targetModelTags = "targetModelTags"
         }
     }
 
@@ -2771,6 +4027,168 @@ extension Bedrock {
         }
     }
 
+    public struct ModelImportJobSummary: AWSDecodableShape {
+        /// The time import job was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        /// The time when import job ended.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// The Amazon resource Name (ARN) of the imported model.
+        public let importedModelArn: String?
+        /// The name of the imported model.
+        public let importedModelName: String?
+        /// The Amazon Resource Name (ARN) of the import job.
+        public let jobArn: String
+        /// The name of the import job.
+        public let jobName: String
+        /// The time when the import job was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
+        /// The status of the imported job.
+        public let status: ModelImportJobStatus
+
+        public init(creationTime: Date, endTime: Date? = nil, importedModelArn: String? = nil, importedModelName: String? = nil, jobArn: String, jobName: String, lastModifiedTime: Date? = nil, status: ModelImportJobStatus) {
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.importedModelArn = importedModelArn
+            self.importedModelName = importedModelName
+            self.jobArn = jobArn
+            self.jobName = jobName
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case endTime = "endTime"
+            case importedModelArn = "importedModelArn"
+            case importedModelName = "importedModelName"
+            case jobArn = "jobArn"
+            case jobName = "jobName"
+            case lastModifiedTime = "lastModifiedTime"
+            case status = "status"
+        }
+    }
+
+    public struct ModelInvocationJobS3InputDataConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The format of the input data.
+        public let s3InputFormat: S3InputFormat?
+        /// The S3 location of the input data.
+        public let s3Uri: String
+
+        public init(s3InputFormat: S3InputFormat? = nil, s3Uri: String) {
+            self.s3InputFormat = s3InputFormat
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3InputFormat = "s3InputFormat"
+            case s3Uri = "s3Uri"
+        }
+    }
+
+    public struct ModelInvocationJobS3OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of the key that encrypts the S3 location of the output data.
+        public let s3EncryptionKeyId: String?
+        /// The S3 location of the output data.
+        public let s3Uri: String
+
+        public init(s3EncryptionKeyId: String? = nil, s3Uri: String) {
+            self.s3EncryptionKeyId = s3EncryptionKeyId
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3EncryptionKeyId, name: "s3EncryptionKeyId", parent: name, max: 2048)
+            try self.validate(self.s3EncryptionKeyId, name: "s3EncryptionKeyId", parent: name, min: 1)
+            try self.validate(self.s3EncryptionKeyId, name: "s3EncryptionKeyId", parent: name, pattern: "^(arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3EncryptionKeyId = "s3EncryptionKeyId"
+            case s3Uri = "s3Uri"
+        }
+    }
+
+    public struct ModelInvocationJobSummary: AWSDecodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+        public let clientRequestToken: String?
+        /// The time at which the batch inference job ended.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// Details about the location of the input to the batch inference job.
+        public let inputDataConfig: ModelInvocationJobInputDataConfig
+        /// The Amazon Resource Name (ARN) of the batch inference job.
+        public let jobArn: String
+        /// The time at which the batch inference job times or timed out.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var jobExpirationTime: Date?
+        /// The name of the batch inference job.
+        public let jobName: String
+        /// The time at which the batch inference job was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
+        /// If the batch inference job failed, this field contains a message describing why the job failed.
+        public let message: String?
+        /// The unique identifier of the foundation model used for model inference.
+        public let modelId: String
+        /// Details about the location of the output of the batch inference job.
+        public let outputDataConfig: ModelInvocationJobOutputDataConfig
+        /// The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at Create a service role for batch inference.
+        public let roleArn: String
+        /// The status of the batch inference job.
+        public let status: ModelInvocationJobStatus?
+        /// The time at which the batch inference job was submitted.
+        @CustomCoding<ISO8601DateCoder>
+        public var submitTime: Date
+        /// The number of hours after which the batch inference job was set to time out.
+        public let timeoutDurationInHours: Int?
+
+        public init(clientRequestToken: String? = nil, endTime: Date? = nil, inputDataConfig: ModelInvocationJobInputDataConfig, jobArn: String, jobExpirationTime: Date? = nil, jobName: String, lastModifiedTime: Date? = nil, message: String? = nil, modelId: String, outputDataConfig: ModelInvocationJobOutputDataConfig, roleArn: String, status: ModelInvocationJobStatus? = nil, submitTime: Date, timeoutDurationInHours: Int? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.endTime = endTime
+            self.inputDataConfig = inputDataConfig
+            self.jobArn = jobArn
+            self.jobExpirationTime = jobExpirationTime
+            self.jobName = jobName
+            self.lastModifiedTime = lastModifiedTime
+            self.message = message
+            self.modelId = modelId
+            self.outputDataConfig = outputDataConfig
+            self.roleArn = roleArn
+            self.status = status
+            self.submitTime = submitTime
+            self.timeoutDurationInHours = timeoutDurationInHours
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case endTime = "endTime"
+            case inputDataConfig = "inputDataConfig"
+            case jobArn = "jobArn"
+            case jobExpirationTime = "jobExpirationTime"
+            case jobName = "jobName"
+            case lastModifiedTime = "lastModifiedTime"
+            case message = "message"
+            case modelId = "modelId"
+            case outputDataConfig = "outputDataConfig"
+            case roleArn = "roleArn"
+            case status = "status"
+            case submitTime = "submitTime"
+            case timeoutDurationInHours = "timeoutDurationInHours"
+        }
+    }
+
     public struct OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
         /// The S3 URI where the output data is stored.
         public let s3Uri: String
@@ -2782,7 +4200,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2894,6 +4312,25 @@ extension Bedrock {
         }
     }
 
+    public struct S3DataSource: AWSEncodableShape & AWSDecodableShape {
+        /// The URI of the Amazon S3 data source.
+        public let s3Uri: String
+
+        public init(s3Uri: String) {
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "s3Uri"
+        }
+    }
+
     public struct StopEvaluationJobRequest: AWSEncodableShape {
         /// The ARN of the model evaluation job you want to stop.
         public let jobIdentifier: String
@@ -2946,6 +4383,32 @@ extension Bedrock {
         public init() {}
     }
 
+    public struct StopModelInvocationJobRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the batch inference job to stop.
+        public let jobIdentifier: String
+
+        public init(jobIdentifier: String) {
+            self.jobIdentifier = jobIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobIdentifier, key: "jobIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobIdentifier, name: "jobIdentifier", parent: name, max: 1011)
+            try self.validate(self.jobIdentifier, name: "jobIdentifier", parent: name, pattern: "^((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:model-invocation-job/)?[a-z0-9]{12})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopModelInvocationJobResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// Key for the tag.
         public let key: String
@@ -2985,7 +4448,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:provisioned-model/[a-z0-9]{12}$)|(:guardrail/[a-z0-9]+$)|(:evaluation-job/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model)/[a-z0-9]{12}$)))")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -3013,7 +4476,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3048,7 +4511,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:provisioned-model/[a-z0-9]{12}$)|(:guardrail/[a-z0-9]+$)|(:evaluation-job/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model)/[a-z0-9]{12}$)))")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -3134,7 +4597,7 @@ extension Bedrock {
             try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
-            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+))$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^(arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:((key/[a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)))|([a-zA-Z0-9-]{36})|(alias/[a-zA-Z0-9-_/]+)$")
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-zA-Z-_]+$")
@@ -3256,7 +4719,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3320,7 +4783,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3363,6 +4826,57 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case bedrockModel = "bedrockModel"
+        }
+    }
+
+    public struct ModelDataSource: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 data source of the imported model.
+        public let s3DataSource: S3DataSource?
+
+        public init(s3DataSource: S3DataSource? = nil) {
+            self.s3DataSource = s3DataSource
+        }
+
+        public func validate(name: String) throws {
+            try self.s3DataSource?.validate(name: "\(name).s3DataSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3DataSource = "s3DataSource"
+        }
+    }
+
+    public struct ModelInvocationJobInputDataConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Contains the configuration of the S3 location of the input data.
+        public let s3InputDataConfig: ModelInvocationJobS3InputDataConfig?
+
+        public init(s3InputDataConfig: ModelInvocationJobS3InputDataConfig? = nil) {
+            self.s3InputDataConfig = s3InputDataConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.s3InputDataConfig?.validate(name: "\(name).s3InputDataConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3InputDataConfig = "s3InputDataConfig"
+        }
+    }
+
+    public struct ModelInvocationJobOutputDataConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Contains the configuration of the S3 location of the output data.
+        public let s3OutputDataConfig: ModelInvocationJobS3OutputDataConfig?
+
+        public init(s3OutputDataConfig: ModelInvocationJobS3OutputDataConfig? = nil) {
+            self.s3OutputDataConfig = s3OutputDataConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.s3OutputDataConfig?.validate(name: "\(name).s3OutputDataConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3OutputDataConfig = "s3OutputDataConfig"
         }
     }
 }
@@ -3412,7 +4926,7 @@ public struct BedrockErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The number of requests exceeds the limit. Resubmit your request later.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
+    /// The request contains more tags than can be associated with a resource (50 tags per resource).  The maximum number of tags includes both existing tags and those included in your current request.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// Input validation failed. Check your request parameters and retry the request.
     public static var validationException: Self { .init(.validationException) }

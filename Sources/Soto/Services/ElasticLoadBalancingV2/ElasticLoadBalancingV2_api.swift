@@ -229,6 +229,19 @@ public struct ElasticLoadBalancingV2: AWSService {
         )
     }
 
+    /// Deletes a shared trust store association.
+    @Sendable
+    public func deleteSharedTrustStoreAssociation(_ input: DeleteSharedTrustStoreAssociationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSharedTrustStoreAssociationOutput {
+        return try await self.client.execute(
+            operation: "DeleteSharedTrustStoreAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes the specified target group. You can delete a target group if it is not referenced by any actions. Deleting a target group also deletes any associated health checks. Deleting a target group does not affect its registered targets. For example, any EC2 instances continue to run until you stop or terminate them.
     @Sendable
     public func deleteTargetGroup(_ input: DeleteTargetGroupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTargetGroupOutput {
@@ -273,6 +286,19 @@ public struct ElasticLoadBalancingV2: AWSService {
     public func describeAccountLimits(_ input: DescribeAccountLimitsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountLimitsOutput {
         return try await self.client.execute(
             operation: "DescribeAccountLimits", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describes the attributes for the specified listener.
+    @Sendable
+    public func describeListenerAttributes(_ input: DescribeListenerAttributesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeListenerAttributesOutput {
+        return try await self.client.execute(
+            operation: "DescribeListenerAttributes", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -424,7 +450,7 @@ public struct ElasticLoadBalancingV2: AWSService {
         )
     }
 
-    /// Describes the revocation files in use by the specified  trust store arn, or revocation ID.
+    /// Describes the revocation files in use by the specified trust store or revocation files.
     @Sendable
     public func describeTrustStoreRevocations(_ input: DescribeTrustStoreRevocationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTrustStoreRevocationsOutput {
         return try await self.client.execute(
@@ -437,11 +463,24 @@ public struct ElasticLoadBalancingV2: AWSService {
         )
     }
 
-    /// Describes all trust stores for a given account  by trust store arn’s or name.
+    /// Describes all trust stores for the specified account.
     @Sendable
     public func describeTrustStores(_ input: DescribeTrustStoresInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTrustStoresOutput {
         return try await self.client.execute(
             operation: "DescribeTrustStores", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the resource policy for a specified resource.
+    @Sendable
+    public func getResourcePolicy(_ input: GetResourcePolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyOutput {
+        return try await self.client.execute(
+            operation: "GetResourcePolicy", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -481,6 +520,19 @@ public struct ElasticLoadBalancingV2: AWSService {
     public func modifyListener(_ input: ModifyListenerInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyListenerOutput {
         return try await self.client.execute(
             operation: "ModifyListener", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Modifies the specified attributes of the specified listener.
+    @Sendable
+    public func modifyListenerAttributes(_ input: ModifyListenerAttributesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyListenerAttributesOutput {
+        return try await self.client.execute(
+            operation: "ModifyListenerAttributes", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -541,7 +593,7 @@ public struct ElasticLoadBalancingV2: AWSService {
         )
     }
 
-    /// Update the ca certificate bundle for a given trust store.
+    /// Update the ca certificate bundle for the specified trust store.
     @Sendable
     public func modifyTrustStore(_ input: ModifyTrustStoreInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyTrustStoreOutput {
         return try await self.client.execute(
@@ -672,6 +724,25 @@ extension ElasticLoadBalancingV2 {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ElasticLoadBalancingV2 {
+    /// Describes the default certificate and the certificate list for the specified HTTPS or TLS listener. If the default certificate is also in the certificate list, it appears twice in the results (once with IsDefault set to true and once with IsDefault set to false). For more information, see SSL certificates in the Application Load Balancers Guide or Server certificates in the Network Load Balancers Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeListenerCertificatesPaginator(
+        _ input: DescribeListenerCertificatesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeListenerCertificatesInput, DescribeListenerCertificatesOutput> {
+        return .init(
+            input: input,
+            command: self.describeListenerCertificates,
+            inputKey: \DescribeListenerCertificatesInput.marker,
+            outputKey: \DescribeListenerCertificatesOutput.nextMarker,
+            logger: logger
+        )
+    }
+
     /// Describes the specified listeners or the listeners for the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. You must specify either a load balancer or one or more listeners.
     /// Return PaginatorSequence for operation.
     ///
@@ -706,6 +777,25 @@ extension ElasticLoadBalancingV2 {
             command: self.describeLoadBalancers,
             inputKey: \DescribeLoadBalancersInput.marker,
             outputKey: \DescribeLoadBalancersOutput.nextMarker,
+            logger: logger
+        )
+    }
+
+    /// Describes the specified rules or the rules for the specified listener. You must specify either a listener or one or more rules.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeRulesPaginator(
+        _ input: DescribeRulesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeRulesInput, DescribeRulesOutput> {
+        return .init(
+            input: input,
+            command: self.describeRules,
+            inputKey: \DescribeRulesInput.marker,
+            outputKey: \DescribeRulesOutput.nextMarker,
             logger: logger
         )
     }
@@ -748,7 +838,7 @@ extension ElasticLoadBalancingV2 {
         )
     }
 
-    /// Describes the revocation files in use by the specified  trust store arn, or revocation ID.
+    /// Describes the revocation files in use by the specified trust store or revocation files.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -767,7 +857,7 @@ extension ElasticLoadBalancingV2 {
         )
     }
 
-    /// Describes all trust stores for a given account  by trust store arn’s or name.
+    /// Describes all trust stores for the specified account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -783,6 +873,16 @@ extension ElasticLoadBalancingV2 {
             inputKey: \DescribeTrustStoresInput.marker,
             outputKey: \DescribeTrustStoresOutput.nextMarker,
             logger: logger
+        )
+    }
+}
+
+extension ElasticLoadBalancingV2.DescribeListenerCertificatesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ElasticLoadBalancingV2.DescribeListenerCertificatesInput {
+        return .init(
+            listenerArn: self.listenerArn,
+            marker: token,
+            pageSize: self.pageSize
         )
     }
 }
@@ -805,6 +905,17 @@ extension ElasticLoadBalancingV2.DescribeLoadBalancersInput: AWSPaginateToken {
             marker: token,
             names: self.names,
             pageSize: self.pageSize
+        )
+    }
+}
+
+extension ElasticLoadBalancingV2.DescribeRulesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ElasticLoadBalancingV2.DescribeRulesInput {
+        return .init(
+            listenerArn: self.listenerArn,
+            marker: token,
+            pageSize: self.pageSize,
+            ruleArns: self.ruleArns
         )
     }
 }

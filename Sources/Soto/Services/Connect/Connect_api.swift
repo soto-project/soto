@@ -433,7 +433,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Amazon Connect.  Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days.
+    /// This API is in preview release for Amazon Connect and is subject to change. Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Amazon Connect.  For more information, see Create an Amazon Connect instance in the Amazon Connect Administrator Guide. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days.
     /// If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances.
     /// You must wait 30 days before you can restart creating and deleting instances in your account.
     @Sendable
@@ -487,7 +487,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Creates a new predefined attribute for the specified Amazon Connect instance.
+    /// Creates a new predefined attribute for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see Create predefined attributes for routing contacts to agents.
     @Sendable
     public func createPredefinedAttribute(_ input: CreatePredefinedAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -565,7 +565,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Creates a security profile.
+    /// Creates a security profile. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     @Sendable
     public func createSecurityProfile(_ input: CreateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSecurityProfileResponse {
         return try await self.client.execute(
@@ -775,7 +775,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Deletes the Amazon Connect instance. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days.
+    /// This API is in preview release for Amazon Connect and is subject to change. Deletes the Amazon Connect instance. For more information, see Delete your Amazon Connect instance in the Amazon Connect Administrator Guide. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days.
     /// If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances.
     /// You must wait 30 days before you can restart creating and deleting instances in your account.
     @Sendable
@@ -829,7 +829,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Deletes a queue.
+    /// Deletes a queue. It isn't possible to delete a queue by using the Amazon Connect admin website.
     @Sendable
     public func deleteQueue(_ input: DeleteQueueRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1155,7 +1155,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Describes a predefined attribute for the specified Amazon Connect instance.
+    /// Describes a predefined attribute for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see Create predefined attributes for routing contacts to agents.
     @Sendable
     public func describePredefinedAttribute(_ input: DescribePredefinedAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePredefinedAttributeResponse {
         return try await self.client.execute(
@@ -1233,7 +1233,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Gets basic information about the security profle.
+    /// Gets basic information about the security profile. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     @Sendable
     public func describeSecurityProfile(_ input: DescribeSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSecurityProfileResponse {
         return try await self.client.execute(
@@ -1949,7 +1949,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Lists predefined attributes for the specified Amazon Connect instance.
+    /// Lists predefined attributes for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see Create predefined attributes for routing contacts to agents.
     @Sendable
     public func listPredefinedAttributes(_ input: ListPredefinedAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPredefinedAttributesResponse {
         return try await self.client.execute(
@@ -2092,7 +2092,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Lists the permissions granted to a security profile.
+    /// Lists the permissions granted to a security profile. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     @Sendable
     public func listSecurityProfilePermissions(_ input: ListSecurityProfilePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityProfilePermissionsResponse {
         return try await self.client.execute(
@@ -2105,7 +2105,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide.
+    /// Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     @Sendable
     public func listSecurityProfiles(_ input: ListSecurityProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityProfilesResponse {
         return try await self.client.execute(
@@ -2417,7 +2417,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Predefined attributes that meet certain criteria.
+    /// Searches predefined attributes that meet certain criteria. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see Create predefined attributes for routing contacts to agents.
     @Sendable
     public func searchPredefinedAttributes(_ input: SearchPredefinedAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchPredefinedAttributesResponse {
         return try await self.client.execute(
@@ -2495,7 +2495,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Searches security profiles in an Amazon Connect instance, with optional filtering.
+    /// Searches security profiles in an Amazon Connect instance, with optional filtering. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     @Sendable
     public func searchSecurityProfiles(_ input: SearchSecurityProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchSecurityProfilesResponse {
         return try await self.client.execute(
@@ -3042,7 +3042,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Updates a predefined attribute for the specified Amazon Connect instance.
+    /// Updates a predefined attribute for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see Create predefined attributes for routing contacts to agents.
     @Sendable
     public func updatePredefinedAttribute(_ input: UpdatePredefinedAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -3237,7 +3237,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// Updates a security profile.
+    /// Updates a security profile. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     @Sendable
     public func updateSecurityProfile(_ input: UpdateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -3898,7 +3898,7 @@ extension Connect {
         )
     }
 
-    /// Lists predefined attributes for the specified Amazon Connect instance.
+    /// Lists predefined attributes for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see Create predefined attributes for routing contacts to agents.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -4107,7 +4107,7 @@ extension Connect {
         )
     }
 
-    /// Lists the permissions granted to a security profile.
+    /// Lists the permissions granted to a security profile. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -4126,7 +4126,7 @@ extension Connect {
         )
     }
 
-    /// Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide.
+    /// Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -4430,7 +4430,7 @@ extension Connect {
         )
     }
 
-    /// Predefined attributes that meet certain criteria.
+    /// Searches predefined attributes that meet certain criteria. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see Create predefined attributes for routing contacts to agents.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -4544,7 +4544,7 @@ extension Connect {
         )
     }
 
-    /// Searches security profiles in an Amazon Connect instance, with optional filtering.
+    /// Searches security profiles in an Amazon Connect instance, with optional filtering. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

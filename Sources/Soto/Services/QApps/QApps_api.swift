@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS QApps service.
 ///
-/// The Amazon Q Apps feature capability within Amazon Q Business allows web experience  users to create lightweight, purpose-built AI apps to fulfill specific tasks from  within their web experience. For example, users can create an Q Appthat exclusively  generates marketing-related content to improve your marketing team's productivity or a  Q App for marketing content-generation like writing customer emails and creating  promotional content using a certain style of voice, tone, and branding.  For more information, see Amazon Q App in the  Amazon Q Business User Guide.
+/// The Amazon Q Apps feature capability within Amazon Q Business allows web experience  users to create lightweight, purpose-built AI apps to fulfill specific tasks from  within their web experience. For example, users can create a Q App that exclusively  generates marketing-related content to improve your marketing team's productivity or a  Q App for writing customer emails and creating promotional content using a certain  style of voice, tone, and branding. For more information on the capabilities, see  Amazon Q Apps capabilities in the Amazon Q Business User Guide.   For an overview of the Amazon Q App APIs, see Overview of  Amazon Q Apps API operations. For information about the IAM access control permissions you need to use the Amazon Q Apps API, see  IAM role for the Amazon Q Business web experience including Amazon Q Apps in the Amazon Q Business User Guide.
 public struct QApps: AWSService {
     // MARK: Member variables
 
@@ -334,12 +334,25 @@ public struct QApps: AWSService {
         )
     }
 
-    /// Updates the metadata and status of a library item for an Amazon Q App.
+    /// Updates the library item for an Amazon Q App.
     @Sendable
     public func updateLibraryItem(_ input: UpdateLibraryItemInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLibraryItemOutput {
         return try await self.client.execute(
             operation: "UpdateLibraryItem", 
             path: "/catalog.updateItem", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the verification status of a library item for an Amazon Q App.
+    @Sendable
+    public func updateLibraryItemMetadata(_ input: UpdateLibraryItemMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "UpdateLibraryItemMetadata", 
+            path: "/catalog.updateItemMetadata", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 

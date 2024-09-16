@@ -159,7 +159,7 @@ extension Support {
         public let serviceCode: String?
         /// The code for the severity level returned by the call to DescribeSeverityLevels.
         public let severityCode: String?
-        /// The status of the case. Valid values:    opened     pending-customer-action     reopened     resolved     unassigned     work-in-progress
+        /// The status of the case. Valid values:    all-open     customer-action-completed     opened     pending-customer-action     reopened     resolved     unassigned     work-in-progress
         public let status: String?
         /// The subject line for the case in the Amazon Web Services Support Center.
         public let subject: String?

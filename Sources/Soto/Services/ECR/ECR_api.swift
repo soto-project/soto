@@ -86,6 +86,7 @@ public struct ECR: AWSService {
         "ap-southeast-2": "api.ecr.ap-southeast-2.amazonaws.com",
         "ap-southeast-3": "api.ecr.ap-southeast-3.amazonaws.com",
         "ap-southeast-4": "api.ecr.ap-southeast-4.amazonaws.com",
+        "ap-southeast-5": "api.ecr.ap-southeast-5.amazonaws.com",
         "ca-central-1": "api.ecr.ca-central-1.amazonaws.com",
         "ca-west-1": "api.ecr.ca-west-1.amazonaws.com",
         "cn-north-1": "api.ecr.cn-north-1.amazonaws.com.cn",
@@ -128,6 +129,7 @@ public struct ECR: AWSService {
             "ap-southeast-2": "ecr-fips.ap-southeast-2.amazonaws.com",
             "ap-southeast-3": "ecr-fips.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "ecr-fips.ap-southeast-4.amazonaws.com",
+            "ap-southeast-5": "ecr-fips.ap-southeast-5.amazonaws.com",
             "ca-central-1": "ecr-fips.ca-central-1.amazonaws.com",
             "ca-west-1": "ecr-fips.ca-west-1.amazonaws.com",
             "eu-central-1": "ecr-fips.eu-central-1.amazonaws.com",
@@ -244,6 +246,19 @@ public struct ECR: AWSService {
         )
     }
 
+    /// Creates a repository creation template. This template is used to define the settings for repositories created by Amazon ECR on your behalf. For example, repositories created through pull through cache actions. For more information, see Private repository creation templates in the Amazon Elastic Container Registry User Guide.
+    @Sendable
+    public func createRepositoryCreationTemplate(_ input: CreateRepositoryCreationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRepositoryCreationTemplateResponse {
+        return try await self.client.execute(
+            operation: "CreateRepositoryCreationTemplate", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes the lifecycle policy associated with the specified repository.
     @Sendable
     public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLifecyclePolicyResponse {
@@ -288,6 +303,19 @@ public struct ECR: AWSService {
     public func deleteRepository(_ input: DeleteRepositoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRepositoryResponse {
         return try await self.client.execute(
             operation: "DeleteRepository", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a repository creation template.
+    @Sendable
+    public func deleteRepositoryCreationTemplate(_ input: DeleteRepositoryCreationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRepositoryCreationTemplateResponse {
+        return try await self.client.execute(
+            operation: "DeleteRepositoryCreationTemplate", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -379,6 +407,32 @@ public struct ECR: AWSService {
     public func describeRepositories(_ input: DescribeRepositoriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRepositoriesResponse {
         return try await self.client.execute(
             operation: "DescribeRepositories", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns details about the repository creation templates in a registry. The prefixes request parameter can be used to return the details for a specific repository creation template.
+    @Sendable
+    public func describeRepositoryCreationTemplates(_ input: DescribeRepositoryCreationTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRepositoryCreationTemplatesResponse {
+        return try await self.client.execute(
+            operation: "DescribeRepositoryCreationTemplates", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the basic scan type version name.
+    @Sendable
+    public func getAccountSetting(_ input: GetAccountSettingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountSettingResponse {
+        return try await self.client.execute(
+            operation: "GetAccountSetting", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -517,6 +571,19 @@ public struct ECR: AWSService {
         )
     }
 
+    /// Allows you to change the basic scan type version by setting the name parameter to either CLAIR to AWS_NATIVE.
+    @Sendable
+    public func putAccountSetting(_ input: PutAccountSettingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountSettingResponse {
+        return try await self.client.execute(
+            operation: "PutAccountSetting", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates or updates the image manifest and tags associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags associated with the image.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     @Sendable
     public func putImage(_ input: PutImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutImageResponse {
@@ -595,7 +662,7 @@ public struct ECR: AWSService {
         )
     }
 
-    /// Creates or updates the replication configuration for a registry. The existing replication configuration for a repository can be retrieved with the DescribeRegistry API action. The first time the PutReplicationConfiguration API is called, a service-linked IAM role is created in your account for the replication process. For more information, see Using service-linked roles for Amazon ECR in the Amazon Elastic Container Registry User Guide.  When configuring cross-account replication, the destination account must grant the source account permission to replicate. This permission is controlled using a registry permissions policy. For more information, see PutRegistryPolicy.
+    /// Creates or updates the replication configuration for a registry. The existing replication configuration for a repository can be retrieved with the DescribeRegistry API action. The first time the PutReplicationConfiguration API is called, a service-linked IAM role is created in your account for the replication process. For more information, see Using service-linked roles for Amazon ECR in the Amazon Elastic Container Registry User Guide. For more information on the custom role for replication, see Creating an IAM role for replication.  When configuring cross-account replication, the destination account must grant the source account permission to replicate. This permission is controlled using a registry permissions policy. For more information, see PutRegistryPolicy.
     @Sendable
     public func putReplicationConfiguration(_ input: PutReplicationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutReplicationConfigurationResponse {
         return try await self.client.execute(
@@ -678,6 +745,19 @@ public struct ECR: AWSService {
     public func updatePullThroughCacheRule(_ input: UpdatePullThroughCacheRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePullThroughCacheRuleResponse {
         return try await self.client.execute(
             operation: "UpdatePullThroughCacheRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates an existing repository creation template.
+    @Sendable
+    public func updateRepositoryCreationTemplate(_ input: UpdateRepositoryCreationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRepositoryCreationTemplateResponse {
+        return try await self.client.execute(
+            operation: "UpdateRepositoryCreationTemplate", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -802,6 +882,25 @@ extension ECR {
         )
     }
 
+    /// Returns details about the repository creation templates in a registry. The prefixes request parameter can be used to return the details for a specific repository creation template.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeRepositoryCreationTemplatesPaginator(
+        _ input: DescribeRepositoryCreationTemplatesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeRepositoryCreationTemplatesRequest, DescribeRepositoryCreationTemplatesResponse> {
+        return .init(
+            input: input,
+            command: self.describeRepositoryCreationTemplates,
+            inputKey: \DescribeRepositoryCreationTemplatesRequest.nextToken,
+            outputKey: \DescribeRepositoryCreationTemplatesResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Retrieves the results of the lifecycle policy preview request for the specified repository.
     /// Return PaginatorSequence for operation.
     ///
@@ -884,6 +983,16 @@ extension ECR.DescribeRepositoriesRequest: AWSPaginateToken {
             nextToken: token,
             registryId: self.registryId,
             repositoryNames: self.repositoryNames
+        )
+    }
+}
+
+extension ECR.DescribeRepositoryCreationTemplatesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ECR.DescribeRepositoryCreationTemplatesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            prefixes: self.prefixes
         )
     }
 }

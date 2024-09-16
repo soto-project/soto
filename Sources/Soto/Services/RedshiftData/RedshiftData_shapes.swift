@@ -110,11 +110,15 @@ extension RedshiftData {
         /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or temporary credentials.
         public let clusterIdentifier: String?
         /// The name of the database. This parameter is required when authenticating using either Secrets Manager or temporary credentials.
-        public let database: String
+        public let database: String?
         /// The database user name. This parameter is required when connecting to a cluster as a database user and authenticating using temporary credentials.
         public let dbUser: String?
         /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
         public let secretArn: String?
+        /// The session identifier of the query.
+        public let sessionId: String?
+        /// The number of seconds to keep the session alive after the query finishes. The maximum time a session can keep alive is 24 hours. After 24 hours, the session is forced closed and the query is terminated.
+        public let sessionKeepAliveSeconds: Int?
         /// One or more SQL statements to run.   The SQL statements are run as a single transaction. They run serially in the order of the array.  Subsequent SQL statements don't start until the previous statement in the array completes.  If any SQL statement fails, then because they are run as one transaction, all work is rolled back.
         public let sqls: [String]
         /// The name of the SQL statements. You can name the SQL statements when you create them to identify the query.
@@ -124,12 +128,14 @@ extension RedshiftData {
         /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
         public let workgroupName: String?
 
-        public init(clientToken: String? = BatchExecuteStatementInput.idempotencyToken(), clusterIdentifier: String? = nil, database: String, dbUser: String? = nil, secretArn: String? = nil, sqls: [String], statementName: String? = nil, withEvent: Bool? = nil, workgroupName: String? = nil) {
+        public init(clientToken: String? = BatchExecuteStatementInput.idempotencyToken(), clusterIdentifier: String? = nil, database: String? = nil, dbUser: String? = nil, secretArn: String? = nil, sessionId: String? = nil, sessionKeepAliveSeconds: Int? = nil, sqls: [String], statementName: String? = nil, withEvent: Bool? = nil, workgroupName: String? = nil) {
             self.clientToken = clientToken
             self.clusterIdentifier = clusterIdentifier
             self.database = database
             self.dbUser = dbUser
             self.secretArn = secretArn
+            self.sessionId = sessionId
+            self.sessionKeepAliveSeconds = sessionKeepAliveSeconds
             self.sqls = sqls
             self.statementName = statementName
             self.withEvent = withEvent
@@ -139,6 +145,12 @@ extension RedshiftData {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 63)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, min: 1)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^[a-z]([a-z0-9]|-[a-z0-9])*$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}(:\\d+)?$")
+            try self.validate(self.sessionKeepAliveSeconds, name: "sessionKeepAliveSeconds", parent: name, max: 86400)
+            try self.validate(self.sessionKeepAliveSeconds, name: "sessionKeepAliveSeconds", parent: name, min: 0)
             try self.validate(self.sqls, name: "sqls", parent: name, max: 40)
             try self.validate(self.sqls, name: "sqls", parent: name, min: 1)
             try self.validate(self.statementName, name: "statementName", parent: name, max: 500)
@@ -153,6 +165,8 @@ extension RedshiftData {
             case database = "Database"
             case dbUser = "DbUser"
             case secretArn = "SecretArn"
+            case sessionId = "SessionId"
+            case sessionKeepAliveSeconds = "SessionKeepAliveSeconds"
             case sqls = "Sqls"
             case statementName = "StatementName"
             case withEvent = "WithEvent"
@@ -167,22 +181,28 @@ extension RedshiftData {
         public let createdAt: Date?
         /// The name of the database.
         public let database: String?
+        /// A list of colon (:) separated names of database groups.
+        public let dbGroups: [String]?
         /// The database user name.
         public let dbUser: String?
         /// The identifier of the SQL statement whose results are to be fetched. This value is a universally unique identifier (UUID) generated by Amazon Redshift Data API.  This identifier is returned by BatchExecuteStatment.
         public let id: String?
         /// The name or ARN of the secret that enables access to the database.
         public let secretArn: String?
+        /// The session identifier of the query.
+        public let sessionId: String?
         /// The serverless workgroup name or Amazon Resource Name (ARN). This element is not returned when connecting to a provisioned cluster.
         public let workgroupName: String?
 
-        public init(clusterIdentifier: String? = nil, createdAt: Date? = nil, database: String? = nil, dbUser: String? = nil, id: String? = nil, secretArn: String? = nil, workgroupName: String? = nil) {
+        public init(clusterIdentifier: String? = nil, createdAt: Date? = nil, database: String? = nil, dbGroups: [String]? = nil, dbUser: String? = nil, id: String? = nil, secretArn: String? = nil, sessionId: String? = nil, workgroupName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.createdAt = createdAt
             self.database = database
+            self.dbGroups = dbGroups
             self.dbUser = dbUser
             self.id = id
             self.secretArn = secretArn
+            self.sessionId = sessionId
             self.workgroupName = workgroupName
         }
 
@@ -190,9 +210,11 @@ extension RedshiftData {
             case clusterIdentifier = "ClusterIdentifier"
             case createdAt = "CreatedAt"
             case database = "Database"
+            case dbGroups = "DbGroups"
             case dbUser = "DbUser"
             case id = "Id"
             case secretArn = "SecretArn"
+            case sessionId = "SessionId"
             case workgroupName = "WorkgroupName"
         }
     }
@@ -336,6 +358,8 @@ extension RedshiftData {
         public let resultSize: Int64?
         /// The name or Amazon Resource Name (ARN) of the secret that enables access to the database.
         public let secretArn: String?
+        /// The session identifier of the query.
+        public let sessionId: String?
         /// The status of the SQL statement being described. Status values are defined as follows:    ABORTED - The query run was stopped by the user.    ALL -  A status value that includes all query statuses. This value can be used to filter results.    FAILED - The query run failed.    FINISHED - The query has finished running.    PICKED - The query has been chosen to be run.    STARTED - The query run has started.    SUBMITTED - The query was submitted, but not yet processed.
         public let status: StatusString?
         /// The SQL statements from a multiple statement run.
@@ -345,7 +369,7 @@ extension RedshiftData {
         /// The serverless workgroup name or Amazon Resource Name (ARN).
         public let workgroupName: String?
 
-        public init(clusterIdentifier: String? = nil, createdAt: Date? = nil, database: String? = nil, dbUser: String? = nil, duration: Int64? = nil, error: String? = nil, hasResultSet: Bool? = nil, id: String, queryParameters: [SqlParameter]? = nil, queryString: String? = nil, redshiftPid: Int64? = nil, redshiftQueryId: Int64? = nil, resultRows: Int64? = nil, resultSize: Int64? = nil, secretArn: String? = nil, status: StatusString? = nil, subStatements: [SubStatementData]? = nil, updatedAt: Date? = nil, workgroupName: String? = nil) {
+        public init(clusterIdentifier: String? = nil, createdAt: Date? = nil, database: String? = nil, dbUser: String? = nil, duration: Int64? = nil, error: String? = nil, hasResultSet: Bool? = nil, id: String, queryParameters: [SqlParameter]? = nil, queryString: String? = nil, redshiftPid: Int64? = nil, redshiftQueryId: Int64? = nil, resultRows: Int64? = nil, resultSize: Int64? = nil, secretArn: String? = nil, sessionId: String? = nil, status: StatusString? = nil, subStatements: [SubStatementData]? = nil, updatedAt: Date? = nil, workgroupName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.createdAt = createdAt
             self.database = database
@@ -361,6 +385,7 @@ extension RedshiftData {
             self.resultRows = resultRows
             self.resultSize = resultSize
             self.secretArn = secretArn
+            self.sessionId = sessionId
             self.status = status
             self.subStatements = subStatements
             self.updatedAt = updatedAt
@@ -383,6 +408,7 @@ extension RedshiftData {
             case resultRows = "ResultRows"
             case resultSize = "ResultSize"
             case secretArn = "SecretArn"
+            case sessionId = "SessionId"
             case status = "Status"
             case subStatements = "SubStatements"
             case updatedAt = "UpdatedAt"
@@ -426,6 +452,9 @@ extension RedshiftData {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 63)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, min: 1)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^[a-z]([a-z0-9]|-[a-z0-9])*$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
@@ -474,13 +503,17 @@ extension RedshiftData {
         /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or temporary credentials.
         public let clusterIdentifier: String?
         /// The name of the database. This parameter is required when authenticating using either Secrets Manager or temporary credentials.
-        public let database: String
+        public let database: String?
         /// The database user name. This parameter is required when connecting to a cluster as a database user and authenticating using temporary credentials.
         public let dbUser: String?
         /// The parameters for the SQL statement.
         public let parameters: [SqlParameter]?
         /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
         public let secretArn: String?
+        /// The session identifier of the query.
+        public let sessionId: String?
+        /// The number of seconds to keep the session alive after the query finishes. The maximum time a session can keep alive is 24 hours. After 24 hours, the session is forced closed and the query is terminated.
+        public let sessionKeepAliveSeconds: Int?
         /// The SQL statement text to run.
         public let sql: String
         /// The name of the SQL statement. You can name the SQL statement when you create it to identify the query.
@@ -490,13 +523,15 @@ extension RedshiftData {
         /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
         public let workgroupName: String?
 
-        public init(clientToken: String? = ExecuteStatementInput.idempotencyToken(), clusterIdentifier: String? = nil, database: String, dbUser: String? = nil, parameters: [SqlParameter]? = nil, secretArn: String? = nil, sql: String, statementName: String? = nil, withEvent: Bool? = nil, workgroupName: String? = nil) {
+        public init(clientToken: String? = ExecuteStatementInput.idempotencyToken(), clusterIdentifier: String? = nil, database: String? = nil, dbUser: String? = nil, parameters: [SqlParameter]? = nil, secretArn: String? = nil, sessionId: String? = nil, sessionKeepAliveSeconds: Int? = nil, sql: String, statementName: String? = nil, withEvent: Bool? = nil, workgroupName: String? = nil) {
             self.clientToken = clientToken
             self.clusterIdentifier = clusterIdentifier
             self.database = database
             self.dbUser = dbUser
             self.parameters = parameters
             self.secretArn = secretArn
+            self.sessionId = sessionId
+            self.sessionKeepAliveSeconds = sessionKeepAliveSeconds
             self.sql = sql
             self.statementName = statementName
             self.withEvent = withEvent
@@ -506,10 +541,16 @@ extension RedshiftData {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 63)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, min: 1)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^[a-z]([a-z0-9]|-[a-z0-9])*$")
             try self.parameters?.forEach {
                 try $0.validate(name: "\(name).parameters[]")
             }
             try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}(:\\d+)?$")
+            try self.validate(self.sessionKeepAliveSeconds, name: "sessionKeepAliveSeconds", parent: name, max: 86400)
+            try self.validate(self.sessionKeepAliveSeconds, name: "sessionKeepAliveSeconds", parent: name, min: 0)
             try self.validate(self.statementName, name: "statementName", parent: name, max: 500)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
@@ -523,6 +564,8 @@ extension RedshiftData {
             case dbUser = "DbUser"
             case parameters = "Parameters"
             case secretArn = "SecretArn"
+            case sessionId = "SessionId"
+            case sessionKeepAliveSeconds = "SessionKeepAliveSeconds"
             case sql = "Sql"
             case statementName = "StatementName"
             case withEvent = "WithEvent"
@@ -537,22 +580,28 @@ extension RedshiftData {
         public let createdAt: Date?
         /// The name of the database.
         public let database: String?
+        /// A list of colon (:) separated names of database groups.
+        public let dbGroups: [String]?
         /// The database user name.
         public let dbUser: String?
         /// The identifier of the SQL statement whose results are to be fetched. This value is a universally unique identifier (UUID) generated by Amazon Redshift Data API.
         public let id: String?
         /// The name or ARN of the secret that enables access to the database.
         public let secretArn: String?
+        /// The session identifier of the query.
+        public let sessionId: String?
         /// The serverless workgroup name or Amazon Resource Name (ARN). This element is not returned when connecting to a provisioned cluster.
         public let workgroupName: String?
 
-        public init(clusterIdentifier: String? = nil, createdAt: Date? = nil, database: String? = nil, dbUser: String? = nil, id: String? = nil, secretArn: String? = nil, workgroupName: String? = nil) {
+        public init(clusterIdentifier: String? = nil, createdAt: Date? = nil, database: String? = nil, dbGroups: [String]? = nil, dbUser: String? = nil, id: String? = nil, secretArn: String? = nil, sessionId: String? = nil, workgroupName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.createdAt = createdAt
             self.database = database
+            self.dbGroups = dbGroups
             self.dbUser = dbUser
             self.id = id
             self.secretArn = secretArn
+            self.sessionId = sessionId
             self.workgroupName = workgroupName
         }
 
@@ -560,9 +609,11 @@ extension RedshiftData {
             case clusterIdentifier = "ClusterIdentifier"
             case createdAt = "CreatedAt"
             case database = "Database"
+            case dbGroups = "DbGroups"
             case dbUser = "DbUser"
             case id = "Id"
             case secretArn = "SecretArn"
+            case sessionId = "SessionId"
             case workgroupName = "WorkgroupName"
         }
     }
@@ -640,6 +691,9 @@ extension RedshiftData {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 63)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, min: 1)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^[a-z]([a-z0-9]|-[a-z0-9])*$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
@@ -708,6 +762,9 @@ extension RedshiftData {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 63)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, min: 1)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^[a-z]([a-z0-9]|-[a-z0-9])*$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
@@ -833,6 +890,9 @@ extension RedshiftData {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 63)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, min: 1)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^[a-z]([a-z0-9]|-[a-z0-9])*$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
@@ -908,6 +968,8 @@ extension RedshiftData {
         public let queryStrings: [String]?
         /// The name or Amazon Resource Name (ARN) of the secret that enables access to the database.
         public let secretArn: String?
+        /// The session identifier of the query.
+        public let sessionId: String?
         /// The name of the SQL statement.
         public let statementName: String?
         /// The status of the SQL statement. An example is the that the SQL statement finished.
@@ -915,7 +977,7 @@ extension RedshiftData {
         /// The date and time (UTC) that the statement metadata was last updated.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, id: String, isBatchStatement: Bool? = nil, queryParameters: [SqlParameter]? = nil, queryString: String? = nil, queryStrings: [String]? = nil, secretArn: String? = nil, statementName: String? = nil, status: StatusString? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, id: String, isBatchStatement: Bool? = nil, queryParameters: [SqlParameter]? = nil, queryString: String? = nil, queryStrings: [String]? = nil, secretArn: String? = nil, sessionId: String? = nil, statementName: String? = nil, status: StatusString? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.id = id
             self.isBatchStatement = isBatchStatement
@@ -923,6 +985,7 @@ extension RedshiftData {
             self.queryString = queryString
             self.queryStrings = queryStrings
             self.secretArn = secretArn
+            self.sessionId = sessionId
             self.statementName = statementName
             self.status = status
             self.updatedAt = updatedAt
@@ -936,6 +999,7 @@ extension RedshiftData {
             case queryString = "QueryString"
             case queryStrings = "QueryStrings"
             case secretArn = "SecretArn"
+            case sessionId = "SessionId"
             case statementName = "StatementName"
             case status = "Status"
             case updatedAt = "UpdatedAt"
@@ -1022,11 +1086,13 @@ extension RedshiftData {
 /// Error enum for RedshiftData
 public struct RedshiftDataErrorType: AWSErrorType {
     enum Code: String {
+        case activeSessionsExceededException = "ActiveSessionsExceededException"
         case activeStatementsExceededException = "ActiveStatementsExceededException"
         case batchExecuteStatementException = "BatchExecuteStatementException"
         case databaseConnectionException = "DatabaseConnectionException"
         case executeStatementException = "ExecuteStatementException"
         case internalServerException = "InternalServerException"
+        case queryTimeoutException = "QueryTimeoutException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case validationException = "ValidationException"
     }
@@ -1049,6 +1115,8 @@ public struct RedshiftDataErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The Amazon Redshift Data API operation failed because the maximum number of active sessions exceeded.
+    public static var activeSessionsExceededException: Self { .init(.activeSessionsExceededException) }
     /// The number of active statements exceeds the limit.
     public static var activeStatementsExceededException: Self { .init(.activeStatementsExceededException) }
     /// An SQL statement encountered an environmental error while running.
@@ -1059,6 +1127,8 @@ public struct RedshiftDataErrorType: AWSErrorType {
     public static var executeStatementException: Self { .init(.executeStatementException) }
     /// The Amazon Redshift Data API operation failed due to invalid input.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The Amazon Redshift Data API operation failed due to timeout.
+    public static var queryTimeoutException: Self { .init(.queryTimeoutException) }
     /// The Amazon Redshift Data API operation failed due to a missing resource.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The Amazon Redshift Data API operation failed due to invalid input.

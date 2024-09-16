@@ -116,7 +116,7 @@ public struct ECS: AWSService {
 
     /// Creates a new Amazon ECS cluster. By default, your account receives a default
     /// 			cluster when you launch your first container instance. However, you can create your own
-    /// 			cluster with a unique name with the CreateCluster action.  When you call the CreateCluster API operation, Amazon ECS attempts to
+    /// 			cluster with a unique name.  When you call the CreateCluster API operation, Amazon ECS attempts to
     /// 				create the Amazon ECS service-linked role for your account. This is so that it can manage
     /// 				required resources in other Amazon Web Services services on your behalf. However, if the user that
     /// 				makes the call doesn't have permissions to create the service-linked role, it isn't
@@ -137,7 +137,7 @@ public struct ECS: AWSService {
     /// Runs and maintains your desired number of tasks from a specified task definition. If
     /// 			the number of tasks running in a service drops below the desiredCount,
     /// 			Amazon ECS runs another copy of the task in the specified cluster. To update an existing
-    /// 			service, see the UpdateService action.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.  In addition to maintaining the desired count of tasks in your service, you can
+    /// 			service, use UpdateService.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.  In addition to maintaining the desired count of tasks in your service, you can
     /// 			optionally run your service behind one or more load balancers. The load balancers
     /// 			distribute traffic across the tasks that are associated with the service. For more
     /// 			information, see Service load balancing in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
@@ -157,7 +157,7 @@ public struct ECS: AWSService {
     /// 					need to specify a desired number of tasks, a task placement strategy, or use
     /// 					Service Auto Scaling policies. For more information, see Service scheduler concepts in the Amazon Elastic Container Service Developer Guide.   You can optionally specify a deployment configuration for your service. The deployment
     /// 			is initiated by changing properties. For example, the deployment might be initiated by
-    /// 			the task definition or by your desired count of a service. This is done with an UpdateService operation. The default value for a replica service for
+    /// 			the task definition or by your desired count of a service. You can use UpdateService. The default value for a replica service for
     /// 				minimumHealthyPercent is 100%. The default value for a daemon service
     /// 			for minimumHealthyPercent is 0%. If a service uses the ECS deployment controller, the minimum healthy
     /// 			percent represents a lower limit on the number of tasks in a service that must remain in
@@ -191,8 +191,8 @@ public struct ECS: AWSService {
     /// 			percent and maximum percent values aren't used. This is the case even if they're
     /// 			currently visible when describing your service. When creating a service that uses the EXTERNAL deployment controller, you
     /// 			can specify only parameters that aren't controlled at the task set level. The only
-    /// 			required parameter is the service name. You control your services using the CreateTaskSet operation. For more information, see Amazon ECS deployment types in the Amazon Elastic Container Service Developer Guide. When the service scheduler launches new tasks, it determines task placement. For information
-    /// 			about task placement and task placement strategies, see Amazon ECS
+    /// 			required parameter is the service name. You control your services using the CreateTaskSet. For more information, see Amazon ECS deployment types in the Amazon Elastic Container Service Developer Guide. When the service scheduler launches new tasks, it determines task placement. For
+    /// 			information about task placement and task placement strategies, see Amazon ECS
     /// 				task placement in the Amazon Elastic Container Service Developer Guide  Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
     @Sendable
     public func createService(_ input: CreateServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceResponse {
@@ -209,7 +209,7 @@ public struct ECS: AWSService {
     /// Create a task set in the specified cluster and service. This is used when a service
     /// 			uses the EXTERNAL deployment controller type. For more information, see
     /// 				Amazon ECS deployment
-    /// 				types in the Amazon Elastic Container Service Developer Guide.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.  For information about the maximum number of task sets and otther quotas, see Amazon ECS
+    /// 				types in the Amazon Elastic Container Service Developer Guide.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.  For information about the maximum number of task sets and other quotas, see Amazon ECS
     /// 			service quotas in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     public func createTaskSet(_ input: CreateTaskSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTaskSetResponse {
@@ -251,8 +251,7 @@ public struct ECS: AWSService {
     }
 
     /// Deletes the specified capacity provider.  The FARGATE and FARGATE_SPOT capacity providers are
-    /// 				reserved and can't be deleted. You can disassociate them from a cluster using either
-    /// 				the PutClusterCapacityProviders API or by deleting the
+    /// 				reserved and can't be deleted. You can disassociate them from a cluster using either  PutCapacityProviderProviders or by deleting the
     /// 				cluster.  Prior to a capacity provider being deleted, the capacity provider must be removed from
     /// 			the capacity provider strategy from all services. The UpdateService
     /// 			API can be used to remove a capacity provider from a service's capacity provider
@@ -260,7 +259,7 @@ public struct ECS: AWSService {
     /// 			used to ensure that any tasks using the Amazon EC2 instance capacity provided by the capacity
     /// 			provider are transitioned to use the capacity from the remaining capacity providers.
     /// 			Only capacity providers that aren't associated with a cluster can be deleted. To remove
-    /// 			a capacity provider from a cluster, you can either use PutClusterCapacityProviders or delete the cluster.
+    /// 			a capacity provider from a cluster, you can either use  PutCapacityProviderProviders or delete the cluster.
     @Sendable
     public func deleteCapacityProvider(_ input: DeleteCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCapacityProviderResponse {
         return try await self.client.execute(
@@ -277,7 +276,7 @@ public struct ECS: AWSService {
     /// 			state. Clusters with an INACTIVE status might remain discoverable in your
     /// 			account for a period of time. However, this behavior is subject to change in the future.
     /// 			We don't recommend that you rely on INACTIVE clusters persisting. You must deregister all container instances from this cluster before you may delete
-    /// 			it. You can list the container instances in a cluster with ListContainerInstances and deregister them with DeregisterContainerInstance.
+    /// 			it. You can list the container instances in a cluster with  ListContainerInstances  and deregister them with DeregisterContainerInstance.
     @Sendable
     public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterResponse {
         return try await self.client.execute(
@@ -299,9 +298,9 @@ public struct ECS: AWSService {
     /// 				API operation. After all tasks have transitioned to either STOPPING or
     /// 					STOPPED status, the service status moves from DRAINING
     /// 				to INACTIVE. Services in the DRAINING or
-    /// 					INACTIVE status can still be viewed with the DescribeServices API operation. However, in the future,
+    /// 				INACTIVE status can still be viewed with the DescribeServices API operation. However, in the future,
     /// 					INACTIVE services may be cleaned up and purged from Amazon ECS record
-    /// 				keeping, and DescribeServices calls on those services return a
+    /// 				keeping, and DescribeServices  calls on those services return a
     /// 					ServiceNotFoundException error.   If you attempt to create a new service with the same name as an existing service
     /// 				in either ACTIVE or DRAINING status, you receive an
     /// 				error.
@@ -794,11 +793,8 @@ public struct ECS: AWSService {
     /// 			CLI or SDKs to make API requests to the Amazon Web Services services that are specified in the
     /// 			policy that's associated with the role. For more information, see IAM
     /// 				Roles for Tasks in the Amazon Elastic Container Service Developer Guide. You can specify a Docker networking mode for the containers in your task definition
-    /// 			with the networkMode parameter. The available network modes correspond to
-    /// 			those described in Network
-    /// 				settings in the Docker run reference. If you specify the awsvpc
-    /// 			network mode, the task is allocated an elastic network interface, and you must specify a
-    /// 				NetworkConfiguration when you create a service or run a task with
+    /// 			with the networkMode parameter. If you specify the awsvpc
+    /// 			network mode, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration when you create a service or run a task with
     /// 			the task definition. For more information, see Task Networking
     /// 			in the Amazon Elastic Container Service Developer Guide.
     @Sendable
@@ -843,7 +839,7 @@ public struct ECS: AWSService {
     }
 
     /// Starts a new task from the specified task definition on the specified container
-    /// 			instance or instances.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.  Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.  Alternatively, you can use RunTask to place tasks for you. For more
+    /// 			instance or instances.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.  Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.  Alternatively, you can useRunTask to place tasks for you. For more
     /// 			information, see Scheduling Tasks in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
     /// 			updating a service. For more infomation, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide.
     @Sendable
@@ -858,13 +854,13 @@ public struct ECS: AWSService {
         )
     }
 
-    /// Stops a running task. Any tags associated with the task will be deleted. When StopTask is called on a task, the equivalent of docker
+    /// Stops a running task. Any tags associated with the task will be deleted. When you call StopTask on a task, the equivalent of docker
     /// 				stop is issued to the containers running in the task. This results in a
     /// 				SIGTERM value and a default 30-second timeout, after which the
     /// 				SIGKILL value is sent and the containers are forcibly stopped. If the
     /// 			container handles the SIGTERM value gracefully and exits within 30 seconds
-    /// 			from receiving it, no SIGKILL value is sent. For Windows containers, POSIX signals do not work and runtime stops the container by sending
-    /// 			a CTRL_SHUTDOWN_EVENT. For more information, see Unable to react to graceful shutdown
+    /// 			from receiving it, no SIGKILL value is sent. For Windows containers, POSIX signals do not work and runtime stops the container by
+    /// 			sending a CTRL_SHUTDOWN_EVENT. For more information, see Unable to react to graceful shutdown
     /// 				of (Windows) container #25982 on GitHub.  The default 30-second timeout can be configured on the Amazon ECS container agent with
     /// 				the ECS_CONTAINER_STOP_TIMEOUT variable. For more information, see
     /// 					Amazon ECS Container Agent Configuration in the

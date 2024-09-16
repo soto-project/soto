@@ -59,6 +59,7 @@ public struct WorkSpacesWeb: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-07-08",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: WorkSpacesWebErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -70,6 +71,13 @@ public struct WorkSpacesWeb: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-east-1": "workspaces-web-fips.us-east-1.amazonaws.com",
+            "us-west-2": "workspaces-web-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

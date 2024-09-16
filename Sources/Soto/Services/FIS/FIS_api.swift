@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS FIS service.
 ///
-/// Fault Injection Service is a managed service that enables you to perform fault injection  experiments on your Amazon Web Services workloads. For more information, see the Fault Injection Service User Guide.
+/// Amazon Web Services Fault Injection Service is a managed service that enables you to perform fault injection  experiments on your Amazon Web Services workloads. For more information, see the Fault Injection Service User Guide.
 public struct FIS: AWSService {
     // MARK: Member variables
 
@@ -170,6 +170,19 @@ public struct FIS: AWSService {
         return try await self.client.execute(
             operation: "GetExperimentTemplate", 
             path: "/experimentTemplates/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Gets information about the specified safety lever.
+    @Sendable
+    public func getSafetyLever(_ input: GetSafetyLeverRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSafetyLeverResponse {
+        return try await self.client.execute(
+            operation: "GetSafetyLever", 
+            path: "/safetyLevers/{id}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -365,6 +378,19 @@ public struct FIS: AWSService {
         return try await self.client.execute(
             operation: "UpdateExperimentTemplate", 
             path: "/experimentTemplates/{id}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    ///  Updates the specified safety lever state.
+    @Sendable
+    public func updateSafetyLeverState(_ input: UpdateSafetyLeverStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSafetyLeverStateResponse {
+        return try await self.client.execute(
+            operation: "UpdateSafetyLeverState", 
+            path: "/safetyLevers/{id}/state", 
             httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 

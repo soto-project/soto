@@ -59,6 +59,7 @@ public struct AppTest: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2022-12-06",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: AppTestErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -70,6 +71,12 @@ public struct AppTest: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-east-1": "apptest-fips.us-east-1.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

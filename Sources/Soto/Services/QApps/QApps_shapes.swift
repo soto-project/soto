@@ -584,6 +584,8 @@ extension QApps {
         public var createdAt: Date
         /// The user who created the library item.
         public let createdBy: String
+        /// Indicates whether the library item has been verified.
+        public let isVerified: Bool?
         /// The unique identifier of the new library item.
         public let libraryItemId: String
         /// The number of ratings the library item has received from users.
@@ -596,9 +598,10 @@ extension QApps {
         /// The user who last updated the library item.
         public let updatedBy: String?
 
-        public init(createdAt: Date, createdBy: String, libraryItemId: String, ratingCount: Int, status: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(createdAt: Date, createdBy: String, isVerified: Bool? = nil, libraryItemId: String, ratingCount: Int, status: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
+            self.isVerified = isVerified
             self.libraryItemId = libraryItemId
             self.ratingCount = ratingCount
             self.status = status
@@ -609,6 +612,7 @@ extension QApps {
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
+            case isVerified = "isVerified"
             case libraryItemId = "libraryItemId"
             case ratingCount = "ratingCount"
             case status = "status"
@@ -651,6 +655,7 @@ extension QApps {
             try self.appDefinition.validate(name: "\(name).appDefinition")
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.title, name: "title", parent: name, max: 100)
+            try self.validate(self.title, name: "title", parent: name, pattern: "^[^{}\\\\\"<>]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -917,6 +922,7 @@ extension QApps {
             try self.validate(self.filename, name: "filename", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             try self.validate(self.title, name: "title", parent: name, max: 100)
+            try self.validate(self.title, name: "title", parent: name, pattern: "^[^{}\\\\\"<>]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -973,6 +979,8 @@ extension QApps {
         public let createdBy: String
         /// Whether the current user has rated the library item.
         public let isRatedByUser: Bool?
+        /// Indicates whether the library item has been verified.
+        public let isVerified: Bool?
         /// The unique identifier of the library item.
         public let libraryItemId: String
         /// The number of ratings the library item has received from users.
@@ -987,13 +995,14 @@ extension QApps {
         /// The number of users who have associated the Q App with their account.
         public let userCount: Int?
 
-        public init(appId: String, appVersion: Int, categories: [Category], createdAt: Date, createdBy: String, isRatedByUser: Bool? = nil, libraryItemId: String, ratingCount: Int, status: String, updatedAt: Date? = nil, updatedBy: String? = nil, userCount: Int? = nil) {
+        public init(appId: String, appVersion: Int, categories: [Category], createdAt: Date, createdBy: String, isRatedByUser: Bool? = nil, isVerified: Bool? = nil, libraryItemId: String, ratingCount: Int, status: String, updatedAt: Date? = nil, updatedBy: String? = nil, userCount: Int? = nil) {
             self.appId = appId
             self.appVersion = appVersion
             self.categories = categories
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.isRatedByUser = isRatedByUser
+            self.isVerified = isVerified
             self.libraryItemId = libraryItemId
             self.ratingCount = ratingCount
             self.status = status
@@ -1009,6 +1018,7 @@ extension QApps {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case isRatedByUser = "isRatedByUser"
+            case isVerified = "isVerified"
             case libraryItemId = "libraryItemId"
             case ratingCount = "ratingCount"
             case status = "status"
@@ -1238,6 +1248,8 @@ extension QApps {
         public let createdBy: String
         /// Whether the current user has rated the library item.
         public let isRatedByUser: Bool?
+        /// Indicates whether the library item has been verified.
+        public let isVerified: Bool?
         /// The unique identifier of the library item.
         public let libraryItemId: String
         /// The number of ratings the library item has received.
@@ -1252,13 +1264,14 @@ extension QApps {
         /// The number of users who have the associated Q App.
         public let userCount: Int?
 
-        public init(appId: String, appVersion: Int, categories: [Category], createdAt: Date, createdBy: String, isRatedByUser: Bool? = nil, libraryItemId: String, ratingCount: Int, status: String, updatedAt: Date? = nil, updatedBy: String? = nil, userCount: Int? = nil) {
+        public init(appId: String, appVersion: Int, categories: [Category], createdAt: Date, createdBy: String, isRatedByUser: Bool? = nil, isVerified: Bool? = nil, libraryItemId: String, ratingCount: Int, status: String, updatedAt: Date? = nil, updatedBy: String? = nil, userCount: Int? = nil) {
             self.appId = appId
             self.appVersion = appVersion
             self.categories = categories
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.isRatedByUser = isRatedByUser
+            self.isVerified = isVerified
             self.libraryItemId = libraryItemId
             self.ratingCount = ratingCount
             self.status = status
@@ -1274,6 +1287,7 @@ extension QApps {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case isRatedByUser = "isRatedByUser"
+            case isVerified = "isVerified"
             case libraryItemId = "libraryItemId"
             case ratingCount = "ratingCount"
             case status = "status"
@@ -1543,6 +1557,7 @@ extension QApps {
             try self.validate(self.pluginId, name: "pluginId", parent: name, min: 36)
             try self.validate(self.prompt, name: "prompt", parent: name, max: 7000)
             try self.validate(self.title, name: "title", parent: name, max: 100)
+            try self.validate(self.title, name: "title", parent: name, pattern: "^[^{}\\\\\"<>]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1619,6 +1634,7 @@ extension QApps {
             try self.validate(self.id, name: "id", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             try self.validate(self.prompt, name: "prompt", parent: name, max: 7000)
             try self.validate(self.title, name: "title", parent: name, max: 100)
+            try self.validate(self.title, name: "title", parent: name, pattern: "^[^{}\\\\\"<>]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1818,6 +1834,7 @@ extension QApps {
             try self.validate(self.id, name: "id", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             try self.validate(self.placeholder, name: "placeholder", parent: name, max: 500)
             try self.validate(self.title, name: "title", parent: name, max: 100)
+            try self.validate(self.title, name: "title", parent: name, pattern: "^[^{}\\\\\"<>]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1905,6 +1922,38 @@ extension QApps {
         }
     }
 
+    public struct UpdateLibraryItemMetadataInput: AWSEncodableShape {
+        /// The unique identifier of the Amazon Q Business application environment instance.
+        public let instanceId: String
+        /// The verification status of the library item
+        public let isVerified: Bool?
+        /// The unique identifier of the updated library item.
+        public let libraryItemId: String
+
+        public init(instanceId: String, isVerified: Bool? = nil, libraryItemId: String) {
+            self.instanceId = instanceId
+            self.isVerified = isVerified
+            self.libraryItemId = libraryItemId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.instanceId, key: "instance-id")
+            try container.encodeIfPresent(self.isVerified, forKey: .isVerified)
+            try container.encode(self.libraryItemId, forKey: .libraryItemId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.libraryItemId, name: "libraryItemId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isVerified = "isVerified"
+            case libraryItemId = "libraryItemId"
+        }
+    }
+
     public struct UpdateLibraryItemOutput: AWSDecodableShape {
         /// The unique identifier of the Q App associated with the library item.
         public let appId: String
@@ -1919,6 +1968,8 @@ extension QApps {
         public let createdBy: String
         /// Whether the current user has rated the library item.
         public let isRatedByUser: Bool?
+        /// Indicates whether the library item has been verified.
+        public let isVerified: Bool?
         /// The unique identifier of the updated library item.
         public let libraryItemId: String
         /// The number of ratings the library item has received.
@@ -1933,13 +1984,14 @@ extension QApps {
         /// The number of users who have the associated Q App.
         public let userCount: Int?
 
-        public init(appId: String, appVersion: Int, categories: [Category], createdAt: Date, createdBy: String, isRatedByUser: Bool? = nil, libraryItemId: String, ratingCount: Int, status: String, updatedAt: Date? = nil, updatedBy: String? = nil, userCount: Int? = nil) {
+        public init(appId: String, appVersion: Int, categories: [Category], createdAt: Date, createdBy: String, isRatedByUser: Bool? = nil, isVerified: Bool? = nil, libraryItemId: String, ratingCount: Int, status: String, updatedAt: Date? = nil, updatedBy: String? = nil, userCount: Int? = nil) {
             self.appId = appId
             self.appVersion = appVersion
             self.categories = categories
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.isRatedByUser = isRatedByUser
+            self.isVerified = isVerified
             self.libraryItemId = libraryItemId
             self.ratingCount = ratingCount
             self.status = status
@@ -1955,6 +2007,7 @@ extension QApps {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case isRatedByUser = "isRatedByUser"
+            case isVerified = "isVerified"
             case libraryItemId = "libraryItemId"
             case ratingCount = "ratingCount"
             case status = "status"
@@ -1999,6 +2052,7 @@ extension QApps {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "^[\\da-f]{8}-[\\da-f]{4}-4[\\da-f]{3}-[89ABab][\\da-f]{3}-[\\da-f]{12}$")
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.title, name: "title", parent: name, max: 100)
+            try self.validate(self.title, name: "title", parent: name, pattern: "^[^{}\\\\\"<>]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2133,17 +2187,20 @@ extension QApps {
         public var createdAt: Date
         /// The description of the Q App.
         public let description: String?
+        /// Indicates whether the Q App has been verified.
+        public let isVerified: Bool?
         /// The status of the user's association with the Q App.
         public let status: String?
         /// The title of the Q App.
         public let title: String
 
-        public init(appArn: String, appId: String, canEdit: Bool? = nil, createdAt: Date, description: String? = nil, status: String? = nil, title: String) {
+        public init(appArn: String, appId: String, canEdit: Bool? = nil, createdAt: Date, description: String? = nil, isVerified: Bool? = nil, status: String? = nil, title: String) {
             self.appArn = appArn
             self.appId = appId
             self.canEdit = canEdit
             self.createdAt = createdAt
             self.description = description
+            self.isVerified = isVerified
             self.status = status
             self.title = title
         }
@@ -2154,6 +2211,7 @@ extension QApps {
             case canEdit = "canEdit"
             case createdAt = "createdAt"
             case description = "description"
+            case isVerified = "isVerified"
             case status = "status"
             case title = "title"
         }

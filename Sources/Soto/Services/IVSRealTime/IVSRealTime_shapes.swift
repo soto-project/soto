@@ -46,9 +46,17 @@ extension IVSRealTime {
     }
 
     public enum EventErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bitrateExceeded = "BITRATE_EXCEEDED"
         case insufficientCapabilities = "INSUFFICIENT_CAPABILITIES"
+        case invalidAudioCodec = "INVALID_AUDIO_CODEC"
+        case invalidProtocol = "INVALID_PROTOCOL"
+        case invalidStreamKey = "INVALID_STREAM_KEY"
+        case invalidVideoCodec = "INVALID_VIDEO_CODEC"
         case publisherNotFound = "PUBLISHER_NOT_FOUND"
         case quotaExceeded = "QUOTA_EXCEEDED"
+        case resolutionExceeded = "RESOLUTION_EXCEEDED"
+        case reuseOfStreamKey = "REUSE_OF_STREAM_KEY"
+        case streamDurationExceeded = "STREAM_DURATION_EXCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -62,6 +70,26 @@ extension IVSRealTime {
         case subscribeError = "SUBSCRIBE_ERROR"
         case subscribeStarted = "SUBSCRIBE_STARTED"
         case subscribeStopped = "SUBSCRIBE_STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IngestConfigurationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IngestProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rtmp = "RTMP"
+        case rtmps = "RTMPS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParticipantProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rtmp = "RTMP"
+        case rtmps = "RTMPS"
+        case unknown = "UNKNOWN"
+        case whip = "WHIP"
         public var description: String { return self.rawValue }
     }
 
@@ -205,7 +233,7 @@ extension IVSRealTime {
         public var startTime: Date?
         /// State of the Composition.
         public let state: CompositionState
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
         public init(arn: String, destinations: [Destination], endTime: Date? = nil, layout: LayoutConfiguration, stageArn: String, startTime: Date? = nil, state: CompositionState, tags: [String: String]? = nil) {
@@ -246,7 +274,7 @@ extension IVSRealTime {
         public var startTime: Date?
         /// State of the Composition resource.
         public let state: CompositionState
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
         public init(arn: String, destinations: [DestinationSummary], endTime: Date? = nil, stageArn: String, startTime: Date? = nil, state: CompositionState, tags: [String: String]? = nil) {
@@ -273,7 +301,7 @@ extension IVSRealTime {
     public struct CreateEncoderConfigurationRequest: AWSEncodableShape {
         /// Optional name to identify the resource.
         public let name: String?
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
         /// Video configuration. Default: video resolution 1280x720, bitrate 2500 kbps, 30 fps.
         public let video: Video?
@@ -313,6 +341,71 @@ extension IVSRealTime {
 
         private enum CodingKeys: String, CodingKey {
             case encoderConfiguration = "encoderConfiguration"
+        }
+    }
+
+    public struct CreateIngestConfigurationRequest: AWSEncodableShape {
+        /// Application-provided attributes to store in the IngestConfiguration and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        public let attributes: [String: String]?
+        /// Type of ingest protocol that the user employs to broadcast. If this is set to RTMP, insecureIngest must be set to true.
+        public let ingestProtocol: IngestProtocol
+        /// Whether the stage allows insecure RTMP ingest. This must be set to true, if ingestProtocol is set to RTMP. Default: false.
+        public let insecureIngest: Bool?
+        /// Optional name that can be specified for the IngestConfiguration being created.
+        public let name: String?
+        /// ARN of the stage with which the IngestConfiguration is associated.
+        public let stageArn: String?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented
+        /// 	 there.
+        public let tags: [String: String]?
+        /// Customer-assigned name to help identify the participant using the IngestConfiguration; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        public let userId: String?
+
+        public init(attributes: [String: String]? = nil, ingestProtocol: IngestProtocol, insecureIngest: Bool? = nil, name: String? = nil, stageArn: String? = nil, tags: [String: String]? = nil, userId: String? = nil) {
+            self.attributes = attributes
+            self.ingestProtocol = ingestProtocol
+            self.insecureIngest = insecureIngest
+            self.name = name
+            self.stageArn = stageArn
+            self.tags = tags
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
+            try self.validate(self.stageArn, name: "stageArn", parent: name, max: 128)
+            try self.validate(self.stageArn, name: "stageArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.userId, name: "userId", parent: name, max: 128)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case ingestProtocol = "ingestProtocol"
+            case insecureIngest = "insecureIngest"
+            case name = "name"
+            case stageArn = "stageArn"
+            case tags = "tags"
+            case userId = "userId"
+        }
+    }
+
+    public struct CreateIngestConfigurationResponse: AWSDecodableShape {
+        /// The IngestConfiguration that was created.
+        public let ingestConfiguration: IngestConfiguration?
+
+        public init(ingestConfiguration: IngestConfiguration? = nil) {
+            self.ingestConfiguration = ingestConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ingestConfiguration = "ingestConfiguration"
         }
     }
 
@@ -375,7 +468,7 @@ extension IVSRealTime {
         public let name: String?
         /// Array of participant token configuration objects to attach to the new stage.
         public let participantTokenConfigurations: [ParticipantTokenConfiguration]?
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
         public init(autoParticipantRecordingConfiguration: AutoParticipantRecordingConfiguration? = nil, name: String? = nil, participantTokenConfigurations: [ParticipantTokenConfiguration]? = nil, tags: [String: String]? = nil) {
@@ -431,7 +524,8 @@ extension IVSRealTime {
         public let name: String?
         /// A complex type that contains a storage configuration for where recorded video will be stored.
         public let s3: S3StorageConfiguration
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies
+        /// 	 in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
         public init(name: String? = nil, s3: S3StorageConfiguration, tags: [String: String]? = nil) {
@@ -492,6 +586,33 @@ extension IVSRealTime {
     }
 
     public struct DeleteEncoderConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteIngestConfigurationRequest: AWSEncodableShape {
+        /// ARN of the IngestConfiguration.
+        public let arn: String
+        /// Optional field to force deletion of the IngestConfiguration. If this is set to true when a participant is actively publishing, the participant is disconnected from the stage, followed by deletion of the IngestConfiguration. Default: false.
+        public let force: Bool?
+
+        public init(arn: String, force: Bool? = nil) {
+            self.arn = arn
+            self.force = force
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:ingest-configuration/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case force = "force"
+        }
+    }
+
+    public struct DeleteIngestConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -670,7 +791,8 @@ extension IVSRealTime {
     }
 
     public struct DisconnectParticipantRequest: AWSEncodableShape {
-        /// Identifier of the participant to be disconnected. This is assigned by IVS and returned by CreateParticipantToken.
+        /// Identifier of the participant to be disconnected. IVS assigns this; it is returned by CreateParticipantToken (for streams using WebRTC ingest) or CreateIngestConfiguration (for
+        /// 	    streams using RTMP ingest).
         public let participantId: String
         /// Description of why this participant is being disconnected.
         public let reason: String?
@@ -706,7 +828,7 @@ extension IVSRealTime {
         public let arn: String
         /// Optional name to identify the resource.
         public let name: String?
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
         /// Video configuration. Default: video resolution 1280x720, bitrate 2500 kbps, 30 fps
         public let video: Video?
@@ -731,7 +853,7 @@ extension IVSRealTime {
         public let arn: String
         /// Optional name to identify the resource.
         public let name: String?
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
         public init(arn: String, name: String? = nil, tags: [String: String]? = nil) {
@@ -838,6 +960,38 @@ extension IVSRealTime {
 
         private enum CodingKeys: String, CodingKey {
             case encoderConfiguration = "encoderConfiguration"
+        }
+    }
+
+    public struct GetIngestConfigurationRequest: AWSEncodableShape {
+        /// ARN of the ingest for which the information is to be retrieved.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:ingest-configuration/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct GetIngestConfigurationResponse: AWSDecodableShape {
+        /// The IngestConfiguration that was returned.
+        public let ingestConfiguration: IngestConfiguration?
+
+        public init(ingestConfiguration: IngestConfiguration? = nil) {
+            self.ingestConfiguration = ingestConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ingestConfiguration = "ingestConfiguration"
         }
     }
 
@@ -1061,7 +1215,7 @@ extension IVSRealTime {
         public let name: String?
         /// The content of the public key to be imported.
         public let publicKeyMaterial: String
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
         public init(name: String? = nil, publicKeyMaterial: String, tags: [String: String]? = nil) {
@@ -1099,6 +1253,92 @@ extension IVSRealTime {
 
         private enum CodingKeys: String, CodingKey {
             case publicKey = "publicKey"
+        }
+    }
+
+    public struct IngestConfiguration: AWSDecodableShape {
+        /// Ingest configuration ARN.
+        public let arn: String
+        /// Application-provided attributes to to store in the IngestConfiguration and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        public let attributes: [String: String]?
+        /// Type of ingest protocol that the user employs for broadcasting.
+        public let ingestProtocol: IngestProtocol
+        /// Ingest name
+        public let name: String?
+        /// ID of the participant within the stage.
+        public let participantId: String
+        /// ARN of the stage with which the IngestConfiguration is associated.
+        public let stageArn: String
+        /// State of the ingest configuration. It is ACTIVE if a publisher currently is publishing to the stage associated with the ingest configuration.
+        public let state: IngestConfigurationState
+        /// Ingest-key value for the RTMP(S) protocol.
+        public let streamKey: String
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public let tags: [String: String]?
+        /// Customer-assigned name to help identify the participant using the IngestConfiguration; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        public let userId: String?
+
+        public init(arn: String, attributes: [String: String]? = nil, ingestProtocol: IngestProtocol, name: String? = nil, participantId: String, stageArn: String, state: IngestConfigurationState, streamKey: String, tags: [String: String]? = nil, userId: String? = nil) {
+            self.arn = arn
+            self.attributes = attributes
+            self.ingestProtocol = ingestProtocol
+            self.name = name
+            self.participantId = participantId
+            self.stageArn = stageArn
+            self.state = state
+            self.streamKey = streamKey
+            self.tags = tags
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case attributes = "attributes"
+            case ingestProtocol = "ingestProtocol"
+            case name = "name"
+            case participantId = "participantId"
+            case stageArn = "stageArn"
+            case state = "state"
+            case streamKey = "streamKey"
+            case tags = "tags"
+            case userId = "userId"
+        }
+    }
+
+    public struct IngestConfigurationSummary: AWSDecodableShape {
+        /// Ingest configuration ARN.
+        public let arn: String
+        /// Type of ingest protocol that the user employs for broadcasting.
+        public let ingestProtocol: IngestProtocol
+        /// Ingest name.
+        public let name: String?
+        /// ID of the participant within the stage.
+        public let participantId: String
+        /// ARN of the stage with which the IngestConfiguration is associated.
+        public let stageArn: String
+        /// State of the ingest configuration. It is ACTIVE if a publisher currently is publishing to the stage associated with the ingest configuration.
+        public let state: IngestConfigurationState
+        /// Customer-assigned name to help identify the participant using the IngestConfiguration; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        public let userId: String?
+
+        public init(arn: String, ingestProtocol: IngestProtocol, name: String? = nil, participantId: String, stageArn: String, state: IngestConfigurationState, userId: String? = nil) {
+            self.arn = arn
+            self.ingestProtocol = ingestProtocol
+            self.name = name
+            self.participantId = participantId
+            self.stageArn = stageArn
+            self.state = state
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case ingestProtocol = "ingestProtocol"
+            case name = "name"
+            case participantId = "participantId"
+            case stageArn = "stageArn"
+            case state = "state"
+            case userId = "userId"
         }
     }
 
@@ -1216,6 +1456,58 @@ extension IVSRealTime {
 
         private enum CodingKeys: String, CodingKey {
             case encoderConfigurations = "encoderConfigurations"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListIngestConfigurationsRequest: AWSEncodableShape {
+        /// Filters the response list to match the specified stage ARN. Only one filter (by stage ARN or by state) can be used at a time.
+        public let filterByStageArn: String?
+        /// Filters the response list to match the specified state. Only one filter (by stage ARN or by state) can be used at a time.
+        public let filterByState: IngestConfigurationState?
+        /// Maximum number of results to return. Default: 50.
+        public let maxResults: Int?
+        /// The first IngestConfiguration to retrieve. This is used for pagination; see the nextToken response field.
+        public let nextToken: String?
+
+        public init(filterByStageArn: String? = nil, filterByState: IngestConfigurationState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filterByStageArn = filterByStageArn
+            self.filterByState = filterByState
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filterByStageArn, name: "filterByStageArn", parent: name, max: 128)
+            try self.validate(self.filterByStageArn, name: "filterByStageArn", parent: name, min: 1)
+            try self.validate(self.filterByStageArn, name: "filterByStageArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterByStageArn = "filterByStageArn"
+            case filterByState = "filterByState"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListIngestConfigurationsResponse: AWSDecodableShape {
+        /// List of the matching ingest configurations (summary information only).
+        public let ingestConfigurations: [IngestConfigurationSummary]
+        /// If there are more IngestConfigurations than maxResults, use nextToken in the request to get the next set.
+        public let nextToken: String?
+
+        public init(ingestConfigurations: [IngestConfigurationSummary], nextToken: String? = nil) {
+            self.ingestConfigurations = ingestConfigurations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ingestConfigurations = "ingestConfigurations"
             case nextToken = "nextToken"
         }
     }
@@ -1581,6 +1873,8 @@ extension IVSRealTime {
         public let osVersion: String?
         /// Unique identifier for this participant, assigned by IVS.
         public let participantId: String?
+        /// Type of ingest protocol that the participant employs for broadcasting.
+        public let `protocol`: ParticipantProtocol?
         /// Whether the participant ever published to the stage session.
         public let published: Bool?
         /// Name of the S3 bucket to where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
@@ -1596,7 +1890,7 @@ extension IVSRealTime {
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let userId: String?
 
-        public init(attributes: [String: String]? = nil, browserName: String? = nil, browserVersion: String? = nil, firstJoinTime: Date? = nil, ispName: String? = nil, osName: String? = nil, osVersion: String? = nil, participantId: String? = nil, published: Bool? = nil, recordingS3BucketName: String? = nil, recordingS3Prefix: String? = nil, recordingState: ParticipantRecordingState? = nil, sdkVersion: String? = nil, state: ParticipantState? = nil, userId: String? = nil) {
+        public init(attributes: [String: String]? = nil, browserName: String? = nil, browserVersion: String? = nil, firstJoinTime: Date? = nil, ispName: String? = nil, osName: String? = nil, osVersion: String? = nil, participantId: String? = nil, protocol: ParticipantProtocol? = nil, published: Bool? = nil, recordingS3BucketName: String? = nil, recordingS3Prefix: String? = nil, recordingState: ParticipantRecordingState? = nil, sdkVersion: String? = nil, state: ParticipantState? = nil, userId: String? = nil) {
             self.attributes = attributes
             self.browserName = browserName
             self.browserVersion = browserVersion
@@ -1605,6 +1899,7 @@ extension IVSRealTime {
             self.osName = osName
             self.osVersion = osVersion
             self.participantId = participantId
+            self.`protocol` = `protocol`
             self.published = published
             self.recordingS3BucketName = recordingS3BucketName
             self.recordingS3Prefix = recordingS3Prefix
@@ -1623,6 +1918,7 @@ extension IVSRealTime {
             case osName = "osName"
             case osVersion = "osVersion"
             case participantId = "participantId"
+            case `protocol` = "protocol"
             case published = "published"
             case recordingS3BucketName = "recordingS3BucketName"
             case recordingS3Prefix = "recordingS3Prefix"
@@ -1813,7 +2109,7 @@ extension IVSRealTime {
         public let name: String?
         /// Public key material.
         public let publicKeyMaterial: String?
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
         public init(arn: String? = nil, fingerprint: String? = nil, name: String? = nil, publicKeyMaterial: String? = nil, tags: [String: String]? = nil) {
@@ -1838,7 +2134,7 @@ extension IVSRealTime {
         public let arn: String?
         /// Public key name.
         public let name: String?
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
         public init(arn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
@@ -1948,7 +2244,7 @@ extension IVSRealTime {
         public let endpoints: StageEndpoints?
         /// Stage name.
         public let name: String?
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
         public init(activeSessionId: String? = nil, arn: String, autoParticipantRecordingConfiguration: AutoParticipantRecordingConfiguration? = nil, endpoints: StageEndpoints? = nil, name: String? = nil, tags: [String: String]? = nil) {
@@ -1973,16 +2269,24 @@ extension IVSRealTime {
     public struct StageEndpoints: AWSDecodableShape {
         /// Events endpoint.
         public let events: String?
-        /// WHIP endpoint.
+        /// The endpoint to be used for IVS real-time streaming using the RTMP protocol.
+        public let rtmp: String?
+        /// The endpoint to be used for IVS real-time streaming using the RTMPS protocol.
+        public let rtmps: String?
+        /// The endpoint to be used for IVS real-time streaming using the WHIP protocol.
         public let whip: String?
 
-        public init(events: String? = nil, whip: String? = nil) {
+        public init(events: String? = nil, rtmp: String? = nil, rtmps: String? = nil, whip: String? = nil) {
             self.events = events
+            self.rtmp = rtmp
+            self.rtmps = rtmps
             self.whip = whip
         }
 
         private enum CodingKeys: String, CodingKey {
             case events = "events"
+            case rtmp = "rtmp"
+            case rtmps = "rtmps"
             case whip = "whip"
         }
     }
@@ -2040,7 +2344,7 @@ extension IVSRealTime {
         public let arn: String
         /// Stage name.
         public let name: String?
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
         public init(activeSessionId: String? = nil, arn: String, name: String? = nil, tags: [String: String]? = nil) {
@@ -2067,7 +2371,7 @@ extension IVSRealTime {
         public let layout: LayoutConfiguration?
         /// ARN of the stage to be used for compositing.
         public let stageArn: String
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
         public init(destinations: [DestinationConfiguration], idempotencyToken: String? = StartCompositionRequest.idempotencyToken(), layout: LayoutConfiguration? = nil, stageArn: String, tags: [String: String]? = nil) {
@@ -2151,7 +2455,7 @@ extension IVSRealTime {
         public let name: String?
         /// An S3 destination configuration where recorded videos will be stored.
         public let s3: S3StorageConfiguration?
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
         public init(arn: String, name: String? = nil, s3: S3StorageConfiguration? = nil, tags: [String: String]? = nil) {
@@ -2176,7 +2480,8 @@ extension IVSRealTime {
         public let name: String?
         /// An S3 destination configuration where recorded videos will be stored.
         public let s3: S3StorageConfiguration?
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming
+        /// 	 limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
         public init(arn: String, name: String? = nil, s3: S3StorageConfiguration? = nil, tags: [String: String]? = nil) {
@@ -2197,7 +2502,7 @@ extension IVSRealTime {
     public struct TagResourceRequest: AWSEncodableShape {
         /// The ARN of the resource to be tagged. The ARN must be URL-encoded.
         public let resourceArn: String
-        /// Array of tags to be added or updated. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints beyond what is documented there.
+        /// Array of tags to be added or updated. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -2236,7 +2541,7 @@ extension IVSRealTime {
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The ARN of the resource to be untagged. The ARN must be URL-encoded.
         public let resourceArn: String
-        /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints beyond what is documented there.
+        /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -2267,6 +2572,44 @@ extension IVSRealTime {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateIngestConfigurationRequest: AWSEncodableShape {
+        /// ARN of the IngestConfiguration, for which the related stage ARN needs to be updated.
+        public let arn: String
+        /// Stage ARN that needs to be updated.
+        public let stageArn: String?
+
+        public init(arn: String, stageArn: String? = nil) {
+            self.arn = arn
+            self.stageArn = stageArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:ingest-configuration/[a-zA-Z0-9-]+$")
+            try self.validate(self.stageArn, name: "stageArn", parent: name, max: 128)
+            try self.validate(self.stageArn, name: "stageArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case stageArn = "stageArn"
+        }
+    }
+
+    public struct UpdateIngestConfigurationResponse: AWSDecodableShape {
+        /// The updated IngestConfiguration.
+        public let ingestConfiguration: IngestConfiguration?
+
+        public init(ingestConfiguration: IngestConfiguration? = nil) {
+            self.ingestConfiguration = ingestConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ingestConfiguration = "ingestConfiguration"
+        }
     }
 
     public struct UpdateStageRequest: AWSEncodableShape {

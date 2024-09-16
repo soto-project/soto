@@ -83,6 +83,37 @@ extension MedicalImaging {
         public var description: String { return self.rawValue }
     }
 
+    public enum MetadataUpdates: AWSEncodableShape, Sendable {
+        /// The object containing removableAttributes and updatableAttributes.
+        case dicomUpdates(DICOMUpdates)
+        /// Specifies the previous image set version ID to revert the current image set back to.  You must provide either revertToVersionId or DICOMUpdates in your request. A  ValidationException error is thrown if both parameters are provided at the same time.
+        case revertToVersionId(String)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .dicomUpdates(let value):
+                try container.encode(value, forKey: .dicomUpdates)
+            case .revertToVersionId(let value):
+                try container.encode(value, forKey: .revertToVersionId)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .dicomUpdates(let value):
+                try value.validate(name: "\(name).dicomUpdates")
+            case .revertToVersionId(let value):
+                try self.validate(value, name: "revertToVersionId", parent: name, pattern: "^\\d+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dicomUpdates = "DICOMUpdates"
+            case revertToVersionId = "revertToVersionId"
+        }
+    }
+
     public enum SearchByAttributeValue: AWSEncodableShape, Sendable {
         /// The created at time of the image set provided for search.
         case createdAt(Date)
@@ -126,19 +157,19 @@ extension MedicalImaging {
         public func validate(name: String) throws {
             switch self {
             case .dicomAccessionNumber(let value):
-                try self.validate(value, name: "dicomAccessionNumber", parent: name, max: 16)
+                try self.validate(value, name: "dicomAccessionNumber", parent: name, max: 256)
             case .dicomPatientId(let value):
-                try self.validate(value, name: "dicomPatientId", parent: name, max: 64)
+                try self.validate(value, name: "dicomPatientId", parent: name, max: 256)
             case .dicomSeriesInstanceUID(let value):
-                try self.validate(value, name: "dicomSeriesInstanceUID", parent: name, max: 64)
-                try self.validate(value, name: "dicomSeriesInstanceUID", parent: name, pattern: "^(?:[1-9][0-9]*|0)(\\.(?:[1-9][0-9]*|0))*$")
+                try self.validate(value, name: "dicomSeriesInstanceUID", parent: name, max: 256)
+                try self.validate(value, name: "dicomSeriesInstanceUID", parent: name, pattern: "^(?:[0-9][0-9]*|0)(\\.(?:[1-9][0-9]*|0))*$")
             case .dicomStudyDateAndTime(let value):
                 try value.validate(name: "\(name).dicomStudyDateAndTime")
             case .dicomStudyId(let value):
                 try self.validate(value, name: "dicomStudyId", parent: name, max: 16)
             case .dicomStudyInstanceUID(let value):
-                try self.validate(value, name: "dicomStudyInstanceUID", parent: name, max: 64)
-                try self.validate(value, name: "dicomStudyInstanceUID", parent: name, pattern: "^(?:[1-9][0-9]*|0)(\\.(?:[1-9][0-9]*|0))*$")
+                try self.validate(value, name: "dicomStudyInstanceUID", parent: name, max: 256)
+                try self.validate(value, name: "dicomStudyInstanceUID", parent: name, pattern: "^(?:[0-9][0-9]*|0)(\\.(?:[1-9][0-9]*|0))*$")
             default:
                 break
             }
@@ -244,12 +275,15 @@ extension MedicalImaging {
         public let copyImageSetInformation: CopyImageSetInformation
         /// The data store identifier.
         public let datastoreId: String
+        /// Setting this flag will force the CopyImageSet operation, even if Patient, Study, or Series level metadata are mismatched across the sourceImageSet and destinationImageSet.
+        public let force: Bool?
         /// The source image set identifier.
         public let sourceImageSetId: String
 
-        public init(copyImageSetInformation: CopyImageSetInformation, datastoreId: String, sourceImageSetId: String) {
+        public init(copyImageSetInformation: CopyImageSetInformation, datastoreId: String, force: Bool? = nil, sourceImageSetId: String) {
             self.copyImageSetInformation = copyImageSetInformation
             self.datastoreId = datastoreId
+            self.force = force
             self.sourceImageSetId = sourceImageSetId
         }
 
@@ -258,6 +292,7 @@ extension MedicalImaging {
             var container = encoder.singleValueContainer()
             try container.encode(self.copyImageSetInformation)
             request.encodePath(self.datastoreId, key: "datastoreId")
+            request.encodeQuery(self.force, key: "force")
             request.encodePath(self.sourceImageSetId, key: "sourceImageSetId")
         }
 
@@ -292,18 +327,23 @@ extension MedicalImaging {
     }
 
     public struct CopySourceImageSetInformation: AWSEncodableShape {
+        /// Contains MetadataCopies structure and wraps information related to specific copy use cases. For example, when copying subsets.
+        public let dicomCopies: MetadataCopies?
         /// The latest version identifier for the source image set.
         public let latestVersionId: String
 
-        public init(latestVersionId: String) {
+        public init(dicomCopies: MetadataCopies? = nil, latestVersionId: String) {
+            self.dicomCopies = dicomCopies
             self.latestVersionId = latestVersionId
         }
 
         public func validate(name: String) throws {
+            try self.dicomCopies?.validate(name: "\(name).dicomCopies")
             try self.validate(self.latestVersionId, name: "latestVersionId", parent: name, pattern: "^\\d+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dicomCopies = "DICOMCopies"
             case latestVersionId = "latestVersionId"
         }
     }
@@ -1006,12 +1046,14 @@ extension MedicalImaging {
         public let imageSetWorkflowStatus: ImageSetWorkflowStatus?
         /// The error message thrown if an image set action fails.
         public let message: String?
+        /// This object contains the details of any overrides used while creating a specific image set version. If an image set was copied or updated using the force flag, this object will contain the forced flag.
+        public let overrides: Overrides?
         /// The timestamp when image set properties were updated.
         public let updatedAt: Date?
         /// The image set version identifier.
         public let versionId: String
 
-        public init(createdAt: Date? = nil, datastoreId: String, deletedAt: Date? = nil, imageSetArn: String? = nil, imageSetId: String, imageSetState: ImageSetState, imageSetWorkflowStatus: ImageSetWorkflowStatus? = nil, message: String? = nil, updatedAt: Date? = nil, versionId: String) {
+        public init(createdAt: Date? = nil, datastoreId: String, deletedAt: Date? = nil, imageSetArn: String? = nil, imageSetId: String, imageSetState: ImageSetState, imageSetWorkflowStatus: ImageSetWorkflowStatus? = nil, message: String? = nil, overrides: Overrides? = nil, updatedAt: Date? = nil, versionId: String) {
             self.createdAt = createdAt
             self.datastoreId = datastoreId
             self.deletedAt = deletedAt
@@ -1020,6 +1062,7 @@ extension MedicalImaging {
             self.imageSetState = imageSetState
             self.imageSetWorkflowStatus = imageSetWorkflowStatus
             self.message = message
+            self.overrides = overrides
             self.updatedAt = updatedAt
             self.versionId = versionId
         }
@@ -1033,6 +1076,7 @@ extension MedicalImaging {
             case imageSetState = "imageSetState"
             case imageSetWorkflowStatus = "imageSetWorkflowStatus"
             case message = "message"
+            case overrides = "overrides"
             case updatedAt = "updatedAt"
             case versionId = "versionId"
         }
@@ -1068,18 +1112,21 @@ extension MedicalImaging {
         public let imageSetWorkflowStatus: ImageSetWorkflowStatus?
         /// The error message thrown if an image set action fails.
         public let message: String?
+        /// Contains details on overrides used when creating the returned version of an image set. For example, if forced exists, the forced flag was used when  creating the image set.
+        public let overrides: Overrides?
         /// The timestamp when the image set properties were updated.
         public let updatedAt: Date?
         /// The image set version identifier.
         public let versionId: String
 
-        public init(createdAt: Date? = nil, deletedAt: Date? = nil, imageSetId: String, imageSetState: ImageSetState, imageSetWorkflowStatus: ImageSetWorkflowStatus? = nil, message: String? = nil, updatedAt: Date? = nil, versionId: String) {
+        public init(createdAt: Date? = nil, deletedAt: Date? = nil, imageSetId: String, imageSetState: ImageSetState, imageSetWorkflowStatus: ImageSetWorkflowStatus? = nil, message: String? = nil, overrides: Overrides? = nil, updatedAt: Date? = nil, versionId: String) {
             self.createdAt = createdAt
             self.deletedAt = deletedAt
             self.imageSetId = imageSetId
             self.imageSetState = imageSetState
             self.imageSetWorkflowStatus = imageSetWorkflowStatus
             self.message = message
+            self.overrides = overrides
             self.updatedAt = updatedAt
             self.versionId = versionId
         }
@@ -1091,6 +1138,7 @@ extension MedicalImaging {
             case imageSetState = "imageSetState"
             case imageSetWorkflowStatus = "ImageSetWorkflowStatus"
             case message = "message"
+            case overrides = "overrides"
             case updatedAt = "updatedAt"
             case versionId = "versionId"
         }
@@ -1311,6 +1359,37 @@ extension MedicalImaging {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct MetadataCopies: AWSEncodableShape {
+        /// The JSON string used to specify a subset of SOP Instances to copy from source to destination image set.
+        public let copiableAttributes: String
+
+        public init(copiableAttributes: String) {
+            self.copiableAttributes = copiableAttributes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.copiableAttributes, name: "copiableAttributes", parent: name, max: 260000)
+            try self.validate(self.copiableAttributes, name: "copiableAttributes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case copiableAttributes = "copiableAttributes"
+        }
+    }
+
+    public struct Overrides: AWSDecodableShape {
+        /// Setting this flag will force the CopyImageSet and UpdateImageSetMetadata operations, even if Patient, Study, or Series level metadata are mismatched.
+        public let forced: Bool?
+
+        public init(forced: Bool? = nil) {
+            self.forced = forced
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forced = "forced"
         }
     }
 
@@ -1605,6 +1684,8 @@ extension MedicalImaging {
     public struct UpdateImageSetMetadataRequest: AWSEncodableShape {
         /// The data store identifier.
         public let datastoreId: String
+        /// Setting this flag will force the UpdateImageSetMetadata operation for the following attributes:    Tag.StudyInstanceUID, Tag.SeriesInstanceUID, Tag.SOPInstanceUID, and Tag.StudyID    Adding, removing, or updating private tags for an individual SOP Instance
+        public let force: Bool?
         /// The image set identifier.
         public let imageSetId: String
         /// The latest image set version identifier.
@@ -1612,8 +1693,9 @@ extension MedicalImaging {
         /// Update image set metadata updates.
         public let updateImageSetMetadataUpdates: MetadataUpdates
 
-        public init(datastoreId: String, imageSetId: String, latestVersionId: String, updateImageSetMetadataUpdates: MetadataUpdates) {
+        public init(datastoreId: String, force: Bool? = nil, imageSetId: String, latestVersionId: String, updateImageSetMetadataUpdates: MetadataUpdates) {
             self.datastoreId = datastoreId
+            self.force = force
             self.imageSetId = imageSetId
             self.latestVersionId = latestVersionId
             self.updateImageSetMetadataUpdates = updateImageSetMetadataUpdates
@@ -1623,6 +1705,7 @@ extension MedicalImaging {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.singleValueContainer()
             request.encodePath(self.datastoreId, key: "datastoreId")
+            request.encodeQuery(self.force, key: "force")
             request.encodePath(self.imageSetId, key: "imageSetId")
             request.encodeQuery(self.latestVersionId, key: "latestVersion")
             try container.encode(self.updateImageSetMetadataUpdates)
@@ -1676,23 +1759,6 @@ extension MedicalImaging {
             case latestVersionId = "latestVersionId"
             case message = "message"
             case updatedAt = "updatedAt"
-        }
-    }
-
-    public struct MetadataUpdates: AWSEncodableShape {
-        /// The object containing removableAttributes and updatableAttributes.
-        public let dicomUpdates: DICOMUpdates?
-
-        public init(dicomUpdates: DICOMUpdates? = nil) {
-            self.dicomUpdates = dicomUpdates
-        }
-
-        public func validate(name: String) throws {
-            try self.dicomUpdates?.validate(name: "\(name).dicomUpdates")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case dicomUpdates = "DICOMUpdates"
         }
     }
 }

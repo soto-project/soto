@@ -73,7 +73,7 @@ public struct Backup: AWSService {
 
     // MARK: API Calls
 
-    /// This action removes the specified legal hold on a recovery point.  This action can only be performed by a user with sufficient permissions.
+    /// Removes the specified legal hold on a recovery point. This action can only be performed by a user with sufficient permissions.
     @Sendable
     public func cancelLegalHold(_ input: CancelLegalHoldInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelLegalHoldOutput {
         return try await self.client.execute(
@@ -138,7 +138,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// This action creates a legal hold on a recovery point (backup). A legal hold  is a restraint on altering or deleting a backup until an authorized user cancels the  legal hold. Any actions to delete or disassociate a recovery point will fail with  an error if one or more active legal holds are on the recovery point.
+    /// Creates a legal hold on a recovery point (backup). A legal hold is a restraint on altering or deleting a backup until an authorized user cancels the legal hold. Any actions to delete or disassociate a recovery point will fail with an error if one or more active legal holds are on the recovery point.
     @Sendable
     public func createLegalHold(_ input: CreateLegalHoldInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLegalHoldOutput {
         return try await self.client.execute(
@@ -151,7 +151,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// This request creates a logical container to where backups may be copied. This request includes a name, the Region, the maximum number of retention days, the  minimum number of retention days, and optionally can include tags and a creator request  ID.  Do not include sensitive data, such as passport numbers, in the name of a backup vault.
+    /// Creates a logical container to where backups may be copied. This request includes a name, the Region, the maximum number of retention days, the  minimum number of retention days, and optionally can include tags and a creator request  ID.  Do not include sensitive data, such as passport numbers, in the name of a backup vault.
     @Sendable
     public func createLogicallyAirGappedBackupVault(_ input: CreateLogicallyAirGappedBackupVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLogicallyAirGappedBackupVaultOutput {
         return try await self.client.execute(
@@ -177,7 +177,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// This is the first of two steps to create a restore testing  plan; once this request is successful, finish the procedure with  request CreateRestoreTestingSelection. You must include the parameter RestoreTestingPlan. You may  optionally include CreatorRequestId and Tags.
+    /// Creates a restore testing plan. The first of two steps to create a restore testing  plan. After this request is successful, finish the procedure using  CreateRestoreTestingSelection.
     @Sendable
     public func createRestoreTestingPlan(_ input: CreateRestoreTestingPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRestoreTestingPlanOutput {
         return try await self.client.execute(
@@ -722,7 +722,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// Returns metadata of your saved backup plan templates, including the template ID, name, and the creation and deletion dates.
+    /// Lists the backup plan templates.
     @Sendable
     public func listBackupPlanTemplates(_ input: ListBackupPlanTemplatesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackupPlanTemplatesOutput {
         return try await self.client.execute(
@@ -748,7 +748,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// Returns a list of all active backup plans for an authenticated account. The list contains information such as Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
+    /// Lists the active backup plans for the account.
     @Sendable
     public func listBackupPlans(_ input: ListBackupPlansInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackupPlansOutput {
         return try await self.client.execute(
@@ -891,7 +891,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// Returns detailed information about all the recovery points of the type specified by a resource Amazon Resource Name (ARN).  For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup.
+    /// The information about the recovery points of the type specified by a resource Amazon Resource Name (ARN).  For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup.
     @Sendable
     public func listRecoveryPointsByResource(_ input: ListRecoveryPointsByResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecoveryPointsByResourceOutput {
         return try await self.client.execute(
@@ -995,7 +995,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.  ListTags only works for resource types that support full Backup management of their backups. Those resource types are listed in the "Full Backup management" section of the  Feature availability by resource table.
+    /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault.
     @Sendable
     public func listTags(_ input: ListTagsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsOutput {
         return try await self.client.execute(
@@ -1021,7 +1021,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// Applies Backup Vault Lock to a backup vault, preventing attempts to delete any recovery point stored in or created in a backup vault. Vault Lock also prevents attempts to update the lifecycle policy that controls the retention period of any recovery point currently stored in a backup vault. If specified, Vault Lock enforces a minimum and maximum retention period for future backup and copy jobs that target a backup vault.  Backup Vault Lock has been assessed by Cohasset Associates for use in environments  that are subject to SEC 17a-4, CFTC, and FINRA regulations. For more information about  how Backup Vault Lock relates to these regulations, see the  Cohasset Associates  Compliance Assessment.
+    /// Applies Backup Vault Lock to a backup vault, preventing attempts to delete any recovery point stored in or created in a backup vault. Vault Lock also prevents attempts to update the lifecycle policy that controls the retention period of any recovery point currently stored in a backup vault. If specified, Vault Lock enforces a minimum and maximum retention period for future backup and copy jobs that target a backup vault.  Backup Vault Lock has been assessed by Cohasset Associates for use in environments  that are subject to SEC 17a-4, CFTC, and FINRA regulations. For more information about  how Backup Vault Lock relates to these regulations, see the  Cohasset Associates  Compliance Assessment.   For more information, see Backup Vault Lock.
     @Sendable
     public func putBackupVaultLockConfiguration(_ input: PutBackupVaultLockConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1112,7 +1112,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: Amazon FSx for Windows File Server, Amazon FSx for Lustre, Amazon FSx for NetApp ONTAP , Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora,  and Amazon Neptune.
+    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: Amazon FSx for Windows File Server, Amazon FSx for Lustre, Amazon FSx for NetApp ONTAP, Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora,  and Amazon Neptune.
     @Sendable
     public func stopBackupJob(_ input: StopBackupJobInput, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1125,7 +1125,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// Assigns a set of key-value pairs to a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN).
+    /// Assigns a set of key-value pairs to a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN). This API is supported for recovery points for resource types  including Aurora, Amazon DocumentDB. Amazon EBS,  Amazon FSx, Neptune, and Amazon RDS.
     @Sendable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1138,7 +1138,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// Removes a set of key-value pairs from a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN)
+    /// Removes a set of key-value pairs from a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN) This API is not supported for recovery points for resource types  including Aurora, Amazon DocumentDB. Amazon EBS,  Amazon FSx, Neptune, and Amazon RDS.
     @Sendable
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1151,7 +1151,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// Updates an existing backup plan identified by its backupPlanId with the input document in JSON format. The new version is uniquely identified by a VersionId.
+    /// Updates the specified backup plan. The new version is uniquely identified by its ID.
     @Sendable
     public func updateBackupPlan(_ input: UpdateBackupPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBackupPlanOutput {
         return try await self.client.execute(
@@ -1164,7 +1164,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// Updates an existing framework identified by its FrameworkName with the input document in JSON format.
+    /// Updates the specified framework.
     @Sendable
     public func updateFramework(_ input: UpdateFrameworkInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFrameworkOutput {
         return try await self.client.execute(
@@ -1190,7 +1190,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage"  section of the   Feature availability by resource table. Backup ignores this expression for other resource types. This operation does not support continuous backups.
+    /// Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Resource types that can transition to cold storage are listed in the Feature availability by resource table. Backup ignores this expression for other resource types. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  If your lifecycle currently uses the parameters DeleteAfterDays and  MoveToColdStorageAfterDays, include these parameters and their values when you call  this operation. Not including them may result in your plan updating with null values.  This operation does not support continuous backups.
     @Sendable
     public func updateRecoveryPointLifecycle(_ input: UpdateRecoveryPointLifecycleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRecoveryPointLifecycleOutput {
         return try await self.client.execute(
@@ -1216,7 +1216,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// Updates an existing report plan identified by its ReportPlanName with the input document in JSON format.
+    /// Updates the specified report plan.
     @Sendable
     public func updateReportPlan(_ input: UpdateReportPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateReportPlanOutput {
         return try await self.client.execute(
@@ -1242,7 +1242,7 @@ public struct Backup: AWSService {
         )
     }
 
-    /// Most elements except the RestoreTestingSelectionName  can be updated with this request.  RestoreTestingSelection can use either protected  resource ARNs or conditions, but not both. That is, if your selection  has ProtectedResourceArns, requesting an update with the  parameter ProtectedResourceConditions will be  unsuccessful.
+    /// Updates the specified restore testing selection. Most elements except the RestoreTestingSelectionName  can be updated with this request. You can use either protected resource ARNs or conditions, but not both.
     @Sendable
     public func updateRestoreTestingSelection(_ input: UpdateRestoreTestingSelectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRestoreTestingSelectionOutput {
         return try await self.client.execute(
@@ -1307,7 +1307,7 @@ extension Backup {
         )
     }
 
-    /// Returns metadata of your saved backup plan templates, including the template ID, name, and the creation and deletion dates.
+    /// Lists the backup plan templates.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1345,7 +1345,7 @@ extension Backup {
         )
     }
 
-    /// Returns a list of all active backup plans for an authenticated account. The list contains information such as Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
+    /// Lists the active backup plans for the account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1554,7 +1554,7 @@ extension Backup {
         )
     }
 
-    /// Returns detailed information about all the recovery points of the type specified by a resource Amazon Resource Name (ARN).  For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup.
+    /// The information about the recovery points of the type specified by a resource Amazon Resource Name (ARN).  For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1706,7 +1706,7 @@ extension Backup {
         )
     }
 
-    /// Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.  ListTags only works for resource types that support full Backup management of their backups. Those resource types are listed in the "Full Backup management" section of the  Feature availability by resource table.
+    /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

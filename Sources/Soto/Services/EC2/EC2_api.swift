@@ -80,13 +80,27 @@ public struct EC2: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.dualstack]: .init(endpoints: [
+            "af-south-1": "ec2.af-south-1.api.aws",
+            "ap-east-1": "ec2.ap-east-1.api.aws",
+            "ap-northeast-1": "ec2.ap-northeast-1.api.aws",
+            "ap-northeast-2": "ec2.ap-northeast-2.api.aws",
             "ap-south-1": "ec2.ap-south-1.api.aws",
+            "ap-southeast-1": "ec2.ap-southeast-1.api.aws",
+            "ap-southeast-2": "ec2.ap-southeast-2.api.aws",
+            "ca-central-1": "ec2.ca-central-1.api.aws",
+            "eu-central-1": "ec2.eu-central-1.api.aws",
+            "eu-north-1": "ec2.eu-north-1.api.aws",
+            "eu-south-1": "ec2.eu-south-1.api.aws",
             "eu-west-1": "ec2.eu-west-1.api.aws",
+            "eu-west-2": "ec2.eu-west-2.api.aws",
+            "eu-west-3": "ec2.eu-west-3.api.aws",
+            "me-south-1": "ec2.me-south-1.api.aws",
             "sa-east-1": "ec2.sa-east-1.api.aws",
             "us-east-1": "ec2.us-east-1.api.aws",
             "us-east-2": "ec2.us-east-2.api.aws",
             "us-gov-east-1": "ec2.us-gov-east-1.api.aws",
             "us-gov-west-1": "ec2.us-gov-west-1.api.aws",
+            "us-west-1": "ec2.us-west-1.api.aws",
             "us-west-2": "ec2.us-west-2.api.aws"
         ]),
         [.fips]: .init(endpoints: [
@@ -816,7 +830,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Initiates the copy of an AMI. You can copy an AMI from one Region to another, or from a Region to an Outpost. You can't copy an AMI from an Outpost to a Region, from one Outpost to another, or within the same Outpost. To copy an AMI to another partition, see CreateStoreImageTask. To copy an AMI from one Region to another, specify the source Region using the   		SourceRegion parameter, and specify the  		destination Region using its endpoint. Copies of encrypted backing snapshots for 		the AMI are encrypted. Copies of unencrypted backing snapshots remain unencrypted,  		unless you set Encrypted during the copy operation. You cannot  		create an unencrypted copy of an encrypted backing snapshot. To copy an AMI from a Region to an Outpost, specify the source Region using the   		SourceRegion parameter, and specify the  		ARN of the destination Outpost using DestinationOutpostArn.  		Backing snapshots copied to an Outpost are encrypted by default using the default 		encryption key for the Region, or a different key that you specify in the request using  		KmsKeyId. Outposts do not support unencrypted  	  snapshots. For more information,  			Amazon EBS local snapshots on Outposts in the Amazon EBS User Guide. For more information about the prerequisites and limits when copying an AMI, see Copy an AMI in the Amazon EC2 User Guide.
+    /// Initiates an AMI copy operation. You can copy an AMI from one Region to another, or from a Region to an Outpost. You can't copy an AMI from an Outpost to a Region, from one Outpost to another, or within the same Outpost. To copy an AMI to another partition, see CreateStoreImageTask. When you copy an AMI from one Region to another, the destination Region is the  	current Region. When you copy an AMI from a Region to an Outpost, specify the ARN of the Outpost as 	  the destination. Backing snapshots copied to an Outpost are encrypted by default using  	  the default encryption key for the Region or the key that you specify. Outposts do not  	  support unencrypted snapshots. For information about the prerequisites  when copying an AMI, see Copy an AMI in the Amazon EC2 User Guide.
     @Sendable
     public func copyImage(_ input: CopyImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyImageResult {
         return try await self.client.execute(
@@ -858,6 +872,20 @@ public struct EC2: AWSService {
     public func createCapacityReservation(_ input: CreateCapacityReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCapacityReservationResult {
         return try await self.client.execute(
             operation: "CreateCapacityReservation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// 			Create a new Capacity Reservation by splitting the available capacity of the source Capacity Reservation. The new Capacity Reservation will have the same attributes as the source Capacity Reservation except for tags. The source Capacity Reservation must be active and owned by your Amazon Web Services account.
+    ///
+    @Sendable
+    public func createCapacityReservationBySplitting(_ input: CreateCapacityReservationBySplittingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCapacityReservationBySplittingResult {
+        return try await self.client.execute(
+            operation: "CreateCapacityReservationBySplitting", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -2513,7 +2541,7 @@ public struct EC2: AWSService {
     }
 
     /// Deletes a security group. If you attempt to delete a security group that is associated with an instance or network interface or is
-    /// 			  referenced by another security group, the operation fails with
+    /// 			  referenced by another security group in the same VPC, the operation fails with
     /// 				DependencyViolation.
     @Sendable
     public func deleteSecurityGroup(_ input: DeleteSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3077,7 +3105,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon VPC User Guide. When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. After seven days, the transfer expires and ownership of the Elastic IP address returns to the source account. Accepted transfers are visible to the source account for three days after the transfers have been accepted.
+    /// Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon VPC User Guide. When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. After seven days, the transfer expires and ownership of the Elastic IP address returns to the source account. Accepted transfers are visible to the source account for 14 days after the transfers have been accepted.
     @Sendable
     public func describeAddressTransfers(_ input: DescribeAddressTransfersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAddressTransfersResult {
         return try await self.client.execute(
@@ -4520,7 +4548,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in the same VPC or peered VPC. Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted.
+    /// Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in a peered VPC. Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted.
     @Sendable
     public func describeStaleSecurityGroups(_ input: DescribeStaleSecurityGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStaleSecurityGroupsResult {
         return try await self.client.execute(
@@ -5284,7 +5312,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Disables the block public access for snapshots setting at  the account level for the specified Amazon Web Services Region. After you disable block public  access for snapshots in a Region, users can publicly share snapshots in that Region. If block public access is enabled in block-all-sharing mode, and  you disable block public access, all snapshots that were previously publicly shared  are no longer treated as private and they become publicly accessible again. For more information, see  Block public access for snapshots in the Amazon EBS User Guide .
+    /// Disables the block public access for snapshots setting at  the account level for the specified Amazon Web Services Region. After you disable block public  access for snapshots in a Region, users can publicly share snapshots in that Region.  Enabling block public access for snapshots in block-all-sharing  mode does not change the permissions for snapshots that are already publicly shared.  Instead, it prevents these snapshots from be publicly visible and publicly accessible.  Therefore, the attributes for these snapshots still indicate that they are publicly  shared, even though they are not publicly available. If you disable block public access , these snapshots will become publicly available  again.  For more information, see  Block public access for snapshots in the Amazon EBS User Guide .
     @Sendable
     public func disableSnapshotBlockPublicAccess(_ input: DisableSnapshotBlockPublicAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableSnapshotBlockPublicAccessResult {
         return try await self.client.execute(
@@ -5718,7 +5746,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Enables or modifies the block public access for snapshots  setting at the account level for the specified Amazon Web Services Region. After you enable block  public access for snapshots in a Region, users can no longer request public sharing  for snapshots in that Region. Snapshots that are already publicly shared are either  treated as private or they remain publicly shared, depending on the  State that you specify. If block public access is enabled in block-all-sharing mode, and  you change the mode to block-new-sharing, all snapshots that were  previously publicly shared are no longer treated as private and they become publicly  accessible again. For more information, see  Block public access for snapshots in the Amazon EBS User Guide.
+    /// Enables or modifies the block public access for snapshots  setting at the account level for the specified Amazon Web Services Region. After you enable block  public access for snapshots in a Region, users can no longer request public sharing  for snapshots in that Region. Snapshots that are already publicly shared are either  treated as private or they remain publicly shared, depending on the  State that you specify.  Enabling block public access for snapshots in block all sharing  mode does not change the permissions for snapshots that are already publicly shared.  Instead, it prevents these snapshots from be publicly visible and publicly accessible.  Therefore, the attributes for these snapshots still indicate that they are publicly  shared, even though they are not publicly available. If you later disable block public access or change the mode to block new  sharing, these snapshots will become publicly available again.  For more information, see  Block public access for snapshots in the Amazon EBS User Guide.
     @Sendable
     public func enableSnapshotBlockPublicAccess(_ input: EnableSnapshotBlockPublicAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableSnapshotBlockPublicAccessResult {
         return try await self.client.execute(
@@ -6648,11 +6676,10 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Modifies a Capacity Reservation's capacity and the conditions under which it is to be released. You
-    /// 			cannot change a Capacity Reservation's instance type, EBS optimization, instance store settings,
-    /// 			platform, Availability Zone, or instance eligibility. If you need to modify any of these
-    /// 			attributes, we recommend that you cancel the Capacity Reservation, and then create a new one with
-    /// 			the required attributes.
+    /// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under which it is to be released. You
+    /// 		    can't modify a Capacity Reservation's instance type, EBS optimization, platform, instance store settings, Availability Zone, or
+    /// 		    tenancy. If you need to modify any of these attributes, we recommend that you cancel the Capacity Reservation, and then create a new one with
+    /// 		    the required attributes. For more information, see Modify an active Capacity Reservation.
     @Sendable
     public func modifyCapacityReservation(_ input: ModifyCapacityReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyCapacityReservationResult {
         return try await self.client.execute(
@@ -7518,6 +7545,20 @@ public struct EC2: AWSService {
         )
     }
 
+    /// Move available capacity from a source Capacity Reservation to a destination Capacity Reservation. The source Capacity Reservation and the destination Capacity Reservation must be active, owned by your Amazon Web Services account, and share the following:
+    /// 		   Instance type   Platform   Availability Zone   Tenancy   Placement group   Capacity Reservation end time - At specific time or Manually.
+    @Sendable
+    public func moveCapacityReservationInstances(_ input: MoveCapacityReservationInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> MoveCapacityReservationInstancesResult {
+        return try await self.client.execute(
+            operation: "MoveCapacityReservationInstances", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP  addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using AdvertiseByoipCidr. Amazon Web Services verifies that you own the address range and are authorized to advertise it.  You must ensure that the address range is registered to you and that you created an  RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range.  For more information, see Bring your own IP addresses (BYOIP) in the Amazon EC2 User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. To monitor the status of an address range, use DescribeByoipCidrs.  To allocate an Elastic IP address from your IPv4 address pool, use AllocateAddress  with either the specific address from the address pool or the ID of the address pool.
     @Sendable
     public func provisionByoipCidr(_ input: ProvisionByoipCidrRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProvisionByoipCidrResult {
@@ -7638,7 +7679,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Registers an AMI. When you're creating an instance-store backed AMI, registering the AMI is the final step in the creation process. For more information about creating AMIs, see Create your own AMI in the Amazon Elastic Compute Cloud User Guide.  For Amazon EBS-backed instances, CreateImage creates and registers the AMI in a single request, so you don't have to register the AMI yourself. We recommend that you always use CreateImage unless you have a specific reason to use RegisterImage.  If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration.  If you make changes to an image, deregister the previous image and register the new image.  Register a snapshot of a root device volume  You can use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using a block device mapping. You can't set the encryption state of the volume using the block device mapping. If the  snapshot is encrypted, or encryption by default is enabled, the root volume of an instance  launched from the AMI is encrypted. For more information, see Create a Linux AMI from a snapshot and Use encryption with Amazon EBS-backed AMIs in the Amazon Elastic Compute Cloud User Guide.  Amazon Web Services Marketplace product codes  If any snapshots have Amazon Web Services Marketplace product codes, they are copied to the new AMI. Windows and some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise Server (SLES), use the Amazon EC2 billing product code associated with an AMI to verify the subscription status for package updates. To create a new AMI for operating systems that require a billing product code, instead of registering the AMI, do the following to preserve the billing product code association:   Launch an instance from an existing AMI with that billing product code.   Customize the instance.   Create an AMI from the instance using CreateImage.   If you purchase a Reserved Instance to apply to an On-Demand Instance that was launched from an AMI with a billing product code, make sure that the Reserved Instance has the matching billing product code. If you purchase a Reserved Instance without the matching billing product code, the Reserved Instance will not be applied to the On-Demand Instance. For information about how to obtain the platform details and billing information of an AMI, see Understand AMI billing information in the Amazon EC2 User Guide.
+    /// Registers an AMI. When you're creating an instance-store backed AMI, registering the AMI is the final step in the creation process. For more information about creating AMIs, see Create an AMI from a snapshot and Create an instance-store backed AMI in the Amazon EC2 User Guide.  For Amazon EBS-backed instances, CreateImage creates and registers the AMI in a single request, so you don't have to register the AMI yourself. We recommend that you always use CreateImage unless you have a specific reason to use RegisterImage.  If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration. If you make changes to an image, deregister the previous image and register the new image.  Register a snapshot of a root device volume  You can use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using a block device mapping. You can't set the encryption state of the volume using the block device mapping. If the  snapshot is encrypted, or encryption by default is enabled, the root volume of an instance  launched from the AMI is encrypted. For more information, see Create an AMI from a snapshot and Use encryption with Amazon EBS-backed AMIs in the Amazon EC2 User Guide.  Amazon Web Services Marketplace product codes  If any snapshots have Amazon Web Services Marketplace product codes, they are copied to the new AMI. In most cases, AMIs for Windows, RedHat, SUSE, and SQL Server require correct licensing information to be present on the AMI. For more information, see Understand AMI billing information in the Amazon EC2 User Guide. When creating an AMI from a snapshot, the RegisterImage operation derives the correct billing information from the snapshot's metadata, but this requires the appropriate metadata to be present. To verify if the correct billing information was applied, check the PlatformDetails field on the new AMI. If the field is empty or doesn't match the expected operating system code (for example, Windows, RedHat, SUSE, or SQL), the AMI creation was unsuccessful, and you should discard the AMI and instead create the AMI from an instance using CreateImage. For more information, see Create an AMI from an instance  in the Amazon EC2 User Guide. If you purchase a Reserved Instance to apply to an On-Demand Instance that was launched from an AMI with a billing product code, make sure that the Reserved Instance has the matching billing product code. If you purchase a Reserved Instance without the matching billing product code, the Reserved Instance will not be applied to the On-Demand Instance. For information about how to obtain the platform details and billing information of an AMI, see Understand AMI billing information in the Amazon EC2 User Guide.
     @Sendable
     public func registerImage(_ input: RegisterImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterImageResult {
         return try await self.client.execute(
@@ -8422,7 +8463,7 @@ extension EC2 {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension EC2 {
-    /// Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon VPC User Guide. When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. After seven days, the transfer expires and ownership of the Elastic IP address returns to the source account. Accepted transfers are visible to the source account for three days after the transfers have been accepted.
+    /// Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon VPC User Guide. When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. After seven days, the transfer expires and ownership of the Elastic IP address returns to the source account. Accepted transfers are visible to the source account for 14 days after the transfers have been accepted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -9953,7 +9994,7 @@ extension EC2 {
         )
     }
 
-    /// Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in the same VPC or peered VPC. Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted.
+    /// Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in a peered VPC. Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

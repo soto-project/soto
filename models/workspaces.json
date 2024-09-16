@@ -1076,7 +1076,7 @@
                 "DesiredUserSessions": {
                     "target": "com.amazonaws.workspaces#DesiredUserSessions",
                     "traits": {
-                        "smithy.api#documentation": "<p>The desired number of user sessions for a multi-session pool. \n         This is not allowed for single-session pools.</p>",
+                        "smithy.api#documentation": "<p>The desired number of user sessions for the WorkSpaces in the pool.</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -1091,7 +1091,7 @@
                 "AvailableUserSessions": {
                     "target": "com.amazonaws.workspaces#AvailableUserSessions",
                     "traits": {
-                        "smithy.api#documentation": "<p>The number of user sessions currently being used for pool sessions. This only applies to multi-session pools.</p>",
+                        "smithy.api#documentation": "<p>The number of user sessions currently available for streaming from your pool.</p>\n         <p>AvailableUserSessions = ActualUserSessions - ActiveUserSessions</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -1105,14 +1105,14 @@
                 "ActualUserSessions": {
                     "target": "com.amazonaws.workspaces#ActualUserSessions",
                     "traits": {
-                        "smithy.api#documentation": "<p>The total number of session slots that are available for a pool of WorkSpaces.</p>",
+                        "smithy.api#documentation": "<p>The total number of user sessions that are available for streaming or are currently \n         streaming in your pool.</p>\n         <p>ActualUserSessions = AvailableUserSessions + ActiveUserSessions</p>",
                         "smithy.api#required": {}
                     }
                 },
                 "ActiveUserSessions": {
                     "target": "com.amazonaws.workspaces#ActiveUserSessions",
                     "traits": {
-                        "smithy.api#documentation": "<p>The number of user sessions currently being used for pool sessions. This only applies to multi-session pools.</p>",
+                        "smithy.api#documentation": "<p>The number of user sessions currently being used for your pool.</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -2478,7 +2478,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Creates one or more WorkSpaces.</p>\n         <p>This operation is asynchronous and returns before the WorkSpaces are created.</p>\n         <note>\n            <ul>\n               <li>\n                  <p>The <code>MANUAL</code> running mode value is only supported by Amazon WorkSpaces\n               Core. Contact your account team to be allow-listed to use this value. For more\n               information, see <a href=\"http://aws.amazon.com/workspaces/core/\">Amazon WorkSpaces\n                  Core</a>.</p>\n               </li>\n               <li>\n                  <p>You don't need to specify the <code>PCOIP</code> protocol for Linux bundles\n                  because <code>WSP</code> is the default protocol for those bundles.</p>\n               </li>\n               <li>\n                  <p>User-decoupled WorkSpaces are only supported by Amazon WorkSpaces\n               Core.</p>\n               </li>\n            </ul>\n         </note>"
+                "smithy.api#documentation": "<p>Creates one or more WorkSpaces.</p>\n         <p>This operation is asynchronous and returns before the WorkSpaces are created.</p>\n         <note>\n            <ul>\n               <li>\n                  <p>The <code>MANUAL</code> running mode value is only supported by Amazon WorkSpaces\n               Core. Contact your account team to be allow-listed to use this value. For more\n               information, see <a href=\"http://aws.amazon.com/workspaces/core/\">Amazon WorkSpaces\n                  Core</a>.</p>\n               </li>\n               <li>\n                  <p>You don't need to specify the <code>PCOIP</code> protocol for Linux bundles\n                  because <code>WSP</code> is the default protocol for those bundles.</p>\n               </li>\n               <li>\n                  <p>User-decoupled WorkSpaces are only supported by Amazon WorkSpaces\n               Core.</p>\n               </li>\n               <li>\n                  <p>Review your running mode to ensure you are using one that is optimal for your needs and budget.\n                  For more information on switching running modes, see \n                  <a href=\"http://aws.amazon.com/workspaces-family/workspaces/faqs/#:~:text=Can%20I%20switch%20between%20hourly%20and%20monthly%20billing%20on%20WorkSpaces%20Personal%3F\">\n                     Can I switch between hourly and monthly billing?</a>\n                  </p>\n               </li>\n            </ul>\n         </note>"
             }
         },
         "com.amazonaws.workspaces#CreateWorkspacesPool": {
@@ -4480,6 +4480,75 @@
                 }
             }
         },
+        "com.amazonaws.workspaces#DescribeWorkspaceDirectoriesFilter": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.workspaces#DescribeWorkspaceDirectoriesFilterName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the WorkSpaces to filter.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Values": {
+                    "target": "com.amazonaws.workspaces#DescribeWorkspaceDirectoriesFilterValues",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The values for filtering WorkSpaces</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Describes the filter conditions for the WorkSpaces to return.</p>"
+            }
+        },
+        "com.amazonaws.workspaces#DescribeWorkspaceDirectoriesFilterList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.workspaces#DescribeWorkspaceDirectoriesFilter"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 25
+                }
+            }
+        },
+        "com.amazonaws.workspaces#DescribeWorkspaceDirectoriesFilterName": {
+            "type": "enum",
+            "members": {
+                "USER_IDENTITY_TYPE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "USER_IDENTITY_TYPE"
+                    }
+                },
+                "WORKSPACE_TYPE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "WORKSPACE_TYPE"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.workspaces#DescribeWorkspaceDirectoriesFilterValue": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^[0-9a-zA-Z\\*\\.\\\\/\\?-_]{0,64}$"
+            }
+        },
+        "com.amazonaws.workspaces#DescribeWorkspaceDirectoriesFilterValues": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.workspaces#DescribeWorkspaceDirectoriesFilterValue"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 25
+                }
+            }
+        },
         "com.amazonaws.workspaces#DescribeWorkspaceDirectoriesRequest": {
             "type": "structure",
             "members": {
@@ -4505,6 +4574,12 @@
                     "target": "com.amazonaws.workspaces#PaginationToken",
                     "traits": {
                         "smithy.api#documentation": "<p>If you received a <code>NextToken</code> from a previous call that was paginated,\n         provide this token to receive the next set of results.</p>"
+                    }
+                },
+                "Filters": {
+                    "target": "com.amazonaws.workspaces#DescribeWorkspaceDirectoriesFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The filter condition for the WorkSpaces.</p>"
                     }
                 }
             },
@@ -5603,6 +5678,26 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.workspaces#IDCConfig": {
+            "type": "structure",
+            "members": {
+                "InstanceArn": {
+                    "target": "com.amazonaws.workspaces#ARN",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the identity center instance.</p>"
+                    }
+                },
+                "ApplicationArn": {
+                    "target": "com.amazonaws.workspaces#ARN",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the application.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies the configurations of the identity center.</p>"
+            }
+        },
         "com.amazonaws.workspaces#IdleDisconnectTimeoutInSeconds": {
             "type": "integer",
             "traits": {
@@ -5915,7 +6010,7 @@
                 "Applications": {
                     "target": "com.amazonaws.workspaces#ApplicationList",
                     "traits": {
-                        "smithy.api#documentation": "<p>If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 and 11\n         BYOL images. For more information about subscribing to Office for BYOL images, see <a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html\"> Bring\n            Your Own Windows Desktop Licenses</a>.</p>\n         <note>\n            <ul>\n               <li>\n                  <p>Although this parameter is an array, only one item is allowed at this time.</p>\n               </li>\n               <li>\n                  <p>Windows 11 only supports <code>Microsoft_Office_2019</code>.</p>\n               </li>\n            </ul>\n         </note>"
+                        "smithy.api#documentation": "<p>If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 and 11\n         BYOL images. For more information about subscribing to Office for BYOL images, see <a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html\"> Bring\n            Your Own Windows Desktop Licenses</a>.</p>\n         <note>\n            <ul>\n               <li>\n                  <p>Although this parameter is an array, only one item is allowed at this\n                  time.</p>\n               </li>\n               <li>\n                  <p>During the image import process, non-GPU WSP WorkSpaces with Windows 11 support\n                  only <code>Microsoft_Office_2019</code>. GPU WSP WorkSpaces with Windows 11 do not\n                  support Office installation.</p>\n               </li>\n            </ul>\n         </note>"
                     }
                 }
             },
@@ -6398,6 +6493,32 @@
                 "smithy.api#range": {
                     "min": 0
                 }
+            }
+        },
+        "com.amazonaws.workspaces#MicrosoftEntraConfig": {
+            "type": "structure",
+            "members": {
+                "TenantId": {
+                    "target": "com.amazonaws.workspaces#MicrosoftEntraConfigTenantId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the tenant.</p>"
+                    }
+                },
+                "ApplicationConfigSecretArn": {
+                    "target": "com.amazonaws.workspaces#SecretsManagerArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the application config.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies the configurations of the Microsoft Entra.</p>"
+            }
+        },
+        "com.amazonaws.workspaces#MicrosoftEntraConfigTenantId": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^[a-zA-Z0-9-]{1,100}$"
             }
         },
         "com.amazonaws.workspaces#MigrateWorkspace": {
@@ -7632,6 +7753,18 @@
                         "smithy.api#documentation": "<p>The type of identity management the user is using.</p>"
                     }
                 },
+                "IdcInstanceArn": {
+                    "target": "com.amazonaws.workspaces#ARN",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the identity center instance.</p>"
+                    }
+                },
+                "MicrosoftEntraConfig": {
+                    "target": "com.amazonaws.workspaces#MicrosoftEntraConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The details about Microsoft Entra config.</p>"
+                    }
+                },
                 "WorkspaceType": {
                     "target": "com.amazonaws.workspaces#WorkspaceType",
                     "traits": {
@@ -8356,7 +8489,7 @@
                 "target": "com.amazonaws.workspaces#StartWorkspacesResult"
             },
             "traits": {
-                "smithy.api#documentation": "<p>Starts the specified WorkSpaces.</p>\n         <p>You cannot start a WorkSpace unless it has a running mode of <code>AutoStop</code> and a\n         state of <code>STOPPED</code>.</p>"
+                "smithy.api#documentation": "<p>Starts the specified WorkSpaces.</p>\n         <p>You cannot start a WorkSpace unless it has a running mode of <code>AutoStop</code> or\n         <code>Manual</code> and a state of <code>STOPPED</code>.</p>"
             }
         },
         "com.amazonaws.workspaces#StartWorkspacesPool": {
@@ -8480,7 +8613,7 @@
                 "target": "com.amazonaws.workspaces#StopWorkspacesResult"
             },
             "traits": {
-                "smithy.api#documentation": "<p> Stops the specified WorkSpaces.</p>\n         <p>You cannot stop a WorkSpace unless it has a running mode of <code>AutoStop</code> and a\n         state of <code>AVAILABLE</code>, <code>IMPAIRED</code>, <code>UNHEALTHY</code>, or\n            <code>ERROR</code>.</p>"
+                "smithy.api#documentation": "<p>Stops the specified WorkSpaces.</p>\n         <p>You cannot stop a WorkSpace unless it has a running mode of <code>AutoStop</code> or\n         <code>Manual</code> and a state of <code>AVAILABLE</code>, <code>IMPAIRED</code>,\n         <code>UNHEALTHY</code>, or <code>ERROR</code>.</p>"
             }
         },
         "com.amazonaws.workspaces#StopWorkspacesPool": {
@@ -9457,6 +9590,12 @@
                     "traits": {
                         "smithy.api#enumValue": "AWS_DIRECTORY_SERVICE"
                     }
+                },
+                "AWS_IAM_IDENTITY_CENTER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AWS_IAM_IDENTITY_CENTER"
+                    }
                 }
             }
         },
@@ -10256,6 +10395,12 @@
                         "smithy.api#documentation": "<p>The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP)\n         user identities to Active Directory for WorkSpaces login.</p>"
                     }
                 },
+                "MicrosoftEntraConfig": {
+                    "target": "com.amazonaws.workspaces#MicrosoftEntraConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies details about Microsoft Entra configurations.</p>"
+                    }
+                },
                 "WorkspaceDirectoryName": {
                     "target": "com.amazonaws.workspaces#WorkspaceDirectoryName",
                     "traits": {
@@ -10278,6 +10423,12 @@
                     "target": "com.amazonaws.workspaces#WorkspaceType",
                     "traits": {
                         "smithy.api#documentation": "<p>Indicates whether the directory's WorkSpace type is personal or pools.</p>"
+                    }
+                },
+                "IDCConfig": {
+                    "target": "com.amazonaws.workspaces#IDCConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies details about identity center configurations.</p>"
                     }
                 },
                 "ActiveDirectoryConfig": {
@@ -10381,6 +10532,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "CUSTOMER_MANAGED"
+                    }
+                },
+                "AWS_IAM_IDENTITY_CENTER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AWS_IAM_IDENTITY_CENTER"
                     }
                 }
             }
@@ -10711,6 +10868,12 @@
                         "smithy.api#enumValue": "BYOL_REGULAR_WSP"
                     }
                 },
+                "BYOL_GRAPHICS_G4DN_WSP": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "BYOL_GRAPHICS_G4DN_WSP"
+                    }
+                },
                 "BYOL_REGULAR_BYOP": {
                     "target": "smithy.api#Unit",
                     "traits": {
@@ -10799,7 +10962,7 @@
                 "RunningMode": {
                     "target": "com.amazonaws.workspaces#RunningMode",
                     "traits": {
-                        "smithy.api#documentation": "<p>The running mode. For more information, see <a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/running-mode.html\">Manage the WorkSpace Running\n         Mode</a>.</p>\n         <note>\n            <p>The <code>MANUAL</code> value is only supported by Amazon WorkSpaces Core. Contact\n            your account team to be allow-listed to use this value. For more information, see\n            <a href=\"http://aws.amazon.com/workspaces/core/\">Amazon WorkSpaces Core</a>.</p>\n         </note>"
+                        "smithy.api#documentation": "<p>The running mode. For more information, see <a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/running-mode.html\">Manage the WorkSpace Running\n         Mode</a>.</p>\n         <note>\n            <p>The <code>MANUAL</code> value is only supported by Amazon WorkSpaces Core. Contact\n            your account team to be allow-listed to use this value. For more information, see\n            <a href=\"http://aws.amazon.com/workspaces/core/\">Amazon WorkSpaces Core</a>.</p>\n         </note>\n         <p>Review your running mode to ensure you are using one that is optimal for your needs and\n         budget. For more information on switching running modes, see <a href=\"http://aws.amazon.com/workspaces-family/workspaces/faqs/#:~:text=Can%20I%20switch%20between%20hourly%20and%20monthly%20billing%20on%20WorkSpaces%20Personal%3F\"> Can I switch between hourly and monthly billing?</a>\n         </p>"
                     }
                 },
                 "RunningModeAutoStopTimeoutInMinutes": {
@@ -10900,7 +11063,7 @@
                 "WorkspaceName": {
                     "target": "com.amazonaws.workspaces#WorkspaceName",
                     "traits": {
-                        "smithy.api#documentation": "<p>The name of the user-decoupled WorkSpace.</p>"
+                        "smithy.api#documentation": "<p>The name of the user-decoupled WorkSpace.</p>\n         <note>\n            <p>\n               <code>WorkspaceName</code> is required if <code>UserName</code> is\n            <code>[UNDEFINED]</code> for user-decoupled WorkSpaces.\n            <code>WorkspaceName</code> is not applicable if <code>UserName</code> is specified\n            for user-assigned WorkSpaces.</p>\n         </note>"
                     }
                 }
             },

@@ -46,6 +46,13 @@ extension EntityResolution {
 
     public enum IdMappingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case provider = "PROVIDER"
+        case ruleBased = "RULE_BASED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdMappingWorkflowRuleDefinitionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case source = "SOURCE"
+        case target = "TARGET"
         public var description: String { return self.rawValue }
     }
 
@@ -65,6 +72,18 @@ extension EntityResolution {
         case queued = "QUEUED"
         case running = "RUNNING"
         case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MatchPurpose: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case identifierGeneration = "IDENTIFIER_GENERATION"
+        case indexing = "INDEXING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecordMatchingModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case manySourceToOneTarget = "MANY_SOURCE_TO_ONE_TARGET"
+        case oneSourceToOneTarget = "ONE_SOURCE_TO_ONE_TARGET"
         public var description: String { return self.rawValue }
     }
 
@@ -120,7 +139,7 @@ extension EntityResolution {
         public let arn: String
         /// A set of condition keys that you can use in key policies.
         public let condition: String?
-        /// Determines whether the permissions specified in the policy are to be allowed (Allow) or denied (Deny).
+        /// Determines whether the permissions specified in the policy are to be allowed (Allow) or denied (Deny).  If you set the value of the effect parameter to Deny for the AddPolicyStatement operation, you must also set the value of the effect parameter in the policy to Deny for the PutPolicy operation.
         public let effect: StatementEffect
         /// The Amazon Web Services service or Amazon Web Services account that can access the resource defined as ARN.
         public let principal: [String]
@@ -223,7 +242,7 @@ extension EntityResolution {
             try self.uniqueIds.forEach {
                 try validate($0, name: "uniqueIds[]", parent: name, max: 760)
                 try validate($0, name: "uniqueIds[]", parent: name, min: 1)
-                try validate($0, name: "uniqueIds[]", parent: name, pattern: "^[a-zA-Z_0-9-,]*$")
+                try validate($0, name: "uniqueIds[]", parent: name, pattern: "^[a-zA-Z_0-9-+=/,]*$")
             }
             try self.validate(self.workflowName, name: "workflowName", parent: name, max: 255)
             try self.validate(self.workflowName, name: "workflowName", parent: name, min: 1)
@@ -261,20 +280,20 @@ extension EntityResolution {
     public struct CreateIdMappingWorkflowInput: AWSEncodableShape {
         /// A description of the workflow.
         public let description: String?
-        /// An object which defines the idMappingType and the providerProperties.
+        /// An object which defines the ID mapping technique and any additional configurations.
         public let idMappingTechniques: IdMappingTechniques
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [IdMappingWorkflowInputSource]
         /// A list of IdMappingWorkflowOutputSource objects, each of which contains fields OutputS3Path and Output.
         public let outputSourceConfig: [IdMappingWorkflowOutputSource]?
         /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
-        public let roleArn: String
+        public let roleArn: String?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The name of the workflow. There can't be multiple IdMappingWorkflows with the same name.
         public let workflowName: String
 
-        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String, tags: [String: String]? = nil, workflowName: String) {
+        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, workflowName: String) {
             self.description = description
             self.idMappingTechniques = idMappingTechniques
             self.inputSourceConfig = inputSourceConfig
@@ -298,8 +317,7 @@ extension EntityResolution {
             try self.validate(self.outputSourceConfig, name: "outputSourceConfig", parent: name, max: 1)
             try self.validate(self.outputSourceConfig, name: "outputSourceConfig", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 512)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^$|^arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -325,20 +343,20 @@ extension EntityResolution {
     public struct CreateIdMappingWorkflowOutput: AWSDecodableShape {
         /// A description of the workflow.
         public let description: String?
-        /// An object which defines the idMappingType and the providerProperties.
+        /// An object which defines the ID mapping technique and any additional configurations.
         public let idMappingTechniques: IdMappingTechniques
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [IdMappingWorkflowInputSource]
         /// A list of IdMappingWorkflowOutputSource objects, each of which contains fields OutputS3Path and Output.
         public let outputSourceConfig: [IdMappingWorkflowOutputSource]?
         /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
-        public let roleArn: String
+        public let roleArn: String?
         /// The ARN (Amazon Resource Name) that Entity Resolution generated for the IDMappingWorkflow.
         public let workflowArn: String
         /// The name of the workflow.
         public let workflowName: String
 
-        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String, workflowArn: String, workflowName: String) {
+        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, workflowArn: String, workflowName: String) {
             self.description = description
             self.idMappingTechniques = idMappingTechniques
             self.inputSourceConfig = inputSourceConfig
@@ -598,7 +616,7 @@ extension EntityResolution {
             try self.mappedInputFields.forEach {
                 try $0.validate(name: "\(name).mappedInputFields[]")
             }
-            try self.validate(self.mappedInputFields, name: "mappedInputFields", parent: name, max: 25)
+            try self.validate(self.mappedInputFields, name: "mappedInputFields", parent: name, max: 35)
             try self.validate(self.mappedInputFields, name: "mappedInputFields", parent: name, min: 2)
             try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
             try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)
@@ -970,14 +988,14 @@ extension EntityResolution {
         public let createdAt: Date
         /// A description of the workflow.
         public let description: String?
-        /// An object which defines the idMappingType and the providerProperties.
+        /// An object which defines the ID mapping technique and any additional configurations.
         public let idMappingTechniques: IdMappingTechniques
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [IdMappingWorkflowInputSource]
         /// A list of OutputSource objects, each of which contains fields OutputS3Path and KMSArn.
         public let outputSourceConfig: [IdMappingWorkflowOutputSource]?
         /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
-        public let roleArn: String
+        public let roleArn: String?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The timestamp of when the workflow was last updated.
@@ -987,7 +1005,7 @@ extension EntityResolution {
         /// The name of the workflow.
         public let workflowName: String
 
-        public init(createdAt: Date, description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String, tags: [String: String]? = nil, updatedAt: Date, workflowArn: String, workflowName: String) {
+        public init(createdAt: Date, description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, updatedAt: Date, workflowArn: String, workflowName: String) {
             self.createdAt = createdAt
             self.description = description
             self.idMappingTechniques = idMappingTechniques
@@ -1474,22 +1492,34 @@ extension EntityResolution {
     }
 
     public struct IdMappingJobMetrics: AWSDecodableShape {
-        /// The total number of input records.
+        /// The total number of records that were input for processing.
         public let inputRecords: Int?
         /// The total number of records that did not get processed.
         public let recordsNotProcessed: Int?
-        /// The total number of records processed.
+        ///  The total number of records that were mapped.
+        public let totalMappedRecords: Int?
+        ///  The total number of mapped source records.
+        public let totalMappedSourceRecords: Int?
+        ///  The total number of distinct mapped target records.
+        public let totalMappedTargetRecords: Int?
+        /// The total number of records that were processed.
         public let totalRecordsProcessed: Int?
 
-        public init(inputRecords: Int? = nil, recordsNotProcessed: Int? = nil, totalRecordsProcessed: Int? = nil) {
+        public init(inputRecords: Int? = nil, recordsNotProcessed: Int? = nil, totalMappedRecords: Int? = nil, totalMappedSourceRecords: Int? = nil, totalMappedTargetRecords: Int? = nil, totalRecordsProcessed: Int? = nil) {
             self.inputRecords = inputRecords
             self.recordsNotProcessed = recordsNotProcessed
+            self.totalMappedRecords = totalMappedRecords
+            self.totalMappedSourceRecords = totalMappedSourceRecords
+            self.totalMappedTargetRecords = totalMappedTargetRecords
             self.totalRecordsProcessed = totalRecordsProcessed
         }
 
         private enum CodingKeys: String, CodingKey {
             case inputRecords = "inputRecords"
             case recordsNotProcessed = "recordsNotProcessed"
+            case totalMappedRecords = "totalMappedRecords"
+            case totalMappedSourceRecords = "totalMappedSourceRecords"
+            case totalMappedTargetRecords = "totalMappedTargetRecords"
             case totalRecordsProcessed = "totalRecordsProcessed"
         }
     }
@@ -1525,33 +1555,69 @@ extension EntityResolution {
         }
     }
 
+    public struct IdMappingRuleBasedProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the attributeMatchingModel.  If you choose MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A matches the value of the BusinessEmail field of Profile B, the two profiles are matched on the Email attribute type.  If you choose ONE_TO_ONE, the system can only match attributes if the sub-types are an exact match. For example, for the Email attribute type, the system will only consider it a match if the value of the Email field of Profile A matches the value of the Email field of Profile B.
+        public let attributeMatchingModel: AttributeMatchingModel
+        ///  The type of matching record that is allowed to be used in an ID mapping workflow.  If the value is set to ONE_SOURCE_TO_ONE_TARGET, only one record in the source can be matched to the same record in the target. If the value is set to MANY_SOURCE_TO_ONE_TARGET, multiple records in the source can be matched to one record in the target.
+        public let recordMatchingModel: RecordMatchingModel
+        ///  The set of rules you can use in an ID mapping workflow. The limitations specified for the source or target to define the match rules must be compatible.
+        public let ruleDefinitionType: IdMappingWorkflowRuleDefinitionType
+        ///  The rules that can be used for ID mapping.
+        public let rules: [Rule]?
+
+        public init(attributeMatchingModel: AttributeMatchingModel, recordMatchingModel: RecordMatchingModel, ruleDefinitionType: IdMappingWorkflowRuleDefinitionType, rules: [Rule]? = nil) {
+            self.attributeMatchingModel = attributeMatchingModel
+            self.recordMatchingModel = recordMatchingModel
+            self.ruleDefinitionType = ruleDefinitionType
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeMatchingModel = "attributeMatchingModel"
+            case recordMatchingModel = "recordMatchingModel"
+            case ruleDefinitionType = "ruleDefinitionType"
+            case rules = "rules"
+        }
+    }
+
     public struct IdMappingTechniques: AWSEncodableShape & AWSDecodableShape {
         /// The type of ID mapping.
         public let idMappingType: IdMappingType
         /// An object which defines any additional configurations required by the provider service.
         public let providerProperties: ProviderProperties?
+        ///  An object which defines any additional configurations required by rule-based matching.
+        public let ruleBasedProperties: IdMappingRuleBasedProperties?
 
-        public init(idMappingType: IdMappingType, providerProperties: ProviderProperties? = nil) {
+        public init(idMappingType: IdMappingType, providerProperties: ProviderProperties? = nil, ruleBasedProperties: IdMappingRuleBasedProperties? = nil) {
             self.idMappingType = idMappingType
             self.providerProperties = providerProperties
+            self.ruleBasedProperties = ruleBasedProperties
         }
 
         public func validate(name: String) throws {
             try self.providerProperties?.validate(name: "\(name).providerProperties")
+            try self.ruleBasedProperties?.validate(name: "\(name).ruleBasedProperties")
         }
 
         private enum CodingKeys: String, CodingKey {
             case idMappingType = "idMappingType"
             case providerProperties = "providerProperties"
+            case ruleBasedProperties = "ruleBasedProperties"
         }
     }
 
     public struct IdMappingWorkflowInputSource: AWSEncodableShape & AWSDecodableShape {
-        /// An Glue table ARN for the input source table.
+        /// An Glue table Amazon Resource Name (ARN) or a matching workflow ARN for the input source table.
         public let inputSourceARN: String
         /// The name of the schema to be retrieved.
         public let schemaName: String?
-        /// The type of ID namespace. There are two types: SOURCE and TARGET.  The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow.  The TARGET contains a configuration of targetId to which all sourceIds will resolve to.
+        /// The type of ID namespace. There are two types: SOURCE and TARGET.  The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow.  The TARGET contains a configuration of targetId which all sourceIds will resolve to.
         public let type: IdNamespaceType?
 
         public init(inputSourceARN: String, schemaName: String? = nil, type: IdNamespaceType? = nil) {
@@ -1622,29 +1688,47 @@ extension EntityResolution {
         }
     }
 
+    public struct IdNamespaceIdMappingWorkflowMetadata: AWSDecodableShape {
+        /// The type of ID mapping.
+        public let idMappingType: IdMappingType
+
+        public init(idMappingType: IdMappingType) {
+            self.idMappingType = idMappingType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idMappingType = "idMappingType"
+        }
+    }
+
     public struct IdNamespaceIdMappingWorkflowProperties: AWSEncodableShape & AWSDecodableShape {
         /// The type of ID mapping.
         public let idMappingType: IdMappingType
         /// An object which defines any additional configurations required by the provider service.
         public let providerProperties: NamespaceProviderProperties?
+        ///  An object which defines any additional configurations required by rule-based matching.
+        public let ruleBasedProperties: NamespaceRuleBasedProperties?
 
-        public init(idMappingType: IdMappingType, providerProperties: NamespaceProviderProperties? = nil) {
+        public init(idMappingType: IdMappingType, providerProperties: NamespaceProviderProperties? = nil, ruleBasedProperties: NamespaceRuleBasedProperties? = nil) {
             self.idMappingType = idMappingType
             self.providerProperties = providerProperties
+            self.ruleBasedProperties = ruleBasedProperties
         }
 
         public func validate(name: String) throws {
             try self.providerProperties?.validate(name: "\(name).providerProperties")
+            try self.ruleBasedProperties?.validate(name: "\(name).ruleBasedProperties")
         }
 
         private enum CodingKeys: String, CodingKey {
             case idMappingType = "idMappingType"
             case providerProperties = "providerProperties"
+            case ruleBasedProperties = "ruleBasedProperties"
         }
     }
 
     public struct IdNamespaceInputSource: AWSEncodableShape & AWSDecodableShape {
-        /// An Glue table ARN for the input source table.
+        /// An Glue table Amazon Resource Name (ARN) or a matching workflow ARN for the input source table.
         public let inputSourceARN: String
         /// The name of the schema.
         public let schemaName: String?
@@ -1671,18 +1755,21 @@ extension EntityResolution {
         public let createdAt: Date
         /// The description of the ID namespace.
         public let description: String?
+        /// An object which defines any additional configurations required by the ID mapping workflow.
+        public let idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowMetadata]?
         /// The Amazon Resource Name (ARN) of the ID namespace.
         public let idNamespaceArn: String
         /// The name of the ID namespace.
         public let idNamespaceName: String
-        /// The type of ID namespace. There are two types: SOURCE and TARGET. The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow.  The TARGET contains a configuration of targetId to which all sourceIds will resolve to.
+        /// The type of ID namespace. There are two types: SOURCE and TARGET. The SOURCE contains configurations for sourceId data that will be processed in an ID mapping workflow.  The TARGET contains a configuration of targetId which all sourceIds will resolve to.
         public let type: IdNamespaceType
         /// The timestamp of when the ID namespace was last updated.
         public let updatedAt: Date
 
-        public init(createdAt: Date, description: String? = nil, idNamespaceArn: String, idNamespaceName: String, type: IdNamespaceType, updatedAt: Date) {
+        public init(createdAt: Date, description: String? = nil, idMappingWorkflowProperties: [IdNamespaceIdMappingWorkflowMetadata]? = nil, idNamespaceArn: String, idNamespaceName: String, type: IdNamespaceType, updatedAt: Date) {
             self.createdAt = createdAt
             self.description = description
+            self.idMappingWorkflowProperties = idMappingWorkflowProperties
             self.idNamespaceArn = idNamespaceArn
             self.idNamespaceName = idNamespaceName
             self.type = type
@@ -1692,6 +1779,7 @@ extension EntityResolution {
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case description = "description"
+            case idMappingWorkflowProperties = "idMappingWorkflowProperties"
             case idNamespaceArn = "idNamespaceArn"
             case idNamespaceName = "idNamespaceName"
             case type = "type"
@@ -1715,7 +1803,7 @@ extension EntityResolution {
     public struct InputSource: AWSEncodableShape & AWSDecodableShape {
         /// Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER, and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890.
         public let applyNormalization: Bool?
-        /// An Glue table ARN for the input source table.
+        /// An Glue table Amazon Resource Name (ARN) for the input source table.
         public let inputSourceARN: String
         /// The name of the schema to be retrieved.
         public let schemaName: String
@@ -2242,6 +2330,37 @@ extension EntityResolution {
         }
     }
 
+    public struct NamespaceRuleBasedProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the attributeMatchingModel.  If you choose MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A matches the value of BusinessEmail field of Profile B, the two profiles are matched on the Email attribute type.  If you choose ONE_TO_ONE, the system can only match attributes if the sub-types are an exact match. For example, for the Email attribute type, the system will only consider it a match if the value of the Email field of Profile A matches the value of the Email field of Profile B.
+        public let attributeMatchingModel: AttributeMatchingModel?
+        ///  The type of matching record that is allowed to be used in an ID mapping workflow.  If the value is set to ONE_SOURCE_TO_ONE_TARGET, only one record in the source is matched to one record in the target.  If the value is set to MANY_SOURCE_TO_ONE_TARGET, all matching records in the source are matched to one record in the target.
+        public let recordMatchingModels: [RecordMatchingModel]?
+        ///  The sets of rules you can use in an ID mapping workflow. The limitations specified for the source and target must be compatible.
+        public let ruleDefinitionTypes: [IdMappingWorkflowRuleDefinitionType]?
+        ///  The rules for the ID namespace.
+        public let rules: [Rule]?
+
+        public init(attributeMatchingModel: AttributeMatchingModel? = nil, recordMatchingModels: [RecordMatchingModel]? = nil, ruleDefinitionTypes: [IdMappingWorkflowRuleDefinitionType]? = nil, rules: [Rule]? = nil) {
+            self.attributeMatchingModel = attributeMatchingModel
+            self.recordMatchingModels = recordMatchingModels
+            self.ruleDefinitionTypes = ruleDefinitionTypes
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeMatchingModel = "attributeMatchingModel"
+            case recordMatchingModels = "recordMatchingModels"
+            case ruleDefinitionTypes = "ruleDefinitionTypes"
+            case rules = "rules"
+        }
+    }
+
     public struct OutputAttribute: AWSEncodableShape & AWSDecodableShape {
         /// Enables the ability to hash the column values in the output.
         public let hashed: Bool?
@@ -2321,7 +2440,7 @@ extension EntityResolution {
         public let description: String?
         /// Configurations required for the source ID namespace.
         public let providerSourceConfigurationDefinition: String?
-        /// Configurations required for the target  ID namespace.
+        /// Configurations required for the target ID namespace.
         public let providerTargetConfigurationDefinition: String?
 
         public init(description: String? = nil, providerSourceConfigurationDefinition: String? = nil, providerTargetConfigurationDefinition: String? = nil) {
@@ -2464,7 +2583,7 @@ extension EntityResolution {
     public struct PutPolicyInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource for which the policy needs to be updated.
         public let arn: String
-        /// The resource-based policy.
+        /// The resource-based policy.  If you set the value of the effect parameter in the policy to Deny for the PutPolicy operation, you must also set the value of the effect parameter to Deny for the AddPolicyStatement operation.
         public let policy: String
         /// A unique identifier for the current revision of the policy.
         public let token: String?
@@ -2570,13 +2689,16 @@ extension EntityResolution {
     }
 
     public struct RuleBasedProperties: AWSEncodableShape & AWSDecodableShape {
-        /// The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the AttributeMatchingModel. When choosing MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A and the value of BusinessEmail field of Profile B matches, the two profiles are matched on the Email type. When choosing ONE_TO_ONE ,the system can only match if the sub-types are exact matches. For example, only when the value of the Email field of Profile A and the value of the Email field of Profile B matches, the two profiles are matched on the Email type.
+        /// The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the attributeMatchingModel.  If you choose MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A and the value of BusinessEmail field of Profile B matches, the two profiles are matched on the Email attribute type.  If you choose ONE_TO_ONE, the system can only match attributes if the sub-types are an exact match. For example, for the Email attribute type, the system will only consider it a match if the value of the Email field of Profile A matches the value of the Email field of Profile B.
         public let attributeMatchingModel: AttributeMatchingModel
+        ///  An indicator of whether to generate IDs and index the data or not. If you choose IDENTIFIER_GENERATION, the process generates IDs and indexes the data. If you choose INDEXING, the process indexes the data without generating IDs.
+        public let matchPurpose: MatchPurpose?
         /// A list of Rule objects, each of which have fields RuleName and MatchingKeys.
         public let rules: [Rule]
 
-        public init(attributeMatchingModel: AttributeMatchingModel, rules: [Rule]) {
+        public init(attributeMatchingModel: AttributeMatchingModel, matchPurpose: MatchPurpose? = nil, rules: [Rule]) {
             self.attributeMatchingModel = attributeMatchingModel
+            self.matchPurpose = matchPurpose
             self.rules = rules
         }
 
@@ -2588,6 +2710,7 @@ extension EntityResolution {
 
         private enum CodingKeys: String, CodingKey {
             case attributeMatchingModel = "attributeMatchingModel"
+            case matchPurpose = "matchPurpose"
             case rules = "rules"
         }
     }
@@ -2597,16 +2720,19 @@ extension EntityResolution {
         public let fieldName: String
         /// A string that instructs Entity Resolution to combine several columns into a unified column with the identical attribute type.  For example, when working with columns such as first_name, middle_name, and last_name, assigning them a common groupName will prompt Entity Resolution to concatenate them into a single value.
         public let groupName: String?
-        /// A key that allows grouping of multiple input attributes into a unified matching group. For example, consider a scenario where the source table contains various addresses, such as business_address and shipping_address. By assigning a matchKey  called address to both attributes, Entity Resolution will match records across these fields to create a consolidated matching group. If no matchKey is specified for a column, it won't be utilized for matching purposes but will still be included in the output table.
+        ///  Indicates if the column values are hashed in the schema input. If the value is set to TRUE, the column values are hashed. If the value is set to FALSE, the column values are cleartext.
+        public let hashed: Bool?
+        /// A key that allows grouping of multiple input attributes into a unified matching group.  For example, consider a scenario where the source table contains various addresses, such as business_address and shipping_address.  By assigning a matchKey called address to both attributes, Entity Resolution will match records across these fields to create a consolidated matching group. If no matchKey is specified for a column, it won't be utilized for matching purposes but will still be included in the output table.
         public let matchKey: String?
         /// The subtype of the attribute, selected from a list of values.
         public let subType: String?
         /// The type of the attribute, selected from a list of values.
         public let type: SchemaAttributeType
 
-        public init(fieldName: String, groupName: String? = nil, matchKey: String? = nil, subType: String? = nil, type: SchemaAttributeType) {
+        public init(fieldName: String, groupName: String? = nil, hashed: Bool? = nil, matchKey: String? = nil, subType: String? = nil, type: SchemaAttributeType) {
             self.fieldName = fieldName
             self.groupName = groupName
+            self.hashed = hashed
             self.matchKey = matchKey
             self.subType = subType
             self.type = type
@@ -2626,6 +2752,7 @@ extension EntityResolution {
         private enum CodingKeys: String, CodingKey {
             case fieldName = "fieldName"
             case groupName = "groupName"
+            case hashed = "hashed"
             case matchKey = "matchKey"
             case subType = "subType"
             case type = "type"
@@ -2820,18 +2947,18 @@ extension EntityResolution {
     public struct UpdateIdMappingWorkflowInput: AWSEncodableShape {
         /// A description of the workflow.
         public let description: String?
-        /// An object which defines the idMappingType and the providerProperties.
+        /// An object which defines the ID mapping technique and any additional configurations.
         public let idMappingTechniques: IdMappingTechniques
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [IdMappingWorkflowInputSource]
         /// A list of OutputSource objects, each of which contains fields OutputS3Path and KMSArn.
         public let outputSourceConfig: [IdMappingWorkflowOutputSource]?
         /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
-        public let roleArn: String
+        public let roleArn: String?
         /// The name of the workflow.
         public let workflowName: String
 
-        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String, workflowName: String) {
+        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, workflowName: String) {
             self.description = description
             self.idMappingTechniques = idMappingTechniques
             self.inputSourceConfig = inputSourceConfig
@@ -2847,7 +2974,7 @@ extension EntityResolution {
             try container.encode(self.idMappingTechniques, forKey: .idMappingTechniques)
             try container.encode(self.inputSourceConfig, forKey: .inputSourceConfig)
             try container.encodeIfPresent(self.outputSourceConfig, forKey: .outputSourceConfig)
-            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
             request.encodePath(self.workflowName, key: "workflowName")
         }
 
@@ -2865,8 +2992,7 @@ extension EntityResolution {
             try self.validate(self.outputSourceConfig, name: "outputSourceConfig", parent: name, max: 1)
             try self.validate(self.outputSourceConfig, name: "outputSourceConfig", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 512)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^$|^arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.validate(self.workflowName, name: "workflowName", parent: name, max: 255)
             try self.validate(self.workflowName, name: "workflowName", parent: name, min: 1)
             try self.validate(self.workflowName, name: "workflowName", parent: name, pattern: "^[a-zA-Z_0-9-]*$")
@@ -2884,20 +3010,20 @@ extension EntityResolution {
     public struct UpdateIdMappingWorkflowOutput: AWSDecodableShape {
         /// A description of the workflow.
         public let description: String?
-        /// An object which defines the idMappingType and the providerProperties.
+        /// An object which defines the ID mapping technique and any additional configurations.
         public let idMappingTechniques: IdMappingTechniques
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [IdMappingWorkflowInputSource]
         /// A list of OutputSource objects, each of which contains fields OutputS3Path and KMSArn.
         public let outputSourceConfig: [IdMappingWorkflowOutputSource]?
         /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
-        public let roleArn: String
+        public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the workflow role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf.
         public let workflowArn: String
         /// The name of the workflow.
         public let workflowName: String
 
-        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String, workflowArn: String, workflowName: String) {
+        public init(description: String? = nil, idMappingTechniques: IdMappingTechniques, inputSourceConfig: [IdMappingWorkflowInputSource], outputSourceConfig: [IdMappingWorkflowOutputSource]? = nil, roleArn: String? = nil, workflowArn: String, workflowName: String) {
             self.description = description
             self.idMappingTechniques = idMappingTechniques
             self.inputSourceConfig = inputSourceConfig
@@ -3150,7 +3276,7 @@ extension EntityResolution {
             try self.mappedInputFields.forEach {
                 try $0.validate(name: "\(name).mappedInputFields[]")
             }
-            try self.validate(self.mappedInputFields, name: "mappedInputFields", parent: name, max: 25)
+            try self.validate(self.mappedInputFields, name: "mappedInputFields", parent: name, max: 35)
             try self.validate(self.mappedInputFields, name: "mappedInputFields", parent: name, min: 2)
             try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
             try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)
@@ -3234,19 +3360,19 @@ public struct EntityResolutionErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You do not have sufficient access to perform this action. HTTP Status Code: 403
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc. HTTP Status Code: 400
+    /// The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
     public static var conflictException: Self { .init(.conflictException) }
-    /// The request was rejected because it attempted to create resources beyond the current Entity Resolution account limits. The error message describes the limit exceeded. HTTP Status Code: 402
+    /// The request was rejected because it attempted to create resources beyond the current Entity Resolution account limits. The error message describes the limit exceeded.
     public static var exceedsLimitException: Self { .init(.exceedsLimitException) }
-    /// This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
+    /// This exception occurs when there is an internal failure in the Entity Resolution service.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The resource could not be found. HTTP Status Code: 404
+    /// The resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The request was denied due to request throttling. HTTP Status Code: 429
+    /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
+    /// The input fails to satisfy the constraints specified by Entity Resolution.
     public static var validationException: Self { .init(.validationException) }
 }
 

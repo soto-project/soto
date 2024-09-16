@@ -111,7 +111,20 @@ public struct Bedrock: AWSService {
 
     // MARK: API Calls
 
-    /// API operation for creating and managing Amazon Bedrock automatic model evaluation jobs and model evaluation jobs that use human workers. To learn more about the requirements for creating a model evaluation job see, Model evaluations.
+    /// Creates a batch deletion job. A model evaluation job can only be deleted if it has following status FAILED, COMPLETED, and STOPPED. You can request up to 25 model evaluation jobs be deleted in a single request.
+    @Sendable
+    public func batchDeleteEvaluationJob(_ input: BatchDeleteEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteEvaluationJobResponse {
+        return try await self.client.execute(
+            operation: "BatchDeleteEvaluationJob", 
+            path: "/evaluation-jobs/batch-delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// API operation for creating and managing Amazon Bedrock automatic model evaluation jobs and model evaluation jobs that use human workers. To learn more about the requirements for creating a model evaluation job see, Model evaluation.
     @Sendable
     public func createEvaluationJob(_ input: CreateEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEvaluationJobResponse {
         return try await self.client.execute(
@@ -150,12 +163,51 @@ public struct Bedrock: AWSService {
         )
     }
 
+    /// Copies a model to another region so that it can be used there. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
+    @Sendable
+    public func createModelCopyJob(_ input: CreateModelCopyJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateModelCopyJobResponse {
+        return try await self.client.execute(
+            operation: "CreateModelCopyJob", 
+            path: "/model-copy-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a fine-tuning job to customize a base model. You specify the base foundation model and the location of the training data. After the  model-customization job completes successfully, your custom model resource will be ready to use. Amazon Bedrock returns validation loss metrics and output generations after the job completes.  For information on the format of training and validation data, see Prepare the datasets.  Model-customization jobs are asynchronous and the completion time depends on the base model and the training/validation data size. To monitor a job, use the GetModelCustomizationJob operation to retrieve the job status. For more information, see Custom models in the Amazon Bedrock User Guide.
     @Sendable
     public func createModelCustomizationJob(_ input: CreateModelCustomizationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateModelCustomizationJobResponse {
         return try await self.client.execute(
             operation: "CreateModelCustomizationJob", 
             path: "/model-customization-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a model import job to import model that you have customized in other environments, such as Amazon SageMaker. For more information,  see Import a customized model
+    @Sendable
+    public func createModelImportJob(_ input: CreateModelImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateModelImportJobResponse {
+        return try await self.client.execute(
+            operation: "CreateModelImportJob", 
+            path: "/model-import-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a batch inference job to invoke a model on multiple prompts. Format your data according to Format your inference data and upload it to an Amazon S3 bucket. For more information, see Process multiple prompts with batch inference. The response returns a jobArn that you can use to stop or get details about the job.
+    @Sendable
+    public func createModelInvocationJob(_ input: CreateModelInvocationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateModelInvocationJobResponse {
+        return try await self.client.execute(
+            operation: "CreateModelInvocationJob", 
+            path: "/model-invocation-job", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -202,6 +254,19 @@ public struct Bedrock: AWSService {
         )
     }
 
+    /// Deletes a custom model that you imported earlier. For more information,  see Import a customized model in the Amazon Bedrock User Guide.
+    @Sendable
+    public func deleteImportedModel(_ input: DeleteImportedModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteImportedModelResponse {
+        return try await self.client.execute(
+            operation: "DeleteImportedModel", 
+            path: "/imported-models/{modelIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Delete the invocation logging.
     @Sendable
     public func deleteModelInvocationLoggingConfiguration(_ input: DeleteModelInvocationLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteModelInvocationLoggingConfigurationResponse {
@@ -241,7 +306,7 @@ public struct Bedrock: AWSService {
         )
     }
 
-    /// Retrieves the properties associated with a model evaluation job, including the status of the job. For more information, see Model evaluations.
+    /// Retrieves the properties associated with a model evaluation job, including the status of the job. For more information, see Model evaluation.
     @Sendable
     public func getEvaluationJob(_ input: GetEvaluationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEvaluationJobResponse {
         return try await self.client.execute(
@@ -280,12 +345,77 @@ public struct Bedrock: AWSService {
         )
     }
 
+    /// Gets properties associated with a customized model you imported.
+    @Sendable
+    public func getImportedModel(_ input: GetImportedModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImportedModelResponse {
+        return try await self.client.execute(
+            operation: "GetImportedModel", 
+            path: "/imported-models/{modelIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets information about an inference profile. For more information, see the Amazon Bedrock User Guide.
+    @Sendable
+    public func getInferenceProfile(_ input: GetInferenceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInferenceProfileResponse {
+        return try await self.client.execute(
+            operation: "GetInferenceProfile", 
+            path: "/inference-profiles/{inferenceProfileIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves information about a model copy job. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
+    @Sendable
+    public func getModelCopyJob(_ input: GetModelCopyJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetModelCopyJobResponse {
+        return try await self.client.execute(
+            operation: "GetModelCopyJob", 
+            path: "/model-copy-jobs/{jobArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Retrieves the properties associated with a model-customization job, including the status of the job. For more information, see Custom models in the Amazon Bedrock User Guide.
     @Sendable
     public func getModelCustomizationJob(_ input: GetModelCustomizationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetModelCustomizationJobResponse {
         return try await self.client.execute(
             operation: "GetModelCustomizationJob", 
             path: "/model-customization-jobs/{jobIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves the properties associated with import model job, including the status of the  job. For more information,  see Import a customized model in the Amazon Bedrock User Guide.
+    @Sendable
+    public func getModelImportJob(_ input: GetModelImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetModelImportJobResponse {
+        return try await self.client.execute(
+            operation: "GetModelImportJob", 
+            path: "/model-import-jobs/{jobIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets details about a batch inference job. For more information, see View details about a batch inference job
+    @Sendable
+    public func getModelInvocationJob(_ input: GetModelInvocationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetModelInvocationJobResponse {
+        return try await self.client.execute(
+            operation: "GetModelInvocationJob", 
+            path: "/model-invocation-job/{jobIdentifier}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -371,12 +501,77 @@ public struct Bedrock: AWSService {
         )
     }
 
+    /// Returns a list of models you've imported. You can filter the results to return based on one or more criteria.  For more information,  see Import a customized model in the Amazon Bedrock User Guide.
+    @Sendable
+    public func listImportedModels(_ input: ListImportedModelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImportedModelsResponse {
+        return try await self.client.execute(
+            operation: "ListImportedModels", 
+            path: "/imported-models", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of inference profiles that you can use.
+    @Sendable
+    public func listInferenceProfiles(_ input: ListInferenceProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInferenceProfilesResponse {
+        return try await self.client.execute(
+            operation: "ListInferenceProfiles", 
+            path: "/inference-profiles", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of model copy jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
+    @Sendable
+    public func listModelCopyJobs(_ input: ListModelCopyJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListModelCopyJobsResponse {
+        return try await self.client.execute(
+            operation: "ListModelCopyJobs", 
+            path: "/model-copy-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Returns a list of model customization jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Custom models in the Amazon Bedrock User Guide.
     @Sendable
     public func listModelCustomizationJobs(_ input: ListModelCustomizationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListModelCustomizationJobsResponse {
         return try await self.client.execute(
             operation: "ListModelCustomizationJobs", 
             path: "/model-customization-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of import jobs you've submitted. You can filter the results to return based on one or more criteria.  For more information,  see Import a customized model in the Amazon Bedrock User Guide.
+    @Sendable
+    public func listModelImportJobs(_ input: ListModelImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListModelImportJobsResponse {
+        return try await self.client.execute(
+            operation: "ListModelImportJobs", 
+            path: "/model-import-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists all batch inference jobs in the account. For more information, see View details about a batch inference job.
+    @Sendable
+    public func listModelInvocationJobs(_ input: ListModelInvocationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListModelInvocationJobsResponse {
+        return try await self.client.execute(
+            operation: "ListModelInvocationJobs", 
+            path: "/model-invocation-jobs", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -442,6 +637,19 @@ public struct Bedrock: AWSService {
         return try await self.client.execute(
             operation: "StopModelCustomizationJob", 
             path: "/model-customization-jobs/{jobIdentifier}/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Stops a batch inference job. You're only charged for tokens that were already processed. For more information, see Stop a batch inference job.
+    @Sendable
+    public func stopModelInvocationJob(_ input: StopModelInvocationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopModelInvocationJobResponse {
+        return try await self.client.execute(
+            operation: "StopModelInvocationJob", 
+            path: "/model-invocation-job/{jobIdentifier}/stop", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -572,6 +780,63 @@ extension Bedrock {
         )
     }
 
+    /// Returns a list of models you've imported. You can filter the results to return based on one or more criteria.  For more information,  see Import a customized model in the Amazon Bedrock User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listImportedModelsPaginator(
+        _ input: ListImportedModelsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListImportedModelsRequest, ListImportedModelsResponse> {
+        return .init(
+            input: input,
+            command: self.listImportedModels,
+            inputKey: \ListImportedModelsRequest.nextToken,
+            outputKey: \ListImportedModelsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of inference profiles that you can use.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listInferenceProfilesPaginator(
+        _ input: ListInferenceProfilesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInferenceProfilesRequest, ListInferenceProfilesResponse> {
+        return .init(
+            input: input,
+            command: self.listInferenceProfiles,
+            inputKey: \ListInferenceProfilesRequest.nextToken,
+            outputKey: \ListInferenceProfilesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of model copy jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listModelCopyJobsPaginator(
+        _ input: ListModelCopyJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListModelCopyJobsRequest, ListModelCopyJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listModelCopyJobs,
+            inputKey: \ListModelCopyJobsRequest.nextToken,
+            outputKey: \ListModelCopyJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Returns a list of model customization jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Custom models in the Amazon Bedrock User Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -587,6 +852,44 @@ extension Bedrock {
             command: self.listModelCustomizationJobs,
             inputKey: \ListModelCustomizationJobsRequest.nextToken,
             outputKey: \ListModelCustomizationJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of import jobs you've submitted. You can filter the results to return based on one or more criteria.  For more information,  see Import a customized model in the Amazon Bedrock User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listModelImportJobsPaginator(
+        _ input: ListModelImportJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListModelImportJobsRequest, ListModelImportJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listModelImportJobs,
+            inputKey: \ListModelImportJobsRequest.nextToken,
+            outputKey: \ListModelImportJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists all batch inference jobs in the account. For more information, see View details about a batch inference job.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listModelInvocationJobsPaginator(
+        _ input: ListModelInvocationJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListModelInvocationJobsRequest, ListModelInvocationJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listModelInvocationJobs,
+            inputKey: \ListModelInvocationJobsRequest.nextToken,
+            outputKey: \ListModelInvocationJobsResponse.nextToken,
             logger: logger
         )
     }
@@ -618,6 +921,7 @@ extension Bedrock.ListCustomModelsRequest: AWSPaginateToken {
             creationTimeAfter: self.creationTimeAfter,
             creationTimeBefore: self.creationTimeBefore,
             foundationModelArnEquals: self.foundationModelArnEquals,
+            isOwned: self.isOwned,
             maxResults: self.maxResults,
             nameContains: self.nameContains,
             nextToken: token,
@@ -652,6 +956,46 @@ extension Bedrock.ListGuardrailsRequest: AWSPaginateToken {
     }
 }
 
+extension Bedrock.ListImportedModelsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListImportedModelsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension Bedrock.ListInferenceProfilesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListInferenceProfilesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Bedrock.ListModelCopyJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListModelCopyJobsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            sourceAccountEquals: self.sourceAccountEquals,
+            sourceModelArnEquals: self.sourceModelArnEquals,
+            statusEquals: self.statusEquals,
+            targetModelNameContains: self.targetModelNameContains
+        )
+    }
+}
+
 extension Bedrock.ListModelCustomizationJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Bedrock.ListModelCustomizationJobsRequest {
         return .init(
@@ -663,6 +1007,36 @@ extension Bedrock.ListModelCustomizationJobsRequest: AWSPaginateToken {
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,
             statusEquals: self.statusEquals
+        )
+    }
+}
+
+extension Bedrock.ListModelImportJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListModelImportJobsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            statusEquals: self.statusEquals
+        )
+    }
+}
+
+extension Bedrock.ListModelInvocationJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListModelInvocationJobsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            statusEquals: self.statusEquals,
+            submitTimeAfter: self.submitTimeAfter,
+            submitTimeBefore: self.submitTimeBefore
         )
     }
 }

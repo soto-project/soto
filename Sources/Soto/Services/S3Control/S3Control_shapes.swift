@@ -445,7 +445,7 @@ extension S3Control {
         public let name: String
         /// Indicates whether this access point allows access from the public internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public internet. Otherwise, NetworkOrigin is Internet, and the access point allows access from the public internet, subject to the access point and bucket access policies.
         public let networkOrigin: NetworkOrigin
-        /// The virtual private cloud (VPC) configuration for this access point, if one exists.  This element is empty if this access point is an Amazon S3 on Outposts access point that is used by other Amazon Web Services.
+        /// The virtual private cloud (VPC) configuration for this access point, if one exists.  This element is empty if this access point is an Amazon S3 on Outposts access point that is used by other Amazon Web Servicesservices.
         public let vpcConfiguration: VpcConfiguration?
 
         public init(accessPointArn: String? = nil, alias: String? = nil, bucket: String, bucketAccountId: String? = nil, name: String, networkOrigin: NetworkOrigin, vpcConfiguration: VpcConfiguration? = nil) {
@@ -548,7 +548,7 @@ extension S3Control {
 
     public struct AssociateAccessGrantsIdentityCenterRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
         /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs.
         public let identityCenterArn: String
@@ -752,7 +752,7 @@ extension S3Control {
         public let accessGrantsLocationConfiguration: AccessGrantsLocationConfiguration?
         /// The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.  If you are passing the default location, you cannot create an access grant for the entire default location. You must also specify a bucket or a bucket and prefix in the Subprefix field.
         public let accessGrantsLocationId: String
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
         /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center application associated with your Identity Center instance. If an application ARN is included in the request to create an access grant, the grantee can only access the S3 data through this application.
         public let applicationArn: String?
@@ -800,7 +800,7 @@ extension S3Control {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:[^:]+:sso:.*$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:[^:]+:sso::\\d{12}:application/.*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -867,7 +867,7 @@ extension S3Control {
         public static let _options: AWSShapeOptions = [.checksumRequired]
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
         /// If you would like to associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance, use this field to pass the Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs.
         public let identityCenterArn: String?
@@ -909,27 +909,45 @@ extension S3Control {
     }
 
     public struct CreateAccessGrantsInstanceResult: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs.
         public let accessGrantsInstanceArn: String?
         /// The ID of the S3 Access Grants instance. The ID is default. You can have one S3 Access Grants instance per Region per account.
         public let accessGrantsInstanceId: String?
         /// The date and time when you created the S3 Access Grants instance.
         public let createdAt: Date?
-        /// If you associated your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance, this field returns the Amazon Resource Name (ARN) of the IAM Identity Center instance application; a subresource of the original Identity Center instance passed in the request. S3 Access Grants creates this Identity Center application for this specific S3 Access Grants instance.
+        /// If you associated your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance, this field returns the Amazon Resource Name (ARN) of the IAM Identity Center instance application; a subresource of the original Identity Center instance. S3 Access Grants creates this Identity Center application for the specific S3 Access Grants instance.
+        public let identityCenterApplicationArn: String?
+        /// If you associated your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance, this field returns the Amazon Resource Name (ARN) of the IAM Identity Center instance application; a subresource of the original Identity Center instance. S3 Access Grants creates this Identity Center application for the specific S3 Access Grants instance.
         public let identityCenterArn: String?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs.
+        public let identityCenterInstanceArn: String?
 
-        public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterArn: String? = nil) {
+        public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterApplicationArn: String? = nil, identityCenterInstanceArn: String? = nil) {
             self.accessGrantsInstanceArn = accessGrantsInstanceArn
             self.accessGrantsInstanceId = accessGrantsInstanceId
             self.createdAt = createdAt
+            self.identityCenterApplicationArn = identityCenterApplicationArn
+            self.identityCenterArn = nil
+            self.identityCenterInstanceArn = identityCenterInstanceArn
+        }
+
+        @available(*, deprecated, message: "Members identityCenterArn have been deprecated")
+        public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterApplicationArn: String? = nil, identityCenterArn: String? = nil, identityCenterInstanceArn: String? = nil) {
+            self.accessGrantsInstanceArn = accessGrantsInstanceArn
+            self.accessGrantsInstanceId = accessGrantsInstanceId
+            self.createdAt = createdAt
+            self.identityCenterApplicationArn = identityCenterApplicationArn
             self.identityCenterArn = identityCenterArn
+            self.identityCenterInstanceArn = identityCenterInstanceArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case accessGrantsInstanceArn = "AccessGrantsInstanceArn"
             case accessGrantsInstanceId = "AccessGrantsInstanceId"
             case createdAt = "CreatedAt"
+            case identityCenterApplicationArn = "IdentityCenterApplicationArn"
             case identityCenterArn = "IdentityCenterArn"
+            case identityCenterInstanceArn = "IdentityCenterInstanceArn"
         }
     }
 
@@ -937,7 +955,7 @@ extension S3Control {
         public static let _options: AWSShapeOptions = [.checksumRequired]
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
         /// The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location.
         public let iamRoleArn: String
@@ -1496,7 +1514,7 @@ extension S3Control {
         public static let _options: AWSShapeOptions = [.checksumRequired]
         /// The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant.
         public let accessGrantId: String
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
         public init(accessGrantId: String, accountId: String) {
@@ -1525,7 +1543,7 @@ extension S3Control {
 
     public struct DeleteAccessGrantsInstanceRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
         public init(accountId: String) {
@@ -1549,7 +1567,7 @@ extension S3Control {
 
     public struct DeleteAccessGrantsInstanceResourcePolicyRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
         public init(accountId: String) {
@@ -1575,7 +1593,7 @@ extension S3Control {
         public static let _options: AWSShapeOptions = [.checksumRequired]
         /// The ID of the registered location that you are deregistering from your S3 Access Grants instance. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
         public let accessGrantsLocationId: String
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
         public init(accessGrantsLocationId: String, accountId: String) {
@@ -2242,7 +2260,7 @@ extension S3Control {
 
     public struct DissociateAccessGrantsIdentityCenterRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
         public init(accountId: String) {
@@ -2363,7 +2381,7 @@ extension S3Control {
         public static let _options: AWSShapeOptions = [.checksumRequired]
         /// The ID of the access grant. S3 Access Grants auto-generates this ID when you create the access grant.
         public let accessGrantId: String
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
         public init(accessGrantId: String, accountId: String) {
@@ -2485,7 +2503,7 @@ extension S3Control {
 
     public struct GetAccessGrantsInstanceRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
         public init(accountId: String) {
@@ -2509,7 +2527,7 @@ extension S3Control {
 
     public struct GetAccessGrantsInstanceResourcePolicyRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
         public init(accountId: String) {
@@ -2559,21 +2577,39 @@ extension S3Control {
         public let accessGrantsInstanceId: String?
         /// The date and time when you created the S3 Access Grants instance.
         public let createdAt: Date?
-        /// If you associated your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance, this field returns the Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance application; a subresource of the original Identity Center instance. S3 Access Grants creates this Identity Center application for the specific S3 Access Grants instance.
+        /// If you associated your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance, this field returns the Amazon Resource Name (ARN) of the IAM Identity Center instance application; a subresource of the original Identity Center instance. S3 Access Grants creates this Identity Center application for the specific S3 Access Grants instance.
+        public let identityCenterApplicationArn: String?
+        /// If you associated your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance, this field returns the Amazon Resource Name (ARN) of the IAM Identity Center instance application; a subresource of the original Identity Center instance. S3 Access Grants creates this Identity Center application for the specific S3 Access Grants instance.
         public let identityCenterArn: String?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs.
+        public let identityCenterInstanceArn: String?
 
-        public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterArn: String? = nil) {
+        public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterApplicationArn: String? = nil, identityCenterInstanceArn: String? = nil) {
             self.accessGrantsInstanceArn = accessGrantsInstanceArn
             self.accessGrantsInstanceId = accessGrantsInstanceId
             self.createdAt = createdAt
+            self.identityCenterApplicationArn = identityCenterApplicationArn
+            self.identityCenterArn = nil
+            self.identityCenterInstanceArn = identityCenterInstanceArn
+        }
+
+        @available(*, deprecated, message: "Members identityCenterArn have been deprecated")
+        public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterApplicationArn: String? = nil, identityCenterArn: String? = nil, identityCenterInstanceArn: String? = nil) {
+            self.accessGrantsInstanceArn = accessGrantsInstanceArn
+            self.accessGrantsInstanceId = accessGrantsInstanceId
+            self.createdAt = createdAt
+            self.identityCenterApplicationArn = identityCenterApplicationArn
             self.identityCenterArn = identityCenterArn
+            self.identityCenterInstanceArn = identityCenterInstanceArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case accessGrantsInstanceArn = "AccessGrantsInstanceArn"
             case accessGrantsInstanceId = "AccessGrantsInstanceId"
             case createdAt = "CreatedAt"
+            case identityCenterApplicationArn = "IdentityCenterApplicationArn"
             case identityCenterArn = "IdentityCenterArn"
+            case identityCenterInstanceArn = "IdentityCenterInstanceArn"
         }
     }
 
@@ -2581,7 +2617,7 @@ extension S3Control {
         public static let _options: AWSShapeOptions = [.checksumRequired]
         /// The ID of the registered location that you are retrieving. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
         public let accessGrantsLocationId: String
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
 
         public init(accessGrantsLocationId: String, accountId: String) {
@@ -2952,7 +2988,7 @@ extension S3Control {
         /// Indicates whether this access point allows access from the public internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public internet. Otherwise, NetworkOrigin is Internet, and the access point allows access from the public internet, subject to the access point and bucket access policies. This will always be true for an Amazon S3 on Outposts access point
         public let networkOrigin: NetworkOrigin?
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
-        /// Contains the virtual private cloud (VPC) configuration for the specified access point.  This element is empty if this access point is an Amazon S3 on Outposts access point that is used by other Amazon Web Services.
+        /// Contains the virtual private cloud (VPC) configuration for the specified access point.  This element is empty if this access point is an Amazon S3 on Outposts access point that is used by other Amazon Web Servicesservices.
         public let vpcConfiguration: VpcConfiguration?
 
         public init(accessPointArn: String? = nil, alias: String? = nil, bucket: String? = nil, bucketAccountId: String? = nil, creationDate: Date? = nil, endpoints: [String: String]? = nil, name: String? = nil, networkOrigin: NetworkOrigin? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
@@ -3251,7 +3287,7 @@ extension S3Control {
 
     public struct GetDataAccessRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
         /// The session duration, in seconds, of the temporary access credential that S3 Access Grants vends to the grantee or client application. The default value is 1 hour, but the grantee can specify a range from 900 seconds (15 minutes) up to 43200 seconds (12 hours). If the grantee requests a value higher than this maximum, the operation fails.
         public let durationSeconds: Int?
@@ -4153,13 +4189,13 @@ extension S3Control {
     }
 
     public struct KeyNameConstraint: AWSEncodableShape & AWSDecodableShape {
-        /// If provided, the generated manifest includes objects where the specified string appears at the start of the object key string.
+        /// If provided, the generated manifest includes objects where the specified string appears at the start of the object key string. Each KeyNameConstraint filter accepts an array of strings with a length of 1 string.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var matchAnyPrefix: [String]?
-        /// If provided, the generated manifest includes objects where the specified string appears anywhere within the object key string.
+        /// If provided, the generated manifest includes objects where the specified string appears anywhere within the object key string. Each KeyNameConstraint filter accepts an array of strings with a length of 1 string.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var matchAnySubstring: [String]?
-        /// If provided, the generated manifest includes objects where the specified string appears at the end of the object key string.
+        /// If provided, the generated manifest includes objects where the specified string appears at the end of the object key string. Each KeyNameConstraint filter accepts an array of strings with a length of 1 string.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var matchAnySuffix: [String]?
 
@@ -4441,26 +4477,44 @@ extension S3Control {
         /// The date and time when you created the S3 Access Grants instance.
         public let createdAt: Date?
         /// If you associated your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance, this field returns the Amazon Resource Name (ARN) of the IAM Identity Center instance application; a subresource of the original Identity Center instance. S3 Access Grants creates this Identity Center application for the specific S3 Access Grants instance.
+        public let identityCenterApplicationArn: String?
+        /// If you associated your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance, this field returns the Amazon Resource Name (ARN) of the IAM Identity Center instance application; a subresource of the original Identity Center instance. S3 Access Grants creates this Identity Center application for the specific S3 Access Grants instance.
         public let identityCenterArn: String?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance that you are associating with your S3 Access Grants instance. An IAM Identity Center instance is your corporate identity directory that you added to the IAM Identity Center. You can use the ListInstances API operation to retrieve a list of your Identity Center instances and their ARNs.
+        public let identityCenterInstanceArn: String?
 
-        public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterArn: String? = nil) {
+        public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterApplicationArn: String? = nil, identityCenterInstanceArn: String? = nil) {
             self.accessGrantsInstanceArn = accessGrantsInstanceArn
             self.accessGrantsInstanceId = accessGrantsInstanceId
             self.createdAt = createdAt
+            self.identityCenterApplicationArn = identityCenterApplicationArn
+            self.identityCenterArn = nil
+            self.identityCenterInstanceArn = identityCenterInstanceArn
+        }
+
+        @available(*, deprecated, message: "Members identityCenterArn have been deprecated")
+        public init(accessGrantsInstanceArn: String? = nil, accessGrantsInstanceId: String? = nil, createdAt: Date? = nil, identityCenterApplicationArn: String? = nil, identityCenterArn: String? = nil, identityCenterInstanceArn: String? = nil) {
+            self.accessGrantsInstanceArn = accessGrantsInstanceArn
+            self.accessGrantsInstanceId = accessGrantsInstanceId
+            self.createdAt = createdAt
+            self.identityCenterApplicationArn = identityCenterApplicationArn
             self.identityCenterArn = identityCenterArn
+            self.identityCenterInstanceArn = identityCenterInstanceArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case accessGrantsInstanceArn = "AccessGrantsInstanceArn"
             case accessGrantsInstanceId = "AccessGrantsInstanceId"
             case createdAt = "CreatedAt"
+            case identityCenterApplicationArn = "IdentityCenterApplicationArn"
             case identityCenterArn = "IdentityCenterArn"
+            case identityCenterInstanceArn = "IdentityCenterInstanceArn"
         }
     }
 
     public struct ListAccessGrantsInstancesRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
         /// The maximum number of access grants that you would like returned in the List Access Grants response. If the results include the pagination token NextToken, make another call using the NextToken to determine if there are more results.
         public let maxResults: Int?
@@ -4543,7 +4597,7 @@ extension S3Control {
 
     public struct ListAccessGrantsLocationsRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
         /// The S3 path to the location that you are registering. The location scope can be the default S3 location s3://, the S3 path to a bucket s3://, or the S3 path to a bucket and prefix s3:///. A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix.
         public let locationScope: String?
@@ -4604,7 +4658,7 @@ extension S3Control {
 
     public struct ListAccessGrantsRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
         /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center application associated with your Identity Center instance. If the grant includes an application ARN, the grantee can only access the S3 data through this application.
         public let applicationArn: String?
@@ -4651,7 +4705,7 @@ extension S3Control {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:[^:]+:sso:.*$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:[^:]+:sso::\\d{12}:application/.*$")
             try self.validate(self.grantScope, name: "grantScope", parent: name, max: 2000)
             try self.validate(self.grantScope, name: "grantScope", parent: name, min: 1)
             try self.validate(self.grantScope, name: "grantScope", parent: name, pattern: "^.+$")
@@ -4794,6 +4848,92 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case accessPointList = "AccessPointList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCallerAccessGrantsEntry: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center application associated with your Identity Center instance. If the grant includes an application ARN, the grantee can only access the S3 data through this application.
+        public let applicationArn: String?
+        /// The S3 path of the data to which you have been granted access.
+        public let grantScope: String?
+        /// The type of permission granted, which can be one of the following values:    READ - Grants read-only access to the S3 data.    WRITE - Grants write-only access to the S3 data.    READWRITE - Grants both read and write access to the S3 data.
+        public let permission: Permission?
+
+        public init(applicationArn: String? = nil, grantScope: String? = nil, permission: Permission? = nil) {
+            self.applicationArn = applicationArn
+            self.grantScope = grantScope
+            self.permission = permission
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case grantScope = "GrantScope"
+            case permission = "Permission"
+        }
+    }
+
+    public struct ListCallerAccessGrantsRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumRequired]
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
+        public let accountId: String
+        /// If this optional parameter is passed in the request, a filter is applied to the results. The results will include only the access grants for the caller's Identity Center application or for any other applications (ALL).
+        public let allowedByApplication: Bool?
+        /// The S3 path of the data that you would like to access. Must start with s3://. You can optionally pass only the beginning characters of a path, and S3 Access Grants will search for all applicable grants for the path fragment.
+        public let grantScope: String?
+        /// The maximum number of access grants that you would like returned in the List Caller Access Grants response. If the results include the pagination token NextToken, make another call using the NextToken to determine if there are more results.
+        public let maxResults: Int?
+        /// A pagination token to request the next page of results. Pass this value into a subsequent List Caller Access Grants request in order to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(accountId: String, allowedByApplication: Bool? = nil, grantScope: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountId = accountId
+            self.allowedByApplication = allowedByApplication
+            self.grantScope = grantScope
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodeQuery(self.allowedByApplication, key: "allowedByApplication")
+            request.encodeQuery(self.grantScope, key: "grantscope")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.grantScope, name: "grantScope", parent: name, max: 2000)
+            try self.validate(self.grantScope, name: "grantScope", parent: name, min: 1)
+            try self.validate(self.grantScope, name: "grantScope", parent: name, pattern: "^.+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCallerAccessGrantsResult: AWSDecodableShape {
+        public struct _CallerAccessGrantsListEncoding: ArrayCoderProperties { public static let member = "AccessGrant" }
+
+        /// A list of the caller's access grants that were created using S3 Access Grants and that grant the caller access to the S3 data of the Amazon Web Services account ID that was specified in the request.
+        @OptionalCustomCoding<ArrayCoder<_CallerAccessGrantsListEncoding, ListCallerAccessGrantsEntry>>
+        public var callerAccessGrantsList: [ListCallerAccessGrantsEntry]?
+        /// A pagination token that you can use to request the next page of results. Pass this value into a subsequent List Caller Access Grants request in order to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(callerAccessGrantsList: [ListCallerAccessGrantsEntry]? = nil, nextToken: String? = nil) {
+            self.callerAccessGrantsList = callerAccessGrantsList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case callerAccessGrantsList = "CallerAccessGrantsList"
             case nextToken = "NextToken"
         }
     }
@@ -5519,7 +5659,7 @@ extension S3Control {
         public let blockPublicPolicy: Bool?
         /// Specifies whether Amazon S3 should ignore public ACLs for buckets in this account. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on buckets in this account and any objects that they contain.  Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set. This property is not supported for Amazon S3 on Outposts.
         public let ignorePublicAcls: Bool?
-        /// Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. Setting this element to TRUE restricts access to buckets with public policies to only Amazon Web Service principals and authorized users within this account. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked. This property is not supported for Amazon S3 on Outposts.
+        /// Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account. Setting this element to TRUE restricts access to buckets with public policies to only Amazon Web Servicesservice principals and authorized users within this account. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked. This property is not supported for Amazon S3 on Outposts.
         public let restrictPublicBuckets: Bool?
 
         public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
@@ -5539,7 +5679,7 @@ extension S3Control {
 
     public struct PutAccessGrantsInstanceResourcePolicyRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
         /// The Organization of the resource policy of the S3 Access Grants instance.
         public let organization: String?
@@ -6667,7 +6807,7 @@ extension S3Control {
         public let filter: JobManifestGeneratorFilter?
         /// Specifies the location the generated manifest will be written to. Manifests can't be written to directory buckets. For more information, see Directory buckets.
         public let manifestOutputLocation: S3ManifestOutputLocation?
-        /// The source bucket used by the ManifestGenerator.   Directory buckets - Directory buckets aren't supported  as the source buckets used by S3JobManifestGenerator to generate the job manifest.
+        /// The ARN of the source bucket used by the ManifestGenerator.   Directory buckets - Directory buckets aren't supported  as the source buckets used by S3JobManifestGenerator to generate the job manifest.
         public let sourceBucket: String
 
         public init(enableManifestOutput: Bool, expectedBucketOwner: String? = nil, filter: JobManifestGeneratorFilter? = nil, manifestOutputLocation: S3ManifestOutputLocation? = nil, sourceBucket: String) {
@@ -7607,7 +7747,7 @@ extension S3Control {
         public static let _options: AWSShapeOptions = [.checksumRequired]
         /// The ID of the registered location that you are updating. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.   The ID of the registered location to which you are granting access. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.   If you are passing the default location, you cannot create an access grant for the entire default location. You must also specify a bucket or a bucket and prefix in the Subprefix field.
         public let accessGrantsLocationId: String
-        /// The ID of the Amazon Web Services account that is making this request.
+        /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
         /// The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location.
         public let iamRoleArn: String

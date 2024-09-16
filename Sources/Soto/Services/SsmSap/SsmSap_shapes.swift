@@ -189,6 +189,8 @@ extension SsmSap {
         public let appRegistryArn: String?
         /// The Amazon Resource Name (ARN) of the application.
         public let arn: String?
+        /// The Amazon Resource Names of the associated AWS Systems Manager for SAP applications.
+        public let associatedApplicationArns: [String]?
         /// The components of the application.
         public let components: [String]?
         /// The latest discovery result for the application.
@@ -204,9 +206,10 @@ extension SsmSap {
         /// The type of the application.
         public let type: ApplicationType?
 
-        public init(appRegistryArn: String? = nil, arn: String? = nil, components: [String]? = nil, discoveryStatus: ApplicationDiscoveryStatus? = nil, id: String? = nil, lastUpdated: Date? = nil, status: ApplicationStatus? = nil, statusMessage: String? = nil, type: ApplicationType? = nil) {
+        public init(appRegistryArn: String? = nil, arn: String? = nil, associatedApplicationArns: [String]? = nil, components: [String]? = nil, discoveryStatus: ApplicationDiscoveryStatus? = nil, id: String? = nil, lastUpdated: Date? = nil, status: ApplicationStatus? = nil, statusMessage: String? = nil, type: ApplicationType? = nil) {
             self.appRegistryArn = appRegistryArn
             self.arn = arn
+            self.associatedApplicationArns = associatedApplicationArns
             self.components = components
             self.discoveryStatus = discoveryStatus
             self.id = id
@@ -219,6 +222,7 @@ extension SsmSap {
         private enum CodingKeys: String, CodingKey {
             case appRegistryArn = "AppRegistryArn"
             case arn = "Arn"
+            case associatedApplicationArns = "AssociatedApplicationArns"
             case components = "Components"
             case discoveryStatus = "DiscoveryStatus"
             case id = "Id"
@@ -476,6 +480,8 @@ extension SsmSap {
         public let arn: String?
         /// The ID of the component.
         public let componentId: String?
+        /// The Amazon Resource Names of the connected AWS Systems Manager for SAP components.
+        public let connectedComponentArns: [String]?
         /// The credentials of the database.
         public let credentials: [ApplicationCredential]?
         /// The ID of the SAP HANA database.
@@ -493,10 +499,11 @@ extension SsmSap {
         /// The status of the database.
         public let status: DatabaseStatus?
 
-        public init(applicationId: String? = nil, arn: String? = nil, componentId: String? = nil, credentials: [ApplicationCredential]? = nil, databaseId: String? = nil, databaseName: String? = nil, databaseType: DatabaseType? = nil, lastUpdated: Date? = nil, primaryHost: String? = nil, sqlPort: Int? = nil, status: DatabaseStatus? = nil) {
+        public init(applicationId: String? = nil, arn: String? = nil, componentId: String? = nil, connectedComponentArns: [String]? = nil, credentials: [ApplicationCredential]? = nil, databaseId: String? = nil, databaseName: String? = nil, databaseType: DatabaseType? = nil, lastUpdated: Date? = nil, primaryHost: String? = nil, sqlPort: Int? = nil, status: DatabaseStatus? = nil) {
             self.applicationId = applicationId
             self.arn = arn
             self.componentId = componentId
+            self.connectedComponentArns = connectedComponentArns
             self.credentials = credentials
             self.databaseId = databaseId
             self.databaseName = databaseName
@@ -511,6 +518,7 @@ extension SsmSap {
             case applicationId = "ApplicationId"
             case arn = "Arn"
             case componentId = "ComponentId"
+            case connectedComponentArns = "ConnectedComponentArns"
             case credentials = "Credentials"
             case databaseId = "DatabaseId"
             case databaseName = "DatabaseName"
@@ -624,7 +632,9 @@ extension SsmSap {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 60)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -680,7 +690,9 @@ extension SsmSap {
 
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\\/.+$")
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 60)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d\\.-]+$")
             try self.validate(self.appRegistryArn, name: "appRegistryArn", parent: name, pattern: "^arn:aws:servicecatalog:[a-z0-9:\\/-]+$")
         }
 
@@ -720,7 +732,11 @@ extension SsmSap {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 60)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d\\.-]+$")
+            try self.validate(self.componentId, name: "componentId", parent: name, max: 100)
+            try self.validate(self.componentId, name: "componentId", parent: name, min: 1)
             try self.validate(self.componentId, name: "componentId", parent: name, pattern: "^[\\w\\d-]+$")
         }
 
@@ -765,9 +781,15 @@ extension SsmSap {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 60)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d\\.-]+$")
+            try self.validate(self.componentId, name: "componentId", parent: name, max: 100)
+            try self.validate(self.componentId, name: "componentId", parent: name, min: 1)
             try self.validate(self.componentId, name: "componentId", parent: name, pattern: "^[\\w\\d-]+$")
             try self.validate(self.databaseArn, name: "databaseArn", parent: name, pattern: "^arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\\/.+$")
+            try self.validate(self.databaseId, name: "databaseId", parent: name, max: 300)
+            try self.validate(self.databaseId, name: "databaseId", parent: name, min: 1)
             try self.validate(self.databaseId, name: "databaseId", parent: name, pattern: "[\\w\\d]+$")
         }
 
@@ -976,7 +998,9 @@ extension SsmSap {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 60)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d\\.-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.{16,1024}$")
@@ -1024,7 +1048,11 @@ extension SsmSap {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 60)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d\\.-]+$")
+            try self.validate(self.componentId, name: "componentId", parent: name, max: 100)
+            try self.validate(self.componentId, name: "componentId", parent: name, min: 1)
             try self.validate(self.componentId, name: "componentId", parent: name, pattern: "^[\\w\\d-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -1057,11 +1085,11 @@ extension SsmSap {
     }
 
     public struct ListOperationEventsInput: AWSEncodableShape {
-        /// Optionally specify filters to narrow the returned operation  event items. Valid filter names include status, resourceID,  and resourceType. The valid operator for all three filters  is Equals.
+        /// Optionally specify filters to narrow the returned operation event items. Valid filter names include status, resourceID, and resourceType. The valid operator for all three filters is Equals.
         public let filters: [Filter]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you do not specify a value for MaxResults, the request returns 50 items per page by default.
         public let maxResults: Int?
-        /// The token to use to retrieve the next page of results.  This value is null when there are no more results to return.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The ID of the operation.
         public let operationId: String
@@ -1096,7 +1124,7 @@ extension SsmSap {
     public struct ListOperationEventsOutput: AWSDecodableShape {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
-        /// A returned list of operation events that  meet the filter criteria.
+        /// A returned list of operation events that meet the filter criteria.
         public let operationEvents: [OperationEvent]?
 
         public init(nextToken: String? = nil, operationEvents: [OperationEvent]? = nil) {
@@ -1128,7 +1156,9 @@ extension SsmSap {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 60)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d\\.-]+$")
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
@@ -1251,13 +1281,13 @@ extension SsmSap {
     }
 
     public struct OperationEvent: AWSDecodableShape {
-        /// A description of the operation event. For example,  "Stop the EC2 instance i-abcdefgh987654321".
+        /// A description of the operation event. For example, "Stop the EC2 instance i-abcdefgh987654321".
         public let description: String?
         /// The resource involved in the operations event. Contains ResourceArn ARN and ResourceType.
         public let resource: Resource?
-        /// The status of the operation event. The possible statuses  are: IN_PROGRESS,  COMPLETED, and FAILED.
+        /// The status of the operation event. The possible statuses are: IN_PROGRESS, COMPLETED, and FAILED.
         public let status: OperationEventStatus?
-        /// The status message relating to a specific  operation event.
+        /// The status message relating to a specific operation event.
         public let statusMessage: String?
         /// The timestamp of the specified operation event.
         public let timestamp: Date?
@@ -1344,7 +1374,9 @@ extension SsmSap {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 60)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d\\.-]+$")
             try self.credentials?.forEach {
                 try $0.validate(name: "\(name).credentials[]")
             }
@@ -1423,9 +1455,9 @@ extension SsmSap {
     }
 
     public struct Resource: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the source resource. Example of ResourceArn:  "arn:aws:ec2:us-east-1:111111111111:instance/i-abcdefgh987654321"
+        /// The Amazon Resource Name (ARN) of the source resource. Example of ResourceArn: "arn:aws:ec2:us-east-1:111111111111:instance/i-abcdefgh987654321"
         public let resourceArn: String?
-        /// The resource type. Example of ResourceType: "AWS::SystemsManagerSAP::Component"  or "AWS::EC2::Instance".
+        /// The resource type. Example of ResourceType: "AWS::SystemsManagerSAP::Component" or "AWS::EC2::Instance".
         public let resourceType: String?
 
         public init(resourceArn: String? = nil, resourceType: String? = nil) {
@@ -1448,7 +1480,9 @@ extension SsmSap {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 60)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1478,7 +1512,9 @@ extension SsmSap {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 60)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1502,9 +1538,9 @@ extension SsmSap {
     public struct StopApplicationInput: AWSEncodableShape {
         /// The ID of the application.
         public let applicationId: String
-        /// Boolean. If included and if set to True, the  StopApplication operation will shut down the associated Amazon EC2 instance in addition to  the application.
+        /// Boolean. If included and if set to True, the StopApplication operation will shut down the associated Amazon EC2 instance in addition to the application.
         public let includeEc2InstanceShutdown: Bool?
-        /// Specify the ConnectedEntityType. Accepted type  is DBMS. If this parameter is included, the connected DBMS (Database  Management System) will be stopped.
+        /// Specify the ConnectedEntityType. Accepted type is DBMS. If this parameter is included, the connected DBMS (Database Management System) will be stopped.
         public let stopConnectedEntity: ConnectedEntityType?
 
         public init(applicationId: String, includeEc2InstanceShutdown: Bool? = nil, stopConnectedEntity: ConnectedEntityType? = nil) {
@@ -1514,7 +1550,9 @@ extension SsmSap {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 60)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d\\.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1626,7 +1664,9 @@ extension SsmSap {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d]{1,50}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 60)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d\\.-]+$")
             try self.credentialsToAddOrUpdate?.forEach {
                 try $0.validate(name: "\(name).credentialsToAddOrUpdate[]")
             }

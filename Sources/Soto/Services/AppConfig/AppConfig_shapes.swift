@@ -37,6 +37,13 @@ extension AppConfig {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeletionProtectionCheck: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountDefault = "ACCOUNT_DEFAULT"
+        case apply = "APPLY"
+        case bypass = "BYPASS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeploymentEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bakeTimeStarted = "BAKE_TIME_STARTED"
         case deploymentCompleted = "DEPLOYMENT_COMPLETED"
@@ -93,6 +100,19 @@ extension AppConfig {
 
     // MARK: Shapes
 
+    public struct AccountSettings: AWSDecodableShape {
+        /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either GetLatestConfiguration or  for the configuration profile or from the environment during the specified interval. Deletion protection is disabled by default. The default interval for ProtectionPeriodInMinutes is 60.
+        public let deletionProtection: DeletionProtectionSettings?
+
+        public init(deletionProtection: DeletionProtectionSettings? = nil) {
+            self.deletionProtection = deletionProtection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionProtection = "DeletionProtection"
+        }
+    }
+
     public struct Action: AWSEncodableShape & AWSDecodableShape {
         /// Information about the action.
         public let description: String?
@@ -116,7 +136,7 @@ extension AppConfig {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
             try self.validate(self.uri, name: "uri", parent: name, max: 2048)
             try self.validate(self.uri, name: "uri", parent: name, min: 1)
         }
@@ -703,7 +723,7 @@ extension AppConfig {
         public let applicationId: String
         /// The configuration profile ID.
         public let configurationProfileId: String
-        /// The content of the configuration or the configuration data.
+        /// The configuration data, as bytes.  AppConfig accepts any type of data, including text formats like JSON or TOML, or binary formats like protocol buffers or compressed data.
         public let content: AWSHTTPBody
         /// A standard MIME type describing the format of the configuration content. For more information, see Content-Type.
         public let contentType: String
@@ -776,10 +796,13 @@ extension AppConfig {
         public let applicationId: String
         /// The ID of the configuration profile you want to delete.
         public let configurationProfileId: String
+        /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile if your application has called either GetLatestConfiguration or  for the configuration profile during the specified interval.  This parameter supports the following values:    BYPASS: Instructs AppConfig to bypass the deletion protection check and delete a configuration profile even if deletion protection would have otherwise prevented it.     APPLY: Instructs the deletion protection check to run, even if deletion protection is disabled at the account level. APPLY also forces the deletion protection check to run against resources created in the past hour, which are normally excluded from deletion protection checks.     ACCOUNT_DEFAULT: The default setting, which instructs AppConfig to implement the deletion protection value specified in the UpdateAccountSettings API.
+        public let deletionProtectionCheck: DeletionProtectionCheck?
 
-        public init(applicationId: String, configurationProfileId: String) {
+        public init(applicationId: String, configurationProfileId: String, deletionProtectionCheck: DeletionProtectionCheck? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
+            self.deletionProtectionCheck = deletionProtectionCheck
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -787,6 +810,7 @@ extension AppConfig {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.applicationId, key: "ApplicationId")
             request.encodePath(self.configurationProfileId, key: "ConfigurationProfileId")
+            request.encodeHeader(self.deletionProtectionCheck, key: "x-amzn-deletion-protection-check")
         }
 
         public func validate(name: String) throws {
@@ -821,11 +845,14 @@ extension AppConfig {
     public struct DeleteEnvironmentRequest: AWSEncodableShape {
         /// The application ID that includes the environment that you want to delete.
         public let applicationId: String
+        /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting an environment if your application called either GetLatestConfiguration or  in the environment during the specified interval.  This parameter supports the following values:    BYPASS: Instructs AppConfig to bypass the deletion protection check and delete a configuration profile even if deletion protection would have otherwise prevented it.     APPLY: Instructs the deletion protection check to run, even if deletion protection is disabled at the account level. APPLY also forces the deletion protection check to run against resources created in the past hour, which are normally excluded from deletion protection checks.     ACCOUNT_DEFAULT: The default setting, which instructs AppConfig to implement the deletion protection value specified in the UpdateAccountSettings API.
+        public let deletionProtectionCheck: DeletionProtectionCheck?
         /// The ID of the environment that you want to delete.
         public let environmentId: String
 
-        public init(applicationId: String, environmentId: String) {
+        public init(applicationId: String, deletionProtectionCheck: DeletionProtectionCheck? = nil, environmentId: String) {
             self.applicationId = applicationId
+            self.deletionProtectionCheck = deletionProtectionCheck
             self.environmentId = environmentId
         }
 
@@ -833,6 +860,7 @@ extension AppConfig {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodeHeader(self.deletionProtectionCheck, key: "x-amzn-deletion-protection-check")
             request.encodePath(self.environmentId, key: "EnvironmentId")
         }
 
@@ -919,6 +947,28 @@ extension AppConfig {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletionProtectionSettings: AWSEncodableShape & AWSDecodableShape {
+        /// A parameter that indicates if deletion protection is enabled or not.
+        public let enabled: Bool?
+        /// The time interval during which AppConfig monitors for calls to GetLatestConfiguration or  for a configuration profile or from an environment. AppConfig returns an error if a user calls  or  for the designated configuration profile or environment. To bypass the error and delete a configuration profile or an environment, specify BYPASS for the DeletionProtectionCheck parameter for either  or .
+        public let protectionPeriodInMinutes: Int?
+
+        public init(enabled: Bool? = nil, protectionPeriodInMinutes: Int? = nil) {
+            self.enabled = enabled
+            self.protectionPeriodInMinutes = protectionPeriodInMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.protectionPeriodInMinutes, name: "protectionPeriodInMinutes", parent: name, max: 1440)
+            try self.validate(self.protectionPeriodInMinutes, name: "protectionPeriodInMinutes", parent: name, min: 15)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case protectionPeriodInMinutes = "ProtectionPeriodInMinutes"
+        }
     }
 
     public struct Deployment: AWSDecodableShape {
@@ -1939,7 +1989,7 @@ extension AppConfig {
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 2048)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 20)
-            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2040,7 +2090,7 @@ extension AppConfig {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2242,7 +2292,7 @@ extension AppConfig {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2277,7 +2327,7 @@ extension AppConfig {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -2286,6 +2336,23 @@ extension AppConfig {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UpdateAccountSettingsRequest: AWSEncodableShape {
+        /// A parameter to configure deletion protection. If enabled, deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either GetLatestConfiguration or  for the configuration profile or from the environment during the specified interval. Deletion protection is disabled by default. The default interval for ProtectionPeriodInMinutes is 60.
+        public let deletionProtection: DeletionProtectionSettings?
+
+        public init(deletionProtection: DeletionProtectionSettings? = nil) {
+            self.deletionProtection = deletionProtection
+        }
+
+        public func validate(name: String) throws {
+            try self.deletionProtection?.validate(name: "\(name).deletionProtection")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionProtection = "DeletionProtection"
+        }
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
@@ -2366,7 +2433,7 @@ extension AppConfig {
             try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "^[a-z0-9]{4,7}$")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
-            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, max: 2048)
             try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, min: 20)

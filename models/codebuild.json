@@ -124,6 +124,12 @@
                     "traits": {
                         "smithy.api#enumValue": "CODECONNECTIONS"
                     }
+                },
+                "SECRETS_MANAGER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SECRETS_MANAGER"
+                    }
                 }
             }
         },
@@ -2870,7 +2876,7 @@
                 "environmentType": {
                     "target": "com.amazonaws.codebuild#EnvironmentType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The environment type of the compute fleet.</p>\n         <ul>\n            <li>\n               <p>The environment type <code>ARM_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),\n                    Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), \n                    EU (Frankfurt), and South America (São Paulo).</p>\n            </li>\n            <li>\n               <p>The environment type <code>LINUX_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), \n                    EU (Frankfurt), Asia Pacific (Tokyo),\n                    Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and\n                    Asia Pacific (Mumbai).</p>\n            </li>\n            <li>\n               <p>The environment type <code>LINUX_GPU_CONTAINER</code> is available only in\n                    regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), \n                    EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).</p>\n            </li>\n            <li>\n               <p>The environment type <code>WINDOWS_SERVER_2019_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), \n                    Asia Pacific (Tokyo), Asia Pacific (Mumbai) and\n                    EU (Ireland).</p>\n            </li>\n            <li>\n               <p>The environment type <code>WINDOWS_SERVER_2022_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), \n                    Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and\n                    Asia Pacific (Mumbai).</p>\n            </li>\n         </ul>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html\">Build environment compute types</a> in the <i>CodeBuild\n                user guide</i>.</p>",
+                        "smithy.api#documentation": "<p>The environment type of the compute fleet.</p>\n         <ul>\n            <li>\n               <p>The environment type <code>ARM_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),\n                    Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), \n                    EU (Frankfurt), and South America (São Paulo).</p>\n            </li>\n            <li>\n               <p>The environment type <code>LINUX_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), \n                    EU (Frankfurt), Asia Pacific (Tokyo),\n                    Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and\n                    Asia Pacific (Mumbai).</p>\n            </li>\n            <li>\n               <p>The environment type <code>LINUX_GPU_CONTAINER</code> is available only in\n                    regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), \n                    EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).</p>\n            </li>\n            <li>\n               <p>The environment type <code>MAC_ARM</code> is available for Medium fleets only in\n                    regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), \n                    and EU (Frankfurt)</p>\n            </li>\n            <li>\n               <p>The environment type <code>MAC_ARM</code> is available for Large fleets only in\n                    regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).</p>\n            </li>\n            <li>\n               <p>The environment type <code>WINDOWS_SERVER_2019_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), \n                    Asia Pacific (Tokyo), Asia Pacific (Mumbai) and\n                    EU (Ireland).</p>\n            </li>\n            <li>\n               <p>The environment type <code>WINDOWS_SERVER_2022_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), \n                    Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and\n                    Asia Pacific (Mumbai).</p>\n            </li>\n         </ul>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html\">Build environment compute types</a> in the <i>CodeBuild\n                user guide</i>.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -2895,6 +2901,12 @@
                 },
                 "vpcConfig": {
                     "target": "com.amazonaws.codebuild#VpcConfig"
+                },
+                "imageId": {
+                    "target": "com.amazonaws.codebuild#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Machine Image (AMI) of the compute fleet.</p>"
+                    }
                 },
                 "fleetServiceRole": {
                     "target": "com.amazonaws.codebuild#NonEmptyString",
@@ -3946,6 +3958,12 @@
                     "traits": {
                         "smithy.api#enumValue": "ARM_LAMBDA_CONTAINER"
                     }
+                },
+                "MAC_ARM": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "MAC_ARM"
+                    }
                 }
             }
         },
@@ -4103,7 +4121,7 @@
                 "environmentType": {
                     "target": "com.amazonaws.codebuild#EnvironmentType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The environment type of the compute fleet.</p>\n         <ul>\n            <li>\n               <p>The environment type <code>ARM_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),\n                    Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), \n                    EU (Frankfurt), and South America (São Paulo).</p>\n            </li>\n            <li>\n               <p>The environment type <code>LINUX_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), \n                    EU (Frankfurt), Asia Pacific (Tokyo),\n                    Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and\n                    Asia Pacific (Mumbai).</p>\n            </li>\n            <li>\n               <p>The environment type <code>LINUX_GPU_CONTAINER</code> is available only in\n                    regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), \n                    EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).</p>\n            </li>\n            <li>\n               <p>The environment type <code>WINDOWS_SERVER_2019_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), \n                    Asia Pacific (Tokyo), Asia Pacific (Mumbai) and\n                    EU (Ireland).</p>\n            </li>\n            <li>\n               <p>The environment type <code>WINDOWS_SERVER_2022_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), \n                    Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and\n                    Asia Pacific (Mumbai).</p>\n            </li>\n         </ul>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html\">Build environment compute types</a> in the <i>CodeBuild\n                user guide</i>.</p>"
+                        "smithy.api#documentation": "<p>The environment type of the compute fleet.</p>\n         <ul>\n            <li>\n               <p>The environment type <code>ARM_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),\n                    Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), \n                    EU (Frankfurt), and South America (São Paulo).</p>\n            </li>\n            <li>\n               <p>The environment type <code>LINUX_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), \n                    EU (Frankfurt), Asia Pacific (Tokyo),\n                    Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and\n                    Asia Pacific (Mumbai).</p>\n            </li>\n            <li>\n               <p>The environment type <code>LINUX_GPU_CONTAINER</code> is available only in\n                    regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), \n                    EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).</p>\n            </li>\n            <li>\n               <p>The environment type <code>MAC_ARM</code> is available for Medium fleets only in\n                    regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), \n                    and EU (Frankfurt)</p>\n            </li>\n            <li>\n               <p>The environment type <code>MAC_ARM</code> is available for Large fleets only in\n                    regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).</p>\n            </li>\n            <li>\n               <p>The environment type <code>WINDOWS_SERVER_2019_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), \n                    Asia Pacific (Tokyo), Asia Pacific (Mumbai) and\n                    EU (Ireland).</p>\n            </li>\n            <li>\n               <p>The environment type <code>WINDOWS_SERVER_2022_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), \n                    Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and\n                    Asia Pacific (Mumbai).</p>\n            </li>\n         </ul>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html\">Build environment compute types</a> in the <i>CodeBuild\n                user guide</i>.</p>"
                     }
                 },
                 "computeType": {
@@ -4126,6 +4144,12 @@
                 },
                 "vpcConfig": {
                     "target": "com.amazonaws.codebuild#VpcConfig"
+                },
+                "imageId": {
+                    "target": "com.amazonaws.codebuild#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Machine Image (AMI) of the compute fleet.</p>"
+                    }
                 },
                 "fleetServiceRole": {
                     "target": "com.amazonaws.codebuild#NonEmptyString",
@@ -4183,6 +4207,18 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "ACTION_REQUIRED"
+                    }
+                },
+                "PENDING_DELETION": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "PENDING_DELETION"
+                    }
+                },
+                "INSUFFICIENT_CAPACITY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "INSUFFICIENT_CAPACITY"
                     }
                 }
             }
@@ -4551,7 +4587,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p> Imports the source repository credentials for an CodeBuild project that has its\n            source code stored in a GitHub, GitHub Enterprise, or Bitbucket repository. </p>"
+                "smithy.api#documentation": "<p> Imports the source repository credentials for an CodeBuild project that has its\n            source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository. </p>"
             }
         },
         "com.amazonaws.codebuild#ImportSourceCredentialsInput": {
@@ -4566,7 +4602,7 @@
                 "token": {
                     "target": "com.amazonaws.codebuild#SensitiveNonEmptyString",
                     "traits": {
-                        "smithy.api#documentation": "<p> For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket,\n            this is either the access token or the app password. For the <code>authType</code> CODECONNECTIONS, \n            this is the <code>connectionArn</code>.</p>",
+                        "smithy.api#documentation": "<p> For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket,\n            this is either the access token or the app password. For the <code>authType</code> CODECONNECTIONS, \n            this is the <code>connectionArn</code>. For the <code>authType</code> SECRETS_MANAGER, this is the <code>secretArn</code>.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -4580,7 +4616,7 @@
                 "authType": {
                     "target": "com.amazonaws.codebuild#AuthType",
                     "traits": {
-                        "smithy.api#documentation": "<p> The type of authentication used to connect to a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or\n            Bitbucket repository. An OAUTH connection is not supported by the API and must be\n            created using the CodeBuild console. Note that CODECONNECTIONS is only valid for \n            GitLab and GitLab Self Managed.</p>",
+                        "smithy.api#documentation": "<p> The type of authentication used to connect to a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or\n            Bitbucket repository. An OAUTH connection is not supported by the API and must be\n            created using the CodeBuild console.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -6437,7 +6473,7 @@
                 "auth": {
                     "target": "com.amazonaws.codebuild#SourceAuth",
                     "traits": {
-                        "smithy.api#documentation": "<p>Information about the authorization settings for CodeBuild to access the source code to be\n            built.</p>\n         <p>This information is for the CodeBuild console's use only. Your code should not get or set\n            this information directly.</p>"
+                        "smithy.api#documentation": "<p>Information about the authorization settings for CodeBuild to access the source code to be\n            built.</p>"
                     }
                 },
                 "reportBuildStatus": {
@@ -7543,7 +7579,7 @@
                 "type": {
                     "target": "com.amazonaws.codebuild#SourceAuthType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The authorization type to use. Valid options are OAUTH or CODECONNECTIONS.</p>",
+                        "smithy.api#documentation": "<p>The authorization type to use. Valid options are OAUTH, CODECONNECTIONS, or SECRETS_MANAGER.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -7555,7 +7591,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Information about the authorization settings for CodeBuild to access the source code to be\n            built.</p>\n         <p>This information is for the CodeBuild console's use only. Your code should not get or set\n            this information directly.</p>"
+                "smithy.api#documentation": "<p>Information about the authorization settings for CodeBuild to access the source code to be\n            built.</p>"
             }
         },
         "com.amazonaws.codebuild#SourceAuthType": {
@@ -7571,6 +7607,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "CODECONNECTIONS"
+                    }
+                },
+                "SECRETS_MANAGER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SECRETS_MANAGER"
                     }
                 }
             }
@@ -7593,13 +7635,13 @@
                 "authType": {
                     "target": "com.amazonaws.codebuild#AuthType",
                     "traits": {
-                        "smithy.api#documentation": "<p> The type of authentication used by the credentials. Valid options are OAUTH,\n            BASIC_AUTH, PERSONAL_ACCESS_TOKEN, or CODECONNECTIONS. </p>"
+                        "smithy.api#documentation": "<p> The type of authentication used by the credentials. Valid options are OAUTH,\n            BASIC_AUTH, PERSONAL_ACCESS_TOKEN, CODECONNECTIONS, or SECRETS_MANAGER. </p>"
                     }
                 },
                 "resource": {
                     "target": "com.amazonaws.codebuild#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The connection ARN if your serverType type is GITLAB or GITLAB_SELF_MANAGED and your authType is CODECONNECTIONS.</p>"
+                        "smithy.api#documentation": "<p>The connection ARN if your authType is CODECONNECTIONS or SECRETS_MANAGER.</p>"
                     }
                 }
             },
@@ -8513,7 +8555,7 @@
                 "environmentType": {
                     "target": "com.amazonaws.codebuild#EnvironmentType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The environment type of the compute fleet.</p>\n         <ul>\n            <li>\n               <p>The environment type <code>ARM_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),\n                    Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), \n                    EU (Frankfurt), and South America (São Paulo).</p>\n            </li>\n            <li>\n               <p>The environment type <code>LINUX_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), \n                    EU (Frankfurt), Asia Pacific (Tokyo),\n                    Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and\n                    Asia Pacific (Mumbai).</p>\n            </li>\n            <li>\n               <p>The environment type <code>LINUX_GPU_CONTAINER</code> is available only in\n                    regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), \n                    EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).</p>\n            </li>\n            <li>\n               <p>The environment type <code>WINDOWS_SERVER_2019_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), \n                    Asia Pacific (Tokyo), Asia Pacific (Mumbai) and\n                    EU (Ireland).</p>\n            </li>\n            <li>\n               <p>The environment type <code>WINDOWS_SERVER_2022_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), \n                    Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and\n                    Asia Pacific (Mumbai).</p>\n            </li>\n         </ul>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html\">Build environment compute types</a> in the <i>CodeBuild\n                user guide</i>.</p>"
+                        "smithy.api#documentation": "<p>The environment type of the compute fleet.</p>\n         <ul>\n            <li>\n               <p>The environment type <code>ARM_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),\n                    Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), \n                    EU (Frankfurt), and South America (São Paulo).</p>\n            </li>\n            <li>\n               <p>The environment type <code>LINUX_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), \n                    EU (Frankfurt), Asia Pacific (Tokyo),\n                    Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and\n                    Asia Pacific (Mumbai).</p>\n            </li>\n            <li>\n               <p>The environment type <code>LINUX_GPU_CONTAINER</code> is available only in\n                    regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), \n                    EU (Frankfurt), Asia Pacific (Tokyo), and Asia Pacific (Sydney).</p>\n            </li>\n            <li>\n               <p>The environment type <code>MAC_ARM</code> is available for Medium fleets only in\n                    regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), \n                    and EU (Frankfurt)</p>\n            </li>\n            <li>\n               <p>The environment type <code>MAC_ARM</code> is available for Large fleets only in\n                    regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).</p>\n            </li>\n            <li>\n               <p>The environment type <code>WINDOWS_SERVER_2019_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), \n                    Asia Pacific (Tokyo), Asia Pacific (Mumbai) and\n                    EU (Ireland).</p>\n            </li>\n            <li>\n               <p>The environment type <code>WINDOWS_SERVER_2022_CONTAINER</code> is available only in regions\n                    US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), \n                    Asia Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and\n                    Asia Pacific (Mumbai).</p>\n            </li>\n         </ul>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html\">Build environment compute types</a> in the <i>CodeBuild\n                user guide</i>.</p>"
                     }
                 },
                 "computeType": {
@@ -8536,6 +8578,12 @@
                 },
                 "vpcConfig": {
                     "target": "com.amazonaws.codebuild#VpcConfig"
+                },
+                "imageId": {
+                    "target": "com.amazonaws.codebuild#NonEmptyString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Machine Image (AMI) of the compute fleet.</p>"
+                    }
                 },
                 "fleetServiceRole": {
                     "target": "com.amazonaws.codebuild#NonEmptyString",

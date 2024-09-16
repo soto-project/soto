@@ -269,7 +269,7 @@ public struct Deadline: AWSService {
         )
     }
 
-    /// Creates a job. A job is a render submission submitted by a user. It contains specific job properties outlined as steps and tasks.
+    /// Creates a job. A job is a set of instructions that AWS Deadline Cloud uses to schedule and run work on available workers. For more information, see Deadline Cloud jobs.
     @Sendable
     public func createJob(_ input: CreateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateJobResponse {
         return try await self.client.execute(
@@ -465,7 +465,7 @@ public struct Deadline: AWSService {
         )
     }
 
-    /// Deletes a queue.
+    /// Deletes a queue.  You can't recover the jobs in a queue if you delete the queue. Deleting the queue also deletes the jobs in that queue.
     @Sendable
     public func deleteQueue(_ input: DeleteQueueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteQueueResponse {
         return try await self.client.execute(
@@ -1263,7 +1263,7 @@ public struct Deadline: AWSService {
         )
     }
 
-    /// Starts an asynchronous request for getting aggregated statistics about queues and farms. Get the statistics using the GetSessionsStatisticsAggregation operation. Statistics are available for 1 hour after you call the StartSessionsStatisticsAggregation operation.
+    /// Starts an asynchronous request for getting aggregated statistics about queues and farms. Get the statistics using the GetSessionsStatisticsAggregation operation. You can only have one running aggregation for your Deadline Cloud farm. Call the GetSessionsStatisticsAggregation operation and check the status field to see if an aggregation is running. Statistics are available for 1 hour after you call the StartSessionsStatisticsAggregation operation.
     @Sendable
     public func startSessionsStatisticsAggregation(_ input: StartSessionsStatisticsAggregationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSessionsStatisticsAggregationResponse {
         return try await self.client.execute(
@@ -1347,7 +1347,7 @@ public struct Deadline: AWSService {
         )
     }
 
-    /// Updates a job.
+    /// Updates a job.  When you change the status of the job to ARCHIVED, the job can't be scheduled or archived.  An archived jobs and its steps and tasks are deleted after 120 days. The job can't be recovered.
     @Sendable
     public func updateJob(_ input: UpdateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateJobResponse {
         return try await self.client.execute(

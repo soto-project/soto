@@ -254,6 +254,7 @@ extension MediaConvert {
     public enum AudioDurationCorrection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case disabled = "DISABLED"
+        case force = "FORCE"
         case frame = "FRAME"
         case track = "TRACK"
         public var description: String { return self.rawValue }
@@ -520,6 +521,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum CaptionSourceByteRateLimit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CaptionSourceConvertPaintOnToPopOn: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -779,6 +786,7 @@ extension MediaConvert {
         case mp4 = "MP4"
         case mpd = "MPD"
         case mxf = "MXF"
+        case ogg = "OGG"
         case raw = "RAW"
         case webm = "WEBM"
         case y4m = "Y4M"
@@ -1368,6 +1376,12 @@ extension MediaConvert {
     public enum H264RepeatPps: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H264SaliencyAwareEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case preferred = "PREFERRED"
         public var description: String { return self.rawValue }
     }
 
@@ -2924,6 +2938,18 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum VideoOverlayPlayBackMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `repeat` = "REPEAT"
+        case once = "ONCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoOverlayUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case percentage = "PERCENTAGE"
+        case pixels = "PIXELS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum VideoTimecodeInsertion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case picTimingSei = "PIC_TIMING_SEI"
@@ -3171,19 +3197,19 @@ extension MediaConvert {
         public let audioDescriptionBroadcasterMix: AacAudioDescriptionBroadcasterMix?
         /// Specify the average bitrate in bits per second. The set of valid values for this setting is: 6000, 8000, 10000, 12000, 14000, 16000, 20000, 24000, 28000, 32000, 40000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 288000, 320000, 384000, 448000, 512000, 576000, 640000, 768000, 896000, 1024000. The value you set is also constrained by the values that you choose for Profile, Bitrate control mode, and Sample rate. Default values depend on Bitrate control mode and Profile.
         public let bitrate: Int?
-        /// AAC Profile.
+        /// Specify the AAC profile. For the widest player compatibility and where higher bitrates are acceptable: Keep the default profile, LC (AAC-LC) For improved audio performance at lower bitrates: Choose HEV1 or HEV2. HEV1 (AAC-HE v1) adds spectral band replication to improve speech audio at low bitrates. HEV2 (AAC-HE v2) adds parametric stereo, which optimizes for encoding stereo audio at very low bitrates.
         public let codecProfile: AacCodecProfile?
         /// The Coding mode that you specify determines the number of audio channels and the audio channel layout metadata in your AAC output. Valid coding modes depend on the Rate control mode and Profile that you select. The following list shows the number of audio channels and channel layout for each coding mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio description data from your stereo input. For more information see ETSI TS 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L, R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE.
         public let codingMode: AacCodingMode?
-        /// Rate Control Mode.
+        /// Specify the AAC rate control mode. For a constant bitrate: Choose CBR. Your AAC output bitrate will be equal to the value that you choose for Bitrate. For a variable bitrate: Choose VBR. Your AAC output bitrate will vary according to your audio content and the value that you choose for Bitrate quality.
         public let rateControlMode: AacRateControlMode?
         /// Enables LATM/LOAS AAC output. Note that if you use LATM/LOAS AAC in an output, you must choose "No container" for the output container.
         public let rawFormat: AacRawFormat?
-        /// Specify the Sample rate in Hz. Valid sample rates depend on the Profile and Coding mode that you select. The following list shows valid sample rates for each Profile and Coding mode. * LC Profile, Coding mode 1.0, 2.0, and Receiver Mix: 8000, 12000, 16000, 22050, 24000, 32000, 44100, 48000, 88200, 96000. * LC Profile, Coding mode 5.1: 32000, 44100, 48000, 96000. * HEV1 Profile, Coding mode 1.0 and Receiver Mix: 22050, 24000, 32000, 44100, 48000. * HEV1 Profile, Coding mode 2.0 and 5.1: 32000, 44100, 48000, 96000. * HEV2 Profile, Coding mode 2.0: 22050, 24000, 32000, 44100, 48000.
+        /// Specify the AAC sample rate in samples per second (Hz). Valid sample rates depend on the AAC profile and Coding mode that you select. For a list of supported sample rates, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/aac-support.html
         public let sampleRate: Int?
         /// Use MPEG-2 AAC instead of MPEG-4 AAC audio for raw or MPEG-2 Transport Stream containers.
         public let specification: AacSpecification?
-        /// VBR Quality Level - Only used if rate_control_mode is VBR.
+        /// Specify the quality of your variable bitrate (VBR) AAC audio. For a list of approximate VBR bitrates, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/aac-support.html#aac_vbr
         public let vbrQuality: AacVbrQuality?
 
         public init(audioDescriptionBroadcasterMix: AacAudioDescriptionBroadcasterMix? = nil, bitrate: Int? = nil, codecProfile: AacCodecProfile? = nil, codingMode: AacCodingMode? = nil, rateControlMode: AacRateControlMode? = nil, rawFormat: AacRawFormat? = nil, sampleRate: Int? = nil, specification: AacSpecification? = nil, vbrQuality: AacVbrQuality? = nil) {
@@ -3601,7 +3627,7 @@ extension MediaConvert {
     }
 
     public struct AudioSelector: AWSEncodableShape & AWSDecodableShape {
-        /// Apply audio timing corrections to help synchronize audio and video in your output. To apply timing corrections, your input must meet the following requirements: * Container: MP4, or MOV, with an accurate time-to-sample (STTS) table. * Audio track: AAC. Choose from the following audio timing correction settings: * Disabled (Default): Apply no correction. * Auto: Recommended for most inputs. MediaConvert analyzes the audio timing in your input and determines which correction setting to use, if needed. * Track: Adjust the duration of each audio frame by a constant amount to align the audio track length with STTS duration. Track-level correction does not affect pitch, and is recommended for tonal audio content such as music. * Frame: Adjust the duration of each audio frame by a variable amount to align audio frames with STTS timestamps. No corrections are made to already-aligned frames. Frame-level correction may affect the pitch of corrected frames, and is recommended for atonal audio content such as speech or percussion.
+        /// Apply audio timing corrections to help synchronize audio and video in your output. To apply timing corrections, your input must meet the following requirements: * Container: MP4, or MOV, with an accurate time-to-sample (STTS) table. * Audio track: AAC. Choose from the following audio timing correction settings: * Disabled (Default): Apply no correction. * Auto: Recommended for most inputs. MediaConvert analyzes the audio timing in your input and determines which correction setting to use, if needed. * Track: Adjust the duration of each audio frame by a constant amount to align the audio track length with STTS duration. Track-level correction does not affect pitch, and is recommended for tonal audio content such as music. * Frame: Adjust the duration of each audio frame by a variable amount to align audio frames with STTS timestamps. No corrections are made to already-aligned frames. Frame-level correction may affect the pitch of corrected frames, and is recommended for atonal audio content such as speech or percussion. * Force: Apply audio duration correction, either Track or Frame depending on your input, regardless of the accuracy of your input's STTS table. Your output audio and video may not be aligned or it may contain audio artifacts.
         public let audioDurationCorrection: AudioDurationCorrection?
         /// Selects a specific language code from within an audio source, using the ISO 639-2 or ISO 639-3 three-letter language code
         public let customLanguageCode: String?
@@ -4926,6 +4952,8 @@ extension MediaConvert {
         public let clientRequestToken: String?
         /// Optional. Use queue hopping to avoid overly long waits in the backlog of the queue that you submit your job to. Specify an alternate queue and the maximum time that your job will wait in the initial queue before hopping. For more information about this feature, see the AWS Elemental MediaConvert User Guide.
         public let hopDestinations: [HopDestination]?
+        /// Use Job engine versions to run jobs for your production workflow on one version, while you test and validate the latest version. To specify a Job engine version: Enter a date in a YYYY-MM-DD format. For a list of valid Job engine versions, submit a ListVersions request. To not specify a Job engine version: Leave blank.
+        public let jobEngineVersion: String?
         /// Optional. When you create a job, you can either specify a job template or specify the transcoding settings individually.
         public let jobTemplate: String?
         /// Optional. Specify the relative priority for this job. In any given queue, the service begins processing the job with the highest value first. When more than one job has the same priority, the service begins processing the job that you submitted first. If you don't specify a priority, the service uses the default value 0.
@@ -4945,11 +4973,12 @@ extension MediaConvert {
         /// Optional. User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.  Use only for existing integrations or workflows that rely on job metadata tags. Otherwise, we recommend that you use standard AWS tags.
         public let userMetadata: [String: String]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), hopDestinations: [HopDestination]? = nil, jobTemplate: String? = nil, priority: Int? = nil, queue: String? = nil, role: String? = nil, settings: JobSettings? = nil, simulateReservedQueue: SimulateReservedQueue? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil, userMetadata: [String: String]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = CreateJobRequest.idempotencyToken(), hopDestinations: [HopDestination]? = nil, jobEngineVersion: String? = nil, jobTemplate: String? = nil, priority: Int? = nil, queue: String? = nil, role: String? = nil, settings: JobSettings? = nil, simulateReservedQueue: SimulateReservedQueue? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, tags: [String: String]? = nil, userMetadata: [String: String]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.billingTagsSource = billingTagsSource
             self.clientRequestToken = clientRequestToken
             self.hopDestinations = hopDestinations
+            self.jobEngineVersion = jobEngineVersion
             self.jobTemplate = jobTemplate
             self.priority = priority
             self.queue = queue
@@ -4975,6 +5004,7 @@ extension MediaConvert {
             case billingTagsSource = "billingTagsSource"
             case clientRequestToken = "clientRequestToken"
             case hopDestinations = "hopDestinations"
+            case jobEngineVersion = "jobEngineVersion"
             case jobTemplate = "jobTemplate"
             case priority = "priority"
             case queue = "queue"
@@ -6238,6 +6268,8 @@ extension MediaConvert {
     }
 
     public struct FileSourceSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Choose whether to limit the byte rate at which your SCC input captions are inserted into your output. To not limit the caption rate: We recommend that you keep the default value, Disabled. MediaConvert inserts captions in your output according to the byte rates listed in the EIA-608 specification, typically 2 or 3 caption bytes per frame depending on your output frame rate. To limit your output caption rate: Choose Enabled. Choose this option if your downstream systems require a maximum of 2 caption bytes per frame. Note that this setting has no effect when your output frame rate is 30 or 60.
+        public let byteRateLimit: CaptionSourceByteRateLimit?
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert, MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: FileSourceConvert608To708?
         /// Choose the presentation style of your input SCC captions. To use the same presentation style as your input: Keep the default value, Disabled. To convert paint-on captions to pop-on: Choose Enabled. We also recommend that you choose Enabled if you notice additional repeated lines in your output captions.
@@ -6251,7 +6283,8 @@ extension MediaConvert {
         /// When you use the setting Time delta to adjust the sync between your sidecar captions and your video, use this setting to specify the units for the delta that you specify. When you don't specify a value for Time delta units, MediaConvert uses seconds by default.
         public let timeDeltaUnits: FileSourceTimeDeltaUnits?
 
-        public init(convert608To708: FileSourceConvert608To708? = nil, convertPaintToPop: CaptionSourceConvertPaintOnToPopOn? = nil, framerate: CaptionSourceFramerate? = nil, sourceFile: String? = nil, timeDelta: Int? = nil, timeDeltaUnits: FileSourceTimeDeltaUnits? = nil) {
+        public init(byteRateLimit: CaptionSourceByteRateLimit? = nil, convert608To708: FileSourceConvert608To708? = nil, convertPaintToPop: CaptionSourceConvertPaintOnToPopOn? = nil, framerate: CaptionSourceFramerate? = nil, sourceFile: String? = nil, timeDelta: Int? = nil, timeDeltaUnits: FileSourceTimeDeltaUnits? = nil) {
+            self.byteRateLimit = byteRateLimit
             self.convert608To708 = convert608To708
             self.convertPaintToPop = convertPaintToPop
             self.framerate = framerate
@@ -6269,6 +6302,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case byteRateLimit = "byteRateLimit"
             case convert608To708 = "convert608To708"
             case convertPaintToPop = "convertPaintToPop"
             case framerate = "framerate"
@@ -6580,7 +6614,7 @@ extension MediaConvert {
         public let interlaceMode: H264InterlaceMode?
         /// Maximum bitrate in bits/second. For example, enter five megabits per second as 5000000. Required when Rate control mode is QVBR.
         public let maxBitrate: Int?
-        /// Use this setting only when you also enable Scene change detection. This setting determines how the encoder manages the spacing between I-frames that it inserts as part of the I-frame cadence and the I-frames that it inserts for Scene change detection. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, do this by keeping the default empty value. When you explicitly specify a value for this setting, the encoder determines whether to skip a cadence-driven I-frame by the value you set. For example, if you set Min I interval to 5 and a cadence-driven I-frame would fall within 5 frames of a scene-change I-frame, then the encoder skips the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP is stretched slightly. When the cadence-driven I-frames are farther from the scene-change I-frame than the value you set, then the encoder leaves all I-frames in place and the GOPs surrounding the scene change are smaller than the usual cadence GOPs.
+        /// Specify the minimum number of frames allowed between two IDR-frames in your output. This includes frames created at the start of a GOP or a scene change. Use Min I-Interval to improve video compression by varying GOP size when two IDR-frames would be created near each other. For example, if a regular cadence-driven IDR-frame would fall within 5 frames of a scene-change IDR-frame, and you set Min I-interval to 5, then the encoder would only write an IDR-frame for the scene-change. In this way, one GOP is shortened or extended. If a cadence-driven IDR-frame would be further than 5 frames from a scene-change IDR-frame, then the encoder leaves all IDR-frames in place. To use an automatically determined interval: We recommend that you keep this value blank. This allows for MediaConvert to use an optimal setting according to the characteristics of your input video, and results in better video compression. To manually specify an interval: Enter a value from 1 to 30. Use when your downstream systems have specific GOP size requirements. To disable GOP size variance: Enter 0. MediaConvert will only create IDR-frames at the start of your output's cadence-driven GOP. Use when your downstream systems require a regular GOP size.
         public let minIInterval: Int?
         /// Specify the number of B-frames between reference frames in this output. For the best video quality: Leave blank. MediaConvert automatically determines the number of B-frames to use based on the characteristics of your input video. To manually specify the number of B-frames between reference frames: Enter an integer from 0 to 7.
         public let numberBFramesBetweenReferenceFrames: Int?
@@ -6600,6 +6634,8 @@ extension MediaConvert {
         public let rateControlMode: H264RateControlMode?
         /// Places a PPS header on each encoded picture, even if repeated.
         public let repeatPps: H264RepeatPps?
+        /// Specify whether to apply Saliency aware encoding to your output. Use to improve the perceptual video quality of your output by allocating more encoding bits to the prominent or noticeable parts of your content. To apply saliency aware encoding, when possible: We recommend that you choose Preferred. The effects of Saliency aware encoding are best seen in lower bitrate outputs. When you choose Preferred, note that Saliency aware encoding will only apply to outputs that are 720p or higher in resolution. To not apply saliency aware encoding, prioritizing encoding speed over perceptual video quality: Choose Disabled.
+        public let saliencyAwareEncoding: H264SaliencyAwareEncoding?
         /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public let scanTypeConversionMode: H264ScanTypeConversionMode?
         /// Enable this setting to insert I-frames at scene changes that the service automatically detects. This improves video quality and is enabled by default. If this output uses QVBR, choose Transition detection for further video quality improvement. For more information about QVBR, see https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
@@ -6621,7 +6657,7 @@ extension MediaConvert {
         /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
         public let unregisteredSeiTimecode: H264UnregisteredSeiTimecode?
 
-        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H264CodecLevel? = nil, codecProfile: H264CodecProfile? = nil, dynamicSubGop: H264DynamicSubGop? = nil, endOfStreamMarkers: H264EndOfStreamMarkers? = nil, entropyEncoding: H264EntropyEncoding? = nil, fieldEncoding: H264FieldEncoding? = nil, flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization? = nil, framerateControl: H264FramerateControl? = nil, framerateConversionAlgorithm: H264FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H264InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H264QualityTuningLevel? = nil, qvbrSettings: H264QvbrSettings? = nil, rateControlMode: H264RateControlMode? = nil, repeatPps: H264RepeatPps? = nil, scanTypeConversionMode: H264ScanTypeConversionMode? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H264SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: H264SpatialAdaptiveQuantization? = nil, syntax: H264Syntax? = nil, telecine: H264Telecine? = nil, temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization? = nil, unregisteredSeiTimecode: H264UnregisteredSeiTimecode? = nil) {
+        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H264CodecLevel? = nil, codecProfile: H264CodecProfile? = nil, dynamicSubGop: H264DynamicSubGop? = nil, endOfStreamMarkers: H264EndOfStreamMarkers? = nil, entropyEncoding: H264EntropyEncoding? = nil, fieldEncoding: H264FieldEncoding? = nil, flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization? = nil, framerateControl: H264FramerateControl? = nil, framerateConversionAlgorithm: H264FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H264InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H264QualityTuningLevel? = nil, qvbrSettings: H264QvbrSettings? = nil, rateControlMode: H264RateControlMode? = nil, repeatPps: H264RepeatPps? = nil, saliencyAwareEncoding: H264SaliencyAwareEncoding? = nil, scanTypeConversionMode: H264ScanTypeConversionMode? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H264SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: H264SpatialAdaptiveQuantization? = nil, syntax: H264Syntax? = nil, telecine: H264Telecine? = nil, temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization? = nil, unregisteredSeiTimecode: H264UnregisteredSeiTimecode? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bandwidthReductionFilter = bandwidthReductionFilter
             self.bitrate = bitrate
@@ -6655,6 +6691,7 @@ extension MediaConvert {
             self.qvbrSettings = qvbrSettings
             self.rateControlMode = rateControlMode
             self.repeatPps = repeatPps
+            self.saliencyAwareEncoding = saliencyAwareEncoding
             self.scanTypeConversionMode = scanTypeConversionMode
             self.sceneChangeDetect = sceneChangeDetect
             self.slices = slices
@@ -6735,6 +6772,7 @@ extension MediaConvert {
             case qvbrSettings = "qvbrSettings"
             case rateControlMode = "rateControlMode"
             case repeatPps = "repeatPps"
+            case saliencyAwareEncoding = "saliencyAwareEncoding"
             case scanTypeConversionMode = "scanTypeConversionMode"
             case sceneChangeDetect = "sceneChangeDetect"
             case slices = "slices"
@@ -6821,7 +6859,7 @@ extension MediaConvert {
         public let interlaceMode: H265InterlaceMode?
         /// Maximum bitrate in bits/second. For example, enter five megabits per second as 5000000. Required when Rate control mode is QVBR.
         public let maxBitrate: Int?
-        /// Use this setting only when you also enable Scene change detection. This setting determines how the encoder manages the spacing between I-frames that it inserts as part of the I-frame cadence and the I-frames that it inserts for Scene change detection. We recommend that you have the transcoder automatically choose this value for you based on characteristics of your input video. To enable this automatic behavior, do this by keeping the default empty value. When you explicitly specify a value for this setting, the encoder determines whether to skip a cadence-driven I-frame by the value you set. For example, if you set Min I interval to 5 and a cadence-driven I-frame would fall within 5 frames of a scene-change I-frame, then the encoder skips the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP is stretched slightly. When the cadence-driven I-frames are farther from the scene-change I-frame than the value you set, then the encoder leaves all I-frames in place and the GOPs surrounding the scene change are smaller than the usual cadence GOPs.
+        /// Specify the minimum number of frames allowed between two IDR-frames in your output. This includes frames created at the start of a GOP or a scene change. Use Min I-Interval to improve video compression by varying GOP size when two IDR-frames would be created near each other. For example, if a regular cadence-driven IDR-frame would fall within 5 frames of a scene-change IDR-frame, and you set Min I-interval to 5, then the encoder would only write an IDR-frame for the scene-change. In this way, one GOP is shortened or extended. If a cadence-driven IDR-frame would be further than 5 frames from a scene-change IDR-frame, then the encoder leaves all IDR-frames in place. To use an automatically determined interval: We recommend that you keep this value blank. This allows for MediaConvert to use an optimal setting according to the characteristics of your input video, and results in better video compression. To manually specify an interval: Enter a value from 1 to 30. Use when your downstream systems have specific GOP size requirements. To disable GOP size variance: Enter 0. MediaConvert will only create IDR-frames at the start of your output's cadence-driven GOP. Use when your downstream systems require a regular GOP size.
         public let minIInterval: Int?
         /// Specify the number of B-frames between reference frames in this output. For the best video quality: Leave blank. MediaConvert automatically determines the number of B-frames to use based on the characteristics of your input video. To manually specify the number of B-frames between reference frames: Enter an integer from 0 to 7.
         public let numberBFramesBetweenReferenceFrames: Int?
@@ -8031,6 +8069,10 @@ extension MediaConvert {
         public let hopDestinations: [HopDestination]?
         /// A portion of the job's ARN, unique within your AWS Elemental MediaConvert resources
         public let id: String?
+        /// The Job engine version that you requested for your job. Valid versions are in a YYYY-MM-DD format.
+        public let jobEngineVersionRequested: String?
+        /// The Job engine version that your job used. Job engine versions are in a YYYY-MM-DD format. When you request an expired version, the response for this property will be empty. Requests to create jobs with an expired version result in a regular job, as if no specific Job engine version was requested. When you request an invalid version, the response for this property will be empty. Requests to create jobs with an invalid version result in a 400 error message, and no job is created.
+        public let jobEngineVersionUsed: String?
         /// An estimate of how far your job has progressed. This estimate is shown as a percentage of the total time from when your job leaves its queue to when your output files appear in your output Amazon S3 bucket. AWS Elemental MediaConvert provides jobPercentComplete in CloudWatch STATUS_UPDATE events and in the response to GetJob and ListJobs requests. The jobPercentComplete estimate is reliable for the following input containers: Quicktime, Transport Stream, MP4, and MXF. For some jobs, the service can't provide information about job progress. In those cases, jobPercentComplete returns a null value.
         public let jobPercentComplete: Int?
         /// The job template that the job is created from, if it is created from a job template.
@@ -8064,7 +8106,7 @@ extension MediaConvert {
         /// Contains any warning messages for the job. Use to help identify potential issues with your input, output, or job. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/warning_codes.html
         public let warnings: [WarningGroup]?
 
-        public init(accelerationSettings: AccelerationSettings? = nil, accelerationStatus: AccelerationStatus? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, currentPhase: JobPhase? = nil, errorCode: Int? = nil, errorMessage: String? = nil, hopDestinations: [HopDestination]? = nil, id: String? = nil, jobPercentComplete: Int? = nil, jobTemplate: String? = nil, messages: JobMessages? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, priority: Int? = nil, queue: String? = nil, queueTransitions: [QueueTransition]? = nil, retryCount: Int? = nil, role: String? = nil, settings: JobSettings? = nil, simulateReservedQueue: SimulateReservedQueue? = nil, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil, warnings: [WarningGroup]? = nil) {
+        public init(accelerationSettings: AccelerationSettings? = nil, accelerationStatus: AccelerationStatus? = nil, arn: String? = nil, billingTagsSource: BillingTagsSource? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, currentPhase: JobPhase? = nil, errorCode: Int? = nil, errorMessage: String? = nil, hopDestinations: [HopDestination]? = nil, id: String? = nil, jobEngineVersionRequested: String? = nil, jobEngineVersionUsed: String? = nil, jobPercentComplete: Int? = nil, jobTemplate: String? = nil, messages: JobMessages? = nil, outputGroupDetails: [OutputGroupDetail]? = nil, priority: Int? = nil, queue: String? = nil, queueTransitions: [QueueTransition]? = nil, retryCount: Int? = nil, role: String? = nil, settings: JobSettings? = nil, simulateReservedQueue: SimulateReservedQueue? = nil, status: JobStatus? = nil, statusUpdateInterval: StatusUpdateInterval? = nil, timing: Timing? = nil, userMetadata: [String: String]? = nil, warnings: [WarningGroup]? = nil) {
             self.accelerationSettings = accelerationSettings
             self.accelerationStatus = accelerationStatus
             self.arn = arn
@@ -8076,6 +8118,8 @@ extension MediaConvert {
             self.errorMessage = errorMessage
             self.hopDestinations = hopDestinations
             self.id = id
+            self.jobEngineVersionRequested = jobEngineVersionRequested
+            self.jobEngineVersionUsed = jobEngineVersionUsed
             self.jobPercentComplete = jobPercentComplete
             self.jobTemplate = jobTemplate
             self.messages = messages
@@ -8106,6 +8150,8 @@ extension MediaConvert {
             case errorMessage = "errorMessage"
             case hopDestinations = "hopDestinations"
             case id = "id"
+            case jobEngineVersionRequested = "jobEngineVersionRequested"
+            case jobEngineVersionUsed = "jobEngineVersionUsed"
             case jobPercentComplete = "jobPercentComplete"
             case jobTemplate = "jobTemplate"
             case messages = "messages"
@@ -8122,6 +8168,24 @@ extension MediaConvert {
             case timing = "timing"
             case userMetadata = "userMetadata"
             case warnings = "warnings"
+        }
+    }
+
+    public struct JobEngineVersion: AWSDecodableShape {
+        /// The date that this Job engine version expires. Requests to create jobs with an expired version result in a regular job, as if no specific Job engine version was requested.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var expirationDate: Date?
+        /// Use Job engine versions to run jobs for your production workflow on one version, while you test and validate the latest version. Job engine versions are in a YYYY-MM-DD format.
+        public let version: String?
+
+        public init(expirationDate: Date? = nil, version: String? = nil) {
+            self.expirationDate = expirationDate
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expirationDate = "expirationDate"
+            case version = "version"
         }
     }
 
@@ -8714,6 +8778,49 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case resourceTags = "resourceTags"
+        }
+    }
+
+    public struct ListVersionsRequest: AWSEncodableShape {
+        /// Optional. Number of valid Job engine versions, up to twenty, that will be returned at one time.
+        public let maxResults: Int?
+        /// Optional. Use this string, provided with the response to a previous request, to request the next batch of Job engine versions.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListVersionsResponse: AWSDecodableShape {
+        /// Optional. Use this string, provided with the response to a previous request, to request the next batch of Job engine versions.
+        public let nextToken: String?
+        /// Retrieve a JSON array of all available Job engine versions and the date they expire.
+        public let versions: [JobEngineVersion]?
+
+        public init(nextToken: String? = nil, versions: [JobEngineVersion]? = nil) {
+            self.nextToken = nextToken
+            self.versions = versions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case versions = "versions"
         }
     }
 
@@ -9459,7 +9566,7 @@ extension MediaConvert {
         public let intraDcPrecision: Mpeg2IntraDcPrecision?
         /// Maximum bitrate in bits/second. For example, enter five megabits per second as 5000000.
         public let maxBitrate: Int?
-        /// Use this setting only when you also enable Scene change detection. This setting determines how the encoder manages the spacing between I-frames that it inserts as part of the I-frame cadence and the I-frames that it inserts for Scene change detection. When you specify a value for this setting, the encoder determines whether to skip a cadence-driven I-frame by the value you set. For example, if you set Min I interval to 5 and a cadence-driven I-frame would fall within 5 frames of a scene-change I-frame, then the encoder skips the cadence-driven I-frame. In this way, one GOP is shrunk slightly and one GOP is stretched slightly. When the cadence-driven I-frames are farther from the scene-change I-frame than the value you set, then the encoder leaves all I-frames in place and the GOPs surrounding the scene change are smaller than the usual cadence GOPs.
+        /// Specify the minimum number of frames allowed between two IDR-frames in your output. This includes frames created at the start of a GOP or a scene change. Use Min I-Interval to improve video compression by varying GOP size when two IDR-frames would be created near each other. For example, if a regular cadence-driven IDR-frame would fall within 5 frames of a scene-change IDR-frame, and you set Min I-interval to 5, then the encoder would only write an IDR-frame for the scene-change. In this way, one GOP is shortened or extended. If a cadence-driven IDR-frame would be further than 5 frames from a scene-change IDR-frame, then the encoder leaves all IDR-frames in place. To manually specify an interval: Enter a value from 1 to 30. Use when your downstream systems have specific GOP size requirements. To disable GOP size variance: Enter 0. MediaConvert will only create IDR-frames at the start of your output's cadence-driven GOP. Use when your downstream systems require a regular GOP size.
         public let minIInterval: Int?
         /// Specify the number of B-frames that MediaConvert puts between reference frames in this output. Valid values are whole numbers from 0 through 7. When you don't specify a value, MediaConvert defaults to 2.
         public let numberBFramesBetweenReferenceFrames: Int?
@@ -11582,34 +11689,51 @@ extension MediaConvert {
     }
 
     public struct VideoOverlay: AWSEncodableShape & AWSDecodableShape {
-        /// Enter the end timecode in the underlying input video for this overlay. Your overlay will be active through this frame. To display your video overlay for the duration of the underlying video: Leave blank. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When entering this value, take into account your choice for the underlying Input timecode source. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your overlay to end ten minutes into the video, enter 01:10:00:00.
+        /// Enter the end timecode in the base input video for this overlay. Your overlay will be active through this frame. To display your video overlay for the duration of the base input video: Leave blank. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS isthe second, and FF is the frame number. When entering this value, take into account your choice for the base input video's timecode source. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your overlay to end ten minutes into the video, enter 01:10:00:00.
         public let endTimecode: String?
+        /// Specify the Initial position of your video overlay. To specify the Initial position of your video overlay, including distance from the left or top edge of the base input video's frame, or size: Enter a value for X position, Y position, Width, or Height. To use the full frame of the base input video: Leave blank.
+        public let initialPosition: VideoOverlayPosition?
         /// Input settings for Video overlay. You can include one or more video overlays in sequence at different times that you specify.
         public let input: VideoOverlayInput?
-        /// Enter the start timecode in the underlying input video for this overlay. Your overlay will be active starting with this frame. To display your video overlay starting at the beginning of the underlying video: Leave blank. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When entering this value, take into account your choice for the underlying Input timecode source. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your overlay to begin five minutes into the video, enter 01:05:00:00.
+        /// Specify whether your video overlay repeats or plays only once. To repeat your video overlay on a loop: Keep the default value, Repeat. Your overlay will repeat for the duration of the base input video. To playback your video overlay only once: Choose Once. With either option, you can end playback at a time that you specify by entering a value for End timecode.
+        public let playback: VideoOverlayPlayBackMode?
+        /// Enter the start timecode in the base input video for this overlay. Your overlay will be active starting with this frame. To display your video overlay starting at the beginning of the base input video: Leave blank. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When entering this value, take into account your choice for the base input video's timecode source. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your overlay to begin five minutes into the video, enter 01:05:00:00.
         public let startTimecode: String?
+        /// Specify one or more transitions for your video overlay. Use Transitions to reposition or resize your overlay over time. To use the same position and size for the duration of your video overlay: Leave blank. To specify a Transition: Enter a value for Start timecode, End Timecode, X Position, Y Position, Width, or Height.
+        public let transitions: [VideoOverlayTransition]?
 
-        public init(endTimecode: String? = nil, input: VideoOverlayInput? = nil, startTimecode: String? = nil) {
+        public init(endTimecode: String? = nil, initialPosition: VideoOverlayPosition? = nil, input: VideoOverlayInput? = nil, playback: VideoOverlayPlayBackMode? = nil, startTimecode: String? = nil, transitions: [VideoOverlayTransition]? = nil) {
             self.endTimecode = endTimecode
+            self.initialPosition = initialPosition
             self.input = input
+            self.playback = playback
             self.startTimecode = startTimecode
+            self.transitions = transitions
         }
 
         public func validate(name: String) throws {
             try self.validate(self.endTimecode, name: "endTimecode", parent: name, pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}$")
+            try self.initialPosition?.validate(name: "\(name).initialPosition")
             try self.input?.validate(name: "\(name).input")
             try self.validate(self.startTimecode, name: "startTimecode", parent: name, pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}$")
+            try self.transitions?.forEach {
+                try $0.validate(name: "\(name).transitions[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case endTimecode = "endTimecode"
+            case initialPosition = "initialPosition"
             case input = "input"
+            case playback = "playback"
             case startTimecode = "startTimecode"
+            case transitions = "transitions"
         }
     }
 
     public struct VideoOverlayInput: AWSEncodableShape & AWSDecodableShape {
-        /// Specify the input file S3, HTTP, or HTTPS URI for your video overlay. For consistency in color and formatting in your output video image, we recommend that you specify a video with similar characteristics as the underlying input video.
+        /// Specify the input file S3, HTTP, or HTTPS URL for your video overlay.
+        /// To specify one or more Transitions for your base input video instead: Leave blank.
         public let fileInput: String?
         /// Specify one or more clips to use from your video overlay. When you include an input clip, you must also specify its start timecode, end timecode, or both start and end timecode.
         public let inputClippings: [VideoOverlayInputClipping]?
@@ -11655,11 +11779,78 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.endTimecode, name: "endTimecode", parent: name, pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}(@[0-9]+(\\.[0-9]+)?(:[0-9]+)?)?$")
+            try self.validate(self.startTimecode, name: "startTimecode", parent: name, pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}(@[0-9]+(\\.[0-9]+)?(:[0-9]+)?)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTimecode = "endTimecode"
+            case startTimecode = "startTimecode"
+        }
+    }
+
+    public struct VideoOverlayPosition: AWSEncodableShape & AWSDecodableShape {
+        /// To scale your video overlay to the same height as the base input video: Leave blank. To scale the height of your video overlay to a different height: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 360 and choose Pixels, your video overlay will be rendered with a height of 360. When you enter 50, choose Percentage, and your overlay's source has a height of 1080, your video overlay will be rendered with a height of 540. To scale your overlay to a specific height while automatically maintaining its original aspect ratio, enter a value for Height and leave Width blank.
+        public let height: Int?
+        /// Specify the Unit type to use when you enter a value for X position, Y position, Width, or Height. You can choose Pixels or Percentage. Leave blank to use the default value, Pixels.
+        public let unit: VideoOverlayUnit?
+        /// To scale your video overlay to the same width as the base input video: Leave blank. To scale the width of your video overlay to a different width: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 640 and choose Pixels, your video overlay will scale to a height of 640 pixels. When you enter 50, choose Percentage, and your overlay's source has a width of 1920, your video overlay will scale to a width of 960. To scale your overlay to a specific width while automatically maintaining its original aspect ratio, enter a value for Width and leave Height blank.
+        public let width: Int?
+        /// To position the left edge of your video overlay along the left edge of the base input video's frame: Keep blank, or enter 0. To position the left edge of your video overlay to the right, relative to the left edge of the base input video's frame: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 10 and choose Pixels, your video overlay will be positioned 10 pixels from the left edge of the base input video's frame. When you enter 10, choose Percentage, and your base input video is 1920x1080, your video overlay will be positioned 192 pixels from the left edge of the base input video's frame.
+        public let xPosition: Int?
+        /// To position the top edge of your video overlay along the top edge of the base input video's frame: Keep blank, or enter 0. To position the top edge of your video overlay down, relative to the top edge of the base input video's frame: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 10 and choose Pixels, your video overlay will be positioned 10 pixels from the top edge of the base input video's frame. When you enter 10, choose Percentage, and your underlying video is 1920x1080, your video overlay will be positioned 108 pixels from the top edge of the base input video's frame.
+        public let yPosition: Int?
+
+        public init(height: Int? = nil, unit: VideoOverlayUnit? = nil, width: Int? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
+            self.height = height
+            self.unit = unit
+            self.width = width
+            self.xPosition = xPosition
+            self.yPosition = yPosition
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.height, name: "height", parent: name, max: 2147483647)
+            try self.validate(self.height, name: "height", parent: name, min: -1)
+            try self.validate(self.width, name: "width", parent: name, max: 2147483647)
+            try self.validate(self.width, name: "width", parent: name, min: -1)
+            try self.validate(self.xPosition, name: "xPosition", parent: name, max: 2147483647)
+            try self.validate(self.xPosition, name: "xPosition", parent: name, min: -2147483648)
+            try self.validate(self.yPosition, name: "yPosition", parent: name, max: 2147483647)
+            try self.validate(self.yPosition, name: "yPosition", parent: name, min: -2147483648)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height = "height"
+            case unit = "unit"
+            case width = "width"
+            case xPosition = "xPosition"
+            case yPosition = "yPosition"
+        }
+    }
+
+    public struct VideoOverlayTransition: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the ending position for this transition, relative to the base input video's frame. Your video overlay will move smoothly to this position, beginning at this transition's Start timecode and ending at this transition's End timecode.
+        public let endPosition: VideoOverlayPosition?
+        /// Specify the timecode for when this transition ends. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When entering this value, take into account your choice for Timecode source.
+        public let endTimecode: String?
+        /// Specify the timecode for when this transition begins. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When entering this value, take into account your choice for Timecode source.
+        public let startTimecode: String?
+
+        public init(endPosition: VideoOverlayPosition? = nil, endTimecode: String? = nil, startTimecode: String? = nil) {
+            self.endPosition = endPosition
+            self.endTimecode = endTimecode
+            self.startTimecode = startTimecode
+        }
+
+        public func validate(name: String) throws {
+            try self.endPosition?.validate(name: "\(name).endPosition")
             try self.validate(self.endTimecode, name: "endTimecode", parent: name, pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}$")
             try self.validate(self.startTimecode, name: "startTimecode", parent: name, pattern: "^([01][0-9]|2[0-4]):[0-5][0-9]:[0-5][0-9][:;][0-9]{2}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case endPosition = "endPosition"
             case endTimecode = "endTimecode"
             case startTimecode = "startTimecode"
         }

@@ -153,6 +153,12 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
+    public enum RecursiveLoop: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allow = "Allow"
+        case terminate = "Terminate"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResponseStreamingInvocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dryRun = "DryRun"
         case requestResponse = "RequestResponse"
@@ -446,7 +452,7 @@ extension Lambda {
         public let functionName: String
         /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let functionUrlAuthType: FunctionUrlAuthType?
-        /// The Amazon Web Service or Amazon Web Services account that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
+        /// The Amazon Web Servicesservice or Amazon Web Services account that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
         public let principal: String
         /// The identifier for your organization in Organizations. Use this to grant permissions to all the Amazon Web Services accounts under this organization.
         public let principalOrgID: String?
@@ -454,9 +460,9 @@ extension Lambda {
         public let qualifier: String?
         /// Update the policy only if the revision ID matches the ID that's specified. Use this option to avoid modifying a policy that has changed since you last read it.
         public let revisionId: String?
-        /// For Amazon Web Service, the ID of the Amazon Web Services account that owns the resource. Use this together with SourceArn to ensure that the specified account owns the resource. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account.
+        /// For Amazon Web Servicesservice, the ID of the Amazon Web Services account that owns the resource. Use this together with SourceArn to ensure that the specified account owns the resource. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account.
         public let sourceAccount: String?
-        /// For Amazon Web Services, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic. Note that Lambda configures the comparison using the StringLike operator.
+        /// For Amazon Web Servicesservices, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic. Note that Lambda configures the comparison using the StringLike operator.
         public let sourceArn: String?
         /// A statement identifier that differentiates the statement from others in the same policy.
         public let statementId: String
@@ -865,7 +871,9 @@ extension Lambda {
         public let functionName: String
         /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
-        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+        ///  The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's filter criteria. By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
+        public let kmsKeyArn: String?
+        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
@@ -892,7 +900,7 @@ extension Lambda {
         /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
         public let tumblingWindowInSeconds: Int?
 
-        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
+        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
             self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -903,6 +911,7 @@ extension Lambda {
             self.filterCriteria = filterCriteria
             self.functionName = functionName
             self.functionResponseTypes = functionResponseTypes
+            self.kmsKeyArn = kmsKeyArn
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
             self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
@@ -930,6 +939,7 @@ extension Lambda {
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, max: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
             try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604800)
@@ -974,6 +984,7 @@ extension Lambda {
             case filterCriteria = "FilterCriteria"
             case functionName = "FunctionName"
             case functionResponseTypes = "FunctionResponseTypes"
+            case kmsKeyArn = "KMSKeyArn"
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
             case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
@@ -1034,7 +1045,7 @@ extension Lambda {
         public let publish: Bool?
         /// The Amazon Resource Name (ARN) of the function's execution role.
         public let role: String
-        /// The identifier of the function's runtime. Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see Runtime deprecation policy.
+        /// The identifier of the function's  runtime. Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
         public let runtime: Runtime?
         /// The function's SnapStart setting.
         public let snapStart: SnapStart?
@@ -1636,12 +1647,16 @@ extension Lambda {
         public let documentDBEventSourceConfig: DocumentDBEventSourceConfig?
         /// The Amazon Resource Name (ARN) of the event source.
         public let eventSourceArn: String?
-        /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
+        /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering. If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
         public let filterCriteria: FilterCriteria?
+        /// An object that contains details about an error related to filter criteria encryption.
+        public let filterCriteriaError: FilterCriteriaError?
         /// The ARN of the Lambda function.
         public let functionArn: String?
         /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
+        ///  The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's filter criteria.
+        public let kmsKeyArn: String?
         /// The date that the event source mapping was last updated or that its state changed.
         public let lastModified: Date?
         /// The result of the last Lambda invocation of your function.
@@ -1681,7 +1696,7 @@ extension Lambda {
         /// The identifier of the event source mapping.
         public let uuid: String?
 
-        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionArn: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String? = nil) {
+        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, filterCriteriaError: FilterCriteriaError? = nil, functionArn: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String? = nil) {
             self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -1689,8 +1704,10 @@ extension Lambda {
             self.documentDBEventSourceConfig = documentDBEventSourceConfig
             self.eventSourceArn = eventSourceArn
             self.filterCriteria = filterCriteria
+            self.filterCriteriaError = filterCriteriaError
             self.functionArn = functionArn
             self.functionResponseTypes = functionResponseTypes
+            self.kmsKeyArn = kmsKeyArn
             self.lastModified = lastModified
             self.lastProcessingResult = lastProcessingResult
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -1719,8 +1736,10 @@ extension Lambda {
             case documentDBEventSourceConfig = "DocumentDBEventSourceConfig"
             case eventSourceArn = "EventSourceArn"
             case filterCriteria = "FilterCriteria"
+            case filterCriteriaError = "FilterCriteriaError"
             case functionArn = "FunctionArn"
             case functionResponseTypes = "FunctionResponseTypes"
+            case kmsKeyArn = "KMSKeyArn"
             case lastModified = "LastModified"
             case lastProcessingResult = "LastProcessingResult"
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
@@ -1800,6 +1819,23 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
+        }
+    }
+
+    public struct FilterCriteriaError: AWSDecodableShape {
+        /// The KMS exception that resulted from filter criteria encryption or decryption.
+        public let errorCode: String?
+        /// The error message.
+        public let message: String?
+
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
         }
     }
 
@@ -1916,7 +1952,7 @@ extension Lambda {
         public let revisionId: String?
         /// The function's execution role.
         public let role: String?
-        /// The identifier of the function's runtime. Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see Runtime deprecation policy.
+        /// The identifier of the function's  runtime. Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
         public let runtime: Runtime?
         /// The ARN of the runtime and any errors that occured.
         public let runtimeVersionConfig: RuntimeVersionConfig?
@@ -2325,6 +2361,41 @@ extension Lambda {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct GetFunctionRecursionConfigRequest: AWSEncodableShape {
+        public let functionName: String
+
+        public init(functionName: String) {
+            self.functionName = functionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFunctionRecursionConfigResponse: AWSDecodableShape {
+        /// If your function's recursive loop detection configuration is Allow, Lambda doesn't take any action when it  detects your function being invoked as part of a recursive loop. If your function's recursive loop detection configuration is Terminate, Lambda stops your function being  invoked and notifies you when it detects your function being invoked as part of a recursive loop. By default, Lambda sets your function's configuration to Terminate. You can update this  configuration using the PutFunctionRecursionConfig action.
+        public let recursiveLoop: RecursiveLoop?
+
+        public init(recursiveLoop: RecursiveLoop? = nil) {
+            self.recursiveLoop = recursiveLoop
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recursiveLoop = "RecursiveLoop"
+        }
+    }
+
     public struct GetFunctionRequest: AWSEncodableShape {
         /// The name or ARN of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
@@ -2545,7 +2616,7 @@ extension Lambda {
         /// A list of compatible
         /// instruction set architectures.
         public let compatibleArchitectures: [Architecture]?
-        /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see Runtime deprecation policy.
+        /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
         public let compatibleRuntimes: [Runtime]?
         /// Details about the layer version.
         public let content: LayerVersionContentOutput?
@@ -3138,7 +3209,7 @@ extension Lambda {
     public struct LayerVersionsListItem: AWSDecodableShape {
         /// A list of compatible   instruction set architectures.
         public let compatibleArchitectures: [Architecture]?
-        /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see Runtime deprecation policy.
+        /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
         public let compatibleRuntimes: [Runtime]?
         /// The date that the version was created, in ISO 8601 format. For example, 2018-11-27T15:10:45.123+0000.
         public let createdDate: String?
@@ -3552,7 +3623,7 @@ extension Lambda {
         /// The compatible
         /// instruction set architecture.
         public let compatibleArchitecture: Architecture?
-        /// A runtime identifier. For example, java21. The following list includes deprecated runtimes. For more information, see Runtime deprecation policy.
+        /// A runtime identifier. The following list includes deprecated runtimes. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
         public let compatibleRuntime: Runtime?
         /// The name or Amazon Resource Name (ARN) of the layer.
         public let layerName: String
@@ -3611,7 +3682,7 @@ extension Lambda {
         /// The compatible
         /// instruction set architecture.
         public let compatibleArchitecture: Architecture?
-        /// A runtime identifier. For example, java21. The following list includes deprecated runtimes. For more information, see Runtime deprecation policy.
+        /// A runtime identifier. The following list includes deprecated runtimes. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
         public let compatibleRuntime: Runtime?
         /// A pagination token returned by a previous call.
         public let marker: String?
@@ -3956,7 +4027,7 @@ extension Lambda {
         /// A list of compatible
         /// instruction set architectures.
         public let compatibleArchitectures: [Architecture]?
-        /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see Runtime deprecation policy.
+        /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
         public let compatibleRuntimes: [Runtime]?
         /// Details about the layer version.
         public let content: LayerVersionContentOutput?
@@ -4164,6 +4235,48 @@ extension Lambda {
             case destinationConfig = "DestinationConfig"
             case maximumEventAgeInSeconds = "MaximumEventAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
+        }
+    }
+
+    public struct PutFunctionRecursionConfigRequest: AWSEncodableShape {
+        /// The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// If you set your function's recursive loop detection configuration to Allow, Lambda doesn't take any action when it  detects your function being invoked as part of a recursive loop. We recommend that you only use this setting if your design intentionally uses a  Lambda function to write data back to the same Amazon Web Services resource that invokes it. If you set your function's recursive loop detection configuration to Terminate, Lambda stops your function being  invoked and notifies you when it detects your function being invoked as part of a recursive loop. By default, Lambda sets your function's configuration to Terminate.  If your design intentionally uses a Lambda function to write data back to the same Amazon Web Services resource that invokes the function, then use caution and implement suitable guard rails to prevent unexpected charges being billed to your Amazon Web Services account. To learn more about best practices for using recursive invocation patterns, see Recursive patterns that cause run-away Lambda functions in Serverless Land.
+        public let recursiveLoop: RecursiveLoop
+
+        public init(functionName: String, recursiveLoop: RecursiveLoop) {
+            self.functionName = functionName
+            self.recursiveLoop = recursiveLoop
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            try container.encode(self.recursiveLoop, forKey: .recursiveLoop)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recursiveLoop = "RecursiveLoop"
+        }
+    }
+
+    public struct PutFunctionRecursionConfigResponse: AWSDecodableShape {
+        /// The status of your function's recursive loop detection configuration. When this value is set to Allowand Lambda detects your function being invoked as part of a recursive  loop, it doesn't take any action. When this value is set to Terminate and Lambda detects your function being invoked as part of a recursive  loop, it stops your function being invoked and notifies you.
+        public let recursiveLoop: RecursiveLoop?
+
+        public init(recursiveLoop: RecursiveLoop? = nil) {
+            self.recursiveLoop = recursiveLoop
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recursiveLoop = "RecursiveLoop"
         }
     }
 
@@ -4731,7 +4844,9 @@ extension Lambda {
         public let functionName: String?
         /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
-        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+        ///  The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's filter criteria. By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
+        public let kmsKeyArn: String?
+        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
@@ -4748,7 +4863,7 @@ extension Lambda {
         /// The identifier of the event source mapping.
         public let uuid: String
 
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, filterCriteria: FilterCriteria? = nil, functionName: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, scalingConfig: ScalingConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, filterCriteria: FilterCriteria? = nil, functionName: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, scalingConfig: ScalingConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
@@ -4757,6 +4872,7 @@ extension Lambda {
             self.filterCriteria = filterCriteria
             self.functionName = functionName
             self.functionResponseTypes = functionResponseTypes
+            self.kmsKeyArn = kmsKeyArn
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
             self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
@@ -4778,6 +4894,7 @@ extension Lambda {
             try container.encodeIfPresent(self.filterCriteria, forKey: .filterCriteria)
             try container.encodeIfPresent(self.functionName, forKey: .functionName)
             try container.encodeIfPresent(self.functionResponseTypes, forKey: .functionResponseTypes)
+            try container.encodeIfPresent(self.kmsKeyArn, forKey: .kmsKeyArn)
             try container.encodeIfPresent(self.maximumBatchingWindowInSeconds, forKey: .maximumBatchingWindowInSeconds)
             try container.encodeIfPresent(self.maximumRecordAgeInSeconds, forKey: .maximumRecordAgeInSeconds)
             try container.encodeIfPresent(self.maximumRetryAttempts, forKey: .maximumRetryAttempts)
@@ -4798,6 +4915,7 @@ extension Lambda {
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, max: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
             try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604800)
@@ -4824,6 +4942,7 @@ extension Lambda {
             case filterCriteria = "FilterCriteria"
             case functionName = "FunctionName"
             case functionResponseTypes = "FunctionResponseTypes"
+            case kmsKeyArn = "KMSKeyArn"
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
             case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
@@ -4949,7 +5068,7 @@ extension Lambda {
         public let revisionId: String?
         /// The Amazon Resource Name (ARN) of the function's execution role.
         public let role: String?
-        /// The identifier of the function's runtime. Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see Runtime deprecation policy.
+        /// The identifier of the function's  runtime. Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
         public let runtime: Runtime?
         /// The function's SnapStart setting.
         public let snapStart: SnapStart?
@@ -5354,7 +5473,7 @@ public struct LambdaErrorType: AWSErrorType {
     public static var kmsNotFoundException: Self { .init(.kmsNotFoundException) }
     /// The permissions policy for the resource is too large. For more information, see Lambda quotas.
     public static var policyLengthExceededException: Self { .init(.policyLengthExceededException) }
-    /// The RevisionId provided does not match the latest RevisionId for the Lambda function or alias. Call the GetFunction or the GetAlias API operation to retrieve the latest RevisionId for your resource.
+    /// The RevisionId provided does not match the latest RevisionId for the Lambda function or alias.    For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.    For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
     public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
     /// The specified configuration does not exist.
     public static var provisionedConcurrencyConfigNotFoundException: Self { .init(.provisionedConcurrencyConfigNotFoundException) }

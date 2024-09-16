@@ -81,7 +81,20 @@ public struct Resiliencehub: AWSService {
 
     // MARK: API Calls
 
-    /// Adds the source of resource-maps to the draft version of an application. During assessment, Resilience Hub will use these resource-maps to resolve the latest physical ID for each resource in the application template. For more information about different types of resources suported by Resilience Hub and how to add them in your application, see Step 2: How is your application managed? in the Resilience Hub User Guide.
+    /// Accepts the resource grouping recommendations suggested by Resilience Hub for your application.
+    @Sendable
+    public func acceptResourceGroupingRecommendations(_ input: AcceptResourceGroupingRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptResourceGroupingRecommendationsResponse {
+        return try await self.client.execute(
+            operation: "AcceptResourceGroupingRecommendations", 
+            path: "/accept-resource-grouping-recommendations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Adds the source of resource-maps to the draft version of an application. During assessment, Resilience Hub will use these resource-maps to resolve the latest physical ID for each resource in the application template. For more information about different types of resources supported by Resilience Hub and how to add them in your application, see Step 2: How is your application managed? in the Resilience Hub User Guide.
     @Sendable
     public func addDraftAppVersionResourceMappings(_ input: AddDraftAppVersionResourceMappingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddDraftAppVersionResourceMappingsResponse {
         return try await self.client.execute(
@@ -315,7 +328,7 @@ public struct Resiliencehub: AWSService {
         )
     }
 
-    /// Describes a resource of the Resilience Hub application.  This API accepts only one of the following parameters to descibe the resource:    resourceName     logicalResourceId     physicalResourceId (Along with physicalResourceId, you can also provide awsAccountId, and awsRegion)
+    /// Describes a resource of the Resilience Hub application.  This API accepts only one of the following parameters to describe the resource:    resourceName     logicalResourceId     physicalResourceId (Along with physicalResourceId, you can also provide awsAccountId, and awsRegion)
     @Sendable
     public func describeAppVersionResource(_ input: DescribeAppVersionResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppVersionResourceResponse {
         return try await self.client.execute(
@@ -354,7 +367,7 @@ public struct Resiliencehub: AWSService {
         )
     }
 
-    /// Describes the status of importing resources to an application version.  If you get a 404 error with ResourceImportStatusNotFoundAppMetadataException, you must call importResourcesToDraftAppVersion  after creating the application and before calling describeDraftAppVersionResourcesImportStatus to obtain the status.
+    /// Describes the status of importing resources to an application version.  If you get a 404 error with ResourceImportStatusNotFoundAppMetadataException, you must call importResourcesToDraftAppVersion after creating the application and before calling describeDraftAppVersionResourcesImportStatus to obtain the status.
     @Sendable
     public func describeDraftAppVersionResourcesImportStatus(_ input: DescribeDraftAppVersionResourcesImportStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDraftAppVersionResourcesImportStatusResponse {
         return try await self.client.execute(
@@ -373,6 +386,19 @@ public struct Resiliencehub: AWSService {
         return try await self.client.execute(
             operation: "DescribeResiliencyPolicy", 
             path: "/describe-resiliency-policy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Describes the resource grouping recommendation tasks run by Resilience Hub for your application.
+    @Sendable
+    public func describeResourceGroupingRecommendationTask(_ input: DescribeResourceGroupingRecommendationTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeResourceGroupingRecommendationTaskResponse {
+        return try await self.client.execute(
+            operation: "DescribeResourceGroupingRecommendationTask", 
+            path: "/describe-resource-grouping-recommendation-task", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -575,6 +601,19 @@ public struct Resiliencehub: AWSService {
         )
     }
 
+    /// Lists the resource grouping recommendations suggested by Resilience Hub for your application.
+    @Sendable
+    public func listResourceGroupingRecommendations(_ input: ListResourceGroupingRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceGroupingRecommendationsResponse {
+        return try await self.client.execute(
+            operation: "ListResourceGroupingRecommendations", 
+            path: "/list-resource-grouping-recommendations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
     @Sendable
     public func listSopRecommendations(_ input: ListSopRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSopRecommendationsResponse {
@@ -666,6 +705,19 @@ public struct Resiliencehub: AWSService {
         )
     }
 
+    /// Rejects resource grouping recommendations.
+    @Sendable
+    public func rejectResourceGroupingRecommendations(_ input: RejectResourceGroupingRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RejectResourceGroupingRecommendationsResponse {
+        return try await self.client.execute(
+            operation: "RejectResourceGroupingRecommendations", 
+            path: "/reject-resource-grouping-recommendations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Removes resource mappings from a draft application version.
     @Sendable
     public func removeDraftAppVersionResourceMappings(_ input: RemoveDraftAppVersionResourceMappingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveDraftAppVersionResourceMappingsResponse {
@@ -698,6 +750,19 @@ public struct Resiliencehub: AWSService {
         return try await self.client.execute(
             operation: "StartAppAssessment", 
             path: "/start-app-assessment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Starts grouping recommendation task.
+    @Sendable
+    public func startResourceGroupingRecommendationTask(_ input: StartResourceGroupingRecommendationTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartResourceGroupingRecommendationTaskResponse {
+        return try await self.client.execute(
+            operation: "StartResourceGroupingRecommendationTask", 
+            path: "/start-resource-grouping-recommendation-task", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -1076,6 +1141,25 @@ extension Resiliencehub {
         )
     }
 
+    /// Lists the resource grouping recommendations suggested by Resilience Hub for your application.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listResourceGroupingRecommendationsPaginator(
+        _ input: ListResourceGroupingRecommendationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourceGroupingRecommendationsRequest, ListResourceGroupingRecommendationsResponse> {
+        return .init(
+            input: input,
+            command: self.listResourceGroupingRecommendations,
+            inputKey: \ListResourceGroupingRecommendationsRequest.nextToken,
+            outputKey: \ListResourceGroupingRecommendationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
     /// Return PaginatorSequence for operation.
     ///
@@ -1309,6 +1393,16 @@ extension Resiliencehub.ListResiliencyPoliciesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             policyName: self.policyName
+        )
+    }
+}
+
+extension Resiliencehub.ListResourceGroupingRecommendationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Resiliencehub.ListResourceGroupingRecommendationsRequest {
+        return .init(
+            appArn: self.appArn,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
