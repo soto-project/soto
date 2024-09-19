@@ -382,73 +382,73 @@ class _DynamoDBEncoder: Encoder {
 }
 
 extension _DynamoDBEncoder: SingleValueEncodingContainer {
-    func encode(_ attribute: DynamoDB.AttributeValue) {
+    func encode(attribute: DynamoDB.AttributeValue) {
         self.storage.pushSingleValueContainer(attribute)
     }
 
     func encodeNil() throws {
-        self.encode(.null(true))
+        self.encode(attribute: .null(true))
     }
 
     func encode(_ value: Bool) throws {
-        self.encode(.bool(value))
+        self.encode(attribute: .bool(value))
     }
 
     func encode(_ value: String) throws {
-        self.encode(.s(value))
+        self.encode(attribute: .s(value))
     }
 
     func encode(_ value: Double) throws {
-        self.encode(.n(value.description))
+        self.encode(attribute: .n(value.description))
     }
 
     func encode(_ value: Float) throws {
-        self.encode(.n(value.description))
+        self.encode(attribute: .n(value.description))
     }
 
     func encode(_ value: Int) throws {
-        self.encode(.n(value.description))
+        self.encode(attribute: .n(value.description))
     }
 
     func encode(_ value: Int8) throws {
-        self.encode(.n(value.description))
+        self.encode(attribute: .n(value.description))
     }
 
     func encode(_ value: Int16) throws {
-        self.encode(.n(value.description))
+        self.encode(attribute: .n(value.description))
     }
 
     func encode(_ value: Int32) throws {
-        self.encode(.n(value.description))
+        self.encode(attribute: .n(value.description))
     }
 
     func encode(_ value: Int64) throws {
-        self.encode(.n(value.description))
+        self.encode(attribute: .n(value.description))
     }
 
     func encode(_ value: UInt) throws {
-        self.encode(.n(value.description))
+        self.encode(attribute: .n(value.description))
     }
 
     func encode(_ value: UInt8) throws {
-        self.encode(.n(value.description))
+        self.encode(attribute: .n(value.description))
     }
 
     func encode(_ value: UInt16) throws {
-        self.encode(.n(value.description))
+        self.encode(attribute: .n(value.description))
     }
 
     func encode(_ value: UInt32) throws {
-        self.encode(.n(value.description))
+        self.encode(attribute: .n(value.description))
     }
 
     func encode(_ value: UInt64) throws {
-        self.encode(.n(value.description))
+        self.encode(attribute: .n(value.description))
     }
 
     func encode(_ value: some Encodable) throws {
         let attribute = try box(value)
-        self.encode(attribute)
+        self.encode(attribute: attribute)
     }
 }
 
