@@ -396,54 +396,56 @@ extension S3Tests {
         )
         let s3 = S3(client: client, region: .useast1)
 
-        defer { try? client.syncShutdown() }
+        try await withTeardown {
+            let fields = [
+                "acl": "public-read",
+                "success_action_redirect": "http://sigv4examplebucket.s3.amazonaws.com/successful_upload.html",
+                "x-amz-meta-uuid": "14365123651274",
+                "x-amz-server-side-encryption": "AES256",
+            ]
 
-        let fields = [
-            "acl": "public-read",
-            "success_action_redirect": "http://sigv4examplebucket.s3.amazonaws.com/successful_upload.html",
-            "x-amz-meta-uuid": "14365123651274",
-            "x-amz-server-side-encryption": "AES256",
-        ]
+            let conditions: [S3.PostPolicyCondition] = [
+                .match("acl", "public-read"),
+                .match("success_action_redirect", "http://sigv4examplebucket.s3.amazonaws.com/successful_upload.html"),
+                .match("x-amz-meta-uuid", "14365123651274"),
+                .match("x-amz-server-side-encryption", "AES256"),
+                .rule("starts-with", "$Content-Type", "image/"),
+                .rule("starts-with", "$x-amz-meta-tag", "")
+            ]
 
-        let conditions: [S3.PostPolicyCondition] = [
-            .match("acl", "public-read"),
-            .match("success_action_redirect", "http://sigv4examplebucket.s3.amazonaws.com/successful_upload.html"),
-            .match("x-amz-meta-uuid", "14365123651274"),
-            .match("x-amz-server-side-encryption", "AES256"),
-            .rule("starts-with", "$Content-Type", "image/"),
-            .rule("starts-with", "$x-amz-meta-tag", "")
-        ]
+            let expiresIn = 36.0 * 60.0 * 60.0
+            var dateComponents = DateComponents()
+            dateComponents.year = 2015
+            dateComponents.month = 12
+            dateComponents.day = 29
+            dateComponents.timeZone = TimeZone(secondsFromGMT: 0)!
 
-        let expiresIn = 36.0 * 60.0 * 60.0
-        var dateComponents = DateComponents()
-        dateComponents.year = 2015
-        dateComponents.month = 12
-        dateComponents.day = 29
-        dateComponents.timeZone = TimeZone(secondsFromGMT: 0)!
+            let date = Calendar(identifier: .gregorian).date(from: dateComponents)!
 
-        let date = Calendar(identifier: .gregorian).date(from: dateComponents)!
+            let presignedPost = try await s3.generatePresignedPost(
+                key: "user/user1/${filename}",
+                bucket: "sigv4examplebucket",
+                fields: fields,
+                conditions: conditions,
+                expiresIn: expiresIn,
+                date: date
+            )
 
-        let presignedPost = try await s3.generatePresignedPost(
-            key: "user/user1/${filename}",
-            bucket: "sigv4examplebucket",
-            fields: fields,
-            conditions: conditions,
-            expiresIn: expiresIn,
-            date: date
-        )
+            let expectedURL = "https://sigv4examplebucket.s3.us-east-1.amazonaws.com"
+            let expectedCredential = "AKIAIOSFODNN7EXAMPLE/20151229/us-east-1/s3/aws4_request"
+            let expectedAlgorithm = "AWS4-HMAC-SHA256"
+            let expectedDate = "20151229T000000Z"
 
-        let expectedURL = "https://sigv4examplebucket.s3.us-east-1.amazonaws.com"
-        let expectedCredential = "AKIAIOSFODNN7EXAMPLE/20151229/us-east-1/s3/aws4_request"
-        let expectedAlgorithm = "AWS4-HMAC-SHA256"
-        let expectedDate = "20151229T000000Z"
+            XCTAssertEqual(presignedPost.url, URL(string: expectedURL))
+            XCTAssertEqual(presignedPost.fields["x-amz-credential"], expectedCredential)
+            XCTAssertEqual(presignedPost.fields["x-amz-algorithm"], expectedAlgorithm)
+            XCTAssertEqual(presignedPost.fields["x-amz-date"], expectedDate)
 
-        XCTAssertEqual(presignedPost.url, URL(string: expectedURL))
-        XCTAssertEqual(presignedPost.fields["x-amz-credential"], expectedCredential)
-        XCTAssertEqual(presignedPost.fields["x-amz-algorithm"], expectedAlgorithm)
-        XCTAssertEqual(presignedPost.fields["x-amz-date"], expectedDate)
-
-        XCTAssertNotNil(presignedPost.fields["x-amz-signature"])
-        XCTAssertNotNil(presignedPost.fields["Policy"])
+            XCTAssertNotNil(presignedPost.fields["x-amz-signature"])
+            XCTAssertNotNil(presignedPost.fields["Policy"])
+        } teardown: {
+            try? await client.shutdown()
+        }
     }
 
     func testGetSignature() {
@@ -510,42 +512,44 @@ extension S3Tests {
 
         let s3 = S3(client: client, region: .useast1)
 
-        defer { try? client.syncShutdown() }
+        try await withTeardown {
+            let fields = [
+                "acl": "public-read",
+                "success_action_redirect": "http://sigv4examplebucket.s3.amazonaws.com/successful_upload.html",
+                "x-amz-meta-uuid": "14365123651274",
+                "x-amz-server-side-encryption": "AES256",
+            ]
 
-        let fields = [
-            "acl": "public-read",
-            "success_action_redirect": "http://sigv4examplebucket.s3.amazonaws.com/successful_upload.html",
-            "x-amz-meta-uuid": "14365123651274",
-            "x-amz-server-side-encryption": "AES256",
-        ]
+            let conditions: [S3.PostPolicyCondition] = [
+                .match("acl", "public-read"),
+                .match("success_action_redirect", "http://sigv4examplebucket.s3.amazonaws.com/successful_upload.html"),
+                .match("x-amz-meta-uuid", "14365123651274"),
+                .match("x-amz-server-side-encryption", "AES256"),
+                .rule("starts-with", "$Content-Type", "image/"),
+                .rule("starts-with", "$x-amz-meta-tag", "")
+            ]
 
-        let conditions: [S3.PostPolicyCondition] = [
-            .match("acl", "public-read"),
-            .match("success_action_redirect", "http://sigv4examplebucket.s3.amazonaws.com/successful_upload.html"),
-            .match("x-amz-meta-uuid", "14365123651274"),
-            .match("x-amz-server-side-encryption", "AES256"),
-            .rule("starts-with", "$Content-Type", "image/"),
-            .rule("starts-with", "$x-amz-meta-tag", "")
-        ]
+            let expiresIn = 36.0 * 60.0 * 60.0
+            var dateComponents = DateComponents()
+            dateComponents.year = 2015
+            dateComponents.month = 12
+            dateComponents.day = 29
+            dateComponents.timeZone = TimeZone(secondsFromGMT: 0)!
 
-        let expiresIn = 36.0 * 60.0 * 60.0
-        var dateComponents = DateComponents()
-        dateComponents.year = 2015
-        dateComponents.month = 12
-        dateComponents.day = 29
-        dateComponents.timeZone = TimeZone(secondsFromGMT: 0)!
+            let date = Calendar(identifier: .gregorian).date(from: dateComponents)!
 
-        let date = Calendar(identifier: .gregorian).date(from: dateComponents)!
+            let presignedPost = try await s3.generatePresignedPost(
+                key: "user/user1/${filename}",
+                bucket: "sigv4examplebucket",
+                fields: fields,
+                conditions: conditions,
+                expiresIn: expiresIn,
+                date: date
+            )
 
-        let presignedPost = try await s3.generatePresignedPost(
-            key: "user/user1/${filename}",
-            bucket: "sigv4examplebucket",
-            fields: fields,
-            conditions: conditions,
-            expiresIn: expiresIn,
-            date: date
-        )
-
-        XCTAssertEqual(presignedPost.fields["x-amz-security-token"], "EXAMPLESESSIONTOKEN")
+            XCTAssertEqual(presignedPost.fields["x-amz-security-token"], "EXAMPLESESSIONTOKEN")
+        } teardown: {
+            try? await client.shutdown()
+        }
     }
 }
