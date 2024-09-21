@@ -559,6 +559,19 @@ public struct DocDB: AWSService {
         )
     }
 
+    /// Promotes the specified secondary DB cluster to be the primary DB cluster in the global cluster when failing over a global cluster occurs. Use this operation to respond to an unplanned event, such as a regional disaster in the primary region.  Failing over can result in a loss of write transaction data that wasn't replicated to the chosen secondary before the failover event occurred.  However, the recovery process that promotes a DB instance on the chosen seconday DB cluster to be the primary writer DB instance guarantees that the data is in a transactionally consistent state.
+    @Sendable
+    public func failoverGlobalCluster(_ input: FailoverGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> FailoverGlobalClusterResult {
+        return try await self.client.execute(
+            operation: "FailoverGlobalCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists all tags on an Amazon DocumentDB resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> TagListMessage {

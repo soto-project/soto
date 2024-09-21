@@ -164,6 +164,12 @@ extension ElasticLoadBalancingV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum TrustStoreAssociationStatusEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "active"
+        case removed = "removed"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TrustStoreStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -915,6 +921,27 @@ extension ElasticLoadBalancingV2 {
         public init() {}
     }
 
+    public struct DeleteSharedTrustStoreAssociationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String?
+        /// The Amazon Resource Name (ARN) of the trust store.
+        public let trustStoreArn: String?
+
+        public init(resourceArn: String? = nil, trustStoreArn: String? = nil) {
+            self.resourceArn = resourceArn
+            self.trustStoreArn = trustStoreArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case trustStoreArn = "TrustStoreArn"
+        }
+    }
+
+    public struct DeleteSharedTrustStoreAssociationOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteTargetGroupInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String?
@@ -1014,6 +1041,33 @@ extension ElasticLoadBalancingV2 {
         private enum CodingKeys: String, CodingKey {
             case limits = "Limits"
             case nextMarker = "NextMarker"
+        }
+    }
+
+    public struct DescribeListenerAttributesInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String?
+
+        public init(listenerArn: String? = nil) {
+            self.listenerArn = listenerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listenerArn = "ListenerArn"
+        }
+    }
+
+    public struct DescribeListenerAttributesOutput: AWSDecodableShape {
+        /// Information about the listener attributes.
+        @OptionalCustomCoding<StandardArrayCoder<ListenerAttribute>>
+        public var attributes: [ListenerAttribute]?
+
+        public init(attributes: [ListenerAttribute]? = nil) {
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
         }
     }
 
@@ -1395,7 +1449,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct DescribeTargetHealthInput: AWSEncodableShape {
-        /// Used to inclue anomaly detection information.
+        /// Used to include anomaly detection information.
         @OptionalCustomCoding<StandardArrayCoder<DescribeTargetHealthInputIncludeEnum>>
         public var include: [DescribeTargetHealthInputIncludeEnum]?
         /// The Amazon Resource Name (ARN) of the target group.
@@ -1655,6 +1709,32 @@ extension ElasticLoadBalancingV2 {
         }
     }
 
+    public struct GetResourcePolicyInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String?
+
+        public init(resourceArn: String? = nil) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct GetResourcePolicyOutput: AWSDecodableShape {
+        /// The content of the resource policy.
+        public let policy: String?
+
+        public init(policy: String? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
     public struct GetTrustStoreCaCertificatesBundleInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the trust store.
         public let trustStoreArn: String?
@@ -1822,6 +1902,28 @@ extension ElasticLoadBalancingV2 {
         }
     }
 
+    public struct ListenerAttribute: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the attribute. The following attribute is supported by Network Load Balancers, and Gateway Load Balancers.    tcp.idle_timeout.seconds - The tcp idle timeout value, in seconds. The  valid range is 60-6000 seconds. The default is 350 seconds.
+        public let key: String?
+        /// The value of the attribute.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 256)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9._]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
     public struct LoadBalancer: AWSDecodableShape {
         /// The subnets for the load balancer.
         @OptionalCustomCoding<StandardArrayCoder<AvailabilityZone>>
@@ -1968,6 +2070,44 @@ extension ElasticLoadBalancingV2 {
         private enum CodingKeys: String, CodingKey {
             case grpcCode = "GrpcCode"
             case httpCode = "HttpCode"
+        }
+    }
+
+    public struct ModifyListenerAttributesInput: AWSEncodableShape {
+        /// The listener attributes.
+        @OptionalCustomCoding<StandardArrayCoder<ListenerAttribute>>
+        public var attributes: [ListenerAttribute]?
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String?
+
+        public init(attributes: [ListenerAttribute]? = nil, listenerArn: String? = nil) {
+            self.attributes = attributes
+            self.listenerArn = listenerArn
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes?.forEach {
+                try $0.validate(name: "\(name).attributes[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case listenerArn = "ListenerArn"
+        }
+    }
+
+    public struct ModifyListenerAttributesOutput: AWSDecodableShape {
+        /// Information about the listener attributes.
+        @OptionalCustomCoding<StandardArrayCoder<ListenerAttribute>>
+        public var attributes: [ListenerAttribute]?
+
+        public init(attributes: [ListenerAttribute]? = nil) {
+            self.attributes = attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
         }
     }
 
@@ -2123,7 +2263,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct ModifyTargetGroupAttributesInput: AWSEncodableShape {
-        /// The attributes.
+        /// The target group attributes.
         @OptionalCustomCoding<StandardArrayCoder<TargetGroupAttribute>>
         public var attributes: [TargetGroupAttribute]?
         /// The Amazon Resource Name (ARN) of the target group.
@@ -2147,7 +2287,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct ModifyTargetGroupAttributesOutput: AWSDecodableShape {
-        /// Information about the attributes.
+        /// Information about the target group attributes.
         @OptionalCustomCoding<StandardArrayCoder<TargetGroupAttribute>>
         public var attributes: [TargetGroupAttribute]?
 
@@ -2282,17 +2422,21 @@ extension ElasticLoadBalancingV2 {
         public let mode: String?
         /// The Amazon Resource Name (ARN) of the trust store.
         public let trustStoreArn: String?
+        /// Indicates a shared trust stores association status.
+        public let trustStoreAssociationStatus: TrustStoreAssociationStatusEnum?
 
-        public init(ignoreClientCertificateExpiry: Bool? = nil, mode: String? = nil, trustStoreArn: String? = nil) {
+        public init(ignoreClientCertificateExpiry: Bool? = nil, mode: String? = nil, trustStoreArn: String? = nil, trustStoreAssociationStatus: TrustStoreAssociationStatusEnum? = nil) {
             self.ignoreClientCertificateExpiry = ignoreClientCertificateExpiry
             self.mode = mode
             self.trustStoreArn = trustStoreArn
+            self.trustStoreAssociationStatus = trustStoreAssociationStatus
         }
 
         private enum CodingKeys: String, CodingKey {
             case ignoreClientCertificateExpiry = "IgnoreClientCertificateExpiry"
             case mode = "Mode"
             case trustStoreArn = "TrustStoreArn"
+            case trustStoreAssociationStatus = "TrustStoreAssociationStatus"
         }
     }
 
@@ -2611,7 +2755,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct SetIpAddressTypeInput: AWSEncodableShape {
-        /// Note: Internal load balancers must use the ipv4 IP address type. [Application Load Balancers] The IP address type. The possible values are  ipv4 (for only IPv4 addresses), dualstack (for IPv4 and  IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public  addresses, with private IPv4 and IPv6 addresses). [Network Load Balancers] The IP address type. The possible values are  ipv4 (for only IPv4 addresses) and dualstack  (for IPv4 and IPv6 addresses). You can’t specify dualstack  for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The IP address type. The possible values are  ipv4 (for only IPv4 addresses) and dualstack  (for IPv4 and IPv6 addresses).
+        /// Note: Internal load balancers must use the ipv4 IP address type. [Application Load Balancers] The IP address type. The possible values are  ipv4 (for only IPv4 addresses), dualstack (for IPv4 and  IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public  addresses, with private IPv4 and IPv6 addresses). Note: Application Load Balancer authentication only supports IPv4 addresses when  connecting to an Identity Provider (IdP) or Amazon Cognito endpoint. Without a public  IPv4 address the load balancer cannot complete the authentication process, resulting  in HTTP 500 errors. [Network Load Balancers] The IP address type. The possible values are  ipv4 (for only IPv4 addresses) and dualstack  (for IPv4 and IPv6 addresses). You can’t specify dualstack  for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The IP address type. The possible values are  ipv4 (for only IPv4 addresses) and dualstack  (for IPv4 and IPv6 addresses).
         public let ipAddressType: IpAddressType?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
@@ -3157,6 +3301,7 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
         case availabilityZoneNotSupportedException = "AvailabilityZoneNotSupported"
         case caCertificatesBundleNotFoundException = "CaCertificatesBundleNotFound"
         case certificateNotFoundException = "CertificateNotFound"
+        case deleteAssociationSameAccountException = "DeleteAssociationSameAccount"
         case duplicateListenerException = "DuplicateListener"
         case duplicateLoadBalancerNameException = "DuplicateLoadBalancerName"
         case duplicateTagKeysException = "DuplicateTagKeys"
@@ -3177,6 +3322,7 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
         case operationNotPermittedException = "OperationNotPermitted"
         case priorityInUseException = "PriorityInUse"
         case resourceInUseException = "ResourceInUse"
+        case resourceNotFoundException = "ResourceNotFound"
         case revocationContentNotFoundException = "RevocationContentNotFound"
         case revocationIdNotFoundException = "RevocationIdNotFound"
         case ruleNotFoundException = "RuleNotFound"
@@ -3196,6 +3342,7 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
         case tooManyTrustStoreRevocationEntriesException = "TooManyTrustStoreRevocationEntries"
         case tooManyTrustStoresException = "TooManyTrustStores"
         case tooManyUniqueTargetGroupsPerLoadBalancerException = "TooManyUniqueTargetGroupsPerLoadBalancer"
+        case trustStoreAssociationNotFoundException = "AssociationNotFound"
         case trustStoreInUseException = "TrustStoreInUse"
         case trustStoreNotFoundException = "TrustStoreNotFound"
         case trustStoreNotReadyException = "TrustStoreNotReady"
@@ -3230,6 +3377,8 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
     public static var caCertificatesBundleNotFoundException: Self { .init(.caCertificatesBundleNotFoundException) }
     /// The specified certificate does not exist.
     public static var certificateNotFoundException: Self { .init(.certificateNotFoundException) }
+    /// The specified association cannot be within the same account.
+    public static var deleteAssociationSameAccountException: Self { .init(.deleteAssociationSameAccountException) }
     /// A listener with the specified port already exists.
     public static var duplicateListenerException: Self { .init(.duplicateListenerException) }
     /// A load balancer with the specified name already exists.
@@ -3270,6 +3419,8 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
     public static var priorityInUseException: Self { .init(.priorityInUseException) }
     /// A specified resource is in use.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The specified resource does not exist.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The specified revocation file does not exist.
     public static var revocationContentNotFoundException: Self { .init(.revocationContentNotFoundException) }
     /// The specified revocation ID does not exist.
@@ -3308,6 +3459,8 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
     public static var tooManyTrustStoresException: Self { .init(.tooManyTrustStoresException) }
     /// You've reached the limit on the number of unique target groups per load balancer across all listeners. If a target group is used by multiple actions for a load balancer, it is counted as only one use.
     public static var tooManyUniqueTargetGroupsPerLoadBalancerException: Self { .init(.tooManyUniqueTargetGroupsPerLoadBalancerException) }
+    /// The specified association does not exist.
+    public static var trustStoreAssociationNotFoundException: Self { .init(.trustStoreAssociationNotFoundException) }
     /// The specified trust store is currently in use.
     public static var trustStoreInUseException: Self { .init(.trustStoreInUseException) }
     /// The specified trust store does not exist.

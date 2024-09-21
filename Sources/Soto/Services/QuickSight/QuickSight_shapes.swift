@@ -85,6 +85,16 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnonymousUserDashboardEmbeddingConfigurationDisabledFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sharedView = "SHARED_VIEW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnonymousUserDashboardEmbeddingConfigurationEnabledFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sharedView = "SHARED_VIEW"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ArcThickness: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case large = "LARGE"
         case medium = "MEDIUM"
@@ -1195,6 +1205,12 @@ extension QuickSight {
 
     public enum PurchaseMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case autoPurchase = "AUTO_PURCHASE"
+        case manual = "MANUAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueryExecutionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auto = "AUTO"
         case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
@@ -2597,10 +2613,11 @@ extension QuickSight {
         public let options: AssetOptions?
         /// An array of parameter declarations for an analysis. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see Parameters in Amazon QuickSight in the Amazon QuickSight User Guide.
         public let parameterDeclarations: [ParameterDeclaration]?
+        public let queryExecutionOptions: QueryExecutionOptions?
         /// An array of sheet definitions for an analysis. Each SheetDefinition provides detailed information about a sheet within this analysis.
         public let sheets: [SheetDefinition]?
 
-        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, sheets: [SheetDefinition]? = nil) {
+        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, queryExecutionOptions: QueryExecutionOptions? = nil, sheets: [SheetDefinition]? = nil) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
             self.columnConfigurations = columnConfigurations
@@ -2608,6 +2625,7 @@ extension QuickSight {
             self.filterGroups = filterGroups
             self.options = options
             self.parameterDeclarations = parameterDeclarations
+            self.queryExecutionOptions = queryExecutionOptions
             self.sheets = sheets
         }
 
@@ -2647,6 +2665,7 @@ extension QuickSight {
             case filterGroups = "FilterGroups"
             case options = "Options"
             case parameterDeclarations = "ParameterDeclarations"
+            case queryExecutionOptions = "QueryExecutionOptions"
             case sheets = "Sheets"
         }
     }
@@ -2812,10 +2831,19 @@ extension QuickSight {
     }
 
     public struct AnonymousUserDashboardEmbeddingConfiguration: AWSEncodableShape {
+        /// A list of all disabled features of a specified anonymous dashboard.
+        public let disabledFeatures: [AnonymousUserDashboardEmbeddingConfigurationDisabledFeature]?
+        /// A list of all enabled features of a specified anonymous dashboard.
+        public let enabledFeatures: [AnonymousUserDashboardEmbeddingConfigurationEnabledFeature]?
+        /// The feature configuration for an embedded dashboard.
+        public let featureConfigurations: AnonymousUserDashboardFeatureConfigurations?
         /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this dashboard. The Amazon Resource Name (ARN) of this dashboard must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
         public let initialDashboardId: String
 
-        public init(initialDashboardId: String) {
+        public init(disabledFeatures: [AnonymousUserDashboardEmbeddingConfigurationDisabledFeature]? = nil, enabledFeatures: [AnonymousUserDashboardEmbeddingConfigurationEnabledFeature]? = nil, featureConfigurations: AnonymousUserDashboardFeatureConfigurations? = nil, initialDashboardId: String) {
+            self.disabledFeatures = disabledFeatures
+            self.enabledFeatures = enabledFeatures
+            self.featureConfigurations = featureConfigurations
             self.initialDashboardId = initialDashboardId
         }
 
@@ -2826,7 +2854,23 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case disabledFeatures = "DisabledFeatures"
+            case enabledFeatures = "EnabledFeatures"
+            case featureConfigurations = "FeatureConfigurations"
             case initialDashboardId = "InitialDashboardId"
+        }
+    }
+
+    public struct AnonymousUserDashboardFeatureConfigurations: AWSEncodableShape {
+        /// The shared view settings of an embedded dashboard.
+        public let sharedView: SharedViewConfigurations?
+
+        public init(sharedView: SharedViewConfigurations? = nil) {
+            self.sharedView = sharedView
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sharedView = "SharedView"
         }
     }
 
@@ -5582,7 +5626,7 @@ extension QuickSight {
             try self.validate(self.columnId, name: "columnId", parent: name, min: 1)
             try self.validate(self.columnName, name: "columnName", parent: name, max: 128)
             try self.validate(self.columnName, name: "columnName", parent: name, min: 1)
-            try self.validate(self.expression, name: "expression", parent: name, max: 4096)
+            try self.validate(self.expression, name: "expression", parent: name, max: 250000)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
         }
 
@@ -27039,6 +27083,19 @@ extension QuickSight {
         }
     }
 
+    public struct QueryExecutionOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A structure that describes the query execution mode.
+        public let queryExecutionMode: QueryExecutionMode?
+
+        public init(queryExecutionMode: QueryExecutionMode? = nil) {
+            self.queryExecutionMode = queryExecutionMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryExecutionMode = "QueryExecutionMode"
+        }
+    }
+
     public struct QueueInfo: AWSDecodableShape {
         /// The ID of the ongoing ingestion. The queued ingestion is waiting for the ongoing ingestion to complete.
         public let queuedIngestion: String
@@ -27890,14 +27947,18 @@ extension QuickSight {
     }
 
     public struct RegisteredUserConsoleFeatureConfigurations: AWSEncodableShape {
+        /// The shared view settings of an embedded dashboard.
+        public let sharedView: SharedViewConfigurations?
         /// The state persistence configurations of an embedded Amazon QuickSight console.
         public let statePersistence: StatePersistenceConfigurations?
 
-        public init(statePersistence: StatePersistenceConfigurations? = nil) {
+        public init(sharedView: SharedViewConfigurations? = nil, statePersistence: StatePersistenceConfigurations? = nil) {
+            self.sharedView = sharedView
             self.statePersistence = statePersistence
         }
 
         private enum CodingKeys: String, CodingKey {
+            case sharedView = "SharedView"
             case statePersistence = "StatePersistence"
         }
     }
@@ -27928,16 +27989,20 @@ extension QuickSight {
     public struct RegisteredUserDashboardFeatureConfigurations: AWSEncodableShape {
         /// The bookmarks configuration for an embedded dashboard in Amazon QuickSight.
         public let bookmarks: BookmarksConfigurations?
+        /// The shared view settings of an embedded dashboard.
+        public let sharedView: SharedViewConfigurations?
         /// The state persistence settings of an embedded dashboard.
         public let statePersistence: StatePersistenceConfigurations?
 
-        public init(bookmarks: BookmarksConfigurations? = nil, statePersistence: StatePersistenceConfigurations? = nil) {
+        public init(bookmarks: BookmarksConfigurations? = nil, sharedView: SharedViewConfigurations? = nil, statePersistence: StatePersistenceConfigurations? = nil) {
             self.bookmarks = bookmarks
+            self.sharedView = sharedView
             self.statePersistence = statePersistence
         }
 
         private enum CodingKeys: String, CodingKey {
             case bookmarks = "Bookmarks"
+            case sharedView = "SharedView"
             case statePersistence = "StatePersistence"
         }
     }
@@ -29838,6 +29903,19 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case backgroundColor = "BackgroundColor"
+        }
+    }
+
+    public struct SharedViewConfigurations: AWSEncodableShape {
+        /// The shared view settings of an embedded dashboard.
+        public let enabled: Bool
+
+        public init(enabled: Bool = false) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
         }
     }
 
@@ -32352,10 +32430,11 @@ extension QuickSight {
         public let options: AssetOptions?
         /// An array of parameter declarations for a template.  Parameters are named variables that can transfer a value for use by an action or an object. For more information, see Parameters in Amazon QuickSight in the Amazon QuickSight User Guide.
         public let parameterDeclarations: [ParameterDeclaration]?
+        public let queryExecutionOptions: QueryExecutionOptions?
         /// An array of sheet definitions for a template.
         public let sheets: [SheetDefinition]?
 
-        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetConfigurations: [DataSetConfiguration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, sheets: [SheetDefinition]? = nil) {
+        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetConfigurations: [DataSetConfiguration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, queryExecutionOptions: QueryExecutionOptions? = nil, sheets: [SheetDefinition]? = nil) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
             self.columnConfigurations = columnConfigurations
@@ -32363,6 +32442,7 @@ extension QuickSight {
             self.filterGroups = filterGroups
             self.options = options
             self.parameterDeclarations = parameterDeclarations
+            self.queryExecutionOptions = queryExecutionOptions
             self.sheets = sheets
         }
 
@@ -32401,6 +32481,7 @@ extension QuickSight {
             case filterGroups = "FilterGroups"
             case options = "Options"
             case parameterDeclarations = "ParameterDeclarations"
+            case queryExecutionOptions = "QueryExecutionOptions"
             case sheets = "Sheets"
         }
     }
@@ -38869,6 +38950,7 @@ public struct QuickSightErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case concurrentUpdatingException = "ConcurrentUpdatingException"
         case conflictException = "ConflictException"
+        case customerManagedKeyUnavailableException = "CustomerManagedKeyUnavailableException"
         case domainNotWhitelistedException = "DomainNotWhitelistedException"
         case identityTypeNotSupportedException = "IdentityTypeNotSupportedException"
         case internalFailureException = "InternalFailureException"
@@ -38915,6 +38997,8 @@ public struct QuickSightErrorType: AWSErrorType {
     public static var concurrentUpdatingException: Self { .init(.concurrentUpdatingException) }
     /// Updating or deleting a resource can cause an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The customer managed key that is registered to your Amazon QuickSight account is unavailable.
+    public static var customerManagedKeyUnavailableException: Self { .init(.customerManagedKeyUnavailableException) }
     /// The domain specified isn't on the allow list. All domains for embedded dashboards must be
     /// 			added to the approved list by an Amazon QuickSight admin.
     public static var domainNotWhitelistedException: Self { .init(.domainNotWhitelistedException) }

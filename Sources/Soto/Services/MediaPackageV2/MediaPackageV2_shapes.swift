@@ -80,6 +80,7 @@ extension MediaPackageV2 {
     public enum DrmSystem: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clearKeyAes128 = "CLEAR_KEY_AES_128"
         case fairplay = "FAIRPLAY"
+        case irdeto = "IRDETO"
         case playready = "PLAYREADY"
         case widevine = "WIDEVINE"
         public var description: String { return self.rawValue }

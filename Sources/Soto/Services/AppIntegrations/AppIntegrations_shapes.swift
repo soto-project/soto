@@ -26,6 +26,19 @@ import Foundation
 extension AppIntegrations {
     // MARK: Enums
 
+    public enum ExecutionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case onDemand = "ON_DEMAND"
+        case scheduled = "SCHEDULED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct ApplicationAssociationSummary: AWSDecodableShape {
@@ -211,6 +224,99 @@ extension AppIntegrations {
         }
     }
 
+    public struct CreateDataIntegrationAssociationRequest: AWSEncodableShape {
+        /// The mapping of metadata to be extracted from the data.
+        public let clientAssociationMetadata: [String: String]?
+        /// The identifier for the client that is associated with the DataIntegration association.
+        public let clientId: String?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// A unique identifier for the DataIntegration.
+        public let dataIntegrationIdentifier: String
+        /// The URI of the data destination.
+        public let destinationURI: String?
+        /// The configuration for how the files should be pulled from the source.
+        public let executionConfiguration: ExecutionConfiguration?
+        public let objectConfiguration: [String: [String: [String]]]?
+
+        public init(clientAssociationMetadata: [String: String]? = nil, clientId: String? = nil, clientToken: String? = CreateDataIntegrationAssociationRequest.idempotencyToken(), dataIntegrationIdentifier: String, destinationURI: String? = nil, executionConfiguration: ExecutionConfiguration? = nil, objectConfiguration: [String: [String: [String]]]? = nil) {
+            self.clientAssociationMetadata = clientAssociationMetadata
+            self.clientId = clientId
+            self.clientToken = clientToken
+            self.dataIntegrationIdentifier = dataIntegrationIdentifier
+            self.destinationURI = destinationURI
+            self.executionConfiguration = executionConfiguration
+            self.objectConfiguration = objectConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientAssociationMetadata, forKey: .clientAssociationMetadata)
+            try container.encodeIfPresent(self.clientId, forKey: .clientId)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.dataIntegrationIdentifier, key: "DataIntegrationIdentifier")
+            try container.encodeIfPresent(self.destinationURI, forKey: .destinationURI)
+            try container.encodeIfPresent(self.executionConfiguration, forKey: .executionConfiguration)
+            try container.encodeIfPresent(self.objectConfiguration, forKey: .objectConfiguration)
+        }
+
+        public func validate(name: String) throws {
+            try self.clientAssociationMetadata?.forEach {
+                try validate($0.key, name: "clientAssociationMetadata.key", parent: name, max: 255)
+                try validate($0.key, name: "clientAssociationMetadata.key", parent: name, min: 1)
+                try validate($0.key, name: "clientAssociationMetadata.key", parent: name, pattern: "\\S")
+                try validate($0.value, name: "clientAssociationMetadata[\"\($0.key)\"]", parent: name, max: 255)
+                try validate($0.value, name: "clientAssociationMetadata[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "clientAssociationMetadata[\"\($0.key)\"]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 255)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: ".*")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: ".*")
+            try self.validate(self.dataIntegrationIdentifier, name: "dataIntegrationIdentifier", parent: name, max: 255)
+            try self.validate(self.dataIntegrationIdentifier, name: "dataIntegrationIdentifier", parent: name, min: 1)
+            try self.validate(self.dataIntegrationIdentifier, name: "dataIntegrationIdentifier", parent: name, pattern: "\\S")
+            try self.validate(self.destinationURI, name: "destinationURI", parent: name, max: 1000)
+            try self.validate(self.destinationURI, name: "destinationURI", parent: name, min: 1)
+            try self.validate(self.destinationURI, name: "destinationURI", parent: name, pattern: "^(\\w+\\:\\/\\/[\\w.-]+[\\w/!@#+=.-]+$)|(\\w+\\:\\/\\/[\\w.-]+[\\w/!@#+=.-]+[\\w/!@#+=.-]+[\\w/!@#+=.,-]+$)$")
+            try self.executionConfiguration?.validate(name: "\(name).executionConfiguration")
+            try self.objectConfiguration?.forEach {
+                try validate($0.key, name: "objectConfiguration.key", parent: name, max: 255)
+                try validate($0.key, name: "objectConfiguration.key", parent: name, min: 1)
+                try validate($0.key, name: "objectConfiguration.key", parent: name, pattern: "\\S")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientAssociationMetadata = "ClientAssociationMetadata"
+            case clientId = "ClientId"
+            case clientToken = "ClientToken"
+            case destinationURI = "DestinationURI"
+            case executionConfiguration = "ExecutionConfiguration"
+            case objectConfiguration = "ObjectConfiguration"
+        }
+    }
+
+    public struct CreateDataIntegrationAssociationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the DataIntegration.
+        public let dataIntegrationArn: String?
+        /// A unique identifier. for the DataIntegrationAssociation.
+        public let dataIntegrationAssociationId: String?
+
+        public init(dataIntegrationArn: String? = nil, dataIntegrationAssociationId: String? = nil) {
+            self.dataIntegrationArn = dataIntegrationArn
+            self.dataIntegrationAssociationId = dataIntegrationAssociationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataIntegrationArn = "DataIntegrationArn"
+            case dataIntegrationAssociationId = "DataIntegrationAssociationId"
+        }
+    }
+
     public struct CreateDataIntegrationRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
@@ -218,7 +324,7 @@ extension AppIntegrations {
         public let description: String?
         /// The configuration for what files should be pulled from the source.
         public let fileConfiguration: FileConfiguration?
-        /// The KMS key for the DataIntegration.
+        /// The KMS key ARN for the DataIntegration.
         public let kmsKey: String
         /// The name of the DataIntegration.
         public let name: String
@@ -227,11 +333,11 @@ extension AppIntegrations {
         /// The name of the data and how often it should be pulled from the source.
         public let scheduleConfig: ScheduleConfiguration?
         /// The URI of the data source.
-        public let sourceURI: String
+        public let sourceURI: String?
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateDataIntegrationRequest.idempotencyToken(), description: String? = nil, fileConfiguration: FileConfiguration? = nil, kmsKey: String, name: String, objectConfiguration: [String: [String: [String]]]? = nil, scheduleConfig: ScheduleConfiguration? = nil, sourceURI: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateDataIntegrationRequest.idempotencyToken(), description: String? = nil, fileConfiguration: FileConfiguration? = nil, kmsKey: String, name: String, objectConfiguration: [String: [String: [String]]]? = nil, scheduleConfig: ScheduleConfiguration? = nil, sourceURI: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.fileConfiguration = fileConfiguration
@@ -299,7 +405,7 @@ extension AppIntegrations {
         public let fileConfiguration: FileConfiguration?
         /// A unique identifier.
         public let id: String?
-        /// The KMS key for the DataIntegration.
+        /// The KMS key ARN for the DataIntegration.
         public let kmsKey: String?
         /// The name of the DataIntegration.
         public let name: String?
@@ -417,17 +523,28 @@ extension AppIntegrations {
         public let dataIntegrationArn: String?
         /// The Amazon Resource Name (ARN) of the DataIntegration association.
         public let dataIntegrationAssociationArn: String?
+        /// The URI of the data destination.
+        public let destinationURI: String?
+        public let executionConfiguration: ExecutionConfiguration?
+        /// The execution status of the last job.
+        public let lastExecutionStatus: LastExecutionStatus?
 
-        public init(clientId: String? = nil, dataIntegrationArn: String? = nil, dataIntegrationAssociationArn: String? = nil) {
+        public init(clientId: String? = nil, dataIntegrationArn: String? = nil, dataIntegrationAssociationArn: String? = nil, destinationURI: String? = nil, executionConfiguration: ExecutionConfiguration? = nil, lastExecutionStatus: LastExecutionStatus? = nil) {
             self.clientId = clientId
             self.dataIntegrationArn = dataIntegrationArn
             self.dataIntegrationAssociationArn = dataIntegrationAssociationArn
+            self.destinationURI = destinationURI
+            self.executionConfiguration = executionConfiguration
+            self.lastExecutionStatus = lastExecutionStatus
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientId = "ClientId"
             case dataIntegrationArn = "DataIntegrationArn"
             case dataIntegrationAssociationArn = "DataIntegrationAssociationArn"
+            case destinationURI = "DestinationURI"
+            case executionConfiguration = "ExecutionConfiguration"
+            case lastExecutionStatus = "LastExecutionStatus"
         }
     }
 
@@ -618,6 +735,30 @@ extension AppIntegrations {
         }
     }
 
+    public struct ExecutionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The mode for data import/export execution.
+        public let executionMode: ExecutionMode
+        public let onDemandConfiguration: OnDemandConfiguration?
+        public let scheduleConfiguration: ScheduleConfiguration?
+
+        public init(executionMode: ExecutionMode, onDemandConfiguration: OnDemandConfiguration? = nil, scheduleConfiguration: ScheduleConfiguration? = nil) {
+            self.executionMode = executionMode
+            self.onDemandConfiguration = onDemandConfiguration
+            self.scheduleConfiguration = scheduleConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.onDemandConfiguration?.validate(name: "\(name).onDemandConfiguration")
+            try self.scheduleConfiguration?.validate(name: "\(name).scheduleConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionMode = "ExecutionMode"
+            case onDemandConfiguration = "OnDemandConfiguration"
+            case scheduleConfiguration = "ScheduleConfiguration"
+        }
+    }
+
     public struct ExternalUrlConfig: AWSEncodableShape & AWSDecodableShape {
         /// The URL to access the application.
         public let accessUrl: String
@@ -804,13 +945,13 @@ extension AppIntegrations {
     public struct GetDataIntegrationResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the DataIntegration.
         public let arn: String?
-        /// The KMS key for the DataIntegration.
+        /// The KMS key ARN for the DataIntegration.
         public let description: String?
         /// The configuration for what files should be pulled from the source.
         public let fileConfiguration: FileConfiguration?
         /// A unique identifier.
         public let id: String?
-        /// The KMS key for the DataIntegration.
+        /// The KMS key ARN for the DataIntegration.
         public let kmsKey: String?
         /// The name of the DataIntegration.
         public let name: String?
@@ -903,6 +1044,23 @@ extension AppIntegrations {
             case eventIntegrationArn = "EventIntegrationArn"
             case name = "Name"
             case tags = "Tags"
+        }
+    }
+
+    public struct LastExecutionStatus: AWSDecodableShape {
+        /// The job status enum string.
+        public let executionStatus: ExecutionStatus?
+        /// The status message of a job.
+        public let statusMessage: String?
+
+        public init(executionStatus: ExecutionStatus? = nil, statusMessage: String? = nil) {
+            self.executionStatus = executionStatus
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionStatus = "ExecutionStatus"
+            case statusMessage = "StatusMessage"
         }
     }
 
@@ -1245,6 +1403,32 @@ extension AppIntegrations {
         }
     }
 
+    public struct OnDemandConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The end time for data pull from the source as an Unix/epoch string in milliseconds
+        public let endTime: String?
+        /// The start time for data pull from the source as an Unix/epoch string in milliseconds
+        public let startTime: String
+
+        public init(endTime: String? = nil, startTime: String) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endTime, name: "endTime", parent: name, max: 255)
+            try self.validate(self.endTime, name: "endTime", parent: name, min: 1)
+            try self.validate(self.endTime, name: "endTime", parent: name, pattern: "\\S")
+            try self.validate(self.startTime, name: "startTime", parent: name, max: 255)
+            try self.validate(self.startTime, name: "startTime", parent: name, min: 1)
+            try self.validate(self.startTime, name: "startTime", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+        }
+    }
+
     public struct Publication: AWSEncodableShape & AWSDecodableShape {
         /// The description of the publication.
         public let description: String?
@@ -1500,6 +1684,47 @@ extension AppIntegrations {
     }
 
     public struct UpdateApplicationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateDataIntegrationAssociationRequest: AWSEncodableShape {
+        /// A unique identifier. of the DataIntegrationAssociation resource
+        public let dataIntegrationAssociationIdentifier: String
+        /// A unique identifier for the DataIntegration.
+        public let dataIntegrationIdentifier: String
+        /// The configuration for how the files should be pulled from the source.
+        public let executionConfiguration: ExecutionConfiguration
+
+        public init(dataIntegrationAssociationIdentifier: String, dataIntegrationIdentifier: String, executionConfiguration: ExecutionConfiguration) {
+            self.dataIntegrationAssociationIdentifier = dataIntegrationAssociationIdentifier
+            self.dataIntegrationIdentifier = dataIntegrationIdentifier
+            self.executionConfiguration = executionConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataIntegrationAssociationIdentifier, key: "DataIntegrationAssociationIdentifier")
+            request.encodePath(self.dataIntegrationIdentifier, key: "DataIntegrationIdentifier")
+            try container.encode(self.executionConfiguration, forKey: .executionConfiguration)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataIntegrationAssociationIdentifier, name: "dataIntegrationAssociationIdentifier", parent: name, max: 255)
+            try self.validate(self.dataIntegrationAssociationIdentifier, name: "dataIntegrationAssociationIdentifier", parent: name, min: 1)
+            try self.validate(self.dataIntegrationAssociationIdentifier, name: "dataIntegrationAssociationIdentifier", parent: name, pattern: "\\S")
+            try self.validate(self.dataIntegrationIdentifier, name: "dataIntegrationIdentifier", parent: name, max: 255)
+            try self.validate(self.dataIntegrationIdentifier, name: "dataIntegrationIdentifier", parent: name, min: 1)
+            try self.validate(self.dataIntegrationIdentifier, name: "dataIntegrationIdentifier", parent: name, pattern: "\\S")
+            try self.executionConfiguration.validate(name: "\(name).executionConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionConfiguration = "ExecutionConfiguration"
+        }
+    }
+
+    public struct UpdateDataIntegrationAssociationResponse: AWSDecodableShape {
         public init() {}
     }
 

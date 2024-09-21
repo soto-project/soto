@@ -338,7 +338,7 @@ extension IVS {
         public let recordingConfigurationArn: String?
         /// Specifies the endpoint and optional passphrase for streaming with the SRT protocol.
         public let srt: Srt?
-        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
         /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see Channel Types.
         public let type: ChannelType?
@@ -393,7 +393,7 @@ extension IVS {
         public let preset: TranscodePreset?
         /// Recording-configuration ARN. A valid ARN value here both specifies the ARN and enables recording. Default: "" (empty string, recording is disabled).
         public let recordingConfigurationArn: String?
-        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
         /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see Channel Types.
         public let type: ChannelType?
@@ -440,7 +440,7 @@ extension IVS {
         public let preset: TranscodePreset?
         /// Recording-configuration ARN. A valid ARN value here both specifies the ARN and enables recording. Default: "" (empty string, recording is disabled).
         public let recordingConfigurationArn: String?
-        /// Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
         /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see Channel Types.
         public let type: ChannelType?
@@ -461,9 +461,9 @@ extension IVS {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.playbackRestrictionPolicyArn, name: "playbackRestrictionPolicyArn", parent: name, max: 128)
-            try self.validate(self.playbackRestrictionPolicyArn, name: "playbackRestrictionPolicyArn", parent: name, pattern: "^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+$")
+            try self.validate(self.playbackRestrictionPolicyArn, name: "playbackRestrictionPolicyArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+$$")
             try self.validate(self.recordingConfigurationArn, name: "recordingConfigurationArn", parent: name, max: 128)
-            try self.validate(self.recordingConfigurationArn, name: "recordingConfigurationArn", parent: name, pattern: "^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configuration/[a-zA-Z0-9-]+$")
+            try self.validate(self.recordingConfigurationArn, name: "recordingConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configuration/[a-zA-Z0-9-]+$$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -509,7 +509,7 @@ extension IVS {
         public let enableStrictOriginEnforcement: Bool?
         /// Playback-restriction-policy name. The value does not need to be unique.
         public let name: String?
-        /// Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
         public init(allowedCountries: [String]? = nil, allowedOrigins: [String]? = nil, enableStrictOriginEnforcement: Bool? = nil, name: String? = nil, tags: [String: String]? = nil) {
@@ -568,7 +568,7 @@ extension IVS {
         public let recordingReconnectWindowSeconds: Int?
         /// Object that describes which renditions should be recorded for a stream.
         public let renditionConfiguration: RenditionConfiguration?
-        /// Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
         /// A complex type that allows you to enable/disable the recording of thumbnails for a live session and modify the interval at which thumbnails are generated for the live session.
         public let thumbnailConfiguration: ThumbnailConfiguration?
@@ -622,7 +622,7 @@ extension IVS {
     public struct CreateStreamKeyRequest: AWSEncodableShape {
         /// ARN of the channel for which to create the stream key.
         public let channelArn: String
-        /// Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
         public init(channelArn: String, tags: [String: String]? = nil) {
@@ -1005,7 +1005,7 @@ extension IVS {
         public let name: String?
         /// The public portion of a customer-generated key pair.
         public let publicKeyMaterial: String
-        /// Any tags provided with the request are added to the playback key pair tags. See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Any tags provided with the request are added to the playback key pair tags. See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
         public init(name: String? = nil, publicKeyMaterial: String, tags: [String: String]? = nil) {
@@ -1085,9 +1085,9 @@ extension IVS {
             try self.validate(self.filterByName, name: "filterByName", parent: name, max: 128)
             try self.validate(self.filterByName, name: "filterByName", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.filterByPlaybackRestrictionPolicyArn, name: "filterByPlaybackRestrictionPolicyArn", parent: name, max: 128)
-            try self.validate(self.filterByPlaybackRestrictionPolicyArn, name: "filterByPlaybackRestrictionPolicyArn", parent: name, pattern: "^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+$")
+            try self.validate(self.filterByPlaybackRestrictionPolicyArn, name: "filterByPlaybackRestrictionPolicyArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+$$")
             try self.validate(self.filterByRecordingConfigurationArn, name: "filterByRecordingConfigurationArn", parent: name, max: 128)
-            try self.validate(self.filterByRecordingConfigurationArn, name: "filterByRecordingConfigurationArn", parent: name, pattern: "^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configuration/[a-zA-Z0-9-]+$")
+            try self.validate(self.filterByRecordingConfigurationArn, name: "filterByRecordingConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configuration/[a-zA-Z0-9-]+$$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -1427,7 +1427,7 @@ extension IVS {
         public let fingerprint: String?
         /// Playback-key-pair name. The value does not need to be unique.
         public let name: String?
-        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
         public init(arn: String? = nil, fingerprint: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
@@ -1450,7 +1450,7 @@ extension IVS {
         public let arn: String?
         /// Playback-key-pair name. The value does not need to be unique.
         public let name: String?
-        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
         public init(arn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
@@ -1477,7 +1477,7 @@ extension IVS {
         public let enableStrictOriginEnforcement: Bool?
         /// Playback-restriction-policy name. The value does not need to be unique.
         public let name: String?
-        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
         public init(allowedCountries: [String], allowedOrigins: [String], arn: String, enableStrictOriginEnforcement: Bool? = nil, name: String? = nil, tags: [String: String]? = nil) {
@@ -1510,7 +1510,7 @@ extension IVS {
         public let enableStrictOriginEnforcement: Bool?
         /// Playback-restriction-policy name. The value does not need to be unique.
         public let name: String?
-        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
         public init(allowedCountries: [String], allowedOrigins: [String], arn: String, enableStrictOriginEnforcement: Bool? = nil, name: String? = nil, tags: [String: String]? = nil) {
@@ -1569,7 +1569,7 @@ extension IVS {
         public let renditionConfiguration: RenditionConfiguration?
         /// Indicates the current state of the recording configuration. When the state is ACTIVE, the configuration is ready for recording a channel stream.
         public let state: RecordingConfigurationState
-        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
         /// A complex type that allows you to enable/disable the recording of thumbnails for a live session and modify the interval at which thumbnails are generated for the live session.
         public let thumbnailConfiguration: ThumbnailConfiguration?
@@ -1606,7 +1606,7 @@ extension IVS {
         public let name: String?
         /// Indicates the current state of the recording configuration. When the state is ACTIVE, the configuration is ready for recording a channel stream.
         public let state: RecordingConfigurationState
-        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
         public init(arn: String, destinationConfiguration: DestinationConfiguration, name: String? = nil, state: RecordingConfigurationState, tags: [String: String]? = nil) {
@@ -1814,7 +1814,7 @@ extension IVS {
         public let arn: String?
         /// Channel ARN for the stream.
         public let channelArn: String?
-        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
         /// Stream-key value.
         public let value: String?
@@ -1839,7 +1839,7 @@ extension IVS {
         public let arn: String?
         /// Channel ARN for the stream.
         public let channelArn: String?
-        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]?
 
         public init(arn: String? = nil, channelArn: String? = nil, tags: [String: String]? = nil) {
@@ -1958,7 +1958,7 @@ extension IVS {
     public struct TagResourceRequest: AWSEncodableShape {
         /// ARN of the resource for which tags are to be added or updated. The ARN must be URL-encoded.
         public let resourceArn: String
-        /// Array of tags to be added or updated. Array of maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Array of tags to be added or updated. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -2027,7 +2027,7 @@ extension IVS {
     public struct UntagResourceRequest: AWSEncodableShape {
         /// ARN of the resource for which tags are to be removed. The ARN must be URL-encoded.
         public let resourceArn: String
-        /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See Tagging Amazon Web Services Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -2099,9 +2099,9 @@ extension IVS {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.playbackRestrictionPolicyArn, name: "playbackRestrictionPolicyArn", parent: name, max: 128)
-            try self.validate(self.playbackRestrictionPolicyArn, name: "playbackRestrictionPolicyArn", parent: name, pattern: "^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+$")
+            try self.validate(self.playbackRestrictionPolicyArn, name: "playbackRestrictionPolicyArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:playback-restriction-policy/[a-zA-Z0-9-]+$$")
             try self.validate(self.recordingConfigurationArn, name: "recordingConfigurationArn", parent: name, max: 128)
-            try self.validate(self.recordingConfigurationArn, name: "recordingConfigurationArn", parent: name, pattern: "^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configuration/[a-zA-Z0-9-]+$")
+            try self.validate(self.recordingConfigurationArn, name: "recordingConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:recording-configuration/[a-zA-Z0-9-]+$$")
         }
 
         private enum CodingKeys: String, CodingKey {

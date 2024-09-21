@@ -87,6 +87,7 @@ public struct CloudWatchLogs: AWSService {
             "ap-southeast-2": "logs.ap-southeast-2.api.aws",
             "ap-southeast-3": "logs.ap-southeast-3.api.aws",
             "ap-southeast-4": "logs.ap-southeast-4.api.aws",
+            "ap-southeast-5": "logs.ap-southeast-5.api.aws",
             "ca-central-1": "logs.ca-central-1.api.aws",
             "ca-west-1": "logs.ca-west-1.api.aws",
             "eu-central-1": "logs.eu-central-1.api.aws",
@@ -411,6 +412,19 @@ public struct CloudWatchLogs: AWSService {
     public func describeAccountPolicies(_ input: DescribeAccountPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountPoliciesResponse {
         return try await self.client.execute(
             operation: "DescribeAccountPolicies", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Use this operation to return the valid and default values that are used when creating delivery sources, delivery destinations, and deliveries. For more information about deliveries, see CreateDelivery.
+    @Sendable
+    public func describeConfigurationTemplates(_ input: DescribeConfigurationTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigurationTemplatesResponse {
+        return try await self.client.execute(
+            operation: "DescribeConfigurationTemplates", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -784,7 +798,7 @@ public struct CloudWatchLogs: AWSService {
         )
     }
 
-    /// Creates an account-level data protection policy or subscription filter policy that applies to all log groups  or a subset of log groups in the account.  Data protection policy  A data protection policy can help safeguard sensitive  data that's ingested by your log groups by auditing and masking the sensitive log data. Each account can have only one account-level data protection policy.  Sensitive data is detected and masked when it is ingested into a log group. When you set a  data protection policy, log events ingested into the log groups before that time are not masked.  If you use PutAccountPolicy to create a data protection policy for your whole account, it applies to both existing log groups and all log groups that are created later in this account. The account-level policy is applied to existing log groups with eventual consistency. It might take up to 5 minutes before sensitive data in existing log groups begins to be masked. By default, when a user views a log event that includes masked data, the sensitive data is replaced by asterisks. A user who has the logs:Unmask permission can use a  GetLogEvents or  FilterLogEvents operation with the unmask parameter set to true to view the unmasked  log events. Users with the logs:Unmask can also view unmasked data in the CloudWatch Logs console by running a CloudWatch Logs Insights query with the unmask query command. For more information, including a list of types of data that can be audited and masked, see Protect sensitive log data with masking. To use the PutAccountPolicy operation for a data protection policy, you must be signed on with  the logs:PutDataProtectionPolicy and logs:PutAccountPolicy permissions. The PutAccountPolicy operation applies to all log groups in the account. You can use  PutDataProtectionPolicy to create a data protection policy that applies to just one log group.  If a log group has its own data protection policy and  the account also has an account-level data protection policy, then the two policies are cumulative. Any sensitive term specified in either policy is masked.  Subscription filter policy  A subscription filter policy sets up a real-time feed of log events from CloudWatch Logs to other Amazon Web Services services. Account-level subscription filter policies apply to both existing log groups and log groups that are created later in  this account. Supported destinations are Kinesis Data Streams, Firehose, and  Lambda. When log events are sent to the receiving service, they are Base64 encoded and  compressed with the GZIP format. The following destinations are supported for subscription filters:   An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery.   An Firehose data stream in the same account as the subscription policy, for same-account delivery.   A Lambda function in the same account as the subscription policy, for same-account delivery.   A logical destination in a different account created with PutDestination, for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations.   Each account can have one account-level subscription filter policy.  If you are updating an existing filter, you must specify the correct name in PolicyName. To perform a PutAccountPolicy subscription filter operation for any destination except a Lambda  function, you must also have the iam:PassRole permission.
+    /// Creates an account-level data protection policy or subscription filter policy that applies to all log groups  or a subset of log groups in the account.  Data protection policy  A data protection policy can help safeguard sensitive  data that's ingested by your log groups by auditing and masking the sensitive log data. Each account can have only one account-level data protection policy.  Sensitive data is detected and masked when it is ingested into a log group. When you set a  data protection policy, log events ingested into the log groups before that time are not masked.  If you use PutAccountPolicy to create a data protection policy for your whole account, it applies to both existing log groups and all log groups that are created later in this account. The account-level policy is applied to existing log groups with eventual consistency. It might take up to 5 minutes before sensitive data in existing log groups begins to be masked. By default, when a user views a log event that includes masked data, the sensitive data is replaced by asterisks. A user who has the logs:Unmask permission can use a  GetLogEvents or  FilterLogEvents operation with the unmask parameter set to true to view the unmasked  log events. Users with the logs:Unmask can also view unmasked data in the CloudWatch Logs console by running a CloudWatch Logs Insights query with the unmask query command. For more information, including a list of types of data that can be audited and masked, see Protect sensitive log data with masking. To use the PutAccountPolicy operation for a data protection policy, you must be signed on with  the logs:PutDataProtectionPolicy and logs:PutAccountPolicy permissions. The PutAccountPolicy operation applies to all log groups in the account. You can use  PutDataProtectionPolicy to create a data protection policy that applies to just one log group.  If a log group has its own data protection policy and  the account also has an account-level data protection policy, then the two policies are cumulative. Any sensitive term specified in either policy is masked.  Subscription filter policy  A subscription filter policy sets up a real-time feed of log events from CloudWatch Logs to other Amazon Web Services services. Account-level subscription filter policies apply to both existing log groups and log groups that are created later in  this account. Supported destinations are Kinesis Data Streams, Firehose, and  Lambda. When log events are sent to the receiving service, they are Base64 encoded and  compressed with the GZIP format. The following destinations are supported for subscription filters:   An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery.   An Firehose data stream in the same account as the subscription policy, for same-account delivery.   A Lambda function in the same account as the subscription policy, for same-account delivery.   A logical destination in a different account created with PutDestination, for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations.   Each account can have one account-level subscription filter policy per Region.  If you are updating an existing filter, you must specify the correct name in PolicyName. To perform a PutAccountPolicy subscription filter operation for any destination except a Lambda  function, you must also have the iam:PassRole permission.
     @Sendable
     public func putAccountPolicy(_ input: PutAccountPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountPolicyResponse {
         return try await self.client.execute(
@@ -888,7 +902,7 @@ public struct CloudWatchLogs: AWSService {
         )
     }
 
-    /// Creates or updates a metric filter and associates it with the specified log group. With metric filters, you can configure rules to extract metric data from log events ingested through PutLogEvents. The maximum number of metric filters that can be associated with a log group is 100. When you create a metric filter, you can also optionally assign a unit and dimensions to the metric that is created.  Metrics extracted from log events are charged as custom metrics. To prevent unexpected high charges, do not specify high-cardinality fields such as  IPAddress or requestID as dimensions. Each different value  found for  a dimension is treated as a separate metric and accrues charges as a separate custom metric.  CloudWatch Logs might disable a metric filter if it generates 1,000 different name/value pairs for your specified dimensions within one hour. You can also set up a billing alarm to alert you if your charges are higher than  expected. For more information,  see  Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges.
+    /// Creates or updates a metric filter and associates it with the specified log group. With metric filters, you can configure rules to extract metric data from log events ingested through PutLogEvents. The maximum number of metric filters that can be associated with a log group is 100. Using regular expressions to create metric filters is supported. For these filters,  there is a quotas of quota of two regular expression patterns within a single filter pattern. There is also a quota of five regular expression patterns per log group. For more information about using regular expressions in metric filters,  see  Filter pattern syntax for metric filters, subscription filters, filter log events, and Live Tail. When you create a metric filter, you can also optionally assign a unit and dimensions to the metric that is created.  Metrics extracted from log events are charged as custom metrics. To prevent unexpected high charges, do not specify high-cardinality fields such as  IPAddress or requestID as dimensions. Each different value  found for  a dimension is treated as a separate metric and accrues charges as a separate custom metric.  CloudWatch Logs might disable a metric filter if it generates 1,000 different name/value pairs for your specified dimensions within one hour. You can also set up a billing alarm to alert you if your charges are higher than  expected. For more information,  see  Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges.
     @Sendable
     public func putMetricFilter(_ input: PutMetricFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -940,7 +954,7 @@ public struct CloudWatchLogs: AWSService {
         )
     }
 
-    /// Creates or updates a subscription filter and associates it with the specified log group. With subscription filters, you can subscribe to a real-time stream of log events ingested through PutLogEvents and have them delivered to a specific destination. When log events are sent to the receiving service, they are Base64 encoded and compressed with the GZIP format. The following destinations are supported for subscription filters:   An Amazon Kinesis data stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination created with PutDestination that belongs to a different account, for cross-account delivery. We currently support Kinesis Data Streams and Firehose as logical destinations.   An Amazon Kinesis Data Firehose delivery stream that belongs to the same account as the subscription filter, for same-account delivery.   An Lambda function that belongs to the same account as the subscription filter, for same-account delivery.   Each log group can have up to two subscription filters associated with it. If you are updating an existing filter, you must specify the correct name in filterName.  To perform a PutSubscriptionFilter operation for any destination except a Lambda function,  you must also have the  iam:PassRole permission.
+    /// Creates or updates a subscription filter and associates it with the specified log group. With subscription filters, you can subscribe to a real-time stream of log events ingested through PutLogEvents and have them delivered to a specific destination. When log events are sent to the receiving service, they are Base64 encoded and compressed with the GZIP format. The following destinations are supported for subscription filters:   An Amazon Kinesis data stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination created with PutDestination that belongs to a different account, for cross-account delivery. We currently support Kinesis Data Streams and Firehose as logical destinations.   An Amazon Kinesis Data Firehose delivery stream that belongs to the same account as the subscription filter, for same-account delivery.   An Lambda function that belongs to the same account as the subscription filter, for same-account delivery.   Each log group can have up to two subscription filters associated with it. If you are updating an existing filter, you must specify the correct name in filterName.  Using regular expressions to create subscription filters is supported. For these filters,  there is a quotas of quota of two regular expression patterns within a single filter pattern. There is also a quota of five regular expression patterns per log group. For more information about using regular expressions in subscription filters,  see  Filter pattern syntax for metric filters, subscription filters, filter log events, and Live Tail. To perform a PutSubscriptionFilter operation for any destination except a Lambda function,  you must also have the  iam:PassRole permission.
     @Sendable
     public func putSubscriptionFilter(_ input: PutSubscriptionFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1073,6 +1087,19 @@ public struct CloudWatchLogs: AWSService {
         )
     }
 
+    /// Use this operation to update the configuration of a delivery to change either the  S3 path pattern or the format of the delivered logs. You can't use this operation to change the source or destination of the delivery.
+    @Sendable
+    public func updateDeliveryConfiguration(_ input: UpdateDeliveryConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDeliveryConfigurationResponse {
+        return try await self.client.execute(
+            operation: "UpdateDeliveryConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates an existing log anomaly detector.
     @Sendable
     public func updateLogAnomalyDetector(_ input: UpdateLogAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1100,6 +1127,25 @@ extension CloudWatchLogs {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CloudWatchLogs {
+    /// Use this operation to return the valid and default values that are used when creating delivery sources, delivery destinations, and deliveries. For more information about deliveries, see CreateDelivery.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func describeConfigurationTemplatesPaginator(
+        _ input: DescribeConfigurationTemplatesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeConfigurationTemplatesRequest, DescribeConfigurationTemplatesResponse> {
+        return .init(
+            input: input,
+            command: self.describeConfigurationTemplates,
+            inputKey: \DescribeConfigurationTemplatesRequest.nextToken,
+            outputKey: \DescribeConfigurationTemplatesResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Retrieves a list of the deliveries that have been created in the account. A delivery is a  connection between a  delivery source and a   delivery destination . A delivery source represents an Amazon Web Services resource that sends logs to an logs delivery destination.  The destination can be CloudWatch Logs, Amazon S3, or Firehose.  Only some Amazon Web Services services support being configured as a delivery source. These services are listed in Enable logging from Amazon Web Services  services.
     /// Return PaginatorSequence for operation.
     ///
@@ -1325,6 +1371,19 @@ extension CloudWatchLogs {
             inputKey: \ListLogAnomalyDetectorsRequest.nextToken,
             outputKey: \ListLogAnomalyDetectorsResponse.nextToken,
             logger: logger
+        )
+    }
+}
+
+extension CloudWatchLogs.DescribeConfigurationTemplatesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> CloudWatchLogs.DescribeConfigurationTemplatesRequest {
+        return .init(
+            deliveryDestinationTypes: self.deliveryDestinationTypes,
+            limit: self.limit,
+            logTypes: self.logTypes,
+            nextToken: token,
+            resourceTypes: self.resourceTypes,
+            service: self.service
         )
     }
 }

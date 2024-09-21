@@ -1273,13 +1273,17 @@ extension Outposts {
 
     public struct InstanceTypeItem: AWSDecodableShape {
         public let instanceType: String?
+        /// The number of default VCPUs in an instance type.
+        public let vcpUs: Int?
 
-        public init(instanceType: String? = nil) {
+        public init(instanceType: String? = nil, vcpUs: Int? = nil) {
             self.instanceType = instanceType
+            self.vcpUs = vcpUs
         }
 
         private enum CodingKeys: String, CodingKey {
             case instanceType = "InstanceType"
+            case vcpUs = "VCPUs"
         }
     }
 

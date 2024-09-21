@@ -263,13 +263,13 @@ extension IAM {
 
     public struct AccessKeyLastUsed: AWSDecodableShape {
         /// The date and time, in ISO 8601 date-time format, when the access key was most recently used. This field is null in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM began tracking this information.   There is no sign-in data associated with the user.
-        public let lastUsedDate: Date
+        public let lastUsedDate: Date?
         /// The Amazon Web Services Region where this access key was most recently used. The value for this field is "N/A" in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM began tracking this information.   There is no sign-in data associated with the user.   For more information about Amazon Web Services Regions, see Regions and endpoints in the Amazon Web Services General Reference.
         public let region: String
         /// The name of the Amazon Web Services service with which this access key was most recently used. The value of this field is "N/A" in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM started tracking this information.   There is no sign-in data associated with the user.
         public let serviceName: String
 
-        public init(lastUsedDate: Date, region: String, serviceName: String) {
+        public init(lastUsedDate: Date? = nil, region: String, serviceName: String) {
             self.lastUsedDate = lastUsedDate
             self.region = region
             self.serviceName = serviceName

@@ -638,7 +638,7 @@ public struct S3Control: AWSService {
         )
     }
 
-    /// Retrieves the S3 Access Grants instance for a Region in your account.   Permissions  You must have the s3:GetAccessGrantsInstance permission to use this operation.
+    /// Retrieves the S3 Access Grants instance for a Region in your account.   Permissions  You must have the s3:GetAccessGrantsInstance permission to use this operation.      GetAccessGrantsInstance is not supported for cross-account access. You can only call the API from the account that owns the S3 Access Grants instance.
     @Sendable
     public func getAccessGrantsInstance(_ input: GetAccessGrantsInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessGrantsInstanceResult {
         return try await self.client.execute(
@@ -1078,6 +1078,20 @@ public struct S3Control: AWSService {
         return try await self.client.execute(
             operation: "ListAccessPointsForObjectLambda", 
             path: "/v20180820/accesspointforobjectlambda", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "{AccountId}.", 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of the access grants that were given to the caller using S3 Access Grants and that allow the caller to access the S3 data of the Amazon Web Services account specified in the request.  Permissions  You must have the s3:ListCallerAccessGrants permission to use this operation.
+    @Sendable
+    public func listCallerAccessGrants(_ input: ListCallerAccessGrantsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCallerAccessGrantsResult {
+        return try await self.client.execute(
+            operation: "ListCallerAccessGrants", 
+            path: "/v20180820/accessgrantsinstance/caller/grants", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -1574,6 +1588,25 @@ extension S3Control {
         )
     }
 
+    /// Returns a list of the access grants that were given to the caller using S3 Access Grants and that allow the caller to access the S3 data of the Amazon Web Services account specified in the request.  Permissions  You must have the s3:ListCallerAccessGrants permission to use this operation.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listCallerAccessGrantsPaginator(
+        _ input: ListCallerAccessGrantsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCallerAccessGrantsRequest, ListCallerAccessGrantsResult> {
+        return .init(
+            input: input,
+            command: self.listCallerAccessGrants,
+            inputKey: \ListCallerAccessGrantsRequest.nextToken,
+            outputKey: \ListCallerAccessGrantsResult.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 90 days for the Amazon Web Services account making the request. For more information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the ListJobs operation, you must have permission to perform the s3:ListJobs action.   Related actions include:     CreateJob     DescribeJob     UpdateJobPriority     UpdateJobStatus
     /// Return PaginatorSequence for operation.
     ///
@@ -1722,6 +1755,18 @@ extension S3Control.ListAccessPointsRequest: AWSPaginateToken {
         return .init(
             accountId: self.accountId,
             bucket: self.bucket,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension S3Control.ListCallerAccessGrantsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> S3Control.ListCallerAccessGrantsRequest {
+        return .init(
+            accountId: self.accountId,
+            allowedByApplication: self.allowedByApplication,
+            grantScope: self.grantScope,
             maxResults: self.maxResults,
             nextToken: token
         )

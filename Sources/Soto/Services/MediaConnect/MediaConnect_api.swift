@@ -281,6 +281,19 @@ public struct MediaConnect: AWSService {
         )
     }
 
+    /// Displays the thumbnail details of a flow's source stream.
+    @Sendable
+    public func describeFlowSourceThumbnail(_ input: DescribeFlowSourceThumbnailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFlowSourceThumbnailResponse {
+        return try await self.client.execute(
+            operation: "DescribeFlowSourceThumbnail", 
+            path: "/v1/flows/{FlowArn}/source-thumbnail", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Displays the details of a gateway. The response includes the gateway ARN, name, and CIDR blocks, as well as details about the networks.
     @Sendable
     public func describeGateway(_ input: DescribeGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGatewayResponse {

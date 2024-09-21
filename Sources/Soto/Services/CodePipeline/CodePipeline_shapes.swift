@@ -79,6 +79,23 @@ extension CodePipeline {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConditionExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case abandoned = "Abandoned"
+        case cancelled = "Cancelled"
+        case errored = "Errored"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        case overridden = "Overridden"
+        case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConditionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case beforeEntry = "BEFORE_ENTRY"
+        case onSuccess = "ON_SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EncryptionKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kms = "KMS"
         public var description: String { return self.rawValue }
@@ -154,7 +171,33 @@ extension CodePipeline {
     }
 
     public enum Result: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fail = "FAIL"
         case rollback = "ROLLBACK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rule = "Rule"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleConfigurationPropertyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case boolean = "Boolean"
+        case number = "Number"
+        case string = "String"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case abandoned = "Abandoned"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleOwner: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aws = "AWS"
         public var description: String { return self.rawValue }
     }
 
@@ -1236,6 +1279,27 @@ extension CodePipeline {
         }
     }
 
+    public struct BeforeEntryConditions: AWSEncodableShape & AWSDecodableShape {
+        /// The conditions that are configured as entry conditions.
+        public let conditions: [Condition]
+
+        public init(conditions: [Condition]) {
+            self.conditions = conditions
+        }
+
+        public func validate(name: String) throws {
+            try self.conditions.forEach {
+                try $0.validate(name: "\(name).conditions[]")
+            }
+            try self.validate(self.conditions, name: "conditions", parent: name, max: 1)
+            try self.validate(self.conditions, name: "conditions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditions = "conditions"
+        }
+    }
+
     public struct BlockerDeclaration: AWSEncodableShape & AWSDecodableShape {
         /// Reserved for future use.
         public let name: String
@@ -1255,6 +1319,69 @@ extension CodePipeline {
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case type = "type"
+        }
+    }
+
+    public struct Condition: AWSEncodableShape & AWSDecodableShape {
+        /// The action to be done when the condition is met. For example, rolling back an execution for a failure condition.
+        public let result: Result?
+        /// The rules that make up the condition.
+        public let rules: [RuleDeclaration]?
+
+        public init(result: Result? = nil, rules: [RuleDeclaration]? = nil) {
+            self.result = result
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.rules, name: "rules", parent: name, max: 5)
+            try self.validate(self.rules, name: "rules", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case result = "result"
+            case rules = "rules"
+        }
+    }
+
+    public struct ConditionExecution: AWSDecodableShape {
+        /// The last status change of the condition.
+        public let lastStatusChange: Date?
+        /// The status of the run for a condition.
+        public let status: ConditionExecutionStatus?
+        /// The summary of information about a run for a condition.
+        public let summary: String?
+
+        public init(lastStatusChange: Date? = nil, status: ConditionExecutionStatus? = nil, summary: String? = nil) {
+            self.lastStatusChange = lastStatusChange
+            self.status = status
+            self.summary = summary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastStatusChange = "lastStatusChange"
+            case status = "status"
+            case summary = "summary"
+        }
+    }
+
+    public struct ConditionState: AWSDecodableShape {
+        /// The state of the latest run of the rule.
+        public let latestExecution: ConditionExecution?
+        /// The state of the rules for the condition.
+        public let ruleStates: [RuleState]?
+
+        public init(latestExecution: ConditionExecution? = nil, ruleStates: [RuleState]? = nil) {
+            self.latestExecution = latestExecution
+            self.ruleStates = ruleStates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latestExecution = "latestExecution"
+            case ruleStates = "ruleStates"
         }
     }
 
@@ -1681,14 +1808,26 @@ extension CodePipeline {
     }
 
     public struct FailureConditions: AWSEncodableShape & AWSDecodableShape {
+        /// The conditions that are configured as failure conditions.
+        public let conditions: [Condition]?
         /// The specified result for when the failure conditions are met, such as rolling back the stage.
         public let result: Result?
 
-        public init(result: Result? = nil) {
+        public init(conditions: [Condition]? = nil, result: Result? = nil) {
+            self.conditions = conditions
             self.result = result
         }
 
+        public func validate(name: String) throws {
+            try self.conditions?.forEach {
+                try $0.validate(name: "\(name).conditions[]")
+            }
+            try self.validate(self.conditions, name: "conditions", parent: name, max: 1)
+            try self.validate(self.conditions, name: "conditions", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case conditions = "conditions"
             case result = "result"
         }
     }
@@ -2523,6 +2662,94 @@ extension CodePipeline {
         }
     }
 
+    public struct ListRuleExecutionsInput: AWSEncodableShape {
+        /// Input information used to filter rule execution history.
+        public let filter: RuleExecutionFilter?
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Pipeline history is limited to the most recent 12 months, based on pipeline execution start times. Default value is 100.
+        public let maxResults: Int?
+        /// The token that was returned from the previous ListRuleExecutions call, which can be used to return the next set of rule executions in the list.
+        public let nextToken: String?
+        /// The name of the pipeline for which you want to get execution summary information.
+        public let pipelineName: String
+
+        public init(filter: RuleExecutionFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, pipelineName: String) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pipelineName = pipelineName
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 100)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[A-Za-z0-9.@\\-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case pipelineName = "pipelineName"
+        }
+    }
+
+    public struct ListRuleExecutionsOutput: AWSDecodableShape {
+        /// A token that can be used in the next ListRuleExecutions call. To view all items in the list, continue to call this operation with each subsequent token until no more nextToken values are returned.
+        public let nextToken: String?
+        /// Details about the output for listing rule executions.
+        public let ruleExecutionDetails: [RuleExecutionDetail]?
+
+        public init(nextToken: String? = nil, ruleExecutionDetails: [RuleExecutionDetail]? = nil) {
+            self.nextToken = nextToken
+            self.ruleExecutionDetails = ruleExecutionDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case ruleExecutionDetails = "ruleExecutionDetails"
+        }
+    }
+
+    public struct ListRuleTypesInput: AWSEncodableShape {
+        /// The rule Region to filter on.
+        public let regionFilter: String?
+        /// The rule owner to filter on.
+        public let ruleOwnerFilter: RuleOwner?
+
+        public init(regionFilter: String? = nil, ruleOwnerFilter: RuleOwner? = nil) {
+            self.regionFilter = regionFilter
+            self.ruleOwnerFilter = ruleOwnerFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.regionFilter, name: "regionFilter", parent: name, max: 30)
+            try self.validate(self.regionFilter, name: "regionFilter", parent: name, min: 4)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regionFilter = "regionFilter"
+            case ruleOwnerFilter = "ruleOwnerFilter"
+        }
+    }
+
+    public struct ListRuleTypesOutput: AWSDecodableShape {
+        /// Lists the rules that are configured for the condition.
+        public let ruleTypes: [RuleType]
+
+        public init(ruleTypes: [RuleType]) {
+            self.ruleTypes = ruleTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleTypes = "ruleTypes"
+        }
+    }
+
     public struct ListTagsForResourceInput: AWSEncodableShape {
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
@@ -2663,6 +2890,41 @@ extension CodePipeline {
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
+        }
+    }
+
+    public struct OverrideStageConditionInput: AWSEncodableShape {
+        /// The type of condition to override for the stage, such as entry conditions, failure conditions, or success conditions.
+        public let conditionType: ConditionType
+        /// The ID of the pipeline execution for the override.
+        public let pipelineExecutionId: String
+        /// The name of the pipeline with the stage that will override the condition.
+        public let pipelineName: String
+        /// The name of the stage for the override.
+        public let stageName: String
+
+        public init(conditionType: ConditionType, pipelineExecutionId: String, pipelineName: String, stageName: String) {
+            self.conditionType = conditionType
+            self.pipelineExecutionId = pipelineExecutionId
+            self.pipelineName = pipelineName
+            self.stageName = stageName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pipelineExecutionId, name: "pipelineExecutionId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 100)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[A-Za-z0-9.@\\-_]+$")
+            try self.validate(self.stageName, name: "stageName", parent: name, max: 100)
+            try self.validate(self.stageName, name: "stageName", parent: name, min: 1)
+            try self.validate(self.stageName, name: "stageName", parent: name, pattern: "^[A-Za-z0-9.@\\-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionType = "conditionType"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineName = "pipelineName"
+            case stageName = "stageName"
         }
     }
 
@@ -3535,6 +3797,424 @@ extension CodePipeline {
         }
     }
 
+    public struct RuleConfigurationProperty: AWSDecodableShape {
+        /// The description of the action configuration property that is displayed to users.
+        public let description: String?
+        /// Whether the configuration property is a key.
+        public let key: Bool
+        /// The name of the rule configuration property.
+        public let name: String
+        /// Indicates whether the property can be queried. If you create a pipeline with a condition and rule, and that rule contains a queryable property, the value for that configuration property is subject to other restrictions. The value must be less than or equal to twenty (20) characters. The value can contain only alphanumeric characters, underscores, and hyphens.
+        public let queryable: Bool?
+        /// Whether the configuration property is a required value.
+        public let required: Bool
+        /// Whether the configuration property is secret. When updating a pipeline, passing * * * * * without changing any other values of the action preserves the previous value of the secret.
+        public let secret: Bool
+        /// The type of the configuration property.
+        public let type: RuleConfigurationPropertyType?
+
+        public init(description: String? = nil, key: Bool, name: String, queryable: Bool? = nil, required: Bool, secret: Bool, type: RuleConfigurationPropertyType? = nil) {
+            self.description = description
+            self.key = key
+            self.name = name
+            self.queryable = queryable
+            self.required = required
+            self.secret = secret
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case key = "key"
+            case name = "name"
+            case queryable = "queryable"
+            case required = "required"
+            case secret = "secret"
+            case type = "type"
+        }
+    }
+
+    public struct RuleDeclaration: AWSEncodableShape & AWSDecodableShape {
+        /// The action configuration fields for the rule.
+        public let configuration: [String: String]?
+        /// The input artifacts fields for the rule, such as specifying an input file for the rule.
+        public let inputArtifacts: [InputArtifact]?
+        /// The name of the rule that is created for the condition, such as CheckAllResults.
+        public let name: String
+        /// The Region for the condition associated with the rule.
+        public let region: String?
+        /// The pipeline role ARN associated with the rule.
+        public let roleArn: String?
+        /// The ID for the rule type, which is made up of the combined values for category, owner, provider, and version.
+        public let ruleTypeId: RuleTypeId
+        /// The action timeout for the rule.
+        public let timeoutInMinutes: Int?
+
+        public init(configuration: [String: String]? = nil, inputArtifacts: [InputArtifact]? = nil, name: String, region: String? = nil, roleArn: String? = nil, ruleTypeId: RuleTypeId, timeoutInMinutes: Int? = nil) {
+            self.configuration = configuration
+            self.inputArtifacts = inputArtifacts
+            self.name = name
+            self.region = region
+            self.roleArn = roleArn
+            self.ruleTypeId = ruleTypeId
+            self.timeoutInMinutes = timeoutInMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration?.forEach {
+                try validate($0.key, name: "configuration.key", parent: name, max: 50)
+                try validate($0.key, name: "configuration.key", parent: name, min: 1)
+                try validate($0.value, name: "configuration[\"\($0.key)\"]", parent: name, max: 10000)
+                try validate($0.value, name: "configuration[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.configuration, name: "configuration", parent: name, max: 200)
+            try self.inputArtifacts?.forEach {
+                try $0.validate(name: "\(name).inputArtifacts[]")
+            }
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9.@\\-_]+$")
+            try self.validate(self.region, name: "region", parent: name, max: 30)
+            try self.validate(self.region, name: "region", parent: name, min: 4)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1024)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:iam::[0-9]{12}:role/")
+            try self.ruleTypeId.validate(name: "\(name).ruleTypeId")
+            try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, max: 86400)
+            try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case inputArtifacts = "inputArtifacts"
+            case name = "name"
+            case region = "region"
+            case roleArn = "roleArn"
+            case ruleTypeId = "ruleTypeId"
+            case timeoutInMinutes = "timeoutInMinutes"
+        }
+    }
+
+    public struct RuleExecution: AWSDecodableShape {
+        public let errorDetails: ErrorDetails?
+        /// The external ID of the run of the rule.
+        public let externalExecutionId: String?
+        /// The URL of a resource external to Amazon Web Services that is used when running the rule (for example, an external repository URL).
+        public let externalExecutionUrl: String?
+        /// The last status change of the rule.
+        public let lastStatusChange: Date?
+        /// The ARN of the user who last changed the rule.
+        public let lastUpdatedBy: String?
+        /// The execution ID for the run of the rule.
+        public let ruleExecutionId: String?
+        /// The status of the run of the rule, such as FAILED.
+        public let status: RuleExecutionStatus?
+        /// A summary of the run of the rule.
+        public let summary: String?
+        /// The system-generated token used to identify a unique request.
+        public let token: String?
+
+        public init(errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, lastStatusChange: Date? = nil, lastUpdatedBy: String? = nil, ruleExecutionId: String? = nil, status: RuleExecutionStatus? = nil, summary: String? = nil, token: String? = nil) {
+            self.errorDetails = errorDetails
+            self.externalExecutionId = externalExecutionId
+            self.externalExecutionUrl = externalExecutionUrl
+            self.lastStatusChange = lastStatusChange
+            self.lastUpdatedBy = lastUpdatedBy
+            self.ruleExecutionId = ruleExecutionId
+            self.status = status
+            self.summary = summary
+            self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorDetails = "errorDetails"
+            case externalExecutionId = "externalExecutionId"
+            case externalExecutionUrl = "externalExecutionUrl"
+            case lastStatusChange = "lastStatusChange"
+            case lastUpdatedBy = "lastUpdatedBy"
+            case ruleExecutionId = "ruleExecutionId"
+            case status = "status"
+            case summary = "summary"
+            case token = "token"
+        }
+    }
+
+    public struct RuleExecutionDetail: AWSDecodableShape {
+        /// Input details for the rule execution, such as role ARN, Region, and input artifacts.
+        public let input: RuleExecutionInput?
+        /// The date and time of the last change to the rule execution, in timestamp format.
+        public let lastUpdateTime: Date?
+        /// Output details for the rule execution, such as the rule execution result.
+        public let output: RuleExecutionOutput?
+        /// The ID of the pipeline execution in the stage where the rule was run. Use the GetPipelineState action to retrieve the current pipelineExecutionId of the stage.
+        public let pipelineExecutionId: String?
+        /// The version number of the pipeline with the stage where the rule was run.
+        public let pipelineVersion: Int?
+        /// The ID of the run for the rule.
+        public let ruleExecutionId: String?
+        /// The name of the rule that was run in the stage.
+        public let ruleName: String?
+        /// The name of the stage where the rule was run.
+        public let stageName: String?
+        /// The start time of the rule execution.
+        public let startTime: Date?
+        /// The status of the rule execution. Status categories are InProgress, Succeeded, and Failed.
+        public let status: RuleExecutionStatus?
+        /// The ARN of the user who changed the rule execution details.
+        public let updatedBy: String?
+
+        public init(input: RuleExecutionInput? = nil, lastUpdateTime: Date? = nil, output: RuleExecutionOutput? = nil, pipelineExecutionId: String? = nil, pipelineVersion: Int? = nil, ruleExecutionId: String? = nil, ruleName: String? = nil, stageName: String? = nil, startTime: Date? = nil, status: RuleExecutionStatus? = nil, updatedBy: String? = nil) {
+            self.input = input
+            self.lastUpdateTime = lastUpdateTime
+            self.output = output
+            self.pipelineExecutionId = pipelineExecutionId
+            self.pipelineVersion = pipelineVersion
+            self.ruleExecutionId = ruleExecutionId
+            self.ruleName = ruleName
+            self.stageName = stageName
+            self.startTime = startTime
+            self.status = status
+            self.updatedBy = updatedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input = "input"
+            case lastUpdateTime = "lastUpdateTime"
+            case output = "output"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineVersion = "pipelineVersion"
+            case ruleExecutionId = "ruleExecutionId"
+            case ruleName = "ruleName"
+            case stageName = "stageName"
+            case startTime = "startTime"
+            case status = "status"
+            case updatedBy = "updatedBy"
+        }
+    }
+
+    public struct RuleExecutionFilter: AWSEncodableShape {
+        public let latestInPipelineExecution: LatestInPipelineExecutionFilter?
+        /// The pipeline execution ID used to filter rule execution history.
+        public let pipelineExecutionId: String?
+
+        public init(latestInPipelineExecution: LatestInPipelineExecutionFilter? = nil, pipelineExecutionId: String? = nil) {
+            self.latestInPipelineExecution = latestInPipelineExecution
+            self.pipelineExecutionId = pipelineExecutionId
+        }
+
+        public func validate(name: String) throws {
+            try self.latestInPipelineExecution?.validate(name: "\(name).latestInPipelineExecution")
+            try self.validate(self.pipelineExecutionId, name: "pipelineExecutionId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latestInPipelineExecution = "latestInPipelineExecution"
+            case pipelineExecutionId = "pipelineExecutionId"
+        }
+    }
+
+    public struct RuleExecutionInput: AWSDecodableShape {
+        /// Configuration data for a rule execution, such as the resolved values for that run.
+        public let configuration: [String: String]?
+        /// Details of input artifacts of the rule that correspond to the rule  execution.
+        public let inputArtifacts: [ArtifactDetail]?
+        /// The Amazon Web Services Region for the rule, such as us-east-1.
+        public let region: String?
+        /// Configuration data for a rule execution with all variable references replaced with their real values for the execution.
+        public let resolvedConfiguration: [String: String]?
+        /// The ARN of the IAM service role that performs the declared rule. This is assumed through the roleArn for the pipeline.
+        public let roleArn: String?
+        /// The ID for the rule type, which is made up of the combined values for category, owner, provider, and version.
+        public let ruleTypeId: RuleTypeId?
+
+        public init(configuration: [String: String]? = nil, inputArtifacts: [ArtifactDetail]? = nil, region: String? = nil, resolvedConfiguration: [String: String]? = nil, roleArn: String? = nil, ruleTypeId: RuleTypeId? = nil) {
+            self.configuration = configuration
+            self.inputArtifacts = inputArtifacts
+            self.region = region
+            self.resolvedConfiguration = resolvedConfiguration
+            self.roleArn = roleArn
+            self.ruleTypeId = ruleTypeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case inputArtifacts = "inputArtifacts"
+            case region = "region"
+            case resolvedConfiguration = "resolvedConfiguration"
+            case roleArn = "roleArn"
+            case ruleTypeId = "ruleTypeId"
+        }
+    }
+
+    public struct RuleExecutionOutput: AWSDecodableShape {
+        /// Execution result information listed in the output details for a rule execution.
+        public let executionResult: RuleExecutionResult?
+
+        public init(executionResult: RuleExecutionResult? = nil) {
+            self.executionResult = executionResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionResult = "executionResult"
+        }
+    }
+
+    public struct RuleExecutionResult: AWSDecodableShape {
+        public let errorDetails: ErrorDetails?
+        /// The external ID for the rule execution.
+        public let externalExecutionId: String?
+        /// The external provider summary for the rule execution.
+        public let externalExecutionSummary: String?
+        /// The deepest external link to the external resource (for example, a repository URL or deployment endpoint) that is used when running the rule.
+        public let externalExecutionUrl: String?
+
+        public init(errorDetails: ErrorDetails? = nil, externalExecutionId: String? = nil, externalExecutionSummary: String? = nil, externalExecutionUrl: String? = nil) {
+            self.errorDetails = errorDetails
+            self.externalExecutionId = externalExecutionId
+            self.externalExecutionSummary = externalExecutionSummary
+            self.externalExecutionUrl = externalExecutionUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorDetails = "errorDetails"
+            case externalExecutionId = "externalExecutionId"
+            case externalExecutionSummary = "externalExecutionSummary"
+            case externalExecutionUrl = "externalExecutionUrl"
+        }
+    }
+
+    public struct RuleRevision: AWSDecodableShape {
+        /// The date and time when the most recent version of the rule was created, in timestamp format.
+        public let created: Date
+        /// The unique identifier of the change that set the state to this revision (for example, a deployment ID or timestamp).
+        public let revisionChangeId: String
+        /// The system-generated unique ID that identifies the revision number of the rule.
+        public let revisionId: String
+
+        public init(created: Date, revisionChangeId: String, revisionId: String) {
+            self.created = created
+            self.revisionChangeId = revisionChangeId
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case created = "created"
+            case revisionChangeId = "revisionChangeId"
+            case revisionId = "revisionId"
+        }
+    }
+
+    public struct RuleState: AWSDecodableShape {
+        /// The ID of the current revision of the artifact successfully worked on by the job.
+        public let currentRevision: RuleRevision?
+        /// A URL link for more information about the state of the action, such as a details page.
+        public let entityUrl: String?
+        /// Represents information about the latest run of an rule.
+        public let latestExecution: RuleExecution?
+        /// A URL link for more information about the revision, such as a commit details page.
+        public let revisionUrl: String?
+        /// The name of the rule.
+        public let ruleName: String?
+
+        public init(currentRevision: RuleRevision? = nil, entityUrl: String? = nil, latestExecution: RuleExecution? = nil, revisionUrl: String? = nil, ruleName: String? = nil) {
+            self.currentRevision = currentRevision
+            self.entityUrl = entityUrl
+            self.latestExecution = latestExecution
+            self.revisionUrl = revisionUrl
+            self.ruleName = ruleName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentRevision = "currentRevision"
+            case entityUrl = "entityUrl"
+            case latestExecution = "latestExecution"
+            case revisionUrl = "revisionUrl"
+            case ruleName = "ruleName"
+        }
+    }
+
+    public struct RuleType: AWSDecodableShape {
+        /// Represents information about a rule type.
+        public let id: RuleTypeId
+        public let inputArtifactDetails: ArtifactDetails
+        /// The configuration properties for the rule type.
+        public let ruleConfigurationProperties: [RuleConfigurationProperty]?
+        /// Returns information about the settings for a rule type.
+        public let settings: RuleTypeSettings?
+
+        public init(id: RuleTypeId, inputArtifactDetails: ArtifactDetails, ruleConfigurationProperties: [RuleConfigurationProperty]? = nil, settings: RuleTypeSettings? = nil) {
+            self.id = id
+            self.inputArtifactDetails = inputArtifactDetails
+            self.ruleConfigurationProperties = ruleConfigurationProperties
+            self.settings = settings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case inputArtifactDetails = "inputArtifactDetails"
+            case ruleConfigurationProperties = "ruleConfigurationProperties"
+            case settings = "settings"
+        }
+    }
+
+    public struct RuleTypeId: AWSEncodableShape & AWSDecodableShape {
+        /// A category defines what kind of rule can be run in the stage, and constrains the provider type for the rule. The valid category is Rule.
+        public let category: RuleCategory
+        /// The creator of the rule being called. The valid value for the Owner field in the rule category is AWS.
+        public let owner: RuleOwner?
+        /// The rule provider, such as the DeploymentWindow rule.
+        public let provider: String
+        /// A string that describes the rule version.
+        public let version: String?
+
+        public init(category: RuleCategory, owner: RuleOwner? = nil, provider: String, version: String? = nil) {
+            self.category = category
+            self.owner = owner
+            self.provider = provider
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.provider, name: "provider", parent: name, max: 35)
+            try self.validate(self.provider, name: "provider", parent: name, min: 1)
+            try self.validate(self.provider, name: "provider", parent: name, pattern: "^[0-9A-Za-z_-]+$")
+            try self.validate(self.version, name: "version", parent: name, max: 9)
+            try self.validate(self.version, name: "version", parent: name, min: 1)
+            try self.validate(self.version, name: "version", parent: name, pattern: "^[0-9A-Za-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "category"
+            case owner = "owner"
+            case provider = "provider"
+            case version = "version"
+        }
+    }
+
+    public struct RuleTypeSettings: AWSDecodableShape {
+        /// The URL returned to the CodePipeline console that provides a deep link to the resources of the external system, such as the configuration page for a CodeDeploy deployment group. This link is provided as part of the action display in the pipeline.
+        public let entityUrlTemplate: String?
+        /// The URL returned to the CodePipeline console that contains a link to the top-level landing page for the external system, such as the console page for CodeDeploy. This link is shown on the pipeline view page in the CodePipeline console and provides a link to the execution entity of the external action.
+        public let executionUrlTemplate: String?
+        /// The URL returned to the CodePipeline console that contains a link to the page where customers can update or change the configuration of the external action.
+        public let revisionUrlTemplate: String?
+        /// The URL of a sign-up page where users can sign up for an external service and perform initial configuration of the action provided by that service.
+        public let thirdPartyConfigurationUrl: String?
+
+        public init(entityUrlTemplate: String? = nil, executionUrlTemplate: String? = nil, revisionUrlTemplate: String? = nil, thirdPartyConfigurationUrl: String? = nil) {
+            self.entityUrlTemplate = entityUrlTemplate
+            self.executionUrlTemplate = executionUrlTemplate
+            self.revisionUrlTemplate = revisionUrlTemplate
+            self.thirdPartyConfigurationUrl = thirdPartyConfigurationUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityUrlTemplate = "entityUrlTemplate"
+            case executionUrlTemplate = "executionUrlTemplate"
+            case revisionUrlTemplate = "revisionUrlTemplate"
+            case thirdPartyConfigurationUrl = "thirdPartyConfigurationUrl"
+        }
+    }
+
     public struct S3ArtifactLocation: AWSDecodableShape {
         /// The name of the S3 bucket.
         public let bucketName: String
@@ -3623,6 +4303,40 @@ extension CodePipeline {
         }
     }
 
+    public struct StageConditionState: AWSDecodableShape {
+        /// The states of the conditions for a run of a condition for a stage.
+        public let conditionStates: [ConditionState]?
+        /// Represents information about the latest run of a condition for a stage.
+        public let latestExecution: StageConditionsExecution?
+
+        public init(conditionStates: [ConditionState]? = nil, latestExecution: StageConditionsExecution? = nil) {
+            self.conditionStates = conditionStates
+            self.latestExecution = latestExecution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionStates = "conditionStates"
+            case latestExecution = "latestExecution"
+        }
+    }
+
+    public struct StageConditionsExecution: AWSDecodableShape {
+        /// The status of a run of a condition for a stage.
+        public let status: ConditionExecutionStatus?
+        /// A summary of the run of the condition for a stage.
+        public let summary: String?
+
+        public init(status: ConditionExecutionStatus? = nil, summary: String? = nil) {
+            self.status = status
+            self.summary = summary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case summary = "summary"
+        }
+    }
+
     public struct StageContext: AWSDecodableShape {
         /// The name of the stage.
         public let name: String?
@@ -3639,37 +4353,48 @@ extension CodePipeline {
     public struct StageDeclaration: AWSEncodableShape & AWSDecodableShape {
         /// The actions included in a stage.
         public let actions: [ActionDeclaration]
+        /// The method to use when a stage allows entry. For example, configuring this field for conditions will allow entry to the stage when the conditions are met.
+        public let beforeEntry: BeforeEntryConditions?
         /// Reserved for future use.
         public let blockers: [BlockerDeclaration]?
         /// The name of the stage.
         public let name: String
         /// The method to use when a stage has not completed successfully. For example, configuring this field for rollback will roll back a failed stage automatically to the last successful pipeline execution in the stage.
         public let onFailure: FailureConditions?
+        /// The method to use when a stage has succeeded. For example, configuring this field for conditions will allow the stage to succeed when the conditions are met.
+        public let onSuccess: SuccessConditions?
 
-        public init(actions: [ActionDeclaration], blockers: [BlockerDeclaration]? = nil, name: String, onFailure: FailureConditions? = nil) {
+        public init(actions: [ActionDeclaration], beforeEntry: BeforeEntryConditions? = nil, blockers: [BlockerDeclaration]? = nil, name: String, onFailure: FailureConditions? = nil, onSuccess: SuccessConditions? = nil) {
             self.actions = actions
+            self.beforeEntry = beforeEntry
             self.blockers = blockers
             self.name = name
             self.onFailure = onFailure
+            self.onSuccess = onSuccess
         }
 
         public func validate(name: String) throws {
             try self.actions.forEach {
                 try $0.validate(name: "\(name).actions[]")
             }
+            try self.beforeEntry?.validate(name: "\(name).beforeEntry")
             try self.blockers?.forEach {
                 try $0.validate(name: "\(name).blockers[]")
             }
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9.@\\-_]+$")
+            try self.onFailure?.validate(name: "\(name).onFailure")
+            try self.onSuccess?.validate(name: "\(name).onSuccess")
         }
 
         private enum CodingKeys: String, CodingKey {
             case actions = "actions"
+            case beforeEntry = "beforeEntry"
             case blockers = "blockers"
             case name = "name"
             case onFailure = "onFailure"
+            case onSuccess = "onSuccess"
         }
     }
 
@@ -3697,6 +4422,8 @@ extension CodePipeline {
     public struct StageState: AWSDecodableShape {
         /// The state of the stage.
         public let actionStates: [ActionState]?
+        /// The state of the entry conditions for a stage.
+        public let beforeEntryConditionState: StageConditionState?
         public let inboundExecution: StageExecution?
         /// The inbound executions for a stage.
         public let inboundExecutions: [StageExecution]?
@@ -3704,24 +4431,34 @@ extension CodePipeline {
         public let inboundTransitionState: TransitionState?
         /// Information about the latest execution in the stage, including its ID and status.
         public let latestExecution: StageExecution?
+        /// The state of the failure conditions for a stage.
+        public let onFailureConditionState: StageConditionState?
+        /// The state of the success conditions for a stage.
+        public let onSuccessConditionState: StageConditionState?
         /// The name of the stage.
         public let stageName: String?
 
-        public init(actionStates: [ActionState]? = nil, inboundExecution: StageExecution? = nil, inboundExecutions: [StageExecution]? = nil, inboundTransitionState: TransitionState? = nil, latestExecution: StageExecution? = nil, stageName: String? = nil) {
+        public init(actionStates: [ActionState]? = nil, beforeEntryConditionState: StageConditionState? = nil, inboundExecution: StageExecution? = nil, inboundExecutions: [StageExecution]? = nil, inboundTransitionState: TransitionState? = nil, latestExecution: StageExecution? = nil, onFailureConditionState: StageConditionState? = nil, onSuccessConditionState: StageConditionState? = nil, stageName: String? = nil) {
             self.actionStates = actionStates
+            self.beforeEntryConditionState = beforeEntryConditionState
             self.inboundExecution = inboundExecution
             self.inboundExecutions = inboundExecutions
             self.inboundTransitionState = inboundTransitionState
             self.latestExecution = latestExecution
+            self.onFailureConditionState = onFailureConditionState
+            self.onSuccessConditionState = onSuccessConditionState
             self.stageName = stageName
         }
 
         private enum CodingKeys: String, CodingKey {
             case actionStates = "actionStates"
+            case beforeEntryConditionState = "beforeEntryConditionState"
             case inboundExecution = "inboundExecution"
             case inboundExecutions = "inboundExecutions"
             case inboundTransitionState = "inboundTransitionState"
             case latestExecution = "latestExecution"
+            case onFailureConditionState = "onFailureConditionState"
+            case onSuccessConditionState = "onSuccessConditionState"
             case stageName = "stageName"
         }
     }
@@ -3857,6 +4594,27 @@ extension CodePipeline {
 
         private enum CodingKeys: String, CodingKey {
             case stageName = "stageName"
+        }
+    }
+
+    public struct SuccessConditions: AWSEncodableShape & AWSDecodableShape {
+        /// The conditions that are success conditions.
+        public let conditions: [Condition]
+
+        public init(conditions: [Condition]) {
+            self.conditions = conditions
+        }
+
+        public func validate(name: String) throws {
+            try self.conditions.forEach {
+                try $0.validate(name: "\(name).conditions[]")
+            }
+            try self.validate(self.conditions, name: "conditions", parent: name, max: 1)
+            try self.validate(self.conditions, name: "conditions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditions = "conditions"
         }
     }
 
@@ -4094,7 +4852,7 @@ extension CodePipeline {
     public struct WebhookAuthConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The property used to configure acceptance of webhooks in an IP address range. For IP, only the AllowedIPRange property must be set. This property must be set to a valid CIDR range.
         public let allowedIPRange: String?
-        /// The property used to configure GitHub authentication. For GITHUB_HMAC, only the SecretToken property must be set.
+        /// The property used to configure GitHub authentication. For GITHUB_HMAC, only the SecretToken property must be set.  When creating CodePipeline webhooks, do not use your own credentials or reuse the same secret token across multiple webhooks. For optimal security, generate a unique secret token for each webhook you create. The secret token is an arbitrary string that you provide, which GitHub uses to compute and sign the webhook payloads sent to CodePipeline, for protecting the integrity and authenticity of the webhook payloads. Using your own credentials or reusing the same token across multiple webhooks can lead to security vulnerabilities.   If a secret token was provided, it will be redacted in the response.
         public let secretToken: String?
 
         public init(allowedIPRange: String? = nil, secretToken: String? = nil) {
@@ -4116,7 +4874,7 @@ extension CodePipeline {
     }
 
     public struct WebhookDefinition: AWSEncodableShape & AWSDecodableShape {
-        /// Supported options are GITHUB_HMAC, IP, and UNAUTHENTICATED.   For information about the authentication scheme implemented by GITHUB_HMAC, see Securing your webhooks on the GitHub Developer website.   IP rejects webhooks trigger requests unless they originate from an IP address in the IP range whitelisted in the authentication configuration.   UNAUTHENTICATED accepts all webhook trigger requests regardless of origin.
+        /// Supported options are GITHUB_HMAC, IP, and UNAUTHENTICATED.  When creating CodePipeline webhooks, do not use your own credentials or reuse the same secret token across multiple webhooks. For optimal security, generate a unique secret token for each webhook you create. The secret token is an arbitrary string that you provide, which GitHub uses to compute and sign the webhook payloads sent to CodePipeline, for protecting the integrity and authenticity of the webhook payloads. Using your own credentials or reusing the same token across multiple webhooks can lead to security vulnerabilities.   If a secret token was provided, it will be redacted in the response.    For information about the authentication scheme implemented by GITHUB_HMAC, see Securing your webhooks on the GitHub Developer website.   IP rejects webhooks trigger requests unless they originate from an IP address in the IP range whitelisted in the authentication configuration.   UNAUTHENTICATED accepts all webhook trigger requests regardless of origin.
         public let authentication: WebhookAuthenticationType
         /// Properties that configure the authentication applied to incoming webhook trigger requests. The required properties depend on the authentication type. For GITHUB_HMAC, only the SecretToken property must be set. For IP, only the AllowedIPRange property must be set to a valid CIDR range. For UNAUTHENTICATED, no properties can be set.
         public let authenticationConfiguration: WebhookAuthConfiguration
@@ -4200,6 +4958,7 @@ public struct CodePipelineErrorType: AWSErrorType {
         case approvalAlreadyCompletedException = "ApprovalAlreadyCompletedException"
         case concurrentModificationException = "ConcurrentModificationException"
         case concurrentPipelineExecutionsLimitExceededException = "ConcurrentPipelineExecutionsLimitExceededException"
+        case conditionNotOverridableException = "ConditionNotOverridableException"
         case conflictException = "ConflictException"
         case duplicatedStopRequestException = "DuplicatedStopRequestException"
         case invalidActionDeclarationException = "InvalidActionDeclarationException"
@@ -4264,6 +5023,8 @@ public struct CodePipelineErrorType: AWSErrorType {
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// The pipeline has reached the limit for concurrent pipeline executions.
     public static var concurrentPipelineExecutionsLimitExceededException: Self { .init(.concurrentPipelineExecutionsLimitExceededException) }
+    /// Unable to override because the condition does not allow overrides.
+    public static var conditionNotOverridableException: Self { .init(.conditionNotOverridableException) }
     /// Your request cannot be handled because the pipeline is busy handling ongoing activities. Try again later.
     public static var conflictException: Self { .init(.conflictException) }
     /// The pipeline execution is already in a Stopping state. If you already chose to stop and wait, you cannot make that request again. You can choose to stop and abandon now, but be aware that this option can lead to failed tasks or out of sequence tasks. If you already chose to stop and abandon, you cannot make that request again.

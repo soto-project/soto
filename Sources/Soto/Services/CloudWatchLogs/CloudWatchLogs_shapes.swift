@@ -57,6 +57,17 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
+    public enum EntityRejectionErrorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case entitySizeTooLarge = "EntitySizeTooLarge"
+        case invalidAttributes = "InvalidAttributes"
+        case invalidEntity = "InvalidEntity"
+        case invalidKeyAttribute = "InvalidKeyAttributes"
+        case invalidTypeValue = "InvalidTypeValue"
+        case missingRequiredFields = "MissingRequiredFields"
+        case unsupportedLogGroupType = "UnsupportedLogGroupType"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EvaluationFrequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fifteenMin = "FIFTEEN_MIN"
         case fiveMin = "FIVE_MIN"
@@ -446,17 +457,96 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct ConfigurationTemplate: AWSDecodableShape {
+        /// The action permissions that a caller needs to have to be able to successfully create a delivery source on the  desired resource type when calling PutDeliverySource.
+        public let allowedActionForAllowVendedLogsDeliveryForResource: String?
+        /// The valid values that a caller can use as field delimiters when calling CreateDelivery  or  UpdateDeliveryConfiguration   on a delivery that delivers in Plain, W3C, or Raw format.
+        public let allowedFieldDelimiters: [String]?
+        /// The allowed fields that a caller can use in the recordFields parameter of a CreateDelivery  or  UpdateDeliveryConfiguration operation.
+        public let allowedFields: [RecordField]?
+        /// The list of delivery destination output formats that are supported by this log source.
+        public let allowedOutputFormats: [OutputFormat]?
+        /// The list of variable fields that can be used in the suffix path of a delivery that delivers to an S3 bucket.
+        public let allowedSuffixPathFields: [String]?
+        /// A mapping that displays the default value of each property within a delivery’s configuration, if it is not specified in the request.
+        public let defaultDeliveryConfigValues: ConfigurationTemplateDeliveryConfigValues?
+        /// A string specifying which destination type this configuration template applies to.
+        public let deliveryDestinationType: DeliveryDestinationType?
+        /// A string specifying which log type this configuration template applies to.
+        public let logType: String?
+        /// A string specifying which resource type this configuration template applies to.
+        public let resourceType: String?
+        /// A string specifying which service this configuration template applies to. For more information about supported services see  Enable logging from Amazon Web Services  services..
+        public let service: String?
+
+        public init(allowedActionForAllowVendedLogsDeliveryForResource: String? = nil, allowedFieldDelimiters: [String]? = nil, allowedFields: [RecordField]? = nil, allowedOutputFormats: [OutputFormat]? = nil, allowedSuffixPathFields: [String]? = nil, defaultDeliveryConfigValues: ConfigurationTemplateDeliveryConfigValues? = nil, deliveryDestinationType: DeliveryDestinationType? = nil, logType: String? = nil, resourceType: String? = nil, service: String? = nil) {
+            self.allowedActionForAllowVendedLogsDeliveryForResource = allowedActionForAllowVendedLogsDeliveryForResource
+            self.allowedFieldDelimiters = allowedFieldDelimiters
+            self.allowedFields = allowedFields
+            self.allowedOutputFormats = allowedOutputFormats
+            self.allowedSuffixPathFields = allowedSuffixPathFields
+            self.defaultDeliveryConfigValues = defaultDeliveryConfigValues
+            self.deliveryDestinationType = deliveryDestinationType
+            self.logType = logType
+            self.resourceType = resourceType
+            self.service = service
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedActionForAllowVendedLogsDeliveryForResource = "allowedActionForAllowVendedLogsDeliveryForResource"
+            case allowedFieldDelimiters = "allowedFieldDelimiters"
+            case allowedFields = "allowedFields"
+            case allowedOutputFormats = "allowedOutputFormats"
+            case allowedSuffixPathFields = "allowedSuffixPathFields"
+            case defaultDeliveryConfigValues = "defaultDeliveryConfigValues"
+            case deliveryDestinationType = "deliveryDestinationType"
+            case logType = "logType"
+            case resourceType = "resourceType"
+            case service = "service"
+        }
+    }
+
+    public struct ConfigurationTemplateDeliveryConfigValues: AWSDecodableShape {
+        /// The default field delimiter that is used in a  CreateDelivery operation when the field delimiter is not specified in that operation. The field delimiter is used only when  the final output delivery is in Plain, W3C, or Raw format.
+        public let fieldDelimiter: String?
+        /// The default record fields that will be delivered when a list of record fields is not provided in  a CreateDelivery operation.
+        public let recordFields: [String]?
+        /// The delivery parameters that are used when you create a delivery to a delivery destination that is an S3 Bucket.
+        public let s3DeliveryConfiguration: S3DeliveryConfiguration?
+
+        public init(fieldDelimiter: String? = nil, recordFields: [String]? = nil, s3DeliveryConfiguration: S3DeliveryConfiguration? = nil) {
+            self.fieldDelimiter = fieldDelimiter
+            self.recordFields = recordFields
+            self.s3DeliveryConfiguration = s3DeliveryConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldDelimiter = "fieldDelimiter"
+            case recordFields = "recordFields"
+            case s3DeliveryConfiguration = "s3DeliveryConfiguration"
+        }
+    }
+
     public struct CreateDeliveryRequest: AWSEncodableShape {
         /// The ARN of the delivery destination to use for this delivery.
         public let deliveryDestinationArn: String
         /// The name of the delivery source to use for this delivery.
         public let deliverySourceName: String
+        /// The field delimiter to use between record fields when the final output format of a delivery is in Plain, W3C, or Raw format.
+        public let fieldDelimiter: String?
+        /// The list of record fields to be delivered to the destination, in order.  If the delivery’s log source has mandatory fields, they must be included in this list.
+        public let recordFields: [String]?
+        /// This structure contains parameters that are valid only when the delivery’s delivery destination is an S3 bucket.
+        public let s3DeliveryConfiguration: S3DeliveryConfiguration?
         /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see  Tagging Amazon Web Services resources
         public let tags: [String: String]?
 
-        public init(deliveryDestinationArn: String, deliverySourceName: String, tags: [String: String]? = nil) {
+        public init(deliveryDestinationArn: String, deliverySourceName: String, fieldDelimiter: String? = nil, recordFields: [String]? = nil, s3DeliveryConfiguration: S3DeliveryConfiguration? = nil, tags: [String: String]? = nil) {
             self.deliveryDestinationArn = deliveryDestinationArn
             self.deliverySourceName = deliverySourceName
+            self.fieldDelimiter = fieldDelimiter
+            self.recordFields = recordFields
+            self.s3DeliveryConfiguration = s3DeliveryConfiguration
             self.tags = tags
         }
 
@@ -464,6 +554,13 @@ extension CloudWatchLogs {
             try self.validate(self.deliverySourceName, name: "deliverySourceName", parent: name, max: 60)
             try self.validate(self.deliverySourceName, name: "deliverySourceName", parent: name, min: 1)
             try self.validate(self.deliverySourceName, name: "deliverySourceName", parent: name, pattern: "^[\\w-]*$")
+            try self.validate(self.fieldDelimiter, name: "fieldDelimiter", parent: name, max: 5)
+            try self.recordFields?.forEach {
+                try validate($0, name: "recordFields[]", parent: name, max: 64)
+                try validate($0, name: "recordFields[]", parent: name, min: 1)
+            }
+            try self.validate(self.recordFields, name: "recordFields", parent: name, max: 128)
+            try self.s3DeliveryConfiguration?.validate(name: "\(name).s3DeliveryConfiguration")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -478,6 +575,9 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case deliveryDestinationArn = "deliveryDestinationArn"
             case deliverySourceName = "deliverySourceName"
+            case fieldDelimiter = "fieldDelimiter"
+            case recordFields = "recordFields"
+            case s3DeliveryConfiguration = "s3DeliveryConfiguration"
             case tags = "tags"
         }
     }
@@ -1016,17 +1116,26 @@ extension CloudWatchLogs {
         public let deliveryDestinationType: DeliveryDestinationType?
         /// The name of the delivery source that is associated with this delivery.
         public let deliverySourceName: String?
+        /// The field delimiter that is used between record fields when the final output format of a delivery is in Plain, W3C, or Raw format.
+        public let fieldDelimiter: String?
         /// The unique ID that identifies this delivery in your account.
         public let id: String?
+        /// The record fields used in this delivery.
+        public let recordFields: [String]?
+        /// This structure contains delivery configurations that apply only when the delivery destination resource is an S3 bucket.
+        public let s3DeliveryConfiguration: S3DeliveryConfiguration?
         /// The tags that have been assigned to this delivery.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, deliveryDestinationArn: String? = nil, deliveryDestinationType: DeliveryDestinationType? = nil, deliverySourceName: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, deliveryDestinationArn: String? = nil, deliveryDestinationType: DeliveryDestinationType? = nil, deliverySourceName: String? = nil, fieldDelimiter: String? = nil, id: String? = nil, recordFields: [String]? = nil, s3DeliveryConfiguration: S3DeliveryConfiguration? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.deliveryDestinationArn = deliveryDestinationArn
             self.deliveryDestinationType = deliveryDestinationType
             self.deliverySourceName = deliverySourceName
+            self.fieldDelimiter = fieldDelimiter
             self.id = id
+            self.recordFields = recordFields
+            self.s3DeliveryConfiguration = s3DeliveryConfiguration
             self.tags = tags
         }
 
@@ -1035,7 +1144,10 @@ extension CloudWatchLogs {
             case deliveryDestinationArn = "deliveryDestinationArn"
             case deliveryDestinationType = "deliveryDestinationType"
             case deliverySourceName = "deliverySourceName"
+            case fieldDelimiter = "fieldDelimiter"
             case id = "id"
+            case recordFields = "recordFields"
+            case s3DeliveryConfiguration = "s3DeliveryConfiguration"
             case tags = "tags"
         }
     }
@@ -1159,6 +1271,79 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case accountPolicies = "accountPolicies"
+        }
+    }
+
+    public struct DescribeConfigurationTemplatesRequest: AWSEncodableShape {
+        /// Use this parameter to filter the response to include only the  configuration templates that apply to the delivery destination types that you specify here.
+        public let deliveryDestinationTypes: [DeliveryDestinationType]?
+        /// Use this parameter to limit the number of configuration templates that are returned in the response.
+        public let limit: Int?
+        /// Use this parameter to filter the response to include only the  configuration templates that apply to the log types that you specify here.
+        public let logTypes: [String]?
+        public let nextToken: String?
+        /// Use this parameter to filter the response to include only the  configuration templates that apply to the resource types that you specify here.
+        public let resourceTypes: [String]?
+        /// Use this parameter to filter the response to include only the  configuration templates that apply to the Amazon Web Services service that you specify here.
+        public let service: String?
+
+        public init(deliveryDestinationTypes: [DeliveryDestinationType]? = nil, limit: Int? = nil, logTypes: [String]? = nil, nextToken: String? = nil, resourceTypes: [String]? = nil, service: String? = nil) {
+            self.deliveryDestinationTypes = deliveryDestinationTypes
+            self.limit = limit
+            self.logTypes = logTypes
+            self.nextToken = nextToken
+            self.resourceTypes = resourceTypes
+            self.service = service
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deliveryDestinationTypes, name: "deliveryDestinationTypes", parent: name, max: 3)
+            try self.validate(self.deliveryDestinationTypes, name: "deliveryDestinationTypes", parent: name, min: 1)
+            try self.validate(self.limit, name: "limit", parent: name, max: 50)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.logTypes?.forEach {
+                try validate($0, name: "logTypes[]", parent: name, max: 255)
+                try validate($0, name: "logTypes[]", parent: name, min: 1)
+                try validate($0, name: "logTypes[]", parent: name, pattern: "^[\\w]*$")
+            }
+            try self.validate(self.logTypes, name: "logTypes", parent: name, max: 10)
+            try self.validate(self.logTypes, name: "logTypes", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.resourceTypes?.forEach {
+                try validate($0, name: "resourceTypes[]", parent: name, max: 255)
+                try validate($0, name: "resourceTypes[]", parent: name, min: 1)
+                try validate($0, name: "resourceTypes[]", parent: name, pattern: "^[\\w-_]*$")
+            }
+            try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 10)
+            try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, min: 1)
+            try self.validate(self.service, name: "service", parent: name, max: 255)
+            try self.validate(self.service, name: "service", parent: name, min: 1)
+            try self.validate(self.service, name: "service", parent: name, pattern: "^[\\w_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryDestinationTypes = "deliveryDestinationTypes"
+            case limit = "limit"
+            case logTypes = "logTypes"
+            case nextToken = "nextToken"
+            case resourceTypes = "resourceTypes"
+            case service = "service"
+        }
+    }
+
+    public struct DescribeConfigurationTemplatesResponse: AWSDecodableShape {
+        /// An array of objects, where each object describes one configuration template that matches the filters that you specified in the request.
+        public let configurationTemplates: [ConfigurationTemplate]?
+        public let nextToken: String?
+
+        public init(configurationTemplates: [ConfigurationTemplate]? = nil, nextToken: String? = nil) {
+            self.configurationTemplates = configurationTemplates
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationTemplates = "configurationTemplates"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1821,6 +2006,41 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct Entity: AWSEncodableShape {
+        /// Reserved for internal use.
+        public let attributes: [String: String]?
+        /// Reserved for internal use.
+        public let keyAttributes: [String: String]?
+
+        public init(attributes: [String: String]? = nil, keyAttributes: [String: String]? = nil) {
+            self.attributes = attributes
+            self.keyAttributes = keyAttributes
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes?.forEach {
+                try validate($0.key, name: "attributes.key", parent: name, max: 256)
+                try validate($0.key, name: "attributes.key", parent: name, min: 1)
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 512)
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.attributes, name: "attributes", parent: name, max: 10)
+            try self.keyAttributes?.forEach {
+                try validate($0.key, name: "keyAttributes.key", parent: name, max: 32)
+                try validate($0.key, name: "keyAttributes.key", parent: name, min: 1)
+                try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, max: 512)
+                try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 3)
+            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case keyAttributes = "keyAttributes"
+        }
+    }
+
     public struct ExportTask: AWSDecodableShape {
         /// The name of the S3 bucket to which the log data was exported.
         public let destination: String?
@@ -1913,9 +2133,9 @@ extension CloudWatchLogs {
         public let logGroupIdentifier: String?
         /// The name of the log group to search.   You must include either logGroupIdentifier or logGroupName, but not  both.
         public let logGroupName: String?
-        /// Filters the results to include only events from log streams that have names starting with this prefix. If you specify a value for both logStreamNamePrefix and logStreamNames, but the value for logStreamNamePrefix does not match any log stream names specified in logStreamNames, the action returns an InvalidParameterException error.
+        /// Filters the results to include only events from log streams that have names starting with this prefix. If you specify a value for both logStreamNamePrefix and logStreamNames, the action returns an InvalidParameterException error.
         public let logStreamNamePrefix: String?
-        /// Filters the results to only logs from the log streams in this list. If you specify a value for both logStreamNamePrefix and logStreamNames, the action returns an InvalidParameterException error.
+        /// Filters the results to only logs from the log streams in this list. If you specify a value for both logStreamNames and logStreamNamePrefix, the action returns an InvalidParameterException error.
         public let logStreamNames: [String]?
         /// The token for the next set of events to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -3036,7 +3256,7 @@ extension CloudWatchLogs {
     }
 
     public struct PutAccountPolicyRequest: AWSEncodableShape {
-        /// Specify the policy, in JSON.  Data protection policy  A data protection policy must include two JSON blocks:   The first block must include both a DataIdentifer array and an  Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see  Types of data that you can mask. The Operation property with an Audit action is required to find the  sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more  destinations to send audit findings to. If you specify destinations such as log groups,  Firehose streams, and S3 buckets, they must already exist.   The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the  data, and it must  contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.   For an example data protection policy, see the Examples section on this page.  The contents of the two DataIdentifer arrays must match exactly.  In addition to the two JSON blocks, the policyDocument can also include Name, Description, and Version fields. The Name is different than the  operation's policyName parameter, and is used as a dimension when CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON specified in policyDocument can be up to 30,720 characters long.  Subscription filter policy  A subscription filter policy can include the following attributes in a JSON block:    DestinationArn The ARN of the destination to deliver log events to. Supported destinations are:   An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery.   An Firehose data stream in the same account as the subscription policy, for same-account delivery.   A Lambda function in the same account as the subscription policy, for same-account delivery.   A logical destination in a different account created with PutDestination, for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations.      RoleArn The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery.    FilterPattern A filter pattern for subscribing to a  filtered stream of log events.    DistributionThe method used to distribute log data to the destination.  By default, log data is grouped by log stream, but the grouping can be set to Random for a more even distribution. This property is only applicable when the destination is an Kinesis Data Streams data stream.
+        /// Specify the policy, in JSON.  Data protection policy  A data protection policy must include two JSON blocks:   The first block must include both a DataIdentifer array and an  Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see  Types of data that you can mask. The Operation property with an Audit action is required to find the  sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more  destinations to send audit findings to. If you specify destinations such as log groups,  Firehose streams, and S3 buckets, they must already exist.   The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the  data, and it must  contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.   For an example data protection policy, see the Examples section on this page.  The contents of the two DataIdentifer arrays must match exactly.  In addition to the two JSON blocks, the policyDocument can also include Name, Description, and Version fields. The Name is different than the  operation's policyName parameter, and is used as a dimension when CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON specified in policyDocument can be up to 30,720 characters long.  Subscription filter policy  A subscription filter policy can include the following attributes in a JSON block:    DestinationArn The ARN of the destination to deliver log events to. Supported destinations are:   An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery.   An Firehose data stream in the same account as the subscription policy, for same-account delivery.   A Lambda function in the same account as the subscription policy, for same-account delivery.   A logical destination in a different account created with PutDestination, for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations.      RoleArn The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery.    FilterPattern A filter pattern for subscribing to a  filtered stream of log events.    Distribution The method used to distribute log data to the destination.  By default, log data is grouped by log stream, but the grouping can be set to Random for a more even distribution. This property is only applicable when the destination is an Kinesis Data Streams data stream.
         public let policyDocument: String
         /// A name for the policy. This must be unique within the account.
         public let policyName: String
@@ -3213,7 +3433,7 @@ extension CloudWatchLogs {
     }
 
     public struct PutDeliverySourceRequest: AWSEncodableShape {
-        /// Defines the type of log that the source is sending.   For Amazon CodeWhisperer, the valid value is  EVENT_LOGS.   For IAM Identity Centerr, the valid value is  ERROR_LOGS.   For Amazon WorkMail, the valid values are  ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, and WORKMAIL_MAILBOX_ACCESS_LOGS.
+        /// Defines the type of log that the source is sending.   For Amazon Bedrock, the valid value is  APPLICATION_LOGS.   For Amazon CodeWhisperer, the valid value is  EVENT_LOGS.   For IAM Identity Center, the valid value is  ERROR_LOGS.   For Amazon WorkMail, the valid values are  ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, and WORKMAIL_MAILBOX_ACCESS_LOGS.
         public let logType: String
         /// A name for this delivery source. This name must be unique for all delivery sources in your account.
         public let name: String
@@ -3352,6 +3572,8 @@ extension CloudWatchLogs {
     }
 
     public struct PutLogEventsRequest: AWSEncodableShape {
+        /// Reserved for internal use.
+        public let entity: Entity?
         /// The log events.
         public let logEvents: [InputLogEvent]
         /// The name of the log group.
@@ -3361,7 +3583,8 @@ extension CloudWatchLogs {
         /// The sequence token obtained from the response of the previous PutLogEvents call.  The sequenceToken parameter is now ignored in PutLogEvents actions. PutLogEvents actions are now accepted and never return InvalidSequenceTokenException or DataAlreadyAcceptedException even if the sequence token is not valid.
         public let sequenceToken: String?
 
-        public init(logEvents: [InputLogEvent], logGroupName: String, logStreamName: String, sequenceToken: String? = nil) {
+        public init(entity: Entity? = nil, logEvents: [InputLogEvent], logGroupName: String, logStreamName: String, sequenceToken: String? = nil) {
+            self.entity = entity
             self.logEvents = logEvents
             self.logGroupName = logGroupName
             self.logStreamName = logStreamName
@@ -3369,6 +3592,7 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
+            try self.entity?.validate(name: "\(name).entity")
             try self.logEvents.forEach {
                 try $0.validate(name: "\(name).logEvents[]")
             }
@@ -3384,6 +3608,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case entity = "entity"
             case logEvents = "logEvents"
             case logGroupName = "logGroupName"
             case logStreamName = "logStreamName"
@@ -3394,16 +3619,20 @@ extension CloudWatchLogs {
     public struct PutLogEventsResponse: AWSDecodableShape {
         /// The next sequence token.  This field has been deprecated. The sequence token is now ignored in PutLogEvents actions. PutLogEvents actions are always accepted even if the sequence token is not valid. You can use parallel PutLogEvents actions on the same log stream and you do not need to wait for the response of a previous PutLogEvents action to obtain  the nextSequenceToken value.
         public let nextSequenceToken: String?
+        /// Reserved for internal use.
+        public let rejectedEntityInfo: RejectedEntityInfo?
         /// The rejected events.
         public let rejectedLogEventsInfo: RejectedLogEventsInfo?
 
-        public init(nextSequenceToken: String? = nil, rejectedLogEventsInfo: RejectedLogEventsInfo? = nil) {
+        public init(nextSequenceToken: String? = nil, rejectedEntityInfo: RejectedEntityInfo? = nil, rejectedLogEventsInfo: RejectedLogEventsInfo? = nil) {
             self.nextSequenceToken = nextSequenceToken
+            self.rejectedEntityInfo = rejectedEntityInfo
             self.rejectedLogEventsInfo = rejectedLogEventsInfo
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextSequenceToken = "nextSequenceToken"
+            case rejectedEntityInfo = "rejectedEntityInfo"
             case rejectedLogEventsInfo = "rejectedLogEventsInfo"
         }
     }
@@ -3690,6 +3919,36 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct RecordField: AWSDecodableShape {
+        /// If this is true, the record field must be present in the recordFields parameter provided to a  CreateDelivery  or  UpdateDeliveryConfiguration operation.
+        public let mandatory: Bool?
+        /// The name to use when specifying this record field in a  CreateDelivery  or  UpdateDeliveryConfiguration operation.
+        public let name: String?
+
+        public init(mandatory: Bool? = nil, name: String? = nil) {
+            self.mandatory = mandatory
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mandatory = "mandatory"
+            case name = "name"
+        }
+    }
+
+    public struct RejectedEntityInfo: AWSDecodableShape {
+        /// Reserved for internal use.
+        public let errorType: EntityRejectionErrorType
+
+        public init(errorType: EntityRejectionErrorType) {
+            self.errorType = errorType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorType = "errorType"
+        }
+    }
+
     public struct RejectedLogEventsInfo: AWSDecodableShape {
         /// The expired log events.
         public let expiredLogEventEndIndex: Int?
@@ -3746,6 +4005,28 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case field = "field"
             case value = "value"
+        }
+    }
+
+    public struct S3DeliveryConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// This parameter causes the S3 objects that contain delivered logs to use a prefix structure that allows for integration with Apache Hive.
+        public let enableHiveCompatiblePath: Bool?
+        /// This string allows re-configuring the S3 object prefix to contain either static or variable sections. The valid variables  to use in the suffix path will vary by each log source. See ConfigurationTemplate$allowedSuffixPathFields for  more info on what values are supported in the suffix path for each log source.
+        public let suffixPath: String?
+
+        public init(enableHiveCompatiblePath: Bool? = nil, suffixPath: String? = nil) {
+            self.enableHiveCompatiblePath = enableHiveCompatiblePath
+            self.suffixPath = suffixPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.suffixPath, name: "suffixPath", parent: name, max: 256)
+            try self.validate(self.suffixPath, name: "suffixPath", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableHiveCompatiblePath = "enableHiveCompatiblePath"
+            case suffixPath = "suffixPath"
         }
     }
 
@@ -4204,6 +4485,48 @@ extension CloudWatchLogs {
             case suppressionPeriod = "suppressionPeriod"
             case suppressionType = "suppressionType"
         }
+    }
+
+    public struct UpdateDeliveryConfigurationRequest: AWSEncodableShape {
+        /// The field delimiter to use between record fields when the final output format of a delivery is in Plain, W3C, or Raw format.
+        public let fieldDelimiter: String?
+        /// The ID of the delivery to be updated by this request.
+        public let id: String
+        /// The list of record fields to be delivered to the destination, in order.  If the delivery’s log source has mandatory fields, they must be included in this list.
+        public let recordFields: [String]?
+        /// This structure contains parameters that are valid only when the delivery’s delivery destination is an S3 bucket.
+        public let s3DeliveryConfiguration: S3DeliveryConfiguration?
+
+        public init(fieldDelimiter: String? = nil, id: String, recordFields: [String]? = nil, s3DeliveryConfiguration: S3DeliveryConfiguration? = nil) {
+            self.fieldDelimiter = fieldDelimiter
+            self.id = id
+            self.recordFields = recordFields
+            self.s3DeliveryConfiguration = s3DeliveryConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldDelimiter, name: "fieldDelimiter", parent: name, max: 5)
+            try self.validate(self.id, name: "id", parent: name, max: 64)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9A-Za-z]+$")
+            try self.recordFields?.forEach {
+                try validate($0, name: "recordFields[]", parent: name, max: 64)
+                try validate($0, name: "recordFields[]", parent: name, min: 1)
+            }
+            try self.validate(self.recordFields, name: "recordFields", parent: name, max: 128)
+            try self.s3DeliveryConfiguration?.validate(name: "\(name).s3DeliveryConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldDelimiter = "fieldDelimiter"
+            case id = "id"
+            case recordFields = "recordFields"
+            case s3DeliveryConfiguration = "s3DeliveryConfiguration"
+        }
+    }
+
+    public struct UpdateDeliveryConfigurationResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateLogAnomalyDetectorRequest: AWSEncodableShape {

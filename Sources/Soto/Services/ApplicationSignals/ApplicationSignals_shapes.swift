@@ -28,7 +28,15 @@ extension ApplicationSignals {
 
     public enum DurationUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case day = "DAY"
+        case hour = "HOUR"
+        case minute = "MINUTE"
         case month = "MONTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case periodBased = "PeriodBased"
+        case requestBased = "RequestBased"
         public var description: String { return self.rawValue }
     }
 
@@ -135,6 +143,60 @@ extension ApplicationSignals {
         }
     }
 
+    public enum MonitoredRequestCountMetricDataQueries: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// If you want to count "bad requests" to determine the percentage of successful requests for this request-based SLO, specify the metric to use as "bad requests" in this structure.
+        case badCountMetric([MetricDataQuery])
+        /// If you want to count "good requests" to determine the percentage of successful requests for this request-based SLO, specify the metric to use as "good requests" in this structure.
+        case goodCountMetric([MetricDataQuery])
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .badCountMetric:
+                let value = try container.decode([MetricDataQuery].self, forKey: .badCountMetric)
+                self = .badCountMetric(value)
+            case .goodCountMetric:
+                let value = try container.decode([MetricDataQuery].self, forKey: .goodCountMetric)
+                self = .goodCountMetric(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .badCountMetric(let value):
+                try container.encode(value, forKey: .badCountMetric)
+            case .goodCountMetric(let value):
+                try container.encode(value, forKey: .goodCountMetric)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .badCountMetric(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).badCountMetric[]")
+                }
+            case .goodCountMetric(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).goodCountMetric[]")
+                }
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case badCountMetric = "BadCountMetric"
+            case goodCountMetric = "GoodCountMetric"
+        }
+    }
+
     // MARK: Shapes
 
     public struct BatchGetServiceLevelObjectiveBudgetReportInput: AWSEncodableShape {
@@ -208,19 +270,22 @@ extension ApplicationSignals {
     public struct CreateServiceLevelObjectiveInput: AWSEncodableShape {
         /// An optional description for this SLO.
         public let description: String?
-        /// A structure that contains the attributes that determine the goal of the SLO. This includes the time period for evaluation and the attainment threshold.
+        /// This structure contains the attributes that determine the goal of the SLO.
         public let goal: Goal?
         /// A name for this SLO.
         public let name: String
-        /// A structure that contains information about what service and what performance metric that this SLO will monitor.
-        public let sliConfig: ServiceLevelIndicatorConfig
+        /// If this SLO is a request-based SLO, this structure defines the information about what performance metric this SLO will monitor. You can't specify both RequestBasedSliConfig and SliConfig in the same operation.
+        public let requestBasedSliConfig: RequestBasedServiceLevelIndicatorConfig?
+        /// If this SLO is a period-based SLO, this structure defines the information about what performance metric this SLO will monitor. You can't specify both RequestBasedSliConfig and SliConfig in the same operation.
+        public let sliConfig: ServiceLevelIndicatorConfig?
         /// A list of key-value pairs to associate with the SLO. You can associate as many as 50 tags with an SLO. To be able to associate tags with the SLO when you create the SLO, you must have the cloudwatch:TagResource permission. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values.
         public let tags: [Tag]?
 
-        public init(description: String? = nil, goal: Goal? = nil, name: String, sliConfig: ServiceLevelIndicatorConfig, tags: [Tag]? = nil) {
+        public init(description: String? = nil, goal: Goal? = nil, name: String, requestBasedSliConfig: RequestBasedServiceLevelIndicatorConfig? = nil, sliConfig: ServiceLevelIndicatorConfig? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.goal = goal
             self.name = name
+            self.requestBasedSliConfig = requestBasedSliConfig
             self.sliConfig = sliConfig
             self.tags = tags
         }
@@ -230,7 +295,8 @@ extension ApplicationSignals {
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.goal?.validate(name: "\(name).goal")
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$")
-            try self.sliConfig.validate(name: "\(name).sliConfig")
+            try self.requestBasedSliConfig?.validate(name: "\(name).requestBasedSliConfig")
+            try self.sliConfig?.validate(name: "\(name).sliConfig")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -241,6 +307,7 @@ extension ApplicationSignals {
             case description = "Description"
             case goal = "Goal"
             case name = "Name"
+            case requestBasedSliConfig = "RequestBasedSliConfig"
             case sliConfig = "SliConfig"
             case tags = "Tags"
         }
@@ -309,11 +376,11 @@ extension ApplicationSignals {
     }
 
     public struct GetServiceInput: AWSEncodableShape {
-        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let endTime: Date
         /// Use this field to specify which service you want to retrieve information for. You must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]
-        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, keyAttributes: [String: String], startTime: Date) {
@@ -381,28 +448,32 @@ extension ApplicationSignals {
     }
 
     public struct GetServiceOutput: AWSDecodableShape {
-        /// The end time of the data included in the response. In a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057.
+        /// The end time of the data included in the response. In a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057. This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let endTime: Date
+        /// An array of string-to-string maps that each contain information about one log group associated with this service. Each  string-to-string map includes the following fields:    "Type": "AWS::Resource"     "ResourceType": "AWS::Logs::LogGroup"     "Identifier": "name-of-log-group"
+        public let logGroupReferences: [[String: String]]?
         /// A structure containing information about the service.
         public let service: Service
-        /// The start time of the data included in the response. In a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057.
+        /// The start time of the data included in the response. In a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057. This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let startTime: Date
 
-        public init(endTime: Date, service: Service, startTime: Date) {
+        public init(endTime: Date, logGroupReferences: [[String: String]]? = nil, service: Service, startTime: Date) {
             self.endTime = endTime
+            self.logGroupReferences = logGroupReferences
             self.service = service
             self.startTime = startTime
         }
 
         private enum CodingKeys: String, CodingKey {
             case endTime = "EndTime"
+            case logGroupReferences = "LogGroupReferences"
             case service = "Service"
             case startTime = "StartTime"
         }
     }
 
     public struct Goal: AWSEncodableShape & AWSDecodableShape {
-        /// The threshold that determines if the goal is being met. An attainment goal is the  ratio of good periods that meet the threshold requirements to the total periods within the interval.  For example, an attainment goal of 99.9% means that within your interval, you are targeting 99.9% of the  periods to be in healthy state. If you omit this parameter, 99 is used to represent 99% as the attainment goal.
+        /// The threshold that determines if the goal is being met. If this is a period-based SLO, the attainment goal is the  percentage of good periods that meet the threshold requirements to the total periods within the interval.  For example, an attainment goal of 99.9% means that within your interval, you are targeting 99.9% of the  periods to be in healthy state. If this is a request-based SLO, the attainment goal is the percentage of requests that must be  successful to meet the attainment goal. If you omit this parameter, 99 is used to represent 99% as the attainment goal.
         public let attainmentGoal: Double?
         /// The time period used to evaluate the SLO. It can be either a calendar interval or rolling interval. If you omit this parameter, a rolling interval of 7 days is used.
         public let interval: Interval?
@@ -427,7 +498,7 @@ extension ApplicationSignals {
     }
 
     public struct ListServiceDependenciesInput: AWSEncodableShape {
-        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested end time will be rounded to the nearest hour.
         public let endTime: Date
         /// Use this field to specify which service you want to retrieve information for. You must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]
@@ -435,7 +506,7 @@ extension ApplicationSignals {
         public let maxResults: Int?
         /// Include this value, if it was returned by the previous operation, to get the next set of service dependencies.
         public let nextToken: String?
-        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, keyAttributes: [String: String], maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
@@ -475,13 +546,13 @@ extension ApplicationSignals {
     }
 
     public struct ListServiceDependenciesOutput: AWSDecodableShape {
-        /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let endTime: Date
         /// Include this value in your next use of this API to get next set  of service dependencies.
         public let nextToken: String?
         /// An array, where each object in the array contains information about one of the dependencies of this service.
         public let serviceDependencies: [ServiceDependency]
-        /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, nextToken: String? = nil, serviceDependencies: [ServiceDependency], startTime: Date) {
@@ -500,7 +571,7 @@ extension ApplicationSignals {
     }
 
     public struct ListServiceDependentsInput: AWSEncodableShape {
-        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let endTime: Date
         /// Use this field to specify which service you want to retrieve information for. You must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]
@@ -508,7 +579,7 @@ extension ApplicationSignals {
         public let maxResults: Int?
         /// Include this value, if it was returned by the previous operation, to get the next set of service dependents.
         public let nextToken: String?
-        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, keyAttributes: [String: String], maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
@@ -548,13 +619,13 @@ extension ApplicationSignals {
     }
 
     public struct ListServiceDependentsOutput: AWSDecodableShape {
-        /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let endTime: Date
         /// Include this value in your next use of this API to get next set  of service dependents.
         public let nextToken: String?
         /// An array, where each object in the array contains information about one of the dependents of this service.
         public let serviceDependents: [ServiceDependent]
-        /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, nextToken: String? = nil, serviceDependents: [ServiceDependent], startTime: Date) {
@@ -636,7 +707,7 @@ extension ApplicationSignals {
     }
 
     public struct ListServiceOperationsInput: AWSEncodableShape {
-        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested end time will be rounded to the nearest hour.
         public let endTime: Date
         /// Use this field to specify which service you want to retrieve information for. You must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]
@@ -644,7 +715,7 @@ extension ApplicationSignals {
         public let maxResults: Int?
         /// Include this value, if it was returned by the previous operation, to get the next set of service operations.
         public let nextToken: String?
-        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, keyAttributes: [String: String], maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
@@ -684,13 +755,13 @@ extension ApplicationSignals {
     }
 
     public struct ListServiceOperationsOutput: AWSDecodableShape {
-        /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let endTime: Date
         /// Include this value in your next use of this API to get next set  of service operations.
         public let nextToken: String?
         /// An array of structures that each contain information about one operation of this service.
         public let serviceOperations: [ServiceOperation]
-        /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, nextToken: String? = nil, serviceOperations: [ServiceOperation], startTime: Date) {
@@ -709,13 +780,13 @@ extension ApplicationSignals {
     }
 
     public struct ListServicesInput: AWSEncodableShape {
-        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let endTime: Date
         ///  The maximum number  of results  to return  in one operation.  If you omit this parameter,  the default of 50 is used.
         public let maxResults: Int?
         /// Include this value, if it was returned by the previous operation, to get the next set of services.
         public let nextToken: String?
-        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
@@ -743,13 +814,13 @@ extension ApplicationSignals {
     }
 
     public struct ListServicesOutput: AWSDecodableShape {
-        /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The end of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let endTime: Date
         /// Include this value in your next use of this API to get next set  of services.
         public let nextToken: String?
         /// An array of structures, where each structure contains some information about a service. To get complete information about a service, use  GetService.
         public let serviceSummaries: [ServiceSummary]
-        /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057
+        /// The start of the time period that the returned information applies to. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  This displays the time that Application Signals used for the request. It might not match your request exactly, because  it was rounded to the nearest hour.
         public let startTime: Date
 
         public init(endTime: Date, nextToken: String? = nil, serviceSummaries: [ServiceSummary], startTime: Date) {
@@ -836,7 +907,7 @@ extension ApplicationSignals {
     }
 
     public struct MetricDataQuery: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the account where this metric is located.  If you are performing this operatiion in a monitoring account,  use this to specify which source account to retrieve this metric from.
+        /// The ID of the account where this metric is located.  If you are performing this operation in a monitoring account,  use this to specify which source account to retrieve this metric from.
         public let accountId: String?
         /// This field can contain a metric math expression to be performed on the other metrics that you are retrieving within this MetricDataQueries structure.  A math expression can use the Id of the other metrics or queries to refer to those metrics, and can also use  the Id of other  expressions to use the result of those expressions. For more information about metric math expressions, see  Metric Math Syntax and Functions in the Amazon CloudWatch User Guide. Within each MetricDataQuery object, you must specify either  Expression or MetricStat but not both.
         public let expression: String?
@@ -938,6 +1009,127 @@ extension ApplicationSignals {
         }
     }
 
+    public struct RequestBasedServiceLevelIndicator: AWSDecodableShape {
+        /// The arithmetic operation used when comparing the specified metric to the threshold.
+        public let comparisonOperator: ServiceLevelIndicatorComparisonOperator?
+        /// This value is the threshold that  the observed metric values of the SLI metric are compared to.
+        public let metricThreshold: Double?
+        /// A structure that contains information about the metric that the SLO monitors.
+        public let requestBasedSliMetric: RequestBasedServiceLevelIndicatorMetric
+
+        public init(comparisonOperator: ServiceLevelIndicatorComparisonOperator? = nil, metricThreshold: Double? = nil, requestBasedSliMetric: RequestBasedServiceLevelIndicatorMetric) {
+            self.comparisonOperator = comparisonOperator
+            self.metricThreshold = metricThreshold
+            self.requestBasedSliMetric = requestBasedSliMetric
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "ComparisonOperator"
+            case metricThreshold = "MetricThreshold"
+            case requestBasedSliMetric = "RequestBasedSliMetric"
+        }
+    }
+
+    public struct RequestBasedServiceLevelIndicatorConfig: AWSEncodableShape {
+        /// The arithmetic operation to use when comparing the specified metric to the threshold. This parameter is required if this SLO is tracking the Latency metric.
+        public let comparisonOperator: ServiceLevelIndicatorComparisonOperator?
+        /// The value that the SLI metric is compared to. This parameter is required if this SLO is tracking the Latency metric.
+        public let metricThreshold: Double?
+        /// Use this structure to specify the metric to be used for the SLO.
+        public let requestBasedSliMetricConfig: RequestBasedServiceLevelIndicatorMetricConfig
+
+        public init(comparisonOperator: ServiceLevelIndicatorComparisonOperator? = nil, metricThreshold: Double? = nil, requestBasedSliMetricConfig: RequestBasedServiceLevelIndicatorMetricConfig) {
+            self.comparisonOperator = comparisonOperator
+            self.metricThreshold = metricThreshold
+            self.requestBasedSliMetricConfig = requestBasedSliMetricConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.requestBasedSliMetricConfig.validate(name: "\(name).requestBasedSliMetricConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "ComparisonOperator"
+            case metricThreshold = "MetricThreshold"
+            case requestBasedSliMetricConfig = "RequestBasedSliMetricConfig"
+        }
+    }
+
+    public struct RequestBasedServiceLevelIndicatorMetric: AWSDecodableShape {
+        /// This is a string-to-string map that contains information about the type of object that this SLO is related to. It can  include the following fields.    Type designates the type of object that this SLO is related to.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
+        public let keyAttributes: [String: String]?
+        /// If the SLO monitors either the LATENCY or AVAILABILITY metric that Application Signals  collects, this field displays which of those metrics is used.
+        public let metricType: ServiceLevelIndicatorMetricType?
+        /// This structure defines the metric that is used as the "good request" or "bad request" value for a request-based SLO.  This value observed for the metric defined in   TotalRequestCountMetric is divided by the number found for  MonitoredRequestCountMetric to determine the percentage of successful requests that  this SLO tracks.
+        public let monitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries
+        /// If the SLO monitors a specific operation of the service, this field displays that operation name.
+        public let operationName: String?
+        /// This structure defines the metric that is used as the "total requests" number for a request-based SLO.  The number observed for this metric is divided by the number of "good requests" or "bad requests" that is  observed for the metric defined in  MonitoredRequestCountMetric.
+        public let totalRequestCountMetric: [MetricDataQuery]
+
+        public init(keyAttributes: [String: String]? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, monitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries, operationName: String? = nil, totalRequestCountMetric: [MetricDataQuery]) {
+            self.keyAttributes = keyAttributes
+            self.metricType = metricType
+            self.monitoredRequestCountMetric = monitoredRequestCountMetric
+            self.operationName = operationName
+            self.totalRequestCountMetric = totalRequestCountMetric
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyAttributes = "KeyAttributes"
+            case metricType = "MetricType"
+            case monitoredRequestCountMetric = "MonitoredRequestCountMetric"
+            case operationName = "OperationName"
+            case totalRequestCountMetric = "TotalRequestCountMetric"
+        }
+    }
+
+    public struct RequestBasedServiceLevelIndicatorMetricConfig: AWSEncodableShape {
+        /// If this SLO is related to a metric collected by Application Signals, you must use this field to specify which service  the SLO metric is related to. To do so, you must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
+        public let keyAttributes: [String: String]?
+        /// If the SLO is to monitor either the LATENCY or AVAILABILITY metric that Application Signals  collects, use this field to specify which of those metrics is used.
+        public let metricType: ServiceLevelIndicatorMetricType?
+        /// Use this structure to define the metric that you want to use as the "good request" or "bad request" value for a request-based SLO.  This value observed for the metric defined in   TotalRequestCountMetric will be divided by the number found for  MonitoredRequestCountMetric to determine the percentage of successful requests that  this SLO tracks.
+        public let monitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries?
+        /// If the SLO is to monitor a specific operation of the service, use this field to specify the name of that operation.
+        public let operationName: String?
+        /// Use this structure to define the metric that you want to use as the "total requests" number for a request-based SLO.  This result will be divided by the "good request" or "bad request" value defined in   MonitoredRequestCountMetric.
+        public let totalRequestCountMetric: [MetricDataQuery]?
+
+        public init(keyAttributes: [String: String]? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, monitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries? = nil, operationName: String? = nil, totalRequestCountMetric: [MetricDataQuery]? = nil) {
+            self.keyAttributes = keyAttributes
+            self.metricType = metricType
+            self.monitoredRequestCountMetric = monitoredRequestCountMetric
+            self.operationName = operationName
+            self.totalRequestCountMetric = totalRequestCountMetric
+        }
+
+        public func validate(name: String) throws {
+            try self.keyAttributes?.forEach {
+                try validate($0.key, name: "keyAttributes.key", parent: name, pattern: "^[a-zA-Z]{1,50}$")
+                try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, pattern: "^[ -~]*[!-~]+[ -~]*$")
+            }
+            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 3)
+            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, min: 1)
+            try self.monitoredRequestCountMetric?.validate(name: "\(name).monitoredRequestCountMetric")
+            try self.validate(self.operationName, name: "operationName", parent: name, max: 255)
+            try self.validate(self.operationName, name: "operationName", parent: name, min: 1)
+            try self.totalRequestCountMetric?.forEach {
+                try $0.validate(name: "\(name).totalRequestCountMetric[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyAttributes = "KeyAttributes"
+            case metricType = "MetricType"
+            case monitoredRequestCountMetric = "MonitoredRequestCountMetric"
+            case operationName = "OperationName"
+            case totalRequestCountMetric = "TotalRequestCountMetric"
+        }
+    }
+
     public struct RollingInterval: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the duration of each rolling interval. For example, if Duration is 7 and DurationUnit is DAY, each rolling interval is seven days.
         public let duration: Int
@@ -960,22 +1152,26 @@ extension ApplicationSignals {
     }
 
     public struct Service: AWSDecodableShape {
-        /// This structure contains one or more string-to-string maps that help identify this service. It can include platform attributes, application attributes, and telemetry attributes. Platform attributes contain information the service's platform.    PlatformType defines the hosted-in platform.    EKS.Cluster is the name of the Amazon EKS cluster.    K8s.Cluster is the name of the self-hosted Kubernetes cluster.    K8s.Namespace is the name of the Kubernetes namespace in either Amazon EKS or Kubernetes clusters.    K8s.Workload is the name of the Kubernetes workload in either Amazon EKS or Kubernetes clusters.    K8s.Node is the name of the Kubernetes node in either Amazon EKS or Kubernetes clusters.    K8s.Pod is the name of the Kubernetes pod in either Amazon EKS or Kubernetes clusters.    EC2.AutoScalingGroup is the name of the Amazon EC2 Auto Scaling group.    EC2.InstanceId is the ID of the Amazon EC2 instance.    Host is the name of the host, for all platform types.   Applciation attributes contain information about the application.    AWS.Application is the application's name in Amazon Web Services Service Catalog AppRegistry.    AWS.Application.ARN is the application's ARN in Amazon Web Services Service Catalog AppRegistry.   Telemetry attributes contain telemetry information.    Telemetry.SDK is the fingerprint of the OpenTelemetry SDK version for instrumented services.    Telemetry.Agent is the fingerprint of the agent used to collect and send telemetry data.    Telemetry.Source Specifies the point of application where the telemetry was collected or specifies what was used for the source of telemetry data.
+        /// This structure contains one or more string-to-string maps that help identify this service. It can include platform attributes, application attributes, and telemetry attributes. Platform attributes contain information the service's platform.    PlatformType defines the hosted-in platform.    EKS.Cluster is the name of the Amazon EKS cluster.    K8s.Cluster is the name of the self-hosted Kubernetes cluster.    K8s.Namespace is the name of the Kubernetes namespace in either Amazon EKS or Kubernetes clusters.    K8s.Workload is the name of the Kubernetes workload in either Amazon EKS or Kubernetes clusters.    K8s.Node is the name of the Kubernetes node in either Amazon EKS or Kubernetes clusters.    K8s.Pod is the name of the Kubernetes pod in either Amazon EKS or Kubernetes clusters.    EC2.AutoScalingGroup is the name of the Amazon EC2 Auto Scaling group.    EC2.InstanceId is the ID of the Amazon EC2 instance.    Host is the name of the host, for all platform types.   Application attributes contain information about the application.    AWS.Application is the application's name in Amazon Web Services Service Catalog AppRegistry.    AWS.Application.ARN is the application's ARN in Amazon Web Services Service Catalog AppRegistry.   Telemetry attributes contain telemetry information.    Telemetry.SDK is the fingerprint of the OpenTelemetry SDK version for instrumented services.    Telemetry.Agent is the fingerprint of the agent used to collect and send telemetry data.    Telemetry.Source Specifies the point of application where the telemetry was collected or specifies what was used for the source of telemetry data.
         public let attributeMaps: [[String: String]]?
         /// This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]
+        /// An array of string-to-string maps that each contain information about one log group associated with this service. Each  string-to-string map includes the following fields:    "Type": "AWS::Resource"     "ResourceType": "AWS::Logs::LogGroup"     "Identifier": "name-of-log-group"
+        public let logGroupReferences: [[String: String]]?
         /// An array of structures that each contain information about one metric associated with this service.
         public let metricReferences: [MetricReference]
 
-        public init(attributeMaps: [[String: String]]? = nil, keyAttributes: [String: String], metricReferences: [MetricReference]) {
+        public init(attributeMaps: [[String: String]]? = nil, keyAttributes: [String: String], logGroupReferences: [[String: String]]? = nil, metricReferences: [MetricReference]) {
             self.attributeMaps = attributeMaps
             self.keyAttributes = keyAttributes
+            self.logGroupReferences = logGroupReferences
             self.metricReferences = metricReferences
         }
 
         private enum CodingKeys: String, CodingKey {
             case attributeMaps = "AttributeMaps"
             case keyAttributes = "KeyAttributes"
+            case logGroupReferences = "LogGroupReferences"
             case metricReferences = "MetricReferences"
         }
     }
@@ -1054,7 +1250,7 @@ extension ApplicationSignals {
     public struct ServiceLevelIndicatorConfig: AWSEncodableShape {
         /// The arithmetic operation to use when comparing the specified metric to the threshold.
         public let comparisonOperator: ServiceLevelIndicatorComparisonOperator
-        /// The value that the SLI metric is compared to.
+        /// This parameter is used only when a request-based SLO tracks the Latency metric. Specify the threshold value that the  observed Latency metric values are to be compared to.
         public let metricThreshold: Double
         /// Use this structure to specify the metric to be used for the SLO.
         public let sliMetricConfig: ServiceLevelIndicatorMetricConfig
@@ -1162,21 +1358,27 @@ extension ApplicationSignals {
         public let createdTime: Date
         /// The description that you created for this SLO.
         public let description: String?
+        /// Displays whether this is a period-based SLO or a request-based SLO.
+        public let evaluationType: EvaluationType?
         public let goal: Goal
         /// The time that this SLO was most recently updated. When used in a raw HTTP Query API, it is formatted as  yyyy-MM-dd'T'HH:mm:ss. For example,  2019-07-01T23:59:59.
         public let lastUpdatedTime: Date
         /// The name of this SLO.
         public let name: String
-        /// A structure containing information about the performance metric that this SLO monitors.
-        public let sli: ServiceLevelIndicator
+        /// A structure containing information about the performance metric that this SLO monitors, if this is a request-based SLO.
+        public let requestBasedSli: RequestBasedServiceLevelIndicator?
+        /// A structure containing information about the performance metric that this SLO monitors, if this is a period-based SLO.
+        public let sli: ServiceLevelIndicator?
 
-        public init(arn: String, createdTime: Date, description: String? = nil, goal: Goal, lastUpdatedTime: Date, name: String, sli: ServiceLevelIndicator) {
+        public init(arn: String, createdTime: Date, description: String? = nil, evaluationType: EvaluationType? = nil, goal: Goal, lastUpdatedTime: Date, name: String, requestBasedSli: RequestBasedServiceLevelIndicator? = nil, sli: ServiceLevelIndicator? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
+            self.evaluationType = evaluationType
             self.goal = goal
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
+            self.requestBasedSli = requestBasedSli
             self.sli = sli
         }
 
@@ -1184,9 +1386,11 @@ extension ApplicationSignals {
             case arn = "Arn"
             case createdTime = "CreatedTime"
             case description = "Description"
+            case evaluationType = "EvaluationType"
             case goal = "Goal"
             case lastUpdatedTime = "LastUpdatedTime"
             case name = "Name"
+            case requestBasedSli = "RequestBasedSli"
             case sli = "Sli"
         }
     }
@@ -1194,39 +1398,54 @@ extension ApplicationSignals {
     public struct ServiceLevelObjectiveBudgetReport: AWSDecodableShape {
         /// The ARN of the SLO that this report is for.
         public let arn: String
-        /// A number between 0 and 100 that represents the percentage of time periods that the service has  attained the SLO's attainment goal, as of the time of the request.
+        /// A number between 0 and 100 that represents the success percentage of your application compared to the goal set by the SLO. If this is a period-based SLO, the number is the percentage of time periods that the service has  attained the SLO's attainment goal, as of the time of the request. If this is a request-based SLO, the number is the number of successful requests divided by the number of total requests, multiplied by 100, during the time range that you specified in your request.
         public let attainment: Double?
-        /// The budget amount remaining before the SLO status becomes BREACHING, at the time specified in the  Timestemp parameter of the request. If this value is negative, then the SLO is already in BREACHING status.
+        /// This field is displayed only for request-based SLOs. It displays the number of failed requests that can be tolerated before any more successful requests occur, and still have the application meet its SLO goal. This number can go up and down between different reports, based on both how many successful requests and how many failed  requests occur in that time.
+        public let budgetRequestsRemaining: Int?
+        /// The budget amount remaining before the SLO status becomes BREACHING, at the time specified in the  Timestemp parameter of the request. If this value is negative, then the SLO is already in BREACHING status. This field is included only  if the SLO is a period-based SLO.
         public let budgetSecondsRemaining: Int?
-        /// The status of this SLO, as it relates to the error budget for the entire time interval.    OK means that the SLO had remaining budget above the warning threshold, as of the time that you specified in TimeStamp.    WARNING means that the SLO's remaining budget was below the warning threshold, as of the time that you specified in TimeStamp.    BREACHED means that the SLO's budget was exhausted, as of the time that you specified in TimeStamp.    INSUFFICIENT_DATA means that the specifed start and end times were before the SLO was created, or that attainment data is missing.
+        /// The status of this SLO, as it relates to the error budget for the entire time interval.    OK means that the SLO had remaining budget above the warning threshold, as of the time that you specified in TimeStamp.    WARNING means that the SLO's remaining budget was below the warning threshold, as of the time that you specified in TimeStamp.    BREACHED means that the SLO's budget was exhausted, as of the time that you specified in TimeStamp.    INSUFFICIENT_DATA means that the specified start and end times were before the SLO was created, or that attainment data is missing.
         public let budgetStatus: ServiceLevelObjectiveBudgetStatus
+        /// Displays whether this budget report is for a period-based SLO or a request-based SLO.
+        public let evaluationType: EvaluationType?
         public let goal: Goal?
         /// The name of the SLO that this report is for.
         public let name: String
+        public let requestBasedSli: RequestBasedServiceLevelIndicator?
         /// A structure that contains information about the performance metric that this SLO monitors.
         public let sli: ServiceLevelIndicator?
-        /// The total number of seconds in the error budget for the interval.
+        /// This field is displayed only for request-based SLOs. It displays the total number of failed requests that can be tolerated during the time range between the start of the  interval and the time stamp supplied in the budget report request. It is based on the total number of requests that occurred, and the percentage specified in the attainment goal. If the number of failed requests matches this number or is higher, then  this SLO is currently breaching. This number can go up and down between reports with different time stamps, based on both how many total requests occur.
+        public let totalBudgetRequests: Int?
+        /// The total number of seconds in the error budget for the interval. This field is included only  if the SLO is a period-based SLO.
         public let totalBudgetSeconds: Int?
 
-        public init(arn: String, attainment: Double? = nil, budgetSecondsRemaining: Int? = nil, budgetStatus: ServiceLevelObjectiveBudgetStatus, goal: Goal? = nil, name: String, sli: ServiceLevelIndicator? = nil, totalBudgetSeconds: Int? = nil) {
+        public init(arn: String, attainment: Double? = nil, budgetRequestsRemaining: Int? = nil, budgetSecondsRemaining: Int? = nil, budgetStatus: ServiceLevelObjectiveBudgetStatus, evaluationType: EvaluationType? = nil, goal: Goal? = nil, name: String, requestBasedSli: RequestBasedServiceLevelIndicator? = nil, sli: ServiceLevelIndicator? = nil, totalBudgetRequests: Int? = nil, totalBudgetSeconds: Int? = nil) {
             self.arn = arn
             self.attainment = attainment
+            self.budgetRequestsRemaining = budgetRequestsRemaining
             self.budgetSecondsRemaining = budgetSecondsRemaining
             self.budgetStatus = budgetStatus
+            self.evaluationType = evaluationType
             self.goal = goal
             self.name = name
+            self.requestBasedSli = requestBasedSli
             self.sli = sli
+            self.totalBudgetRequests = totalBudgetRequests
             self.totalBudgetSeconds = totalBudgetSeconds
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case attainment = "Attainment"
+            case budgetRequestsRemaining = "BudgetRequestsRemaining"
             case budgetSecondsRemaining = "BudgetSecondsRemaining"
             case budgetStatus = "BudgetStatus"
+            case evaluationType = "EvaluationType"
             case goal = "Goal"
             case name = "Name"
+            case requestBasedSli = "RequestBasedSli"
             case sli = "Sli"
+            case totalBudgetRequests = "TotalBudgetRequests"
             case totalBudgetSeconds = "TotalBudgetSeconds"
         }
     }
@@ -1303,7 +1522,7 @@ extension ApplicationSignals {
     }
 
     public struct ServiceSummary: AWSDecodableShape {
-        /// This structure contains one or more string-to-string maps that help identify this service. It can include platform attributes, application attributes, and telemetry attributes. Platform attributes contain information the service's platform.    PlatformType defines the hosted-in platform.    EKS.Cluster is the name of the Amazon EKS cluster.    K8s.Cluster is the name of the self-hosted Kubernetes cluster.    K8s.Namespace is the name of the Kubernetes namespace in either Amazon EKS or Kubernetes clusters.    K8s.Workload is the name of the Kubernetes workload in either Amazon EKS or Kubernetes clusters.    K8s.Node is the name of the Kubernetes node in either Amazon EKS or Kubernetes clusters.    K8s.Pod is the name of the Kubernetes pod in either Amazon EKS or Kubernetes clusters.    EC2.AutoScalingGroup is the name of the Amazon EC2 Auto Scaling group.    EC2.InstanceId is the ID of the Amazon EC2 instance.    Host is the name of the host, for all platform types.   Applciation attributes contain information about the application.    AWS.Application is the application's name in Amazon Web Services Service Catalog AppRegistry.    AWS.Application.ARN is the application's ARN in Amazon Web Services Service Catalog AppRegistry.   Telemetry attributes contain telemetry information.    Telemetry.SDK is the fingerprint of the OpenTelemetry SDK version for instrumented services.    Telemetry.Agent is the fingerprint of the agent used to collect and send telemetry data.    Telemetry.Source Specifies the point of application where the telemetry was collected or specifies what was used for the source of telemetry data.
+        /// This structure contains one or more string-to-string maps that help identify this service. It can include platform attributes, application attributes, and telemetry attributes. Platform attributes contain information the service's platform.    PlatformType defines the hosted-in platform.    EKS.Cluster is the name of the Amazon EKS cluster.    K8s.Cluster is the name of the self-hosted Kubernetes cluster.    K8s.Namespace is the name of the Kubernetes namespace in either Amazon EKS or Kubernetes clusters.    K8s.Workload is the name of the Kubernetes workload in either Amazon EKS or Kubernetes clusters.    K8s.Node is the name of the Kubernetes node in either Amazon EKS or Kubernetes clusters.    K8s.Pod is the name of the Kubernetes pod in either Amazon EKS or Kubernetes clusters.    EC2.AutoScalingGroup is the name of the Amazon EC2 Auto Scaling group.    EC2.InstanceId is the ID of the Amazon EC2 instance.    Host is the name of the host, for all platform types.   Application attributes contain information about the application.    AWS.Application is the application's name in Amazon Web Services Service Catalog AppRegistry.    AWS.Application.ARN is the application's ARN in Amazon Web Services Service Catalog AppRegistry.   Telemetry attributes contain telemetry information.    Telemetry.SDK is the fingerprint of the OpenTelemetry SDK version for instrumented services.    Telemetry.Agent is the fingerprint of the agent used to collect and send telemetry data.    Telemetry.Source Specifies the point of application where the telemetry was collected or specifies what was used for the source of telemetry data.
         public let attributeMaps: [[String: String]]?
         /// This is a string-to-string map that help identify the objects discovered by Application Signals. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]
@@ -1422,13 +1641,16 @@ extension ApplicationSignals {
         public let goal: Goal?
         /// The Amazon Resource Name (ARN) or name of the service level objective that you want to update.
         public let id: String
-        /// A structure that contains information about what performance metric this SLO will monitor.
+        /// If this SLO is a request-based SLO, this structure defines the information about what performance metric this SLO will monitor. You can't specify both SliConfig and RequestBasedSliConfig in the same operation.
+        public let requestBasedSliConfig: RequestBasedServiceLevelIndicatorConfig?
+        /// If this SLO is a period-based SLO, this structure defines the information about what performance metric this SLO will monitor.
         public let sliConfig: ServiceLevelIndicatorConfig?
 
-        public init(description: String? = nil, goal: Goal? = nil, id: String, sliConfig: ServiceLevelIndicatorConfig? = nil) {
+        public init(description: String? = nil, goal: Goal? = nil, id: String, requestBasedSliConfig: RequestBasedServiceLevelIndicatorConfig? = nil, sliConfig: ServiceLevelIndicatorConfig? = nil) {
             self.description = description
             self.goal = goal
             self.id = id
+            self.requestBasedSliConfig = requestBasedSliConfig
             self.sliConfig = sliConfig
         }
 
@@ -1438,6 +1660,7 @@ extension ApplicationSignals {
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.goal, forKey: .goal)
             request.encodePath(self.id, key: "Id")
+            try container.encodeIfPresent(self.requestBasedSliConfig, forKey: .requestBasedSliConfig)
             try container.encodeIfPresent(self.sliConfig, forKey: .sliConfig)
         }
 
@@ -1446,12 +1669,14 @@ extension ApplicationSignals {
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.goal?.validate(name: "\(name).goal")
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:aws:application-signals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$")
+            try self.requestBasedSliConfig?.validate(name: "\(name).requestBasedSliConfig")
             try self.sliConfig?.validate(name: "\(name).sliConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case goal = "Goal"
+            case requestBasedSliConfig = "RequestBasedSliConfig"
             case sliConfig = "SliConfig"
         }
     }

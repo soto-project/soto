@@ -113,7 +113,7 @@ public struct BedrockAgentRuntime: AWSService {
         )
     }
 
-    /// Invokes an alias of a flow to run the inputs that you specify and return the output of each node as a stream. If there's an error, the error is returned. For more information, see Test a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
+    /// Invokes an alias of a flow to run the inputs that you specify and return the output of each node as a stream. If there's an error, the error is returned. For more information, see Test a flow in Amazon Bedrock in the Amazon Bedrock User Guide.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeFlow.
     @Sendable
     public func invokeFlow(_ input: InvokeFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeFlowResponse {
         return try await self.client.execute(
@@ -139,7 +139,7 @@ public struct BedrockAgentRuntime: AWSService {
         )
     }
 
-    /// Queries a knowledge base and generates responses based on the retrieved results. The response only cites sources that are relevant to the query.
+    /// Queries a knowledge base and generates responses based on the retrieved results and using the specified foundation model or inference profile. The response only cites sources that are relevant to the query.
     @Sendable
     public func retrieveAndGenerate(_ input: RetrieveAndGenerateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetrieveAndGenerateResponse {
         return try await self.client.execute(

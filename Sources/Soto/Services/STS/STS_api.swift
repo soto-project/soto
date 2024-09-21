@@ -85,6 +85,7 @@ public struct STS: AWSService {
         "ap-southeast-2": "sts.ap-southeast-2.amazonaws.com",
         "ap-southeast-3": "sts.ap-southeast-3.amazonaws.com",
         "ap-southeast-4": "sts.ap-southeast-4.amazonaws.com",
+        "ap-southeast-5": "sts.ap-southeast-5.amazonaws.com",
         "aws-global": "sts.amazonaws.com",
         "ca-central-1": "sts.ca-central-1.amazonaws.com",
         "ca-west-1": "sts.ca-west-1.amazonaws.com",

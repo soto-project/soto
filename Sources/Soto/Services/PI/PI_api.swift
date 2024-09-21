@@ -87,6 +87,7 @@ public struct PI: AWSService {
             "ap-southeast-2": "pi.ap-southeast-2.api.aws",
             "ap-southeast-3": "pi.ap-southeast-3.api.aws",
             "ap-southeast-4": "pi.ap-southeast-4.api.aws",
+            "ap-southeast-5": "pi.ap-southeast-5.api.aws",
             "ca-central-1": "pi.ca-central-1.api.aws",
             "ca-west-1": "pi.ca-west-1.api.aws",
             "cn-north-1": "pi.cn-north-1.api.amazonwebservices.com.cn",

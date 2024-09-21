@@ -29,6 +29,7 @@ extension ECR {
     public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes256 = "AES256"
         case kms = "KMS"
+        case kmsDsse = "KMS_DSSE"
         public var description: String { return self.rawValue }
     }
 
@@ -84,6 +85,12 @@ extension ECR {
         case expired = "EXPIRED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RCTAppliedFor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pullThroughCache = "PULL_THROUGH_CACHE"
+        case replication = "REPLICATION"
         public var description: String { return self.rawValue }
     }
 
@@ -501,7 +508,7 @@ extension ECR {
         public let registryId: String?
         /// The name of the upstream registry.
         public let upstreamRegistry: UpstreamRegistry?
-        /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR Public (ecr-public) - public.ecr.aws    Docker Hub (docker-hub) - registry-1.docker.io    Quay (quay) - quay.io    Kubernetes (k8s) - registry.k8s.io    GitHub Container Registry (github-container-registry) - ghcr.io    Microsoft Azure Container Registry (azure-container-registry) - .azurecr.io    GitLab Container Registry (gitlab-container-registry) - registry.gitlab.com
+        /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR Public (ecr-public) - public.ecr.aws    Docker Hub (docker-hub) - registry-1.docker.io    Quay (quay) - quay.io    Kubernetes (k8s) - registry.k8s.io    GitHub Container Registry (github-container-registry) - ghcr.io    Microsoft Azure Container Registry (azure-container-registry) - .azurecr.io
         public let upstreamRegistryUrl: String
 
         public init(credentialArn: String? = nil, ecrRepositoryPrefix: String, registryId: String? = nil, upstreamRegistry: UpstreamRegistry? = nil, upstreamRegistryUrl: String) {
@@ -561,6 +568,79 @@ extension ECR {
             case registryId = "registryId"
             case upstreamRegistry = "upstreamRegistry"
             case upstreamRegistryUrl = "upstreamRegistryUrl"
+        }
+    }
+
+    public struct CreateRepositoryCreationTemplateRequest: AWSEncodableShape {
+        /// A list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+        public let appliedFor: [RCTAppliedFor]
+        /// The ARN of the role to be assumed by Amazon ECR. This role must be in the same account as the registry that you are configuring. Amazon ECR will assume your supplied role when the customRoleArn is specified. When this field isn't specified, Amazon ECR will use the service-linked role for the repository creation template.
+        public let customRoleArn: String?
+        /// A description for the repository creation template.
+        public let description: String?
+        /// The encryption configuration to use for repositories created using the template.
+        public let encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate?
+        /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
+        public let imageTagMutability: ImageTagMutability?
+        /// The lifecycle policy to use for repositories created using the template.
+        public let lifecyclePolicy: String?
+        /// The repository namespace prefix to associate with the template. All repositories created using this namespace prefix will have the settings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/. Similarly, a prefix of prod/team would apply to all repositories beginning with prod/team/. To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the prefix.  There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/. When using a pull through cache rule, the repository prefix you specify during rule creation is what you should specify as your repository creation template prefix as well.
+        public let prefix: String
+        /// The repository policy to apply to repositories created using the template. A repository policy is a permissions policy associated with a repository to control access permissions.
+        public let repositoryPolicy: String?
+        /// The metadata to apply to the repository to help you categorize and organize. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        public let resourceTags: [Tag]?
+
+        public init(appliedFor: [RCTAppliedFor], customRoleArn: String? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate? = nil, imageTagMutability: ImageTagMutability? = nil, lifecyclePolicy: String? = nil, prefix: String, repositoryPolicy: String? = nil, resourceTags: [Tag]? = nil) {
+            self.appliedFor = appliedFor
+            self.customRoleArn = customRoleArn
+            self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
+            self.imageTagMutability = imageTagMutability
+            self.lifecyclePolicy = lifecyclePolicy
+            self.prefix = prefix
+            self.repositoryPolicy = repositoryPolicy
+            self.resourceTags = resourceTags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customRoleArn, name: "customRoleArn", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.validate(self.lifecyclePolicy, name: "lifecyclePolicy", parent: name, max: 30720)
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 256)
+            try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
+            try self.validate(self.repositoryPolicy, name: "repositoryPolicy", parent: name, max: 10240)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appliedFor = "appliedFor"
+            case customRoleArn = "customRoleArn"
+            case description = "description"
+            case encryptionConfiguration = "encryptionConfiguration"
+            case imageTagMutability = "imageTagMutability"
+            case lifecyclePolicy = "lifecyclePolicy"
+            case prefix = "prefix"
+            case repositoryPolicy = "repositoryPolicy"
+            case resourceTags = "resourceTags"
+        }
+    }
+
+    public struct CreateRepositoryCreationTemplateResponse: AWSDecodableShape {
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The details of the repository creation template associated with the request.
+        public let repositoryCreationTemplate: RepositoryCreationTemplate?
+
+        public init(registryId: String? = nil, repositoryCreationTemplate: RepositoryCreationTemplate? = nil) {
+            self.registryId = registryId
+            self.repositoryCreationTemplate = repositoryCreationTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryId = "registryId"
+            case repositoryCreationTemplate = "repositoryCreationTemplate"
         }
     }
 
@@ -809,6 +889,42 @@ extension ECR {
         private enum CodingKeys: String, CodingKey {
             case policyText = "policyText"
             case registryId = "registryId"
+        }
+    }
+
+    public struct DeleteRepositoryCreationTemplateRequest: AWSEncodableShape {
+        /// The repository namespace prefix associated with the repository creation template.
+        public let prefix: String
+
+        public init(prefix: String) {
+            self.prefix = prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 256)
+            try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case prefix = "prefix"
+        }
+    }
+
+    public struct DeleteRepositoryCreationTemplateResponse: AWSDecodableShape {
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The details of the repository creation template that was deleted.
+        public let repositoryCreationTemplate: RepositoryCreationTemplate?
+
+        public init(registryId: String? = nil, repositoryCreationTemplate: RepositoryCreationTemplate? = nil) {
+            self.registryId = registryId
+            self.repositoryCreationTemplate = repositoryCreationTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryId = "registryId"
+            case repositoryCreationTemplate = "repositoryCreationTemplate"
         }
     }
 
@@ -1153,7 +1269,7 @@ extension ECR {
     }
 
     public struct DescribeRegistryResponse: AWSDecodableShape {
-        /// The ID of the registry.
+        /// The registry ID associated with the request.
         public let registryId: String?
         /// The replication configuration for the registry.
         public let replicationConfiguration: ReplicationConfiguration?
@@ -1224,8 +1340,60 @@ extension ECR {
         }
     }
 
+    public struct DescribeRepositoryCreationTemplatesRequest: AWSEncodableShape {
+        /// The maximum number of repository results returned by DescribeRepositoryCreationTemplatesRequest in paginated output. When this parameter is used, DescribeRepositoryCreationTemplatesRequest only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositoryCreationTemplatesRequest request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeRepositoryCreationTemplatesRequest returns up to 100 results and a nextToken value, if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated DescribeRepositoryCreationTemplates request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+        /// The repository namespace prefixes associated with the repository creation templates to describe. If this value is not specified, all repository creation templates are returned.
+        public let prefixes: [String]?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, prefixes: [String]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.prefixes = prefixes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.prefixes?.forEach {
+                try validate($0, name: "prefixes[]", parent: name, max: 256)
+                try validate($0, name: "prefixes[]", parent: name, min: 1)
+                try validate($0, name: "prefixes[]", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case prefixes = "prefixes"
+        }
+    }
+
+    public struct DescribeRepositoryCreationTemplatesResponse: AWSDecodableShape {
+        /// The nextToken value to include in a future DescribeRepositoryCreationTemplates request. When the results of a DescribeRepositoryCreationTemplates request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The details of the repository creation templates.
+        public let repositoryCreationTemplates: [RepositoryCreationTemplate]?
+
+        public init(nextToken: String? = nil, registryId: String? = nil, repositoryCreationTemplates: [RepositoryCreationTemplate]? = nil) {
+            self.nextToken = nextToken
+            self.registryId = registryId
+            self.repositoryCreationTemplates = repositoryCreationTemplates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case registryId = "registryId"
+            case repositoryCreationTemplates = "repositoryCreationTemplates"
+        }
+    }
+
     public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to encrypt your data, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. For more information, see Protecting data using server-side encryption with an KMS key stored in Key Management Service (SSE-KMS) in the Amazon Simple Storage Service Console Developer Guide. If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES-256 encryption algorithm. For more information, see Protecting data using server-side encryption with Amazon S3-managed encryption keys (SSE-S3) in the Amazon Simple Storage Service Console Developer Guide.
+        /// The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to encrypt your data, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. If you use the KMS_DSSE encryption type, the contents of the repository will be encrypted with two layers of encryption using server-side encryption with the KMS Management Service key stored in KMS. Similar to the KMS encryption type, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you've already created.  If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES256 encryption algorithm. For more information, see Protecting data using server-side encryption with Amazon S3-managed encryption keys (SSE-S3) in the Amazon Simple Storage Service Console Developer Guide.
         public let encryptionType: EncryptionType
         /// If you use the KMS encryption type, specify the KMS key to use for encryption. The alias, key ID, or full ARN of the KMS key can be specified. The key must exist in the same Region as the repository. If no key is specified, the default Amazon Web Services managed KMS key for Amazon ECR will be used.
         public let kmsKey: String?
@@ -1238,6 +1406,28 @@ extension ECR {
         public func validate(name: String) throws {
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "encryptionType"
+            case kmsKey = "kmsKey"
+        }
+    }
+
+    public struct EncryptionConfigurationForRepositoryCreationTemplate: AWSEncodableShape & AWSDecodableShape {
+        /// The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to encrypt your data, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. For more information, see Protecting data using server-side encryption with an KMS key stored in Key Management Service (SSE-KMS) in the Amazon Simple Storage Service Console Developer Guide. If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES256 encryption algorithm. For more information, see Protecting data using server-side encryption with Amazon S3-managed encryption keys (SSE-S3) in the Amazon Simple Storage Service Console Developer Guide.
+        public let encryptionType: EncryptionType
+        /// If you use the KMS encryption type, specify the KMS key to use for encryption. The full ARN of the KMS key must be specified. The key must exist in the same Region as the repository. If no key is specified, the default Amazon Web Services managed KMS key for Amazon ECR will be used.
+        public let kmsKey: String?
+
+        public init(encryptionType: EncryptionType, kmsKey: String? = nil) {
+            self.encryptionType = encryptionType
+            self.kmsKey = kmsKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^$|arn:aws:kms:[a-z0-9-]+:[0-9]{12}:key\\/[a-z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1312,6 +1502,41 @@ extension ECR {
             case title = "title"
             case type = "type"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct GetAccountSettingRequest: AWSEncodableShape {
+        /// Basic scan type version name.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct GetAccountSettingResponse: AWSDecodableShape {
+        /// Retrieves the basic scan type version name.
+        public let name: String?
+        /// Retrieves the value that specifies what basic scan type is being used: AWS_NATIVE or CLAIR.
+        public let value: String?
+
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -1540,7 +1765,7 @@ extension ECR {
     public struct GetRegistryPolicyResponse: AWSDecodableShape {
         /// The JSON text of the permissions policy for a registry.
         public let policyText: String?
-        /// The ID of the registry.
+        /// The registry ID associated with the request.
         public let registryId: String?
 
         public init(policyText: String? = nil, registryId: String? = nil) {
@@ -1559,7 +1784,7 @@ extension ECR {
     }
 
     public struct GetRegistryScanningConfigurationResponse: AWSDecodableShape {
-        /// The ID of the registry.
+        /// The registry ID associated with the request.
         public let registryId: String?
         /// The scanning configuration for the registry.
         public let scanningConfiguration: RegistryScanningConfiguration?
@@ -2214,6 +2439,45 @@ extension ECR {
         }
     }
 
+    public struct PutAccountSettingRequest: AWSEncodableShape {
+        /// Basic scan type version name.
+        public let name: String
+        /// Setting value that determines what basic scan type is being used: AWS_NATIVE or CLAIR.
+        public let value: String
+
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
+
+    public struct PutAccountSettingResponse: AWSDecodableShape {
+        /// Retrieves the the basic scan type version name.
+        public let name: String?
+        /// Retrieves the basic scan type value, either AWS_NATIVE or -.
+        public let value: String?
+
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
+
     public struct PutImageRequest: AWSEncodableShape {
         /// The image digest of the image manifest corresponding to the image.
         public let imageDigest: String?
@@ -2440,7 +2704,7 @@ extension ECR {
     public struct PutRegistryPolicyResponse: AWSDecodableShape {
         /// The JSON policy text for your registry.
         public let policyText: String?
-        /// The registry ID.
+        /// The registry ID associated with the request.
         public let registryId: String?
 
         public init(policyText: String? = nil, registryId: String? = nil) {
@@ -2702,6 +2966,59 @@ extension ECR {
             case repositoryArn = "repositoryArn"
             case repositoryName = "repositoryName"
             case repositoryUri = "repositoryUri"
+        }
+    }
+
+    public struct RepositoryCreationTemplate: AWSDecodableShape {
+        /// A list of enumerable Strings representing the repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+        public let appliedFor: [RCTAppliedFor]?
+        /// The date and time, in JavaScript date format, when the repository creation template was created.
+        public let createdAt: Date?
+        /// The ARN of the role to be assumed by Amazon ECR. Amazon ECR will assume your supplied role when the customRoleArn is specified. When this field isn't specified, Amazon ECR will use the service-linked role for the repository creation template.
+        public let customRoleArn: String?
+        /// The description associated with the repository creation template.
+        public let description: String?
+        /// The encryption configuration associated with the repository creation template.
+        public let encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate?
+        /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
+        public let imageTagMutability: ImageTagMutability?
+        /// The lifecycle policy to use for repositories created using the template.
+        public let lifecyclePolicy: String?
+        /// The repository namespace prefix associated with the repository creation template.
+        public let prefix: String?
+        /// he repository policy to apply to repositories created using the template. A repository policy is a permissions policy associated with a repository to control access permissions.
+        public let repositoryPolicy: String?
+        /// The metadata to apply to the repository to help you categorize and organize. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        public let resourceTags: [Tag]?
+        /// The date and time, in JavaScript date format, when the repository creation template was last updated.
+        public let updatedAt: Date?
+
+        public init(appliedFor: [RCTAppliedFor]? = nil, createdAt: Date? = nil, customRoleArn: String? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate? = nil, imageTagMutability: ImageTagMutability? = nil, lifecyclePolicy: String? = nil, prefix: String? = nil, repositoryPolicy: String? = nil, resourceTags: [Tag]? = nil, updatedAt: Date? = nil) {
+            self.appliedFor = appliedFor
+            self.createdAt = createdAt
+            self.customRoleArn = customRoleArn
+            self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
+            self.imageTagMutability = imageTagMutability
+            self.lifecyclePolicy = lifecyclePolicy
+            self.prefix = prefix
+            self.repositoryPolicy = repositoryPolicy
+            self.resourceTags = resourceTags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appliedFor = "appliedFor"
+            case createdAt = "createdAt"
+            case customRoleArn = "customRoleArn"
+            case description = "description"
+            case encryptionConfiguration = "encryptionConfiguration"
+            case imageTagMutability = "imageTagMutability"
+            case lifecyclePolicy = "lifecyclePolicy"
+            case prefix = "prefix"
+            case repositoryPolicy = "repositoryPolicy"
+            case resourceTags = "resourceTags"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -3128,6 +3445,78 @@ extension ECR {
         }
     }
 
+    public struct UpdateRepositoryCreationTemplateRequest: AWSEncodableShape {
+        /// Updates the list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+        public let appliedFor: [RCTAppliedFor]?
+        /// The ARN of the role to be assumed by Amazon ECR. This role must be in the same account as the registry that you are configuring. Amazon ECR will assume your supplied role when the customRoleArn is specified. When this field isn't specified, Amazon ECR will use the service-linked role for the repository creation template.
+        public let customRoleArn: String?
+        /// A description for the repository creation template.
+        public let description: String?
+        public let encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate?
+        /// Updates the tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
+        public let imageTagMutability: ImageTagMutability?
+        /// Updates the lifecycle policy associated with the specified repository creation template.
+        public let lifecyclePolicy: String?
+        /// The repository namespace prefix that matches an existing repository creation template in the registry. All repositories created using this namespace prefix will have the settings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/. This includes a repository named prod/team1 as well as a repository named prod/repository1. To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the prefix.
+        public let prefix: String
+        /// Updates the repository policy created using the template. A repository policy is a permissions policy associated with a repository to control access permissions.
+        public let repositoryPolicy: String?
+        /// The metadata to apply to the repository to help you categorize and organize. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        public let resourceTags: [Tag]?
+
+        public init(appliedFor: [RCTAppliedFor]? = nil, customRoleArn: String? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate? = nil, imageTagMutability: ImageTagMutability? = nil, lifecyclePolicy: String? = nil, prefix: String, repositoryPolicy: String? = nil, resourceTags: [Tag]? = nil) {
+            self.appliedFor = appliedFor
+            self.customRoleArn = customRoleArn
+            self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
+            self.imageTagMutability = imageTagMutability
+            self.lifecyclePolicy = lifecyclePolicy
+            self.prefix = prefix
+            self.repositoryPolicy = repositoryPolicy
+            self.resourceTags = resourceTags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customRoleArn, name: "customRoleArn", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.validate(self.lifecyclePolicy, name: "lifecyclePolicy", parent: name, max: 30720)
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 256)
+            try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
+            try self.validate(self.repositoryPolicy, name: "repositoryPolicy", parent: name, max: 10240)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appliedFor = "appliedFor"
+            case customRoleArn = "customRoleArn"
+            case description = "description"
+            case encryptionConfiguration = "encryptionConfiguration"
+            case imageTagMutability = "imageTagMutability"
+            case lifecyclePolicy = "lifecyclePolicy"
+            case prefix = "prefix"
+            case repositoryPolicy = "repositoryPolicy"
+            case resourceTags = "resourceTags"
+        }
+    }
+
+    public struct UpdateRepositoryCreationTemplateResponse: AWSDecodableShape {
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The details of the repository creation template associated with the request.
+        public let repositoryCreationTemplate: RepositoryCreationTemplate?
+
+        public init(registryId: String? = nil, repositoryCreationTemplate: RepositoryCreationTemplate? = nil) {
+            self.registryId = registryId
+            self.repositoryCreationTemplate = repositoryCreationTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryId = "registryId"
+            case repositoryCreationTemplate = "repositoryCreationTemplate"
+        }
+    }
+
     public struct UploadLayerPartRequest: AWSEncodableShape {
         /// The base64-encoded layer part payload.
         public let layerPartBlob: AWSBase64Data
@@ -3330,6 +3719,8 @@ public struct ECRErrorType: AWSErrorType {
         case scanNotFoundException = "ScanNotFoundException"
         case secretNotFoundException = "SecretNotFoundException"
         case serverException = "ServerException"
+        case templateAlreadyExistsException = "TemplateAlreadyExistsException"
+        case templateNotFoundException = "TemplateNotFoundException"
         case tooManyTagsException = "TooManyTagsException"
         case unableToAccessSecretException = "UnableToAccessSecretException"
         case unableToDecryptSecretValueException = "UnableToDecryptSecretValueException"
@@ -3417,6 +3808,10 @@ public struct ECRErrorType: AWSErrorType {
     public static var secretNotFoundException: Self { .init(.secretNotFoundException) }
     /// These errors are usually caused by a server-side issue.
     public static var serverException: Self { .init(.serverException) }
+    /// The repository creation template already exists. Specify a unique prefix and try again.
+    public static var templateAlreadyExistsException: Self { .init(.templateAlreadyExistsException) }
+    /// The specified repository creation template can't be found. Verify the registry ID and prefix and try again.
+    public static var templateNotFoundException: Self { .init(.templateNotFoundException) }
     /// The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// The secret is unable to be accessed. Verify the resource permissions for the secret and try again.

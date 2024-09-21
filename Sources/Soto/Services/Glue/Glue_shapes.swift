@@ -144,6 +144,7 @@ extension Glue {
     }
 
     public enum ConnectionPropertyKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case clusterIdentifier = "CLUSTER_IDENTIFIER"
         case configFiles = "CONFIG_FILES"
         case connectionUrl = "CONNECTION_URL"
         case connectorClassName = "CONNECTOR_CLASS_NAME"
@@ -151,6 +152,7 @@ extension Glue {
         case connectorUrl = "CONNECTOR_URL"
         case customJdbcCert = "CUSTOM_JDBC_CERT"
         case customJdbcCertString = "CUSTOM_JDBC_CERT_STRING"
+        case database = "DATABASE"
         case encryptedKafkaClientKeyPassword = "ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD"
         case encryptedKafkaClientKeystorePassword = "ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD"
         case encryptedKafkaSaslPlainPassword = "ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD"
@@ -183,10 +185,12 @@ extension Glue {
         case kafkaSslEnabled = "KAFKA_SSL_ENABLED"
         case password = "PASSWORD"
         case port = "PORT"
+        case region = "REGION"
         case roleArn = "ROLE_ARN"
         case secretId = "SECRET_ID"
         case skipCustomJdbcCertValidation = "SKIP_CUSTOM_JDBC_CERT_VALIDATION"
         case userName = "USERNAME"
+        case workgroupName = "WORKGROUP_NAME"
         public var description: String { return self.rawValue }
     }
 
@@ -206,6 +210,8 @@ extension Glue {
         case network = "NETWORK"
         case salesforce = "SALESFORCE"
         case sftp = "SFTP"
+        case viewValidationAthena = "VIEW_VALIDATION_ATHENA"
+        case viewValidationRedshift = "VIEW_VALIDATION_REDSHIFT"
         public var description: String { return self.rawValue }
     }
 
@@ -276,6 +282,13 @@ extension Glue {
         case avro = "AVRO"
         case json = "JSON"
         case protobuf = "PROTOBUF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataQualityModelStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -384,6 +397,12 @@ extension Glue {
         case lzo = "lzo"
         case snappy = "snappy"
         case uncompressed = "uncompressed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InclusionAnnotationValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exclude = "EXCLUDE"
+        case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
@@ -616,10 +635,25 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case create = "CREATE"
+        case update = "UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceShareType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case federated = "FEDERATED"
         case foreign = "FOREIGN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case queued = "QUEUED"
+        case stopped = "STOPPED"
+        case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
@@ -727,6 +761,19 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum StatisticEvaluationLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case column = "Column"
+        case dataset = "Dataset"
+        case multicolumn = "Multicolumn"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TableAttributes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case name = "NAME"
+        case tableType = "TABLE_TYPE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TableOptimizerEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "completed"
         case failed = "failed"
@@ -737,6 +784,8 @@ extension Glue {
 
     public enum TableOptimizerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case compaction = "compaction"
+        case orphanFileDeletion = "orphan_file_deletion"
+        case retention = "retention"
         public var description: String { return self.rawValue }
     }
 
@@ -1188,6 +1237,27 @@ extension Glue {
         }
     }
 
+    public struct AnnotationError: AWSDecodableShape {
+        /// The reason why the annotation failed.
+        public let failureReason: String?
+        /// The Profile ID for the failed annotation.
+        public let profileId: String?
+        /// The Statistic ID for the failed annotation.
+        public let statisticId: String?
+
+        public init(failureReason: String? = nil, profileId: String? = nil, statisticId: String? = nil) {
+            self.failureReason = failureReason
+            self.profileId = profileId
+            self.statisticId = statisticId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureReason = "FailureReason"
+            case profileId = "ProfileId"
+            case statisticId = "StatisticId"
+        }
+    }
+
     public struct ApplyMapping: AWSEncodableShape & AWSDecodableShape {
         /// The data inputs identified by their node names.
         public let inputs: [String]
@@ -1396,13 +1466,16 @@ extension Glue {
         public let inputs: [String]
         /// The name of your data target.
         public let name: String
+        /// The partition keys used to distribute data across multiple partitions or shards based on a specific key or set of key.
+        public let partitionKeys: [[String]]?
         /// The table that defines the schema of your output data. This table must already exist in the Data Catalog.
         public let table: String
 
-        public init(database: String, inputs: [String], name: String, table: String) {
+        public init(database: String, inputs: [String], name: String, partitionKeys: [[String]]? = nil, table: String) {
             self.database = database
             self.inputs = inputs
             self.name = name
+            self.partitionKeys = partitionKeys
             self.table = table
         }
 
@@ -1421,6 +1494,7 @@ extension Glue {
             case database = "Database"
             case inputs = "Inputs"
             case name = "Name"
+            case partitionKeys = "PartitionKeys"
             case table = "Table"
         }
     }
@@ -2169,6 +2243,45 @@ extension Glue {
         }
     }
 
+    public struct BatchPutDataQualityStatisticAnnotationRequest: AWSEncodableShape {
+        /// Client Token.
+        public let clientToken: String?
+        /// A list of DatapointInclusionAnnotation's.
+        public let inclusionAnnotations: [DatapointInclusionAnnotation]
+
+        public init(clientToken: String? = nil, inclusionAnnotations: [DatapointInclusionAnnotation]) {
+            self.clientToken = clientToken
+            self.inclusionAnnotations = inclusionAnnotations
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.inclusionAnnotations.forEach {
+                try $0.validate(name: "\(name).inclusionAnnotations[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case inclusionAnnotations = "InclusionAnnotations"
+        }
+    }
+
+    public struct BatchPutDataQualityStatisticAnnotationResponse: AWSDecodableShape {
+        /// A list of AnnotationError's.
+        public let failedInclusionAnnotations: [AnnotationError]?
+
+        public init(failedInclusionAnnotations: [AnnotationError]? = nil) {
+            self.failedInclusionAnnotations = failedInclusionAnnotations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedInclusionAnnotations = "FailedInclusionAnnotations"
+        }
+    }
+
     public struct BatchStopJobRunError: AWSDecodableShape {
         /// Specifies details about the error that was encountered.
         public let errorDetail: ErrorDetail?
@@ -2261,7 +2374,7 @@ extension Glue {
         public let databaseName: String?
         /// The name of the table.
         public let tableName: String?
-        /// A TableOptimizer object that contains details on the configuration and last run of a table optimzer.
+        /// A TableOptimizer object that contains details on the configuration and last run of a table optimizer.
         public let tableOptimizer: TableOptimizer?
 
         public init(catalogId: String? = nil, databaseName: String? = nil, tableName: String? = nil, tableOptimizer: TableOptimizer? = nil) {
@@ -3790,6 +3903,19 @@ extension Glue {
         }
     }
 
+    public struct CompactionMetrics: AWSDecodableShape {
+        /// A structure containing the Iceberg compaction metrics for the optimizer run.
+        public let icebergMetrics: IcebergCompactionMetrics?
+
+        public init(icebergMetrics: IcebergCompactionMetrics? = nil) {
+            self.icebergMetrics = icebergMetrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case icebergMetrics = "IcebergMetrics"
+        }
+    }
+
     public struct Condition: AWSEncodableShape & AWSDecodableShape {
         /// The name of the crawler to which this condition applies.
         public let crawlerName: String?
@@ -3928,7 +4054,7 @@ extension Glue {
     public struct Connection: AWSDecodableShape {
         /// The authentication properties of the connection.
         public let authenticationConfiguration: AuthenticationConfiguration?
-        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME -  The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    SECRET_ID - The secret ID used for the secret manager of credentials.    CONNECTOR_URL - The connector URL for a MARKETPLACE or CUSTOM connection.    CONNECTOR_TYPE - The connector type for a MARKETPLACE or CUSTOM connection.    CONNECTOR_CLASS_NAME - The connector class name for a MARKETPLACE or CUSTOM connection.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".    KAFKA_CLIENT_KEYSTORE - The Amazon S3 location of the client keystore file for Kafka client side authentication (Optional).    KAFKA_CLIENT_KEYSTORE_PASSWORD - The password to access the provided keystore (Optional).    KAFKA_CLIENT_KEY_PASSWORD - A keystore can consist of multiple keys, so this is the password to access the client key to be used with the Kafka server side key (Optional).    ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD - The encrypted version of the Kafka client keystore password (if the user has the Glue encrypt passwords setting selected).    ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD - The encrypted version of the Kafka client key password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_MECHANISM - "SCRAM-SHA-512", "GSSAPI", "AWS_MSK_IAM", or "PLAIN". These are the supported SASL Mechanisms.    KAFKA_SASL_PLAIN_USERNAME - A plaintext username used to authenticate with the "PLAIN" mechanism.    KAFKA_SASL_PLAIN_PASSWORD - A plaintext password used to authenticate with the "PLAIN" mechanism.    ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD - The encrypted version of the Kafka SASL PLAIN password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_SCRAM_USERNAME - A plaintext username used to authenticate with the "SCRAM-SHA-512" mechanism.    KAFKA_SASL_SCRAM_PASSWORD - A plaintext password used to authenticate with the "SCRAM-SHA-512" mechanism.    ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD - The encrypted version of the Kafka SASL SCRAM password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_SCRAM_SECRETS_ARN - The Amazon Resource Name of a secret in Amazon Web Services Secrets Manager.    KAFKA_SASL_GSSAPI_KEYTAB - The S3 location of a Kerberos keytab file. A keytab stores long-term keys for one or more principals. For more information, see MIT Kerberos Documentation: Keytab.    KAFKA_SASL_GSSAPI_KRB5_CONF - The S3 location of a Kerberos krb5.conf file. A krb5.conf stores Kerberos configuration information, such as the location of the KDC server. For more information, see MIT Kerberos Documentation: krb5.conf.    KAFKA_SASL_GSSAPI_SERVICE - The Kerberos service name, as set with sasl.kerberos.service.name in your Kafka Configuration.    KAFKA_SASL_GSSAPI_PRINCIPAL - The name of the Kerberos princial used by Glue. For more information, see Kafka Documentation: Configuring Kafka Brokers.
+        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME -  The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    SECRET_ID - The secret ID used for the secret manager of credentials.    CONNECTOR_URL - The connector URL for a MARKETPLACE or CUSTOM connection.    CONNECTOR_TYPE - The connector type for a MARKETPLACE or CUSTOM connection.    CONNECTOR_CLASS_NAME - The connector class name for a MARKETPLACE or CUSTOM connection.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".    KAFKA_CLIENT_KEYSTORE - The Amazon S3 location of the client keystore file for Kafka client side authentication (Optional).    KAFKA_CLIENT_KEYSTORE_PASSWORD - The password to access the provided keystore (Optional).    KAFKA_CLIENT_KEY_PASSWORD - A keystore can consist of multiple keys, so this is the password to access the client key to be used with the Kafka server side key (Optional).    ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD - The encrypted version of the Kafka client keystore password (if the user has the Glue encrypt passwords setting selected).    ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD - The encrypted version of the Kafka client key password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_MECHANISM - "SCRAM-SHA-512", "GSSAPI", "AWS_MSK_IAM", or "PLAIN". These are the supported SASL Mechanisms.    KAFKA_SASL_PLAIN_USERNAME - A plaintext username used to authenticate with the "PLAIN" mechanism.    KAFKA_SASL_PLAIN_PASSWORD - A plaintext password used to authenticate with the "PLAIN" mechanism.    ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD - The encrypted version of the Kafka SASL PLAIN password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_SCRAM_USERNAME - A plaintext username used to authenticate with the "SCRAM-SHA-512" mechanism.    KAFKA_SASL_SCRAM_PASSWORD - A plaintext password used to authenticate with the "SCRAM-SHA-512" mechanism.    ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD - The encrypted version of the Kafka SASL SCRAM password (if the user has the Glue encrypt passwords setting selected).    KAFKA_SASL_SCRAM_SECRETS_ARN - The Amazon Resource Name of a secret in Amazon Web Services Secrets Manager.    KAFKA_SASL_GSSAPI_KEYTAB - The S3 location of a Kerberos keytab file. A keytab stores long-term keys for one or more principals. For more information, see MIT Kerberos Documentation: Keytab.    KAFKA_SASL_GSSAPI_KRB5_CONF - The S3 location of a Kerberos krb5.conf file. A krb5.conf stores Kerberos configuration information, such as the location of the KDC server. For more information, see MIT Kerberos Documentation: krb5.conf.    KAFKA_SASL_GSSAPI_SERVICE - The Kerberos service name, as set with sasl.kerberos.service.name in your Kafka Configuration.    KAFKA_SASL_GSSAPI_PRINCIPAL - The name of the Kerberos princial used by Glue. For more information, see Kafka Documentation: Configuring Kafka Brokers.    ROLE_ARN - The role to be used for running queries.    REGION - The Amazon Web Services Region where queries will be run.    WORKGROUP_NAME - The name of an Amazon Redshift serverless workgroup or Amazon Athena workgroup in which queries will run.    CLUSTER_IDENTIFIER - The cluster identifier of an Amazon Redshift cluster in which queries will run.    DATABASE - The Amazon Redshift database that you are connecting to.
         public let connectionProperties: [ConnectionPropertyKey: String]?
         /// The type of the connection. Currently, SFTP is not supported.
         public let connectionType: ConnectionType?
@@ -3991,7 +4117,7 @@ extension Glue {
         public let authenticationConfiguration: AuthenticationConfigurationInput?
         /// These key-value pairs define parameters for the connection.
         public let connectionProperties: [ConnectionPropertyKey: String]
-        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).  JDBC Connections use the following ConnectionParameters.   Required: All of (HOST, PORT, JDBC_ENGINE) or JDBC_CONNECTION_URL.   Required: All of (USERNAME, PASSWORD) or SECRET_ID.   Optional: JDBC_ENFORCE_SSL, CUSTOM_JDBC_CERT, CUSTOM_JDBC_CERT_STRING, SKIP_CUSTOM_JDBC_CERT_VALIDATION.  These parameters are used to configure SSL with JDBC.      KAFKA - Designates a connection to an Apache Kafka streaming platform.  KAFKA Connections use the following ConnectionParameters.   Required: KAFKA_BOOTSTRAP_SERVERS.   Optional: KAFKA_SSL_ENABLED, KAFKA_CUSTOM_CERT, KAFKA_SKIP_CUSTOM_CERT_VALIDATION. These parameters are used to configure SSL with KAFKA.   Optional: KAFKA_CLIENT_KEYSTORE, KAFKA_CLIENT_KEYSTORE_PASSWORD, KAFKA_CLIENT_KEY_PASSWORD, ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD, ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD. These parameters are used to configure TLS client configuration with SSL in KAFKA.   Optional: KAFKA_SASL_MECHANISM. Can be specified as SCRAM-SHA-512, GSSAPI, or AWS_MSK_IAM.   Optional: KAFKA_SASL_SCRAM_USERNAME, KAFKA_SASL_SCRAM_PASSWORD, ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD. These parameters are used to configure SASL/SCRAM-SHA-512 authentication with KAFKA.   Optional: KAFKA_SASL_GSSAPI_KEYTAB, KAFKA_SASL_GSSAPI_KRB5_CONF, KAFKA_SASL_GSSAPI_SERVICE, KAFKA_SASL_GSSAPI_PRINCIPAL. These parameters are used to configure SASL/GSSAPI authentication with KAFKA.      MONGODB - Designates a connection to a MongoDB document database.  MONGODB Connections use the following ConnectionParameters.   Required: CONNECTION_URL.   Required: All of (USERNAME, PASSWORD) or SECRET_ID.      SALESFORCE - Designates a connection to Salesforce using OAuth authencation.   Requires the AuthenticationConfiguration member to be configured.      NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).  NETWORK Connections do not require ConnectionParameters. Instead, provide a PhysicalConnectionRequirements.    MARKETPLACE - Uses configuration settings contained in a connector purchased from Amazon Web Services Marketplace to read from and write to data stores that are not natively supported by Glue.  MARKETPLACE Connections use the following ConnectionParameters.   Required: CONNECTOR_TYPE, CONNECTOR_URL, CONNECTOR_CLASS_NAME, CONNECTION_URL.   Required for JDBC CONNECTOR_TYPE connections: All of (USERNAME, PASSWORD) or SECRET_ID.      CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by Glue.    SFTP is not supported. For more information about how optional ConnectionProperties are used to configure features in Glue, consult Glue connection properties. For more information about how optional ConnectionProperties are used to configure features in Glue Studio, consult Using connectors and connections.
+        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).  JDBC Connections use the following ConnectionParameters.   Required: All of (HOST, PORT, JDBC_ENGINE) or JDBC_CONNECTION_URL.   Required: All of (USERNAME, PASSWORD) or SECRET_ID.   Optional: JDBC_ENFORCE_SSL, CUSTOM_JDBC_CERT, CUSTOM_JDBC_CERT_STRING, SKIP_CUSTOM_JDBC_CERT_VALIDATION.  These parameters are used to configure SSL with JDBC.      KAFKA - Designates a connection to an Apache Kafka streaming platform.  KAFKA Connections use the following ConnectionParameters.   Required: KAFKA_BOOTSTRAP_SERVERS.   Optional: KAFKA_SSL_ENABLED, KAFKA_CUSTOM_CERT, KAFKA_SKIP_CUSTOM_CERT_VALIDATION. These parameters are used to configure SSL with KAFKA.   Optional: KAFKA_CLIENT_KEYSTORE, KAFKA_CLIENT_KEYSTORE_PASSWORD, KAFKA_CLIENT_KEY_PASSWORD, ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD, ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD. These parameters are used to configure TLS client configuration with SSL in KAFKA.   Optional: KAFKA_SASL_MECHANISM. Can be specified as SCRAM-SHA-512, GSSAPI, or AWS_MSK_IAM.   Optional: KAFKA_SASL_SCRAM_USERNAME, KAFKA_SASL_SCRAM_PASSWORD, ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD. These parameters are used to configure SASL/SCRAM-SHA-512 authentication with KAFKA.   Optional: KAFKA_SASL_GSSAPI_KEYTAB, KAFKA_SASL_GSSAPI_KRB5_CONF, KAFKA_SASL_GSSAPI_SERVICE, KAFKA_SASL_GSSAPI_PRINCIPAL. These parameters are used to configure SASL/GSSAPI authentication with KAFKA.      MONGODB - Designates a connection to a MongoDB document database.  MONGODB Connections use the following ConnectionParameters.   Required: CONNECTION_URL.   Required: All of (USERNAME, PASSWORD) or SECRET_ID.      SALESFORCE - Designates a connection to Salesforce using OAuth authencation.   Requires the AuthenticationConfiguration member to be configured.      VIEW_VALIDATION_REDSHIFT - Designates a connection used for view validation by Amazon Redshift.    VIEW_VALIDATION_ATHENA - Designates a connection used for view validation by Amazon Athena.    NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).  NETWORK Connections do not require ConnectionParameters. Instead, provide a PhysicalConnectionRequirements.    MARKETPLACE - Uses configuration settings contained in a connector purchased from Amazon Web Services Marketplace to read from and write to data stores that are not natively supported by Glue.  MARKETPLACE Connections use the following ConnectionParameters.   Required: CONNECTOR_TYPE, CONNECTOR_URL, CONNECTOR_CLASS_NAME, CONNECTION_URL.   Required for JDBC CONNECTOR_TYPE connections: All of (USERNAME, PASSWORD) or SECRET_ID.      CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by Glue.    SFTP is not supported. For more information about how optional ConnectionProperties are used to configure features in Glue, consult Glue connection properties. For more information about how optional ConnectionProperties are used to configure features in Glue Studio, consult Using connectors and connections.
         public let connectionType: ConnectionType
         /// The description of the connection.
         public let description: String?
@@ -4814,6 +4940,8 @@ extension Glue {
     public struct CreateDataQualityRulesetRequest: AWSEncodableShape {
         /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource.
         public let clientToken: String?
+        /// The name of the security configuration created with the data quality encryption option.
+        public let dataQualitySecurityConfiguration: String?
         /// A description of the data quality ruleset.
         public let description: String?
         /// A unique name for the data quality ruleset.
@@ -4825,8 +4953,9 @@ extension Glue {
         /// A target table associated with the data quality ruleset.
         public let targetTable: DataQualityTargetTable?
 
-        public init(clientToken: String? = nil, description: String? = nil, name: String, ruleset: String, tags: [String: String]? = nil, targetTable: DataQualityTargetTable? = nil) {
+        public init(clientToken: String? = nil, dataQualitySecurityConfiguration: String? = nil, description: String? = nil, name: String, ruleset: String, tags: [String: String]? = nil, targetTable: DataQualityTargetTable? = nil) {
             self.clientToken = clientToken
+            self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
             self.description = description
             self.name = name
             self.ruleset = ruleset
@@ -4838,6 +4967,9 @@ extension Glue {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.dataQualitySecurityConfiguration, name: "dataQualitySecurityConfiguration", parent: name, max: 255)
+            try self.validate(self.dataQualitySecurityConfiguration, name: "dataQualitySecurityConfiguration", parent: name, min: 1)
+            try self.validate(self.dataQualitySecurityConfiguration, name: "dataQualitySecurityConfiguration", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
@@ -4856,6 +4988,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
+            case dataQualitySecurityConfiguration = "DataQualitySecurityConfiguration"
             case description = "Description"
             case name = "Name"
             case ruleset = "Ruleset"
@@ -5144,6 +5277,8 @@ extension Glue {
         public let glueVersion: String?
         /// A mode that describes how a job was created. Valid values are:    SCRIPT - The job was created using the Glue Studio script editor.    VISUAL - The job was created using the Glue Studio visual editor.    NOTEBOOK - The job was created using an interactive sessions notebook.   When the JobMode field is missing or null, SCRIPT is assigned as the default value.
         public let jobMode: JobMode?
+        /// Specifies whether job run queuing is enabled for the job runs for this job. A value of true means job run queuing is enabled for the job runs. If false or not populated, the job runs will not be considered for queueing. If this field does not match the value set in the job run, then the value from the job run field will be used.
+        public let jobRunQueuingEnabled: Bool?
         /// This field is reserved for future use.
         public let logUri: String?
         /// This field specifies a day of the week and hour for a maintenance window for streaming jobs. Glue periodically performs maintenance activities. During these maintenance windows, Glue will need to restart your streaming jobs. Glue will restart the job within 3 hours of the specified maintenance window. For instance, if you set up the maintenance window for Monday at 10:00AM GMT, your jobs will be restarted between 10:00AM GMT to 1:00PM GMT.
@@ -5173,7 +5308,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
-        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, jobRunQueuingEnabled: Bool? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -5184,6 +5319,7 @@ extension Glue {
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
             self.jobMode = jobMode
+            self.jobRunQueuingEnabled = jobRunQueuingEnabled
             self.logUri = logUri
             self.maintenanceWindow = maintenanceWindow
             self.maxCapacity = maxCapacity
@@ -5201,7 +5337,7 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, jobRunQueuingEnabled: Bool? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -5212,6 +5348,7 @@ extension Glue {
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
             self.jobMode = jobMode
+            self.jobRunQueuingEnabled = jobRunQueuingEnabled
             self.logUri = logUri
             self.maintenanceWindow = maintenanceWindow
             self.maxCapacity = maxCapacity
@@ -5268,6 +5405,7 @@ extension Glue {
             case executionProperty = "ExecutionProperty"
             case glueVersion = "GlueVersion"
             case jobMode = "JobMode"
+            case jobRunQueuingEnabled = "JobRunQueuingEnabled"
             case logUri = "LogUri"
             case maintenanceWindow = "MaintenanceWindow"
             case maxCapacity = "MaxCapacity"
@@ -6559,6 +6697,8 @@ extension Glue {
         public let jobRunId: String?
         /// A list of DataQualityObservation objects representing the observations generated after evaluating the rules and analyzers.
         public let observations: [DataQualityObservation]?
+        /// The Profile ID for the data quality result.
+        public let profileId: String?
         /// A unique result ID for the data quality result.
         public let resultId: String?
         /// A list of DataQualityRuleResult objects representing the results for each rule.
@@ -6572,7 +6712,7 @@ extension Glue {
         /// The date and time when this data quality run started.
         public let startedOn: Date?
 
-        public init(analyzerResults: [DataQualityAnalyzerResult]? = nil, completedOn: Date? = nil, dataSource: DataSource? = nil, evaluationContext: String? = nil, jobName: String? = nil, jobRunId: String? = nil, observations: [DataQualityObservation]? = nil, resultId: String? = nil, ruleResults: [DataQualityRuleResult]? = nil, rulesetEvaluationRunId: String? = nil, rulesetName: String? = nil, score: Double? = nil, startedOn: Date? = nil) {
+        public init(analyzerResults: [DataQualityAnalyzerResult]? = nil, completedOn: Date? = nil, dataSource: DataSource? = nil, evaluationContext: String? = nil, jobName: String? = nil, jobRunId: String? = nil, observations: [DataQualityObservation]? = nil, profileId: String? = nil, resultId: String? = nil, ruleResults: [DataQualityRuleResult]? = nil, rulesetEvaluationRunId: String? = nil, rulesetName: String? = nil, score: Double? = nil, startedOn: Date? = nil) {
             self.analyzerResults = analyzerResults
             self.completedOn = completedOn
             self.dataSource = dataSource
@@ -6580,6 +6720,7 @@ extension Glue {
             self.jobName = jobName
             self.jobRunId = jobRunId
             self.observations = observations
+            self.profileId = profileId
             self.resultId = resultId
             self.ruleResults = ruleResults
             self.rulesetEvaluationRunId = rulesetEvaluationRunId
@@ -6596,6 +6737,7 @@ extension Glue {
             case jobName = "JobName"
             case jobRunId = "JobRunId"
             case observations = "Observations"
+            case profileId = "ProfileId"
             case resultId = "ResultId"
             case ruleResults = "RuleResults"
             case rulesetEvaluationRunId = "RulesetEvaluationRunId"
@@ -6728,6 +6870,8 @@ extension Glue {
         public let description: String?
         /// A map of metrics associated with the evaluation of the rule.
         public let evaluatedMetrics: [String: Double]?
+        /// The evaluated rule.
+        public let evaluatedRule: String?
         /// An evaluation message.
         public let evaluationMessage: String?
         /// The name of the data quality rule.
@@ -6735,9 +6879,10 @@ extension Glue {
         /// A pass or fail status for the rule.
         public let result: DataQualityRuleResultStatus?
 
-        public init(description: String? = nil, evaluatedMetrics: [String: Double]? = nil, evaluationMessage: String? = nil, name: String? = nil, result: DataQualityRuleResultStatus? = nil) {
+        public init(description: String? = nil, evaluatedMetrics: [String: Double]? = nil, evaluatedRule: String? = nil, evaluationMessage: String? = nil, name: String? = nil, result: DataQualityRuleResultStatus? = nil) {
             self.description = description
             self.evaluatedMetrics = evaluatedMetrics
+            self.evaluatedRule = evaluatedRule
             self.evaluationMessage = evaluationMessage
             self.name = name
             self.result = result
@@ -6746,6 +6891,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case evaluatedMetrics = "EvaluatedMetrics"
+            case evaluatedRule = "EvaluatedRule"
             case evaluationMessage = "EvaluationMessage"
             case name = "Name"
             case result = "Result"
@@ -7069,6 +7215,36 @@ extension Glue {
             case name = "Name"
             case parameters = "Parameters"
             case targetDatabase = "TargetDatabase"
+        }
+    }
+
+    public struct DatapointInclusionAnnotation: AWSEncodableShape {
+        /// The inclusion annotation value to apply to the statistic.
+        public let inclusionAnnotation: InclusionAnnotationValue?
+        /// The ID of the data quality profile the statistic belongs to.
+        public let profileId: String?
+        /// The Statistic ID.
+        public let statisticId: String?
+
+        public init(inclusionAnnotation: InclusionAnnotationValue? = nil, profileId: String? = nil, statisticId: String? = nil) {
+            self.inclusionAnnotation = inclusionAnnotation
+            self.profileId = profileId
+            self.statisticId = statisticId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 255)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.statisticId, name: "statisticId", parent: name, max: 255)
+            try self.validate(self.statisticId, name: "statisticId", parent: name, min: 1)
+            try self.validate(self.statisticId, name: "statisticId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inclusionAnnotation = "InclusionAnnotation"
+            case profileId = "ProfileId"
+            case statisticId = "StatisticId"
         }
     }
 
@@ -9902,6 +10078,100 @@ extension Glue {
         }
     }
 
+    public struct GetDataQualityModelRequest: AWSEncodableShape {
+        /// The Profile ID.
+        public let profileId: String
+        /// The Statistic ID.
+        public let statisticId: String?
+
+        public init(profileId: String, statisticId: String? = nil) {
+            self.profileId = profileId
+            self.statisticId = statisticId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 255)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.statisticId, name: "statisticId", parent: name, max: 255)
+            try self.validate(self.statisticId, name: "statisticId", parent: name, min: 1)
+            try self.validate(self.statisticId, name: "statisticId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileId = "ProfileId"
+            case statisticId = "StatisticId"
+        }
+    }
+
+    public struct GetDataQualityModelResponse: AWSDecodableShape {
+        /// The timestamp when the data quality model training completed.
+        public let completedOn: Date?
+        /// The training failure reason.
+        public let failureReason: String?
+        /// The timestamp when the data quality model training started.
+        public let startedOn: Date?
+        /// The training status of the data quality model.
+        public let status: DataQualityModelStatus?
+
+        public init(completedOn: Date? = nil, failureReason: String? = nil, startedOn: Date? = nil, status: DataQualityModelStatus? = nil) {
+            self.completedOn = completedOn
+            self.failureReason = failureReason
+            self.startedOn = startedOn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedOn = "CompletedOn"
+            case failureReason = "FailureReason"
+            case startedOn = "StartedOn"
+            case status = "Status"
+        }
+    }
+
+    public struct GetDataQualityModelResultRequest: AWSEncodableShape {
+        /// The Profile ID.
+        public let profileId: String
+        /// The Statistic ID.
+        public let statisticId: String
+
+        public init(profileId: String, statisticId: String) {
+            self.profileId = profileId
+            self.statisticId = statisticId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 255)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.statisticId, name: "statisticId", parent: name, max: 255)
+            try self.validate(self.statisticId, name: "statisticId", parent: name, min: 1)
+            try self.validate(self.statisticId, name: "statisticId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileId = "ProfileId"
+            case statisticId = "StatisticId"
+        }
+    }
+
+    public struct GetDataQualityModelResultResponse: AWSDecodableShape {
+        /// The timestamp when the data quality model training completed.
+        public let completedOn: Date?
+        /// A list of StatisticModelResult
+        public let model: [StatisticModelResult]?
+
+        public init(completedOn: Date? = nil, model: [StatisticModelResult]? = nil) {
+            self.completedOn = completedOn
+            self.model = model
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedOn = "CompletedOn"
+            case model = "Model"
+        }
+    }
+
     public struct GetDataQualityResultRequest: AWSEncodableShape {
         /// A unique result ID for the data quality result.
         public let resultId: String
@@ -9936,6 +10206,8 @@ extension Glue {
         public let jobRunId: String?
         /// A list of DataQualityObservation objects representing the observations generated after evaluating the rules and analyzers.
         public let observations: [DataQualityObservation]?
+        /// The Profile ID for the data quality result.
+        public let profileId: String?
         /// A unique result ID for the data quality result.
         public let resultId: String?
         /// A list of DataQualityRuleResult objects representing the results for each rule.
@@ -9949,7 +10221,7 @@ extension Glue {
         /// The date and time when the run for this data quality result started.
         public let startedOn: Date?
 
-        public init(analyzerResults: [DataQualityAnalyzerResult]? = nil, completedOn: Date? = nil, dataSource: DataSource? = nil, evaluationContext: String? = nil, jobName: String? = nil, jobRunId: String? = nil, observations: [DataQualityObservation]? = nil, resultId: String? = nil, ruleResults: [DataQualityRuleResult]? = nil, rulesetEvaluationRunId: String? = nil, rulesetName: String? = nil, score: Double? = nil, startedOn: Date? = nil) {
+        public init(analyzerResults: [DataQualityAnalyzerResult]? = nil, completedOn: Date? = nil, dataSource: DataSource? = nil, evaluationContext: String? = nil, jobName: String? = nil, jobRunId: String? = nil, observations: [DataQualityObservation]? = nil, profileId: String? = nil, resultId: String? = nil, ruleResults: [DataQualityRuleResult]? = nil, rulesetEvaluationRunId: String? = nil, rulesetName: String? = nil, score: Double? = nil, startedOn: Date? = nil) {
             self.analyzerResults = analyzerResults
             self.completedOn = completedOn
             self.dataSource = dataSource
@@ -9957,6 +10229,7 @@ extension Glue {
             self.jobName = jobName
             self.jobRunId = jobRunId
             self.observations = observations
+            self.profileId = profileId
             self.resultId = resultId
             self.ruleResults = ruleResults
             self.rulesetEvaluationRunId = rulesetEvaluationRunId
@@ -9973,6 +10246,7 @@ extension Glue {
             case jobName = "JobName"
             case jobRunId = "JobRunId"
             case observations = "Observations"
+            case profileId = "ProfileId"
             case resultId = "ResultId"
             case ruleResults = "RuleResults"
             case rulesetEvaluationRunId = "RulesetEvaluationRunId"
@@ -10006,6 +10280,8 @@ extension Glue {
         public let completedOn: Date?
         /// The name of the ruleset that was created by the run.
         public let createdRulesetName: String?
+        /// The name of the security configuration created with the data quality encryption option.
+        public let dataQualitySecurityConfiguration: String?
         /// The data source (an Glue table) associated with this run.
         public let dataSource: DataSource?
         /// The error strings that are associated with the run.
@@ -10029,9 +10305,10 @@ extension Glue {
         /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
 
-        public init(completedOn: Date? = nil, createdRulesetName: String? = nil, dataSource: DataSource? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: Date? = nil, numberOfWorkers: Int? = nil, recommendedRuleset: String? = nil, role: String? = nil, runId: String? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil, timeout: Int? = nil) {
+        public init(completedOn: Date? = nil, createdRulesetName: String? = nil, dataQualitySecurityConfiguration: String? = nil, dataSource: DataSource? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: Date? = nil, numberOfWorkers: Int? = nil, recommendedRuleset: String? = nil, role: String? = nil, runId: String? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil, timeout: Int? = nil) {
             self.completedOn = completedOn
             self.createdRulesetName = createdRulesetName
+            self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
             self.dataSource = dataSource
             self.errorString = errorString
             self.executionTime = executionTime
@@ -10048,6 +10325,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case completedOn = "CompletedOn"
             case createdRulesetName = "CreatedRulesetName"
+            case dataQualitySecurityConfiguration = "DataQualitySecurityConfiguration"
             case dataSource = "DataSource"
             case errorString = "ErrorString"
             case executionTime = "ExecutionTime"
@@ -10172,6 +10450,8 @@ extension Glue {
     public struct GetDataQualityRulesetResponse: AWSDecodableShape {
         /// A timestamp. The time and date that this data quality ruleset was created.
         public let createdOn: Date?
+        /// The name of the security configuration created with the data quality encryption option.
+        public let dataQualitySecurityConfiguration: String?
         /// A description of the ruleset.
         public let description: String?
         /// A timestamp. The last point in time when this data quality ruleset was modified.
@@ -10185,8 +10465,9 @@ extension Glue {
         /// The name and database name of the target table.
         public let targetTable: DataQualityTargetTable?
 
-        public init(createdOn: Date? = nil, description: String? = nil, lastModifiedOn: Date? = nil, name: String? = nil, recommendationRunId: String? = nil, ruleset: String? = nil, targetTable: DataQualityTargetTable? = nil) {
+        public init(createdOn: Date? = nil, dataQualitySecurityConfiguration: String? = nil, description: String? = nil, lastModifiedOn: Date? = nil, name: String? = nil, recommendationRunId: String? = nil, ruleset: String? = nil, targetTable: DataQualityTargetTable? = nil) {
             self.createdOn = createdOn
+            self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
             self.description = description
             self.lastModifiedOn = lastModifiedOn
             self.name = name
@@ -10197,6 +10478,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case createdOn = "CreatedOn"
+            case dataQualitySecurityConfiguration = "DataQualitySecurityConfiguration"
             case description = "Description"
             case lastModifiedOn = "LastModifiedOn"
             case name = "Name"
@@ -11752,6 +12034,8 @@ extension Glue {
         public let catalogId: String?
         /// The name of the database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
+        /// Specifies whether to include status details related to a request to create or update an Glue Data Catalog view.
+        public let includeStatusDetails: Bool?
         /// The name of the table for which to retrieve the definition. For Hive compatibility, this name is entirely lowercase.
         public let name: String
         /// The time as of when to read the table contents. If not set, the most recent transaction commit time will be used. Cannot be specified along with TransactionId.
@@ -11759,9 +12043,10 @@ extension Glue {
         /// The transaction ID at which to read the table contents.
         public let transactionId: String?
 
-        public init(catalogId: String? = nil, databaseName: String, name: String, queryAsOfTime: Date? = nil, transactionId: String? = nil) {
+        public init(catalogId: String? = nil, databaseName: String, includeStatusDetails: Bool? = nil, name: String, queryAsOfTime: Date? = nil, transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
+            self.includeStatusDetails = includeStatusDetails
             self.name = name
             self.queryAsOfTime = queryAsOfTime
             self.transactionId = transactionId
@@ -11785,6 +12070,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
+            case includeStatusDetails = "IncludeStatusDetails"
             case name = "Name"
             case queryAsOfTime = "QueryAsOfTime"
             case transactionId = "TransactionId"
@@ -11918,12 +12204,16 @@ extension Glue {
     }
 
     public struct GetTablesRequest: AWSEncodableShape {
+        ///  Specifies the table fields returned by the GetTables call. This parameter doesn’t accept an empty list. The request must include NAME. The following are the valid combinations of values:    NAME - Names of all tables in the database.    NAME, TABLE_TYPE - Names of all tables and the table types.
+        public let attributesToGet: [TableAttributes]?
         /// The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
         /// The database in the catalog whose tables to list. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
         /// A regular expression pattern. If present, only those tables whose names match the pattern are returned.
         public let expression: String?
+        /// Specifies whether to include status details related to a request to create or update an Glue Data Catalog view.
+        public let includeStatusDetails: Bool?
         /// The maximum number of tables to return in a single response.
         public let maxResults: Int?
         /// A continuation token, included if this is a continuation call.
@@ -11933,10 +12223,12 @@ extension Glue {
         /// The transaction ID at which to read the table contents.
         public let transactionId: String?
 
-        public init(catalogId: String? = nil, databaseName: String, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, queryAsOfTime: Date? = nil, transactionId: String? = nil) {
+        public init(attributesToGet: [TableAttributes]? = nil, catalogId: String? = nil, databaseName: String, expression: String? = nil, includeStatusDetails: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, queryAsOfTime: Date? = nil, transactionId: String? = nil) {
+            self.attributesToGet = attributesToGet
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.expression = expression
+            self.includeStatusDetails = includeStatusDetails
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.queryAsOfTime = queryAsOfTime
@@ -11960,9 +12252,11 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attributesToGet = "AttributesToGet"
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case expression = "Expression"
+            case includeStatusDetails = "IncludeStatusDetails"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case queryAsOfTime = "QueryAsOfTime"
@@ -12980,6 +13274,31 @@ extension Glue {
         }
     }
 
+    public struct IcebergCompactionMetrics: AWSDecodableShape {
+        /// The duration of the job in hours.
+        public let jobDurationInHour: Double?
+        /// The number of bytes removed by the compaction job run.
+        public let numberOfBytesCompacted: Int64?
+        /// The number of DPU hours consumed by the job.
+        public let numberOfDpus: Int?
+        /// The number of files removed by the compaction job run.
+        public let numberOfFilesCompacted: Int64?
+
+        public init(jobDurationInHour: Double? = nil, numberOfBytesCompacted: Int64? = nil, numberOfDpus: Int? = nil, numberOfFilesCompacted: Int64? = nil) {
+            self.jobDurationInHour = jobDurationInHour
+            self.numberOfBytesCompacted = numberOfBytesCompacted
+            self.numberOfDpus = numberOfDpus
+            self.numberOfFilesCompacted = numberOfFilesCompacted
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDurationInHour = "JobDurationInHour"
+            case numberOfBytesCompacted = "NumberOfBytesCompacted"
+            case numberOfDpus = "NumberOfDpus"
+            case numberOfFilesCompacted = "NumberOfFilesCompacted"
+        }
+    }
+
     public struct IcebergInput: AWSEncodableShape {
         /// A required metadata operation. Can only be set to CREATE.
         public let metadataOperation: MetadataOperation
@@ -13000,6 +13319,94 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case metadataOperation = "MetadataOperation"
             case version = "Version"
+        }
+    }
+
+    public struct IcebergOrphanFileDeletionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies a directory in which to look for files (defaults to the table's location). You may choose a sub-directory rather than the top-level table location.
+        public let location: String?
+        /// The number of days that orphan files should be retained before file deletion. If an input is not provided, the default value 3 will be used.
+        public let orphanFileRetentionPeriodInDays: Int?
+
+        public init(location: String? = nil, orphanFileRetentionPeriodInDays: Int? = nil) {
+            self.location = location
+            self.orphanFileRetentionPeriodInDays = orphanFileRetentionPeriodInDays
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "location"
+            case orphanFileRetentionPeriodInDays = "orphanFileRetentionPeriodInDays"
+        }
+    }
+
+    public struct IcebergOrphanFileDeletionMetrics: AWSDecodableShape {
+        /// The duration of the job in hours.
+        public let jobDurationInHour: Double?
+        /// The number of DPU hours consumed by the job.
+        public let numberOfDpus: Int?
+        /// The number of orphan files deleted by the orphan file deletion job run.
+        public let numberOfOrphanFilesDeleted: Int64?
+
+        public init(jobDurationInHour: Double? = nil, numberOfDpus: Int? = nil, numberOfOrphanFilesDeleted: Int64? = nil) {
+            self.jobDurationInHour = jobDurationInHour
+            self.numberOfDpus = numberOfDpus
+            self.numberOfOrphanFilesDeleted = numberOfOrphanFilesDeleted
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDurationInHour = "JobDurationInHour"
+            case numberOfDpus = "NumberOfDpus"
+            case numberOfOrphanFilesDeleted = "NumberOfOrphanFilesDeleted"
+        }
+    }
+
+    public struct IcebergRetentionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// If set to false, snapshots are only deleted from table metadata, and the underlying data and metadata files are not deleted.
+        public let cleanExpiredFiles: Bool?
+        /// The number of Iceberg snapshots to retain within the retention period. If an input is not provided, the corresponding Iceberg table configuration field will be used or if not present, the default value 1 will be used.
+        public let numberOfSnapshotsToRetain: Int?
+        /// The number of days to retain the Iceberg snapshots. If an input is not provided, the corresponding Iceberg table configuration field will be used or if not present, the default value 5 will be used.
+        public let snapshotRetentionPeriodInDays: Int?
+
+        public init(cleanExpiredFiles: Bool? = nil, numberOfSnapshotsToRetain: Int? = nil, snapshotRetentionPeriodInDays: Int? = nil) {
+            self.cleanExpiredFiles = cleanExpiredFiles
+            self.numberOfSnapshotsToRetain = numberOfSnapshotsToRetain
+            self.snapshotRetentionPeriodInDays = snapshotRetentionPeriodInDays
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cleanExpiredFiles = "cleanExpiredFiles"
+            case numberOfSnapshotsToRetain = "numberOfSnapshotsToRetain"
+            case snapshotRetentionPeriodInDays = "snapshotRetentionPeriodInDays"
+        }
+    }
+
+    public struct IcebergRetentionMetrics: AWSDecodableShape {
+        /// The duration of the job in hours.
+        public let jobDurationInHour: Double?
+        /// The number of data files deleted by the retention job run.
+        public let numberOfDataFilesDeleted: Int64?
+        /// The number of DPU hours consumed by the job.
+        public let numberOfDpus: Int?
+        /// The number of manifest files deleted by the retention job run.
+        public let numberOfManifestFilesDeleted: Int64?
+        /// The number of manifest lists deleted by the retention job run.
+        public let numberOfManifestListsDeleted: Int64?
+
+        public init(jobDurationInHour: Double? = nil, numberOfDataFilesDeleted: Int64? = nil, numberOfDpus: Int? = nil, numberOfManifestFilesDeleted: Int64? = nil, numberOfManifestListsDeleted: Int64? = nil) {
+            self.jobDurationInHour = jobDurationInHour
+            self.numberOfDataFilesDeleted = numberOfDataFilesDeleted
+            self.numberOfDpus = numberOfDpus
+            self.numberOfManifestFilesDeleted = numberOfManifestFilesDeleted
+            self.numberOfManifestListsDeleted = numberOfManifestListsDeleted
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDurationInHour = "JobDurationInHour"
+            case numberOfDataFilesDeleted = "NumberOfDataFilesDeleted"
+            case numberOfDpus = "NumberOfDpus"
+            case numberOfManifestFilesDeleted = "NumberOfManifestFilesDeleted"
+            case numberOfManifestListsDeleted = "NumberOfManifestListsDeleted"
         }
     }
 
@@ -13284,6 +13691,8 @@ extension Glue {
         public let glueVersion: String?
         /// A mode that describes how a job was created. Valid values are:    SCRIPT - The job was created using the Glue Studio script editor.    VISUAL - The job was created using the Glue Studio visual editor.    NOTEBOOK - The job was created using an interactive sessions notebook.   When the JobMode field is missing or null, SCRIPT is assigned as the default value.
         public let jobMode: JobMode?
+        /// Specifies whether job run queuing is enabled for the job runs for this job. A value of true means job run queuing is enabled for the job runs. If false or not populated, the job runs will not be considered for queueing. If this field does not match the value set in the job run, then the value from the job run field will be used.
+        public let jobRunQueuingEnabled: Bool?
         /// The last point in time when this job definition was modified.
         public let lastModifiedOn: Date?
         /// This field is reserved for future use.
@@ -13315,7 +13724,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
-        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, profileName: String? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, jobRunQueuingEnabled: Bool? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, profileName: String? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -13327,6 +13736,7 @@ extension Glue {
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
             self.jobMode = jobMode
+            self.jobRunQueuingEnabled = jobRunQueuingEnabled
             self.lastModifiedOn = lastModifiedOn
             self.logUri = logUri
             self.maintenanceWindow = maintenanceWindow
@@ -13345,7 +13755,7 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, profileName: String? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, jobRunQueuingEnabled: Bool? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, profileName: String? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -13357,6 +13767,7 @@ extension Glue {
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
             self.jobMode = jobMode
+            self.jobRunQueuingEnabled = jobRunQueuingEnabled
             self.lastModifiedOn = lastModifiedOn
             self.logUri = logUri
             self.maintenanceWindow = maintenanceWindow
@@ -13386,6 +13797,7 @@ extension Glue {
             case executionProperty = "ExecutionProperty"
             case glueVersion = "GlueVersion"
             case jobMode = "JobMode"
+            case jobRunQueuingEnabled = "JobRunQueuingEnabled"
             case lastModifiedOn = "LastModifiedOn"
             case logUri = "LogUri"
             case maintenanceWindow = "MaintenanceWindow"
@@ -13532,6 +13944,8 @@ extension Glue {
         public let jobMode: JobMode?
         /// The name of the job definition being used in this run.
         public let jobName: String?
+        /// Specifies whether job run queuing is enabled for the job run. A value of true means job run queuing is enabled for the job run. If false or not populated, the job run will not be considered for queueing.
+        public let jobRunQueuingEnabled: Bool?
         /// The current state of the job run. For more information about the statuses of jobs that have terminated abnormally, see Glue Job Run Statuses.
         public let jobRunState: JobRunState?
         /// The last time that this job run was modified.
@@ -13556,6 +13970,8 @@ extension Glue {
         public let securityConfiguration: String?
         /// The date and time at which this job run was started.
         public let startedOn: Date?
+        /// This field holds details that pertain to the state of a job run. The field is nullable. For example, when a job run is in a WAITING state as a result of job run queuing, the field has the reason why the job run is in that state.
+        public let stateDetail: String?
         /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
         public let timeout: Int?
         /// The name of the trigger that started this job run.
@@ -13563,7 +13979,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
-        public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobMode: JobMode? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, profileName: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
+        public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobMode: JobMode? = nil, jobName: String? = nil, jobRunQueuingEnabled: Bool? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, profileName: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, stateDetail: String? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.arguments = arguments
             self.attempt = attempt
@@ -13576,6 +13992,7 @@ extension Glue {
             self.id = id
             self.jobMode = jobMode
             self.jobName = jobName
+            self.jobRunQueuingEnabled = jobRunQueuingEnabled
             self.jobRunState = jobRunState
             self.lastModifiedOn = lastModifiedOn
             self.logGroupName = logGroupName
@@ -13588,13 +14005,14 @@ extension Glue {
             self.profileName = profileName
             self.securityConfiguration = securityConfiguration
             self.startedOn = startedOn
+            self.stateDetail = stateDetail
             self.timeout = timeout
             self.triggerName = triggerName
             self.workerType = workerType
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobMode: JobMode? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, profileName: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionClass: ExecutionClass? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobMode: JobMode? = nil, jobName: String? = nil, jobRunQueuingEnabled: Bool? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, profileName: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, stateDetail: String? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments
             self.attempt = attempt
@@ -13607,6 +14025,7 @@ extension Glue {
             self.id = id
             self.jobMode = jobMode
             self.jobName = jobName
+            self.jobRunQueuingEnabled = jobRunQueuingEnabled
             self.jobRunState = jobRunState
             self.lastModifiedOn = lastModifiedOn
             self.logGroupName = logGroupName
@@ -13619,6 +14038,7 @@ extension Glue {
             self.profileName = profileName
             self.securityConfiguration = securityConfiguration
             self.startedOn = startedOn
+            self.stateDetail = stateDetail
             self.timeout = timeout
             self.triggerName = triggerName
             self.workerType = workerType
@@ -13637,6 +14057,7 @@ extension Glue {
             case id = "Id"
             case jobMode = "JobMode"
             case jobName = "JobName"
+            case jobRunQueuingEnabled = "JobRunQueuingEnabled"
             case jobRunState = "JobRunState"
             case lastModifiedOn = "LastModifiedOn"
             case logGroupName = "LogGroupName"
@@ -13649,6 +14070,7 @@ extension Glue {
             case profileName = "ProfileName"
             case securityConfiguration = "SecurityConfiguration"
             case startedOn = "StartedOn"
+            case stateDetail = "StateDetail"
             case timeout = "Timeout"
             case triggerName = "TriggerName"
             case workerType = "WorkerType"
@@ -13676,6 +14098,8 @@ extension Glue {
         public let glueVersion: String?
         /// A mode that describes how a job was created. Valid values are:    SCRIPT - The job was created using the Glue Studio script editor.    VISUAL - The job was created using the Glue Studio visual editor.    NOTEBOOK - The job was created using an interactive sessions notebook.   When the JobMode field is missing or null, SCRIPT is assigned as the default value.
         public let jobMode: JobMode?
+        /// Specifies whether job run queuing is enabled for the job runs for this job. A value of true means job run queuing is enabled for the job runs. If false or not populated, the job runs will not be considered for queueing. If this field does not match the value set in the job run, then the value from the job run field will be used.
+        public let jobRunQueuingEnabled: Bool?
         /// This field is reserved for future use.
         public let logUri: String?
         /// This field specifies a day of the week and hour for a maintenance window for streaming jobs. Glue periodically performs maintenance activities. During these maintenance windows, Glue will need to restart your streaming jobs. Glue will restart the job within 3 hours of the specified maintenance window. For instance, if you set up the maintenance window for Monday at 10:00AM GMT, your jobs will be restarted between 10:00AM GMT to 1:00PM GMT.
@@ -13701,7 +14125,7 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
-        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, jobRunQueuingEnabled: Bool? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -13712,6 +14136,7 @@ extension Glue {
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
             self.jobMode = jobMode
+            self.jobRunQueuingEnabled = jobRunQueuingEnabled
             self.logUri = logUri
             self.maintenanceWindow = maintenanceWindow
             self.maxCapacity = maxCapacity
@@ -13727,7 +14152,7 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionClass: ExecutionClass? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, jobMode: JobMode? = nil, jobRunQueuingEnabled: Bool? = nil, logUri: String? = nil, maintenanceWindow: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, sourceControlDetails: SourceControlDetails? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -13738,6 +14163,7 @@ extension Glue {
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
             self.jobMode = jobMode
+            self.jobRunQueuingEnabled = jobRunQueuingEnabled
             self.logUri = logUri
             self.maintenanceWindow = maintenanceWindow
             self.maxCapacity = maxCapacity
@@ -13783,6 +14209,7 @@ extension Glue {
             case executionProperty = "ExecutionProperty"
             case glueVersion = "GlueVersion"
             case jobMode = "JobMode"
+            case jobRunQueuingEnabled = "JobRunQueuingEnabled"
             case logUri = "LogUri"
             case maintenanceWindow = "MaintenanceWindow"
             case maxCapacity = "MaxCapacity"
@@ -14652,6 +15079,120 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case rulesets = "Rulesets"
+        }
+    }
+
+    public struct ListDataQualityStatisticAnnotationsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in this request.
+        public let maxResults: Int?
+        /// A pagination token to retrieve the next set of results.
+        public let nextToken: String?
+        /// The Profile ID.
+        public let profileId: String?
+        /// The Statistic ID.
+        public let statisticId: String?
+        /// A timestamp filter.
+        public let timestampFilter: TimestampFilter?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, profileId: String? = nil, statisticId: String? = nil, timestampFilter: TimestampFilter? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.profileId = profileId
+            self.statisticId = statisticId
+            self.timestampFilter = timestampFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 255)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.statisticId, name: "statisticId", parent: name, max: 255)
+            try self.validate(self.statisticId, name: "statisticId", parent: name, min: 1)
+            try self.validate(self.statisticId, name: "statisticId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case profileId = "ProfileId"
+            case statisticId = "StatisticId"
+            case timestampFilter = "TimestampFilter"
+        }
+    }
+
+    public struct ListDataQualityStatisticAnnotationsResponse: AWSDecodableShape {
+        /// A list of StatisticAnnotation applied to the Statistic
+        public let annotations: [StatisticAnnotation]?
+        /// A pagination token to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(annotations: [StatisticAnnotation]? = nil, nextToken: String? = nil) {
+            self.annotations = annotations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case annotations = "Annotations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDataQualityStatisticsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in this request.
+        public let maxResults: Int?
+        /// A pagination token to request the next page of results.
+        public let nextToken: String?
+        /// The Profile ID.
+        public let profileId: String?
+        /// The Statistic ID.
+        public let statisticId: String?
+        /// A timestamp filter.
+        public let timestampFilter: TimestampFilter?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, profileId: String? = nil, statisticId: String? = nil, timestampFilter: TimestampFilter? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.profileId = profileId
+            self.statisticId = statisticId
+            self.timestampFilter = timestampFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 255)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.statisticId, name: "statisticId", parent: name, max: 255)
+            try self.validate(self.statisticId, name: "statisticId", parent: name, min: 1)
+            try self.validate(self.statisticId, name: "statisticId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case profileId = "ProfileId"
+            case statisticId = "StatisticId"
+            case timestampFilter = "TimestampFilter"
+        }
+    }
+
+    public struct ListDataQualityStatisticsResponse: AWSDecodableShape {
+        /// A pagination token to request the next page of results.
+        public let nextToken: String?
+        /// A StatisticSummaryList.
+        public let statistics: [StatisticSummary]?
+
+        public init(nextToken: String? = nil, statistics: [StatisticSummary]? = nil) {
+            self.nextToken = nextToken
+            self.statistics = statistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case statistics = "Statistics"
         }
     }
 
@@ -15590,17 +16131,21 @@ extension Glue {
         public let metricValues: DataQualityMetricValues?
         /// A list of new data quality rules generated as part of the observation based on the data quality metric value.
         public let newRules: [String]?
+        /// The Statistic ID.
+        public let statisticId: String?
 
-        public init(metricName: String? = nil, metricValues: DataQualityMetricValues? = nil, newRules: [String]? = nil) {
+        public init(metricName: String? = nil, metricValues: DataQualityMetricValues? = nil, newRules: [String]? = nil, statisticId: String? = nil) {
             self.metricName = metricName
             self.metricValues = metricValues
             self.newRules = newRules
+            self.statisticId = statisticId
         }
 
         private enum CodingKeys: String, CodingKey {
             case metricName = "MetricName"
             case metricValues = "MetricValues"
             case newRules = "NewRules"
+            case statisticId = "StatisticId"
         }
     }
 
@@ -16064,6 +16609,32 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case column = "Column"
             case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct OrphanFileDeletionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for an Iceberg orphan file deletion optimizer.
+        public let icebergConfiguration: IcebergOrphanFileDeletionConfiguration?
+
+        public init(icebergConfiguration: IcebergOrphanFileDeletionConfiguration? = nil) {
+            self.icebergConfiguration = icebergConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case icebergConfiguration = "icebergConfiguration"
+        }
+    }
+
+    public struct OrphanFileDeletionMetrics: AWSDecodableShape {
+        /// A structure containing the Iceberg orphan file deletion metrics for the optimizer run.
+        public let icebergMetrics: IcebergOrphanFileDeletionMetrics?
+
+        public init(icebergMetrics: IcebergOrphanFileDeletionMetrics? = nil) {
+            self.icebergMetrics = icebergMetrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case icebergMetrics = "IcebergMetrics"
         }
     }
 
@@ -16564,6 +17135,33 @@ extension Glue {
     }
 
     public struct PutDataCatalogEncryptionSettingsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PutDataQualityProfileAnnotationRequest: AWSEncodableShape {
+        /// The inclusion annotation value to apply to the profile.
+        public let inclusionAnnotation: InclusionAnnotationValue
+        /// The ID of the data quality monitoring profile to annotate.
+        public let profileId: String
+
+        public init(inclusionAnnotation: InclusionAnnotationValue, profileId: String) {
+            self.inclusionAnnotation = inclusionAnnotation
+            self.profileId = profileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 255)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inclusionAnnotation = "InclusionAnnotation"
+            case profileId = "ProfileId"
+        }
+    }
+
+    public struct PutDataQualityProfileAnnotationResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -17406,6 +18004,49 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case nodeIds = "NodeIds"
+            case runId = "RunId"
+        }
+    }
+
+    public struct RetentionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for an Iceberg snapshot retention optimizer.
+        public let icebergConfiguration: IcebergRetentionConfiguration?
+
+        public init(icebergConfiguration: IcebergRetentionConfiguration? = nil) {
+            self.icebergConfiguration = icebergConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case icebergConfiguration = "icebergConfiguration"
+        }
+    }
+
+    public struct RetentionMetrics: AWSDecodableShape {
+        /// A structure containing the Iceberg retention metrics for the optimizer run.
+        public let icebergMetrics: IcebergRetentionMetrics?
+
+        public init(icebergMetrics: IcebergRetentionMetrics? = nil) {
+            self.icebergMetrics = icebergMetrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case icebergMetrics = "IcebergMetrics"
+        }
+    }
+
+    public struct RunIdentifier: AWSDecodableShape {
+        /// The Job Run ID.
+        public let jobRunId: String?
+        /// The Run ID.
+        public let runId: String?
+
+        public init(jobRunId: String? = nil, runId: String? = nil) {
+            self.jobRunId = jobRunId
+            self.runId = runId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobRunId = "JobRunId"
             case runId = "RunId"
         }
     }
@@ -18627,6 +19268,8 @@ extension Glue {
         public let catalogId: String?
         /// A list of key-value pairs, and a comparator used to filter the search results. Returns all entities matching the predicate. The Comparator member of the PropertyPredicate struct is used only for time fields, and can be omitted for other field types. Also, when comparing string values, such as when Key=Name, a fuzzy match algorithm is used. The Key field (for example, the value of the Name field) is split on certain punctuation characters, for example, -, :, #, etc. into tokens. Then each token is exact-match compared with the Value member of PropertyPredicate. For example, if Key=Name and Value=link, tables named customer-link and xx-link-yy are returned, but xxlinkyy is not returned.
         public let filters: [PropertyPredicate]?
+        /// Specifies whether to include status details related to a request to create or update an Glue Data Catalog view.
+        public let includeStatusDetails: Bool?
         /// The maximum number of tables to return in a single response.
         public let maxResults: Int?
         /// A continuation token, included if this is a continuation call.
@@ -18638,9 +19281,10 @@ extension Glue {
         /// A list of criteria for sorting the results by a field name, in an ascending or descending order.
         public let sortCriteria: [SortCriterion]?
 
-        public init(catalogId: String? = nil, filters: [PropertyPredicate]? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceShareType: ResourceShareType? = nil, searchText: String? = nil, sortCriteria: [SortCriterion]? = nil) {
+        public init(catalogId: String? = nil, filters: [PropertyPredicate]? = nil, includeStatusDetails: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceShareType: ResourceShareType? = nil, searchText: String? = nil, sortCriteria: [SortCriterion]? = nil) {
             self.catalogId = catalogId
             self.filters = filters
+            self.includeStatusDetails = includeStatusDetails
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceShareType = resourceShareType
@@ -18667,6 +19311,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case filters = "Filters"
+            case includeStatusDetails = "IncludeStatusDetails"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case resourceShareType = "ResourceShareType"
@@ -19639,6 +20284,8 @@ extension Glue {
         public let clientToken: String?
         /// A name for the ruleset.
         public let createdRulesetName: String?
+        /// The name of the security configuration created with the data quality encryption option.
+        public let dataQualitySecurityConfiguration: String?
         /// The data source (Glue table) associated with this run.
         public let dataSource: DataSource
         /// The number of G.1X workers to be used in the run. The default is 5.
@@ -19648,9 +20295,10 @@ extension Glue {
         /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
 
-        public init(clientToken: String? = nil, createdRulesetName: String? = nil, dataSource: DataSource, numberOfWorkers: Int? = nil, role: String, timeout: Int? = nil) {
+        public init(clientToken: String? = nil, createdRulesetName: String? = nil, dataQualitySecurityConfiguration: String? = nil, dataSource: DataSource, numberOfWorkers: Int? = nil, role: String, timeout: Int? = nil) {
             self.clientToken = clientToken
             self.createdRulesetName = createdRulesetName
+            self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
             self.dataSource = dataSource
             self.numberOfWorkers = numberOfWorkers
             self.role = role
@@ -19664,6 +20312,9 @@ extension Glue {
             try self.validate(self.createdRulesetName, name: "createdRulesetName", parent: name, max: 255)
             try self.validate(self.createdRulesetName, name: "createdRulesetName", parent: name, min: 1)
             try self.validate(self.createdRulesetName, name: "createdRulesetName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.dataQualitySecurityConfiguration, name: "dataQualitySecurityConfiguration", parent: name, max: 255)
+            try self.validate(self.dataQualitySecurityConfiguration, name: "dataQualitySecurityConfiguration", parent: name, min: 1)
+            try self.validate(self.dataQualitySecurityConfiguration, name: "dataQualitySecurityConfiguration", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.dataSource.validate(name: "\(name).dataSource")
             try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
         }
@@ -19671,6 +20322,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case createdRulesetName = "CreatedRulesetName"
+            case dataQualitySecurityConfiguration = "DataQualitySecurityConfiguration"
             case dataSource = "DataSource"
             case numberOfWorkers = "NumberOfWorkers"
             case role = "Role"
@@ -19853,6 +20505,8 @@ extension Glue {
         public let jobName: String
         /// The ID of a previous JobRun to retry.
         public let jobRunId: String?
+        /// Specifies whether job run queuing is enabled for the job run. A value of true means job run queuing is enabled for the job run. If false or not populated, the job run will not be considered for queueing.
+        public let jobRunQueuingEnabled: Bool?
         /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the  Glue pricing page. For Glue version 2.0+ jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache  Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs.  The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         public let maxCapacity: Double?
         /// Specifies configuration properties of a job run notification.
@@ -19866,12 +20520,13 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
 
-        public init(arguments: [String: String]? = nil, executionClass: ExecutionClass? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(arguments: [String: String]? = nil, executionClass: ExecutionClass? = nil, jobName: String, jobRunId: String? = nil, jobRunQueuingEnabled: Bool? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.arguments = arguments
             self.executionClass = executionClass
             self.jobName = jobName
             self.jobRunId = jobRunId
+            self.jobRunQueuingEnabled = jobRunQueuingEnabled
             self.maxCapacity = maxCapacity
             self.notificationProperty = notificationProperty
             self.numberOfWorkers = numberOfWorkers
@@ -19881,12 +20536,13 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, executionClass: ExecutionClass? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, executionClass: ExecutionClass? = nil, jobName: String, jobRunId: String? = nil, jobRunQueuingEnabled: Bool? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments
             self.executionClass = executionClass
             self.jobName = jobName
             self.jobRunId = jobRunId
+            self.jobRunQueuingEnabled = jobRunQueuingEnabled
             self.maxCapacity = maxCapacity
             self.notificationProperty = notificationProperty
             self.numberOfWorkers = numberOfWorkers
@@ -19915,6 +20571,7 @@ extension Glue {
             case executionClass = "ExecutionClass"
             case jobName = "JobName"
             case jobRunId = "JobRunId"
+            case jobRunQueuingEnabled = "JobRunQueuingEnabled"
             case maxCapacity = "MaxCapacity"
             case notificationProperty = "NotificationProperty"
             case numberOfWorkers = "NumberOfWorkers"
@@ -20175,6 +20832,134 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case textPlain = "TextPlain"
+        }
+    }
+
+    public struct StatisticAnnotation: AWSDecodableShape {
+        /// The inclusion annotation applied to the statistic.
+        public let inclusionAnnotation: TimestampedInclusionAnnotation?
+        /// The Profile ID.
+        public let profileId: String?
+        /// The Statistic ID.
+        public let statisticId: String?
+        /// The timestamp when the annotated statistic was recorded.
+        public let statisticRecordedOn: Date?
+
+        public init(inclusionAnnotation: TimestampedInclusionAnnotation? = nil, profileId: String? = nil, statisticId: String? = nil, statisticRecordedOn: Date? = nil) {
+            self.inclusionAnnotation = inclusionAnnotation
+            self.profileId = profileId
+            self.statisticId = statisticId
+            self.statisticRecordedOn = statisticRecordedOn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inclusionAnnotation = "InclusionAnnotation"
+            case profileId = "ProfileId"
+            case statisticId = "StatisticId"
+            case statisticRecordedOn = "StatisticRecordedOn"
+        }
+    }
+
+    public struct StatisticModelResult: AWSDecodableShape {
+        /// The actual value.
+        public let actualValue: Double?
+        /// The date.
+        public let date: Date?
+        /// The inclusion annotation.
+        public let inclusionAnnotation: InclusionAnnotationValue?
+        /// The lower bound.
+        public let lowerBound: Double?
+        /// The predicted value.
+        public let predictedValue: Double?
+        /// The upper bound.
+        public let upperBound: Double?
+
+        public init(actualValue: Double? = nil, date: Date? = nil, inclusionAnnotation: InclusionAnnotationValue? = nil, lowerBound: Double? = nil, predictedValue: Double? = nil, upperBound: Double? = nil) {
+            self.actualValue = actualValue
+            self.date = date
+            self.inclusionAnnotation = inclusionAnnotation
+            self.lowerBound = lowerBound
+            self.predictedValue = predictedValue
+            self.upperBound = upperBound
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actualValue = "ActualValue"
+            case date = "Date"
+            case inclusionAnnotation = "InclusionAnnotation"
+            case lowerBound = "LowerBound"
+            case predictedValue = "PredictedValue"
+            case upperBound = "UpperBound"
+        }
+    }
+
+    public struct StatisticSummary: AWSDecodableShape {
+        /// The list of columns referenced by the statistic.
+        public let columnsReferenced: [String]?
+        /// The value of the statistic.
+        public let doubleValue: Double?
+        /// The evaluation level of the statistic. Possible values: Dataset, Column, Multicolumn.
+        public let evaluationLevel: StatisticEvaluationLevel?
+        /// The inclusion annotation for the statistic.
+        public let inclusionAnnotation: TimestampedInclusionAnnotation?
+        /// The Profile ID.
+        public let profileId: String?
+        /// The timestamp when the statistic was recorded.
+        public let recordedOn: Date?
+        /// The list of datasets referenced by the statistic.
+        public let referencedDatasets: [String]?
+        /// The Run Identifier
+        public let runIdentifier: RunIdentifier?
+        /// The Statistic ID.
+        public let statisticId: String?
+        /// The name of the statistic.
+        public let statisticName: String?
+        /// A StatisticPropertiesMap, which contains a NameString and DescriptionString
+        public let statisticProperties: [String: String]?
+
+        public init(columnsReferenced: [String]? = nil, doubleValue: Double? = nil, evaluationLevel: StatisticEvaluationLevel? = nil, inclusionAnnotation: TimestampedInclusionAnnotation? = nil, profileId: String? = nil, recordedOn: Date? = nil, referencedDatasets: [String]? = nil, runIdentifier: RunIdentifier? = nil, statisticId: String? = nil, statisticName: String? = nil, statisticProperties: [String: String]? = nil) {
+            self.columnsReferenced = columnsReferenced
+            self.doubleValue = doubleValue
+            self.evaluationLevel = evaluationLevel
+            self.inclusionAnnotation = inclusionAnnotation
+            self.profileId = profileId
+            self.recordedOn = recordedOn
+            self.referencedDatasets = referencedDatasets
+            self.runIdentifier = runIdentifier
+            self.statisticId = statisticId
+            self.statisticName = statisticName
+            self.statisticProperties = statisticProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnsReferenced = "ColumnsReferenced"
+            case doubleValue = "DoubleValue"
+            case evaluationLevel = "EvaluationLevel"
+            case inclusionAnnotation = "InclusionAnnotation"
+            case profileId = "ProfileId"
+            case recordedOn = "RecordedOn"
+            case referencedDatasets = "ReferencedDatasets"
+            case runIdentifier = "RunIdentifier"
+            case statisticId = "StatisticId"
+            case statisticName = "StatisticName"
+            case statisticProperties = "StatisticProperties"
+        }
+    }
+
+    public final class StatusDetails: AWSDecodableShape {
+        /// A Table object representing the requested changes.
+        public let requestedChange: Table?
+        /// A list of ViewValidation objects that contain information for an analytical engine to validate a view.
+        public let viewValidations: [ViewValidation]?
+
+        public init(requestedChange: Table? = nil, viewValidations: [ViewValidation]? = nil) {
+            self.requestedChange = requestedChange
+            self.viewValidations = viewValidations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestedChange = "RequestedChange"
+            case viewValidations = "ViewValidations"
         }
     }
 
@@ -20526,7 +21311,7 @@ extension Glue {
         }
     }
 
-    public struct Table: AWSDecodableShape {
+    public final class Table: AWSDecodableShape {
         /// The ID of the Data Catalog in which the table resides.
         public let catalogId: String?
         /// The person or entity who created the table.
@@ -20557,6 +21342,7 @@ extension Glue {
         public let partitionKeys: [Column]?
         /// The retention time for this table.
         public let retention: Int?
+        public let status: TableStatus?
         /// A storage descriptor containing information about the physical storage of this table.
         public let storageDescriptor: StorageDescriptor?
         /// The type of this table. Glue will create tables with the EXTERNAL_TABLE type. Other services, such as Athena, may create tables with additional table types.  Glue related table types:  EXTERNAL_TABLE  Hive compatible attribute - indicates a non-Hive managed table.  GOVERNED  Used by Lake Formation. The Glue Data Catalog understands GOVERNED.
@@ -20574,7 +21360,7 @@ extension Glue {
         /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations. If the table is a VIRTUAL_VIEW, certain Athena configuration encoded in base64.
         public let viewOriginalText: String?
 
-        public init(catalogId: String? = nil, createdBy: String? = nil, createTime: Date? = nil, databaseName: String? = nil, description: String? = nil, federatedTable: FederatedTable? = nil, isMultiDialectView: Bool? = nil, isRegisteredWithLakeFormation: Bool? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, updateTime: Date? = nil, versionId: String? = nil, viewDefinition: ViewDefinition? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
+        public init(catalogId: String? = nil, createdBy: String? = nil, createTime: Date? = nil, databaseName: String? = nil, description: String? = nil, federatedTable: FederatedTable? = nil, isMultiDialectView: Bool? = nil, isRegisteredWithLakeFormation: Bool? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, status: TableStatus? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, updateTime: Date? = nil, versionId: String? = nil, viewDefinition: ViewDefinition? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.catalogId = catalogId
             self.createdBy = createdBy
             self.createTime = createTime
@@ -20590,6 +21376,7 @@ extension Glue {
             self.parameters = parameters
             self.partitionKeys = partitionKeys
             self.retention = retention
+            self.status = status
             self.storageDescriptor = storageDescriptor
             self.tableType = tableType
             self.targetTable = targetTable
@@ -20616,6 +21403,7 @@ extension Glue {
             case parameters = "Parameters"
             case partitionKeys = "PartitionKeys"
             case retention = "Retention"
+            case status = "Status"
             case storageDescriptor = "StorageDescriptor"
             case tableType = "TableType"
             case targetTable = "TargetTable"
@@ -20781,7 +21569,7 @@ extension Glue {
         public let configuration: TableOptimizerConfiguration?
         /// A TableOptimizerRun object representing the last run of the table optimizer.
         public let lastRun: TableOptimizerRun?
-        /// The type of table optimizer. Currently, the only valid value is compaction.
+        /// The type of table optimizer. The valid values are:    compaction: for managing compaction with a table optimizer.    retention: for managing the retention of snapshot with a table optimizer.    orphan_file_deletion: for managing the deletion of orphan files with a table optimizer.
         public let type: TableOptimizerType?
 
         public init(configuration: TableOptimizerConfiguration? = nil, lastRun: TableOptimizerRun? = nil, type: TableOptimizerType? = nil) {
@@ -20800,11 +21588,17 @@ extension Glue {
     public struct TableOptimizerConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Whether table optimization is enabled.
         public let enabled: Bool?
+        /// The configuration for an orphan file deletion optimizer.
+        public let orphanFileDeletionConfiguration: OrphanFileDeletionConfiguration?
+        /// The configuration for a snapshot retention optimizer.
+        public let retentionConfiguration: RetentionConfiguration?
         /// A role passed by the caller which gives the service permission to update the resources associated with the optimizer on the caller's behalf.
         public let roleArn: String?
 
-        public init(enabled: Bool? = nil, roleArn: String? = nil) {
+        public init(enabled: Bool? = nil, orphanFileDeletionConfiguration: OrphanFileDeletionConfiguration? = nil, retentionConfiguration: RetentionConfiguration? = nil, roleArn: String? = nil) {
             self.enabled = enabled
+            self.orphanFileDeletionConfiguration = orphanFileDeletionConfiguration
+            self.retentionConfiguration = retentionConfiguration
             self.roleArn = roleArn
         }
 
@@ -20815,36 +21609,103 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "enabled"
+            case orphanFileDeletionConfiguration = "orphanFileDeletionConfiguration"
+            case retentionConfiguration = "retentionConfiguration"
             case roleArn = "roleArn"
         }
     }
 
     public struct TableOptimizerRun: AWSDecodableShape {
+        /// A CompactionMetrics object containing metrics for the optimizer run.
+        public let compactionMetrics: CompactionMetrics?
         /// Represents the epoch timestamp at which the compaction job ended.
         public let endTimestamp: Date?
         /// An error that occured during the optimizer run.
         public let error: String?
         /// An event type representing the status of the table optimizer run.
         public let eventType: TableOptimizerEventType?
-        /// A RunMetrics object containing metrics for the optimizer run.
+        /// A RunMetrics object containing metrics for the optimizer run. This member is deprecated. See the individual metric members for compaction, retention, and orphan file deletion.
         public let metrics: RunMetrics?
+        /// An OrphanFileDeletionMetrics object containing metrics for the optimizer run.
+        public let orphanFileDeletionMetrics: OrphanFileDeletionMetrics?
+        /// A RetentionMetrics object containing metrics for the optimizer run.
+        public let retentionMetrics: RetentionMetrics?
         /// Represents the epoch timestamp at which the compaction job was started within Lake Formation.
         public let startTimestamp: Date?
 
-        public init(endTimestamp: Date? = nil, error: String? = nil, eventType: TableOptimizerEventType? = nil, metrics: RunMetrics? = nil, startTimestamp: Date? = nil) {
+        public init(compactionMetrics: CompactionMetrics? = nil, endTimestamp: Date? = nil, error: String? = nil, eventType: TableOptimizerEventType? = nil, orphanFileDeletionMetrics: OrphanFileDeletionMetrics? = nil, retentionMetrics: RetentionMetrics? = nil, startTimestamp: Date? = nil) {
+            self.compactionMetrics = compactionMetrics
+            self.endTimestamp = endTimestamp
+            self.error = error
+            self.eventType = eventType
+            self.metrics = nil
+            self.orphanFileDeletionMetrics = orphanFileDeletionMetrics
+            self.retentionMetrics = retentionMetrics
+            self.startTimestamp = startTimestamp
+        }
+
+        @available(*, deprecated, message: "Members metrics have been deprecated")
+        public init(compactionMetrics: CompactionMetrics? = nil, endTimestamp: Date? = nil, error: String? = nil, eventType: TableOptimizerEventType? = nil, metrics: RunMetrics? = nil, orphanFileDeletionMetrics: OrphanFileDeletionMetrics? = nil, retentionMetrics: RetentionMetrics? = nil, startTimestamp: Date? = nil) {
+            self.compactionMetrics = compactionMetrics
             self.endTimestamp = endTimestamp
             self.error = error
             self.eventType = eventType
             self.metrics = metrics
+            self.orphanFileDeletionMetrics = orphanFileDeletionMetrics
+            self.retentionMetrics = retentionMetrics
             self.startTimestamp = startTimestamp
         }
 
         private enum CodingKeys: String, CodingKey {
+            case compactionMetrics = "compactionMetrics"
             case endTimestamp = "endTimestamp"
             case error = "error"
             case eventType = "eventType"
             case metrics = "metrics"
+            case orphanFileDeletionMetrics = "orphanFileDeletionMetrics"
+            case retentionMetrics = "retentionMetrics"
             case startTimestamp = "startTimestamp"
+        }
+    }
+
+    public final class TableStatus: AWSDecodableShape {
+        /// Indicates which action was called on the table, currently only CREATE or UPDATE.
+        public let action: ResourceAction?
+        /// A StatusDetails object with information about the requested change.
+        public let details: StatusDetails?
+        /// An error that will only appear when the state is "FAILED". This is a parent level exception message, there may be different Errors for each dialect.
+        public let error: ErrorDetail?
+        /// The ARN of the user who requested the asynchronous change.
+        public let requestedBy: String?
+        /// An ISO 8601 formatted date string indicating the time that the change was initiated.
+        public let requestTime: Date?
+        /// A generic status for the change in progress, such as QUEUED, IN_PROGRESS, SUCCESS, or FAILED.
+        public let state: ResourceState?
+        /// The ARN of the user to last manually alter the asynchronous change (requesting cancellation, etc).
+        public let updatedBy: String?
+        /// An ISO 8601 formatted date string indicating the time that the state was last updated.
+        public let updateTime: Date?
+
+        public init(action: ResourceAction? = nil, details: StatusDetails? = nil, error: ErrorDetail? = nil, requestedBy: String? = nil, requestTime: Date? = nil, state: ResourceState? = nil, updatedBy: String? = nil, updateTime: Date? = nil) {
+            self.action = action
+            self.details = details
+            self.error = error
+            self.requestedBy = requestedBy
+            self.requestTime = requestTime
+            self.state = state
+            self.updatedBy = updatedBy
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case details = "Details"
+            case error = "Error"
+            case requestedBy = "RequestedBy"
+            case requestTime = "RequestTime"
+            case state = "State"
+            case updatedBy = "UpdatedBy"
+            case updateTime = "UpdateTime"
         }
     }
 
@@ -21036,6 +21897,40 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case column = "Column"
             case sortDirection = "SortDirection"
+        }
+    }
+
+    public struct TimestampFilter: AWSEncodableShape {
+        /// The timestamp after which statistics should be included in the results.
+        public let recordedAfter: Date?
+        /// The timestamp before which statistics should be included in the results.
+        public let recordedBefore: Date?
+
+        public init(recordedAfter: Date? = nil, recordedBefore: Date? = nil) {
+            self.recordedAfter = recordedAfter
+            self.recordedBefore = recordedBefore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordedAfter = "RecordedAfter"
+            case recordedBefore = "RecordedBefore"
+        }
+    }
+
+    public struct TimestampedInclusionAnnotation: AWSDecodableShape {
+        /// The timestamp when the inclusion annotation was last modified.
+        public let lastModifiedOn: Date?
+        /// The inclusion annotation value.
+        public let value: InclusionAnnotationValue?
+
+        public init(lastModifiedOn: Date? = nil, value: InclusionAnnotationValue? = nil) {
+            self.lastModifiedOn = lastModifiedOn
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedOn = "LastModifiedOn"
+            case value = "Value"
         }
     }
 
@@ -23016,6 +23911,39 @@ extension Glue {
         }
     }
 
+    public struct ViewValidation: AWSDecodableShape {
+        /// The dialect of the query engine.
+        public let dialect: ViewDialect?
+        /// The version of the dialect of the query engine. For example, 3.0.0.
+        public let dialectVersion: String?
+        /// An error associated with the validation.
+        public let error: ErrorDetail?
+        /// The state of the validation.
+        public let state: ResourceState?
+        /// The time of the last update.
+        public let updateTime: Date?
+        /// The SELECT query that defines the view, as provided by the customer.
+        public let viewValidationText: String?
+
+        public init(dialect: ViewDialect? = nil, dialectVersion: String? = nil, error: ErrorDetail? = nil, state: ResourceState? = nil, updateTime: Date? = nil, viewValidationText: String? = nil) {
+            self.dialect = dialect
+            self.dialectVersion = dialectVersion
+            self.error = error
+            self.state = state
+            self.updateTime = updateTime
+            self.viewValidationText = viewValidationText
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dialect = "Dialect"
+            case dialectVersion = "DialectVersion"
+            case error = "Error"
+            case state = "State"
+            case updateTime = "UpdateTime"
+            case viewValidationText = "ViewValidationText"
+        }
+    }
+
     public struct Workflow: AWSDecodableShape {
         /// This structure indicates the details of the blueprint that this particular workflow is created from.
         public let blueprintDetails: BlueprintDetails?
@@ -23245,6 +24173,7 @@ public struct GlueErrorType: AWSErrorType {
         case schedulerNotRunningException = "SchedulerNotRunningException"
         case schedulerRunningException = "SchedulerRunningException"
         case schedulerTransitioningException = "SchedulerTransitioningException"
+        case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
         case versionMismatchException = "VersionMismatchException"
     }
@@ -23335,6 +24264,8 @@ public struct GlueErrorType: AWSErrorType {
     public static var schedulerRunningException: Self { .init(.schedulerRunningException) }
     /// The specified scheduler is transitioning.
     public static var schedulerTransitioningException: Self { .init(.schedulerTransitioningException) }
+    /// The throttling threshhold was exceeded.
+    public static var throttlingException: Self { .init(.throttlingException) }
     /// A value could not be validated.
     public static var validationException: Self { .init(.validationException) }
     /// There was a version conflict.

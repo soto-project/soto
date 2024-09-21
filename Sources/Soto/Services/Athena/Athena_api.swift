@@ -110,6 +110,8 @@ public struct Athena: AWSService {
             "us-west-2": "athena.us-west-2.api.aws"
         ]),
         [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "athena-fips.ca-central-1.api.aws",
+            "ca-west-1": "athena-fips.ca-west-1.api.aws",
             "us-east-1": "athena-fips.us-east-1.api.aws",
             "us-east-2": "athena-fips.us-east-2.api.aws",
             "us-gov-east-1": "athena-fips.us-gov-east-1.api.aws",
@@ -118,6 +120,8 @@ public struct Athena: AWSService {
             "us-west-2": "athena-fips.us-west-2.api.aws"
         ]),
         [.fips]: .init(endpoints: [
+            "ca-central-1": "athena-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "athena-fips.ca-west-1.amazonaws.com",
             "us-east-1": "athena-fips.us-east-1.amazonaws.com",
             "us-east-2": "athena-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "athena-fips.us-gov-east-1.amazonaws.com",

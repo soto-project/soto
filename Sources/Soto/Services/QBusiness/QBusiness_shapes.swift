@@ -73,6 +73,12 @@ extension QBusiness {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutoSubscriptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ChatMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creatorMode = "CREATOR_MODE"
         case pluginMode = "PLUGIN_MODE"
@@ -178,6 +184,13 @@ extension QBusiness {
         case failed = "FAILED"
         case processing = "PROCESSING"
         case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdentityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsIamIdc = "AWS_IAM_IDC"
+        case awsIamIdpOidc = "AWS_IAM_IDP_OIDC"
+        case awsIamIdpSaml = "AWS_IAM_IDP_SAML"
         public var description: String { return self.rawValue }
     }
 
@@ -322,6 +335,12 @@ extension QBusiness {
         case low = "LOW"
         case medium = "MEDIUM"
         case veryHigh = "VERY_HIGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubscriptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case qBusiness = "Q_BUSINESS"
+        case qLite = "Q_LITE"
         public var description: String { return self.rawValue }
     }
 
@@ -665,6 +684,54 @@ extension QBusiness {
         private enum CodingKeys: String, CodingKey {
             case blob = "blob"
             case s3 = "s3"
+        }
+    }
+
+    public enum IdentityProviderConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        case openIDConnectConfiguration(OpenIDConnectProviderConfiguration)
+        case samlConfiguration(SamlProviderConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .openIDConnectConfiguration:
+                let value = try container.decode(OpenIDConnectProviderConfiguration.self, forKey: .openIDConnectConfiguration)
+                self = .openIDConnectConfiguration(value)
+            case .samlConfiguration:
+                let value = try container.decode(SamlProviderConfiguration.self, forKey: .samlConfiguration)
+                self = .samlConfiguration(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .openIDConnectConfiguration(let value):
+                try container.encode(value, forKey: .openIDConnectConfiguration)
+            case .samlConfiguration(let value):
+                try container.encode(value, forKey: .samlConfiguration)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .openIDConnectConfiguration(let value):
+                try value.validate(name: "\(name).openIDConnectConfiguration")
+            case .samlConfiguration(let value):
+                try value.validate(name: "\(name).samlConfiguration")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case openIDConnectConfiguration = "openIDConnectConfiguration"
+            case samlConfiguration = "samlConfiguration"
         }
     }
 
@@ -1110,15 +1177,18 @@ extension QBusiness {
         public let createdAt: Date?
         /// The name of the Amazon Q Business application.
         public let displayName: String?
+        /// The authentication type being used by a Amazon Q Business application.
+        public let identityType: IdentityType?
         /// The status of the Amazon Q Business application. The application is ready to use when the status is ACTIVE.
         public let status: ApplicationStatus?
         /// The Unix timestamp when the Amazon Q Business application was last updated.
         public let updatedAt: Date?
 
-        public init(applicationId: String? = nil, createdAt: Date? = nil, displayName: String? = nil, status: ApplicationStatus? = nil, updatedAt: Date? = nil) {
+        public init(applicationId: String? = nil, createdAt: Date? = nil, displayName: String? = nil, identityType: IdentityType? = nil, status: ApplicationStatus? = nil, updatedAt: Date? = nil) {
             self.applicationId = applicationId
             self.createdAt = createdAt
             self.displayName = displayName
+            self.identityType = identityType
             self.status = status
             self.updatedAt = updatedAt
         }
@@ -1127,6 +1197,7 @@ extension QBusiness {
             case applicationId = "applicationId"
             case createdAt = "createdAt"
             case displayName = "displayName"
+            case identityType = "identityType"
             case status = "status"
             case updatedAt = "updatedAt"
         }
@@ -1364,6 +1435,23 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case responseMap = "responseMap"
+        }
+    }
+
+    public struct AutoSubscriptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Describes whether automatic subscriptions are enabled for an Amazon Q Business application using IAM identity federation for user management.
+        public let autoSubscribe: AutoSubscriptionStatus
+        /// Describes the default subscription type assigned to an Amazon Q Business application using IAM identity federation for user management. If the value for autoSubscribe is set to ENABLED you must select a value for this field.
+        public let defaultSubscriptionType: SubscriptionType?
+
+        public init(autoSubscribe: AutoSubscriptionStatus, defaultSubscriptionType: SubscriptionType? = nil) {
+            self.autoSubscribe = autoSubscribe
+            self.defaultSubscriptionType = defaultSubscriptionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoSubscribe = "autoSubscribe"
+            case defaultSubscriptionType = "defaultSubscriptionType"
         }
     }
 
@@ -1886,6 +1974,8 @@ extension QBusiness {
     public struct CreateApplicationRequest: AWSEncodableShape {
         /// An option to allow end users to upload files directly during chat.
         public let attachmentsConfiguration: AttachmentsConfiguration?
+        /// The OIDC client ID for a Amazon Q Business application.
+        public let clientIdsForOIDC: [String]?
         /// A token that you provide to identify the request to create your Amazon Q Business application.
         public let clientToken: String?
         /// A description for the Amazon Q Business application.
@@ -1894,8 +1984,12 @@ extension QBusiness {
         public let displayName: String
         /// The identifier of the KMS key that is used to encrypt your data. Amazon Q Business doesn't support asymmetric keys.
         public let encryptionConfiguration: EncryptionConfiguration?
+        /// The Amazon Resource Name (ARN) of an identity provider being used by an Amazon Q Business application.
+        public let iamIdentityProviderArn: String?
         ///  The Amazon Resource Name (ARN) of the IAM Identity Center instance you are either creating for—or connecting to—your Amazon Q Business application.
         public let identityCenterInstanceArn: String?
+        /// The authentication type being used by a Amazon Q Business application.
+        public let identityType: IdentityType?
         /// Configuration information about chat response personalization. For more information, see Personalizing chat responses
         public let personalizationConfiguration: PersonalizationConfiguration?
         /// An option to allow end users to create and use Amazon Q Apps in the web experience.
@@ -1905,13 +1999,16 @@ extension QBusiness {
         /// A list of key-value pairs that identify or categorize your Amazon Q Business application. You can also use tags to help control access to the application. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
         public let tags: [Tag]?
 
-        public init(attachmentsConfiguration: AttachmentsConfiguration? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, displayName: String, encryptionConfiguration: EncryptionConfiguration? = nil, identityCenterInstanceArn: String? = nil, personalizationConfiguration: PersonalizationConfiguration? = nil, qAppsConfiguration: QAppsConfiguration? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
+        public init(attachmentsConfiguration: AttachmentsConfiguration? = nil, clientIdsForOIDC: [String]? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, displayName: String, encryptionConfiguration: EncryptionConfiguration? = nil, iamIdentityProviderArn: String? = nil, identityCenterInstanceArn: String? = nil, identityType: IdentityType? = nil, personalizationConfiguration: PersonalizationConfiguration? = nil, qAppsConfiguration: QAppsConfiguration? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.attachmentsConfiguration = attachmentsConfiguration
+            self.clientIdsForOIDC = clientIdsForOIDC
             self.clientToken = clientToken
             self.description = description
             self.displayName = displayName
             self.encryptionConfiguration = encryptionConfiguration
+            self.iamIdentityProviderArn = iamIdentityProviderArn
             self.identityCenterInstanceArn = identityCenterInstanceArn
+            self.identityType = identityType
             self.personalizationConfiguration = personalizationConfiguration
             self.qAppsConfiguration = qAppsConfiguration
             self.roleArn = roleArn
@@ -1919,6 +2016,10 @@ extension QBusiness {
         }
 
         public func validate(name: String) throws {
+            try self.clientIdsForOIDC?.forEach {
+                try validate($0, name: "clientIdsForOIDC[]", parent: name, max: 255)
+                try validate($0, name: "clientIdsForOIDC[]", parent: name, min: 1)
+            }
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1000)
@@ -1927,6 +2028,9 @@ extension QBusiness {
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.validate(self.iamIdentityProviderArn, name: "iamIdentityProviderArn", parent: name, max: 2048)
+            try self.validate(self.iamIdentityProviderArn, name: "iamIdentityProviderArn", parent: name, min: 20)
+            try self.validate(self.iamIdentityProviderArn, name: "iamIdentityProviderArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:(oidc-provider|saml-provider)/[a-zA-Z0-9_\\.\\/@\\-]+$")
             try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, max: 1224)
             try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, min: 10)
             try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
@@ -1940,11 +2044,14 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case attachmentsConfiguration = "attachmentsConfiguration"
+            case clientIdsForOIDC = "clientIdsForOIDC"
             case clientToken = "clientToken"
             case description = "description"
             case displayName = "displayName"
             case encryptionConfiguration = "encryptionConfiguration"
+            case iamIdentityProviderArn = "iamIdentityProviderArn"
             case identityCenterInstanceArn = "identityCenterInstanceArn"
+            case identityType = "identityType"
             case personalizationConfiguration = "personalizationConfiguration"
             case qAppsConfiguration = "qAppsConfiguration"
             case roleArn = "roleArn"
@@ -1974,7 +2081,7 @@ extension QBusiness {
         public let applicationId: String
         /// A token you provide to identify a request to create a data source connector. Multiple calls to the CreateDataSource API with the same client token will create only one data source connector.
         public let clientToken: String?
-        /// Configuration information to connect to your data source repository. For configuration templates for your specific data source, see Supported connectors.
+        /// Configuration information to connect your data source repository to Amazon Q Business. Use this parameter to provide a JSON schema with configuration information specific to your data source connector. Each data source has a JSON schema provided by Amazon Q Business that you must use. For example, the Amazon S3 and Web Crawler connectors require the following JSON schemas:    Amazon S3 JSON schema     Web Crawler JSON schema    You can find configuration templates for your specific data source using the following steps:   Navigate to the Supported connectors page in the Amazon Q Business User Guide, and select the data source of your choice.   Then, from your specific data source connector page, select Using the API. You will find the JSON schema for your data source, including parameter descriptions, in this section.
         public let configuration: String
         /// A description for the data source connector.
         public let description: String?
@@ -2391,7 +2498,9 @@ extension QBusiness {
         public let applicationId: String
         /// A token you provide to identify a request to create an Amazon Q Business web experience.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the service role attached to your web experience.
+        /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
+        public let identityProviderConfiguration: IdentityProviderConfiguration?
+        /// The Amazon Resource Name (ARN) of the service role attached to your web experience.  You must provide this value if you're using IAM Identity Center to manage end user access to your application. If you're using legacy identity management to manage user access, you don't need to provide this value.
         public let roleArn: String?
         /// Determines whether sample prompts are enabled in the web experience for an end user.
         public let samplePromptsControlMode: WebExperienceSamplePromptsControlMode?
@@ -2404,9 +2513,10 @@ extension QBusiness {
         /// The customized welcome message for end users of an Amazon Q Business web experience.
         public let welcomeMessage: String?
 
-        public init(applicationId: String, clientToken: String? = CreateWebExperienceRequest.idempotencyToken(), roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, tags: [Tag]? = nil, title: String? = nil, welcomeMessage: String? = nil) {
+        public init(applicationId: String, clientToken: String? = CreateWebExperienceRequest.idempotencyToken(), identityProviderConfiguration: IdentityProviderConfiguration? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, tags: [Tag]? = nil, title: String? = nil, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.clientToken = clientToken
+            self.identityProviderConfiguration = identityProviderConfiguration
             self.roleArn = roleArn
             self.samplePromptsControlMode = samplePromptsControlMode
             self.subtitle = subtitle
@@ -2420,6 +2530,7 @@ extension QBusiness {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.applicationId, key: "applicationId")
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.identityProviderConfiguration, forKey: .identityProviderConfiguration)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
             try container.encodeIfPresent(self.samplePromptsControlMode, forKey: .samplePromptsControlMode)
             try container.encodeIfPresent(self.subtitle, forKey: .subtitle)
@@ -2434,6 +2545,7 @@ extension QBusiness {
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.identityProviderConfiguration?.validate(name: "\(name).identityProviderConfiguration")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.validate(self.subtitle, name: "subtitle", parent: name, max: 500)
@@ -2449,6 +2561,7 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case identityProviderConfiguration = "identityProviderConfiguration"
             case roleArn = "roleArn"
             case samplePromptsControlMode = "samplePromptsControlMode"
             case subtitle = "subtitle"
@@ -3396,6 +3509,10 @@ extension QBusiness {
         public let applicationId: String?
         /// Settings for whether end users can upload files directly during chat.
         public let attachmentsConfiguration: AppliedAttachmentsConfiguration?
+        /// Settings for auto-subscription behavior for this application. This is only applicable to SAML and OIDC applications.
+        public let autoSubscriptionConfiguration: AutoSubscriptionConfiguration?
+        /// The OIDC client ID for a Amazon Q Business application.
+        public let clientIdsForOIDC: [String]?
         /// The Unix timestamp when the Amazon Q Business application was last updated.
         public let createdAt: Date?
         /// A description for the Amazon Q Business application.
@@ -3406,8 +3523,12 @@ extension QBusiness {
         public let encryptionConfiguration: EncryptionConfiguration?
         /// If the Status field is set to ERROR, the ErrorMessage field contains a description of the error that caused the synchronization to fail.
         public let error: ErrorDetail?
+        /// The Amazon Resource Name (ARN) of an identity provider being used by an Amazon Q Business application.
+        public let iamIdentityProviderArn: String?
         /// The Amazon Resource Name (ARN) of the AWS IAM Identity Center instance attached to your Amazon Q Business application.
         public let identityCenterApplicationArn: String?
+        /// The authentication type being used by a Amazon Q Business application.
+        public let identityType: IdentityType?
         /// Configuration information about chat response personalization. For more information, see Personalizing chat responses.
         public let personalizationConfiguration: PersonalizationConfiguration?
         /// Settings for whether end users can create and use Amazon Q Apps in the web experience.
@@ -3419,16 +3540,20 @@ extension QBusiness {
         /// The Unix timestamp when the Amazon Q Business application was last updated.
         public let updatedAt: Date?
 
-        public init(applicationArn: String? = nil, applicationId: String? = nil, attachmentsConfiguration: AppliedAttachmentsConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, error: ErrorDetail? = nil, identityCenterApplicationArn: String? = nil, personalizationConfiguration: PersonalizationConfiguration? = nil, qAppsConfiguration: QAppsConfiguration? = nil, roleArn: String? = nil, status: ApplicationStatus? = nil, updatedAt: Date? = nil) {
+        public init(applicationArn: String? = nil, applicationId: String? = nil, attachmentsConfiguration: AppliedAttachmentsConfiguration? = nil, autoSubscriptionConfiguration: AutoSubscriptionConfiguration? = nil, clientIdsForOIDC: [String]? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, error: ErrorDetail? = nil, iamIdentityProviderArn: String? = nil, identityCenterApplicationArn: String? = nil, identityType: IdentityType? = nil, personalizationConfiguration: PersonalizationConfiguration? = nil, qAppsConfiguration: QAppsConfiguration? = nil, roleArn: String? = nil, status: ApplicationStatus? = nil, updatedAt: Date? = nil) {
             self.applicationArn = applicationArn
             self.applicationId = applicationId
             self.attachmentsConfiguration = attachmentsConfiguration
+            self.autoSubscriptionConfiguration = autoSubscriptionConfiguration
+            self.clientIdsForOIDC = clientIdsForOIDC
             self.createdAt = createdAt
             self.description = description
             self.displayName = displayName
             self.encryptionConfiguration = encryptionConfiguration
             self.error = error
+            self.iamIdentityProviderArn = iamIdentityProviderArn
             self.identityCenterApplicationArn = identityCenterApplicationArn
+            self.identityType = identityType
             self.personalizationConfiguration = personalizationConfiguration
             self.qAppsConfiguration = qAppsConfiguration
             self.roleArn = roleArn
@@ -3440,12 +3565,16 @@ extension QBusiness {
             case applicationArn = "applicationArn"
             case applicationId = "applicationId"
             case attachmentsConfiguration = "attachmentsConfiguration"
+            case autoSubscriptionConfiguration = "autoSubscriptionConfiguration"
+            case clientIdsForOIDC = "clientIdsForOIDC"
             case createdAt = "createdAt"
             case description = "description"
             case displayName = "displayName"
             case encryptionConfiguration = "encryptionConfiguration"
             case error = "error"
+            case iamIdentityProviderArn = "iamIdentityProviderArn"
             case identityCenterApplicationArn = "identityCenterApplicationArn"
+            case identityType = "identityType"
             case personalizationConfiguration = "personalizationConfiguration"
             case qAppsConfiguration = "qAppsConfiguration"
             case roleArn = "roleArn"
@@ -4026,6 +4155,8 @@ extension QBusiness {
         public let defaultEndpoint: String?
         /// When the Status field value is FAILED, the ErrorMessage field contains a description of the error that caused the data source connector to fail.
         public let error: ErrorDetail?
+        /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
+        public let identityProviderConfiguration: IdentityProviderConfiguration?
         ///  The Amazon Resource Name (ARN) of the service role attached to your web experience.
         public let roleArn: String?
         /// Determines whether sample prompts are enabled in the web experience for an end user.
@@ -4045,12 +4176,13 @@ extension QBusiness {
         /// The customized welcome message for end users of an Amazon Q Business web experience.
         public let welcomeMessage: String?
 
-        public init(applicationId: String? = nil, createdAt: Date? = nil, defaultEndpoint: String? = nil, error: ErrorDetail? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, status: WebExperienceStatus? = nil, subtitle: String? = nil, title: String? = nil, updatedAt: Date? = nil, webExperienceArn: String? = nil, webExperienceId: String? = nil, welcomeMessage: String? = nil) {
+        public init(applicationId: String? = nil, createdAt: Date? = nil, defaultEndpoint: String? = nil, error: ErrorDetail? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, status: WebExperienceStatus? = nil, subtitle: String? = nil, title: String? = nil, updatedAt: Date? = nil, webExperienceArn: String? = nil, webExperienceId: String? = nil, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.authenticationConfiguration = nil
             self.createdAt = createdAt
             self.defaultEndpoint = defaultEndpoint
             self.error = error
+            self.identityProviderConfiguration = identityProviderConfiguration
             self.roleArn = roleArn
             self.samplePromptsControlMode = samplePromptsControlMode
             self.status = status
@@ -4063,12 +4195,13 @@ extension QBusiness {
         }
 
         @available(*, deprecated, message: "Members authenticationConfiguration have been deprecated")
-        public init(applicationId: String? = nil, authenticationConfiguration: WebExperienceAuthConfiguration? = nil, createdAt: Date? = nil, defaultEndpoint: String? = nil, error: ErrorDetail? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, status: WebExperienceStatus? = nil, subtitle: String? = nil, title: String? = nil, updatedAt: Date? = nil, webExperienceArn: String? = nil, webExperienceId: String? = nil, welcomeMessage: String? = nil) {
+        public init(applicationId: String? = nil, authenticationConfiguration: WebExperienceAuthConfiguration? = nil, createdAt: Date? = nil, defaultEndpoint: String? = nil, error: ErrorDetail? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, status: WebExperienceStatus? = nil, subtitle: String? = nil, title: String? = nil, updatedAt: Date? = nil, webExperienceArn: String? = nil, webExperienceId: String? = nil, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.authenticationConfiguration = authenticationConfiguration
             self.createdAt = createdAt
             self.defaultEndpoint = defaultEndpoint
             self.error = error
+            self.identityProviderConfiguration = identityProviderConfiguration
             self.roleArn = roleArn
             self.samplePromptsControlMode = samplePromptsControlMode
             self.status = status
@@ -4086,6 +4219,7 @@ extension QBusiness {
             case createdAt = "createdAt"
             case defaultEndpoint = "defaultEndpoint"
             case error = "error"
+            case identityProviderConfiguration = "identityProviderConfiguration"
             case roleArn = "roleArn"
             case samplePromptsControlMode = "samplePromptsControlMode"
             case status = "status"
@@ -5210,6 +5344,30 @@ extension QBusiness {
         }
     }
 
+    public struct OpenIDConnectProviderConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of a Secrets Manager secret containing the OIDC client secret.
+        public let secretsArn: String
+        /// An IAM role with permissions to access KMS to decrypt the Secrets Manager secret containing your OIDC client secret.
+        public let secretsRole: String
+
+        public init(secretsArn: String, secretsRole: String) {
+            self.secretsArn = secretsArn
+            self.secretsRole = secretsRole
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.secretsArn, name: "secretsArn", parent: name, max: 1284)
+            try self.validate(self.secretsArn, name: "secretsArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.secretsRole, name: "secretsRole", parent: name, max: 1284)
+            try self.validate(self.secretsRole, name: "secretsRole", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretsArn = "secretsArn"
+            case secretsRole = "secretsRole"
+        }
+    }
+
     public struct PersonalizationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// An option to allow Amazon Q Business to customize chat responses using user specific metadata—specifically, location and job information—in your IAM Identity Center instance.
         public let personalizationControlMode: PersonalizationControlMode
@@ -5399,7 +5557,7 @@ extension QBusiness {
         /// The identifier of the data source for which you want to map users to their groups. This is useful if a group is tied to multiple data sources, but you only want the group to access documents of a certain data source. For example, the groups "Research", "Engineering", and "Sales and Marketing" are all tied to the company's documents stored in the data sources Confluence and Salesforce. However, "Sales and Marketing" team only needs access to customer-related documents stored in Salesforce.
         public let dataSourceId: String?
         public let groupMembers: GroupMembers
-        /// The list that contains your users or sub groups that belong the same group. For example, the group "Company" includes the user "CEO" and the sub groups "Research", "Engineering", and "Sales and Marketing". If you have more than 1000 users and/or sub groups for a single group, you need to provide the path to the S3 file that lists your users and sub groups for a group. Your sub groups can contain more than 1000 users, but the list of sub groups that belong to a group (and/or users) must be no more than 1000.
+        /// The list that contains your users or sub groups that belong the same group. For example, the group "Company" includes the user "CEO" and the sub groups "Research", "Engineering", and "Sales and Marketing".
         public let groupName: String
         /// The identifier of the index in which you want to map users to their groups.
         public let indexId: String
@@ -5586,6 +5744,25 @@ extension QBusiness {
             case roleArn = "roleArn"
             case userGroupAttribute = "userGroupAttribute"
             case userIdAttribute = "userIdAttribute"
+        }
+    }
+
+    public struct SamlProviderConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The URL where Amazon Q Business end users will be redirected for authentication.
+        public let authenticationUrl: String
+
+        public init(authenticationUrl: String) {
+            self.authenticationUrl = authenticationUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.authenticationUrl, name: "authenticationUrl", parent: name, max: 1284)
+            try self.validate(self.authenticationUrl, name: "authenticationUrl", parent: name, min: 1)
+            try self.validate(self.authenticationUrl, name: "authenticationUrl", parent: name, pattern: "^https://.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationUrl = "authenticationUrl"
         }
     }
 
@@ -5987,6 +6164,8 @@ extension QBusiness {
         public let applicationId: String
         /// An option to allow end users to upload files directly during chat.
         public let attachmentsConfiguration: AttachmentsConfiguration?
+        /// An option to enable updating the default subscription type assigned to an Amazon Q Business application using IAM identity federation for user management.
+        public let autoSubscriptionConfiguration: AutoSubscriptionConfiguration?
         /// A description for the Amazon Q Business application.
         public let description: String?
         /// A name for the Amazon Q Business application.
@@ -6000,9 +6179,10 @@ extension QBusiness {
         /// An Amazon Web Services Identity and Access Management (IAM) role that gives Amazon Q Business permission to access Amazon CloudWatch logs and metrics.
         public let roleArn: String?
 
-        public init(applicationId: String, attachmentsConfiguration: AttachmentsConfiguration? = nil, description: String? = nil, displayName: String? = nil, identityCenterInstanceArn: String? = nil, personalizationConfiguration: PersonalizationConfiguration? = nil, qAppsConfiguration: QAppsConfiguration? = nil, roleArn: String? = nil) {
+        public init(applicationId: String, attachmentsConfiguration: AttachmentsConfiguration? = nil, autoSubscriptionConfiguration: AutoSubscriptionConfiguration? = nil, description: String? = nil, displayName: String? = nil, identityCenterInstanceArn: String? = nil, personalizationConfiguration: PersonalizationConfiguration? = nil, qAppsConfiguration: QAppsConfiguration? = nil, roleArn: String? = nil) {
             self.applicationId = applicationId
             self.attachmentsConfiguration = attachmentsConfiguration
+            self.autoSubscriptionConfiguration = autoSubscriptionConfiguration
             self.description = description
             self.displayName = displayName
             self.identityCenterInstanceArn = identityCenterInstanceArn
@@ -6016,6 +6196,7 @@ extension QBusiness {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.applicationId, key: "applicationId")
             try container.encodeIfPresent(self.attachmentsConfiguration, forKey: .attachmentsConfiguration)
+            try container.encodeIfPresent(self.autoSubscriptionConfiguration, forKey: .autoSubscriptionConfiguration)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.displayName, forKey: .displayName)
             try container.encodeIfPresent(self.identityCenterInstanceArn, forKey: .identityCenterInstanceArn)
@@ -6042,6 +6223,7 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case attachmentsConfiguration = "attachmentsConfiguration"
+            case autoSubscriptionConfiguration = "autoSubscriptionConfiguration"
             case description = "description"
             case displayName = "displayName"
             case identityCenterInstanceArn = "identityCenterInstanceArn"
@@ -6470,6 +6652,8 @@ extension QBusiness {
         public let applicationId: String
         /// The authentication configuration of the Amazon Q Business web experience.
         public let authenticationConfiguration: WebExperienceAuthConfiguration?
+        /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
+        public let identityProviderConfiguration: IdentityProviderConfiguration?
         /// The Amazon Resource Name (ARN) of the role with permission to access the Amazon Q Business web experience and required resources.
         public let roleArn: String?
         /// Determines whether sample prompts are enabled in the web experience for an end user.
@@ -6483,9 +6667,10 @@ extension QBusiness {
         /// A customized welcome message for an end user in an Amazon Q Business web experience.
         public let welcomeMessage: String?
 
-        public init(applicationId: String, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, title: String? = nil, webExperienceId: String, welcomeMessage: String? = nil) {
+        public init(applicationId: String, identityProviderConfiguration: IdentityProviderConfiguration? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, title: String? = nil, webExperienceId: String, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.authenticationConfiguration = nil
+            self.identityProviderConfiguration = identityProviderConfiguration
             self.roleArn = roleArn
             self.samplePromptsControlMode = samplePromptsControlMode
             self.subtitle = subtitle
@@ -6495,9 +6680,10 @@ extension QBusiness {
         }
 
         @available(*, deprecated, message: "Members authenticationConfiguration have been deprecated")
-        public init(applicationId: String, authenticationConfiguration: WebExperienceAuthConfiguration? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, title: String? = nil, webExperienceId: String, welcomeMessage: String? = nil) {
+        public init(applicationId: String, authenticationConfiguration: WebExperienceAuthConfiguration? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, roleArn: String? = nil, samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil, subtitle: String? = nil, title: String? = nil, webExperienceId: String, welcomeMessage: String? = nil) {
             self.applicationId = applicationId
             self.authenticationConfiguration = authenticationConfiguration
+            self.identityProviderConfiguration = identityProviderConfiguration
             self.roleArn = roleArn
             self.samplePromptsControlMode = samplePromptsControlMode
             self.subtitle = subtitle
@@ -6511,6 +6697,7 @@ extension QBusiness {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.applicationId, key: "applicationId")
             try container.encodeIfPresent(self.authenticationConfiguration, forKey: .authenticationConfiguration)
+            try container.encodeIfPresent(self.identityProviderConfiguration, forKey: .identityProviderConfiguration)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
             try container.encodeIfPresent(self.samplePromptsControlMode, forKey: .samplePromptsControlMode)
             try container.encodeIfPresent(self.subtitle, forKey: .subtitle)
@@ -6524,6 +6711,7 @@ extension QBusiness {
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
             try self.authenticationConfiguration?.validate(name: "\(name).authenticationConfiguration")
+            try self.identityProviderConfiguration?.validate(name: "\(name).identityProviderConfiguration")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.validate(self.subtitle, name: "subtitle", parent: name, max: 500)
@@ -6538,6 +6726,7 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case authenticationConfiguration = "authenticationConfiguration"
+            case identityProviderConfiguration = "identityProviderConfiguration"
             case roleArn = "roleArn"
             case samplePromptsControlMode = "samplePromptsControlMode"
             case subtitle = "subtitle"

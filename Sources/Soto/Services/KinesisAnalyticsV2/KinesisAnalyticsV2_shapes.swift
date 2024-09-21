@@ -115,6 +115,7 @@ extension KinesisAnalyticsV2 {
         case flink115 = "FLINK-1_15"
         case flink118 = "FLINK-1_18"
         case flink119 = "FLINK-1_19"
+        case flink120 = "FLINK-1_20"
         case flink16 = "FLINK-1_6"
         case flink18 = "FLINK-1_8"
         case sql10 = "SQL-1_0"

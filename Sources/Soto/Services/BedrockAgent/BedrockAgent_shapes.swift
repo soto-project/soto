@@ -244,6 +244,12 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum RequireConfirmation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SalesforceAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case oauth2ClientCredentials = "OAUTH2_CLIENT_CREDENTIALS"
         public var description: String { return self.rawValue }
@@ -1286,7 +1292,7 @@ extension BedrockAgent {
     }
 
     public struct BedrockFoundationModelConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The model's ARN.
+        /// The ARN of the foundation model or inference profile.
         public let modelArn: String
         /// Instructions for interpreting the contents of a document.
         public let parsingPrompt: ParsingPrompt?
@@ -1299,7 +1305,7 @@ extension BedrockAgent {
         public func validate(name: String) throws {
             try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
             try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
-            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})$")
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):inference-profile/[a-zA-Z0-9-:.]+)$")
             try self.parsingPrompt?.validate(name: "\(name).parsingPrompt")
         }
 
@@ -1405,7 +1411,7 @@ extension BedrockAgent {
     public struct ConfluenceSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The supported authentication type to authenticate and connect to your  Confluence instance.
         public let authType: ConfluenceAuthType
-        /// The Amazon Resource Name of an Secrets Manager secret that  stores your authentication credentials for your SharePoint site/sites.  For more information on the key-value pairs that must be included in  your secret, depending on your authentication type, see  Confluence connection configuration.
+        /// The Amazon Resource Name of an Secrets Manager secret that  stores your authentication credentials for your Confluence instance URL.  For more information on the key-value pairs that must be included in  your secret, depending on your authentication type, see  Confluence connection configuration.
         public let credentialsSecretArn: String
         /// The supported host type, whether online/cloud or server/on-premises.
         public let hostType: ConfluenceHostType
@@ -1725,7 +1731,7 @@ extension BedrockAgent {
     public struct CreateDataSourceRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
         public let clientToken: String?
-        /// The data deletion policy for the data source. You can set the data deletion policy to:   DELETE: Deletes all underlying data belonging to  the data source from the vector store upon deletion of a knowledge base or data  source resource. Note that the vector store itself is not deleted, only the  underlying data. This flag is ignored if an Amazon Web Services account is deleted.   RETAIN: Retains all underlying data in your  vector store upon deletion of a knowledge base or data source resource.
+        /// The data deletion policy for the data source. You can set the data deletion policy to:   DELETE: Deletes all data from your data source that’s converted  into vector embeddings upon deletion of a knowledge base or data source resource.  Note that the vector store itself is not deleted,  only the data. This flag is ignored if an Amazon Web Services account is deleted.   RETAIN: Retains all data from your data source that’s converted  into vector embeddings upon deletion of a knowledge base or data source resource.  Note that the vector store itself is not deleted  if you delete a knowledge base or data source resource.
         public let dataDeletionPolicy: DataDeletionPolicy?
         /// The connection configuration for the data source.
         public let dataSourceConfiguration: DataSourceConfiguration
@@ -2070,13 +2076,13 @@ extension BedrockAgent {
         public let customerEncryptionKeyArn: String?
         /// A definition of the nodes and connections in the flow.
         public let definition: FlowDefinition?
-        /// The description of the flow version.
+        /// The description of the version.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see Create a service role for flows in Amazon Bedrock in the Amazon Bedrock User Guide.
         public let executionRoleArn: String
         /// The unique identifier of the flow.
         public let id: String
-        /// The name of the flow version.
+        /// The name of the version.
         public let name: String
         /// The status of the flow.
         public let status: FlowStatus
@@ -2351,11 +2357,11 @@ extension BedrockAgent {
         public let customerEncryptionKeyArn: String?
         /// The name of the default variant for the prompt. This value must match the name field in the relevant PromptVariant object.
         public let defaultVariant: String?
-        /// A description for the prompt version.
+        /// A description for the version.
         public let description: String?
         /// The unique identifier of the prompt.
         public let id: String
-        /// The name of the prompt version.
+        /// The name of the prompt.
         public let name: String
         /// The time at which the prompt was last updated.
         @CustomCoding<ISO8601DateCoder>
@@ -2951,7 +2957,7 @@ extension BedrockAgent {
     public struct DeletePromptRequest: AWSEncodableShape {
         /// The unique identifier of the prompt.
         public let promptIdentifier: String
-        /// The version of the prompt to delete.
+        /// The version of the prompt to delete. To delete the prompt, omit this field.
         public let promptVersion: String?
 
         public init(promptIdentifier: String, promptVersion: String? = nil) {
@@ -3082,7 +3088,7 @@ extension BedrockAgent {
     }
 
     public struct FlowAliasSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the flow alias.
+        /// The Amazon Resource Name (ARN) of the alias.
         public let arn: String
         /// The time at which the alias was created.
         @CustomCoding<ISO8601DateCoder>
@@ -3403,7 +3409,7 @@ extension BedrockAgent {
     public struct FlowVersionSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the flow that the version belongs to.
         public let arn: String
-        /// The time at the flow version was created.
+        /// The time at the version was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
         /// The unique identifier of the flow.
@@ -3437,11 +3443,14 @@ extension BedrockAgent {
         public let name: String
         /// The parameters that the agent elicits from the user to fulfill the function.
         public let parameters: [String: ParameterDetail]?
+        /// Contains information if user confirmation is required to invoke the function.
+        public let requireConfirmation: RequireConfirmation?
 
-        public init(description: String? = nil, name: String, parameters: [String: ParameterDetail]? = nil) {
+        public init(description: String? = nil, name: String, parameters: [String: ParameterDetail]? = nil, requireConfirmation: RequireConfirmation? = nil) {
             self.description = description
             self.name = name
             self.parameters = parameters
+            self.requireConfirmation = requireConfirmation
         }
 
         public func validate(name: String) throws {
@@ -3458,6 +3467,7 @@ extension BedrockAgent {
             case description = "description"
             case name = "name"
             case parameters = "parameters"
+            case requireConfirmation = "requireConfirmation"
         }
     }
 
@@ -3744,11 +3754,11 @@ extension BedrockAgent {
         public let flowId: String
         /// The unique identifier of the alias of the flow.
         public let id: String
-        /// The name of the flow alias.
+        /// The name of the alias.
         public let name: String
         /// Contains information about the version that the alias is mapped to.
         public let routingConfiguration: [FlowAliasRoutingConfigurationListItem]
-        /// The time at which the flow alias was last updated.
+        /// The time at which the alias was last updated.
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
@@ -3897,7 +3907,7 @@ extension BedrockAgent {
         public let executionRoleArn: String
         /// The unique identifier of the flow.
         public let id: String
-        /// The name of the flow version.
+        /// The name of the version.
         public let name: String
         /// The status of the flow.
         public let status: FlowStatus
@@ -4012,7 +4022,7 @@ extension BedrockAgent {
     public struct GetPromptRequest: AWSEncodableShape {
         /// The unique identifier of the prompt.
         public let promptIdentifier: String
-        /// The version of the prompt about which you want to retrieve information.
+        /// The version of the prompt about which you want to retrieve information. Omit this field to return information about the working draft of the prompt.
         public let promptVersion: String?
 
         public init(promptIdentifier: String, promptVersion: String? = nil) {
@@ -4038,7 +4048,7 @@ extension BedrockAgent {
     }
 
     public struct GetPromptResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the prompt.
+        /// The Amazon Resource Name (ARN) of the prompt or the prompt version (if you specified a version in the request).
         public let arn: String
         /// The time at which the prompt was created.
         @CustomCoding<ISO8601DateCoder>
@@ -4919,7 +4929,7 @@ extension BedrockAgent {
     }
 
     public struct ListFlowAliasesResponse: AWSDecodableShape {
-        /// A list, each member of which contains information about a flow alias.
+        /// A list, each member of which contains information about an alias.
         public let flowAliasSummaries: [FlowAliasSummary]
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
@@ -5153,7 +5163,7 @@ extension BedrockAgent {
         public let maxResults: Int?
         /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
-        /// The unique identifier of the prompt.
+        /// The unique identifier of the prompt for whose versions you want to return information. Omit this field to list information about all prompts in an account.
         public let promptIdentifier: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, promptIdentifier: String? = nil) {
@@ -5795,6 +5805,31 @@ extension BedrockAgent {
         }
     }
 
+    public struct PromptMetadataEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The key of a metadata tag for a prompt variant.
+        public let key: String
+        /// The value of a metadata tag for a prompt variant.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+            try self.validate(self.value, name: "value", parent: name, max: 1024)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
     public struct PromptModelInferenceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The maximum number of tokens to return in the response.
         public let maxTokens: Int?
@@ -5863,7 +5898,7 @@ extension BedrockAgent {
     }
 
     public struct PromptSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the prompt.
+        /// The Amazon Resource Name (ARN) of the prompt or the prompt version (if you specified a version in the request).
         public let arn: String
         /// The time at which the prompt was created.
         @CustomCoding<ISO8601DateCoder>
@@ -5904,6 +5939,8 @@ extension BedrockAgent {
     public struct PromptVariant: AWSEncodableShape & AWSDecodableShape {
         /// Contains inference configurations for the prompt variant.
         public let inferenceConfiguration: PromptInferenceConfiguration?
+        /// An array of objects, each containing a key-value pair that defines a metadata tag and value to attach to a prompt variant. For more information, see Create a prompt using Prompt management.
+        public let metadata: [PromptMetadataEntry]?
         /// The unique identifier of the model with which to run inference on the prompt.
         public let modelId: String?
         /// The name of the prompt variant.
@@ -5913,8 +5950,9 @@ extension BedrockAgent {
         /// The type of prompt template to use.
         public let templateType: PromptTemplateType
 
-        public init(inferenceConfiguration: PromptInferenceConfiguration? = nil, modelId: String? = nil, name: String, templateConfiguration: PromptTemplateConfiguration? = nil, templateType: PromptTemplateType) {
+        public init(inferenceConfiguration: PromptInferenceConfiguration? = nil, metadata: [PromptMetadataEntry]? = nil, modelId: String? = nil, name: String, templateConfiguration: PromptTemplateConfiguration? = nil, templateType: PromptTemplateType) {
             self.inferenceConfiguration = inferenceConfiguration
+            self.metadata = metadata
             self.modelId = modelId
             self.name = name
             self.templateConfiguration = templateConfiguration
@@ -5923,6 +5961,10 @@ extension BedrockAgent {
 
         public func validate(name: String) throws {
             try self.inferenceConfiguration?.validate(name: "\(name).inferenceConfiguration")
+            try self.metadata?.forEach {
+                try $0.validate(name: "\(name).metadata[]")
+            }
+            try self.validate(self.metadata, name: "metadata", parent: name, max: 50)
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
             try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
@@ -5932,6 +5974,7 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case inferenceConfiguration = "inferenceConfiguration"
+            case metadata = "metadata"
             case modelId = "modelId"
             case name = "name"
             case templateConfiguration = "templateConfiguration"
@@ -6237,7 +6280,7 @@ extension BedrockAgent {
     public struct SalesforceSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The supported authentication type to authenticate and connect to your  Salesforce instance.
         public let authType: SalesforceAuthType
-        /// The Amazon Resource Name of an Secrets Manager secret that  stores your authentication credentials for your SharePoint site/sites.  For more information on the key-value pairs that must be included in  your secret, depending on your authentication type, see  Salesforce connection configuration.
+        /// The Amazon Resource Name of an Secrets Manager secret that  stores your authentication credentials for your Salesforce instance URL.  For more information on the key-value pairs that must be included in  your secret, depending on your authentication type, see  Salesforce connection configuration.
         public let credentialsSecretArn: String
         /// The Salesforce host URL or instance URL.
         public let hostUrl: String
@@ -7087,11 +7130,11 @@ extension BedrockAgent {
     public struct UpdateFlowAliasRequest: AWSEncodableShape {
         /// The unique identifier of the alias.
         public let aliasIdentifier: String
-        /// A description for the flow alias.
+        /// A description for the alias.
         public let description: String?
         /// The unique identifier of the flow.
         public let flowIdentifier: String
-        /// The name of the flow alias.
+        /// The name of the alias.
         public let name: String
         /// Contains information about the version to which to map the alias.
         public let routingConfiguration: [FlowAliasRoutingConfigurationListItem]
@@ -7146,11 +7189,11 @@ extension BedrockAgent {
         public let flowId: String
         /// The unique identifier of the alias.
         public let id: String
-        /// The name of the flow alias.
+        /// The name of the alias.
         public let name: String
         /// Contains information about the version that the alias is mapped to.
         public let routingConfiguration: [FlowAliasRoutingConfigurationListItem]
-        /// The time at which the flow alias was last updated.
+        /// The time at which the alias was last updated.
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 

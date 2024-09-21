@@ -246,7 +246,7 @@ public struct Omics: AWSService {
         )
     }
 
-    /// Creates a run group.
+    /// You can optionally create a run group to limit the compute resources for the runs that you add to the group.
     @Sendable
     public func createRunGroup(_ input: CreateRunGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRunGroupResponse {
         return try await self.client.execute(
@@ -274,7 +274,7 @@ public struct Omics: AWSService {
         )
     }
 
-    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource  with the principal subscriber (an AWS user with a different account than the resource owner). The following resources support cross-account sharing:   Healthomics variant stores   Healthomics annotation stores   Private workflows
+    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource  with the principal subscriber (an AWS user with a different account than the resource owner). The following resources support cross-account sharing:   HealthOmics variant stores   HealthOmics annotation stores   Private workflows
     @Sendable
     public func createShare(_ input: CreateShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateShareResponse {
         return try await self.client.execute(

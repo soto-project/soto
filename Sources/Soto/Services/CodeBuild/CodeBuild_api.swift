@@ -385,7 +385,7 @@ public struct CodeBuild: AWSService {
         )
     }
 
-    ///  Imports the source repository credentials for an CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, or Bitbucket repository.
+    ///  Imports the source repository credentials for an CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository.
     @Sendable
     public func importSourceCredentials(_ input: ImportSourceCredentialsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportSourceCredentialsOutput {
         return try await self.client.execute(

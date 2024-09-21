@@ -31,12 +31,12 @@ class STSTests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(
+        self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
             middleware: TestEnvironment.middlewares,
             logger: Logger(label: "Soto")
         )
-        Self.sts = STS(
+        self.sts = STS(
             client: STSTests.client,
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
@@ -44,7 +44,7 @@ class STSTests: XCTestCase {
     }
 
     override class func tearDown() {
-        XCTAssertNoThrow(try Self.client.syncShutdown())
+        XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
     func testGetCallerIdentity() async throws {
@@ -107,7 +107,7 @@ class STSTests: XCTestCase {
         )
         do {
             let s3 = S3(client: client, region: .euwest1)
-            _ = try await s3.listBuckets()
+            _ = try await s3.listBuckets(.init())
             let sns = SNS(client: client)
             await XCTAsyncExpectError(SNSErrorType.authorizationErrorException) {
                 _ = try await sns.listTopics(.init())

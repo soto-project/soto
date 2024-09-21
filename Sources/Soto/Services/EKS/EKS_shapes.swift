@@ -28,6 +28,8 @@ extension EKS {
 
     public enum AMITypes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case al2023Arm64Standard = "AL2023_ARM_64_STANDARD"
+        case al2023X8664NEURON = "AL2023_x86_64_NEURON"
+        case al2023X8664NVIDIA = "AL2023_x86_64_NVIDIA"
         case al2023X8664STANDARD = "AL2023_x86_64_STANDARD"
         case al2Arm64 = "AL2_ARM_64"
         case al2X8664 = "AL2_x86_64"
@@ -286,6 +288,12 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
+    public enum SupportType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case extended = "EXTENDED"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TaintEffect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noExecute = "NO_EXECUTE"
         case noSchedule = "NO_SCHEDULE"
@@ -321,6 +329,7 @@ extension EKS {
         case subnets = "Subnets"
         case taintsToAdd = "TaintsToAdd"
         case taintsToRemove = "TaintsToRemove"
+        case upgradePolicy = "UpgradePolicy"
         case version = "Version"
         public var description: String { return self.rawValue }
     }
@@ -342,6 +351,7 @@ extension EKS {
         case disassociateIdentityProviderConfig = "DisassociateIdentityProviderConfig"
         case endpointAccessUpdate = "EndpointAccessUpdate"
         case loggingUpdate = "LoggingUpdate"
+        case upgradePolicyUpdate = "UpgradePolicyUpdate"
         case versionUpdate = "VersionUpdate"
         case vpcConfigUpdate = "VpcConfigUpdate"
         public var description: String { return self.rawValue }
@@ -917,10 +927,12 @@ extension EKS {
         public let status: ClusterStatus?
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
+        /// This value indicates if extended support is enabled or disabled for the cluster.  Learn more about EKS Extended Support in the EKS User Guide.
+        public let upgradePolicy: UpgradePolicyResponse?
         /// The Kubernetes server version for the cluster.
         public let version: String?
 
-        public init(accessConfig: AccessConfigResponse? = nil, arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, connectorConfig: ConnectorConfigResponse? = nil, createdAt: Date? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, health: ClusterHealth? = nil, id: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, outpostConfig: OutpostConfigResponse? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(accessConfig: AccessConfigResponse? = nil, arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, connectorConfig: ConnectorConfigResponse? = nil, createdAt: Date? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, health: ClusterHealth? = nil, id: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, outpostConfig: OutpostConfigResponse? = nil, platformVersion: String? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyResponse? = nil, version: String? = nil) {
             self.accessConfig = accessConfig
             self.arn = arn
             self.certificateAuthority = certificateAuthority
@@ -941,6 +953,7 @@ extension EKS {
             self.roleArn = roleArn
             self.status = status
             self.tags = tags
+            self.upgradePolicy = upgradePolicy
             self.version = version
         }
 
@@ -965,6 +978,7 @@ extension EKS {
             case roleArn = "roleArn"
             case status = "status"
             case tags = "tags"
+            case upgradePolicy = "upgradePolicy"
             case version = "version"
         }
     }
@@ -1294,10 +1308,12 @@ extension EKS {
         public let roleArn: String
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
+        /// New clusters, by default, have extended support enabled. You can disable extended support when creating a cluster by setting this value to STANDARD.
+        public let upgradePolicy: UpgradePolicyRequest?
         /// The desired Kubernetes version for your cluster. If you don't specify a value here, the default version available in Amazon EKS is used.  The default version might not be the latest version available.
         public let version: String?
 
-        public init(accessConfig: CreateAccessConfigRequest? = nil, bootstrapSelfManagedAddons: Bool? = nil, clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, outpostConfig: OutpostConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest, roleArn: String, tags: [String: String]? = nil, version: String? = nil) {
+        public init(accessConfig: CreateAccessConfigRequest? = nil, bootstrapSelfManagedAddons: Bool? = nil, clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, outpostConfig: OutpostConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest, roleArn: String, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyRequest? = nil, version: String? = nil) {
             self.accessConfig = accessConfig
             self.bootstrapSelfManagedAddons = bootstrapSelfManagedAddons
             self.clientRequestToken = clientRequestToken
@@ -1309,6 +1325,7 @@ extension EKS {
             self.resourcesVpcConfig = resourcesVpcConfig
             self.roleArn = roleArn
             self.tags = tags
+            self.upgradePolicy = upgradePolicy
             self.version = version
         }
 
@@ -1338,6 +1355,7 @@ extension EKS {
             case resourcesVpcConfig = "resourcesVpcConfig"
             case roleArn = "roleArn"
             case tags = "tags"
+            case upgradePolicy = "upgradePolicy"
             case version = "version"
         }
     }
@@ -4480,13 +4498,16 @@ extension EKS {
         /// The name of the Amazon EKS cluster to update.
         public let name: String
         public let resourcesVpcConfig: VpcConfigRequest?
+        /// You can enable or disable extended support for clusters currently on standard support. You cannot disable extended support once it starts. You must enable extended support before your cluster exits standard support.
+        public let upgradePolicy: UpgradePolicyRequest?
 
-        public init(accessConfig: UpdateAccessConfigRequest? = nil, clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest? = nil) {
+        public init(accessConfig: UpdateAccessConfigRequest? = nil, clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest? = nil, upgradePolicy: UpgradePolicyRequest? = nil) {
             self.accessConfig = accessConfig
             self.clientRequestToken = clientRequestToken
             self.logging = logging
             self.name = name
             self.resourcesVpcConfig = resourcesVpcConfig
+            self.upgradePolicy = upgradePolicy
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -4497,6 +4518,7 @@ extension EKS {
             try container.encodeIfPresent(self.logging, forKey: .logging)
             request.encodePath(self.name, key: "name")
             try container.encodeIfPresent(self.resourcesVpcConfig, forKey: .resourcesVpcConfig)
+            try container.encodeIfPresent(self.upgradePolicy, forKey: .upgradePolicy)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4504,6 +4526,7 @@ extension EKS {
             case clientRequestToken = "clientRequestToken"
             case logging = "logging"
             case resourcesVpcConfig = "resourcesVpcConfig"
+            case upgradePolicy = "upgradePolicy"
         }
     }
 
@@ -4841,6 +4864,32 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case addOrUpdateTaints = "addOrUpdateTaints"
             case removeTaints = "removeTaints"
+        }
+    }
+
+    public struct UpgradePolicyRequest: AWSEncodableShape {
+        /// If the cluster is set to EXTENDED, it will enter extended support at the end of standard support. If the cluster is set to STANDARD, it will be automatically upgraded at the end of standard support.  Learn more about EKS Extended Support in the EKS User Guide.
+        public let supportType: SupportType?
+
+        public init(supportType: SupportType? = nil) {
+            self.supportType = supportType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case supportType = "supportType"
+        }
+    }
+
+    public struct UpgradePolicyResponse: AWSDecodableShape {
+        /// If the cluster is set to EXTENDED, it will enter extended support at the end of standard support. If the cluster is set to STANDARD, it will be automatically upgraded at the end of standard support.  Learn more about EKS Extended Support in the EKS User Guide.
+        public let supportType: SupportType?
+
+        public init(supportType: SupportType? = nil) {
+            self.supportType = supportType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case supportType = "supportType"
         }
     }
 

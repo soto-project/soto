@@ -342,6 +342,8 @@ extension BedrockRuntime {
         case metadata(ConverseStreamMetadataEvent)
         /// A streaming error occurred. Retry your request.
         case modelStreamErrorException(ModelStreamErrorException)
+        /// The service isn't currently available. Try again later.
+        case serviceUnavailableException(ServiceUnavailableException)
         /// The number of requests exceeds the limit. Resubmit your request later.
         case throttlingException(ThrottlingException)
         /// Input validation failed. Check your request parameters and retry the request.
@@ -381,6 +383,9 @@ extension BedrockRuntime {
             case .modelStreamErrorException:
                 let value = try container.decode(ModelStreamErrorException.self, forKey: .modelStreamErrorException)
                 self = .modelStreamErrorException(value)
+            case .serviceUnavailableException:
+                let value = try container.decode(ServiceUnavailableException.self, forKey: .serviceUnavailableException)
+                self = .serviceUnavailableException(value)
             case .throttlingException:
                 let value = try container.decode(ThrottlingException.self, forKey: .throttlingException)
                 self = .throttlingException(value)
@@ -399,6 +404,7 @@ extension BedrockRuntime {
             case messageStop = "messageStop"
             case metadata = "metadata"
             case modelStreamErrorException = "modelStreamErrorException"
+            case serviceUnavailableException = "serviceUnavailableException"
             case throttlingException = "throttlingException"
             case validationException = "validationException"
         }
@@ -413,7 +419,8 @@ extension BedrockRuntime {
         case modelStreamErrorException(ModelStreamErrorException)
         /// The request took too long to process. Processing time exceeded the model timeout length.
         case modelTimeoutException(ModelTimeoutException)
-        /// The number or frequency of requests exceeds the limit. Resubmit your request later.
+        case serviceUnavailableException(ServiceUnavailableException)
+        /// Your request was throttled because of service-wide limitations. Resubmit your request later or in a different region. You can also purchase Provisioned Throughput to increase the rate or number of tokens you can process.
         case throttlingException(ThrottlingException)
         /// Input validation failed. Check your request parameters and retry the request.
         case validationException(ValidationException)
@@ -440,6 +447,9 @@ extension BedrockRuntime {
             case .modelTimeoutException:
                 let value = try container.decode(ModelTimeoutException.self, forKey: .modelTimeoutException)
                 self = .modelTimeoutException(value)
+            case .serviceUnavailableException:
+                let value = try container.decode(ServiceUnavailableException.self, forKey: .serviceUnavailableException)
+                self = .serviceUnavailableException(value)
             case .throttlingException:
                 let value = try container.decode(ThrottlingException.self, forKey: .throttlingException)
                 self = .throttlingException(value)
@@ -454,6 +464,7 @@ extension BedrockRuntime {
             case internalServerException = "internalServerException"
             case modelStreamErrorException = "modelStreamErrorException"
             case modelTimeoutException = "modelTimeoutException"
+            case serviceUnavailableException = "serviceUnavailableException"
             case throttlingException = "throttlingException"
             case validationException = "validationException"
         }
@@ -727,7 +738,7 @@ extension BedrockRuntime {
         public let inferenceConfig: InferenceConfiguration?
         /// The messages that you want to send to the model.
         public let messages: [Message]
-        /// The identifier for the model that you want to call. The modelId to provide depends on the type of model that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.
+        /// The identifier for the model that you want to call. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   The Converse API doesn't support imported models.
         public let modelId: String
         /// A system prompt to pass to the model.
         public let system: [SystemContentBlock]?
@@ -767,7 +778,7 @@ extension BedrockRuntime {
             }
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:inference-profile/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$")
             try self.system?.forEach {
                 try $0.validate(name: "\(name).system[]")
             }
@@ -863,7 +874,7 @@ extension BedrockRuntime {
         public let inferenceConfig: InferenceConfiguration?
         /// The messages that you want to send to the model.
         public let messages: [Message]
-        /// The ID for the model. The modelId to provide depends on the type of model that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.
+        /// The ID for the model. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   The Converse API doesn't support imported models.
         public let modelId: String
         /// A system prompt to send to the model.
         public let system: [SystemContentBlock]?
@@ -903,7 +914,7 @@ extension BedrockRuntime {
             }
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:inference-profile/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$")
             try self.system?.forEach {
                 try $0.validate(name: "\(name).system[]")
             }
@@ -1468,7 +1479,7 @@ extension BedrockRuntime {
         public let guardrailIdentifier: String?
         /// The version number for the guardrail. The value can also be DRAFT.
         public let guardrailVersion: String?
-        /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.
+        /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
         public let modelId: String
         /// Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
         public let trace: Trace?
@@ -1502,7 +1513,7 @@ extension BedrockRuntime {
             try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:inference-profile/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1541,7 +1552,7 @@ extension BedrockRuntime {
         public let guardrailIdentifier: String?
         /// The version number for the guardrail. The value can also be DRAFT.
         public let guardrailVersion: String?
-        /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.
+        /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
         public let modelId: String
         /// Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
         public let trace: Trace?
@@ -1575,7 +1586,7 @@ extension BedrockRuntime {
             try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:inference-profile/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1698,6 +1709,18 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case bytes = "bytes"
+        }
+    }
+
+    public struct ServiceUnavailableException: AWSDecodableShape {
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
         }
     }
 
@@ -2026,6 +2049,7 @@ public struct BedrockRuntimeErrorType: AWSErrorType {
         case modelTimeoutException = "ModelTimeoutException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case serviceUnavailableException = "ServiceUnavailableException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
@@ -2054,7 +2078,7 @@ public struct BedrockRuntimeErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The request failed due to an error while processing the model.
     public static var modelErrorException: Self { .init(.modelErrorException) }
-    /// The model specified in the request is not ready to serve inference requests.
+    /// The model specified in the request is not ready to serve inference requests. The AWS SDK will automatically retry the operation up to 5 times. For information about configuring automatic retries, see Retry behavior in the AWS SDKs and Tools reference guide.
     public static var modelNotReadyException: Self { .init(.modelNotReadyException) }
     /// An error occurred while streaming the response. Retry your request.
     public static var modelStreamErrorException: Self { .init(.modelStreamErrorException) }
@@ -2062,9 +2086,11 @@ public struct BedrockRuntimeErrorType: AWSErrorType {
     public static var modelTimeoutException: Self { .init(.modelTimeoutException) }
     /// The specified resource ARN was not found. Check the ARN and try your request again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The number of requests exceeds the service quota. Resubmit your request later.
+    /// Your request exceeds the service quota for your account. You can view your quotas at Viewing service quotas. You can resubmit your request later.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
-    /// The number of requests exceeds the limit. Resubmit your request later.
+    /// The service isn't currently available. Try again later.
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// Your request was throttled because of service-wide limitations. Resubmit your request later or in a different region. You can also purchase Provisioned Throughput to increase the rate or number of tokens you can process.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// Input validation failed. Check your request parameters and retry the request.
     public static var validationException: Self { .init(.validationException) }

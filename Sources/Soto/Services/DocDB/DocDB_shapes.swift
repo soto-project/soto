@@ -2425,6 +2425,52 @@ extension DocDB {
         }
     }
 
+    public struct FailoverGlobalClusterMessage: AWSEncodableShape {
+        /// Specifies whether to allow data loss for this global cluster operation. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss, the global cluster operation defaults to a switchover. Constraints:   Can't be specified together with the Switchover parameter.
+        public let allowDataLoss: Bool?
+        /// The identifier of the Amazon DocumentDB global cluster to apply this operation.  The identifier is the unique key assigned by the user when the cluster is created.  In other words, it's the name of the global cluster. Constraints:   Must match the identifier of an existing global cluster.   Minimum length of 1. Maximum length of 255.   Pattern: [A-Za-z][0-9A-Za-z-:._]*
+        public let globalClusterIdentifier: String?
+        /// Specifies whether to switch over this global database cluster. Constraints:   Can't be specified together with the AllowDataLoss parameter.
+        public let switchover: Bool?
+        /// The identifier of the secondary Amazon DocumentDB cluster that you want to promote to the primary for the global cluster.  Use the Amazon Resource Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its Amazon Web Services region. Constraints:   Must match the identifier of an existing secondary cluster.   Minimum length of 1. Maximum length of 255.   Pattern: [A-Za-z][0-9A-Za-z-:._]*
+        public let targetDbClusterIdentifier: String?
+
+        public init(allowDataLoss: Bool? = nil, globalClusterIdentifier: String? = nil, switchover: Bool? = nil, targetDbClusterIdentifier: String? = nil) {
+            self.allowDataLoss = allowDataLoss
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.switchover = switchover
+            self.targetDbClusterIdentifier = targetDbClusterIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
+            try self.validate(self.targetDbClusterIdentifier, name: "targetDbClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.targetDbClusterIdentifier, name: "targetDbClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.targetDbClusterIdentifier, name: "targetDbClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowDataLoss = "AllowDataLoss"
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
+            case switchover = "Switchover"
+            case targetDbClusterIdentifier = "TargetDbClusterIdentifier"
+        }
+    }
+
+    public struct FailoverGlobalClusterResult: AWSDecodableShape {
+        public let globalCluster: GlobalCluster?
+
+        public init(globalCluster: GlobalCluster? = nil) {
+            self.globalCluster = globalCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalCluster = "GlobalCluster"
+        }
+    }
+
     public struct Filter: AWSEncodableShape {
         public struct _ValuesEncoding: ArrayCoderProperties { public static let member = "Value" }
 
@@ -3545,6 +3591,9 @@ extension DocDB {
             try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
             try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
             try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
+            try self.validate(self.targetDbClusterIdentifier, name: "targetDbClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.targetDbClusterIdentifier, name: "targetDbClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.targetDbClusterIdentifier, name: "targetDbClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
         }
 
         private enum CodingKeys: String, CodingKey {

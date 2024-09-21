@@ -499,6 +499,10 @@ extension SES {
             self.ruleSetName = ruleSetName
         }
 
+        public func validate(name: String) throws {
+            try self.rule.validate(name: "\(name).rule")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case after = "After"
             case rule = "Rule"
@@ -1778,6 +1782,10 @@ extension SES {
             self.workmailAction = workmailAction
         }
 
+        public func validate(name: String) throws {
+            try self.s3Action?.validate(name: "\(name).s3Action")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case addHeaderAction = "AddHeaderAction"
             case bounceAction = "BounceAction"
@@ -1846,6 +1854,12 @@ extension SES {
             self.recipients = recipients
             self.scanEnabled = scanEnabled
             self.tlsPolicy = tlsPolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try $0.validate(name: "\(name).actions[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1959,22 +1973,32 @@ extension SES {
     public struct S3Action: AWSEncodableShape & AWSDecodableShape {
         /// The name of the Amazon S3 bucket for incoming email.
         public let bucketName: String
-        /// The customer master key that Amazon SES should use to encrypt your emails before saving them to the Amazon S3 bucket. You can use the default master key or a custom master key that you created in Amazon Web Services KMS as follows:   To use the default master key, provide an ARN in the form of arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses. For example, if your Amazon Web Services account ID is 123456789012 and you want to use the default master key in the US West (Oregon) Region, the ARN of the default master key would be arn:aws:kms:us-west-2:123456789012:alias/aws/ses. If you use the default master key, you don't need to perform any extra steps to give Amazon SES permission to use the key.   To use a custom master key that you created in Amazon Web Services KMS, provide the ARN of the master key and ensure that you add a statement to your key's policy to give Amazon SES permission to use it. For more information about giving permissions, see the Amazon SES Developer Guide.   For more information about key policies, see the Amazon Web Services KMS Developer Guide. If you do not specify a master key, Amazon SES does not encrypt your emails.  Your mail is encrypted by Amazon SES using the Amazon S3 encryption client before the mail is submitted to Amazon S3 for storage. It is not encrypted using Amazon S3 server-side encryption. This means that you must use the Amazon S3 encryption client to decrypt the email after retrieving it from Amazon S3, as the service has no access to use your Amazon Web Services KMS keys for decryption. This encryption client is currently available with the Amazon Web Services SDK for Java and Amazon Web Services SDK for Ruby only. For more information about client-side encryption using Amazon Web Services KMS master keys, see the Amazon S3 Developer Guide.
+        ///  The ARN of the IAM role to be used by Amazon Simple Email Service while writing to the Amazon S3 bucket, optionally encrypting your mail via the provided customer managed key, and publishing to the Amazon SNS topic. This role should have access to the following APIs:     s3:PutObject, kms:Encrypt and kms:GenerateDataKey for the given Amazon S3 bucket.    kms:GenerateDataKey for the given Amazon Web Services KMS customer managed key.     sns:Publish for the given Amazon SNS topic.    If an IAM role ARN is provided, the role (and only the role) is used to access all the given resources (Amazon S3 bucket, Amazon Web Services KMS customer managed key and Amazon SNS topic). Therefore, setting up individual resource access permissions is not required.
+        public let iamRoleArn: String?
+        /// The customer managed key that Amazon SES should use to encrypt your emails before saving them to the Amazon S3 bucket. You can use the default managed key or a custom managed key that you created in Amazon Web Services KMS as follows:   To use the default managed key, provide an ARN in the form of arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses. For example, if your Amazon Web Services account ID is 123456789012 and you want to use the default managed key in the US West (Oregon) Region, the ARN of the default master key would be arn:aws:kms:us-west-2:123456789012:alias/aws/ses. If you use the default managed key, you don't need to perform any extra steps to give Amazon SES permission to use the key.   To use a custom managed key that you created in Amazon Web Services KMS, provide the ARN of the managed key and ensure that you add a statement to your key's policy to give Amazon SES permission to use it. For more information about giving permissions, see the Amazon SES Developer Guide.   For more information about key policies, see the Amazon Web Services KMS Developer Guide. If you do not specify a managed key, Amazon SES does not encrypt your emails.  Your mail is encrypted by Amazon SES using the Amazon S3 encryption client before the mail is submitted to Amazon S3 for storage. It is not encrypted using Amazon S3 server-side encryption. This means that you must use the Amazon S3 encryption client to decrypt the email after retrieving it from Amazon S3, as the service has no access to use your Amazon Web Services KMS keys for decryption. This encryption client is currently available with the Amazon Web Services SDK for Java and Amazon Web Services SDK for Ruby only. For more information about client-side encryption using Amazon Web Services KMS managed keys, see the Amazon S3 Developer Guide.
         public let kmsKeyArn: String?
         /// The key prefix of the Amazon S3 bucket. The key prefix is similar to a directory name that enables you to store similar data under the same directory in a bucket.
         public let objectKeyPrefix: String?
         /// The ARN of the Amazon SNS topic to notify when the message is saved to the Amazon S3 bucket. You can find the ARN of a topic by using the ListTopics operation in Amazon SNS. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String?
 
-        public init(bucketName: String, kmsKeyArn: String? = nil, objectKeyPrefix: String? = nil, topicArn: String? = nil) {
+        public init(bucketName: String, iamRoleArn: String? = nil, kmsKeyArn: String? = nil, objectKeyPrefix: String? = nil, topicArn: String? = nil) {
             self.bucketName = bucketName
+            self.iamRoleArn = iamRoleArn
             self.kmsKeyArn = kmsKeyArn
             self.objectKeyPrefix = objectKeyPrefix
             self.topicArn = topicArn
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, max: 2048)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, min: 20)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:[\\w-]+:iam::[0-9]+:role/[\\w-]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucketName = "BucketName"
+            case iamRoleArn = "IamRoleArn"
             case kmsKeyArn = "KmsKeyArn"
             case objectKeyPrefix = "ObjectKeyPrefix"
             case topicArn = "TopicArn"
@@ -2065,7 +2089,7 @@ extension SES {
         @OptionalCustomCoding<StandardArrayCoder<MessageTag>>
         public var defaultTags: [MessageTag]?
         /// A list of replacement values to apply to the template when replacement data is not specified in a Destination object. These values act as a default or fallback option when no other data is available. The template data is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
-        public let defaultTemplateData: String?
+        public let defaultTemplateData: String
         /// One or more Destination objects. All of the recipients in a Destination receive the same version of the email. You can specify up to 50 Destination objects within a Destinations array.
         @CustomCoding<StandardArrayCoder<BulkEmailDestination>>
         public var destinations: [BulkEmailDestination]
@@ -2085,7 +2109,7 @@ extension SES {
         /// The ARN of the template to use when sending this email.
         public let templateArn: String?
 
-        public init(configurationSetName: String? = nil, defaultTags: [MessageTag]? = nil, defaultTemplateData: String? = nil, destinations: [BulkEmailDestination], replyToAddresses: [String]? = nil, returnPath: String? = nil, returnPathArn: String? = nil, source: String, sourceArn: String? = nil, template: String, templateArn: String? = nil) {
+        public init(configurationSetName: String? = nil, defaultTags: [MessageTag]? = nil, defaultTemplateData: String, destinations: [BulkEmailDestination], replyToAddresses: [String]? = nil, returnPath: String? = nil, returnPathArn: String? = nil, source: String, sourceArn: String? = nil, template: String, templateArn: String? = nil) {
             self.configurationSetName = configurationSetName
             self.defaultTags = defaultTags
             self.defaultTemplateData = defaultTemplateData
@@ -2781,6 +2805,10 @@ extension SES {
         public init(rule: ReceiptRule, ruleSetName: String) {
             self.rule = rule
             self.ruleSetName = ruleSetName
+        }
+
+        public func validate(name: String) throws {
+            try self.rule.validate(name: "\(name).rule")
         }
 
         private enum CodingKeys: String, CodingKey {

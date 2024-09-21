@@ -186,6 +186,19 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Create a ChannelPlacementGroup in the specified Cluster. As part of the create operation, you specify the Nodes to attach the group to.After you create a ChannelPlacementGroup, you add Channels to the group (you do this by modifying the Channels to add them to a specific group). You now have an association of Channels to ChannelPlacementGroup, and ChannelPlacementGroup to Nodes. This association means that all the Channels in the group are able to run on any of the Nodes associated with the group.
+    @Sendable
+    public func createChannelPlacementGroup(_ input: CreateChannelPlacementGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateChannelPlacementGroupResponse {
+        return try await self.client.execute(
+            operation: "CreateChannelPlacementGroup", 
+            path: "/prod/clusters/{ClusterId}/channelplacementgroups", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a cloudwatch alarm template to dynamically generate cloudwatch metric alarms on targeted resource types.
     @Sendable
     public func createCloudWatchAlarmTemplate(_ input: CreateCloudWatchAlarmTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCloudWatchAlarmTemplateResponse {
@@ -205,6 +218,19 @@ public struct MediaLive: AWSService {
         return try await self.client.execute(
             operation: "CreateCloudWatchAlarmTemplateGroup", 
             path: "/prod/cloudwatch-alarm-template-groups", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Create a new Cluster.
+    @Sendable
+    public func createCluster(_ input: CreateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterResponse {
+        return try await self.client.execute(
+            operation: "CreateCluster", 
+            path: "/prod/clusters", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -290,6 +316,45 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Create as many Networks as you need. You will associate one or more Clusters with each Network.Each Network provides MediaLive Anywhere with required information about the network in your organization that you are using for video encoding using MediaLive.
+    @Sendable
+    public func createNetwork(_ input: CreateNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNetworkResponse {
+        return try await self.client.execute(
+            operation: "CreateNetwork", 
+            path: "/prod/networks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Create a Node in the specified Cluster. You can also create Nodes using the CreateNodeRegistrationScript. Note that you can't move a Node to another Cluster.
+    @Sendable
+    public func createNode(_ input: CreateNodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNodeResponse {
+        return try await self.client.execute(
+            operation: "CreateNode", 
+            path: "/prod/clusters/{ClusterId}/nodes", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Create the Register Node script for all the nodes intended for a specific Cluster. You will then run the script on each hardware unit that is intended for that Cluster. The script creates a Node in the specified Cluster. It then binds the Node to this hardware unit, and activates the node hardware for use with MediaLive Anywhere.
+    @Sendable
+    public func createNodeRegistrationScript(_ input: CreateNodeRegistrationScriptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNodeRegistrationScriptResponse {
+        return try await self.client.execute(
+            operation: "CreateNodeRegistrationScript", 
+            path: "/prod/clusters/{ClusterId}/nodeRegistrationScript", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Create a partner input
     @Sendable
     public func createPartnerInput(_ input: CreatePartnerInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePartnerInputResponse {
@@ -342,6 +407,19 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Delete the specified ChannelPlacementGroup that exists in the specified Cluster.
+    @Sendable
+    public func deleteChannelPlacementGroup(_ input: DeleteChannelPlacementGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteChannelPlacementGroupResponse {
+        return try await self.client.execute(
+            operation: "DeleteChannelPlacementGroup", 
+            path: "/prod/clusters/{ClusterId}/channelplacementgroups/{ChannelPlacementGroupId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes a cloudwatch alarm template.
     @Sendable
     public func deleteCloudWatchAlarmTemplate(_ input: DeleteCloudWatchAlarmTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -361,6 +439,19 @@ public struct MediaLive: AWSService {
         return try await self.client.execute(
             operation: "DeleteCloudWatchAlarmTemplateGroup", 
             path: "/prod/cloudwatch-alarm-template-groups/{Identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Delete a Cluster. The Cluster must be idle.
+    @Sendable
+    public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterResponse {
+        return try await self.client.execute(
+            operation: "DeleteCluster", 
+            path: "/prod/clusters/{ClusterId}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -446,6 +537,32 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Delete a Network. The Network must have no resources associated with it.
+    @Sendable
+    public func deleteNetwork(_ input: DeleteNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNetworkResponse {
+        return try await self.client.execute(
+            operation: "DeleteNetwork", 
+            path: "/prod/networks/{NetworkId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Delete a Node. The Node must be IDLE.
+    @Sendable
+    public func deleteNode(_ input: DeleteNodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNodeResponse {
+        return try await self.client.execute(
+            operation: "DeleteNode", 
+            path: "/prod/clusters/{ClusterId}/nodes/{NodeId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Delete an expired reservation.
     @Sendable
     public func deleteReservation(_ input: DeleteReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReservationResponse {
@@ -524,6 +641,32 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Get details about a ChannelPlacementGroup.
+    @Sendable
+    public func describeChannelPlacementGroup(_ input: DescribeChannelPlacementGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeChannelPlacementGroupResponse {
+        return try await self.client.execute(
+            operation: "DescribeChannelPlacementGroup", 
+            path: "/prod/clusters/{ClusterId}/channelplacementgroups/{ChannelPlacementGroupId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Get details about a Cluster.
+    @Sendable
+    public func describeCluster(_ input: DescribeClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClusterResponse {
+        return try await self.client.execute(
+            operation: "DescribeCluster", 
+            path: "/prod/clusters/{ClusterId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Produces details about an input
     @Sendable
     public func describeInput(_ input: DescribeInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInputResponse {
@@ -595,6 +738,32 @@ public struct MediaLive: AWSService {
         return try await self.client.execute(
             operation: "DescribeMultiplexProgram", 
             path: "/prod/multiplexes/{MultiplexId}/programs/{ProgramName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Get details about a Network.
+    @Sendable
+    public func describeNetwork(_ input: DescribeNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNetworkResponse {
+        return try await self.client.execute(
+            operation: "DescribeNetwork", 
+            path: "/prod/networks/{NetworkId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Get details about a Node in the specified Cluster.
+    @Sendable
+    public func describeNode(_ input: DescribeNodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNodeResponse {
+        return try await self.client.execute(
+            operation: "DescribeNode", 
+            path: "/prod/clusters/{ClusterId}/nodes/{NodeId}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -719,6 +888,19 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Retrieve the list of ChannelPlacementGroups in the specified Cluster.
+    @Sendable
+    public func listChannelPlacementGroups(_ input: ListChannelPlacementGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelPlacementGroupsResponse {
+        return try await self.client.execute(
+            operation: "ListChannelPlacementGroups", 
+            path: "/prod/clusters/{ClusterId}/channelplacementgroups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Produces list of channels that have been created
     @Sendable
     public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelsResponse {
@@ -751,6 +933,19 @@ public struct MediaLive: AWSService {
         return try await self.client.execute(
             operation: "ListCloudWatchAlarmTemplates", 
             path: "/prod/cloudwatch-alarm-templates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieve the list of Clusters.
+    @Sendable
+    public func listClusters(_ input: ListClustersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClustersResponse {
+        return try await self.client.execute(
+            operation: "ListClusters", 
+            path: "/prod/clusters", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -855,6 +1050,32 @@ public struct MediaLive: AWSService {
         return try await self.client.execute(
             operation: "ListMultiplexes", 
             path: "/prod/multiplexes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieve the list of Networks.
+    @Sendable
+    public func listNetworks(_ input: ListNetworksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworksResponse {
+        return try await self.client.execute(
+            operation: "ListNetworks", 
+            path: "/prod/networks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieve the list of Nodes.
+    @Sendable
+    public func listNodes(_ input: ListNodesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNodesResponse {
+        return try await self.client.execute(
+            operation: "ListNodes", 
+            path: "/prod/clusters/{ClusterId}/nodes", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -1148,6 +1369,19 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Change the settings for a ChannelPlacementGroup.
+    @Sendable
+    public func updateChannelPlacementGroup(_ input: UpdateChannelPlacementGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChannelPlacementGroupResponse {
+        return try await self.client.execute(
+            operation: "UpdateChannelPlacementGroup", 
+            path: "/prod/clusters/{ClusterId}/channelplacementgroups/{ChannelPlacementGroupId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates the specified cloudwatch alarm template.
     @Sendable
     public func updateCloudWatchAlarmTemplate(_ input: UpdateCloudWatchAlarmTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCloudWatchAlarmTemplateResponse {
@@ -1168,6 +1402,19 @@ public struct MediaLive: AWSService {
             operation: "UpdateCloudWatchAlarmTemplateGroup", 
             path: "/prod/cloudwatch-alarm-template-groups/{Identifier}", 
             httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Change the settings for a Cluster.
+    @Sendable
+    public func updateCluster(_ input: UpdateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterResponse {
+        return try await self.client.execute(
+            operation: "UpdateCluster", 
+            path: "/prod/clusters/{ClusterId}", 
+            httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -1265,6 +1512,45 @@ public struct MediaLive: AWSService {
         )
     }
 
+    /// Change the settings for a Network.
+    @Sendable
+    public func updateNetwork(_ input: UpdateNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNetworkResponse {
+        return try await self.client.execute(
+            operation: "UpdateNetwork", 
+            path: "/prod/networks/{NetworkId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Change the settings for a Node.
+    @Sendable
+    public func updateNode(_ input: UpdateNodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNodeResponse {
+        return try await self.client.execute(
+            operation: "UpdateNode", 
+            path: "/prod/clusters/{ClusterId}/nodes/{NodeId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Update the state of a node.
+    @Sendable
+    public func updateNodeState(_ input: UpdateNodeStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNodeStateResponse {
+        return try await self.client.execute(
+            operation: "UpdateNodeState", 
+            path: "/prod/clusters/{ClusterId}/nodes/{NodeId}/state", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Update reservation.
     @Sendable
     public func updateReservation(_ input: UpdateReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateReservationResponse {
@@ -1307,6 +1593,25 @@ extension MediaLive {
             command: self.describeSchedule,
             inputKey: \DescribeScheduleRequest.nextToken,
             outputKey: \DescribeScheduleResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Retrieve the list of ChannelPlacementGroups in the specified Cluster.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listChannelPlacementGroupsPaginator(
+        _ input: ListChannelPlacementGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListChannelPlacementGroupsRequest, ListChannelPlacementGroupsResponse> {
+        return .init(
+            input: input,
+            command: self.listChannelPlacementGroups,
+            inputKey: \ListChannelPlacementGroupsRequest.nextToken,
+            outputKey: \ListChannelPlacementGroupsResponse.nextToken,
             logger: logger
         )
     }
@@ -1364,6 +1669,25 @@ extension MediaLive {
             command: self.listCloudWatchAlarmTemplates,
             inputKey: \ListCloudWatchAlarmTemplatesRequest.nextToken,
             outputKey: \ListCloudWatchAlarmTemplatesResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Retrieve the list of Clusters.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listClustersPaginator(
+        _ input: ListClustersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListClustersRequest, ListClustersResponse> {
+        return .init(
+            input: input,
+            command: self.listClusters,
+            inputKey: \ListClustersRequest.nextToken,
+            outputKey: \ListClustersResponse.nextToken,
             logger: logger
         )
     }
@@ -1520,6 +1844,44 @@ extension MediaLive {
         )
     }
 
+    /// Retrieve the list of Networks.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listNetworksPaginator(
+        _ input: ListNetworksRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworksRequest, ListNetworksResponse> {
+        return .init(
+            input: input,
+            command: self.listNetworks,
+            inputKey: \ListNetworksRequest.nextToken,
+            outputKey: \ListNetworksResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Retrieve the list of Nodes.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listNodesPaginator(
+        _ input: ListNodesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNodesRequest, ListNodesResponse> {
+        return .init(
+            input: input,
+            command: self.listNodes,
+            inputKey: \ListNodesRequest.nextToken,
+            outputKey: \ListNodesResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// List offerings available for purchase.
     /// Return PaginatorSequence for operation.
     ///
@@ -1588,6 +1950,16 @@ extension MediaLive.DescribeScheduleRequest: AWSPaginateToken {
     }
 }
 
+extension MediaLive.ListChannelPlacementGroupsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListChannelPlacementGroupsRequest {
+        return .init(
+            clusterId: self.clusterId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension MediaLive.ListChannelsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaLive.ListChannelsRequest {
         return .init(
@@ -1616,6 +1988,15 @@ extension MediaLive.ListCloudWatchAlarmTemplatesRequest: AWSPaginateToken {
             nextToken: token,
             scope: self.scope,
             signalMapIdentifier: self.signalMapIdentifier
+        )
+    }
+}
+
+extension MediaLive.ListClustersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListClustersRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -1691,6 +2072,25 @@ extension MediaLive.ListMultiplexProgramsRequest: AWSPaginateToken {
 extension MediaLive.ListMultiplexesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MediaLive.ListMultiplexesRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension MediaLive.ListNetworksRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListNetworksRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension MediaLive.ListNodesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListNodesRequest {
+        return .init(
+            clusterId: self.clusterId,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -1783,6 +2183,57 @@ extension MediaLive {
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
+    public func waitUntilChannelPlacementGroupAssigned(
+        _ input: DescribeChannelPlacementGroupRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "ASSIGNED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "ASSIGNING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.describeChannelPlacementGroup
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
+    public func waitUntilChannelPlacementGroupDeleted(
+        _ input: DescribeChannelPlacementGroupRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "DELETED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "DELETING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+            ],
+            minDelayTime: .seconds(5),
+            command: self.describeChannelPlacementGroup
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
+    public func waitUntilChannelPlacementGroupUnassigned(
+        _ input: DescribeChannelPlacementGroupRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "UNASSIGNED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "UNASSIGNING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+            ],
+            minDelayTime: .seconds(5),
+            command: self.describeChannelPlacementGroup
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
     public func waitUntilChannelRunning(
         _ input: DescribeChannelRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -1813,6 +2264,41 @@ extension MediaLive {
             ],
             minDelayTime: .seconds(5),
             command: self.describeChannel
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
+    public func waitUntilClusterCreated(
+        _ input: DescribeClusterRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "ACTIVE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "CREATING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("state", expected: "CREATE_FAILED")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.describeCluster
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
+    public func waitUntilClusterDeleted(
+        _ input: DescribeClusterRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "DELETED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "DELETING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+            ],
+            minDelayTime: .seconds(5),
+            command: self.describeCluster
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
@@ -1934,6 +2420,43 @@ extension MediaLive {
             ],
             minDelayTime: .seconds(5),
             command: self.describeMultiplex
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
+    public func waitUntilNodeDeregistered(
+        _ input: DescribeNodeRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "DEREGISTERED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "DEREGISTERING")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "DRAINING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+            ],
+            minDelayTime: .seconds(5),
+            command: self.describeNode
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+
+    public func waitUntilNodeRegistered(
+        _ input: DescribeNodeRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "ACTIVE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "REGISTERING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("NotFoundException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("state", expected: "REGISTRATION_FAILED")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.describeNode
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }

@@ -86,6 +86,7 @@ public struct SecretsManager: AWSService {
             "ap-southeast-2": "secretsmanager.ap-southeast-2.api.aws",
             "ap-southeast-3": "secretsmanager.ap-southeast-3.api.aws",
             "ap-southeast-4": "secretsmanager.ap-southeast-4.api.aws",
+            "ap-southeast-5": "secretsmanager.ap-southeast-5.api.aws",
             "ca-central-1": "secretsmanager.ca-central-1.api.aws",
             "ca-west-1": "secretsmanager.ca-west-1.api.aws",
             "cn-north-1": "secretsmanager.cn-north-1.api.amazonwebservices.com.cn",

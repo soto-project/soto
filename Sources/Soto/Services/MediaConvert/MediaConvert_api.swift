@@ -377,6 +377,19 @@ public struct MediaConvert: AWSService {
         )
     }
 
+    /// Retrieve a JSON array of all available Job engine versions and the date they expire.
+    @Sendable
+    public func listVersions(_ input: ListVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVersionsResponse {
+        return try await self.client.execute(
+            operation: "ListVersions", 
+            path: "/2017-08-29/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     @Sendable
     public func putPolicy(_ input: PutPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutPolicyResponse {
@@ -578,6 +591,25 @@ extension MediaConvert {
         )
     }
 
+    /// Retrieve a JSON array of all available Job engine versions and the date they expire.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listVersionsPaginator(
+        _ input: ListVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListVersionsRequest, ListVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listVersions,
+            inputKey: \ListVersionsRequest.nextToken,
+            outputKey: \ListVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Retrieve a JSON array that includes job details for up to twenty of your most recent jobs. Optionally filter results further according to input file, queue, or status. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
     /// Return PaginatorSequence for operation.
     ///
@@ -651,6 +683,15 @@ extension MediaConvert.ListQueuesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             order: self.order
+        )
+    }
+}
+
+extension MediaConvert.ListVersionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> MediaConvert.ListVersionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

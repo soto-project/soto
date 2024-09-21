@@ -95,6 +95,12 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReplicationTopicNameConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case identical = "IDENTICAL"
+        case prefixedWithSourceClusterAlias = "PREFIXED_WITH_SOURCE_CLUSTER_ALIAS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReplicatorState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -3372,6 +3378,19 @@ extension Kafka {
         }
     }
 
+    public struct ReplicationTopicNameConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The type of replicated topic name.
+        public let type: ReplicationTopicNameConfigurationType?
+
+        public init(type: ReplicationTopicNameConfigurationType? = nil) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+        }
+    }
+
     public struct ReplicatorSummary: AWSDecodableShape {
         /// The time the replicator was created.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -3607,16 +3626,19 @@ extension Kafka {
         public let detectAndCopyNewTopics: Bool?
         /// Configuration for specifying the position in the topics to start replicating from.
         public let startingPosition: ReplicationStartingPosition?
+        /// Configuration for specifying replicated topic names should be the same as their corresponding upstream topics or prefixed with source cluster alias.
+        public let topicNameConfiguration: ReplicationTopicNameConfiguration?
         /// List of regular expression patterns indicating the topics that should not be replicated.
         public let topicsToExclude: [String]?
         /// List of regular expression patterns indicating the topics to copy.
         public let topicsToReplicate: [String]?
 
-        public init(copyAccessControlListsForTopics: Bool? = nil, copyTopicConfigurations: Bool? = nil, detectAndCopyNewTopics: Bool? = nil, startingPosition: ReplicationStartingPosition? = nil, topicsToExclude: [String]? = nil, topicsToReplicate: [String]? = nil) {
+        public init(copyAccessControlListsForTopics: Bool? = nil, copyTopicConfigurations: Bool? = nil, detectAndCopyNewTopics: Bool? = nil, startingPosition: ReplicationStartingPosition? = nil, topicNameConfiguration: ReplicationTopicNameConfiguration? = nil, topicsToExclude: [String]? = nil, topicsToReplicate: [String]? = nil) {
             self.copyAccessControlListsForTopics = copyAccessControlListsForTopics
             self.copyTopicConfigurations = copyTopicConfigurations
             self.detectAndCopyNewTopics = detectAndCopyNewTopics
             self.startingPosition = startingPosition
+            self.topicNameConfiguration = topicNameConfiguration
             self.topicsToExclude = topicsToExclude
             self.topicsToReplicate = topicsToReplicate
         }
@@ -3635,6 +3657,7 @@ extension Kafka {
             case copyTopicConfigurations = "copyTopicConfigurations"
             case detectAndCopyNewTopics = "detectAndCopyNewTopics"
             case startingPosition = "startingPosition"
+            case topicNameConfiguration = "topicNameConfiguration"
             case topicsToExclude = "topicsToExclude"
             case topicsToReplicate = "topicsToReplicate"
         }

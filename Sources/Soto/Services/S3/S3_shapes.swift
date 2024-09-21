@@ -1330,6 +1330,8 @@ extension S3 {
         public let checksumSHA256: String?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
+        /// Uploads the object only if the object key name does not already exist in the bucket specified. Otherwise, Amazon S3 returns a 412 Precondition Failed error. If a conflicting operation occurs during the upload S3 returns a 409 ConditionalRequestConflict response.  On a 409 failure you should re-initiate the multipart upload with CreateMultipartUpload and re-upload each part. Expects the '*' (asterisk) character. For more information about conditional requests, see RFC 7232, or Conditional requests in the Amazon S3 User Guide.
+        public let ifNoneMatch: String?
         /// Object key for which the multipart upload was initiated.
         public let key: String
         /// The container for the multipart upload request information.
@@ -1344,13 +1346,14 @@ extension S3 {
         /// ID for the initiated multipart upload.
         public let uploadId: String
 
-        public init(bucket: String, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, expectedBucketOwner: String? = nil, key: String, multipartUpload: CompletedMultipartUpload? = nil, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
+        public init(bucket: String, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, expectedBucketOwner: String? = nil, ifNoneMatch: String? = nil, key: String, multipartUpload: CompletedMultipartUpload? = nil, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
             self.bucket = bucket
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
             self.expectedBucketOwner = expectedBucketOwner
+            self.ifNoneMatch = ifNoneMatch
             self.key = key
             self.multipartUpload = multipartUpload
             self.requestPayer = requestPayer
@@ -1369,6 +1372,7 @@ extension S3 {
             request.encodeHeader(self.checksumSHA1, key: "x-amz-checksum-sha1")
             request.encodeHeader(self.checksumSHA256, key: "x-amz-checksum-sha256")
             request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodeHeader(self.ifNoneMatch, key: "If-None-Match")
             request.encodePath(self.key, key: "Key")
             try container.encode(self.multipartUpload)
             request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
@@ -4074,7 +4078,7 @@ extension S3 {
         public static let _options: AWSShapeOptions = [.checksumHeader]
         /// The bucket name containing the object.   Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Availability Zone. Bucket names must follow the format  bucket_base_name--az-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Object Lambda access points - When you use this action with an Object Lambda access point, you must direct requests to the Object Lambda access point hostname. The Object Lambda access point hostname takes the form AccessPointName-AccountId.s3-object-lambda.Region.amazonaws.com.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
-        /// To retrieve the checksum, this mode must be enabled.
+        /// To retrieve the checksum, this mode must be enabled. In addition, if you enable checksum mode and the object is uploaded with a  checksum  and encrypted with an Key Management Service (KMS) key, you must have permission to use the  kms:Decrypt action to retrieve the checksum.
         public let checksumMode: ChecksumMode?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -4438,13 +4442,13 @@ extension S3 {
     }
 
     public struct HeadBucketOutput: AWSDecodableShape {
-        /// Indicates whether the bucket name used in the request is an access point alias.  This functionality is not supported for directory buckets.
+        /// Indicates whether the bucket name used in the request is an access point alias.  For directory buckets, the value of this field is false.
         public let accessPointAlias: Bool?
         /// The name of the location where the bucket will be created. For directory buckets, the AZ ID of the Availability Zone where the bucket is created. An example AZ ID value is usw2-az1.  This functionality is only supported by directory buckets.
         public let bucketLocationName: String?
         /// The type of location where the bucket is created.  This functionality is only supported by directory buckets.
         public let bucketLocationType: LocationType?
-        /// The Region that the bucket is located.  This functionality is not supported for directory buckets.
+        /// The Region that the bucket is located.
         public let bucketRegion: String?
 
         public init(accessPointAlias: Bool? = nil, bucketLocationName: String? = nil, bucketLocationType: LocationType? = nil, bucketRegion: String? = nil) {
@@ -4641,7 +4645,7 @@ extension S3 {
     public struct HeadObjectRequest: AWSEncodableShape {
         /// The name of the bucket that contains the object.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Availability Zone. Bucket names must follow the format  bucket_base_name--az-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
-        /// To retrieve the checksum, this parameter must be enabled. In addition, if you enable ChecksumMode and the object is encrypted with Amazon Web Services Key Management Service (Amazon Web Services KMS), you must have permission to use the kms:Decrypt action for the request to succeed.
+        /// To retrieve the checksum, this parameter must be enabled. In addition, if you enable checksum mode and the object is uploaded with a  checksum  and encrypted with an Key Management Service (KMS) key, you must have permission to use the  kms:Decrypt action to retrieve the checksum.
         public let checksumMode: ChecksumMode?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -5362,18 +5366,48 @@ extension S3 {
         /// The list of buckets owned by the requester.
         @OptionalCustomCoding<ArrayCoder<_BucketsEncoding, Bucket>>
         public var buckets: [Bucket]?
+        ///  ContinuationToken is included in the response when there are more buckets that can be listed with pagination. The next ListBuckets request to Amazon S3 can be continued with this ContinuationToken. ContinuationToken is obfuscated and is not a real bucket.
+        public let continuationToken: String?
         /// The owner of the buckets listed.
         public let owner: Owner?
 
-        public init(buckets: [Bucket]? = nil, owner: Owner? = nil) {
+        public init(buckets: [Bucket]? = nil, continuationToken: String? = nil, owner: Owner? = nil) {
             self.buckets = buckets
+            self.continuationToken = continuationToken
             self.owner = owner
         }
 
         private enum CodingKeys: String, CodingKey {
             case buckets = "Buckets"
+            case continuationToken = "ContinuationToken"
             case owner = "Owner"
         }
+    }
+
+    public struct ListBucketsRequest: AWSEncodableShape {
+        ///  ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.   Length Constraints: Minimum length of 0. Maximum length of 1024. Required: No.
+        public let continuationToken: String?
+        /// Maximum number of buckets to be returned in response. When the number is more than the count of buckets that are owned by an Amazon Web Services account, return all the buckets in response.
+        public let maxBuckets: Int?
+
+        public init(continuationToken: String? = nil, maxBuckets: Int? = nil) {
+            self.continuationToken = continuationToken
+            self.maxBuckets = maxBuckets
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.continuationToken, key: "continuation-token")
+            request.encodeQuery(self.maxBuckets, key: "max-buckets")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxBuckets, name: "maxBuckets", parent: name, max: 1000)
+            try self.validate(self.maxBuckets, name: "maxBuckets", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDirectoryBucketsOutput: AWSDecodableShape {
@@ -5397,7 +5431,7 @@ extension S3 {
     }
 
     public struct ListDirectoryBucketsRequest: AWSEncodableShape {
-        ///  ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.
+        ///  ContinuationToken indicates to Amazon S3 that the list is being continued on buckets in this account with a token. ContinuationToken is obfuscated and is not a real bucket name. You can use this ContinuationToken for the pagination of the list results.
         public let continuationToken: String?
         /// Maximum number of buckets to be returned in response. When the number is more than the count of buckets that are owned by an Amazon Web Services account, return all the buckets in response.
         public let maxDirectoryBuckets: Int?
@@ -5687,7 +5721,7 @@ extension S3 {
         public let contents: [Object]?
         /// Causes keys that contain the same string between the prefix and the first occurrence of the delimiter to be rolled up into a single result element in the CommonPrefixes collection. These rolled-up keys are not returned elsewhere in the response. Each rolled-up result counts as only one return against the MaxKeys value.
         public let delimiter: String?
-        /// Encoding type used by Amazon S3 to encode object keys in the response. If using url, non-ASCII characters used in an object's key name will be URL encoded. For example, the object test_file(3).png will appear as test_file%283%29.png.
+        /// Encoding type used by Amazon S3 to encode the object keys in the response. Responses are encoded only in UTF-8. An object key can contain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response. For more information about characters to avoid in object key names, see Object key naming guidelines.  When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png.
         public let encodingType: EncodingType?
         /// A flag that indicates whether Amazon S3 returned all of the results that satisfied the search criteria.
         public let isTruncated: Bool?
@@ -5879,7 +5913,7 @@ extension S3 {
         public let continuationToken: String?
         /// A delimiter is a character that you use to group keys.     Directory buckets - For directory buckets, / is the only supported delimiter.    Directory buckets  - When you query ListObjectsV2 with a delimiter during in-progress multipart uploads, the  CommonPrefixes response parameter contains the prefixes that are associated with the in-progress multipart uploads.  For more information about multipart uploads, see Multipart Upload Overview in the Amazon S3 User Guide.
         public let delimiter: String?
-        /// Encoding type used by Amazon S3 to encode object keys in the response. If using url, non-ASCII characters used in an object's key name will be URL encoded. For example, the object test_file(3).png will appear as test_file%283%29.png.
+        /// Encoding type used by Amazon S3 to encode the object keys in the response. Responses are encoded only in UTF-8. An object key can contain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response. For more information about characters to avoid in object key names, see Object key naming guidelines.  When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png.
         public let encodingType: EncodingType?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -6637,7 +6671,7 @@ extension S3 {
     }
 
     public struct PartitionedPrefix: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the partition date source for the partitioned prefix. PartitionDateSource can be EventTime or DeliveryTime.
+        /// Specifies the partition date source for the partitioned prefix. PartitionDateSource can be EventTime or DeliveryTime. For DeliveryTime, the time in the log file names corresponds to the delivery time for the log files.  For EventTime, The logs delivered are for a specific day only. The year, month, and day correspond to the day on which the event occurred, and the hour, minutes and seconds are set to 00 in the key.
         public let partitionDateSource: PartitionDateSource?
 
         public init(partitionDateSource: PartitionDateSource? = nil) {
@@ -6706,7 +6740,7 @@ extension S3 {
         public let blockPublicPolicy: Bool?
         /// Specifies whether Amazon S3 should ignore public ACLs for this bucket and objects in this bucket. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on this bucket and objects in this bucket. Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set.
         public let ignorePublicAcls: Bool?
-        /// Specifies whether Amazon S3 should restrict public bucket policies for this bucket. Setting this element to TRUE restricts access to this bucket to only Amazon Web Service principals and authorized users within this account if the bucket has a public policy. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked.
+        /// Specifies whether Amazon S3 should restrict public bucket policies for this bucket. Setting this element to TRUE restricts access to this bucket to only Amazon Web Servicesservice principals and authorized users within this account if the bucket has a public policy. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked.
         public let restrictPublicBuckets: Bool?
 
         public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
@@ -7701,6 +7735,8 @@ extension S3 {
         public let grantReadACP: String?
         /// Allows grantee to write the ACL for the applicable object.    This functionality is not supported for directory buckets.   This functionality is not supported for Amazon S3 on Outposts.
         public let grantWriteACP: String?
+        /// Uploads the object only if the object key name does not already exist in the bucket specified. Otherwise, Amazon S3 returns a 412 Precondition Failed error. If a conflicting operation occurs during the upload S3 returns a 409 ConditionalRequestConflict response. On a 409 failure you should retry the upload. Expects the '*' (asterisk) character. For more information about conditional requests, see RFC 7232, or Conditional requests in the Amazon S3 User Guide.
+        public let ifNoneMatch: String?
         /// Object key for which the PUT action was initiated.
         public let key: String
         /// A map of metadata to store with the object in S3.
@@ -7732,7 +7768,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. For information about object metadata, see Object Key and Metadata in the Amazon S3 User Guide. In the following example, the request header sets the redirect to an object (anotherPage.html) in the same bucket:  x-amz-website-redirect-location: /anotherPage.html  In the following example, the request header sets the object redirect to another website:  x-amz-website-redirect-location: http://www.example.com/  For more information about website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure Website Page Redirects in the Amazon S3 User Guide.   This functionality is not supported for directory buckets.
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, body: AWSHTTPBody? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, body: AWSHTTPBody? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, ifNoneMatch: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.body = body
             self.bucket = bucket
@@ -7755,6 +7791,7 @@ extension S3 {
             self.grantRead = grantRead
             self.grantReadACP = grantReadACP
             self.grantWriteACP = grantWriteACP
+            self.ifNoneMatch = ifNoneMatch
             self.key = key
             self.metadata = metadata
             self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
@@ -7797,6 +7834,7 @@ extension S3 {
             request.encodeHeader(self.grantRead, key: "x-amz-grant-read")
             request.encodeHeader(self.grantReadACP, key: "x-amz-grant-read-acp")
             request.encodeHeader(self.grantWriteACP, key: "x-amz-grant-write-acp")
+            request.encodeHeader(self.ifNoneMatch, key: "If-None-Match")
             request.encodePath(self.key, key: "Key")
             request.encodeHeader(self.metadata, key: "x-amz-meta-")
             request.encodeHeader(self.objectLockLegalHoldStatus, key: "x-amz-object-lock-legal-hold")
@@ -8016,7 +8054,7 @@ extension S3 {
     }
 
     public struct RecordsEvent: AWSDecodableShape {
-        /// The byte array of partial, one or more result records.
+        /// The byte array of partial, one or more result records. S3 Select doesn't guarantee that a record will be self-contained in one record frame. To ensure continuous streaming of data, S3 Select might split the same record across multiple record frames instead of aggregating the results in memory. Some S3 clients (for example, the SDK for Java) handle this behavior by creating a ByteStream out of the response by default. Other clients might not handle this behavior by default. In those cases, you must aggregate the results on the client side and parse the response.
         public let payload: AWSEventPayload
 
         public init(payload: AWSEventPayload) {
@@ -8326,11 +8364,11 @@ extension S3 {
         public let glacierJobParameters: GlacierJobParameters?
         /// Describes the location where the restore job's output is stored.
         public let outputLocation: OutputLocation?
-        /// Describes the parameters for Select job types.
+        ///  Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. Learn more   Describes the parameters for Select job types.
         public let selectParameters: SelectParameters?
         /// Retrieval tier at which the restore will be processed.
         public let tier: Tier?
-        /// Type of restore request.
+        ///  Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. Learn more   Type of restore request.
         public let type: RestoreRequestType?
 
         public init(days: Int? = nil, description: String? = nil, glacierJobParameters: GlacierJobParameters? = nil, outputLocation: OutputLocation? = nil, selectParameters: SelectParameters? = nil, tier: Tier? = nil, type: RestoreRequestType? = nil) {
@@ -8577,7 +8615,7 @@ extension S3 {
     }
 
     public struct SelectParameters: AWSEncodableShape {
-        /// The expression that is used to query the object.
+        ///  Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. Learn more   The expression that is used to query the object.
         public let expression: String
         /// The type of the provided expression (for example, SQL).
         public let expressionType: ExpressionType

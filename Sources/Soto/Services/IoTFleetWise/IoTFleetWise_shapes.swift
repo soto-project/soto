@@ -3986,7 +3986,7 @@ extension IoTFleetWise {
         }
     }
 
-    public struct StructuredMessageListDefinition: AWSEncodableShape & AWSDecodableShape {
+    public final class StructuredMessageListDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The capacity of the structured message list definition when the list type is FIXED_CAPACITY or DYNAMIC_BOUNDED_CAPACITY.
         public let capacity: Int?
         /// The type of list of the structured message list definition.

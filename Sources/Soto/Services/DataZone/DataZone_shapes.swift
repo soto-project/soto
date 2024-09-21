@@ -62,6 +62,18 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataProductItemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asset = "ASSET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataProductStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createFailed = "CREATE_FAILED"
+        case created = "CREATED"
+        case creating = "CREATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataSourceErrorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDeniedException = "ACCESS_DENIED_EXCEPTION"
         case conflictException = "CONFLICT_EXCEPTION"
@@ -100,6 +112,11 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataZoneEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case domainUnit = "DOMAIN_UNIT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -125,6 +142,11 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum DomainUnitDesignation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case owner = "OWNER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EdgeDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case downstream = "DOWNSTREAM"
         case upstream = "UPSTREAM"
@@ -139,6 +161,7 @@ extension DataZone {
 
     public enum EntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asset = "ASSET"
+        case dataProduct = "DATA_PRODUCT"
         public var description: String { return self.rawValue }
     }
 
@@ -162,6 +185,12 @@ extension DataZone {
     public enum FilterExpressionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case invalid = "INVALID"
+        case valid = "VALID"
         public var description: String { return self.rawValue }
     }
 
@@ -197,6 +226,7 @@ extension DataZone {
 
     public enum InventorySearchScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asset = "ASSET"
+        case dataProduct = "DATA_PRODUCT"
         case glossary = "GLOSSARY"
         case glossaryTerm = "GLOSSARY_TERM"
         public var description: String { return self.rawValue }
@@ -206,6 +236,21 @@ extension DataZone {
         case active = "ACTIVE"
         case creating = "CREATING"
         case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ManagedPolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case addToProjectMemberPool = "ADD_TO_PROJECT_MEMBER_POOL"
+        case createAssetType = "CREATE_ASSET_TYPE"
+        case createDomainUnit = "CREATE_DOMAIN_UNIT"
+        case createEnvironment = "CREATE_ENVIRONMENT"
+        case createEnvironmentProfile = "CREATE_ENVIRONMENT_PROFILE"
+        case createFormType = "CREATE_FORM_TYPE"
+        case createGlossary = "CREATE_GLOSSARY"
+        case createProject = "CREATE_PROJECT"
+        case delegateCreateEnvironmentProfile = "DELEGATE_CREATE_ENVIRONMENT_PROFILE"
+        case overrideDomainUnitOwners = "OVERRIDE_DOMAIN_UNIT_OWNERS"
+        case overrideProjectOwners = "OVERRIDE_PROJECT_OWNERS"
         public var description: String { return self.rawValue }
     }
 
@@ -245,6 +290,12 @@ extension DataZone {
     public enum NotificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case event = "EVENT"
         case task = "TASK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProjectDesignation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contributor = "CONTRIBUTOR"
+        case owner = "OWNER"
         public var description: String { return self.rawValue }
     }
 
@@ -329,6 +380,13 @@ extension DataZone {
         case approved = "APPROVED"
         case cancelled = "CANCELLED"
         case revoked = "REVOKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case domainUnit = "DOMAIN_UNIT"
+        case environmentBlueprintConfiguration = "ENVIRONMENT_BLUEPRINT_CONFIGURATION"
+        case environmentProfile = "ENVIRONMENT_PROFILE"
         public var description: String { return self.rawValue }
     }
 
@@ -460,6 +518,47 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssetFilterConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The column configuration of the asset filter.
+        case columnConfiguration(ColumnFilterConfiguration)
+        /// The row configuration of the asset filter.
+        case rowConfiguration(RowFilterConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .columnConfiguration:
+                let value = try container.decode(ColumnFilterConfiguration.self, forKey: .columnConfiguration)
+                self = .columnConfiguration(value)
+            case .rowConfiguration:
+                let value = try container.decode(RowFilterConfiguration.self, forKey: .rowConfiguration)
+                self = .rowConfiguration(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .columnConfiguration(let value):
+                try container.encode(value, forKey: .columnConfiguration)
+            case .rowConfiguration(let value):
+                try container.encode(value, forKey: .rowConfiguration)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnConfiguration = "columnConfiguration"
+            case rowConfiguration = "rowConfiguration"
+        }
+    }
+
     public enum DataSourceConfigurationInput: AWSEncodableShape, Sendable {
         /// The configuration of the Amazon Web Services Glue data source.
         case glueRunConfiguration(GlueRunConfigurationInput)
@@ -513,6 +612,37 @@ extension DataZone {
         }
     }
 
+    public enum DomainUnitOwnerProperties: AWSDecodableShape, Sendable {
+        /// Indicates that the domain unit owner is a group.
+        case group(DomainUnitGroupProperties)
+        /// Indicates that the domain unit owner is a user.
+        case user(DomainUnitUserProperties)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .group:
+                let value = try container.decode(DomainUnitGroupProperties.self, forKey: .group)
+                self = .group(value)
+            case .user:
+                let value = try container.decode(DomainUnitUserProperties.self, forKey: .user)
+                self = .user(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case group = "group"
+            case user = "user"
+        }
+    }
+
     public enum FilterClause: AWSEncodableShape, Sendable {
         /// The 'and' search filter clause in Amazon DataZone.
         case and([FilterClause])
@@ -556,6 +686,37 @@ extension DataZone {
             case and = "and"
             case filter = "filter"
             case or = "or"
+        }
+    }
+
+    public enum ListingItem: AWSDecodableShape, Sendable {
+        /// An asset published in an Amazon DataZone catalog.
+        case assetListing(AssetListing)
+        /// The data product listing.
+        case dataProductListing(DataProductListing)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .assetListing:
+                let value = try container.decode(AssetListing.self, forKey: .assetListing)
+                self = .assetListing(value)
+            case .dataProductListing:
+                let value = try container.decode(DataProductListing.self, forKey: .dataProductListing)
+                self = .dataProductListing(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetListing = "assetListing"
+            case dataProductListing = "dataProductListing"
         }
     }
 
@@ -612,6 +773,260 @@ extension DataZone {
         }
     }
 
+    public enum OwnerProperties: AWSEncodableShape, Sendable {
+        /// Specifies that the domain unit owner is a group.
+        case group(OwnerGroupProperties)
+        /// Specifies that the domain unit owner is a user.
+        case user(OwnerUserProperties)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .group(let value):
+                try container.encode(value, forKey: .group)
+            case .user(let value):
+                try container.encode(value, forKey: .user)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .group(let value):
+                try value.validate(name: "\(name).group")
+            case .user(let value):
+                try value.validate(name: "\(name).user")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case group = "group"
+            case user = "user"
+        }
+    }
+
+    public enum OwnerPropertiesOutput: AWSDecodableShape, Sendable {
+        /// Specifies that the domain unit owner is a group.
+        case group(OwnerGroupPropertiesOutput)
+        /// Specifies that the domain unit owner is a user.
+        case user(OwnerUserPropertiesOutput)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .group:
+                let value = try container.decode(OwnerGroupPropertiesOutput.self, forKey: .group)
+                self = .group(value)
+            case .user:
+                let value = try container.decode(OwnerUserPropertiesOutput.self, forKey: .user)
+                self = .user(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case group = "group"
+            case user = "user"
+        }
+    }
+
+    public enum PolicyGrantDetail: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Specifies that the policy grant is to be added to the members of the project.
+        case addToProjectMemberPool(AddToProjectMemberPoolPolicyGrantDetail)
+        /// Specifies that this is a create asset type policy.
+        case createAssetType(CreateAssetTypePolicyGrantDetail)
+        /// Specifies that this is a create domain unit policy.
+        case createDomainUnit(CreateDomainUnitPolicyGrantDetail)
+        /// Specifies that this is a create environment policy.
+        case createEnvironment(Unit)
+        /// Specifies that this is a create environment profile policy.
+        case createEnvironmentProfile(CreateEnvironmentProfilePolicyGrantDetail)
+        /// Specifies that this is a create form type policy.
+        case createFormType(CreateFormTypePolicyGrantDetail)
+        /// Specifies that this is a create glossary policy.
+        case createGlossary(CreateGlossaryPolicyGrantDetail)
+        /// Specifies that this is a create project policy.
+        case createProject(CreateProjectPolicyGrantDetail)
+        /// Specifies that this is the delegation of the create environment profile policy.
+        case delegateCreateEnvironmentProfile(Unit)
+        /// Specifies whether to override domain unit owners.
+        case overrideDomainUnitOwners(OverrideDomainUnitOwnersPolicyGrantDetail)
+        /// Specifies whether to override project owners.
+        case overrideProjectOwners(OverrideProjectOwnersPolicyGrantDetail)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .addToProjectMemberPool:
+                let value = try container.decode(AddToProjectMemberPoolPolicyGrantDetail.self, forKey: .addToProjectMemberPool)
+                self = .addToProjectMemberPool(value)
+            case .createAssetType:
+                let value = try container.decode(CreateAssetTypePolicyGrantDetail.self, forKey: .createAssetType)
+                self = .createAssetType(value)
+            case .createDomainUnit:
+                let value = try container.decode(CreateDomainUnitPolicyGrantDetail.self, forKey: .createDomainUnit)
+                self = .createDomainUnit(value)
+            case .createEnvironment:
+                let value = try container.decode(Unit.self, forKey: .createEnvironment)
+                self = .createEnvironment(value)
+            case .createEnvironmentProfile:
+                let value = try container.decode(CreateEnvironmentProfilePolicyGrantDetail.self, forKey: .createEnvironmentProfile)
+                self = .createEnvironmentProfile(value)
+            case .createFormType:
+                let value = try container.decode(CreateFormTypePolicyGrantDetail.self, forKey: .createFormType)
+                self = .createFormType(value)
+            case .createGlossary:
+                let value = try container.decode(CreateGlossaryPolicyGrantDetail.self, forKey: .createGlossary)
+                self = .createGlossary(value)
+            case .createProject:
+                let value = try container.decode(CreateProjectPolicyGrantDetail.self, forKey: .createProject)
+                self = .createProject(value)
+            case .delegateCreateEnvironmentProfile:
+                let value = try container.decode(Unit.self, forKey: .delegateCreateEnvironmentProfile)
+                self = .delegateCreateEnvironmentProfile(value)
+            case .overrideDomainUnitOwners:
+                let value = try container.decode(OverrideDomainUnitOwnersPolicyGrantDetail.self, forKey: .overrideDomainUnitOwners)
+                self = .overrideDomainUnitOwners(value)
+            case .overrideProjectOwners:
+                let value = try container.decode(OverrideProjectOwnersPolicyGrantDetail.self, forKey: .overrideProjectOwners)
+                self = .overrideProjectOwners(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .addToProjectMemberPool(let value):
+                try container.encode(value, forKey: .addToProjectMemberPool)
+            case .createAssetType(let value):
+                try container.encode(value, forKey: .createAssetType)
+            case .createDomainUnit(let value):
+                try container.encode(value, forKey: .createDomainUnit)
+            case .createEnvironment(let value):
+                try container.encode(value, forKey: .createEnvironment)
+            case .createEnvironmentProfile(let value):
+                try container.encode(value, forKey: .createEnvironmentProfile)
+            case .createFormType(let value):
+                try container.encode(value, forKey: .createFormType)
+            case .createGlossary(let value):
+                try container.encode(value, forKey: .createGlossary)
+            case .createProject(let value):
+                try container.encode(value, forKey: .createProject)
+            case .delegateCreateEnvironmentProfile(let value):
+                try container.encode(value, forKey: .delegateCreateEnvironmentProfile)
+            case .overrideDomainUnitOwners(let value):
+                try container.encode(value, forKey: .overrideDomainUnitOwners)
+            case .overrideProjectOwners(let value):
+                try container.encode(value, forKey: .overrideProjectOwners)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .createEnvironmentProfile(let value):
+                try value.validate(name: "\(name).createEnvironmentProfile")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addToProjectMemberPool = "addToProjectMemberPool"
+            case createAssetType = "createAssetType"
+            case createDomainUnit = "createDomainUnit"
+            case createEnvironment = "createEnvironment"
+            case createEnvironmentProfile = "createEnvironmentProfile"
+            case createFormType = "createFormType"
+            case createGlossary = "createGlossary"
+            case createProject = "createProject"
+            case delegateCreateEnvironmentProfile = "delegateCreateEnvironmentProfile"
+            case overrideDomainUnitOwners = "overrideDomainUnitOwners"
+            case overrideProjectOwners = "overrideProjectOwners"
+        }
+    }
+
+    public enum PolicyGrantPrincipal: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The domain unit of the policy grant principal.
+        case domainUnit(DomainUnitPolicyGrantPrincipal)
+        /// The group of the policy grant principal.
+        case group(GroupPolicyGrantPrincipal)
+        /// The project of the policy grant principal.
+        case project(ProjectPolicyGrantPrincipal)
+        /// The user of the policy grant principal.
+        case user(UserPolicyGrantPrincipal)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .domainUnit:
+                let value = try container.decode(DomainUnitPolicyGrantPrincipal.self, forKey: .domainUnit)
+                self = .domainUnit(value)
+            case .group:
+                let value = try container.decode(GroupPolicyGrantPrincipal.self, forKey: .group)
+                self = .group(value)
+            case .project:
+                let value = try container.decode(ProjectPolicyGrantPrincipal.self, forKey: .project)
+                self = .project(value)
+            case .user:
+                let value = try container.decode(UserPolicyGrantPrincipal.self, forKey: .user)
+                self = .user(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .domainUnit(let value):
+                try container.encode(value, forKey: .domainUnit)
+            case .group(let value):
+                try container.encode(value, forKey: .group)
+            case .project(let value):
+                try container.encode(value, forKey: .project)
+            case .user(let value):
+                try container.encode(value, forKey: .user)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .domainUnit(let value):
+                try value.validate(name: "\(name).domainUnit")
+            case .group(let value):
+                try value.validate(name: "\(name).group")
+            case .project(let value):
+                try value.validate(name: "\(name).project")
+            case .user(let value):
+                try value.validate(name: "\(name).user")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainUnit = "domainUnit"
+            case group = "group"
+            case project = "project"
+            case user = "user"
+        }
+    }
+
     public enum RedshiftStorage: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The details of the Amazon Redshift cluster source.
         case redshiftClusterSource(RedshiftClusterStorage)
@@ -653,11 +1068,181 @@ extension DataZone {
         }
     }
 
+    public enum RowFilter: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The 'and' clause of the row filter.
+        case and([RowFilter])
+        /// The expression of the row filter.
+        case expression(RowFilterExpression)
+        /// The 'or' clause of the row filter.
+        case or([RowFilter])
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .and:
+                let value = try container.decode([RowFilter].self, forKey: .and)
+                self = .and(value)
+            case .expression:
+                let value = try container.decode(RowFilterExpression.self, forKey: .expression)
+                self = .expression(value)
+            case .or:
+                let value = try container.decode([RowFilter].self, forKey: .or)
+                self = .or(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .and(let value):
+                try container.encode(value, forKey: .and)
+            case .expression(let value):
+                try container.encode(value, forKey: .expression)
+            case .or(let value):
+                try container.encode(value, forKey: .or)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case and = "and"
+            case expression = "expression"
+            case or = "or"
+        }
+    }
+
+    public enum RowFilterExpression: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The 'equal to' clause of the row filter expression.
+        case equalTo(EqualToExpression)
+        /// The 'greater than' clause of the row filter expression.
+        case greaterThan(GreaterThanExpression)
+        /// The 'greater than or equal to' clause of the filter expression.
+        case greaterThanOrEqualTo(GreaterThanOrEqualToExpression)
+        /// The 'in' clause of the row filter expression.
+        case `in`(InExpression)
+        /// The 'is not null' clause of the row filter expression.
+        case isNotNull(IsNotNullExpression)
+        /// The 'is null' clause of the row filter expression.
+        case isNull(IsNullExpression)
+        /// The 'less than' clause of the row filter expression.
+        case lessThan(LessThanExpression)
+        /// The 'less than or equal to' clause of the row filter expression.
+        case lessThanOrEqualTo(LessThanOrEqualToExpression)
+        /// The 'like' clause of the row filter expression.
+        case like(LikeExpression)
+        /// The 'no equal to' clause of the row filter expression.
+        case notEqualTo(NotEqualToExpression)
+        /// The 'not in' clause of the row filter expression.
+        case notIn(NotInExpression)
+        /// The 'not like' clause of the row filter expression.
+        case notLike(NotLikeExpression)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .equalTo:
+                let value = try container.decode(EqualToExpression.self, forKey: .equalTo)
+                self = .equalTo(value)
+            case .greaterThan:
+                let value = try container.decode(GreaterThanExpression.self, forKey: .greaterThan)
+                self = .greaterThan(value)
+            case .greaterThanOrEqualTo:
+                let value = try container.decode(GreaterThanOrEqualToExpression.self, forKey: .greaterThanOrEqualTo)
+                self = .greaterThanOrEqualTo(value)
+            case .`in`:
+                let value = try container.decode(InExpression.self, forKey: .`in`)
+                self = .`in`(value)
+            case .isNotNull:
+                let value = try container.decode(IsNotNullExpression.self, forKey: .isNotNull)
+                self = .isNotNull(value)
+            case .isNull:
+                let value = try container.decode(IsNullExpression.self, forKey: .isNull)
+                self = .isNull(value)
+            case .lessThan:
+                let value = try container.decode(LessThanExpression.self, forKey: .lessThan)
+                self = .lessThan(value)
+            case .lessThanOrEqualTo:
+                let value = try container.decode(LessThanOrEqualToExpression.self, forKey: .lessThanOrEqualTo)
+                self = .lessThanOrEqualTo(value)
+            case .like:
+                let value = try container.decode(LikeExpression.self, forKey: .like)
+                self = .like(value)
+            case .notEqualTo:
+                let value = try container.decode(NotEqualToExpression.self, forKey: .notEqualTo)
+                self = .notEqualTo(value)
+            case .notIn:
+                let value = try container.decode(NotInExpression.self, forKey: .notIn)
+                self = .notIn(value)
+            case .notLike:
+                let value = try container.decode(NotLikeExpression.self, forKey: .notLike)
+                self = .notLike(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .equalTo(let value):
+                try container.encode(value, forKey: .equalTo)
+            case .greaterThan(let value):
+                try container.encode(value, forKey: .greaterThan)
+            case .greaterThanOrEqualTo(let value):
+                try container.encode(value, forKey: .greaterThanOrEqualTo)
+            case .`in`(let value):
+                try container.encode(value, forKey: .`in`)
+            case .isNotNull(let value):
+                try container.encode(value, forKey: .isNotNull)
+            case .isNull(let value):
+                try container.encode(value, forKey: .isNull)
+            case .lessThan(let value):
+                try container.encode(value, forKey: .lessThan)
+            case .lessThanOrEqualTo(let value):
+                try container.encode(value, forKey: .lessThanOrEqualTo)
+            case .like(let value):
+                try container.encode(value, forKey: .like)
+            case .notEqualTo(let value):
+                try container.encode(value, forKey: .notEqualTo)
+            case .notIn(let value):
+                try container.encode(value, forKey: .notIn)
+            case .notLike(let value):
+                try container.encode(value, forKey: .notLike)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case equalTo = "equalTo"
+            case greaterThan = "greaterThan"
+            case greaterThanOrEqualTo = "greaterThanOrEqualTo"
+            case `in` = "in"
+            case isNotNull = "isNotNull"
+            case isNull = "isNull"
+            case lessThan = "lessThan"
+            case lessThanOrEqualTo = "lessThanOrEqualTo"
+            case like = "like"
+            case notEqualTo = "notEqualTo"
+            case notIn = "notIn"
+            case notLike = "notLike"
+        }
+    }
+
     public enum SearchInventoryResultItem: AWSDecodableShape, Sendable {
         /// The asset item included in the search results.
         case assetItem(AssetItem)
-        /// The data product item included in the search results.
-        case dataProductItem(DataProductSummary)
+        /// The data product.
+        case dataProductItem(DataProductResultItem)
         /// The glossary item included in the search results.
         case glossaryItem(GlossaryItem)
         /// The glossary term item included in the search results.
@@ -677,7 +1262,7 @@ extension DataZone {
                 let value = try container.decode(AssetItem.self, forKey: .assetItem)
                 self = .assetItem(value)
             case .dataProductItem:
-                let value = try container.decode(DataProductSummary.self, forKey: .dataProductItem)
+                let value = try container.decode(DataProductResultItem.self, forKey: .dataProductItem)
                 self = .dataProductItem(value)
             case .glossaryItem:
                 let value = try container.decode(GlossaryItem.self, forKey: .glossaryItem)
@@ -693,6 +1278,37 @@ extension DataZone {
             case dataProductItem = "dataProductItem"
             case glossaryItem = "glossaryItem"
             case glossaryTermItem = "glossaryTermItem"
+        }
+    }
+
+    public enum SearchResultItem: AWSDecodableShape, Sendable {
+        /// The asset listing included in the results of the SearchListings action.
+        case assetListing(AssetListingItem)
+        /// The data product listing.
+        case dataProductListing(DataProductListingItem)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .assetListing:
+                let value = try container.decode(AssetListingItem.self, forKey: .assetListing)
+                self = .assetListing(value)
+            case .dataProductListing:
+                let value = try container.decode(DataProductListingItem.self, forKey: .dataProductListing)
+                self = .dataProductListing(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetListing = "assetListing"
+            case dataProductListing = "dataProductListing"
         }
     }
 
@@ -761,6 +1377,87 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case glueSelfGrantStatus = "glueSelfGrantStatus"
             case redshiftSelfGrantStatus = "redshiftSelfGrantStatus"
+        }
+    }
+
+    public enum SubscribedListingItem: AWSDecodableShape, Sendable {
+        /// The asset for which the subscription grant is created.
+        case assetListing(SubscribedAssetListing)
+        /// The data product listing.
+        case productListing(SubscribedProductListing)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .assetListing:
+                let value = try container.decode(SubscribedAssetListing.self, forKey: .assetListing)
+                self = .assetListing(value)
+            case .productListing:
+                let value = try container.decode(SubscribedProductListing.self, forKey: .productListing)
+                self = .productListing(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetListing = "assetListing"
+            case productListing = "productListing"
+        }
+    }
+
+    public enum UserPolicyGrantPrincipal: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The all users grant filter of the user policy grant principal.
+        case allUsersGrantFilter(AllUsersGrantFilter)
+        /// The user ID of the user policy grant principal.
+        case userIdentifier(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .allUsersGrantFilter:
+                let value = try container.decode(AllUsersGrantFilter.self, forKey: .allUsersGrantFilter)
+                self = .allUsersGrantFilter(value)
+            case .userIdentifier:
+                let value = try container.decode(String.self, forKey: .userIdentifier)
+                self = .userIdentifier(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .allUsersGrantFilter(let value):
+                try container.encode(value, forKey: .allUsersGrantFilter)
+            case .userIdentifier(let value):
+                try container.encode(value, forKey: .userIdentifier)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .userIdentifier(let value):
+                try self.validate(value, name: "userIdentifier", parent: name, pattern: "(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\\d{12}:.+$)")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allUsersGrantFilter = "allUsersGrantFilter"
+            case userIdentifier = "userIdentifier"
         }
     }
 
@@ -916,6 +1613,8 @@ extension DataZone {
     }
 
     public struct AcceptSubscriptionRequestInput: AWSEncodableShape {
+        /// The asset scopes of the accept subscription request.
+        public let assetScopes: [AcceptedAssetScope]?
         /// A description that specifies the reason for accepting the specified subscription request.
         public let decisionComment: String?
         /// The Amazon DataZone domain where the specified subscription request is being accepted.
@@ -923,7 +1622,8 @@ extension DataZone {
         /// The unique identifier of the subscription request that is to be accepted.
         public let identifier: String
 
-        public init(decisionComment: String? = nil, domainIdentifier: String, identifier: String) {
+        public init(assetScopes: [AcceptedAssetScope]? = nil, decisionComment: String? = nil, domainIdentifier: String, identifier: String) {
+            self.assetScopes = assetScopes
             self.decisionComment = decisionComment
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -932,12 +1632,16 @@ extension DataZone {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.assetScopes, forKey: .assetScopes)
             try container.encodeIfPresent(self.decisionComment, forKey: .decisionComment)
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             request.encodePath(self.identifier, key: "identifier")
         }
 
         public func validate(name: String) throws {
+            try self.assetScopes?.forEach {
+                try $0.validate(name: "\(name).assetScopes[]")
+            }
             try self.validate(self.decisionComment, name: "decisionComment", parent: name, max: 4096)
             try self.validate(self.decisionComment, name: "decisionComment", parent: name, min: 1)
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
@@ -945,6 +1649,7 @@ extension DataZone {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetScopes = "assetScopes"
             case decisionComment = "decisionComment"
         }
     }
@@ -1003,6 +1708,228 @@ extension DataZone {
             case subscribedPrincipals = "subscribedPrincipals"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
+        }
+    }
+
+    public struct AcceptedAssetScope: AWSEncodableShape {
+        /// The asset ID of the accepted asset scope.
+        public let assetId: String
+        /// The filter IDs of the accepted asset scope.
+        public let filterIds: [String]
+
+        public init(assetId: String, filterIds: [String]) {
+            self.assetId = assetId
+            self.filterIds = filterIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.filterIds.forEach {
+                try validate($0, name: "filterIds[]", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
+            case filterIds = "filterIds"
+        }
+    }
+
+    public struct AddEntityOwnerInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The ID of the domain in which you want to add the entity owner.
+        public let domainIdentifier: String
+        /// The ID of the entity to which you want to add an owner.
+        public let entityIdentifier: String
+        /// The type of an entity.
+        public let entityType: DataZoneEntityType
+        /// The owner that you want to add to the entity.
+        public let owner: OwnerProperties
+
+        public init(clientToken: String? = AddEntityOwnerInput.idempotencyToken(), domainIdentifier: String, entityIdentifier: String, entityType: DataZoneEntityType, owner: OwnerProperties) {
+            self.clientToken = clientToken
+            self.domainIdentifier = domainIdentifier
+            self.entityIdentifier = entityIdentifier
+            self.entityType = entityType
+            self.owner = owner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.entityIdentifier, key: "entityIdentifier")
+            request.encodePath(self.entityType, key: "entityType")
+            try container.encode(self.owner, forKey: .owner)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]+$")
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.owner.validate(name: "\(name).owner")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case owner = "owner"
+        }
+    }
+
+    public struct AddEntityOwnerOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AddPolicyGrantInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The details of the policy grant.
+        public let detail: PolicyGrantDetail
+        /// The ID of the domain where you want to add a policy grant.
+        public let domainIdentifier: String
+        /// The ID of the entity (resource) to which you want to add a policy grant.
+        public let entityIdentifier: String
+        /// The type of entity (resource) to which the grant is added.
+        public let entityType: TargetEntityType
+        /// The type of policy that you want to grant.
+        public let policyType: ManagedPolicyType
+        /// The principal to whom the permissions are granted.
+        public let principal: PolicyGrantPrincipal
+
+        public init(clientToken: String? = AddPolicyGrantInput.idempotencyToken(), detail: PolicyGrantDetail, domainIdentifier: String, entityIdentifier: String, entityType: TargetEntityType, policyType: ManagedPolicyType, principal: PolicyGrantPrincipal) {
+            self.clientToken = clientToken
+            self.detail = detail
+            self.domainIdentifier = domainIdentifier
+            self.entityIdentifier = entityIdentifier
+            self.entityType = entityType
+            self.policyType = policyType
+            self.principal = principal
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.detail, forKey: .detail)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.entityIdentifier, key: "entityIdentifier")
+            request.encodePath(self.entityType, key: "entityType")
+            try container.encode(self.policyType, forKey: .policyType)
+            try container.encode(self.principal, forKey: .principal)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]+$")
+            try self.detail.validate(name: "\(name).detail")
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.principal.validate(name: "\(name).principal")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case detail = "detail"
+            case policyType = "policyType"
+            case principal = "principal"
+        }
+    }
+
+    public struct AddPolicyGrantOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AddToProjectMemberPoolPolicyGrantDetail: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the policy grant is applied to child domain units.
+        public let includeChildDomainUnits: Bool?
+
+        public init(includeChildDomainUnits: Bool? = nil) {
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeChildDomainUnits = "includeChildDomainUnits"
+        }
+    }
+
+    public struct AllDomainUnitsGrantFilter: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AllUsersGrantFilter: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AssetFilterSummary: AWSDecodableShape {
+        /// The ID of the data asset.
+        public let assetId: String
+        /// The timestamp at which the asset filter was created.
+        public let createdAt: Date?
+        /// The description of the asset filter.
+        public let description: String?
+        /// The ID of the domain where the asset filter lives.
+        public let domainId: String
+        /// The effective column names of the asset filter.
+        public let effectiveColumnNames: [String]?
+        /// The effective row filter of the asset filter.
+        public let effectiveRowFilter: String?
+        /// The error message that is displayed if the action does not succeed.
+        public let errorMessage: String?
+        /// The ID of the asset filter.
+        public let id: String
+        /// The name of the asset filter.
+        public let name: String
+        /// The status of the asset filter.
+        public let status: FilterStatus?
+
+        public init(assetId: String, createdAt: Date? = nil, description: String? = nil, domainId: String, effectiveColumnNames: [String]? = nil, effectiveRowFilter: String? = nil, errorMessage: String? = nil, id: String, name: String, status: FilterStatus? = nil) {
+            self.assetId = assetId
+            self.createdAt = createdAt
+            self.description = description
+            self.domainId = domainId
+            self.effectiveColumnNames = effectiveColumnNames
+            self.effectiveRowFilter = effectiveRowFilter
+            self.errorMessage = errorMessage
+            self.id = id
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
+            case createdAt = "createdAt"
+            case description = "description"
+            case domainId = "domainId"
+            case effectiveColumnNames = "effectiveColumnNames"
+            case effectiveRowFilter = "effectiveRowFilter"
+            case errorMessage = "errorMessage"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct AssetInDataProductListingItem: AWSDecodableShape {
+        /// The entity ID of the listing of the asset in a data product.
+        public let entityId: String?
+        /// The entity revision of the listing of the asset in a data product.
+        public let entityRevision: String?
+        /// The entity type of the listing of the asset in a data product.
+        public let entityType: String?
+
+        public init(entityId: String? = nil, entityRevision: String? = nil, entityType: String? = nil) {
+            self.entityId = entityId
+            self.entityRevision = entityRevision
+            self.entityType = entityType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "entityId"
+            case entityRevision = "entityRevision"
+            case entityType = "entityType"
         }
     }
 
@@ -1254,6 +2181,31 @@ extension DataZone {
             case domainId = "domainId"
             case id = "id"
             case revision = "revision"
+        }
+    }
+
+    public struct AssetScope: AWSDecodableShape {
+        /// The asset ID of the asset scope.
+        public let assetId: String
+        /// The error message of the asset scope.
+        public let errorMessage: String?
+        /// The filter IDs of the asset scope.
+        public let filterIds: [String]
+        /// The status of the asset scope.
+        public let status: String
+
+        public init(assetId: String, errorMessage: String? = nil, filterIds: [String], status: String) {
+            self.assetId = assetId
+            self.errorMessage = errorMessage
+            self.filterIds = filterIds
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
+            case errorMessage = "errorMessage"
+            case filterIds = "filterIds"
+            case status = "status"
         }
     }
 
@@ -1517,6 +2469,19 @@ extension DataZone {
         }
     }
 
+    public struct ColumnFilterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to include column names.
+        public let includedColumnNames: [String]?
+
+        public init(includedColumnNames: [String]? = nil) {
+            self.includedColumnNames = includedColumnNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includedColumnNames = "includedColumnNames"
+        }
+    }
+
     public struct ConfigurableActionParameter: AWSDecodableShape {
         /// The key of the configurable action parameter.
         public let key: String?
@@ -1552,6 +2517,110 @@ extension DataZone {
             case auth = "auth"
             case parameters = "parameters"
             case type = "type"
+        }
+    }
+
+    public struct CreateAssetFilterInput: AWSEncodableShape {
+        /// The ID of the data asset.
+        public let assetIdentifier: String
+        /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The configuration of the asset filter.
+        public let configuration: AssetFilterConfiguration
+        /// The description of the asset filter.
+        public let description: String?
+        /// The ID of the domain in which you want to create an asset filter.
+        public let domainIdentifier: String
+        /// The name of the asset filter.
+        public let name: String
+
+        public init(assetIdentifier: String, clientToken: String? = CreateAssetFilterInput.idempotencyToken(), configuration: AssetFilterConfiguration, description: String? = nil, domainIdentifier: String, name: String) {
+            self.assetIdentifier = assetIdentifier
+            self.clientToken = clientToken
+            self.configuration = configuration
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetIdentifier, key: "assetIdentifier")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encode(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case configuration = "configuration"
+            case description = "description"
+            case name = "name"
+        }
+    }
+
+    public struct CreateAssetFilterOutput: AWSDecodableShape {
+        /// The ID of the asset.
+        public let assetId: String
+        /// The configuration of the asset filter.
+        public let configuration: AssetFilterConfiguration
+        /// The timestamp at which the asset filter was created.
+        public let createdAt: Date?
+        /// The description of the asset filter.
+        public let description: String?
+        /// The ID of the domain where the asset filter is created.
+        public let domainId: String
+        /// The column names in the asset filter.
+        public let effectiveColumnNames: [String]?
+        /// The row filter in the asset filter.
+        public let effectiveRowFilter: String?
+        /// The error message that is displayed if the asset filter is not created successfully.
+        public let errorMessage: String?
+        /// The ID of the asset filter.
+        public let id: String
+        /// The name of the asset filter.
+        public let name: String
+        /// The status of the asset filter.
+        public let status: FilterStatus?
+
+        public init(assetId: String, configuration: AssetFilterConfiguration, createdAt: Date? = nil, description: String? = nil, domainId: String, effectiveColumnNames: [String]? = nil, effectiveRowFilter: String? = nil, errorMessage: String? = nil, id: String, name: String, status: FilterStatus? = nil) {
+            self.assetId = assetId
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.description = description
+            self.domainId = domainId
+            self.effectiveColumnNames = effectiveColumnNames
+            self.effectiveRowFilter = effectiveRowFilter
+            self.errorMessage = errorMessage
+            self.id = id
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
+            case configuration = "configuration"
+            case createdAt = "createdAt"
+            case description = "description"
+            case domainId = "domainId"
+            case effectiveColumnNames = "effectiveColumnNames"
+            case effectiveRowFilter = "effectiveRowFilter"
+            case errorMessage = "errorMessage"
+            case id = "id"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -2010,6 +3079,304 @@ extension DataZone {
         }
     }
 
+    public struct CreateAssetTypePolicyGrantDetail: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the policy grant is applied to child domain units.
+        public let includeChildDomainUnits: Bool?
+
+        public init(includeChildDomainUnits: Bool? = nil) {
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeChildDomainUnits = "includeChildDomainUnits"
+        }
+    }
+
+    public struct CreateDataProductInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The description of the data product.
+        public let description: String?
+        /// The ID of the domain where the data product is created.
+        public let domainIdentifier: String
+        /// The metadata forms of the data product.
+        public let formsInput: [FormInput]?
+        /// The glossary terms of the data product.
+        public let glossaryTerms: [String]?
+        /// The data assets of the data product.
+        public let items: [DataProductItem]?
+        /// The name of the data product.
+        public let name: String
+        /// The ID of the owning project of the data product.
+        public let owningProjectIdentifier: String
+
+        public init(clientToken: String? = CreateDataProductInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, formsInput: [FormInput]? = nil, glossaryTerms: [String]? = nil, items: [DataProductItem]? = nil, name: String, owningProjectIdentifier: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.formsInput = formsInput
+            self.glossaryTerms = glossaryTerms
+            self.items = items
+            self.name = name
+            self.owningProjectIdentifier = owningProjectIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encodeIfPresent(self.formsInput, forKey: .formsInput)
+            try container.encodeIfPresent(self.glossaryTerms, forKey: .glossaryTerms)
+            try container.encodeIfPresent(self.items, forKey: .items)
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.owningProjectIdentifier, forKey: .owningProjectIdentifier)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 4096)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.formsInput?.forEach {
+                try $0.validate(name: "\(name).formsInput[]")
+            }
+            try self.validate(self.formsInput, name: "formsInput", parent: name, max: 10)
+            try self.glossaryTerms?.forEach {
+                try validate($0, name: "glossaryTerms[]", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            }
+            try self.validate(self.glossaryTerms, name: "glossaryTerms", parent: name, max: 20)
+            try self.validate(self.glossaryTerms, name: "glossaryTerms", parent: name, min: 1)
+            try self.items?.forEach {
+                try $0.validate(name: "\(name).items[]")
+            }
+            try self.validate(self.items, name: "items", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.owningProjectIdentifier, name: "owningProjectIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case formsInput = "formsInput"
+            case glossaryTerms = "glossaryTerms"
+            case items = "items"
+            case name = "name"
+            case owningProjectIdentifier = "owningProjectIdentifier"
+        }
+    }
+
+    public struct CreateDataProductOutput: AWSDecodableShape {
+        /// The timestamp at which the data product was created.
+        public let createdAt: Date?
+        /// The user who created the data product.
+        public let createdBy: String?
+        /// The description of the data product.
+        public let description: String?
+        /// The ID of the domain where the data product lives.
+        public let domainId: String
+        /// The timestamp at which the first revision of the data product was created.
+        public let firstRevisionCreatedAt: Date?
+        /// The user who created the first revision of the data product.
+        public let firstRevisionCreatedBy: String?
+        /// The metadata forms of the data product.
+        public let formsOutput: [FormOutput]?
+        /// The glossary terms of the data product.
+        public let glossaryTerms: [String]?
+        /// The ID of the data product.
+        public let id: String
+        /// The data assets of the data product.
+        public let items: [DataProductItem]?
+        /// The name of the data product.
+        public let name: String
+        /// The ID of the owning project of the data product.
+        public let owningProjectId: String
+        /// The revision of the data product.
+        public let revision: String
+        /// The status of the data product.
+        public let status: DataProductStatus
+
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, formsOutput: [FormOutput]? = nil, glossaryTerms: [String]? = nil, id: String, items: [DataProductItem]? = nil, name: String, owningProjectId: String, revision: String, status: DataProductStatus) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.firstRevisionCreatedAt = firstRevisionCreatedAt
+            self.firstRevisionCreatedBy = firstRevisionCreatedBy
+            self.formsOutput = formsOutput
+            self.glossaryTerms = glossaryTerms
+            self.id = id
+            self.items = items
+            self.name = name
+            self.owningProjectId = owningProjectId
+            self.revision = revision
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case domainId = "domainId"
+            case firstRevisionCreatedAt = "firstRevisionCreatedAt"
+            case firstRevisionCreatedBy = "firstRevisionCreatedBy"
+            case formsOutput = "formsOutput"
+            case glossaryTerms = "glossaryTerms"
+            case id = "id"
+            case items = "items"
+            case name = "name"
+            case owningProjectId = "owningProjectId"
+            case revision = "revision"
+            case status = "status"
+        }
+    }
+
+    public struct CreateDataProductRevisionInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The description of the data product revision.
+        public let description: String?
+        /// The ID of the domain where the data product revision is created.
+        public let domainIdentifier: String
+        /// The metadata forms of the data product revision.
+        public let formsInput: [FormInput]?
+        /// The glossary terms of the data product revision.
+        public let glossaryTerms: [String]?
+        /// The ID of the data product revision.
+        public let identifier: String
+        /// The data assets of the data product revision.
+        public let items: [DataProductItem]?
+        /// The name of the data product revision.
+        public let name: String
+
+        public init(clientToken: String? = CreateDataProductRevisionInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, formsInput: [FormInput]? = nil, glossaryTerms: [String]? = nil, identifier: String, items: [DataProductItem]? = nil, name: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.formsInput = formsInput
+            self.glossaryTerms = glossaryTerms
+            self.identifier = identifier
+            self.items = items
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encodeIfPresent(self.formsInput, forKey: .formsInput)
+            try container.encodeIfPresent(self.glossaryTerms, forKey: .glossaryTerms)
+            request.encodePath(self.identifier, key: "identifier")
+            try container.encodeIfPresent(self.items, forKey: .items)
+            try container.encode(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 4096)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.formsInput?.forEach {
+                try $0.validate(name: "\(name).formsInput[]")
+            }
+            try self.validate(self.formsInput, name: "formsInput", parent: name, max: 10)
+            try self.glossaryTerms?.forEach {
+                try validate($0, name: "glossaryTerms[]", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            }
+            try self.validate(self.glossaryTerms, name: "glossaryTerms", parent: name, max: 20)
+            try self.validate(self.glossaryTerms, name: "glossaryTerms", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.items?.forEach {
+                try $0.validate(name: "\(name).items[]")
+            }
+            try self.validate(self.items, name: "items", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case formsInput = "formsInput"
+            case glossaryTerms = "glossaryTerms"
+            case items = "items"
+            case name = "name"
+        }
+    }
+
+    public struct CreateDataProductRevisionOutput: AWSDecodableShape {
+        /// The timestamp at which the data product revision is created.
+        public let createdAt: Date?
+        /// The user who created the data product revision.
+        public let createdBy: String?
+        /// The description of the data product revision.
+        public let description: String?
+        /// The ID of the domain where data product revision is created.
+        public let domainId: String
+        /// The timestamp at which the first revision of the data product is created.
+        public let firstRevisionCreatedAt: Date?
+        /// The user who created the first revision of the data product.
+        public let firstRevisionCreatedBy: String?
+        /// The metadata forms of the data product revision.
+        public let formsOutput: [FormOutput]?
+        /// The glossary terms of the data product revision.
+        public let glossaryTerms: [String]?
+        /// The ID of the data product revision.
+        public let id: String
+        /// The data assets of the data product revision.
+        public let items: [DataProductItem]?
+        /// The name of the data product revision.
+        public let name: String
+        /// The ID of the owning project of the data product revision.
+        public let owningProjectId: String
+        /// The revision of the data product revision.
+        public let revision: String
+        /// The status of the data product revision.
+        public let status: DataProductStatus
+
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, formsOutput: [FormOutput]? = nil, glossaryTerms: [String]? = nil, id: String, items: [DataProductItem]? = nil, name: String, owningProjectId: String, revision: String, status: DataProductStatus) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.firstRevisionCreatedAt = firstRevisionCreatedAt
+            self.firstRevisionCreatedBy = firstRevisionCreatedBy
+            self.formsOutput = formsOutput
+            self.glossaryTerms = glossaryTerms
+            self.id = id
+            self.items = items
+            self.name = name
+            self.owningProjectId = owningProjectId
+            self.revision = revision
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case domainId = "domainId"
+            case firstRevisionCreatedAt = "firstRevisionCreatedAt"
+            case firstRevisionCreatedBy = "firstRevisionCreatedBy"
+            case formsOutput = "formsOutput"
+            case glossaryTerms = "glossaryTerms"
+            case id = "id"
+            case items = "items"
+            case name = "name"
+            case owningProjectId = "owningProjectId"
+            case revision = "revision"
+            case status = "status"
+        }
+    }
+
     public struct CreateDataSourceInput: AWSEncodableShape {
         /// The metadata forms that are to be attached to the assets that this data source works with.
         public let assetFormsInput: [FormInput]?
@@ -2260,6 +3627,8 @@ extension DataZone {
         public let name: String?
         /// The URL of the data portal for this Amazon DataZone domain.
         public let portalUrl: String?
+        /// The ID of the root domain unit.
+        public let rootDomainUnitId: String?
         /// The single-sign on configuration of the Amazon DataZone domain.
         public let singleSignOn: SingleSignOn?
         /// The status of the Amazon DataZone domain.
@@ -2267,7 +3636,7 @@ extension DataZone {
         /// The tags specified for the Amazon DataZone domain.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, domainExecutionRole: String? = nil, id: String, kmsKeyIdentifier: String? = nil, name: String? = nil, portalUrl: String? = nil, singleSignOn: SingleSignOn? = nil, status: DomainStatus? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, description: String? = nil, domainExecutionRole: String? = nil, id: String, kmsKeyIdentifier: String? = nil, name: String? = nil, portalUrl: String? = nil, rootDomainUnitId: String? = nil, singleSignOn: SingleSignOn? = nil, status: DomainStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
             self.domainExecutionRole = domainExecutionRole
@@ -2275,6 +3644,7 @@ extension DataZone {
             self.kmsKeyIdentifier = kmsKeyIdentifier
             self.name = name
             self.portalUrl = portalUrl
+            self.rootDomainUnitId = rootDomainUnitId
             self.singleSignOn = singleSignOn
             self.status = status
             self.tags = tags
@@ -2288,9 +3658,120 @@ extension DataZone {
             case kmsKeyIdentifier = "kmsKeyIdentifier"
             case name = "name"
             case portalUrl = "portalUrl"
+            case rootDomainUnitId = "rootDomainUnitId"
             case singleSignOn = "singleSignOn"
             case status = "status"
             case tags = "tags"
+        }
+    }
+
+    public struct CreateDomainUnitInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The description of the domain unit.
+        public let description: String?
+        /// The ID of the domain where you want to crate a domain unit.
+        public let domainIdentifier: String
+        /// The name of the domain unit.
+        public let name: String
+        /// The ID of the parent domain unit.
+        public let parentDomainUnitIdentifier: String
+
+        public init(clientToken: String? = CreateDomainUnitInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, name: String, parentDomainUnitIdentifier: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.name = name
+            self.parentDomainUnitIdentifier = parentDomainUnitIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.parentDomainUnitIdentifier, forKey: .parentDomainUnitIdentifier)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+            try self.validate(self.parentDomainUnitIdentifier, name: "parentDomainUnitIdentifier", parent: name, max: 256)
+            try self.validate(self.parentDomainUnitIdentifier, name: "parentDomainUnitIdentifier", parent: name, min: 1)
+            try self.validate(self.parentDomainUnitIdentifier, name: "parentDomainUnitIdentifier", parent: name, pattern: "^[a-z0-9_\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case parentDomainUnitIdentifier = "parentDomainUnitIdentifier"
+        }
+    }
+
+    public struct CreateDomainUnitOutput: AWSDecodableShape {
+        /// The IDs of the ancestor domain units.
+        public let ancestorDomainUnitIds: [String]
+        /// The timestamp at which the domain unit was created.
+        public let createdAt: Date?
+        /// The user who created the domain unit.
+        public let createdBy: String?
+        /// The description of the domain unit.
+        public let description: String?
+        /// The ID of the domain where the domain unit was created.
+        public let domainId: String
+        /// The ID of the domain unit.
+        public let id: String
+        /// The name of the domain unit.
+        public let name: String
+        /// The owners of the domain unit.
+        public let owners: [DomainUnitOwnerProperties]
+        /// The ID of the parent domain unit.
+        public let parentDomainUnitId: String?
+
+        public init(ancestorDomainUnitIds: [String], createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, id: String, name: String, owners: [DomainUnitOwnerProperties], parentDomainUnitId: String? = nil) {
+            self.ancestorDomainUnitIds = ancestorDomainUnitIds
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.id = id
+            self.name = name
+            self.owners = owners
+            self.parentDomainUnitId = parentDomainUnitId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ancestorDomainUnitIds = "ancestorDomainUnitIds"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case domainId = "domainId"
+            case id = "id"
+            case name = "name"
+            case owners = "owners"
+            case parentDomainUnitId = "parentDomainUnitId"
+        }
+    }
+
+    public struct CreateDomainUnitPolicyGrantDetail: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the policy grant is applied to child domain units.
+        public let includeChildDomainUnits: Bool?
+
+        public init(includeChildDomainUnits: Bool? = nil) {
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeChildDomainUnits = "includeChildDomainUnits"
         }
     }
 
@@ -2658,6 +4139,25 @@ extension DataZone {
         }
     }
 
+    public struct CreateEnvironmentProfilePolicyGrantDetail: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the domain unit.
+        public let domainUnitId: String?
+
+        public init(domainUnitId: String? = nil) {
+            self.domainUnitId = domainUnitId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainUnitId, name: "domainUnitId", parent: name, max: 256)
+            try self.validate(self.domainUnitId, name: "domainUnitId", parent: name, min: 1)
+            try self.validate(self.domainUnitId, name: "domainUnitId", parent: name, pattern: "^[a-z0-9_\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainUnitId = "domainUnitId"
+        }
+    }
+
     public struct CreateFormTypeInput: AWSEncodableShape {
         /// The description of this Amazon DataZone metadata form type.
         public let description: String?
@@ -2748,6 +4248,19 @@ extension DataZone {
         }
     }
 
+    public struct CreateFormTypePolicyGrantDetail: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the policy grant is applied to child domain units.
+        public let includeChildDomainUnits: Bool?
+
+        public init(includeChildDomainUnits: Bool? = nil) {
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeChildDomainUnits = "includeChildDomainUnits"
+        }
+    }
+
     public struct CreateGlossaryInput: AWSEncodableShape {
         /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
         public let clientToken: String?
@@ -2832,6 +4345,19 @@ extension DataZone {
             case name = "name"
             case owningProjectId = "owningProjectId"
             case status = "status"
+        }
+    }
+
+    public struct CreateGlossaryPolicyGrantDetail: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the policy grant is applied to child domain units.
+        public let includeChildDomainUnits: Bool?
+
+        public init(includeChildDomainUnits: Bool? = nil) {
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeChildDomainUnits = "includeChildDomainUnits"
         }
     }
 
@@ -2966,7 +4492,7 @@ extension DataZone {
 
         public func validate(name: String) throws {
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
-            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "(^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$|[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  ]+)")
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  ]+)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3079,14 +4605,17 @@ extension DataZone {
         public let description: String?
         /// The ID of the Amazon DataZone domain in which this project is created.
         public let domainIdentifier: String
+        /// The ID of the domain unit. This parameter is not required and if it is not specified, then the project is created at the root domain unit level.
+        public let domainUnitId: String?
         /// The glossary terms that can be used in this Amazon DataZone project.
         public let glossaryTerms: [String]?
         /// The name of the Amazon DataZone project.
         public let name: String
 
-        public init(description: String? = nil, domainIdentifier: String, glossaryTerms: [String]? = nil, name: String) {
+        public init(description: String? = nil, domainIdentifier: String, domainUnitId: String? = nil, glossaryTerms: [String]? = nil, name: String) {
             self.description = description
             self.domainIdentifier = domainIdentifier
+            self.domainUnitId = domainUnitId
             self.glossaryTerms = glossaryTerms
             self.name = name
         }
@@ -3096,6 +4625,7 @@ extension DataZone {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encodeIfPresent(self.domainUnitId, forKey: .domainUnitId)
             try container.encodeIfPresent(self.glossaryTerms, forKey: .glossaryTerms)
             try container.encode(self.name, forKey: .name)
         }
@@ -3103,6 +4633,9 @@ extension DataZone {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.domainUnitId, name: "domainUnitId", parent: name, max: 256)
+            try self.validate(self.domainUnitId, name: "domainUnitId", parent: name, min: 1)
+            try self.validate(self.domainUnitId, name: "domainUnitId", parent: name, pattern: "^[a-z0-9_\\-]+$")
             try self.glossaryTerms?.forEach {
                 try validate($0, name: "glossaryTerms[]", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             }
@@ -3115,6 +4648,7 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case domainUnitId = "domainUnitId"
             case glossaryTerms = "glossaryTerms"
             case name = "name"
         }
@@ -3170,6 +4704,8 @@ extension DataZone {
         public let description: String?
         /// The identifier of the Amazon DataZone domain in which the project was created.
         public let domainId: String
+        /// The ID of the domain unit.
+        public let domainUnitId: String?
         /// Specifies the error message that is returned if the operation cannot be successfully completed.
         public let failureReasons: [ProjectDeletionError]?
         /// The glossary terms that can be used in the project.
@@ -3183,11 +4719,12 @@ extension DataZone {
         /// The status of the Amazon DataZone project that was created.
         public let projectStatus: ProjectStatus?
 
-        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectStatus: ProjectStatus? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectStatus: ProjectStatus? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
             self.domainId = domainId
+            self.domainUnitId = domainUnitId
             self.failureReasons = failureReasons
             self.glossaryTerms = glossaryTerms
             self.id = id
@@ -3201,12 +4738,26 @@ extension DataZone {
             case createdBy = "createdBy"
             case description = "description"
             case domainId = "domainId"
+            case domainUnitId = "domainUnitId"
             case failureReasons = "failureReasons"
             case glossaryTerms = "glossaryTerms"
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
             case projectStatus = "projectStatus"
+        }
+    }
+
+    public struct CreateProjectPolicyGrantDetail: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the policy grant is applied to child domain units.
+        public let includeChildDomainUnits: Bool?
+
+        public init(includeChildDomainUnits: Bool? = nil) {
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeChildDomainUnits = "includeChildDomainUnits"
         }
     }
 
@@ -3287,6 +4838,21 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription grant.
         public let updatedBy: String?
 
+        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
+            self.assets = assets
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.grantedEntity = grantedEntity
+            self.id = id
+            self.status = status
+            self.subscriptionId = nil
+            self.subscriptionTargetId = subscriptionTargetId
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+
+        @available(*, deprecated, message: "Members subscriptionId have been deprecated")
         public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
@@ -3484,7 +5050,7 @@ extension DataZone {
                 try validate($0, name: "applicableAssetTypes[]", parent: name, pattern: "^[^\\.]*")
             }
             try self.authorizedPrincipals.forEach {
-                try validate($0, name: "authorizedPrincipals[]", parent: name, pattern: "^[a-zA-Z0-9:/_-]*$")
+                try validate($0, name: "authorizedPrincipals[]", parent: name, pattern: "^[a-zA-Z0-9:/._-]*$")
             }
             try self.validate(self.authorizedPrincipals, name: "authorizedPrincipals", parent: name, max: 10)
             try self.validate(self.authorizedPrincipals, name: "authorizedPrincipals", parent: name, min: 1)
@@ -3606,7 +5172,7 @@ extension DataZone {
 
         public func validate(name: String) throws {
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
-            try self.validate(self.userIdentifier, name: "userIdentifier", parent: name, pattern: "(^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\\d{12}:.+$)")
+            try self.validate(self.userIdentifier, name: "userIdentifier", parent: name, pattern: "(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\\d{12}:.+$)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3677,60 +5243,228 @@ extension DataZone {
         }
     }
 
-    public struct DataProductItem: AWSDecodableShape {
-        public let domainId: String?
-        public let itemId: String?
+    public struct DataProductItem: AWSEncodableShape & AWSDecodableShape {
+        /// The glossary terms of the data product.
+        public let glossaryTerms: [String]?
+        /// The ID of the data product.
+        public let identifier: String
+        /// The type of the data product.
+        public let itemType: DataProductItemType
+        /// The revision of the data product.
+        public let revision: String?
 
-        public init(domainId: String? = nil, itemId: String? = nil) {
-            self.domainId = domainId
-            self.itemId = itemId
+        public init(glossaryTerms: [String]? = nil, identifier: String, itemType: DataProductItemType, revision: String? = nil) {
+            self.glossaryTerms = glossaryTerms
+            self.identifier = identifier
+            self.itemType = itemType
+            self.revision = revision
+        }
+
+        public func validate(name: String) throws {
+            try self.glossaryTerms?.forEach {
+                try validate($0, name: "glossaryTerms[]", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            }
+            try self.validate(self.glossaryTerms, name: "glossaryTerms", parent: name, max: 2)
+            try self.validate(self.glossaryTerms, name: "glossaryTerms", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.revision, name: "revision", parent: name, max: 64)
+            try self.validate(self.revision, name: "revision", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainId = "domainId"
-            case itemId = "itemId"
+            case glossaryTerms = "glossaryTerms"
+            case identifier = "identifier"
+            case itemType = "itemType"
+            case revision = "revision"
         }
     }
 
-    public struct DataProductSummary: AWSDecodableShape {
+    public struct DataProductListing: AWSDecodableShape {
+        /// The timestamp at which the data product listing was created.
         public let createdAt: Date?
-        public let createdBy: String?
-        public let dataProductItems: [DataProductItem]?
-        public let description: String?
-        public let domainId: String
-        public let glossaryTerms: [String]?
-        public let id: String
-        public let name: String
-        public let owningProjectId: String
-        public let updatedAt: Date?
-        public let updatedBy: String?
+        /// The ID of the data product listing.
+        public let dataProductId: String?
+        /// The revision of the data product listing.
+        public let dataProductRevision: String?
+        /// The metadata forms of the data product listing.
+        public let forms: String?
+        /// The glossary terms of the data product listing.
+        public let glossaryTerms: [DetailedGlossaryTerm]?
+        /// The data assets of the data product listing.
+        public let items: [ListingSummary]?
+        /// The ID of the owning project of the data product listing.
+        public let owningProjectId: String?
 
-        public init(createdAt: Date? = nil, createdBy: String? = nil, dataProductItems: [DataProductItem]? = nil, description: String? = nil, domainId: String, glossaryTerms: [String]? = nil, id: String, name: String, owningProjectId: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(createdAt: Date? = nil, dataProductId: String? = nil, dataProductRevision: String? = nil, forms: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil, items: [ListingSummary]? = nil, owningProjectId: String? = nil) {
+            self.createdAt = createdAt
+            self.dataProductId = dataProductId
+            self.dataProductRevision = dataProductRevision
+            self.forms = forms
+            self.glossaryTerms = glossaryTerms
+            self.items = items
+            self.owningProjectId = owningProjectId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case dataProductId = "dataProductId"
+            case dataProductRevision = "dataProductRevision"
+            case forms = "forms"
+            case glossaryTerms = "glossaryTerms"
+            case items = "items"
+            case owningProjectId = "owningProjectId"
+        }
+    }
+
+    public struct DataProductListingItem: AWSDecodableShape {
+        /// The additional attributes of the asset of the data product.
+        public let additionalAttributes: DataProductListingItemAdditionalAttributes?
+        /// The timestamp at which the asset of the data product listing was created.
+        public let createdAt: Date?
+        /// The description of the asset of the asset of the data product.
+        public let description: String?
+        /// The entity ID of the asset of the asset of the data product.
+        public let entityId: String?
+        /// The revision of the asset of the asset of the data product.
+        public let entityRevision: String?
+        /// The glossary terms of the asset of the asset of the data product.
+        public let glossaryTerms: [DetailedGlossaryTerm]?
+        /// The data of the asset of the data product.
+        public let items: [ListingSummaryItem]?
+        /// The timestamp at which the listing was created.
+        public let listingCreatedBy: String?
+        /// The ID of the listing.
+        public let listingId: String?
+        /// The revision of the listing.
+        public let listingRevision: String?
+        /// The user who updated the listing.
+        public let listingUpdatedBy: String?
+        /// The name of the asset of the data product.
+        public let name: String?
+        /// The ID of the owning project of the asset of the data product.
+        public let owningProjectId: String?
+
+        public init(additionalAttributes: DataProductListingItemAdditionalAttributes? = nil, createdAt: Date? = nil, description: String? = nil, entityId: String? = nil, entityRevision: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil, items: [ListingSummaryItem]? = nil, listingCreatedBy: String? = nil, listingId: String? = nil, listingRevision: String? = nil, listingUpdatedBy: String? = nil, name: String? = nil, owningProjectId: String? = nil) {
+            self.additionalAttributes = additionalAttributes
+            self.createdAt = createdAt
+            self.description = description
+            self.entityId = entityId
+            self.entityRevision = entityRevision
+            self.glossaryTerms = glossaryTerms
+            self.items = items
+            self.listingCreatedBy = listingCreatedBy
+            self.listingId = listingId
+            self.listingRevision = listingRevision
+            self.listingUpdatedBy = listingUpdatedBy
+            self.name = name
+            self.owningProjectId = owningProjectId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalAttributes = "additionalAttributes"
+            case createdAt = "createdAt"
+            case description = "description"
+            case entityId = "entityId"
+            case entityRevision = "entityRevision"
+            case glossaryTerms = "glossaryTerms"
+            case items = "items"
+            case listingCreatedBy = "listingCreatedBy"
+            case listingId = "listingId"
+            case listingRevision = "listingRevision"
+            case listingUpdatedBy = "listingUpdatedBy"
+            case name = "name"
+            case owningProjectId = "owningProjectId"
+        }
+    }
+
+    public struct DataProductListingItemAdditionalAttributes: AWSDecodableShape {
+        /// The metadata forms of the asset of the data product.
+        public let forms: String?
+
+        public init(forms: String? = nil) {
+            self.forms = forms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forms = "forms"
+        }
+    }
+
+    public struct DataProductResultItem: AWSDecodableShape {
+        /// The timestamp at which the data product was created.
+        public let createdAt: Date?
+        /// The user who created the data product.
+        public let createdBy: String?
+        /// The description of the data product.
+        public let description: String?
+        /// The ID of the domain where the data product lives.
+        public let domainId: String
+        /// The timestamp at which first revision of the data product was created.
+        public let firstRevisionCreatedAt: Date?
+        /// The user who created the first revision of the data product.
+        public let firstRevisionCreatedBy: String?
+        /// The glossary terms of the data product.
+        public let glossaryTerms: [String]?
+        /// The ID of the data product.
+        public let id: String
+        /// The name of the data product.
+        public let name: String
+        /// The ID of the owning project of the data product.
+        public let owningProjectId: String
+
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, glossaryTerms: [String]? = nil, id: String, name: String, owningProjectId: String) {
             self.createdAt = createdAt
             self.createdBy = createdBy
-            self.dataProductItems = dataProductItems
             self.description = description
             self.domainId = domainId
+            self.firstRevisionCreatedAt = firstRevisionCreatedAt
+            self.firstRevisionCreatedBy = firstRevisionCreatedBy
             self.glossaryTerms = glossaryTerms
             self.id = id
             self.name = name
             self.owningProjectId = owningProjectId
-            self.updatedAt = updatedAt
-            self.updatedBy = updatedBy
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
-            case dataProductItems = "dataProductItems"
             case description = "description"
             case domainId = "domainId"
+            case firstRevisionCreatedAt = "firstRevisionCreatedAt"
+            case firstRevisionCreatedBy = "firstRevisionCreatedBy"
             case glossaryTerms = "glossaryTerms"
             case id = "id"
             case name = "name"
             case owningProjectId = "owningProjectId"
-            case updatedAt = "updatedAt"
-            case updatedBy = "updatedBy"
+        }
+    }
+
+    public struct DataProductRevision: AWSDecodableShape {
+        /// The timestamp at which the data product revision was created.
+        public let createdAt: Date?
+        /// The user who created the data product revision.
+        public let createdBy: String?
+        /// The ID of the domain where the data product revision lives.
+        public let domainId: String?
+        /// The ID of the data product revision.
+        public let id: String?
+        /// The data product revision.
+        public let revision: String?
+
+        public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String? = nil, id: String? = nil, revision: String? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.id = id
+            self.revision = revision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case domainId = "domainId"
+            case id = "id"
+            case revision = "revision"
         }
     }
 
@@ -3922,6 +5656,37 @@ extension DataZone {
         }
     }
 
+    public struct DeleteAssetFilterInput: AWSEncodableShape {
+        /// The ID of the data asset.
+        public let assetIdentifier: String
+        /// The ID of the domain where you want to delete an asset filter.
+        public let domainIdentifier: String
+        /// The ID of the asset filter that you want to delete.
+        public let identifier: String
+
+        public init(assetIdentifier: String, domainIdentifier: String, identifier: String) {
+            self.assetIdentifier = assetIdentifier
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetIdentifier, key: "assetIdentifier")
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteAssetInput: AWSEncodableShape {
         /// The ID of the Amazon DataZone domain in which the asset is deleted.
         public let domainIdentifier: String
@@ -3981,6 +5746,36 @@ extension DataZone {
     }
 
     public struct DeleteAssetTypeOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteDataProductInput: AWSEncodableShape {
+        /// The ID of the Amazon DataZone domain in which the data product is deleted.
+        public let domainIdentifier: String
+        /// The identifier of the data product that is deleted.
+        public let identifier: String
+
+        public init(domainIdentifier: String, identifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDataProductOutput: AWSDecodableShape {
         public init() {}
     }
 
@@ -4154,6 +5949,38 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case status = "status"
         }
+    }
+
+    public struct DeleteDomainUnitInput: AWSEncodableShape {
+        /// The ID of the domain where you want to delete a domain unit.
+        public let domainIdentifier: String
+        /// The ID of the domain unit that you want to delete.
+        public let identifier: String
+
+        public init(domainIdentifier: String, identifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9_\\-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDomainUnitOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteEnvironmentActionInput: AWSEncodableShape {
@@ -4510,6 +6337,21 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription grant that is deleted.
         public let updatedBy: String?
 
+        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
+            self.assets = assets
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.grantedEntity = grantedEntity
+            self.id = id
+            self.status = status
+            self.subscriptionId = nil
+            self.subscriptionTargetId = subscriptionTargetId
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+
+        @available(*, deprecated, message: "Members subscriptionId have been deprecated")
         public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
@@ -4789,6 +6631,99 @@ extension DataZone {
         }
     }
 
+    public struct DomainUnitFilterForProject: AWSEncodableShape & AWSDecodableShape {
+        /// The domain unit ID to use in the filter.
+        public let domainUnit: String
+        /// Specifies whether to include child domain units.
+        public let includeChildDomainUnits: Bool?
+
+        public init(domainUnit: String, includeChildDomainUnits: Bool? = nil) {
+            self.domainUnit = domainUnit
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainUnit, name: "domainUnit", parent: name, max: 256)
+            try self.validate(self.domainUnit, name: "domainUnit", parent: name, min: 1)
+            try self.validate(self.domainUnit, name: "domainUnit", parent: name, pattern: "^[a-z0-9_\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainUnit = "domainUnit"
+            case includeChildDomainUnits = "includeChildDomainUnits"
+        }
+    }
+
+    public struct DomainUnitGroupProperties: AWSDecodableShape {
+        /// The ID of the domain unit group.
+        public let groupId: String?
+
+        public init(groupId: String? = nil) {
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "groupId"
+        }
+    }
+
+    public struct DomainUnitPolicyGrantPrincipal: AWSEncodableShape & AWSDecodableShape {
+        /// Specifes the designation of the domain unit users.
+        public let domainUnitDesignation: DomainUnitDesignation
+        /// The grant filter for the domain unit.
+        public let domainUnitGrantFilter: DomainUnitGrantFilter?
+        /// The ID of the domain unit.
+        public let domainUnitIdentifier: String?
+
+        public init(domainUnitDesignation: DomainUnitDesignation, domainUnitGrantFilter: DomainUnitGrantFilter? = nil, domainUnitIdentifier: String? = nil) {
+            self.domainUnitDesignation = domainUnitDesignation
+            self.domainUnitGrantFilter = domainUnitGrantFilter
+            self.domainUnitIdentifier = domainUnitIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainUnitIdentifier, name: "domainUnitIdentifier", parent: name, max: 256)
+            try self.validate(self.domainUnitIdentifier, name: "domainUnitIdentifier", parent: name, min: 1)
+            try self.validate(self.domainUnitIdentifier, name: "domainUnitIdentifier", parent: name, pattern: "^[a-z0-9_\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainUnitDesignation = "domainUnitDesignation"
+            case domainUnitGrantFilter = "domainUnitGrantFilter"
+            case domainUnitIdentifier = "domainUnitIdentifier"
+        }
+    }
+
+    public struct DomainUnitSummary: AWSDecodableShape {
+        /// The ID of the domain unit summary.
+        public let id: String
+        /// The name of the domain unit summary.
+        public let name: String
+
+        public init(id: String, name: String) {
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case name = "name"
+        }
+    }
+
+    public struct DomainUnitUserProperties: AWSDecodableShape {
+        /// The ID of teh domain unit user.
+        public let userId: String?
+
+        public init(userId: String? = nil) {
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId = "userId"
+        }
+    }
+
     public struct EnvironmentActionSummary: AWSDecodableShape {
         /// The environment action description.
         public let description: String?
@@ -4833,6 +6768,8 @@ extension DataZone {
         public let environmentBlueprintId: String
         /// The ARN of the manage access role specified in the environment blueprint configuration.
         public let manageAccessRoleArn: String?
+        /// The provisioning configuration of a blueprint.
+        public let provisioningConfigurations: [ProvisioningConfiguration]?
         /// The ARN of the provisioning role specified in the environment blueprint configuration.
         public let provisioningRoleArn: String?
         /// The regional parameters of the environment blueprint.
@@ -4840,12 +6777,13 @@ extension DataZone {
         /// The timestamp of when the environment blueprint was updated.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
             self.enabledRegions = enabledRegions
             self.environmentBlueprintId = environmentBlueprintId
             self.manageAccessRoleArn = manageAccessRoleArn
+            self.provisioningConfigurations = provisioningConfigurations
             self.provisioningRoleArn = provisioningRoleArn
             self.regionalParameters = regionalParameters
             self.updatedAt = updatedAt
@@ -4857,6 +6795,7 @@ extension DataZone {
             case enabledRegions = "enabledRegions"
             case environmentBlueprintId = "environmentBlueprintId"
             case manageAccessRoleArn = "manageAccessRoleArn"
+            case provisioningConfigurations = "provisioningConfigurations"
             case provisioningRoleArn = "provisioningRoleArn"
             case regionalParameters = "regionalParameters"
             case updatedAt = "updatedAt"
@@ -5045,6 +6984,23 @@ extension DataZone {
             case provider = "provider"
             case status = "status"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct EqualToExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might be equal to an expression.
+        public let value: String
+
+        public init(columnName: String, value: String) {
+            self.columnName = columnName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case value = "value"
         }
     }
 
@@ -5268,6 +7224,90 @@ extension DataZone {
         }
     }
 
+    public struct GetAssetFilterInput: AWSEncodableShape {
+        /// The ID of the data asset.
+        public let assetIdentifier: String
+        /// The ID of the domain where you want to get an asset filter.
+        public let domainIdentifier: String
+        /// The ID of the asset filter.
+        public let identifier: String
+
+        public init(assetIdentifier: String, domainIdentifier: String, identifier: String) {
+            self.assetIdentifier = assetIdentifier
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetIdentifier, key: "assetIdentifier")
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAssetFilterOutput: AWSDecodableShape {
+        /// The ID of the data asset.
+        public let assetId: String
+        /// The configuration of the asset filter.
+        public let configuration: AssetFilterConfiguration
+        /// The timestamp at which the asset filter was created.
+        public let createdAt: Date?
+        /// The description of the asset filter.
+        public let description: String?
+        /// The ID of the domain where you want to get an asset filter.
+        public let domainId: String
+        /// The column names of the asset filter.
+        public let effectiveColumnNames: [String]?
+        /// The row filter of the asset filter.
+        public let effectiveRowFilter: String?
+        /// The error message that is displayed if the action does not complete successfully.
+        public let errorMessage: String?
+        /// The ID of the asset filter.
+        public let id: String
+        /// The name of the asset filter.
+        public let name: String
+        /// The status of the asset filter.
+        public let status: FilterStatus?
+
+        public init(assetId: String, configuration: AssetFilterConfiguration, createdAt: Date? = nil, description: String? = nil, domainId: String, effectiveColumnNames: [String]? = nil, effectiveRowFilter: String? = nil, errorMessage: String? = nil, id: String, name: String, status: FilterStatus? = nil) {
+            self.assetId = assetId
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.description = description
+            self.domainId = domainId
+            self.effectiveColumnNames = effectiveColumnNames
+            self.effectiveRowFilter = effectiveRowFilter
+            self.errorMessage = errorMessage
+            self.id = id
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
+            case configuration = "configuration"
+            case createdAt = "createdAt"
+            case description = "description"
+            case domainId = "domainId"
+            case effectiveColumnNames = "effectiveColumnNames"
+            case effectiveRowFilter = "effectiveRowFilter"
+            case errorMessage = "errorMessage"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
     public struct GetAssetInput: AWSEncodableShape {
         /// The ID of the Amazon DataZone domain to which the asset belongs.
         public let domainIdentifier: String
@@ -5469,6 +7509,103 @@ extension DataZone {
             case revision = "revision"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
+        }
+    }
+
+    public struct GetDataProductInput: AWSEncodableShape {
+        /// The ID of the domain where the data product lives.
+        public let domainIdentifier: String
+        /// The ID of the data product.
+        public let identifier: String
+        /// The revision of the data product.
+        public let revision: String?
+
+        public init(domainIdentifier: String, identifier: String, revision: String? = nil) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+            self.revision = revision
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+            request.encodeQuery(self.revision, key: "revision")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.revision, name: "revision", parent: name, max: 64)
+            try self.validate(self.revision, name: "revision", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataProductOutput: AWSDecodableShape {
+        /// The timestamp at which the data product is created.
+        public let createdAt: Date?
+        /// The user who created the data product.
+        public let createdBy: String?
+        /// The description of the data product.
+        public let description: String?
+        /// The ID of the domain where the data product lives.
+        public let domainId: String
+        /// The timestamp at which the first revision of the data product is created.
+        public let firstRevisionCreatedAt: Date?
+        /// The user who created the first revision of the data product.
+        public let firstRevisionCreatedBy: String?
+        /// The metadata forms of the data product.
+        public let formsOutput: [FormOutput]?
+        /// The glossary terms of the data product.
+        public let glossaryTerms: [String]?
+        /// The ID of the data product.
+        public let id: String
+        /// The data assets of the data product.
+        public let items: [DataProductItem]?
+        /// The name of the data product.
+        public let name: String
+        /// The ID of the owning project of the data product.
+        public let owningProjectId: String
+        /// The revision of the data product.
+        public let revision: String
+        /// The status of the data product.
+        public let status: DataProductStatus
+
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, formsOutput: [FormOutput]? = nil, glossaryTerms: [String]? = nil, id: String, items: [DataProductItem]? = nil, name: String, owningProjectId: String, revision: String, status: DataProductStatus) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.firstRevisionCreatedAt = firstRevisionCreatedAt
+            self.firstRevisionCreatedBy = firstRevisionCreatedBy
+            self.formsOutput = formsOutput
+            self.glossaryTerms = glossaryTerms
+            self.id = id
+            self.items = items
+            self.name = name
+            self.owningProjectId = owningProjectId
+            self.revision = revision
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case domainId = "domainId"
+            case firstRevisionCreatedAt = "firstRevisionCreatedAt"
+            case firstRevisionCreatedBy = "firstRevisionCreatedBy"
+            case formsOutput = "formsOutput"
+            case glossaryTerms = "glossaryTerms"
+            case id = "id"
+            case items = "items"
+            case name = "name"
+            case owningProjectId = "owningProjectId"
+            case revision = "revision"
+            case status = "status"
         }
     }
 
@@ -5729,6 +7866,8 @@ extension DataZone {
         public let name: String?
         /// The URL of the data portal for this Amazon DataZone domain.
         public let portalUrl: String?
+        /// The ID of the root domain in Amazon Datazone.
+        public let rootDomainUnitId: String?
         /// The single sing-on option of the specified Amazon DataZone domain.
         public let singleSignOn: SingleSignOn?
         /// The status of the specified Amazon DataZone domain.
@@ -5736,7 +7875,7 @@ extension DataZone {
         /// The tags specified for the Amazon DataZone domain.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, domainExecutionRole: String, id: String, kmsKeyIdentifier: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, portalUrl: String? = nil, singleSignOn: SingleSignOn? = nil, status: DomainStatus, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, domainExecutionRole: String, id: String, kmsKeyIdentifier: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, portalUrl: String? = nil, rootDomainUnitId: String? = nil, singleSignOn: SingleSignOn? = nil, status: DomainStatus, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -5746,6 +7885,7 @@ extension DataZone {
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.portalUrl = portalUrl
+            self.rootDomainUnitId = rootDomainUnitId
             self.singleSignOn = singleSignOn
             self.status = status
             self.tags = tags
@@ -5761,9 +7901,87 @@ extension DataZone {
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
             case portalUrl = "portalUrl"
+            case rootDomainUnitId = "rootDomainUnitId"
             case singleSignOn = "singleSignOn"
             case status = "status"
             case tags = "tags"
+        }
+    }
+
+    public struct GetDomainUnitInput: AWSEncodableShape {
+        /// The ID of the domain where you want to get a domain unit.
+        public let domainIdentifier: String
+        /// The identifier of the domain unit that you want to get.
+        public let identifier: String
+
+        public init(domainIdentifier: String, identifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9_\\-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDomainUnitOutput: AWSDecodableShape {
+        /// The time stamp at which the domain unit was created.
+        public let createdAt: Date?
+        /// The user who created the domain unit.
+        public let createdBy: String?
+        /// The description of the domain unit.
+        public let description: String?
+        /// The ID of the domain in which the domain unit lives.
+        public let domainId: String
+        /// The ID of the domain unit.
+        public let id: String
+        /// The timestamp at which the domain unit was last updated.
+        public let lastUpdatedAt: Date?
+        /// The user who last updated the domain unit.
+        public let lastUpdatedBy: String?
+        /// The name of the domain unit.
+        public let name: String
+        /// The owners of the domain unit.
+        public let owners: [DomainUnitOwnerProperties]
+        /// The ID of the parent domain unit.
+        public let parentDomainUnitId: String?
+
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, id: String, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, name: String, owners: [DomainUnitOwnerProperties], parentDomainUnitId: String? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.lastUpdatedBy = lastUpdatedBy
+            self.name = name
+            self.owners = owners
+            self.parentDomainUnitId = parentDomainUnitId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case domainId = "domainId"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lastUpdatedBy = "lastUpdatedBy"
+            case name = "name"
+            case owners = "owners"
+            case parentDomainUnitId = "parentDomainUnitId"
         }
     }
 
@@ -5867,6 +8085,8 @@ extension DataZone {
         public let environmentBlueprintId: String
         /// The ARN of the manage access role with which this blueprint is created.
         public let manageAccessRoleArn: String?
+        /// The provisioning configuration of a blueprint.
+        public let provisioningConfigurations: [ProvisioningConfiguration]?
         /// The ARN of the provisioning role with which this blueprint is created.
         public let provisioningRoleArn: String?
         /// The regional parameters of the blueprint.
@@ -5874,12 +8094,13 @@ extension DataZone {
         /// The timestamp of when this blueprint was upated.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
             self.enabledRegions = enabledRegions
             self.environmentBlueprintId = environmentBlueprintId
             self.manageAccessRoleArn = manageAccessRoleArn
+            self.provisioningConfigurations = provisioningConfigurations
             self.provisioningRoleArn = provisioningRoleArn
             self.regionalParameters = regionalParameters
             self.updatedAt = updatedAt
@@ -5891,6 +8112,7 @@ extension DataZone {
             case enabledRegions = "enabledRegions"
             case environmentBlueprintId = "environmentBlueprintId"
             case manageAccessRoleArn = "manageAccessRoleArn"
+            case provisioningConfigurations = "provisioningConfigurations"
             case provisioningRoleArn = "provisioningRoleArn"
             case regionalParameters = "regionalParameters"
             case updatedAt = "updatedAt"
@@ -5969,6 +8191,57 @@ extension DataZone {
             case provisioningProperties = "provisioningProperties"
             case updatedAt = "updatedAt"
             case userParameters = "userParameters"
+        }
+    }
+
+    public struct GetEnvironmentCredentialsInput: AWSEncodableShape {
+        /// The ID of the Amazon DataZone domain in which this environment and its credentials exist.
+        public let domainIdentifier: String
+        /// The ID of the environment whose credentials this operation gets.
+        public let environmentIdentifier: String
+
+        public init(domainIdentifier: String, environmentIdentifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.environmentIdentifier = environmentIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.environmentIdentifier, key: "environmentIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetEnvironmentCredentialsOutput: AWSDecodableShape {
+        /// The access key ID of the environment.
+        public let accessKeyId: String?
+        /// The expiration timestamp of the environment credentials.
+        public let expiration: Date?
+        /// The secret access key of the environment credentials.
+        public let secretAccessKey: String?
+        /// The session token of the environment credentials.
+        public let sessionToken: String?
+
+        public init(accessKeyId: String? = nil, expiration: Date? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
+            self.accessKeyId = accessKeyId
+            self.expiration = expiration
+            self.secretAccessKey = secretAccessKey
+            self.sessionToken = sessionToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "accessKeyId"
+            case expiration = "expiration"
+            case secretAccessKey = "secretAccessKey"
+            case sessionToken = "sessionToken"
         }
     }
 
@@ -6443,7 +8716,7 @@ extension DataZone {
 
         public func validate(name: String) throws {
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
-            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "(^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$|[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  ]+)")
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  ]+)")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6799,6 +9072,8 @@ extension DataZone {
         public let description: String?
         /// The ID of the Amazon DataZone domain in which the project exists.
         public let domainId: String
+        /// The ID of the domain unit.
+        public let domainUnitId: String?
         /// Specifies the error message that is returned if the operation cannot be successfully completed.
         public let failureReasons: [ProjectDeletionError]?
         /// The business glossary terms that can be used in the project.
@@ -6812,11 +9087,12 @@ extension DataZone {
         /// The status of the project.
         public let projectStatus: ProjectStatus?
 
-        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectStatus: ProjectStatus? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectStatus: ProjectStatus? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
             self.domainId = domainId
+            self.domainUnitId = domainUnitId
             self.failureReasons = failureReasons
             self.glossaryTerms = glossaryTerms
             self.id = id
@@ -6830,6 +9106,7 @@ extension DataZone {
             case createdBy = "createdBy"
             case description = "description"
             case domainId = "domainId"
+            case domainUnitId = "domainUnitId"
             case failureReasons = "failureReasons"
             case glossaryTerms = "glossaryTerms"
             case id = "id"
@@ -6889,6 +9166,21 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription grant.
         public let updatedBy: String?
 
+        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
+            self.assets = assets
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.grantedEntity = grantedEntity
+            self.id = id
+            self.status = status
+            self.subscriptionId = nil
+            self.subscriptionTargetId = subscriptionTargetId
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+
+        @available(*, deprecated, message: "Members subscriptionId have been deprecated")
         public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
@@ -7274,7 +9566,7 @@ extension DataZone {
 
         public func validate(name: String) throws {
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
-            try self.validate(self.userIdentifier, name: "userIdentifier", parent: name, pattern: "(^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\\d{12}:.+$)")
+            try self.validate(self.userIdentifier, name: "userIdentifier", parent: name, pattern: "(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\\d{12}:.+$)")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7477,6 +9769,40 @@ extension DataZone {
         }
     }
 
+    public struct GreaterThanExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might be greater than an expression.
+        public let value: String
+
+        public init(columnName: String, value: String) {
+            self.columnName = columnName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case value = "value"
+        }
+    }
+
+    public struct GreaterThanOrEqualToExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might be greater than or equal to an expression.
+        public let value: String
+
+        public init(columnName: String, value: String) {
+            self.columnName = columnName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case value = "value"
+        }
+    }
+
     public struct GroupDetails: AWSDecodableShape {
         /// The identifier of the group in Amazon DataZone.
         public let groupId: String
@@ -7542,6 +9868,127 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case revision = "revision"
+        }
+    }
+
+    public struct InExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The values that might be in the expression.
+        public let values: [String]
+
+        public init(columnName: String, values: [String]) {
+            self.columnName = columnName
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case values = "values"
+        }
+    }
+
+    public struct IsNotNullExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+
+        public init(columnName: String) {
+            self.columnName = columnName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+        }
+    }
+
+    public struct IsNullExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+
+        public init(columnName: String) {
+            self.columnName = columnName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+        }
+    }
+
+    public struct LakeFormationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies certain Amazon S3 locations if you do not want Amazon DataZone to automatically register them in hybrid mode.
+        public let locationRegistrationExcludeS3Locations: [String]?
+        /// The role that is used to manage read/write access to the chosen Amazon S3 bucket(s) for Data Lake using AWS Lake Formation hybrid access mode.
+        public let locationRegistrationRole: String?
+
+        public init(locationRegistrationExcludeS3Locations: [String]? = nil, locationRegistrationRole: String? = nil) {
+            self.locationRegistrationExcludeS3Locations = locationRegistrationExcludeS3Locations
+            self.locationRegistrationRole = locationRegistrationRole
+        }
+
+        public func validate(name: String) throws {
+            try self.locationRegistrationExcludeS3Locations?.forEach {
+                try validate($0, name: "locationRegistrationExcludeS3Locations[]", parent: name, max: 1024)
+                try validate($0, name: "locationRegistrationExcludeS3Locations[]", parent: name, min: 1)
+                try validate($0, name: "locationRegistrationExcludeS3Locations[]", parent: name, pattern: "^s3://.+$")
+            }
+            try self.validate(self.locationRegistrationExcludeS3Locations, name: "locationRegistrationExcludeS3Locations", parent: name, max: 20)
+            try self.validate(self.locationRegistrationRole, name: "locationRegistrationRole", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationRegistrationExcludeS3Locations = "locationRegistrationExcludeS3Locations"
+            case locationRegistrationRole = "locationRegistrationRole"
+        }
+    }
+
+    public struct LessThanExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might be less than the expression.
+        public let value: String
+
+        public init(columnName: String, value: String) {
+            self.columnName = columnName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case value = "value"
+        }
+    }
+
+    public struct LessThanOrEqualToExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might be less than or equal to an expression.
+        public let value: String
+
+        public init(columnName: String, value: String) {
+            self.columnName = columnName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case value = "value"
+        }
+    }
+
+    public struct LikeExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might be like the expression.
+        public let value: String
+
+        public init(columnName: String, value: String) {
+            self.columnName = columnName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case value = "value"
         }
     }
 
@@ -7664,6 +10111,65 @@ extension DataZone {
         }
     }
 
+    public struct ListAssetFiltersInput: AWSEncodableShape {
+        /// The ID of the data asset.
+        public let assetIdentifier: String
+        /// The ID of the domain where you want to list asset filters.
+        public let domainIdentifier: String
+        /// The maximum number of asset filters to return in a single call to ListAssetFilters. When the number of asset filters to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListAssetFilters to list the next set of asset filters.
+        public let maxResults: Int?
+        /// When the number of asset filters is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of asset filters, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAssetFilters to list the next set of asset filters.
+        public let nextToken: String?
+        /// The status of the asset filter.
+        public let status: FilterStatus?
+
+        public init(assetIdentifier: String, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, status: FilterStatus? = nil) {
+            self.assetIdentifier = assetIdentifier
+            self.domainIdentifier = domainIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetIdentifier, key: "assetIdentifier")
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAssetFiltersOutput: AWSDecodableShape {
+        /// The results of the ListAssetFilters action.
+        public let items: [AssetFilterSummary]
+        /// When the number of asset filters is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of asset filters, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAssetFilters to list the next set of asset filters.
+        public let nextToken: String?
+
+        public init(items: [AssetFilterSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListAssetRevisionsInput: AWSEncodableShape {
         /// The identifier of the domain.
         public let domainIdentifier: String
@@ -7709,6 +10215,61 @@ extension DataZone {
         public let nextToken: String?
 
         public init(items: [AssetRevision]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDataProductRevisionsInput: AWSEncodableShape {
+        /// The ID of the domain of the data product revisions that you want to list.
+        public let domainIdentifier: String
+        /// The ID of the data product revision.
+        public let identifier: String
+        /// The maximum number of asset filters to return in a single call to ListDataProductRevisions. When the number of data product revisions to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListDataProductRevisions to list the next set of data product revisions.
+        public let maxResults: Int?
+        /// When the number of data product revisions is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of data product revisions, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListDataProductRevisions to list the next set of data product revisions.
+        public let nextToken: String?
+
+        public init(domainIdentifier: String, identifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDataProductRevisionsOutput: AWSDecodableShape {
+        /// The results of the ListDataProductRevisions action.
+        public let items: [DataProductRevision]
+        /// When the number of data product revisions is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of data product revisions, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListDataProductRevisions to list the next set of data product revisions.
+        public let nextToken: String?
+
+        public init(items: [DataProductRevision], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -7911,6 +10472,63 @@ extension DataZone {
         }
     }
 
+    public struct ListDomainUnitsForParentInput: AWSEncodableShape {
+        /// The ID of the domain in which you want to list domain units for a parent domain unit.
+        public let domainIdentifier: String
+        /// The maximum number of domain units to return in a single call to ListDomainUnitsForParent. When the number of domain units to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListDomainUnitsForParent to list the next set of domain units.
+        public let maxResults: Int?
+        /// When the number of domain units is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of domain units, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListDomainUnitsForParent to list the next set of domain units.
+        public let nextToken: String?
+        /// The ID of the parent domain unit.
+        public let parentDomainUnitIdentifier: String
+
+        public init(domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, parentDomainUnitIdentifier: String) {
+            self.domainIdentifier = domainIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.parentDomainUnitIdentifier = parentDomainUnitIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.parentDomainUnitIdentifier, key: "parentDomainUnitIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.parentDomainUnitIdentifier, name: "parentDomainUnitIdentifier", parent: name, max: 256)
+            try self.validate(self.parentDomainUnitIdentifier, name: "parentDomainUnitIdentifier", parent: name, min: 1)
+            try self.validate(self.parentDomainUnitIdentifier, name: "parentDomainUnitIdentifier", parent: name, pattern: "^[a-z0-9_\\-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDomainUnitsForParentOutput: AWSDecodableShape {
+        /// The results returned by this action.
+        public let items: [DomainUnitSummary]
+        /// When the number of domain units is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of domain units, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListDomainUnitsForParent to list the next set of domain units.
+        public let nextToken: String?
+
+        public init(items: [DomainUnitSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListDomainsInput: AWSEncodableShape {
         /// The maximum number of domains to return in a single call to ListDomains. When the number of domains to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListDomains to list the next set of domains.
         public let maxResults: Int?
@@ -7957,6 +10575,64 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case items = "items"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListEntityOwnersInput: AWSEncodableShape {
+        /// The ID of the domain where you want to list entity owners.
+        public let domainIdentifier: String
+        /// The ID of the entity that you want to list.
+        public let entityIdentifier: String
+        /// The type of the entity that you want to list.
+        public let entityType: DataZoneEntityType
+        /// The maximum number of entities to return in a single call to ListEntityOwners. When the number of entities to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListEntityOwners to list the next set of entities.
+        public let maxResults: Int?
+        /// When the number of entities is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of entities, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListEntityOwners to list the next set of entities.
+        public let nextToken: String?
+
+        public init(domainIdentifier: String, entityIdentifier: String, entityType: DataZoneEntityType, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainIdentifier = domainIdentifier
+            self.entityIdentifier = entityIdentifier
+            self.entityType = entityType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.entityIdentifier, key: "entityIdentifier")
+            request.encodePath(self.entityType, key: "entityType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListEntityOwnersOutput: AWSDecodableShape {
+        /// When the number of entities is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of entities, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListEntityOwners to list the next set of entities.
+        public let nextToken: String?
+        /// The owners of the entity.
+        public let owners: [OwnerPropertiesOutput]
+
+        public init(nextToken: String? = nil, owners: [OwnerPropertiesOutput]) {
+            self.nextToken = nextToken
+            self.owners = owners
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case owners = "owners"
         }
     }
 
@@ -8489,6 +11165,68 @@ extension DataZone {
         }
     }
 
+    public struct ListPolicyGrantsInput: AWSEncodableShape {
+        /// The ID of the domain where you want to list policy grants.
+        public let domainIdentifier: String
+        /// The ID of the entity for which you want to list policy grants.
+        public let entityIdentifier: String
+        /// The type of entity for which you want to list policy grants.
+        public let entityType: TargetEntityType
+        /// The maximum number of grants to return in a single call to ListPolicyGrants. When the number of grants to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListPolicyGrants to list the next set of grants.
+        public let maxResults: Int?
+        /// When the number of grants is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of grants, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListPolicyGrants to list the next set of grants.
+        public let nextToken: String?
+        /// The type of policy that you want to list.
+        public let policyType: ManagedPolicyType
+
+        public init(domainIdentifier: String, entityIdentifier: String, entityType: TargetEntityType, maxResults: Int? = nil, nextToken: String? = nil, policyType: ManagedPolicyType) {
+            self.domainIdentifier = domainIdentifier
+            self.entityIdentifier = entityIdentifier
+            self.entityType = entityType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.policyType = policyType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.entityIdentifier, key: "entityIdentifier")
+            request.encodePath(self.entityType, key: "entityType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.policyType, key: "policyType")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPolicyGrantsOutput: AWSDecodableShape {
+        /// The results of this action - the listed grants.
+        public let grantList: [PolicyGrantMember]
+        /// When the number of grants is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of grants, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListPolicyGrants to list the next set of grants.
+        public let nextToken: String?
+
+        public init(grantList: [PolicyGrantMember], nextToken: String? = nil) {
+            self.grantList = grantList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantList = "grantList"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListProjectMembershipsInput: AWSEncodableShape {
         /// The identifier of the Amazon DataZone domain in which you want to list project memberships.
         public let domainIdentifier: String
@@ -8626,6 +11364,8 @@ extension DataZone {
         public let maxResults: Int?
         /// When the number of subscription grants is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of subscription grants, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListSubscriptionGrants to list the next set of subscription grants.
         public let nextToken: String?
+        /// The ID of the owning project of the subscription grants.
+        public let owningProjectId: String?
         /// Specifies the way of sorting the results of this action.
         public let sortBy: SortKey?
         /// Specifies the sort order of this action.
@@ -8637,11 +11377,12 @@ extension DataZone {
         /// The identifier of the subscription target.
         public let subscriptionTargetId: String?
 
-        public init(domainIdentifier: String, environmentId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, subscribedListingId: String? = nil, subscriptionId: String? = nil, subscriptionTargetId: String? = nil) {
+        public init(domainIdentifier: String, environmentId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, owningProjectId: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, subscribedListingId: String? = nil, subscriptionId: String? = nil, subscriptionTargetId: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.environmentId = environmentId
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.owningProjectId = owningProjectId
             self.sortBy = sortBy
             self.sortOrder = sortOrder
             self.subscribedListingId = subscribedListingId
@@ -8656,6 +11397,7 @@ extension DataZone {
             request.encodeQuery(self.environmentId, key: "environmentId")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.owningProjectId, key: "owningProjectId")
             request.encodeQuery(self.sortBy, key: "sortBy")
             request.encodeQuery(self.sortOrder, key: "sortOrder")
             request.encodeQuery(self.subscribedListingId, key: "subscribedListingId")
@@ -8670,6 +11412,7 @@ extension DataZone {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.owningProjectId, name: "owningProjectId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.subscribedListingId, name: "subscribedListingId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.subscriptionId, name: "subscriptionId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.subscriptionTargetId, name: "subscriptionTargetId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
@@ -8710,7 +11453,7 @@ extension DataZone {
         public let sortBy: SortKey?
         /// Specifies the sort order for the results of this action.
         public let sortOrder: SortOrder?
-        /// Specifies the status of the subscription requests.
+        /// Specifies the status of the subscription requests.  This is not a required parameter, but if not specified, by default, Amazon DataZone returns only PENDING subscription requests.
         public let status: SubscriptionRequestStatus?
         /// The identifier of the subscribed listing.
         public let subscribedListingId: String?
@@ -8850,7 +11593,7 @@ extension DataZone {
         public let sortBy: SortKey?
         /// Specifies the sort order for the results of this action.
         public let sortOrder: SortOrder?
-        /// The status of the subscriptions that you want to list.
+        /// The status of the subscriptions that you want to list.  This is not a required parameter, but if not provided, by default, Amazon DataZone returns only APPROVED subscriptions.
         public let status: SubscriptionStatus?
         /// The identifier of the subscribed listing for the subscriptions that you want to list.
         public let subscribedListingId: String?
@@ -9060,6 +11803,48 @@ extension DataZone {
         }
     }
 
+    public struct ListingSummary: AWSDecodableShape {
+        /// The glossary terms of the data product.
+        public let glossaryTerms: [DetailedGlossaryTerm]?
+        /// The ID of the data product listing.
+        public let listingId: String?
+        /// The revision of the data product listing.
+        public let listingRevision: String?
+
+        public init(glossaryTerms: [DetailedGlossaryTerm]? = nil, listingId: String? = nil, listingRevision: String? = nil) {
+            self.glossaryTerms = glossaryTerms
+            self.listingId = listingId
+            self.listingRevision = listingRevision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glossaryTerms = "glossaryTerms"
+            case listingId = "listingId"
+            case listingRevision = "listingRevision"
+        }
+    }
+
+    public struct ListingSummaryItem: AWSDecodableShape {
+        /// The glossary terms of the data product listing.
+        public let glossaryTerms: [DetailedGlossaryTerm]?
+        /// The ID of the data product listing.
+        public let listingId: String?
+        /// The revision of the data product listing.
+        public let listingRevision: String?
+
+        public init(glossaryTerms: [DetailedGlossaryTerm]? = nil, listingId: String? = nil, listingRevision: String? = nil) {
+            self.glossaryTerms = glossaryTerms
+            self.listingId = listingId
+            self.listingRevision = listingRevision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glossaryTerms = "glossaryTerms"
+            case listingId = "listingId"
+            case listingRevision = "listingRevision"
+        }
+    }
+
     public struct MetadataGenerationRunItem: AWSDecodableShape {
         /// The timestamp at which the metadata generation run was created.
         public let createdAt: Date?
@@ -9124,6 +11909,57 @@ extension DataZone {
             case identifier = "identifier"
             case revision = "revision"
             case type = "type"
+        }
+    }
+
+    public struct NotEqualToExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might not be equal to the expression.
+        public let value: String
+
+        public init(columnName: String, value: String) {
+            self.columnName = columnName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case value = "value"
+        }
+    }
+
+    public struct NotInExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might not be in the expression.
+        public let values: [String]
+
+        public init(columnName: String, values: [String]) {
+            self.columnName = columnName
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case values = "values"
+        }
+    }
+
+    public struct NotLikeExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let columnName: String
+        /// The value that might not be like the expression.
+        public let value: String
+
+        public init(columnName: String, value: String) {
+            self.columnName = columnName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case value = "value"
         }
     }
 
@@ -9198,6 +12034,117 @@ extension DataZone {
             case id = "id"
             case name = "name"
             case type = "type"
+        }
+    }
+
+    public struct OverrideDomainUnitOwnersPolicyGrantDetail: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the policy is inherited by child domain units.
+        public let includeChildDomainUnits: Bool?
+
+        public init(includeChildDomainUnits: Bool? = nil) {
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeChildDomainUnits = "includeChildDomainUnits"
+        }
+    }
+
+    public struct OverrideProjectOwnersPolicyGrantDetail: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the policy is inherited by child domain units.
+        public let includeChildDomainUnits: Bool?
+
+        public init(includeChildDomainUnits: Bool? = nil) {
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeChildDomainUnits = "includeChildDomainUnits"
+        }
+    }
+
+    public struct OwnerGroupProperties: AWSEncodableShape {
+        /// The ID of the domain unit owners group.
+        public let groupIdentifier: String
+
+        public init(groupIdentifier: String) {
+            self.groupIdentifier = groupIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  ]+)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupIdentifier = "groupIdentifier"
+        }
+    }
+
+    public struct OwnerGroupPropertiesOutput: AWSDecodableShape {
+        /// The ID of the domain unit owners group.
+        public let groupId: String?
+
+        public init(groupId: String? = nil) {
+            self.groupId = groupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "groupId"
+        }
+    }
+
+    public struct OwnerUserProperties: AWSEncodableShape {
+        /// The ID of the owner user.
+        public let userIdentifier: String
+
+        public init(userIdentifier: String) {
+            self.userIdentifier = userIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.userIdentifier, name: "userIdentifier", parent: name, pattern: "(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\\d{12}:.+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userIdentifier = "userIdentifier"
+        }
+    }
+
+    public struct OwnerUserPropertiesOutput: AWSDecodableShape {
+        /// The ID of the owner user.
+        public let userId: String?
+
+        public init(userId: String? = nil) {
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId = "userId"
+        }
+    }
+
+    public struct PolicyGrantMember: AWSDecodableShape {
+        /// Specifies the timestamp at which policy grant member was created.
+        public let createdAt: Date?
+        /// Specifies the user who created the policy grant member.
+        public let createdBy: String?
+        /// The details of the policy grant member.
+        public let detail: PolicyGrantDetail?
+        /// The principal of the policy grant member.
+        public let principal: PolicyGrantPrincipal?
+
+        public init(createdAt: Date? = nil, createdBy: String? = nil, detail: PolicyGrantDetail? = nil, principal: PolicyGrantPrincipal? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.detail = detail
+            self.principal = principal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case detail = "detail"
+            case principal = "principal"
         }
     }
 
@@ -9357,6 +12304,32 @@ extension DataZone {
         }
     }
 
+    public struct ProjectPolicyGrantPrincipal: AWSEncodableShape & AWSDecodableShape {
+        /// The project designation of the project policy grant principal.
+        public let projectDesignation: ProjectDesignation
+        /// The project grant filter of the project policy grant principal.
+        public let projectGrantFilter: ProjectGrantFilter?
+        /// The project ID of the project policy grant principal.
+        public let projectIdentifier: String?
+
+        public init(projectDesignation: ProjectDesignation, projectGrantFilter: ProjectGrantFilter? = nil, projectIdentifier: String? = nil) {
+            self.projectDesignation = projectDesignation
+            self.projectGrantFilter = projectGrantFilter
+            self.projectIdentifier = projectIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.projectGrantFilter?.validate(name: "\(name).projectGrantFilter")
+            try self.validate(self.projectIdentifier, name: "projectIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case projectDesignation = "projectDesignation"
+            case projectGrantFilter = "projectGrantFilter"
+            case projectIdentifier = "projectIdentifier"
+        }
+    }
+
     public struct ProjectSummary: AWSDecodableShape {
         /// The timestamp of when a project was created.
         public let createdAt: Date?
@@ -9366,6 +12339,8 @@ extension DataZone {
         public let description: String?
         /// The identifier of a Amazon DataZone domain where the project exists.
         public let domainId: String
+        /// The ID of the domain unit.
+        public let domainUnitId: String?
         /// Specifies the error message that is returned if the operation cannot be successfully completed.
         public let failureReasons: [ProjectDeletionError]?
         /// The identifier of a project.
@@ -9377,11 +12352,12 @@ extension DataZone {
         /// The timestamp of when the project was updated.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, failureReasons: [ProjectDeletionError]? = nil, id: String, name: String, projectStatus: ProjectStatus? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, failureReasons: [ProjectDeletionError]? = nil, id: String, name: String, projectStatus: ProjectStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
             self.domainId = domainId
+            self.domainUnitId = domainUnitId
             self.failureReasons = failureReasons
             self.id = id
             self.name = name
@@ -9394,6 +12370,7 @@ extension DataZone {
             case createdBy = "createdBy"
             case description = "description"
             case domainId = "domainId"
+            case domainUnitId = "domainUnitId"
             case failureReasons = "failureReasons"
             case id = "id"
             case name = "name"
@@ -9411,16 +12388,19 @@ extension DataZone {
         public let environmentBlueprintIdentifier: String
         /// The ARN of the manage access role.
         public let manageAccessRoleArn: String?
+        /// The provisioning configuration of a blueprint.
+        public let provisioningConfigurations: [ProvisioningConfiguration]?
         /// The ARN of the provisioning role.
         public let provisioningRoleArn: String?
         /// The regional parameters in the environment blueprint.
         public let regionalParameters: [String: [String: String]]?
 
-        public init(domainIdentifier: String, enabledRegions: [String], environmentBlueprintIdentifier: String, manageAccessRoleArn: String? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil) {
+        public init(domainIdentifier: String, enabledRegions: [String], environmentBlueprintIdentifier: String, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil) {
             self.domainIdentifier = domainIdentifier
             self.enabledRegions = enabledRegions
             self.environmentBlueprintIdentifier = environmentBlueprintIdentifier
             self.manageAccessRoleArn = manageAccessRoleArn
+            self.provisioningConfigurations = provisioningConfigurations
             self.provisioningRoleArn = provisioningRoleArn
             self.regionalParameters = regionalParameters
         }
@@ -9432,6 +12412,7 @@ extension DataZone {
             try container.encode(self.enabledRegions, forKey: .enabledRegions)
             request.encodePath(self.environmentBlueprintIdentifier, key: "environmentBlueprintIdentifier")
             try container.encodeIfPresent(self.manageAccessRoleArn, forKey: .manageAccessRoleArn)
+            try container.encodeIfPresent(self.provisioningConfigurations, forKey: .provisioningConfigurations)
             try container.encodeIfPresent(self.provisioningRoleArn, forKey: .provisioningRoleArn)
             try container.encodeIfPresent(self.regionalParameters, forKey: .regionalParameters)
         }
@@ -9445,6 +12426,9 @@ extension DataZone {
             }
             try self.validate(self.environmentBlueprintIdentifier, name: "environmentBlueprintIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.manageAccessRoleArn, name: "manageAccessRoleArn", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$")
+            try self.provisioningConfigurations?.forEach {
+                try $0.validate(name: "\(name).provisioningConfigurations[]")
+            }
             try self.validate(self.provisioningRoleArn, name: "provisioningRoleArn", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|role/service-role)/[\\w+=,.@-]*$")
             try self.regionalParameters?.forEach {
                 try validate($0.key, name: "regionalParameters.key", parent: name, max: 16)
@@ -9456,6 +12440,7 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case enabledRegions = "enabledRegions"
             case manageAccessRoleArn = "manageAccessRoleArn"
+            case provisioningConfigurations = "provisioningConfigurations"
             case provisioningRoleArn = "provisioningRoleArn"
             case regionalParameters = "regionalParameters"
         }
@@ -9472,6 +12457,8 @@ extension DataZone {
         public let environmentBlueprintId: String
         /// The ARN of the manage access role.
         public let manageAccessRoleArn: String?
+        /// The provisioning configuration of a blueprint.
+        public let provisioningConfigurations: [ProvisioningConfiguration]?
         /// The ARN of the provisioning role.
         public let provisioningRoleArn: String?
         /// The regional parameters in the environment blueprint.
@@ -9479,12 +12466,13 @@ extension DataZone {
         /// The timestamp of when the environment blueprint was updated.
         public let updatedAt: Date?
 
-        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
             self.enabledRegions = enabledRegions
             self.environmentBlueprintId = environmentBlueprintId
             self.manageAccessRoleArn = manageAccessRoleArn
+            self.provisioningConfigurations = provisioningConfigurations
             self.provisioningRoleArn = provisioningRoleArn
             self.regionalParameters = regionalParameters
             self.updatedAt = updatedAt
@@ -9496,6 +12484,7 @@ extension DataZone {
             case enabledRegions = "enabledRegions"
             case environmentBlueprintId = "environmentBlueprintId"
             case manageAccessRoleArn = "manageAccessRoleArn"
+            case provisioningConfigurations = "provisioningConfigurations"
             case provisioningRoleArn = "provisioningRoleArn"
             case regionalParameters = "regionalParameters"
             case updatedAt = "updatedAt"
@@ -9839,6 +12828,107 @@ extension DataZone {
         }
     }
 
+    public struct RemoveEntityOwnerInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The ID of the domain where you want to remove an owner from an entity.
+        public let domainIdentifier: String
+        /// The ID of the entity from which you want to remove an owner.
+        public let entityIdentifier: String
+        /// The type of the entity from which you want to remove an owner.
+        public let entityType: DataZoneEntityType
+        /// The owner that you want to remove from an entity.
+        public let owner: OwnerProperties
+
+        public init(clientToken: String? = RemoveEntityOwnerInput.idempotencyToken(), domainIdentifier: String, entityIdentifier: String, entityType: DataZoneEntityType, owner: OwnerProperties) {
+            self.clientToken = clientToken
+            self.domainIdentifier = domainIdentifier
+            self.entityIdentifier = entityIdentifier
+            self.entityType = entityType
+            self.owner = owner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.entityIdentifier, key: "entityIdentifier")
+            request.encodePath(self.entityType, key: "entityType")
+            try container.encode(self.owner, forKey: .owner)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]+$")
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.owner.validate(name: "\(name).owner")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case owner = "owner"
+        }
+    }
+
+    public struct RemoveEntityOwnerOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct RemovePolicyGrantInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The ID of the domain where you want to remove a policy grant.
+        public let domainIdentifier: String
+        /// The ID of the entity from which you want to remove a policy grant.
+        public let entityIdentifier: String
+        /// The type of the entity from which you want to remove a policy grant.
+        public let entityType: TargetEntityType
+        /// The type of the policy that you want to remove.
+        public let policyType: ManagedPolicyType
+        /// The principal from which you want to remove a policy grant.
+        public let principal: PolicyGrantPrincipal
+
+        public init(clientToken: String? = RemovePolicyGrantInput.idempotencyToken(), domainIdentifier: String, entityIdentifier: String, entityType: TargetEntityType, policyType: ManagedPolicyType, principal: PolicyGrantPrincipal) {
+            self.clientToken = clientToken
+            self.domainIdentifier = domainIdentifier
+            self.entityIdentifier = entityIdentifier
+            self.entityType = entityType
+            self.policyType = policyType
+            self.principal = principal
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.entityIdentifier, key: "entityIdentifier")
+            request.encodePath(self.entityType, key: "entityType")
+            try container.encode(self.policyType, forKey: .policyType)
+            try container.encode(self.principal, forKey: .principal)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]+$")
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.principal.validate(name: "\(name).principal")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case policyType = "policyType"
+            case principal = "principal"
+        }
+    }
+
+    public struct RemovePolicyGrantOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct Resource: AWSDecodableShape {
         /// The name of a provisioned resource of this Amazon DataZone environment.
         public let name: String?
@@ -9946,6 +13036,23 @@ extension DataZone {
             case subscriptionRequestId = "subscriptionRequestId"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
+        }
+    }
+
+    public struct RowFilterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The row filter.
+        public let rowFilter: RowFilter
+        /// Specifies whether the row filter is sensitive.
+        public let sensitive: Bool?
+
+        public init(rowFilter: RowFilter, sensitive: Bool? = nil) {
+            self.rowFilter = rowFilter
+            self.sensitive = sensitive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rowFilter = "rowFilter"
+            case sensitive = "sensitive"
         }
     }
 
@@ -10705,6 +13812,8 @@ extension DataZone {
         public let assetId: String
         /// The revision of the asset for which the subscription grant is created.
         public let assetRevision: String
+        /// The asset scope of the subscribed asset.
+        public let assetScope: AssetScope?
         /// The failure cause included in the details of the asset for which the subscription grant is created.
         public let failureCause: FailureCause?
         /// The failure timestamp included in the details of the asset for which the subscription grant is created.
@@ -10716,9 +13825,10 @@ extension DataZone {
         /// The target name of the asset for which the subscription grant is created.
         public let targetName: String?
 
-        public init(assetId: String, assetRevision: String, failureCause: FailureCause? = nil, failureTimestamp: Date? = nil, grantedTimestamp: Date? = nil, status: SubscriptionGrantStatus, targetName: String? = nil) {
+        public init(assetId: String, assetRevision: String, assetScope: AssetScope? = nil, failureCause: FailureCause? = nil, failureTimestamp: Date? = nil, grantedTimestamp: Date? = nil, status: SubscriptionGrantStatus, targetName: String? = nil) {
             self.assetId = assetId
             self.assetRevision = assetRevision
+            self.assetScope = assetScope
             self.failureCause = failureCause
             self.failureTimestamp = failureTimestamp
             self.grantedTimestamp = grantedTimestamp
@@ -10729,6 +13839,7 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case assetId = "assetId"
             case assetRevision = "assetRevision"
+            case assetScope = "assetScope"
             case failureCause = "failureCause"
             case failureTimestamp = "failureTimestamp"
             case grantedTimestamp = "grantedTimestamp"
@@ -10738,6 +13849,8 @@ extension DataZone {
     }
 
     public struct SubscribedAssetListing: AWSDecodableShape {
+        /// The asset scope of the subscribed asset listing.
+        public let assetScope: AssetScope?
         /// The identifier of the published asset for which the subscription grant is created.
         public let entityId: String?
         /// The revision of the published asset for which the subscription grant is created.
@@ -10749,7 +13862,8 @@ extension DataZone {
         /// The glossary terms attached to the published asset for which the subscription grant is created.
         public let glossaryTerms: [DetailedGlossaryTerm]?
 
-        public init(entityId: String? = nil, entityRevision: String? = nil, entityType: String? = nil, forms: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil) {
+        public init(assetScope: AssetScope? = nil, entityId: String? = nil, entityRevision: String? = nil, entityType: String? = nil, forms: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil) {
+            self.assetScope = assetScope
             self.entityId = entityId
             self.entityRevision = entityRevision
             self.entityType = entityType
@@ -10758,6 +13872,7 @@ extension DataZone {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetScope = "assetScope"
             case entityId = "entityId"
             case entityRevision = "entityRevision"
             case entityType = "entityType"
@@ -10820,6 +13935,39 @@ extension DataZone {
         }
     }
 
+    public struct SubscribedProductListing: AWSDecodableShape {
+        /// The data assets of the data product listing.
+        public let assetListings: [AssetInDataProductListingItem]?
+        /// The description of the data product listing.
+        public let description: String?
+        /// The ID of the data product listing.
+        public let entityId: String?
+        /// The revision of the data product listing.
+        public let entityRevision: String?
+        /// The glossary terms of the data product listing.
+        public let glossaryTerms: [DetailedGlossaryTerm]?
+        /// The name of the data product listing.
+        public let name: String?
+
+        public init(assetListings: [AssetInDataProductListingItem]? = nil, description: String? = nil, entityId: String? = nil, entityRevision: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil, name: String? = nil) {
+            self.assetListings = assetListings
+            self.description = description
+            self.entityId = entityId
+            self.entityRevision = entityRevision
+            self.glossaryTerms = glossaryTerms
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetListings = "assetListings"
+            case description = "description"
+            case entityId = "entityId"
+            case entityRevision = "entityRevision"
+            case glossaryTerms = "glossaryTerms"
+            case name = "name"
+        }
+    }
+
     public struct SubscribedProject: AWSDecodableShape {
         /// The identifier of the project that has the subscription grant.
         public let id: String?
@@ -10869,7 +14017,7 @@ extension DataZone {
         public let id: String
         /// The status of the subscription grant.
         public let status: SubscriptionGrantOverallStatus
-        /// The ID of the subscription grant.
+        /// The ID of the subscription.
         public let subscriptionId: String?
         /// The identifier of the target of the subscription grant.
         public let subscriptionTargetId: String
@@ -10878,6 +14026,21 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription grant.
         public let updatedBy: String?
 
+        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
+            self.assets = assets
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.grantedEntity = grantedEntity
+            self.id = id
+            self.status = status
+            self.subscriptionId = nil
+            self.subscriptionTargetId = subscriptionTargetId
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+
+        @available(*, deprecated, message: "Members subscriptionId have been deprecated")
         public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
@@ -11301,6 +14464,10 @@ extension DataZone {
         }
     }
 
+    public struct Unit: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The ARN of the resource to be untagged in Amazon DataZone.
         public let resourceArn: String
@@ -11332,6 +14499,107 @@ extension DataZone {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateAssetFilterInput: AWSEncodableShape {
+        /// The ID of the data asset.
+        public let assetIdentifier: String
+        /// The configuration of the asset filter.
+        public let configuration: AssetFilterConfiguration?
+        /// The description of the asset filter.
+        public let description: String?
+        /// The ID of the domain where you want to update an asset filter.
+        public let domainIdentifier: String
+        /// The ID of the asset filter.
+        public let identifier: String
+        /// The name of the asset filter.
+        public let name: String?
+
+        public init(assetIdentifier: String, configuration: AssetFilterConfiguration? = nil, description: String? = nil, domainIdentifier: String, identifier: String, name: String? = nil) {
+            self.assetIdentifier = assetIdentifier
+            self.configuration = configuration
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetIdentifier, key: "assetIdentifier")
+            try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case description = "description"
+            case name = "name"
+        }
+    }
+
+    public struct UpdateAssetFilterOutput: AWSDecodableShape {
+        /// The ID of the data asset.
+        public let assetId: String
+        /// The configuration of the asset filter.
+        public let configuration: AssetFilterConfiguration
+        /// The timestamp at which the asset filter was created.
+        public let createdAt: Date?
+        /// The description of the asset filter.
+        public let description: String?
+        /// The ID of the domain where the asset filter was created.
+        public let domainId: String
+        /// The column names of the asset filter.
+        public let effectiveColumnNames: [String]?
+        /// The row filter of the asset filter.
+        public let effectiveRowFilter: String?
+        /// The error message that is displayed if the action is not completed successfully.
+        public let errorMessage: String?
+        /// The ID of the asset filter.
+        public let id: String
+        /// The name of the asset filter.
+        public let name: String
+        /// The status of the asset filter.
+        public let status: FilterStatus?
+
+        public init(assetId: String, configuration: AssetFilterConfiguration, createdAt: Date? = nil, description: String? = nil, domainId: String, effectiveColumnNames: [String]? = nil, effectiveRowFilter: String? = nil, errorMessage: String? = nil, id: String, name: String, status: FilterStatus? = nil) {
+            self.assetId = assetId
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.description = description
+            self.domainId = domainId
+            self.effectiveColumnNames = effectiveColumnNames
+            self.effectiveRowFilter = effectiveRowFilter
+            self.errorMessage = errorMessage
+            self.id = id
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
+            case configuration = "configuration"
+            case createdAt = "createdAt"
+            case description = "description"
+            case domainId = "domainId"
+            case effectiveColumnNames = "effectiveColumnNames"
+            case effectiveRowFilter = "effectiveRowFilter"
+            case errorMessage = "errorMessage"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+        }
     }
 
     public struct UpdateDataSourceInput: AWSEncodableShape {
@@ -11572,15 +14840,18 @@ extension DataZone {
         public let lastUpdatedAt: Date?
         /// The name to be updated as part of the UpdateDomain action.
         public let name: String?
+        /// The ID of the root domain unit.
+        public let rootDomainUnitId: String?
         /// The single sign-on option of the Amazon DataZone domain.
         public let singleSignOn: SingleSignOn?
 
-        public init(description: String? = nil, domainExecutionRole: String? = nil, id: String, lastUpdatedAt: Date? = nil, name: String? = nil, singleSignOn: SingleSignOn? = nil) {
+        public init(description: String? = nil, domainExecutionRole: String? = nil, id: String, lastUpdatedAt: Date? = nil, name: String? = nil, rootDomainUnitId: String? = nil, singleSignOn: SingleSignOn? = nil) {
             self.description = description
             self.domainExecutionRole = domainExecutionRole
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
+            self.rootDomainUnitId = rootDomainUnitId
             self.singleSignOn = singleSignOn
         }
 
@@ -11590,7 +14861,100 @@ extension DataZone {
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
+            case rootDomainUnitId = "rootDomainUnitId"
             case singleSignOn = "singleSignOn"
+        }
+    }
+
+    public struct UpdateDomainUnitInput: AWSEncodableShape {
+        /// The description of the domain unit that you want to update.
+        public let description: String?
+        /// The ID of the domain where you want to update a domain unit.
+        public let domainIdentifier: String
+        /// The ID of the domain unit that you want to update.
+        public let identifier: String
+        /// The name of the domain unit that you want to update.
+        public let name: String?
+
+        public init(description: String? = nil, domainIdentifier: String, identifier: String, name: String? = nil) {
+            self.description = description
+            self.domainIdentifier = domainIdentifier
+            self.identifier = identifier
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.identifier, key: "identifier")
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9_\\-]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+        }
+    }
+
+    public struct UpdateDomainUnitOutput: AWSDecodableShape {
+        /// The time stamp at which the domain unit that you want to update was created.
+        public let createdAt: Date?
+        /// The user who created the domain unit that you want to update.
+        public let createdBy: String?
+        /// The description of the domain unit that you want to update.
+        public let description: String?
+        /// The ID of the domain where you want to update the domain unit.
+        public let domainId: String
+        /// The ID of the domain unit that you want to update.
+        public let id: String
+        /// The timestamp at which the domain unit was last updated.
+        public let lastUpdatedAt: Date?
+        /// The user who last updated the domain unit.
+        public let lastUpdatedBy: String?
+        /// The name of the domain unit that you want to update.
+        public let name: String
+        /// The owners of the domain unit that you want to update.
+        public let owners: [DomainUnitOwnerProperties]
+        /// The ID of the parent domain unit.
+        public let parentDomainUnitId: String?
+
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, id: String, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, name: String, owners: [DomainUnitOwnerProperties], parentDomainUnitId: String? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.lastUpdatedBy = lastUpdatedBy
+            self.name = name
+            self.owners = owners
+            self.parentDomainUnitId = parentDomainUnitId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case domainId = "domainId"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lastUpdatedBy = "lastUpdatedBy"
+            case name = "name"
+            case owners = "owners"
+            case parentDomainUnitId = "parentDomainUnitId"
         }
     }
 
@@ -12141,7 +15505,7 @@ extension DataZone {
 
         public func validate(name: String) throws {
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
-            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "(^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$|[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  ]+)")
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  ]+)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12177,7 +15541,7 @@ extension DataZone {
     public struct UpdateProjectInput: AWSEncodableShape {
         /// The description to be updated as part of the UpdateProject action.
         public let description: String?
-        /// The identifier of the Amazon DataZone domain in which a project is to be updated.
+        /// The ID of the Amazon DataZone domain where a project is being updated.
         public let domainIdentifier: String
         /// The glossary terms to be updated as part of the UpdateProject action.
         public let glossaryTerms: [String]?
@@ -12234,6 +15598,8 @@ extension DataZone {
         public let description: String?
         /// The identifier of the Amazon DataZone domain in which a project is updated.
         public let domainId: String
+        /// The ID of the domain unit.
+        public let domainUnitId: String?
         /// Specifies the error message that is returned if the operation cannot be successfully completed.
         public let failureReasons: [ProjectDeletionError]?
         /// The glossary terms of the project that are to be updated.
@@ -12247,11 +15613,12 @@ extension DataZone {
         /// The status of the project.
         public let projectStatus: ProjectStatus?
 
-        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectStatus: ProjectStatus? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectStatus: ProjectStatus? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
             self.domainId = domainId
+            self.domainUnitId = domainUnitId
             self.failureReasons = failureReasons
             self.glossaryTerms = glossaryTerms
             self.id = id
@@ -12265,6 +15632,7 @@ extension DataZone {
             case createdBy = "createdBy"
             case description = "description"
             case domainId = "domainId"
+            case domainUnitId = "domainUnitId"
             case failureReasons = "failureReasons"
             case glossaryTerms = "glossaryTerms"
             case id = "id"
@@ -12345,6 +15713,21 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription grant status.
         public let updatedBy: String?
 
+        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
+            self.assets = assets
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.grantedEntity = grantedEntity
+            self.id = id
+            self.status = status
+            self.subscriptionId = nil
+            self.subscriptionTargetId = subscriptionTargetId
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+
+        @available(*, deprecated, message: "Members subscriptionId have been deprecated")
         public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
@@ -12518,7 +15901,7 @@ extension DataZone {
                 try validate($0, name: "applicableAssetTypes[]", parent: name, pattern: "^[^\\.]*")
             }
             try self.authorizedPrincipals?.forEach {
-                try validate($0, name: "authorizedPrincipals[]", parent: name, pattern: "^[a-zA-Z0-9:/_-]*$")
+                try validate($0, name: "authorizedPrincipals[]", parent: name, pattern: "^[a-zA-Z0-9:/._-]*$")
             }
             try self.validate(self.authorizedPrincipals, name: "authorizedPrincipals", parent: name, max: 10)
             try self.validate(self.authorizedPrincipals, name: "authorizedPrincipals", parent: name, min: 1)
@@ -12639,7 +16022,7 @@ extension DataZone {
 
         public func validate(name: String) throws {
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
-            try self.validate(self.userIdentifier, name: "userIdentifier", parent: name, pattern: "(^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\\d{12}:.+$)")
+            try self.validate(self.userIdentifier, name: "userIdentifier", parent: name, pattern: "(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\\d{12}:.+$)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12731,6 +16114,19 @@ extension DataZone {
         }
     }
 
+    public struct DomainUnitGrantFilter: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies a grant filter containing all domain units.
+        public let allDomainUnitsGrantFilter: AllDomainUnitsGrantFilter?
+
+        public init(allDomainUnitsGrantFilter: AllDomainUnitsGrantFilter? = nil) {
+            self.allDomainUnitsGrantFilter = allDomainUnitsGrantFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allDomainUnitsGrantFilter = "allDomainUnitsGrantFilter"
+        }
+    }
+
     public struct GrantedEntity: AWSDecodableShape {
         /// The listing for which a subscription is granted.
         public let listing: ListingRevision?
@@ -12761,16 +16157,20 @@ extension DataZone {
         }
     }
 
-    public struct ListingItem: AWSDecodableShape {
-        /// An asset published in an Amazon DataZone catalog.
-        public let assetListing: AssetListing?
+    public struct GroupPolicyGrantPrincipal: AWSEncodableShape & AWSDecodableShape {
+        /// The ID Of the group of the group principal.
+        public let groupIdentifier: String?
 
-        public init(assetListing: AssetListing? = nil) {
-            self.assetListing = assetListing
+        public init(groupIdentifier: String? = nil) {
+            self.groupIdentifier = groupIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  ]+)")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetListing = "assetListing"
+            case groupIdentifier = "groupIdentifier"
         }
     }
 
@@ -12792,6 +16192,40 @@ extension DataZone {
         }
     }
 
+    public struct ProjectGrantFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The domain unit filter of the project grant filter.
+        public let domainUnitFilter: DomainUnitFilterForProject?
+
+        public init(domainUnitFilter: DomainUnitFilterForProject? = nil) {
+            self.domainUnitFilter = domainUnitFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.domainUnitFilter?.validate(name: "\(name).domainUnitFilter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainUnitFilter = "domainUnitFilter"
+        }
+    }
+
+    public struct ProvisioningConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Lake Formation configuration of the Data Lake blueprint.
+        public let lakeFormationConfiguration: LakeFormationConfiguration?
+
+        public init(lakeFormationConfiguration: LakeFormationConfiguration? = nil) {
+            self.lakeFormationConfiguration = lakeFormationConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.lakeFormationConfiguration?.validate(name: "\(name).lakeFormationConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lakeFormationConfiguration = "lakeFormationConfiguration"
+        }
+    }
+
     public struct ProvisioningProperties: AWSDecodableShape {
         /// The cloud formation properties included as part of the provisioning properties of an environment blueprint.
         public let cloudFormation: CloudFormationProperties?
@@ -12802,32 +16236,6 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case cloudFormation = "cloudFormation"
-        }
-    }
-
-    public struct SearchResultItem: AWSDecodableShape {
-        /// The asset listing included in the results of the SearchListings action.
-        public let assetListing: AssetListingItem?
-
-        public init(assetListing: AssetListingItem? = nil) {
-            self.assetListing = assetListing
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assetListing = "assetListing"
-        }
-    }
-
-    public struct SubscribedListingItem: AWSDecodableShape {
-        /// The asset for which the subscription grant is created.
-        public let assetListing: SubscribedAssetListing?
-
-        public init(assetListing: SubscribedAssetListing? = nil) {
-            self.assetListing = assetListing
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case assetListing = "assetListing"
         }
     }
 

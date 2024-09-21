@@ -235,6 +235,12 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum ThumbnailState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cdi = "cdi"
         case fujitsuQos = "fujitsu-qos"
@@ -1004,11 +1010,12 @@ extension MediaConnect {
         public let outputs: [AddOutputRequest]?
         public let source: SetSourceRequest?
         public let sourceFailoverConfig: FailoverConfig?
+        public let sourceMonitoringConfig: MonitoringConfig?
         public let sources: [SetSourceRequest]?
         /// The VPC interfaces you want on the flow.
         public let vpcInterfaces: [VpcInterfaceRequest]?
 
-        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, maintenance: AddMaintenance? = nil, mediaStreams: [AddMediaStreamRequest]? = nil, name: String? = nil, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sources: [SetSourceRequest]? = nil, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
+        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, maintenance: AddMaintenance? = nil, mediaStreams: [AddMediaStreamRequest]? = nil, name: String? = nil, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil, sources: [SetSourceRequest]? = nil, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
             self.availabilityZone = availabilityZone
             self.entitlements = entitlements
             self.maintenance = maintenance
@@ -1017,6 +1024,7 @@ extension MediaConnect {
             self.outputs = outputs
             self.source = source
             self.sourceFailoverConfig = sourceFailoverConfig
+            self.sourceMonitoringConfig = sourceMonitoringConfig
             self.sources = sources
             self.vpcInterfaces = vpcInterfaces
         }
@@ -1030,6 +1038,7 @@ extension MediaConnect {
             case outputs = "outputs"
             case source = "source"
             case sourceFailoverConfig = "sourceFailoverConfig"
+            case sourceMonitoringConfig = "sourceMonitoringConfig"
             case sources = "sources"
             case vpcInterfaces = "vpcInterfaces"
         }
@@ -1312,6 +1321,35 @@ extension MediaConnect {
             case messages = "messages"
             case timestamp = "timestamp"
             case transportMediaInfo = "transportMediaInfo"
+        }
+    }
+
+    public struct DescribeFlowSourceThumbnailRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the flow.
+        public let flowArn: String
+
+        public init(flowArn: String) {
+            self.flowArn = flowArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.flowArn, key: "FlowArn")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeFlowSourceThumbnailResponse: AWSDecodableShape {
+        public let thumbnailDetails: ThumbnailDetails?
+
+        public init(thumbnailDetails: ThumbnailDetails? = nil) {
+            self.thumbnailDetails = thumbnailDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thumbnailDetails = "thumbnailDetails"
         }
     }
 
@@ -1654,13 +1692,14 @@ extension MediaConnect {
         public let outputs: [Output]?
         public let source: Source?
         public let sourceFailoverConfig: FailoverConfig?
+        public let sourceMonitoringConfig: MonitoringConfig?
         public let sources: [Source]?
         /// The current status of the flow.
         public let status: Status?
         /// The VPC Interfaces for this flow.
         public let vpcInterfaces: [VpcInterface]?
 
-        public init(availabilityZone: String? = nil, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement]? = nil, flowArn: String? = nil, maintenance: Maintenance? = nil, mediaStreams: [MediaStream]? = nil, name: String? = nil, outputs: [Output]? = nil, source: Source? = nil, sourceFailoverConfig: FailoverConfig? = nil, sources: [Source]? = nil, status: Status? = nil, vpcInterfaces: [VpcInterface]? = nil) {
+        public init(availabilityZone: String? = nil, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement]? = nil, flowArn: String? = nil, maintenance: Maintenance? = nil, mediaStreams: [MediaStream]? = nil, name: String? = nil, outputs: [Output]? = nil, source: Source? = nil, sourceFailoverConfig: FailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil, sources: [Source]? = nil, status: Status? = nil, vpcInterfaces: [VpcInterface]? = nil) {
             self.availabilityZone = availabilityZone
             self.description = description
             self.egressIp = egressIp
@@ -1672,6 +1711,7 @@ extension MediaConnect {
             self.outputs = outputs
             self.source = source
             self.sourceFailoverConfig = sourceFailoverConfig
+            self.sourceMonitoringConfig = sourceMonitoringConfig
             self.sources = sources
             self.status = status
             self.vpcInterfaces = vpcInterfaces
@@ -1689,6 +1729,7 @@ extension MediaConnect {
             case outputs = "outputs"
             case source = "source"
             case sourceFailoverConfig = "sourceFailoverConfig"
+            case sourceMonitoringConfig = "sourceMonitoringConfig"
             case sources = "sources"
             case status = "status"
             case vpcInterfaces = "vpcInterfaces"
@@ -2745,6 +2786,19 @@ extension MediaConnect {
         }
     }
 
+    public struct MonitoringConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The state of thumbnail monitoring.
+        public let thumbnailState: ThumbnailState?
+
+        public init(thumbnailState: ThumbnailState? = nil) {
+            self.thumbnailState = thumbnailState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thumbnailState = "thumbnailState"
+        }
+    }
+
     public struct Offering: AWSDecodableShape {
         /// The type of currency that is used for billing. The currencyCode used for all reservations is US dollars.
         public let currencyCode: String?
@@ -3518,6 +3572,36 @@ extension MediaConnect {
         }
     }
 
+    public struct ThumbnailDetails: AWSDecodableShape {
+        /// The ARN of the flow that DescribeFlowSourceThumbnail was performed on.
+        public let flowArn: String?
+        /// Thumbnail Base64 string.
+        public let thumbnail: String?
+        /// Status code and messages about the flow source thumbnail.
+        public let thumbnailMessages: [MessageDetail]?
+        /// Timecode of thumbnail.
+        public let timecode: String?
+        /// The timestamp of when thumbnail was generated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var timestamp: Date?
+
+        public init(flowArn: String? = nil, thumbnail: String? = nil, thumbnailMessages: [MessageDetail]? = nil, timecode: String? = nil, timestamp: Date? = nil) {
+            self.flowArn = flowArn
+            self.thumbnail = thumbnail
+            self.thumbnailMessages = thumbnailMessages
+            self.timecode = timecode
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn = "flowArn"
+            case thumbnail = "thumbnail"
+            case thumbnailMessages = "thumbnailMessages"
+            case timecode = "timecode"
+            case timestamp = "timestamp"
+        }
+    }
+
     public struct Transport: AWSDecodableShape {
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let cidrAllowList: [String]?
@@ -4252,11 +4336,13 @@ extension MediaConnect {
         public let flowArn: String
         public let maintenance: UpdateMaintenance?
         public let sourceFailoverConfig: UpdateFailoverConfig?
+        public let sourceMonitoringConfig: MonitoringConfig?
 
-        public init(flowArn: String, maintenance: UpdateMaintenance? = nil, sourceFailoverConfig: UpdateFailoverConfig? = nil) {
+        public init(flowArn: String, maintenance: UpdateMaintenance? = nil, sourceFailoverConfig: UpdateFailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil) {
             self.flowArn = flowArn
             self.maintenance = maintenance
             self.sourceFailoverConfig = sourceFailoverConfig
+            self.sourceMonitoringConfig = sourceMonitoringConfig
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -4265,11 +4351,13 @@ extension MediaConnect {
             request.encodePath(self.flowArn, key: "FlowArn")
             try container.encodeIfPresent(self.maintenance, forKey: .maintenance)
             try container.encodeIfPresent(self.sourceFailoverConfig, forKey: .sourceFailoverConfig)
+            try container.encodeIfPresent(self.sourceMonitoringConfig, forKey: .sourceMonitoringConfig)
         }
 
         private enum CodingKeys: String, CodingKey {
             case maintenance = "maintenance"
             case sourceFailoverConfig = "sourceFailoverConfig"
+            case sourceMonitoringConfig = "sourceMonitoringConfig"
         }
     }
 

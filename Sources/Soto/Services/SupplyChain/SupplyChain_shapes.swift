@@ -182,7 +182,7 @@ extension SupplyChain {
     public struct SendDataIntegrationEventRequest: AWSEncodableShape {
         /// The idempotent client token.
         public let clientToken: String?
-        /// The data payload of the event.
+        /// The data payload of the event. For more information on the data schema to use, see Data entities supported in AWS Supply Chain .
         public let data: String
         /// Event identifier (for example, orderId for InboundOrder) used for data sharing or partitioning.
         public let eventGroupId: String

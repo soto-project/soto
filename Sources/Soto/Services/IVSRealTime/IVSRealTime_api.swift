@@ -21,7 +21,7 @@
 ///
 /// The Amazon Interactive Video Service (IVS) real-time API is REST compatible, using a standard HTTP
 /// 	  API and an AWS EventBridge event stream for responses. JSON is used for both requests and responses,
-/// 	  including errors.   Key Concepts     Stage — A virtual space where participants can exchange video in real time.    Participant token — A token that authenticates a participant when they join a stage.    Participant object — Represents participants (people) in the stage and contains information about them. When a token is created, it includes a participant ID; when a participant uses that token to join a stage, the participant is associated with that participant ID. There is a 1:1 mapping between participant tokens and participants.   For server-side composition:    Composition process — Composites participants of a stage into a single video and forwards it to a set of outputs (e.g., IVS channels). Composition endpoints support this process.    Composition — Controls the look of the outputs, including how participants are positioned in the video.   For more information about your IVS live stream, also see Getting Started with Amazon IVS Real-Time Streaming.  Tagging  A tag is a metadata label that you assign to an AWS resource. A tag comprises a key and a value, both set by you. For example, you might set a tag as topic:nature to label a particular video category. See Tagging AWS Resources for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS stages has no service-specific constraints beyond what is documented there. Tags can help you identify and organize your AWS resources. For example, you can use the same tag for different resources to indicate that they are related. You can also use tags to manage access (see Access Tags). The Amazon IVS real-time API has these tag-related endpoints: TagResource, UntagResource, and ListTagsForResource. The following resource supports tagging: Stage. At most 50 tags can be applied to a resource.
+/// 	  including errors.   Key Concepts     Stage — A virtual space where participants can exchange video in real time.    Participant token — A token that authenticates a participant when they join a stage.    Participant object — Represents participants (people) in the stage and contains information about them. When a token is created, it includes a participant ID; when a participant uses that token to join a stage, the participant is associated with that participant ID. There is a 1:1 mapping between participant tokens and participants.   For server-side composition:    Composition process — Composites participants of a stage into a single video and forwards it to a set of outputs (e.g., IVS channels). Composition operations support this process.    Composition — Controls the look of the outputs, including how participants are positioned in the video.   For more information about your IVS live stream, also see Getting Started with Amazon IVS Real-Time Streaming.  Tagging  A tag is a metadata label that you assign to an AWS resource. A tag comprises a key and a value, both set by you. For example, you might set a tag as topic:nature to label a particular video category. See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS stages has no service-specific constraints beyond what is documented there. Tags can help you identify and organize your AWS resources. For example, you can use the same tag for different resources to indicate that they are related. You can also use tags to manage access (see Access Tags). The Amazon IVS real-time API has these tag-related operations: TagResource, UntagResource, and ListTagsForResource. The following resource supports tagging: Stage. At most 50 tags can be applied to a resource.
 public struct IVSRealTime: AWSService {
     // MARK: Member variables
 
@@ -89,6 +89,19 @@ public struct IVSRealTime: AWSService {
         )
     }
 
+    /// Creates a new IngestConfiguration resource, used to specify the ingest protocol for a stage.
+    @Sendable
+    public func createIngestConfiguration(_ input: CreateIngestConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIngestConfigurationResponse {
+        return try await self.client.execute(
+            operation: "CreateIngestConfiguration", 
+            path: "/CreateIngestConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application.
     @Sendable
     public func createParticipantToken(_ input: CreateParticipantTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateParticipantTokenResponse {
@@ -143,6 +156,19 @@ public struct IVSRealTime: AWSService {
         )
     }
 
+    /// Deletes a specified IngestConfiguration, so it can no longer be used to broadcast. An IngestConfiguration cannot be deleted if the publisher is actively streaming to a stage, unless force is set to true.
+    @Sendable
+    public func deleteIngestConfiguration(_ input: DeleteIngestConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIngestConfigurationResponse {
+        return try await self.client.execute(
+            operation: "DeleteIngestConfiguration", 
+            path: "/DeleteIngestConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes the specified public key used to sign stage participant tokens.
     /// 	  This invalidates future participant tokens generated using the key pair’s private key.
     @Sendable
@@ -157,7 +183,8 @@ public struct IVSRealTime: AWSService {
         )
     }
 
-    /// Shuts down and deletes the specified stage (disconnecting all participants).
+    /// Shuts down and deletes the specified stage (disconnecting all participants). This operation also removes the stageArn from the associated IngestConfiguration, if there are participants
+    /// 	    using the IngestConfiguration to publish to the stage.
     @Sendable
     public func deleteStage(_ input: DeleteStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStageResponse {
         return try await self.client.execute(
@@ -185,7 +212,8 @@ public struct IVSRealTime: AWSService {
         )
     }
 
-    /// Disconnects a specified participant and revokes the participant permanently from a specified stage.
+    /// Disconnects a specified participant from a specified stage. If the participant is publishing using an IngestConfiguration, DisconnectParticipant also updates the stageArn
+    /// 	    in the IngestConfiguration to be an empty string.
     @Sendable
     public func disconnectParticipant(_ input: DisconnectParticipantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisconnectParticipantResponse {
         return try await self.client.execute(
@@ -217,6 +245,19 @@ public struct IVSRealTime: AWSService {
         return try await self.client.execute(
             operation: "GetEncoderConfiguration", 
             path: "/GetEncoderConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets information about the specified IngestConfiguration.
+    @Sendable
+    public func getIngestConfiguration(_ input: GetIngestConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIngestConfigurationResponse {
+        return try await self.client.execute(
+            operation: "GetIngestConfiguration", 
+            path: "/GetIngestConfiguration", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -328,6 +369,19 @@ public struct IVSRealTime: AWSService {
         )
     }
 
+    /// Lists all IngestConfigurations in your account, in the AWS region where the API request is processed.
+    @Sendable
+    public func listIngestConfigurations(_ input: ListIngestConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIngestConfigurationsResponse {
+        return try await self.client.execute(
+            operation: "ListIngestConfigurations", 
+            path: "/ListIngestConfigurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists events for a specified participant that occurred during a specified stage session.
     @Sendable
     public func listParticipantEvents(_ input: ListParticipantEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListParticipantEventsResponse {
@@ -420,7 +474,7 @@ public struct IVSRealTime: AWSService {
         )
     }
 
-    /// Starts a Composition from a stage based on the configuration provided in the request. A Composition is an ephemeral resource that exists after this endpoint returns successfully. Composition stops and the resource is deleted:   When StopComposition is called.   After a 1-minute timeout, when all participants are disconnected from the stage.   After a 1-minute timeout, if there are no participants in the stage when StartComposition is called.   When broadcasting to the IVS channel fails and all retries are exhausted.   When broadcasting is disconnected and all attempts to reconnect are exhausted.
+    /// Starts a Composition from a stage based on the configuration provided in the request. A Composition is an ephemeral resource that exists after this operation returns successfully. Composition stops and the resource is deleted:   When StopComposition is called.   After a 1-minute timeout, when all participants are disconnected from the stage.   After a 1-minute timeout, if there are no participants in the stage when StartComposition is called.   When broadcasting to the IVS channel fails and all retries are exhausted.   When broadcasting is disconnected and all attempts to reconnect are exhausted.
     @Sendable
     public func startComposition(_ input: StartCompositionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCompositionResponse {
         return try await self.client.execute(
@@ -466,6 +520,19 @@ public struct IVSRealTime: AWSService {
             operation: "UntagResource", 
             path: "/tags/{resourceArn}", 
             httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates a specified IngestConfiguration. Only the stage ARN attached to the IngestConfiguration can be updated. An IngestConfiguration that is active cannot be updated.
+    @Sendable
+    public func updateIngestConfiguration(_ input: UpdateIngestConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIngestConfigurationResponse {
+        return try await self.client.execute(
+            operation: "UpdateIngestConfiguration", 
+            path: "/UpdateIngestConfiguration", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -533,6 +600,25 @@ extension IVSRealTime {
             command: self.listEncoderConfigurations,
             inputKey: \ListEncoderConfigurationsRequest.nextToken,
             outputKey: \ListEncoderConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists all IngestConfigurations in your account, in the AWS region where the API request is processed.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listIngestConfigurationsPaginator(
+        _ input: ListIngestConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIngestConfigurationsRequest, ListIngestConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listIngestConfigurations,
+            inputKey: \ListIngestConfigurationsRequest.nextToken,
+            outputKey: \ListIngestConfigurationsResponse.nextToken,
             logger: logger
         )
     }
@@ -667,6 +753,17 @@ extension IVSRealTime.ListCompositionsRequest: AWSPaginateToken {
 extension IVSRealTime.ListEncoderConfigurationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IVSRealTime.ListEncoderConfigurationsRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IVSRealTime.ListIngestConfigurationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IVSRealTime.ListIngestConfigurationsRequest {
+        return .init(
+            filterByStageArn: self.filterByStageArn,
+            filterByState: self.filterByState,
             maxResults: self.maxResults,
             nextToken: token
         )

@@ -476,6 +476,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutoMountHomeEFS: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case defaultAsDomain = "DefaultAsDomain"
+        case disabled = "Disabled"
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AutotuneMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
@@ -620,6 +627,7 @@ extension SageMaker {
     }
 
     public enum ClusterInstanceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deepHealthCheckInProgress = "DeepHealthCheckInProgress"
         case failure = "Failure"
         case pending = "Pending"
         case running = "Running"
@@ -667,6 +675,12 @@ extension SageMaker {
         case mlT3Xlarge = "ml.t3.xlarge"
         case mlTrn132Xlarge = "ml.trn1.32xlarge"
         case mlTrn1N32Xlarge = "ml.trn1n.32xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterNodeRecovery: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automatic = "Automatic"
+        case none = "None"
         public var description: String { return self.rawValue }
     }
 
@@ -762,6 +776,12 @@ extension SageMaker {
     public enum DataSourceName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case salesforceGenie = "SalesforceGenie"
         case snowflake = "Snowflake"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeepHealthCheckType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case instanceConnectivity = "InstanceConnectivity"
+        case instanceStress = "InstanceStress"
         public var description: String { return self.rawValue }
     }
 
@@ -1392,6 +1412,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum LifecycleManagement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LineageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case action = "Action"
         case artifact = "Artifact"
@@ -1482,6 +1508,7 @@ extension SageMaker {
         case endpoints = "Endpoints"
         case experiments = "Experiments"
         case featureStore = "FeatureStore"
+        case inferenceOptimization = "InferenceOptimization"
         case inferenceRecommender = "InferenceRecommender"
         case jumpStart = "JumpStart"
         case modelEvaluation = "ModelEvaluation"
@@ -3848,6 +3875,23 @@ extension SageMaker {
         }
     }
 
+    public struct AppLifecycleManagement: AWSEncodableShape & AWSDecodableShape {
+        /// Settings related to idle shutdown of Studio applications.
+        public let idleSettings: IdleSettings?
+
+        public init(idleSettings: IdleSettings? = nil) {
+            self.idleSettings = idleSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.idleSettings?.validate(name: "\(name).idleSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idleSettings = "IdleSettings"
+        }
+    }
+
     public struct AppSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The arguments for a container used to run a processing job.
         public let containerArguments: [String]?
@@ -4374,6 +4418,23 @@ extension SageMaker {
         }
     }
 
+    public struct AutoMLComputeConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for using  EMR Serverless to run the AutoML job V2. To allow your AutoML job V2 to automatically initiate a remote job on EMR Serverless when additional compute resources are needed to process large datasets, you need to provide an EmrServerlessComputeConfig object, which includes an ExecutionRoleARN attribute, to the AutoMLComputeConfig of the AutoML job V2 input request. By seamlessly transitioning to EMR Serverless when required, the AutoML job can handle datasets that would otherwise exceed the initially provisioned resources, without any manual intervention from you.  EMR Serverless is available for the tabular and time series problem types. We recommend setting up this option for tabular datasets larger than 5 GB and time series datasets larger than 30 GB.
+        public let emrServerlessComputeConfig: EmrServerlessComputeConfig?
+
+        public init(emrServerlessComputeConfig: EmrServerlessComputeConfig? = nil) {
+            self.emrServerlessComputeConfig = emrServerlessComputeConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.emrServerlessComputeConfig?.validate(name: "\(name).emrServerlessComputeConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emrServerlessComputeConfig = "EmrServerlessComputeConfig"
+        }
+    }
+
     public struct AutoMLContainerDefinition: AWSDecodableShape {
         /// The environment variables to set in the container. For more information, see  ContainerDefinition.
         public let environment: [String: String]?
@@ -4616,7 +4677,7 @@ extension SageMaker {
     public struct AutoMLOutputDataConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Key Management Service encryption key ID.
         public let kmsKeyId: String?
-        /// The Amazon S3 output path. Must be 128 characters or less.
+        /// The Amazon S3 output path. Must be 512 characters or less.
         public let s3OutputPath: String?
 
         public init(kmsKeyId: String? = nil, s3OutputPath: String? = nil) {
@@ -4831,7 +4892,7 @@ extension SageMaker {
             try self.modelPackageArnList?.forEach {
                 try validate($0, name: "modelPackageArnList[]", parent: name, max: 2048)
                 try validate($0, name: "modelPackageArnList[]", parent: name, min: 1)
-                try validate($0, name: "modelPackageArnList[]", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
+                try validate($0, name: "modelPackageArnList[]", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso-f)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
             }
             try self.validate(self.modelPackageArnList, name: "modelPackageArnList", parent: name, max: 100)
             try self.validate(self.modelPackageArnList, name: "modelPackageArnList", parent: name, min: 1)
@@ -5138,6 +5199,8 @@ extension SageMaker {
     public struct CanvasAppSettings: AWSEncodableShape & AWSDecodableShape {
         /// The model deployment settings for the SageMaker Canvas application.
         public let directDeploySettings: DirectDeploySettings?
+        /// The settings for running Amazon EMR Serverless data processing jobs in SageMaker Canvas.
+        public let emrServerlessSettings: EmrServerlessSettings?
         /// The generative AI settings for the SageMaker Canvas application.
         public let generativeAiSettings: GenerativeAiSettings?
         /// The settings for connecting to an external data source with OAuth.
@@ -5151,8 +5214,9 @@ extension SageMaker {
         /// The workspace settings for the SageMaker Canvas application.
         public let workspaceSettings: WorkspaceSettings?
 
-        public init(directDeploySettings: DirectDeploySettings? = nil, generativeAiSettings: GenerativeAiSettings? = nil, identityProviderOAuthSettings: [IdentityProviderOAuthSetting]? = nil, kendraSettings: KendraSettings? = nil, modelRegisterSettings: ModelRegisterSettings? = nil, timeSeriesForecastingSettings: TimeSeriesForecastingSettings? = nil, workspaceSettings: WorkspaceSettings? = nil) {
+        public init(directDeploySettings: DirectDeploySettings? = nil, emrServerlessSettings: EmrServerlessSettings? = nil, generativeAiSettings: GenerativeAiSettings? = nil, identityProviderOAuthSettings: [IdentityProviderOAuthSetting]? = nil, kendraSettings: KendraSettings? = nil, modelRegisterSettings: ModelRegisterSettings? = nil, timeSeriesForecastingSettings: TimeSeriesForecastingSettings? = nil, workspaceSettings: WorkspaceSettings? = nil) {
             self.directDeploySettings = directDeploySettings
+            self.emrServerlessSettings = emrServerlessSettings
             self.generativeAiSettings = generativeAiSettings
             self.identityProviderOAuthSettings = identityProviderOAuthSettings
             self.kendraSettings = kendraSettings
@@ -5162,6 +5226,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
+            try self.emrServerlessSettings?.validate(name: "\(name).emrServerlessSettings")
             try self.generativeAiSettings?.validate(name: "\(name).generativeAiSettings")
             try self.identityProviderOAuthSettings?.forEach {
                 try $0.validate(name: "\(name).identityProviderOAuthSettings[]")
@@ -5174,6 +5239,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case directDeploySettings = "DirectDeploySettings"
+            case emrServerlessSettings = "EmrServerlessSettings"
             case generativeAiSettings = "GenerativeAiSettings"
             case identityProviderOAuthSettings = "IdentityProviderOAuthSettings"
             case kendraSettings = "KendraSettings"
@@ -5715,18 +5781,21 @@ extension SageMaker {
         public let instanceType: ClusterInstanceType?
         /// Details of LifeCycle configuration for the instance group.
         public let lifeCycleConfig: ClusterLifeCycleConfig?
+        /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
+        public let onStartDeepHealthChecks: [DeepHealthCheckType]?
         /// The number of instances you specified to add to the instance group of a SageMaker HyperPod cluster.
         public let targetCount: Int?
         /// The number you specified to TreadsPerCore in CreateCluster for enabling or disabling multithreading. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For more information, see the reference table of CPU cores and threads per CPU core per instance type in the Amazon Elastic Compute Cloud User Guide.
         public let threadsPerCore: Int?
 
-        public init(currentCount: Int? = nil, executionRole: String? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, targetCount: Int? = nil, threadsPerCore: Int? = nil) {
+        public init(currentCount: Int? = nil, executionRole: String? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, targetCount: Int? = nil, threadsPerCore: Int? = nil) {
             self.currentCount = currentCount
             self.executionRole = executionRole
             self.instanceGroupName = instanceGroupName
             self.instanceStorageConfigs = instanceStorageConfigs
             self.instanceType = instanceType
             self.lifeCycleConfig = lifeCycleConfig
+            self.onStartDeepHealthChecks = onStartDeepHealthChecks
             self.targetCount = targetCount
             self.threadsPerCore = threadsPerCore
         }
@@ -5738,6 +5807,7 @@ extension SageMaker {
             case instanceStorageConfigs = "InstanceStorageConfigs"
             case instanceType = "InstanceType"
             case lifeCycleConfig = "LifeCycleConfig"
+            case onStartDeepHealthChecks = "OnStartDeepHealthChecks"
             case targetCount = "TargetCount"
             case threadsPerCore = "ThreadsPerCore"
         }
@@ -5756,16 +5826,19 @@ extension SageMaker {
         public let instanceType: ClusterInstanceType?
         /// Specifies the LifeCycle configuration for the instance group.
         public let lifeCycleConfig: ClusterLifeCycleConfig?
+        /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
+        public let onStartDeepHealthChecks: [DeepHealthCheckType]?
         /// Specifies the value for Threads per core. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For instance types that doesn't support multithreading, specify 1. For more information, see the reference table of CPU cores and threads per CPU core per instance type in the Amazon Elastic Compute Cloud User Guide.
         public let threadsPerCore: Int?
 
-        public init(executionRole: String? = nil, instanceCount: Int? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, threadsPerCore: Int? = nil) {
+        public init(executionRole: String? = nil, instanceCount: Int? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, threadsPerCore: Int? = nil) {
             self.executionRole = executionRole
             self.instanceCount = instanceCount
             self.instanceGroupName = instanceGroupName
             self.instanceStorageConfigs = instanceStorageConfigs
             self.instanceType = instanceType
             self.lifeCycleConfig = lifeCycleConfig
+            self.onStartDeepHealthChecks = onStartDeepHealthChecks
             self.threadsPerCore = threadsPerCore
         }
 
@@ -5782,6 +5855,8 @@ extension SageMaker {
             }
             try self.validate(self.instanceStorageConfigs, name: "instanceStorageConfigs", parent: name, max: 1)
             try self.lifeCycleConfig?.validate(name: "\(name).lifeCycleConfig")
+            try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, max: 2)
+            try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, min: 1)
             try self.validate(self.threadsPerCore, name: "threadsPerCore", parent: name, max: 2)
             try self.validate(self.threadsPerCore, name: "threadsPerCore", parent: name, min: 1)
         }
@@ -5793,6 +5868,7 @@ extension SageMaker {
             case instanceStorageConfigs = "InstanceStorageConfigs"
             case instanceType = "InstanceType"
             case lifeCycleConfig = "LifeCycleConfig"
+            case onStartDeepHealthChecks = "OnStartDeepHealthChecks"
             case threadsPerCore = "ThreadsPerCore"
         }
     }
@@ -5938,6 +6014,42 @@ extension SageMaker {
         }
     }
 
+    public struct ClusterOrchestrator: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon EKS cluster used as the orchestrator for the SageMaker HyperPod cluster.
+        public let eks: ClusterOrchestratorEksConfig?
+
+        public init(eks: ClusterOrchestratorEksConfig? = nil) {
+            self.eks = eks
+        }
+
+        public func validate(name: String) throws {
+            try self.eks?.validate(name: "\(name).eks")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eks = "Eks"
+        }
+    }
+
+    public struct ClusterOrchestratorEksConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon EKS cluster associated with the SageMaker HyperPod cluster.
+        public let clusterArn: String?
+
+        public init(clusterArn: String? = nil) {
+            self.clusterArn = clusterArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, max: 2048)
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, min: 20)
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, pattern: "^arn:aws[a-z\\-]*:eks:[a-z0-9\\-]*:[0-9]{12}:cluster\\/[0-9A-Za-z][A-Za-z0-9\\-_]{0,99}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "ClusterArn"
+        }
+    }
+
     public struct ClusterSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster.
         public let clusterArn: String?
@@ -5984,19 +6096,23 @@ extension SageMaker {
     }
 
     public struct CodeEditorAppSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Settings that are used to configure and manage the lifecycle of CodeEditor applications.
+        public let appLifecycleManagement: AppLifecycleManagement?
         /// A list of custom SageMaker images that are configured to run as a Code Editor app.
         public let customImages: [CustomImage]?
         public let defaultResourceSpec: ResourceSpec?
         /// The Amazon Resource Name (ARN) of the Code Editor application  lifecycle configuration.
         public let lifecycleConfigArns: [String]?
 
-        public init(customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil, lifecycleConfigArns: [String]? = nil) {
+        public init(appLifecycleManagement: AppLifecycleManagement? = nil, customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil, lifecycleConfigArns: [String]? = nil) {
+            self.appLifecycleManagement = appLifecycleManagement
             self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
             self.lifecycleConfigArns = lifecycleConfigArns
         }
 
         public func validate(name: String) throws {
+            try self.appLifecycleManagement?.validate(name: "\(name).appLifecycleManagement")
             try self.customImages?.forEach {
                 try $0.validate(name: "\(name).customImages[]")
             }
@@ -6004,11 +6120,12 @@ extension SageMaker {
             try self.defaultResourceSpec?.validate(name: "\(name).defaultResourceSpec")
             try self.lifecycleConfigArns?.forEach {
                 try validate($0, name: "lifecycleConfigArns[]", parent: name, max: 256)
-                try validate($0, name: "lifecycleConfigArns[]", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/")
+                try validate($0, name: "lifecycleConfigArns[]", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/.*|None)$")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appLifecycleManagement = "AppLifecycleManagement"
             case customImages = "CustomImages"
             case defaultResourceSpec = "DefaultResourceSpec"
             case lifecycleConfigArns = "LifecycleConfigArns"
@@ -6263,7 +6380,7 @@ extension SageMaker {
         public let additionalModelDataSources: [AdditionalModelDataSource]?
         /// This parameter is ignored for models that contain only a PrimaryContainer. When a ContainerDefinition is part of an inference pipeline, the value of the parameter uniquely identifies the container for the purposes of logging and metrics. For information, see Use Logs and Metrics to Monitor an Inference Pipeline. If you don't specify a value for this parameter for a ContainerDefinition that is part of an inference pipeline, a unique name is automatically assigned based on the position of the ContainerDefinition in the pipeline. If you specify a value for the ContainerHostName for any ContainerDefinition that is part of an inference pipeline, you must specify a value for the ContainerHostName parameter of every ContainerDefinition in that pipeline.
         public let containerHostname: String?
-        /// The environment variables to set in the Docker container. The maximum length of each key and value in the Environment map is 1024 bytes. The maximum length of all keys and values in the map, combined, is 32 KB. If you pass multiple containers to a CreateModel request, then the maximum length of all of their maps, combined, is also 32 KB.
+        /// The environment variables to set in the Docker container. Don't include any sensitive data in your environment variables. The maximum length of each key and value in the Environment map is 1024 bytes. The maximum length of all keys and values in the map, combined, is 32 KB. If you pass multiple containers to a CreateModel request, then the maximum length of all of their maps, combined, is also 32 KB.
         public let environment: [String: String]?
         /// The path where inference code is stored. This can be either in Amazon EC2 Container Registry or in a Docker registry that is accessible from the same VPC that you configure for your endpoint. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker.   The model artifacts in an Amazon S3 bucket and the Docker image for inference container in Amazon EC2 Container Registry must be in the same region as the model or endpoint you are creating.
         public let image: String?
@@ -6881,6 +6998,8 @@ extension SageMaker {
     }
 
     public struct CreateAutoMLJobV2Request: AWSEncodableShape {
+        /// Specifies the compute configuration for the AutoML job V2.
+        public let autoMLComputeConfig: AutoMLComputeConfig?
         /// An array of channel objects describing the input data and their location. Each channel is a named input source. Similar to the InputDataConfig attribute in the CreateAutoMLJob input parameters. The supported formats depend on the problem type:   For tabular problem types: S3Prefix, ManifestFile.   For image classification: S3Prefix, ManifestFile, AugmentedManifestFile.   For text classification: S3Prefix.   For time-series forecasting: S3Prefix.   For text generation (LLMs fine-tuning): S3Prefix.
         public let autoMLJobInputDataConfig: [AutoMLJobChannel]?
         /// Identifies an Autopilot job. The name must be unique to your account and is case insensitive.
@@ -6902,7 +7021,8 @@ extension SageMaker {
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, such as by purpose, owner, or environment. For more information, see Tagging Amazon Web ServicesResources. Tag keys must be unique per resource.
         public let tags: [Tag]?
 
-        public init(autoMLJobInputDataConfig: [AutoMLJobChannel]? = nil, autoMLJobName: String? = nil, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLProblemTypeConfig: AutoMLProblemTypeConfig? = nil, dataSplitConfig: AutoMLDataSplitConfig? = nil, modelDeployConfig: ModelDeployConfig? = nil, outputDataConfig: AutoMLOutputDataConfig? = nil, roleArn: String? = nil, securityConfig: AutoMLSecurityConfig? = nil, tags: [Tag]? = nil) {
+        public init(autoMLComputeConfig: AutoMLComputeConfig? = nil, autoMLJobInputDataConfig: [AutoMLJobChannel]? = nil, autoMLJobName: String? = nil, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLProblemTypeConfig: AutoMLProblemTypeConfig? = nil, dataSplitConfig: AutoMLDataSplitConfig? = nil, modelDeployConfig: ModelDeployConfig? = nil, outputDataConfig: AutoMLOutputDataConfig? = nil, roleArn: String? = nil, securityConfig: AutoMLSecurityConfig? = nil, tags: [Tag]? = nil) {
+            self.autoMLComputeConfig = autoMLComputeConfig
             self.autoMLJobInputDataConfig = autoMLJobInputDataConfig
             self.autoMLJobName = autoMLJobName
             self.autoMLJobObjective = autoMLJobObjective
@@ -6916,6 +7036,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
+            try self.autoMLComputeConfig?.validate(name: "\(name).autoMLComputeConfig")
             try self.autoMLJobInputDataConfig?.forEach {
                 try $0.validate(name: "\(name).autoMLJobInputDataConfig[]")
             }
@@ -6939,6 +7060,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoMLComputeConfig = "AutoMLComputeConfig"
             case autoMLJobInputDataConfig = "AutoMLJobInputDataConfig"
             case autoMLJobName = "AutoMLJobName"
             case autoMLJobObjective = "AutoMLJobObjective"
@@ -6970,13 +7092,19 @@ extension SageMaker {
         public let clusterName: String?
         /// The instance groups to be created in the SageMaker HyperPod cluster.
         public let instanceGroups: [ClusterInstanceGroupSpecification]?
+        /// The node recovery mode for the SageMaker HyperPod cluster. When set to Automatic, SageMaker HyperPod will automatically reboot or replace faulty nodes when issues are detected. When set to None, cluster administrators will need to manually manage any faulty cluster instances.
+        public let nodeRecovery: ClusterNodeRecovery?
+        /// The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported value is "eks", which is to use an Amazon Elastic Kubernetes Service (EKS) cluster as the orchestrator.
+        public let orchestrator: ClusterOrchestrator?
         /// Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see Tagging Amazon Web Services Resources User Guide.
         public let tags: [Tag]?
         public let vpcConfig: VpcConfig?
 
-        public init(clusterName: String? = nil, instanceGroups: [ClusterInstanceGroupSpecification]? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clusterName: String? = nil, instanceGroups: [ClusterInstanceGroupSpecification]? = nil, nodeRecovery: ClusterNodeRecovery? = nil, orchestrator: ClusterOrchestrator? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.clusterName = clusterName
             self.instanceGroups = instanceGroups
+            self.nodeRecovery = nodeRecovery
+            self.orchestrator = orchestrator
             self.tags = tags
             self.vpcConfig = vpcConfig
         }
@@ -6988,8 +7116,9 @@ extension SageMaker {
             try self.instanceGroups?.forEach {
                 try $0.validate(name: "\(name).instanceGroups[]")
             }
-            try self.validate(self.instanceGroups, name: "instanceGroups", parent: name, max: 20)
+            try self.validate(self.instanceGroups, name: "instanceGroups", parent: name, max: 100)
             try self.validate(self.instanceGroups, name: "instanceGroups", parent: name, min: 1)
+            try self.orchestrator?.validate(name: "\(name).orchestrator")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -7000,6 +7129,8 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case clusterName = "ClusterName"
             case instanceGroups = "InstanceGroups"
+            case nodeRecovery = "NodeRecovery"
+            case orchestrator = "Orchestrator"
             case tags = "Tags"
             case vpcConfig = "VpcConfig"
         }
@@ -7099,7 +7230,7 @@ extension SageMaker {
             try self.inputConfig?.validate(name: "\(name).inputConfig")
             try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, max: 2048)
             try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, min: 1)
-            try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
+            try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso-f)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
             try self.outputConfig?.validate(name: "\(name).outputConfig")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
@@ -10304,7 +10435,7 @@ extension SageMaker {
         public let dataCaptureConfig: BatchDataCaptureConfig?
         /// The data structure used to specify the data to be used for inference in a batch transform job and to associate the data that is relevant to the prediction results in the output. The input filter provided allows you to exclude input data that is not needed for inference in a batch transform job. The output filter provided allows you to include input data relevant to interpreting the predictions in the output from the job. For more information, see Associate Prediction Results with their Corresponding Input Records.
         public let dataProcessing: DataProcessing?
-        /// The environment variables to set in the Docker container. We support up to 16 key and values entries in the map.
+        /// The environment variables to set in the Docker container. Don't include any sensitive data in your environment variables. We support up to 16 key and values entries in the map.
         public let environment: [String: String]?
         public let experimentConfig: ExperimentConfig?
         /// The maximum number of parallel requests that can be sent to each instance in a transform job. If MaxConcurrentTransforms is set to 0 or left unset, Amazon SageMaker checks the optional execution-parameters to determine the settings for your chosen algorithm. If the execution-parameters endpoint is not enabled, the default value is 1. For more information on execution-parameters, see How Containers Serve Requests. For built-in algorithms, you don't need to set a value for MaxConcurrentTransforms.
@@ -13268,6 +13399,8 @@ extension SageMaker {
     }
 
     public struct DescribeAutoMLJobV2Response: AWSDecodableShape {
+        /// The compute configuration used for the AutoML job V2.
+        public let autoMLComputeConfig: AutoMLComputeConfig?
         /// Returns the Amazon Resource Name (ARN) of the AutoML job V2.
         public let autoMLJobArn: String?
         public let autoMLJobArtifacts: AutoMLJobArtifacts?
@@ -13312,7 +13445,8 @@ extension SageMaker {
         /// Returns the security configuration for traffic encryption or Amazon VPC settings.
         public let securityConfig: AutoMLSecurityConfig?
 
-        public init(autoMLJobArn: String? = nil, autoMLJobArtifacts: AutoMLJobArtifacts? = nil, autoMLJobInputDataConfig: [AutoMLJobChannel]? = nil, autoMLJobName: String? = nil, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus? = nil, autoMLJobStatus: AutoMLJobStatus? = nil, autoMLProblemTypeConfig: AutoMLProblemTypeConfig? = nil, autoMLProblemTypeConfigName: AutoMLProblemTypeConfigName? = nil, bestCandidate: AutoMLCandidate? = nil, creationTime: Date? = nil, dataSplitConfig: AutoMLDataSplitConfig? = nil, endTime: Date? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, modelDeployConfig: ModelDeployConfig? = nil, modelDeployResult: ModelDeployResult? = nil, outputDataConfig: AutoMLOutputDataConfig? = nil, partialFailureReasons: [AutoMLPartialFailureReason]? = nil, resolvedAttributes: AutoMLResolvedAttributes? = nil, roleArn: String? = nil, securityConfig: AutoMLSecurityConfig? = nil) {
+        public init(autoMLComputeConfig: AutoMLComputeConfig? = nil, autoMLJobArn: String? = nil, autoMLJobArtifacts: AutoMLJobArtifacts? = nil, autoMLJobInputDataConfig: [AutoMLJobChannel]? = nil, autoMLJobName: String? = nil, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus? = nil, autoMLJobStatus: AutoMLJobStatus? = nil, autoMLProblemTypeConfig: AutoMLProblemTypeConfig? = nil, autoMLProblemTypeConfigName: AutoMLProblemTypeConfigName? = nil, bestCandidate: AutoMLCandidate? = nil, creationTime: Date? = nil, dataSplitConfig: AutoMLDataSplitConfig? = nil, endTime: Date? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, modelDeployConfig: ModelDeployConfig? = nil, modelDeployResult: ModelDeployResult? = nil, outputDataConfig: AutoMLOutputDataConfig? = nil, partialFailureReasons: [AutoMLPartialFailureReason]? = nil, resolvedAttributes: AutoMLResolvedAttributes? = nil, roleArn: String? = nil, securityConfig: AutoMLSecurityConfig? = nil) {
+            self.autoMLComputeConfig = autoMLComputeConfig
             self.autoMLJobArn = autoMLJobArn
             self.autoMLJobArtifacts = autoMLJobArtifacts
             self.autoMLJobInputDataConfig = autoMLJobInputDataConfig
@@ -13338,6 +13472,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoMLComputeConfig = "AutoMLComputeConfig"
             case autoMLJobArn = "AutoMLJobArn"
             case autoMLJobArtifacts = "AutoMLJobArtifacts"
             case autoMLJobInputDataConfig = "AutoMLJobInputDataConfig"
@@ -13432,15 +13567,21 @@ extension SageMaker {
         public let failureMessage: String?
         /// The instance groups of the SageMaker HyperPod cluster.
         public let instanceGroups: [ClusterInstanceGroupDetails]?
+        /// The node recovery mode configured for the SageMaker HyperPod cluster.
+        public let nodeRecovery: ClusterNodeRecovery?
+        /// The type of orchestrator used for the SageMaker HyperPod cluster.
+        public let orchestrator: ClusterOrchestrator?
         public let vpcConfig: VpcConfig?
 
-        public init(clusterArn: String? = nil, clusterName: String? = nil, clusterStatus: ClusterStatus? = nil, creationTime: Date? = nil, failureMessage: String? = nil, instanceGroups: [ClusterInstanceGroupDetails]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clusterArn: String? = nil, clusterName: String? = nil, clusterStatus: ClusterStatus? = nil, creationTime: Date? = nil, failureMessage: String? = nil, instanceGroups: [ClusterInstanceGroupDetails]? = nil, nodeRecovery: ClusterNodeRecovery? = nil, orchestrator: ClusterOrchestrator? = nil, vpcConfig: VpcConfig? = nil) {
             self.clusterArn = clusterArn
             self.clusterName = clusterName
             self.clusterStatus = clusterStatus
             self.creationTime = creationTime
             self.failureMessage = failureMessage
             self.instanceGroups = instanceGroups
+            self.nodeRecovery = nodeRecovery
+            self.orchestrator = orchestrator
             self.vpcConfig = vpcConfig
         }
 
@@ -13451,6 +13592,8 @@ extension SageMaker {
             case creationTime = "CreationTime"
             case failureMessage = "FailureMessage"
             case instanceGroups = "InstanceGroups"
+            case nodeRecovery = "NodeRecovery"
+            case orchestrator = "Orchestrator"
             case vpcConfig = "VpcConfig"
         }
     }
@@ -18732,6 +18875,80 @@ extension SageMaker {
         }
     }
 
+    public struct EmrServerlessComputeConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the IAM role granting the AutoML job V2 the necessary permissions access policies to list, connect to, or manage EMR Serverless jobs. For detailed information about the required permissions of this role, see "How to configure AutoML to initiate a remote job on EMR Serverless for large datasets" in Create a regression or classification job for tabular data using the AutoML API or Create an AutoML job for time-series forecasting using the API.
+        public let executionRoleARN: String?
+
+        public init(executionRoleARN: String? = nil) {
+            self.executionRoleARN = executionRoleARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionRoleARN, name: "executionRoleARN", parent: name, max: 2048)
+            try self.validate(self.executionRoleARN, name: "executionRoleARN", parent: name, min: 20)
+            try self.validate(self.executionRoleARN, name: "executionRoleARN", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionRoleARN = "ExecutionRoleARN"
+        }
+    }
+
+    public struct EmrServerlessSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM role that is assumed for running Amazon EMR Serverless jobs in SageMaker Canvas. This role should have the necessary permissions to read and write data attached and a trust relationship with EMR Serverless.
+        public let executionRoleArn: String?
+        /// Describes whether Amazon EMR Serverless job capabilities are enabled or disabled in the SageMaker Canvas application.
+        public let status: FeatureStatus?
+
+        public init(executionRoleArn: String? = nil, status: FeatureStatus? = nil) {
+            self.executionRoleArn = executionRoleArn
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionRoleArn = "ExecutionRoleArn"
+            case status = "Status"
+        }
+    }
+
+    public struct EmrSettings: AWSEncodableShape & AWSDecodableShape {
+        /// An array of Amazon Resource Names (ARNs) of the IAM roles that the execution role of SageMaker can assume for performing operations or tasks related to Amazon EMR clusters or Amazon EMR Serverless applications. These roles define the permissions and access policies required when performing Amazon EMR-related operations, such as listing, connecting to, or terminating Amazon EMR clusters or Amazon EMR Serverless applications. They are typically used in cross-account access scenarios, where the Amazon EMR resources (clusters or serverless applications) are located in a different Amazon Web Services account than the SageMaker domain.
+        public let assumableRoleArns: [String]?
+        /// An array of Amazon Resource Names (ARNs) of the IAM roles used by the Amazon EMR cluster instances or job execution environments to access other Amazon Web Services services and resources needed during the  runtime of your Amazon EMR or Amazon EMR Serverless workloads, such as Amazon S3 for data access, Amazon CloudWatch for logging, or other Amazon Web Services services based on the particular workload requirements.
+        public let executionRoleArns: [String]?
+
+        public init(assumableRoleArns: [String]? = nil, executionRoleArns: [String]? = nil) {
+            self.assumableRoleArns = assumableRoleArns
+            self.executionRoleArns = executionRoleArns
+        }
+
+        public func validate(name: String) throws {
+            try self.assumableRoleArns?.forEach {
+                try validate($0, name: "assumableRoleArns[]", parent: name, max: 2048)
+                try validate($0, name: "assumableRoleArns[]", parent: name, min: 20)
+                try validate($0, name: "assumableRoleArns[]", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            }
+            try self.validate(self.assumableRoleArns, name: "assumableRoleArns", parent: name, max: 5)
+            try self.executionRoleArns?.forEach {
+                try validate($0, name: "executionRoleArns[]", parent: name, max: 2048)
+                try validate($0, name: "executionRoleArns[]", parent: name, min: 20)
+                try validate($0, name: "executionRoleArns[]", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            }
+            try self.validate(self.executionRoleArns, name: "executionRoleArns", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assumableRoleArns = "AssumableRoleArns"
+            case executionRoleArns = "ExecutionRoleArns"
+        }
+    }
+
     public struct EnableSagemakerServicecatalogPortfolioInput: AWSEncodableShape {
         public init() {}
     }
@@ -18793,6 +19010,19 @@ extension SageMaker {
             case productionVariants = "ProductionVariants"
             case shadowProductionVariants = "ShadowProductionVariants"
             case tags = "Tags"
+        }
+    }
+
+    public struct EndpointConfigStepMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the endpoint configuration used in the step.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
         }
     }
 
@@ -19000,6 +19230,19 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case endpointInfo = "EndpointInfo"
             case metrics = "Metrics"
+        }
+    }
+
+    public struct EndpointStepMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the endpoint in the step.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
         }
     }
 
@@ -21064,6 +21307,40 @@ extension SageMaker {
         }
     }
 
+    public struct IdleSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The time that SageMaker waits after the application becomes idle before shutting it down.
+        public let idleTimeoutInMinutes: Int?
+        /// Indicates whether idle shutdown is activated for the application type.
+        public let lifecycleManagement: LifecycleManagement?
+        /// The maximum value in minutes that custom idle shutdown can be set to by the user.
+        public let maxIdleTimeoutInMinutes: Int?
+        /// The minimum value in minutes that custom idle shutdown can be set to by the user.
+        public let minIdleTimeoutInMinutes: Int?
+
+        public init(idleTimeoutInMinutes: Int? = nil, lifecycleManagement: LifecycleManagement? = nil, maxIdleTimeoutInMinutes: Int? = nil, minIdleTimeoutInMinutes: Int? = nil) {
+            self.idleTimeoutInMinutes = idleTimeoutInMinutes
+            self.lifecycleManagement = lifecycleManagement
+            self.maxIdleTimeoutInMinutes = maxIdleTimeoutInMinutes
+            self.minIdleTimeoutInMinutes = minIdleTimeoutInMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.idleTimeoutInMinutes, name: "idleTimeoutInMinutes", parent: name, max: 525600)
+            try self.validate(self.idleTimeoutInMinutes, name: "idleTimeoutInMinutes", parent: name, min: 60)
+            try self.validate(self.maxIdleTimeoutInMinutes, name: "maxIdleTimeoutInMinutes", parent: name, max: 525600)
+            try self.validate(self.maxIdleTimeoutInMinutes, name: "maxIdleTimeoutInMinutes", parent: name, min: 60)
+            try self.validate(self.minIdleTimeoutInMinutes, name: "minIdleTimeoutInMinutes", parent: name, max: 525600)
+            try self.validate(self.minIdleTimeoutInMinutes, name: "minIdleTimeoutInMinutes", parent: name, min: 60)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idleTimeoutInMinutes = "IdleTimeoutInMinutes"
+            case lifecycleManagement = "LifecycleManagement"
+            case maxIdleTimeoutInMinutes = "MaxIdleTimeoutInMinutes"
+            case minIdleTimeoutInMinutes = "MinIdleTimeoutInMinutes"
+        }
+    }
+
     public struct Image: AWSDecodableShape {
         /// When the image was created.
         public let creationTime: Date?
@@ -22003,22 +22280,29 @@ extension SageMaker {
     }
 
     public struct JupyterLabAppSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether idle shutdown is activated for JupyterLab applications.
+        public let appLifecycleManagement: AppLifecycleManagement?
         /// A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterLab application.
         public let codeRepositories: [CodeRepository]?
         /// A list of custom SageMaker images that are configured to run as a JupyterLab app.
         public let customImages: [CustomImage]?
         public let defaultResourceSpec: ResourceSpec?
+        /// The configuration parameters that specify the IAM roles assumed by the execution role of  SageMaker (assumable roles) and the cluster instances or job execution environments  (execution roles or runtime roles) to manage and access resources required for running Amazon EMR clusters or Amazon EMR Serverless applications.
+        public let emrSettings: EmrSettings?
         /// The Amazon Resource Name (ARN) of the lifecycle configurations attached to the user profile or domain. To remove a lifecycle config, you must set LifecycleConfigArns to an empty list.
         public let lifecycleConfigArns: [String]?
 
-        public init(codeRepositories: [CodeRepository]? = nil, customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil, lifecycleConfigArns: [String]? = nil) {
+        public init(appLifecycleManagement: AppLifecycleManagement? = nil, codeRepositories: [CodeRepository]? = nil, customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil, emrSettings: EmrSettings? = nil, lifecycleConfigArns: [String]? = nil) {
+            self.appLifecycleManagement = appLifecycleManagement
             self.codeRepositories = codeRepositories
             self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
+            self.emrSettings = emrSettings
             self.lifecycleConfigArns = lifecycleConfigArns
         }
 
         public func validate(name: String) throws {
+            try self.appLifecycleManagement?.validate(name: "\(name).appLifecycleManagement")
             try self.codeRepositories?.forEach {
                 try $0.validate(name: "\(name).codeRepositories[]")
             }
@@ -22028,16 +22312,19 @@ extension SageMaker {
             }
             try self.validate(self.customImages, name: "customImages", parent: name, max: 200)
             try self.defaultResourceSpec?.validate(name: "\(name).defaultResourceSpec")
+            try self.emrSettings?.validate(name: "\(name).emrSettings")
             try self.lifecycleConfigArns?.forEach {
                 try validate($0, name: "lifecycleConfigArns[]", parent: name, max: 256)
-                try validate($0, name: "lifecycleConfigArns[]", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/")
+                try validate($0, name: "lifecycleConfigArns[]", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/.*|None)$")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appLifecycleManagement = "AppLifecycleManagement"
             case codeRepositories = "CodeRepositories"
             case customImages = "CustomImages"
             case defaultResourceSpec = "DefaultResourceSpec"
+            case emrSettings = "EmrSettings"
             case lifecycleConfigArns = "LifecycleConfigArns"
         }
     }
@@ -22064,7 +22351,7 @@ extension SageMaker {
             try self.defaultResourceSpec?.validate(name: "\(name).defaultResourceSpec")
             try self.lifecycleConfigArns?.forEach {
                 try validate($0, name: "lifecycleConfigArns[]", parent: name, max: 256)
-                try validate($0, name: "lifecycleConfigArns[]", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/")
+                try validate($0, name: "lifecycleConfigArns[]", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/.*|None)$")
             }
         }
 
@@ -22110,7 +22397,7 @@ extension SageMaker {
             try self.defaultResourceSpec?.validate(name: "\(name).defaultResourceSpec")
             try self.lifecycleConfigArns?.forEach {
                 try validate($0, name: "lifecycleConfigArns[]", parent: name, max: 256)
-                try validate($0, name: "lifecycleConfigArns[]", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/")
+                try validate($0, name: "lifecycleConfigArns[]", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/.*|None)$")
             }
         }
 
@@ -25052,7 +25339,7 @@ extension SageMaker {
             try self.validate(self.modelNameEquals, name: "modelNameEquals", parent: name, pattern: "^[a-zA-Z0-9]([\\-a-zA-Z0-9]*[a-zA-Z0-9])?$")
             try self.validate(self.modelPackageVersionArnEquals, name: "modelPackageVersionArnEquals", parent: name, max: 2048)
             try self.validate(self.modelPackageVersionArnEquals, name: "modelPackageVersionArnEquals", parent: name, min: 1)
-            try self.validate(self.modelPackageVersionArnEquals, name: "modelPackageVersionArnEquals", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
+            try self.validate(self.modelPackageVersionArnEquals, name: "modelPackageVersionArnEquals", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso-f)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
             try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
@@ -31648,6 +31935,10 @@ extension SageMaker {
         public let condition: ConditionStepMetadata?
         /// The configurations and outcomes of an Amazon EMR step execution.
         public let emr: EMRStepMetadata?
+        /// The endpoint that was invoked during this step execution.
+        public let endpoint: EndpointStepMetadata?
+        /// The endpoint configuration used to create an endpoint during this step execution.
+        public let endpointConfig: EndpointConfigStepMetadata?
         /// The configurations and outcomes of a Fail step execution.
         public let fail: FailStepMetadata?
         /// The Amazon Resource Name (ARN) of the Lambda function that was run by this step execution and a list of output parameters.
@@ -31667,12 +31958,14 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the tuning job that was run by this step execution.
         public let tuningJob: TuningJobStepMetaData?
 
-        public init(autoMLJob: AutoMLJobStepMetadata? = nil, callback: CallbackStepMetadata? = nil, clarifyCheck: ClarifyCheckStepMetadata? = nil, condition: ConditionStepMetadata? = nil, emr: EMRStepMetadata? = nil, fail: FailStepMetadata? = nil, lambda: LambdaStepMetadata? = nil, model: ModelStepMetadata? = nil, processingJob: ProcessingJobStepMetadata? = nil, qualityCheck: QualityCheckStepMetadata? = nil, registerModel: RegisterModelStepMetadata? = nil, trainingJob: TrainingJobStepMetadata? = nil, transformJob: TransformJobStepMetadata? = nil, tuningJob: TuningJobStepMetaData? = nil) {
+        public init(autoMLJob: AutoMLJobStepMetadata? = nil, callback: CallbackStepMetadata? = nil, clarifyCheck: ClarifyCheckStepMetadata? = nil, condition: ConditionStepMetadata? = nil, emr: EMRStepMetadata? = nil, endpoint: EndpointStepMetadata? = nil, endpointConfig: EndpointConfigStepMetadata? = nil, fail: FailStepMetadata? = nil, lambda: LambdaStepMetadata? = nil, model: ModelStepMetadata? = nil, processingJob: ProcessingJobStepMetadata? = nil, qualityCheck: QualityCheckStepMetadata? = nil, registerModel: RegisterModelStepMetadata? = nil, trainingJob: TrainingJobStepMetadata? = nil, transformJob: TransformJobStepMetadata? = nil, tuningJob: TuningJobStepMetaData? = nil) {
             self.autoMLJob = autoMLJob
             self.callback = callback
             self.clarifyCheck = clarifyCheck
             self.condition = condition
             self.emr = emr
+            self.endpoint = endpoint
+            self.endpointConfig = endpointConfig
             self.fail = fail
             self.lambda = lambda
             self.model = model
@@ -31690,6 +31983,8 @@ extension SageMaker {
             case clarifyCheck = "ClarifyCheck"
             case condition = "Condition"
             case emr = "EMR"
+            case endpoint = "Endpoint"
+            case endpointConfig = "EndpointConfig"
             case fail = "Fail"
             case lambda = "Lambda"
             case model = "Model"
@@ -32202,7 +32497,7 @@ extension SageMaker {
         public let coreDumpConfig: ProductionVariantCoreDumpConfig?
         ///  You can use this parameter to turn on native Amazon Web Services Systems Manager (SSM) access for a production variant behind an endpoint. By default, SSM access is disabled for all production variants behind an endpoint. You can turn on or turn off SSM access for a production variant behind an existing endpoint by creating a new endpoint configuration and calling UpdateEndpoint.
         public let enableSSMAccess: Bool?
-        /// Specifies an option from a collection of preconfigured Amazon Machine Image (AMI) images. Each image is configured by Amazon Web Services with a set of software and driver versions. Amazon Web Services optimizes these configurations for different machine learning workloads. By selecting an AMI version, you can ensure that your inference environment is compatible with specific software requirements, such as CUDA driver versions, Linux kernel versions, or Amazon Web Services Neuron driver versions.
+        /// Specifies an option from a collection of preconfigured Amazon Machine Image (AMI) images. Each image is configured by Amazon Web Services with a set of software and driver versions. Amazon Web Services optimizes these configurations for different machine learning workloads. By selecting an AMI version, you can ensure that your inference environment is compatible with specific software requirements, such as CUDA driver versions, Linux kernel versions, or Amazon Web Services Neuron driver versions. The AMI version names, and their configurations, are the following:  al2-ami-sagemaker-inference-gpu-2    Accelerator: GPU   NVIDIA driver version: 535.54.03   CUDA driver version: 12.2   Supported instance types: ml.g4dn.*, ml.g5.*, ml.g6.*, ml.p3.*, ml.p4d.*, ml.p4de.*, ml.p5.*
         public let inferenceAmiVersion: ProductionVariantInferenceAmiVersion?
         /// Number of instances to launch initially.
         public let initialInstanceCount: Int?
@@ -33312,7 +33607,7 @@ extension SageMaker {
             try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[a-zA-Z0-9]([\\-a-zA-Z0-9]*[a-zA-Z0-9])?$")
             try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, max: 2048)
             try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, min: 1)
-            try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
+            try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso-f)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
             try self.resourceLimit?.validate(name: "\(name).resourceLimit")
             try self.trafficPattern?.validate(name: "\(name).trafficPattern")
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
@@ -33902,9 +34197,9 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.validate(self.lifecycleConfigArn, name: "lifecycleConfigArn", parent: name, max: 256)
-            try self.validate(self.lifecycleConfigArn, name: "lifecycleConfigArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/")
+            try self.validate(self.lifecycleConfigArn, name: "lifecycleConfigArn", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/.*|None)$")
             try self.validate(self.sageMakerImageArn, name: "sageMakerImageArn", parent: name, max: 256)
-            try self.validate(self.sageMakerImageArn, name: "sageMakerImageArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:sagemaker:.+:[0-9]{12}:image/[a-z0-9]([-.]?[a-z0-9])*$")
+            try self.validate(self.sageMakerImageArn, name: "sageMakerImageArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:sagemaker:.+:[0-9]{12}:image/[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
             try self.validate(self.sageMakerImageVersionAlias, name: "sageMakerImageVersionAlias", parent: name, max: 128)
             try self.validate(self.sageMakerImageVersionAlias, name: "sageMakerImageVersionAlias", parent: name, min: 1)
             try self.validate(self.sageMakerImageVersionAlias, name: "sageMakerImageVersionAlias", parent: name, pattern: "^(^\\d+$)|(^\\d+.\\d+$)|(^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$)$")
@@ -34821,18 +35116,40 @@ extension SageMaker {
         }
     }
 
+    public struct SpaceAppLifecycleManagement: AWSEncodableShape & AWSDecodableShape {
+        /// Settings related to idle shutdown of Studio applications.
+        public let idleSettings: SpaceIdleSettings?
+
+        public init(idleSettings: SpaceIdleSettings? = nil) {
+            self.idleSettings = idleSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.idleSettings?.validate(name: "\(name).idleSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idleSettings = "IdleSettings"
+        }
+    }
+
     public struct SpaceCodeEditorAppSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Settings that are used to configure and manage the lifecycle of CodeEditor applications in a space.
+        public let appLifecycleManagement: SpaceAppLifecycleManagement?
         public let defaultResourceSpec: ResourceSpec?
 
-        public init(defaultResourceSpec: ResourceSpec? = nil) {
+        public init(appLifecycleManagement: SpaceAppLifecycleManagement? = nil, defaultResourceSpec: ResourceSpec? = nil) {
+            self.appLifecycleManagement = appLifecycleManagement
             self.defaultResourceSpec = defaultResourceSpec
         }
 
         public func validate(name: String) throws {
+            try self.appLifecycleManagement?.validate(name: "\(name).appLifecycleManagement")
             try self.defaultResourceSpec?.validate(name: "\(name).defaultResourceSpec")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appLifecycleManagement = "AppLifecycleManagement"
             case defaultResourceSpec = "DefaultResourceSpec"
         }
     }
@@ -34882,17 +35199,39 @@ extension SageMaker {
         }
     }
 
+    public struct SpaceIdleSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The time that SageMaker waits after the application becomes idle before shutting it down.
+        public let idleTimeoutInMinutes: Int?
+
+        public init(idleTimeoutInMinutes: Int? = nil) {
+            self.idleTimeoutInMinutes = idleTimeoutInMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.idleTimeoutInMinutes, name: "idleTimeoutInMinutes", parent: name, max: 525600)
+            try self.validate(self.idleTimeoutInMinutes, name: "idleTimeoutInMinutes", parent: name, min: 60)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idleTimeoutInMinutes = "IdleTimeoutInMinutes"
+        }
+    }
+
     public struct SpaceJupyterLabAppSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Settings that are used to configure and manage the lifecycle of JupyterLab applications in a space.
+        public let appLifecycleManagement: SpaceAppLifecycleManagement?
         /// A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterLab application.
         public let codeRepositories: [CodeRepository]?
         public let defaultResourceSpec: ResourceSpec?
 
-        public init(codeRepositories: [CodeRepository]? = nil, defaultResourceSpec: ResourceSpec? = nil) {
+        public init(appLifecycleManagement: SpaceAppLifecycleManagement? = nil, codeRepositories: [CodeRepository]? = nil, defaultResourceSpec: ResourceSpec? = nil) {
+            self.appLifecycleManagement = appLifecycleManagement
             self.codeRepositories = codeRepositories
             self.defaultResourceSpec = defaultResourceSpec
         }
 
         public func validate(name: String) throws {
+            try self.appLifecycleManagement?.validate(name: "\(name).appLifecycleManagement")
             try self.codeRepositories?.forEach {
                 try $0.validate(name: "\(name).codeRepositories[]")
             }
@@ -34901,6 +35240,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appLifecycleManagement = "AppLifecycleManagement"
             case codeRepositories = "CodeRepositories"
             case defaultResourceSpec = "DefaultResourceSpec"
         }
@@ -37770,10 +38110,13 @@ extension SageMaker {
         public let clusterName: String?
         /// Specify the instance groups to update.
         public let instanceGroups: [ClusterInstanceGroupSpecification]?
+        /// The node recovery mode to be applied to the SageMaker HyperPod cluster.
+        public let nodeRecovery: ClusterNodeRecovery?
 
-        public init(clusterName: String? = nil, instanceGroups: [ClusterInstanceGroupSpecification]? = nil) {
+        public init(clusterName: String? = nil, instanceGroups: [ClusterInstanceGroupSpecification]? = nil, nodeRecovery: ClusterNodeRecovery? = nil) {
             self.clusterName = clusterName
             self.instanceGroups = instanceGroups
+            self.nodeRecovery = nodeRecovery
         }
 
         public func validate(name: String) throws {
@@ -37782,13 +38125,14 @@ extension SageMaker {
             try self.instanceGroups?.forEach {
                 try $0.validate(name: "\(name).instanceGroups[]")
             }
-            try self.validate(self.instanceGroups, name: "instanceGroups", parent: name, max: 20)
+            try self.validate(self.instanceGroups, name: "instanceGroups", parent: name, max: 100)
             try self.validate(self.instanceGroups, name: "instanceGroups", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clusterName = "ClusterName"
             case instanceGroups = "InstanceGroups"
+            case nodeRecovery = "NodeRecovery"
         }
     }
 
@@ -38805,7 +39149,7 @@ extension SageMaker {
             try self.modelCard?.validate(name: "\(name).modelCard")
             try self.validate(self.modelPackageArn, name: "modelPackageArn", parent: name, max: 2048)
             try self.validate(self.modelPackageArn, name: "modelPackageArn", parent: name, min: 1)
-            try self.validate(self.modelPackageArn, name: "modelPackageArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
+            try self.validate(self.modelPackageArn, name: "modelPackageArn", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso-f)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
             try self.validate(self.sourceUri, name: "sourceUri", parent: name, max: 1024)
             try self.validate(self.sourceUri, name: "sourceUri", parent: name, pattern: "^[\\p{L}\\p{M}\\p{Z}\\p{N}\\p{P}]{0,1024}$")
         }
@@ -39674,6 +40018,8 @@ extension SageMaker {
     }
 
     public struct UserSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether auto-mounting of an EFS volume is supported for the user profile. The DefaultAsDomain value is only supported for user profiles. Do not use the DefaultAsDomain value when setting this parameter for a domain.
+        public let autoMountHomeEFS: AutoMountHomeEFS?
         /// The Canvas app settings.
         public let canvasAppSettings: CanvasAppSettings?
         /// The Code Editor application settings.
@@ -39709,7 +40055,8 @@ extension SageMaker {
         /// The TensorBoard app settings.
         public let tensorBoardAppSettings: TensorBoardAppSettings?
 
-        public init(canvasAppSettings: CanvasAppSettings? = nil, codeEditorAppSettings: CodeEditorAppSettings? = nil, customFileSystemConfigs: [CustomFileSystemConfig]? = nil, customPosixUserConfig: CustomPosixUserConfig? = nil, defaultLandingUri: String? = nil, executionRole: String? = nil, jupyterLabAppSettings: JupyterLabAppSettings? = nil, jupyterServerAppSettings: JupyterServerAppSettings? = nil, kernelGatewayAppSettings: KernelGatewayAppSettings? = nil, rSessionAppSettings: RSessionAppSettings? = nil, rStudioServerProAppSettings: RStudioServerProAppSettings? = nil, securityGroups: [String]? = nil, sharingSettings: SharingSettings? = nil, spaceStorageSettings: DefaultSpaceStorageSettings? = nil, studioWebPortal: StudioWebPortal? = nil, studioWebPortalSettings: StudioWebPortalSettings? = nil, tensorBoardAppSettings: TensorBoardAppSettings? = nil) {
+        public init(autoMountHomeEFS: AutoMountHomeEFS? = nil, canvasAppSettings: CanvasAppSettings? = nil, codeEditorAppSettings: CodeEditorAppSettings? = nil, customFileSystemConfigs: [CustomFileSystemConfig]? = nil, customPosixUserConfig: CustomPosixUserConfig? = nil, defaultLandingUri: String? = nil, executionRole: String? = nil, jupyterLabAppSettings: JupyterLabAppSettings? = nil, jupyterServerAppSettings: JupyterServerAppSettings? = nil, kernelGatewayAppSettings: KernelGatewayAppSettings? = nil, rSessionAppSettings: RSessionAppSettings? = nil, rStudioServerProAppSettings: RStudioServerProAppSettings? = nil, securityGroups: [String]? = nil, sharingSettings: SharingSettings? = nil, spaceStorageSettings: DefaultSpaceStorageSettings? = nil, studioWebPortal: StudioWebPortal? = nil, studioWebPortalSettings: StudioWebPortalSettings? = nil, tensorBoardAppSettings: TensorBoardAppSettings? = nil) {
+            self.autoMountHomeEFS = autoMountHomeEFS
             self.canvasAppSettings = canvasAppSettings
             self.codeEditorAppSettings = codeEditorAppSettings
             self.customFileSystemConfigs = customFileSystemConfigs
@@ -39756,6 +40103,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoMountHomeEFS = "AutoMountHomeEFS"
             case canvasAppSettings = "CanvasAppSettings"
             case codeEditorAppSettings = "CodeEditorAppSettings"
             case customFileSystemConfigs = "CustomFileSystemConfigs"

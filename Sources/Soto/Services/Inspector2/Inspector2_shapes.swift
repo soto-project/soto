@@ -342,6 +342,8 @@ extension Inspector2 {
         case alreadyEnabled = "ALREADY_ENABLED"
         case disableInProgress = "DISABLE_IN_PROGRESS"
         case disassociateAllMembers = "DISASSOCIATE_ALL_MEMBERS"
+        case ec2SsmAssociationVersionLimitExceeded = "EC2_SSM_ASSOCIATION_VERSION_LIMIT_EXCEEDED"
+        case ec2SsmResourceDataSyncLimitExceeded = "EC2_SSM_RESOURCE_DATA_SYNC_LIMIT_EXCEEDED"
         case enableInProgress = "ENABLE_IN_PROGRESS"
         case eventbridgeThrottled = "EVENTBRIDGE_THROTTLED"
         case eventbridgeUnavailable = "EVENTBRIDGE_UNAVAILABLE"
@@ -633,6 +635,8 @@ extension Inspector2 {
 
     public enum ScanStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
+        case agentlessInstanceCollectionTimeLimitExceeded = "AGENTLESS_INSTANCE_COLLECTION_TIME_LIMIT_EXCEEDED"
+        case agentlessInstanceStorageLimitExceeded = "AGENTLESS_INSTANCE_STORAGE_LIMIT_EXCEEDED"
         case deepInspectionCollectionTimeLimitExceeded = "DEEP_INSPECTION_COLLECTION_TIME_LIMIT_EXCEEDED"
         case deepInspectionDailySsmInventoryLimitExceeded = "DEEP_INSPECTION_DAILY_SSM_INVENTORY_LIMIT_EXCEEDED"
         case deepInspectionNoInventory = "DEEP_INSPECTION_NO_INVENTORY"
@@ -1059,16 +1063,24 @@ extension Inspector2 {
     public struct AccountAggregationResponse: AWSDecodableShape {
         /// The Amazon Web Services account ID.
         public let accountId: String?
+        ///  The number of findings that have an exploit available.
+        public let exploitAvailableCount: Int64?
+        ///  Details about the number of fixes.
+        public let fixAvailableCount: Int64?
         /// The number of findings by severity.
         public let severityCounts: SeverityCounts?
 
-        public init(accountId: String? = nil, severityCounts: SeverityCounts? = nil) {
+        public init(accountId: String? = nil, exploitAvailableCount: Int64? = nil, fixAvailableCount: Int64? = nil, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
+            self.exploitAvailableCount = exploitAvailableCount
+            self.fixAvailableCount = fixAvailableCount
             self.severityCounts = severityCounts
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
+            case exploitAvailableCount = "exploitAvailableCount"
+            case fixAvailableCount = "fixAvailableCount"
             case severityCounts = "severityCounts"
         }
     }
@@ -2858,7 +2870,9 @@ extension Inspector2 {
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 10000)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
             try self.targetResourceTags.forEach {
+                try validate($0.key, name: "targetResourceTags.key", parent: name, max: 128)
                 try validate($0.key, name: "targetResourceTags.key", parent: name, min: 1)
+                try validate($0.key, name: "targetResourceTags.key", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=\\-@]*$")
                 try validate($0.value, name: "targetResourceTags[\"\($0.key)\"]", parent: name, max: 5)
                 try validate($0.value, name: "targetResourceTags[\"\($0.key)\"]", parent: name, min: 1)
             }
@@ -4465,16 +4479,24 @@ extension Inspector2 {
     public struct FindingTypeAggregationResponse: AWSDecodableShape {
         /// The ID of the Amazon Web Services account associated with the findings.
         public let accountId: String?
+        /// The number of findings that have an exploit available.
+        public let exploitAvailableCount: Int64?
+        ///  Details about the number of fixes.
+        public let fixAvailableCount: Int64?
         /// The value to sort results by.
         public let severityCounts: SeverityCounts?
 
-        public init(accountId: String? = nil, severityCounts: SeverityCounts? = nil) {
+        public init(accountId: String? = nil, exploitAvailableCount: Int64? = nil, fixAvailableCount: Int64? = nil, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
+            self.exploitAvailableCount = exploitAvailableCount
+            self.fixAvailableCount = fixAvailableCount
             self.severityCounts = severityCounts
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
+            case exploitAvailableCount = "exploitAvailableCount"
+            case fixAvailableCount = "fixAvailableCount"
             case severityCounts = "severityCounts"
         }
     }
@@ -7453,7 +7475,9 @@ extension Inspector2 {
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 10000)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
             try self.targetResourceTags?.forEach {
+                try validate($0.key, name: "targetResourceTags.key", parent: name, max: 128)
                 try validate($0.key, name: "targetResourceTags.key", parent: name, min: 1)
+                try validate($0.key, name: "targetResourceTags.key", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=\\-@]*$")
                 try validate($0.value, name: "targetResourceTags[\"\($0.key)\"]", parent: name, max: 5)
                 try validate($0.value, name: "targetResourceTags[\"\($0.key)\"]", parent: name, min: 1)
             }
@@ -7907,7 +7931,7 @@ public struct Inspector2ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You do not have sufficient access to perform this action.
+    /// You do not have sufficient access to perform this action.  For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// One or more tags submitted as part of the request is not valid.
     public static var badRequestException: Self { .init(.badRequestException) }

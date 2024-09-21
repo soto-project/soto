@@ -280,7 +280,7 @@ public struct WorkSpaces: AWSService {
         )
     }
 
-    /// Creates one or more WorkSpaces. This operation is asynchronous and returns before the WorkSpaces are created.    The MANUAL running mode value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see Amazon WorkSpaces Core.   You don't need to specify the PCOIP protocol for Linux bundles because WSP is the default protocol for those bundles.   User-decoupled WorkSpaces are only supported by Amazon WorkSpaces Core.
+    /// Creates one or more WorkSpaces. This operation is asynchronous and returns before the WorkSpaces are created.    The MANUAL running mode value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see Amazon WorkSpaces Core.   You don't need to specify the PCOIP protocol for Linux bundles because WSP is the default protocol for those bundles.   User-decoupled WorkSpaces are only supported by Amazon WorkSpaces Core.   Review your running mode to ensure you are using one that is optimal for your needs and budget. For more information on switching running modes, see   Can I switch between hourly and monthly billing?
     @Sendable
     public func createWorkspaces(_ input: CreateWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspacesResult {
         return try await self.client.execute(
@@ -1060,7 +1060,7 @@ public struct WorkSpaces: AWSService {
         )
     }
 
-    /// Starts the specified WorkSpaces. You cannot start a WorkSpace unless it has a running mode of AutoStop and a state of STOPPED.
+    /// Starts the specified WorkSpaces. You cannot start a WorkSpace unless it has a running mode of AutoStop or Manual and a state of STOPPED.
     @Sendable
     public func startWorkspaces(_ input: StartWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartWorkspacesResult {
         return try await self.client.execute(
@@ -1086,7 +1086,7 @@ public struct WorkSpaces: AWSService {
         )
     }
 
-    ///  Stops the specified WorkSpaces. You cannot stop a WorkSpace unless it has a running mode of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
+    /// Stops the specified WorkSpaces. You cannot stop a WorkSpace unless it has a running mode of AutoStop or Manual and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
     @Sendable
     public func stopWorkspaces(_ input: StopWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopWorkspacesResult {
         return try await self.client.execute(
@@ -1397,6 +1397,7 @@ extension WorkSpaces.DescribeWorkspaceDirectoriesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WorkSpaces.DescribeWorkspaceDirectoriesRequest {
         return .init(
             directoryIds: self.directoryIds,
+            filters: self.filters,
             limit: self.limit,
             nextToken: token,
             workspaceDirectoryNames: self.workspaceDirectoryNames

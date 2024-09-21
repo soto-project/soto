@@ -319,6 +319,19 @@ public struct AppStream: AWSService {
         )
     }
 
+    /// Creates custom branding that customizes the appearance of the streaming application catalog page.
+    @Sendable
+    public func createThemeForStack(_ input: CreateThemeForStackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateThemeForStackResult {
+        return try await self.client.execute(
+            operation: "CreateThemeForStack", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a new image with the latest Windows operating system updates, driver updates, and AppStream 2.0 agent software. For more information, see the "Update an Image by Using Managed AppStream 2.0 Image Updates" section in Administer Your AppStream 2.0 Images, in the Amazon AppStream 2.0 Administration Guide.
     @Sendable
     public func createUpdatedImage(_ input: CreateUpdatedImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUpdatedImageResult {
@@ -480,6 +493,19 @@ public struct AppStream: AWSService {
     public func deleteStack(_ input: DeleteStackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStackResult {
         return try await self.client.execute(
             operation: "DeleteStack", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes custom branding that customizes the appearance of the streaming application catalog page.
+    @Sendable
+    public func deleteThemeForStack(_ input: DeleteThemeForStackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteThemeForStackResult {
+        return try await self.client.execute(
+            operation: "DeleteThemeForStack", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -675,6 +701,19 @@ public struct AppStream: AWSService {
     public func describeStacks(_ input: DescribeStacksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStacksResult {
         return try await self.client.execute(
             operation: "DescribeStacks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Retrieves a list that describes the theme for a specified stack. A theme is custom branding that customizes the appearance of the streaming application catalog page.
+    @Sendable
+    public func describeThemeForStack(_ input: DescribeThemeForStackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeThemeForStackResult {
+        return try await self.client.execute(
+            operation: "DescribeThemeForStack", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -1052,6 +1091,19 @@ public struct AppStream: AWSService {
     public func updateStack(_ input: UpdateStackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStackResult {
         return try await self.client.execute(
             operation: "UpdateStack", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates custom branding that customizes the appearance of the streaming application catalog page.
+    @Sendable
+    public func updateThemeForStack(_ input: UpdateThemeForStackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateThemeForStackResult {
+        return try await self.client.execute(
+            operation: "UpdateThemeForStack", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 

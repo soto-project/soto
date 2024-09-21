@@ -28,6 +28,30 @@ extension KinesisVideoWebRTCStorage {
 
     // MARK: Shapes
 
+    public struct JoinStorageSessionAsViewerInput: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) of the signaling channel.
+        public let channelArn: String
+        ///  The unique identifier for the sender client.
+        public let clientId: String
+
+        public init(channelArn: String, clientId: String) {
+            self.channelArn = channelArn
+            self.clientId = clientId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$")
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 256)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn = "channelArn"
+            case clientId = "clientId"
+        }
+    }
+
     public struct JoinStorageSessionInput: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) of the signaling channel.
         public let channelArn: String

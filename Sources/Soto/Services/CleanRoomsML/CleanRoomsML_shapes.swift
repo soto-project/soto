@@ -168,25 +168,30 @@ extension CleanRoomsML {
 
     public struct AudienceGenerationJobDataSource: AWSEncodableShape & AWSDecodableShape {
         /// Defines the Amazon S3 bucket where the seed audience for the generating audience is stored. A valid data source is a JSON line file in the following format:  {"user_id": "111111"}   {"user_id": "222222"}   ...
-        public let dataSource: S3ConfigMap
-        /// The ARN of the IAM role that can read the Amazon S3 bucket where the training data is stored.
+        public let dataSource: S3ConfigMap?
+        /// The ARN of the IAM role that can read the Amazon S3 bucket where the seed audience is stored.
         public let roleArn: String
+        /// The protected SQL query parameters.
+        public let sqlParameters: ProtectedQuerySQLParameters?
 
-        public init(dataSource: S3ConfigMap, roleArn: String) {
+        public init(dataSource: S3ConfigMap? = nil, roleArn: String, sqlParameters: ProtectedQuerySQLParameters? = nil) {
             self.dataSource = dataSource
             self.roleArn = roleArn
+            self.sqlParameters = sqlParameters
         }
 
         public func validate(name: String) throws {
-            try self.dataSource.validate(name: "\(name).dataSource")
+            try self.dataSource?.validate(name: "\(name).dataSource")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[-a-z]*:iam::[0-9]{12}:role/.+$")
+            try self.sqlParameters?.validate(name: "\(name).sqlParameters")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataSource = "dataSource"
             case roleArn = "roleArn"
+            case sqlParameters = "sqlParameters"
         }
     }
 
@@ -856,6 +861,8 @@ extension CleanRoomsML {
         public let metrics: AudienceQualityMetrics?
         /// The name of the audience generation job.
         public let name: String
+        /// The unique identifier of the protected query for this audience generation job.
+        public let protectedQueryIdentifier: String?
         /// The seed audience that was used for this audience generation job. This field will be null if the account calling the API is the account that started this audience generation job.
         public let seedAudience: AudienceGenerationJobDataSource?
         /// The AWS account that started this audience generation job.
@@ -869,7 +876,7 @@ extension CleanRoomsML {
         /// The most recent time at which the audience generation job was updated.
         public let updateTime: Date
 
-        public init(audienceGenerationJobArn: String, collaborationId: String? = nil, configuredAudienceModelArn: String, createTime: Date, description: String? = nil, includeSeedInOutput: Bool? = nil, metrics: AudienceQualityMetrics? = nil, name: String, seedAudience: AudienceGenerationJobDataSource? = nil, startedBy: String? = nil, status: AudienceGenerationJobStatus, statusDetails: StatusDetails? = nil, tags: [String: String]? = nil, updateTime: Date) {
+        public init(audienceGenerationJobArn: String, collaborationId: String? = nil, configuredAudienceModelArn: String, createTime: Date, description: String? = nil, includeSeedInOutput: Bool? = nil, metrics: AudienceQualityMetrics? = nil, name: String, protectedQueryIdentifier: String? = nil, seedAudience: AudienceGenerationJobDataSource? = nil, startedBy: String? = nil, status: AudienceGenerationJobStatus, statusDetails: StatusDetails? = nil, tags: [String: String]? = nil, updateTime: Date) {
             self.audienceGenerationJobArn = audienceGenerationJobArn
             self.collaborationId = collaborationId
             self.configuredAudienceModelArn = configuredAudienceModelArn
@@ -878,6 +885,7 @@ extension CleanRoomsML {
             self.includeSeedInOutput = includeSeedInOutput
             self.metrics = metrics
             self.name = name
+            self.protectedQueryIdentifier = protectedQueryIdentifier
             self.seedAudience = seedAudience
             self.startedBy = startedBy
             self.status = status
@@ -895,6 +903,7 @@ extension CleanRoomsML {
             case includeSeedInOutput = "includeSeedInOutput"
             case metrics = "metrics"
             case name = "name"
+            case protectedQueryIdentifier = "protectedQueryIdentifier"
             case seedAudience = "seedAudience"
             case startedBy = "startedBy"
             case status = "status"
@@ -1492,6 +1501,38 @@ extension CleanRoomsML {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case trainingDatasets = "trainingDatasets"
+        }
+    }
+
+    public struct ProtectedQuerySQLParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration.
+        public let analysisTemplateArn: String?
+        /// The protected query SQL parameters.
+        public let parameters: [String: String]?
+        /// The query string to be submitted.
+        public let queryString: String?
+
+        public init(analysisTemplateArn: String? = nil, parameters: [String: String]? = nil, queryString: String? = nil) {
+            self.analysisTemplateArn = analysisTemplateArn
+            self.parameters = parameters
+            self.queryString = queryString
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analysisTemplateArn, name: "analysisTemplateArn", parent: name, max: 200)
+            try self.validate(self.analysisTemplateArn, name: "analysisTemplateArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/analysistemplate/[\\d\\w-]+$")
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 100)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^[0-9a-zA-Z_]+$")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 250)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisTemplateArn = "analysisTemplateArn"
+            case parameters = "parameters"
+            case queryString = "queryString"
         }
     }
 

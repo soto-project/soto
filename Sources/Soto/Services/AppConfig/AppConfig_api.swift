@@ -159,7 +159,7 @@ public struct AppConfig: AWSService {
         )
     }
 
-    /// Creates a new configuration in the AppConfig hosted configuration store.
+    /// Creates a new configuration in the AppConfig hosted configuration store. If you're creating a feature flag, we recommend you familiarize yourself with the JSON schema for feature flag data. For more information, see Type reference for AWS.AppConfig.FeatureFlags in the AppConfig User Guide.
     @Sendable
     public func createHostedConfigurationVersion(_ input: CreateHostedConfigurationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> HostedConfigurationVersion {
         return try await self.client.execute(
@@ -172,7 +172,7 @@ public struct AppConfig: AWSService {
         )
     }
 
-    /// Deletes an application. Deleting an application does not delete a configuration from a host.
+    /// Deletes an application.
     @Sendable
     public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -185,7 +185,7 @@ public struct AppConfig: AWSService {
         )
     }
 
-    /// Deletes a configuration profile. Deleting a configuration profile does not delete a configuration from a host.
+    /// Deletes a configuration profile. To prevent users from unintentionally deleting actively-used configuration profiles, enable deletion protection.
     @Sendable
     public func deleteConfigurationProfile(_ input: DeleteConfigurationProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -198,7 +198,7 @@ public struct AppConfig: AWSService {
         )
     }
 
-    /// Deletes a deployment strategy. Deleting a deployment strategy does not delete a configuration from a host.
+    /// Deletes a deployment strategy.
     @Sendable
     public func deleteDeploymentStrategy(_ input: DeleteDeploymentStrategyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -211,7 +211,7 @@ public struct AppConfig: AWSService {
         )
     }
 
-    /// Deletes an environment. Deleting an environment does not delete a configuration from a host.
+    /// Deletes an environment. To prevent users from unintentionally deleting actively-used environments, enable deletion protection.
     @Sendable
     public func deleteEnvironment(_ input: DeleteEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -259,6 +259,18 @@ public struct AppConfig: AWSService {
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns information about the status of the DeletionProtection parameter.
+    @Sendable
+    public func getAccountSettings(logger: Logger = AWSClient.loggingDisabled) async throws -> AccountSettings {
+        return try await self.client.execute(
+            operation: "GetAccountSettings", 
+            path: "/settings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
             logger: logger
         )
     }
@@ -544,6 +556,19 @@ public struct AppConfig: AWSService {
             operation: "UntagResource", 
             path: "/tags/{ResourceArn}", 
             httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the value of the DeletionProtection parameter.
+    @Sendable
+    public func updateAccountSettings(_ input: UpdateAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AccountSettings {
+        return try await self.client.execute(
+            operation: "UpdateAccountSettings", 
+            path: "/settings", 
+            httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger

@@ -191,6 +191,12 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum DescribeWorkspaceDirectoriesFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case userIdentityType = "USER_IDENTITY_TYPE"
+        case workspaceType = "WORKSPACE_TYPE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DescribeWorkspacesPoolsFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case poolname = "PoolName"
         public var description: String { return self.rawValue }
@@ -319,6 +325,7 @@ extension WorkSpaces {
 
     public enum UserIdentityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsDirectoryService = "AWS_DIRECTORY_SERVICE"
+        case awsIamIdentityCenter = "AWS_IAM_IDENTITY_CENTER"
         case customerManaged = "CUSTOMER_MANAGED"
         public var description: String { return self.rawValue }
     }
@@ -374,6 +381,7 @@ extension WorkSpaces {
 
     public enum WorkspaceDirectoryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case adConnector = "AD_CONNECTOR"
+        case awsIamIdentityCenter = "AWS_IAM_IDENTITY_CENTER"
         case customerManaged = "CUSTOMER_MANAGED"
         case simpleAd = "SIMPLE_AD"
         public var description: String { return self.rawValue }
@@ -413,6 +421,7 @@ extension WorkSpaces {
         case byolGraphics = "BYOL_GRAPHICS"
         case byolGraphicsG4Dn = "BYOL_GRAPHICS_G4DN"
         case byolGraphicsG4DnByop = "BYOL_GRAPHICS_G4DN_BYOP"
+        case byolGraphicsG4DnWsp = "BYOL_GRAPHICS_G4DN_WSP"
         case byolGraphicspro = "BYOL_GRAPHICSPRO"
         case byolRegular = "BYOL_REGULAR"
         case byolRegularByop = "BYOL_REGULAR_BYOP"
@@ -900,7 +909,7 @@ extension WorkSpaces {
     }
 
     public struct Capacity: AWSEncodableShape {
-        /// The desired number of user sessions for a multi-session pool.  This is not allowed for single-session pools.
+        /// The desired number of user sessions for the WorkSpaces in the pool.
         public let desiredUserSessions: Int
 
         public init(desiredUserSessions: Int) {
@@ -917,11 +926,11 @@ extension WorkSpaces {
     }
 
     public struct CapacityStatus: AWSDecodableShape {
-        /// The number of user sessions currently being used for pool sessions. This only applies to multi-session pools.
+        /// The number of user sessions currently being used for your pool.
         public let activeUserSessions: Int
-        /// The total number of session slots that are available for a pool of WorkSpaces.
+        /// The total number of user sessions that are available for streaming or are currently  streaming in your pool. ActualUserSessions = AvailableUserSessions + ActiveUserSessions
         public let actualUserSessions: Int
-        /// The number of user sessions currently being used for pool sessions. This only applies to multi-session pools.
+        /// The number of user sessions currently available for streaming from your pool. AvailableUserSessions = ActualUserSessions - ActiveUserSessions
         public let availableUserSessions: Int
         /// The total number of sessions slots that are either running or pending. This  represents the total number of concurrent streaming sessions your pool can support  in a steady state.
         public let desiredUserSessions: Int
@@ -2750,9 +2759,36 @@ extension WorkSpaces {
         }
     }
 
+    public struct DescribeWorkspaceDirectoriesFilter: AWSEncodableShape {
+        /// The name of the WorkSpaces to filter.
+        public let name: DescribeWorkspaceDirectoriesFilterName
+        /// The values for filtering WorkSpaces
+        public let values: [String]
+
+        public init(name: DescribeWorkspaceDirectoriesFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, pattern: "^[0-9a-zA-Z\\*\\.\\\\/\\?-_]{0,64}$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 25)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
     public struct DescribeWorkspaceDirectoriesRequest: AWSEncodableShape {
         /// The identifiers of the directories. If the value is null, all directories are retrieved.
         public let directoryIds: [String]?
+        /// The filter condition for the WorkSpaces.
+        public let filters: [DescribeWorkspaceDirectoriesFilter]?
         /// The maximum number of directories to return.
         public let limit: Int?
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
@@ -2760,8 +2796,9 @@ extension WorkSpaces {
         /// The names of the WorkSpace directories.
         public let workspaceDirectoryNames: [String]?
 
-        public init(directoryIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil, workspaceDirectoryNames: [String]? = nil) {
+        public init(directoryIds: [String]? = nil, filters: [DescribeWorkspaceDirectoriesFilter]? = nil, limit: Int? = nil, nextToken: String? = nil, workspaceDirectoryNames: [String]? = nil) {
             self.directoryIds = directoryIds
+            self.filters = filters
             self.limit = limit
             self.nextToken = nextToken
             self.workspaceDirectoryNames = workspaceDirectoryNames
@@ -2775,6 +2812,11 @@ extension WorkSpaces {
             }
             try self.validate(self.directoryIds, name: "directoryIds", parent: name, max: 25)
             try self.validate(self.directoryIds, name: "directoryIds", parent: name, min: 1)
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 25)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
             try self.validate(self.limit, name: "limit", parent: name, max: 25)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -2788,6 +2830,7 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case directoryIds = "DirectoryIds"
+            case filters = "Filters"
             case limit = "Limit"
             case nextToken = "NextToken"
             case workspaceDirectoryNames = "WorkspaceDirectoryNames"
@@ -3411,6 +3454,23 @@ extension WorkSpaces {
         }
     }
 
+    public struct IDCConfig: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the application.
+        public let applicationArn: String?
+        /// The Amazon Resource Name (ARN) of the identity center instance.
+        public let instanceArn: String?
+
+        public init(applicationArn: String? = nil, instanceArn: String? = nil) {
+            self.applicationArn = applicationArn
+            self.instanceArn = instanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case instanceArn = "InstanceArn"
+        }
+    }
+
     public struct ImagePermission: AWSDecodableShape {
         /// The identifier of the Amazon Web Services account that an image has been shared with.
         public let sharedAccountId: String?
@@ -3544,7 +3604,7 @@ extension WorkSpaces {
     }
 
     public struct ImportWorkspaceImageRequest: AWSEncodableShape {
-        /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 and 11 BYOL images. For more information about subscribing to Office for BYOL images, see  Bring Your Own Windows Desktop Licenses.    Although this parameter is an array, only one item is allowed at this time.   Windows 11 only supports Microsoft_Office_2019.
+        /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 and 11 BYOL images. For more information about subscribing to Office for BYOL images, see  Bring Your Own Windows Desktop Licenses.    Although this parameter is an array, only one item is allowed at this time.   During the image import process, non-GPU WSP WorkSpaces with Windows 11 support only Microsoft_Office_2019. GPU WSP WorkSpaces with Windows 11 do not support Office installation.
         public let applications: [Application]?
         /// The identifier of the EC2 image.
         public let ec2ImageId: String
@@ -3808,6 +3868,28 @@ extension WorkSpaces {
         private enum CodingKeys: String, CodingKey {
             case managementCidrRanges = "ManagementCidrRanges"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct MicrosoftEntraConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the application config.
+        public let applicationConfigSecretArn: String?
+        /// The identifier of the tenant.
+        public let tenantId: String?
+
+        public init(applicationConfigSecretArn: String? = nil, tenantId: String? = nil) {
+            self.applicationConfigSecretArn = applicationConfigSecretArn
+            self.tenantId = tenantId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationConfigSecretArn, name: "applicationConfigSecretArn", parent: name, pattern: "^arn:aws[a-z-]{0,7}:secretsmanager:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:secret:[A-Za-z0-9][A-za-z0-9_/.-]{8,519}$")
+            try self.validate(self.tenantId, name: "tenantId", parent: name, pattern: "^[a-zA-Z0-9-]{1,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationConfigSecretArn = "ApplicationConfigSecretArn"
+            case tenantId = "TenantId"
         }
     }
 
@@ -4311,6 +4393,10 @@ extension WorkSpaces {
         public let enableSelfService: Bool?
         /// Indicates whether Amazon WorkDocs is enabled or disabled. If you have enabled this parameter and WorkDocs is not available in the Region, you will receive an OperationNotSupportedException error. Set EnableWorkDocs to disabled, and try again.
         public let enableWorkDocs: Bool?
+        /// The Amazon Resource Name (ARN) of the identity center instance.
+        public let idcInstanceArn: String?
+        /// The details about Microsoft Entra config.
+        public let microsoftEntraConfig: MicrosoftEntraConfig?
         /// The identifiers of the subnets for your virtual private cloud (VPC). Make sure that the subnets are in supported Availability Zones. The subnets must also be in separate Availability Zones. If these conditions are not met, you will receive an OperationNotSupportedException error.
         public let subnetIds: [String]?
         /// The tags associated with the directory.
@@ -4326,11 +4412,13 @@ extension WorkSpaces {
         /// Indicates whether the directory's WorkSpace type is personal or pools.
         public let workspaceType: WorkspaceType?
 
-        public init(activeDirectoryConfig: ActiveDirectoryConfig? = nil, directoryId: String? = nil, enableSelfService: Bool? = nil, enableWorkDocs: Bool? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, tenancy: Tenancy? = nil, userIdentityType: UserIdentityType? = nil, workspaceDirectoryDescription: String? = nil, workspaceDirectoryName: String? = nil, workspaceType: WorkspaceType? = nil) {
+        public init(activeDirectoryConfig: ActiveDirectoryConfig? = nil, directoryId: String? = nil, enableSelfService: Bool? = nil, enableWorkDocs: Bool? = nil, idcInstanceArn: String? = nil, microsoftEntraConfig: MicrosoftEntraConfig? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, tenancy: Tenancy? = nil, userIdentityType: UserIdentityType? = nil, workspaceDirectoryDescription: String? = nil, workspaceDirectoryName: String? = nil, workspaceType: WorkspaceType? = nil) {
             self.activeDirectoryConfig = activeDirectoryConfig
             self.directoryId = directoryId
             self.enableSelfService = enableSelfService
             self.enableWorkDocs = enableWorkDocs
+            self.idcInstanceArn = idcInstanceArn
+            self.microsoftEntraConfig = microsoftEntraConfig
             self.subnetIds = subnetIds
             self.tags = tags
             self.tenancy = tenancy
@@ -4345,6 +4433,8 @@ extension WorkSpaces {
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
+            try self.validate(self.idcInstanceArn, name: "idcInstanceArn", parent: name, pattern: "^arn:aws[a-z-]{0,7}:[A-Za-z0-9][A-za-z0-9_/.-]{0,62}:[A-za-z0-9_/.-]{0,63}:[A-za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.microsoftEntraConfig?.validate(name: "\(name).microsoftEntraConfig")
             try self.subnetIds?.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, max: 24)
                 try validate($0, name: "subnetIds[]", parent: name, min: 15)
@@ -4363,6 +4453,8 @@ extension WorkSpaces {
             case directoryId = "DirectoryId"
             case enableSelfService = "EnableSelfService"
             case enableWorkDocs = "EnableWorkDocs"
+            case idcInstanceArn = "IdcInstanceArn"
+            case microsoftEntraConfig = "MicrosoftEntraConfig"
             case subnetIds = "SubnetIds"
             case tags = "Tags"
             case tenancy = "Tenancy"
@@ -5588,8 +5680,12 @@ extension WorkSpaces {
         public let errorMessage: String?
         /// The identifier of the IAM role. This is the role that allows Amazon WorkSpaces to make calls to other services, such as Amazon EC2, on your behalf.
         public let iamRoleId: String?
+        /// Specifies details about identity center configurations.
+        public let idcConfig: IDCConfig?
         /// The identifiers of the IP access control groups associated with the directory.
         public let ipGroupIds: [String]?
+        /// Specifies details about Microsoft Entra configurations.
+        public let microsoftEntraConfig: MicrosoftEntraConfig?
         /// The registration code for the directory. This is the code that users enter in their Amazon WorkSpaces client application to connect to the directory.
         public let registrationCode: String?
         /// Describes the enablement status, user access URL, and relay state parameter name that are used for configuring  federation with an SAML 2.0 identity provider.
@@ -5619,7 +5715,7 @@ extension WorkSpaces {
         /// Indicates whether the directory's WorkSpace type is personal or pools.
         public let workspaceType: WorkspaceType?
 
-        public init(activeDirectoryConfig: ActiveDirectoryConfig? = nil, alias: String? = nil, certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, errorMessage: String? = nil, iamRoleId: String? = nil, ipGroupIds: [String]? = nil, registrationCode: String? = nil, samlProperties: SamlProperties? = nil, selfservicePermissions: SelfservicePermissions? = nil, state: WorkspaceDirectoryState? = nil, streamingProperties: StreamingProperties? = nil, subnetIds: [String]? = nil, tenancy: Tenancy? = nil, userIdentityType: UserIdentityType? = nil, workspaceAccessProperties: WorkspaceAccessProperties? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceDirectoryDescription: String? = nil, workspaceDirectoryName: String? = nil, workspaceSecurityGroupId: String? = nil, workspaceType: WorkspaceType? = nil) {
+        public init(activeDirectoryConfig: ActiveDirectoryConfig? = nil, alias: String? = nil, certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, errorMessage: String? = nil, iamRoleId: String? = nil, idcConfig: IDCConfig? = nil, ipGroupIds: [String]? = nil, microsoftEntraConfig: MicrosoftEntraConfig? = nil, registrationCode: String? = nil, samlProperties: SamlProperties? = nil, selfservicePermissions: SelfservicePermissions? = nil, state: WorkspaceDirectoryState? = nil, streamingProperties: StreamingProperties? = nil, subnetIds: [String]? = nil, tenancy: Tenancy? = nil, userIdentityType: UserIdentityType? = nil, workspaceAccessProperties: WorkspaceAccessProperties? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceDirectoryDescription: String? = nil, workspaceDirectoryName: String? = nil, workspaceSecurityGroupId: String? = nil, workspaceType: WorkspaceType? = nil) {
             self.activeDirectoryConfig = activeDirectoryConfig
             self.alias = alias
             self.certificateBasedAuthProperties = certificateBasedAuthProperties
@@ -5630,7 +5726,9 @@ extension WorkSpaces {
             self.dnsIpAddresses = dnsIpAddresses
             self.errorMessage = errorMessage
             self.iamRoleId = iamRoleId
+            self.idcConfig = idcConfig
             self.ipGroupIds = ipGroupIds
+            self.microsoftEntraConfig = microsoftEntraConfig
             self.registrationCode = registrationCode
             self.samlProperties = samlProperties
             self.selfservicePermissions = selfservicePermissions
@@ -5658,7 +5756,9 @@ extension WorkSpaces {
             case dnsIpAddresses = "DnsIpAddresses"
             case errorMessage = "ErrorMessage"
             case iamRoleId = "IamRoleId"
+            case idcConfig = "IDCConfig"
             case ipGroupIds = "ipGroupIds"
+            case microsoftEntraConfig = "MicrosoftEntraConfig"
             case registrationCode = "RegistrationCode"
             case samlProperties = "SamlProperties"
             case selfservicePermissions = "SelfservicePermissions"
@@ -5742,7 +5842,7 @@ extension WorkSpaces {
         public let protocols: [`Protocol`]?
         /// The size of the root volume. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
         public let rootVolumeSizeGib: Int?
-        /// The running mode. For more information, see Manage the WorkSpace Running Mode.  The MANUAL value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see Amazon WorkSpaces Core.
+        /// The running mode. For more information, see Manage the WorkSpace Running Mode.  The MANUAL value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see Amazon WorkSpaces Core.  Review your running mode to ensure you are using one that is optimal for your needs and budget. For more information on switching running modes, see  Can I switch between hourly and monthly billing?
         public let runningMode: RunningMode?
         /// The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60-minute intervals.
         public let runningModeAutoStopTimeoutInMinutes: Int?
@@ -5785,7 +5885,7 @@ extension WorkSpaces {
         public let userVolumeEncryptionEnabled: Bool?
         /// The ARN of the symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
         public let volumeEncryptionKey: String?
-        /// The name of the user-decoupled WorkSpace.
+        /// The name of the user-decoupled WorkSpace.   WorkspaceName is required if UserName is [UNDEFINED] for user-decoupled WorkSpaces. WorkspaceName is not applicable if UserName is specified for user-assigned WorkSpaces.
         public let workspaceName: String?
         /// The WorkSpace properties.
         public let workspaceProperties: WorkspaceProperties?

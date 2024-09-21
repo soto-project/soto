@@ -848,7 +848,7 @@ public struct AutoScaling: AWSService {
         )
     }
 
-    /// Sets the health status of the specified instance. For more information, see Health checks for instances in an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
+    /// Sets the health status of the specified instance. For more information, see Set up a custom health check for your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
     @Sendable
     public func setInstanceHealth(_ input: SetInstanceHealthQuery, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(

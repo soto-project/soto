@@ -60,6 +60,7 @@ public struct KinesisAnalyticsV2: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-05-23",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: KinesisAnalyticsV2ErrorType.self,
             xmlNamespace: "http://analytics.kinesis.amazonaws.com/doc/2018-05-23",
             middleware: middleware,
@@ -72,6 +73,19 @@ public struct KinesisAnalyticsV2: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "kinesisanalytics-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "kinesisanalytics-fips.ca-west-1.amazonaws.com",
+            "us-east-1": "kinesisanalytics-fips.us-east-1.amazonaws.com",
+            "us-east-2": "kinesisanalytics-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "kinesisanalytics-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "kinesisanalytics-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "kinesisanalytics-fips.us-west-1.amazonaws.com",
+            "us-west-2": "kinesisanalytics-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

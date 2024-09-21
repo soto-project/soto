@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Chatbot service.
 ///
-/// AWS Chatbot API
+/// The AWS Chatbot API Reference provides descriptions, API request parameters, and the XML response for each of the AWS Chatbot API actions. AWS Chatbot APIs are currently available in the following Regions:   US East (Ohio) - us-east-2    US West (Oregon) - us-west-2    Asia Pacific (Singapore) - ap-southeast-1    Europe (Ireland) - eu-west-1    The AWS Chatbot console can only be used in US East (Ohio). Your configuration data however, is stored in each of the relevant available Regions.  Your AWS CloudTrail events are logged in whatever Region you call from, not US East (N. Virginia) by default.
 public struct Chatbot: AWSService {
     // MARK: Member variables
 
@@ -74,7 +74,7 @@ public struct Chatbot: AWSService {
 
     // MARK: API Calls
 
-    /// Creates Chime Webhook Configuration
+    /// Creates an AWS Chatbot configuration for Amazon Chime.
     @Sendable
     public func createChimeWebhookConfiguration(_ input: CreateChimeWebhookConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateChimeWebhookConfigurationResult {
         return try await self.client.execute(
@@ -87,7 +87,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Creates MS Teams Channel Configuration
+    /// Creates an AWS Chatbot configuration for Microsoft Teams.
     @Sendable
     public func createMicrosoftTeamsChannelConfiguration(_ input: CreateTeamsChannelConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTeamsChannelConfigurationResult {
         return try await self.client.execute(
@@ -100,7 +100,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Creates Slack Channel Configuration
+    /// Creates an AWS Chatbot confugration for Slack.
     @Sendable
     public func createSlackChannelConfiguration(_ input: CreateSlackChannelConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSlackChannelConfigurationResult {
         return try await self.client.execute(
@@ -113,7 +113,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Deletes a Chime Webhook Configuration
+    /// Deletes a Amazon Chime webhook configuration for AWS Chatbot.
     @Sendable
     public func deleteChimeWebhookConfiguration(_ input: DeleteChimeWebhookConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteChimeWebhookConfigurationResult {
         return try await self.client.execute(
@@ -126,7 +126,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Deletes MS Teams Channel Configuration
+    /// Deletes a Microsoft Teams channel configuration for AWS Chatbot
     @Sendable
     public func deleteMicrosoftTeamsChannelConfiguration(_ input: DeleteTeamsChannelConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTeamsChannelConfigurationResult {
         return try await self.client.execute(
@@ -152,7 +152,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Deletes a Teams user identity
+    /// Identifes a user level permission for a channel configuration.
     @Sendable
     public func deleteMicrosoftTeamsUserIdentity(_ input: DeleteMicrosoftTeamsUserIdentityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMicrosoftTeamsUserIdentityResult {
         return try await self.client.execute(
@@ -165,7 +165,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Deletes Slack Channel Configuration
+    /// Deletes a Slack channel configuration for AWS Chatbot
     @Sendable
     public func deleteSlackChannelConfiguration(_ input: DeleteSlackChannelConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSlackChannelConfigurationResult {
         return try await self.client.execute(
@@ -178,7 +178,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Deletes a Slack user identity
+    /// Deletes a user level permission for a Slack channel configuration.
     @Sendable
     public func deleteSlackUserIdentity(_ input: DeleteSlackUserIdentityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSlackUserIdentityResult {
         return try await self.client.execute(
@@ -204,7 +204,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Lists Chime Webhook Configurations optionally filtered by ChatConfigurationArn
+    /// Lists Amazon Chime webhook configurations optionally filtered by ChatConfigurationArn
     @Sendable
     public func describeChimeWebhookConfigurations(_ input: DescribeChimeWebhookConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeChimeWebhookConfigurationsResult {
         return try await self.client.execute(
@@ -217,7 +217,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Lists Slack Channel Configurations optionally filtered by ChatConfigurationArn
+    /// Lists Slack channel configurations optionally filtered by ChatConfigurationArn
     @Sendable
     public func describeSlackChannelConfigurations(_ input: DescribeSlackChannelConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSlackChannelConfigurationsResult {
         return try await self.client.execute(
@@ -243,7 +243,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Lists all authorized Slack Workspaces for AWS Account
+    /// List all authorized Slack workspaces connected to the AWS Account onboarded with AWS Chatbot.
     @Sendable
     public func describeSlackWorkspaces(_ input: DescribeSlackWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSlackWorkspacesResult {
         return try await self.client.execute(
@@ -256,7 +256,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Get Chatbot account level preferences
+    /// Returns AWS Chatbot account preferences.
     @Sendable
     public func getAccountPreferences(_ input: GetAccountPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountPreferencesResult {
         return try await self.client.execute(
@@ -269,7 +269,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Get a single MS Teams Channel Configurations
+    /// Returns a Microsoft Teams channel configuration in an AWS account.
     @Sendable
     public func getMicrosoftTeamsChannelConfiguration(_ input: GetTeamsChannelConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTeamsChannelConfigurationResult {
         return try await self.client.execute(
@@ -282,7 +282,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Lists MS Teams Channel Configurations optionally filtered by TeamId
+    /// Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS account.
     @Sendable
     public func listMicrosoftTeamsChannelConfigurations(_ input: ListTeamsChannelConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTeamsChannelConfigurationsResult {
         return try await self.client.execute(
@@ -295,7 +295,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Lists all authorized MS teams for AWS Account
+    /// Lists all authorized Microsoft Teams for an AWS Account
     @Sendable
     public func listMicrosoftTeamsConfiguredTeams(_ input: ListMicrosoftTeamsConfiguredTeamsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMicrosoftTeamsConfiguredTeamsResult {
         return try await self.client.execute(
@@ -308,7 +308,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Lists all Microsoft Teams user identities with a mapped role.
+    /// A list all Microsoft Teams user identities with a mapped role.
     @Sendable
     public func listMicrosoftTeamsUserIdentities(_ input: ListMicrosoftTeamsUserIdentitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMicrosoftTeamsUserIdentitiesResult {
         return try await self.client.execute(
@@ -321,7 +321,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Retrieves the list of tags applied to a configuration.
+    /// Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(
@@ -334,7 +334,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Applies the supplied tags to a configuration.
+    /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
         return try await self.client.execute(
@@ -347,7 +347,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Removes the supplied tags from a configuration
+    /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         return try await self.client.execute(
@@ -360,7 +360,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Update Chatbot account level preferences
+    /// Updates AWS Chatbot account preferences.
     @Sendable
     public func updateAccountPreferences(_ input: UpdateAccountPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccountPreferencesResult {
         return try await self.client.execute(
@@ -373,7 +373,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Updates a Chime Webhook Configuration
+    /// Updates a Amazon Chime webhook configuration.
     @Sendable
     public func updateChimeWebhookConfiguration(_ input: UpdateChimeWebhookConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChimeWebhookConfigurationResult {
         return try await self.client.execute(
@@ -386,7 +386,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Updates MS Teams Channel Configuration
+    /// Updates an Microsoft Teams channel configuration.
     @Sendable
     public func updateMicrosoftTeamsChannelConfiguration(_ input: UpdateTeamsChannelConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTeamsChannelConfigurationResult {
         return try await self.client.execute(
@@ -399,7 +399,7 @@ public struct Chatbot: AWSService {
         )
     }
 
-    /// Updates Slack Channel Configuration
+    /// Updates a Slack channel configuration.
     @Sendable
     public func updateSlackChannelConfiguration(_ input: UpdateSlackChannelConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSlackChannelConfigurationResult {
         return try await self.client.execute(
@@ -426,7 +426,7 @@ extension Chatbot {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Chatbot {
-    /// Lists Chime Webhook Configurations optionally filtered by ChatConfigurationArn
+    /// Lists Amazon Chime webhook configurations optionally filtered by ChatConfigurationArn
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -445,7 +445,7 @@ extension Chatbot {
         )
     }
 
-    /// Lists Slack Channel Configurations optionally filtered by ChatConfigurationArn
+    /// Lists Slack channel configurations optionally filtered by ChatConfigurationArn
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -483,7 +483,7 @@ extension Chatbot {
         )
     }
 
-    /// Lists all authorized Slack Workspaces for AWS Account
+    /// List all authorized Slack workspaces connected to the AWS Account onboarded with AWS Chatbot.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -502,7 +502,7 @@ extension Chatbot {
         )
     }
 
-    /// Lists MS Teams Channel Configurations optionally filtered by TeamId
+    /// Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -521,7 +521,7 @@ extension Chatbot {
         )
     }
 
-    /// Lists all authorized MS teams for AWS Account
+    /// Lists all authorized Microsoft Teams for an AWS Account
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -540,7 +540,7 @@ extension Chatbot {
         )
     }
 
-    /// Lists all Microsoft Teams user identities with a mapped role.
+    /// A list all Microsoft Teams user identities with a mapped role.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -74,6 +74,11 @@ extension Synthetics {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceToTag: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lambdaFunction = "lambda-function"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct ArtifactConfigInput: AWSEncodableShape {
@@ -129,7 +134,7 @@ extension Synthetics {
             try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,21}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,255}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -542,6 +547,8 @@ extension Synthetics {
         public let failureRetentionPeriodInDays: Int?
         /// The name for this canary. Be sure to give it a descriptive name  that distinguishes it from other canaries in your account. Do not include secrets or proprietary information in your canary names. The canary name makes up part of the canary ARN, and the ARN is included in outbound calls over the internet. For more information, see Security Considerations for Synthetics Canaries.
         public let name: String
+        /// To have the tags that you apply to this canary also be applied to the Lambda function that the canary uses, specify this parameter with the value lambda-function. If you specify this parameter and don't specify any tags in the Tags parameter, the canary creation fails.
+        public let resourcesToReplicateTags: [ResourceToTag]?
         /// A structure that contains the configuration for individual canary runs,  such as timeout value and environment variables.  The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
         public let runConfig: CanaryRunConfigInput?
         /// Specifies the runtime version to use for the canary. For a list of valid runtime versions and more information about runtime versions, see  Canary Runtime Versions.
@@ -550,18 +557,19 @@ extension Synthetics {
         public let schedule: CanaryScheduleInput
         /// The number of days to retain data about successful runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days.
         public let successRetentionPeriodInDays: Int?
-        /// A list of key-value pairs to associate with the canary.  You can associate as many as 50 tags with a canary. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by  granting a user permission to access or change only the resources that have certain tag values.
+        /// A list of key-value pairs to associate with the canary.  You can associate as many as 50 tags with a canary. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by  granting a user permission to access or change only the resources that have certain tag values. To have the tags that you apply to this canary also be applied to the Lambda function that the canary uses, specify this parameter with the value lambda-function.
         public let tags: [String: String]?
         /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint.  For more information, see  Running a Canary in a VPC.
         public let vpcConfig: VpcConfigInput?
 
-        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String, code: CanaryCodeInput, executionRoleArn: String, failureRetentionPeriodInDays: Int? = nil, name: String, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String, schedule: CanaryScheduleInput, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfigInput? = nil) {
+        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String, code: CanaryCodeInput, executionRoleArn: String, failureRetentionPeriodInDays: Int? = nil, name: String, resourcesToReplicateTags: [ResourceToTag]? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String, schedule: CanaryScheduleInput, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfigInput? = nil) {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
             self.code = code
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
             self.name = name
+            self.resourcesToReplicateTags = resourcesToReplicateTags
             self.runConfig = runConfig
             self.runtimeVersion = runtimeVersion
             self.schedule = schedule
@@ -580,9 +588,11 @@ extension Synthetics {
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.validate(self.failureRetentionPeriodInDays, name: "failureRetentionPeriodInDays", parent: name, max: 1024)
             try self.validate(self.failureRetentionPeriodInDays, name: "failureRetentionPeriodInDays", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, max: 21)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
+            try self.validate(self.resourcesToReplicateTags, name: "resourcesToReplicateTags", parent: name, max: 1)
+            try self.validate(self.resourcesToReplicateTags, name: "resourcesToReplicateTags", parent: name, min: 1)
             try self.runConfig?.validate(name: "\(name).runConfig")
             try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, max: 1024)
             try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, min: 1)
@@ -607,6 +617,7 @@ extension Synthetics {
             case executionRoleArn = "ExecutionRoleArn"
             case failureRetentionPeriodInDays = "FailureRetentionPeriodInDays"
             case name = "Name"
+            case resourcesToReplicateTags = "ResourcesToReplicateTags"
             case runConfig = "RunConfig"
             case runtimeVersion = "RuntimeVersion"
             case schedule = "Schedule"
@@ -691,7 +702,7 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.name, name: "name", parent: name, max: 21)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
         }
@@ -747,7 +758,7 @@ extension Synthetics {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.names?.forEach {
-                try validate($0, name: "names[]", parent: name, max: 21)
+                try validate($0, name: "names[]", parent: name, max: 255)
                 try validate($0, name: "names[]", parent: name, min: 1)
                 try validate($0, name: "names[]", parent: name, pattern: "^[0-9a-z_\\-]+$")
             }
@@ -782,7 +793,7 @@ extension Synthetics {
     }
 
     public struct DescribeCanariesRequest: AWSEncodableShape {
-        /// Specify this parameter to limit how many canaries are returned each time you use the DescribeCanaries operation. If you omit this parameter, the default of 100 is used.
+        /// Specify this parameter to limit how many canaries are returned each time you use the DescribeCanaries operation. If you omit this parameter, the default of 20 is used.
         public let maxResults: Int?
         /// Use this parameter to return only canaries that match the names that you specify here. You can specify as many as five canary names. If you specify this parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of  the canaries, the request fails with a 403 response. You are required to use this parameter if you are logged on to a user or role that has an  IAM policy that restricts which canaries that you are allowed to view. For more information,  see  Limiting a user to viewing specific canaries.
         public let names: [String]?
@@ -799,7 +810,7 @@ extension Synthetics {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.names?.forEach {
-                try validate($0, name: "names[]", parent: name, max: 21)
+                try validate($0, name: "names[]", parent: name, max: 255)
                 try validate($0, name: "names[]", parent: name, min: 1)
                 try validate($0, name: "names[]", parent: name, pattern: "^[0-9a-z_\\-]+$")
             }
@@ -897,7 +908,7 @@ extension Synthetics {
             try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,21}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,255}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -924,7 +935,7 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.name, name: "name", parent: name, max: 21)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
         }
@@ -970,7 +981,7 @@ extension Synthetics {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, max: 21)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 252)
@@ -1119,7 +1130,7 @@ extension Synthetics {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,21}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,255}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1341,7 +1352,7 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.name, name: "name", parent: name, max: 21)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
         }
@@ -1368,7 +1379,7 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.name, name: "name", parent: name, max: 21)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
         }
@@ -1528,7 +1539,7 @@ extension Synthetics {
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.validate(self.failureRetentionPeriodInDays, name: "failureRetentionPeriodInDays", parent: name, max: 1024)
             try self.validate(self.failureRetentionPeriodInDays, name: "failureRetentionPeriodInDays", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, max: 21)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
             try self.runConfig?.validate(name: "\(name).runConfig")

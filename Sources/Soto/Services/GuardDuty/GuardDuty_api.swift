@@ -190,7 +190,7 @@ public struct GuardDuty: AWSService {
         )
     }
 
-    /// Creates a publishing destination to export findings to. The resource to export findings to must exist before you use this operation.
+    /// Creates a publishing destination where you can export your GuardDuty findings. Before you start exporting the findings, the destination resource must exist.
     @Sendable
     public func createPublishingDestination(_ input: CreatePublishingDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePublishingDestinationResponse {
         return try await self.client.execute(
@@ -477,7 +477,7 @@ public struct GuardDuty: AWSService {
         )
     }
 
-    /// Retrieves an Amazon GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
+    /// Retrieves a GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     @Sendable
     public func getDetector(_ input: GetDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDetectorResponse {
         return try await self.client.execute(
@@ -516,7 +516,7 @@ public struct GuardDuty: AWSService {
         )
     }
 
-    /// Lists Amazon GuardDuty findings statistics for the specified detector ID. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see Regions and endpoints.
+    /// Lists GuardDuty findings statistics for the specified detector ID. You must provide either findingStatisticTypes or groupBy parameter, and not both. You can use the maxResults and orderBy parameters only when using groupBy. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see Regions and endpoints.
     @Sendable
     public func getFindingsStatistics(_ input: GetFindingsStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingsStatisticsResponse {
         return try await self.client.execute(

@@ -208,7 +208,7 @@ extension Ivschat {
         public let destinationConfiguration: DestinationConfiguration
         /// Logging-configuration name. The value does not need to be unique.
         public let name: String?
-        /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
+        /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
         public init(destinationConfiguration: DestinationConfiguration, name: String? = nil, tags: [String: String]? = nil) {
@@ -290,7 +290,7 @@ extension Ivschat {
         public let messageReviewHandler: MessageReviewHandler?
         /// Room name. The value does not need to be unique.
         public let name: String?
-        /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+        /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
         public let tags: [String: String]?
 
         public init(loggingConfigurationIdentifiers: [String]? = nil, maximumMessageLength: Int? = nil, maximumMessageRatePerSecond: Int? = nil, messageReviewHandler: MessageReviewHandler? = nil, name: String? = nil, tags: [String: String]? = nil) {
@@ -803,7 +803,7 @@ extension Ivschat {
         public let name: String?
         /// The state of the logging configuration. When this is ACTIVE, the configuration is ready for logging chat content.
         public let state: LoggingConfigurationState?
-        /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
+        /// Tags to attach to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
         /// Time of the logging configuration’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -868,7 +868,7 @@ extension Ivschat {
         public let messageReviewHandler: MessageReviewHandler?
         /// Room name. The value does not need to be unique.
         public let name: String?
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
         public let tags: [String: String]?
         /// Time of the room’s last update. This is an ISO 8601 timestamp; note that this is returned as a string.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -961,7 +961,7 @@ extension Ivschat {
     public struct TagResourceRequest: AWSEncodableShape {
         /// The ARN of the resource to be tagged. The ARN must be URL-encoded.
         public let resourceArn: String
-        /// Array of tags to be added or updated. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+        /// Array of tags to be added or updated. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -1000,7 +1000,7 @@ extension Ivschat {
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The ARN of the resource to be untagged. The ARN must be URL-encoded.
         public let resourceArn: String
-        /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See Tagging AWS Resources for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
+        /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {

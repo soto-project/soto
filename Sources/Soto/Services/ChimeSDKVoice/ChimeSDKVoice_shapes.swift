@@ -2115,7 +2115,7 @@ extension ChimeSDKVoice {
         public let isCaller: Bool
         /// The Voice Connector ID.
         public let voiceConnectorId: String
-        /// The ID of the voice tone anlysis task.
+        /// The ID of the voice tone analysis task.
         public let voiceToneAnalysisTaskId: String
 
         public init(isCaller: Bool, voiceConnectorId: String, voiceToneAnalysisTaskId: String) {
@@ -2719,7 +2719,7 @@ extension ChimeSDKVoice {
     public struct MediaInsightsConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The configuration's ARN.
         public let configurationArn: String?
-        /// Denotes the configration as enabled or disabled.
+        /// Denotes the configuration as enabled or disabled.
         public let disabled: Bool?
 
         public init(configurationArn: String? = nil, disabled: Bool? = nil) {
@@ -4766,7 +4766,7 @@ extension ChimeSDKVoice {
         public let awsAccountId: String
         /// The address city, such as Portland.
         public let city: String
-        /// The country in the address being validated.
+        /// The country in the address being validated as two-letter country code in ISO 3166-1 alpha-2 format, such as US. For more information, see ISO 3166-1 alpha-2 in Wikipedia.
         public let country: String
         /// The dress postal code, such 04352.
         public let postalCode: String
@@ -4815,7 +4815,7 @@ extension ChimeSDKVoice {
         public let addressExternalId: String?
         /// The list of address suggestions..
         public let candidateAddressList: [CandidateAddress]?
-        /// Number indicating the result of address validation. 0 means the  address was perfect as-is and successfully validated. 1 means the  address was corrected. 2 means the address sent was not close  enough and was not validated.
+        /// Number indicating the result of address validation. Each possible result is defined as follows:    0 - Address validation succeeded.    1 - Address validation succeeded. The address was a close enough match and has been corrected as part of the address object.    2 - Address validation failed. You should re-submit the validation request with candidates from the CandidateAddressList result, if it's a close match.
         public let validationResult: Int?
 
         public init(address: Address? = nil, addressExternalId: String? = nil, candidateAddressList: [CandidateAddress]? = nil, validationResult: Int? = nil) {

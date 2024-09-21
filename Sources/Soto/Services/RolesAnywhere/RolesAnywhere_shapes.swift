@@ -112,6 +112,8 @@ extension RolesAnywhere {
     }
 
     public struct CreateProfileRequest: AWSEncodableShape {
+        /// Used to determine if a custom role session name will be accepted in a temporary credential request.
+        public let acceptRoleSessionName: Bool?
         ///  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the
         /// CreateSession API documentation
         /// page for more details. In requests, if this value is not provided, the default value will be 3600.
@@ -131,7 +133,8 @@ extension RolesAnywhere {
         /// The tags to attach to the profile.
         public let tags: [Tag]?
 
-        public init(durationSeconds: Int? = nil, enabled: Bool? = nil, managedPolicyArns: [String]? = nil, name: String, requireInstanceProperties: Bool? = nil, roleArns: [String], sessionPolicy: String? = nil, tags: [Tag]? = nil) {
+        public init(acceptRoleSessionName: Bool? = nil, durationSeconds: Int? = nil, enabled: Bool? = nil, managedPolicyArns: [String]? = nil, name: String, requireInstanceProperties: Bool? = nil, roleArns: [String], sessionPolicy: String? = nil, tags: [Tag]? = nil) {
+            self.acceptRoleSessionName = acceptRoleSessionName
             self.durationSeconds = durationSeconds
             self.enabled = enabled
             self.managedPolicyArns = managedPolicyArns
@@ -160,6 +163,7 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acceptRoleSessionName = "acceptRoleSessionName"
             case durationSeconds = "durationSeconds"
             case enabled = "enabled"
             case managedPolicyArns = "managedPolicyArns"
@@ -614,6 +618,8 @@ extension RolesAnywhere {
     }
 
     public struct ProfileDetail: AWSDecodableShape {
+        /// Used to determine if a custom role session name will be accepted in a temporary credential request.
+        public let acceptRoleSessionName: Bool?
         /// A mapping applied to the authenticating end-entity certificate.
         public let attributeMappings: [AttributeMapping]?
         /// The ISO-8601 timestamp when the profile was created.
@@ -643,7 +649,8 @@ extension RolesAnywhere {
         /// The ISO-8601 timestamp when the profile was last updated.
         public let updatedAt: Date?
 
-        public init(attributeMappings: [AttributeMapping]? = nil, createdAt: Date? = nil, createdBy: String? = nil, durationSeconds: Int? = nil, enabled: Bool? = nil, managedPolicyArns: [String]? = nil, name: String? = nil, profileArn: String? = nil, profileId: String? = nil, requireInstanceProperties: Bool? = nil, roleArns: [String]? = nil, sessionPolicy: String? = nil, updatedAt: Date? = nil) {
+        public init(acceptRoleSessionName: Bool? = nil, attributeMappings: [AttributeMapping]? = nil, createdAt: Date? = nil, createdBy: String? = nil, durationSeconds: Int? = nil, enabled: Bool? = nil, managedPolicyArns: [String]? = nil, name: String? = nil, profileArn: String? = nil, profileId: String? = nil, requireInstanceProperties: Bool? = nil, roleArns: [String]? = nil, sessionPolicy: String? = nil, updatedAt: Date? = nil) {
+            self.acceptRoleSessionName = acceptRoleSessionName
             self.attributeMappings = attributeMappings
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -660,6 +667,7 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acceptRoleSessionName = "acceptRoleSessionName"
             case attributeMappings = "attributeMappings"
             case createdAt = "createdAt"
             case createdBy = "createdBy"
@@ -1191,6 +1199,8 @@ extension RolesAnywhere {
     }
 
     public struct UpdateProfileRequest: AWSEncodableShape {
+        /// Used to determine if a custom role session name will be accepted in a temporary credential request.
+        public let acceptRoleSessionName: Bool?
         ///  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the
         /// CreateSession API documentation
         /// page for more details. In requests, if this value is not provided, the default value will be 3600.
@@ -1206,7 +1216,8 @@ extension RolesAnywhere {
         /// A session policy that applies to the trust boundary of the vended session credentials.
         public let sessionPolicy: String?
 
-        public init(durationSeconds: Int? = nil, managedPolicyArns: [String]? = nil, name: String? = nil, profileId: String, roleArns: [String]? = nil, sessionPolicy: String? = nil) {
+        public init(acceptRoleSessionName: Bool? = nil, durationSeconds: Int? = nil, managedPolicyArns: [String]? = nil, name: String? = nil, profileId: String, roleArns: [String]? = nil, sessionPolicy: String? = nil) {
+            self.acceptRoleSessionName = acceptRoleSessionName
             self.durationSeconds = durationSeconds
             self.managedPolicyArns = managedPolicyArns
             self.name = name
@@ -1218,6 +1229,7 @@ extension RolesAnywhere {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.acceptRoleSessionName, forKey: .acceptRoleSessionName)
             try container.encodeIfPresent(self.durationSeconds, forKey: .durationSeconds)
             try container.encodeIfPresent(self.managedPolicyArns, forKey: .managedPolicyArns)
             try container.encodeIfPresent(self.name, forKey: .name)
@@ -1243,6 +1255,7 @@ extension RolesAnywhere {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acceptRoleSessionName = "acceptRoleSessionName"
             case durationSeconds = "durationSeconds"
             case managedPolicyArns = "managedPolicyArns"
             case name = "name"

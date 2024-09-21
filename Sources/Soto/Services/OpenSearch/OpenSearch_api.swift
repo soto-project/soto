@@ -86,6 +86,7 @@ public struct OpenSearch: AWSService {
             "ap-southeast-2": "aos.ap-southeast-2.api.aws",
             "ap-southeast-3": "aos.ap-southeast-3.api.aws",
             "ap-southeast-4": "aos.ap-southeast-4.api.aws",
+            "ap-southeast-5": "aos.ap-southeast-5.api.aws",
             "ca-central-1": "aos.ca-central-1.api.aws",
             "ca-west-1": "aos.ca-west-1.api.aws",
             "cn-north-1": "aos.cn-north-1.api.amazonwebservices.com.cn",

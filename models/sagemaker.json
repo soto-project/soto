@@ -600,7 +600,7 @@
                     "min": 1,
                     "max": 2048
                 },
-                "smithy.api#pattern": "^arn:aws(-cn|-us-gov)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:algorithm/[\\S]{1,2048}$"
+                "smithy.api#pattern": "^arn:aws(-cn|-us-gov|-iso-f)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:algorithm/[\\S]{1,2048}$"
             }
         },
         "com.amazonaws.sagemaker#AlgorithmImage": {
@@ -2017,6 +2017,20 @@
                 }
             }
         },
+        "com.amazonaws.sagemaker#AppLifecycleManagement": {
+            "type": "structure",
+            "members": {
+                "IdleSettings": {
+                    "target": "com.amazonaws.sagemaker#IdleSettings",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Settings related to idle shutdown of Studio applications.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Settings that are used to configure and manage the lifecycle of Amazon SageMaker Studio applications.</p>"
+            }
+        },
         "com.amazonaws.sagemaker#AppList": {
             "type": "list",
             "member": {
@@ -2586,6 +2600,18 @@
                 "smithy.api#documentation": "<p>Lists a summary of the properties of an association. An association is an entity that\n        links other lineage or experiment entities. An example would be an association between a\n        training job and a model.</p>"
             }
         },
+        "com.amazonaws.sagemaker#AssumableRoleArns": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.sagemaker#RoleArn"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 5
+                }
+            }
+        },
         "com.amazonaws.sagemaker#AsyncInferenceClientConfig": {
             "type": "structure",
             "members": {
@@ -3052,7 +3078,7 @@
                     "target": "com.amazonaws.sagemaker#AutoMLAlgorithms",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The selection of algorithms trained on your dataset to generate the model candidates for\n         an Autopilot job.</p>\n         <ul>\n            <li>\n               <p>\n                  <b>For the tabular problem type <code>TabularJobConfig</code>:</b>\n               </p>\n               <note>\n                  <p>Selected algorithms must belong to the list corresponding to the training mode\n                  set in <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobConfig.html#sagemaker-Type-AutoMLJobConfig-Mode\">AutoMLJobConfig.Mode</a> (<code>ENSEMBLING</code> or\n                     <code>HYPERPARAMETER_TUNING</code>). Choose a minimum of 1 algorithm.</p>\n               </note>\n               <ul>\n                  <li>\n                     <p>In <code>ENSEMBLING</code> mode:</p>\n                     <ul>\n                        <li>\n                           <p>\"catboost\"</p>\n                        </li>\n                        <li>\n                           <p>\"extra-trees\"</p>\n                        </li>\n                        <li>\n                           <p>\"fastai\"</p>\n                        </li>\n                        <li>\n                           <p>\"lightgbm\"</p>\n                        </li>\n                        <li>\n                           <p>\"linear-learner\"</p>\n                        </li>\n                        <li>\n                           <p>\"nn-torch\"</p>\n                        </li>\n                        <li>\n                           <p>\"randomforest\"</p>\n                        </li>\n                        <li>\n                           <p>\"xgboost\"</p>\n                        </li>\n                     </ul>\n                  </li>\n                  <li>\n                     <p>In <code>HYPERPARAMETER_TUNING</code> mode:</p>\n                     <ul>\n                        <li>\n                           <p>\"linear-learner\"</p>\n                        </li>\n                        <li>\n                           <p>\"mlp\"</p>\n                        </li>\n                        <li>\n                           <p>\"xgboost\"</p>\n                        </li>\n                     </ul>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>\n                  <b>For the time-series forecasting problem type <code>TimeSeriesForecastingJobConfig</code>:</b>\n               </p>\n               <ul>\n                  <li>\n                     <p>Choose your algorithms from this list.</p>\n                     <ul>\n                        <li>\n                           <p>\"cnn-qr\"</p>\n                        </li>\n                        <li>\n                           <p>\"deepar\"</p>\n                        </li>\n                        <li>\n                           <p>\"prophet\"</p>\n                        </li>\n                        <li>\n                           <p>\"arima\"</p>\n                        </li>\n                        <li>\n                           <p>\"npts\"</p>\n                        </li>\n                        <li>\n                           <p>\"ets\"</p>\n                        </li>\n                     </ul>\n                  </li>\n               </ul>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>The selection of algorithms trained on your dataset to generate the model candidates for\n         an Autopilot job.</p>\n         <ul>\n            <li>\n               <p>\n                  <b>For the tabular problem type\n                  <code>TabularJobConfig</code>:</b>\n               </p>\n               <note>\n                  <p>Selected algorithms must belong to the list corresponding to the training mode\n                  set in <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobConfig.html#sagemaker-Type-AutoMLJobConfig-Mode\">AutoMLJobConfig.Mode</a> (<code>ENSEMBLING</code> or\n                     <code>HYPERPARAMETER_TUNING</code>). Choose a minimum of 1 algorithm.</p>\n               </note>\n               <ul>\n                  <li>\n                     <p>In <code>ENSEMBLING</code> mode:</p>\n                     <ul>\n                        <li>\n                           <p>\"catboost\"</p>\n                        </li>\n                        <li>\n                           <p>\"extra-trees\"</p>\n                        </li>\n                        <li>\n                           <p>\"fastai\"</p>\n                        </li>\n                        <li>\n                           <p>\"lightgbm\"</p>\n                        </li>\n                        <li>\n                           <p>\"linear-learner\"</p>\n                        </li>\n                        <li>\n                           <p>\"nn-torch\"</p>\n                        </li>\n                        <li>\n                           <p>\"randomforest\"</p>\n                        </li>\n                        <li>\n                           <p>\"xgboost\"</p>\n                        </li>\n                     </ul>\n                  </li>\n                  <li>\n                     <p>In <code>HYPERPARAMETER_TUNING</code> mode:</p>\n                     <ul>\n                        <li>\n                           <p>\"linear-learner\"</p>\n                        </li>\n                        <li>\n                           <p>\"mlp\"</p>\n                        </li>\n                        <li>\n                           <p>\"xgboost\"</p>\n                        </li>\n                     </ul>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>\n                  <b>For the time-series forecasting problem type\n                     <code>TimeSeriesForecastingJobConfig</code>:</b>\n               </p>\n               <ul>\n                  <li>\n                     <p>Choose your algorithms from this list.</p>\n                     <ul>\n                        <li>\n                           <p>\"cnn-qr\"</p>\n                        </li>\n                        <li>\n                           <p>\"deepar\"</p>\n                        </li>\n                        <li>\n                           <p>\"prophet\"</p>\n                        </li>\n                        <li>\n                           <p>\"arima\"</p>\n                        </li>\n                        <li>\n                           <p>\"npts\"</p>\n                        </li>\n                        <li>\n                           <p>\"ets\"</p>\n                        </li>\n                     </ul>\n                  </li>\n               </ul>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
                     }
                 }
@@ -3186,7 +3212,7 @@
                 "AlgorithmsConfig": {
                     "target": "com.amazonaws.sagemaker#AutoMLAlgorithmsConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>Stores the configuration information for the selection of algorithms trained on tabular data.</p>\n         <p>The list of available algorithms to choose from depends on the training mode set in\n         <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TabularJobConfig.html\">\n               <code>TabularJobConfig.Mode</code>\n            </a>.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>AlgorithmsConfig</code> should not be set if the training mode is set on <code>AUTO</code>.</p>\n            </li>\n            <li>\n               <p>When <code>AlgorithmsConfig</code> is provided, one <code>AutoMLAlgorithms</code>\n               attribute must be set and one only.</p>\n               <p>If the list of algorithms provided as values for <code>AutoMLAlgorithms</code> is\n               empty, <code>CandidateGenerationConfig</code> uses the full set of algorithms for the\n               given training mode.</p>\n            </li>\n            <li>\n               <p>When <code>AlgorithmsConfig</code> is not provided,\n               <code>CandidateGenerationConfig</code> uses the full set of algorithms for the\n               given training mode.</p>\n            </li>\n         </ul>\n         <p>For the list of all algorithms per problem type and training mode, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLAlgorithmConfig.html\">\n         AutoMLAlgorithmConfig</a>.</p>\n         <p>For more information on each algorithm, see the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-model-support-validation.html#autopilot-algorithm-support\">Algorithm support</a> section in Autopilot developer guide.</p>"
+                        "smithy.api#documentation": "<p>Stores the configuration information for the selection of algorithms trained on tabular\n         data.</p>\n         <p>The list of available algorithms to choose from depends on the training mode set in\n            <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TabularJobConfig.html\">\n               <code>TabularJobConfig.Mode</code>\n            </a>.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>AlgorithmsConfig</code> should not be set if the training mode is set on\n                  <code>AUTO</code>.</p>\n            </li>\n            <li>\n               <p>When <code>AlgorithmsConfig</code> is provided, one <code>AutoMLAlgorithms</code>\n               attribute must be set and one only.</p>\n               <p>If the list of algorithms provided as values for <code>AutoMLAlgorithms</code> is\n               empty, <code>CandidateGenerationConfig</code> uses the full set of algorithms for the\n               given training mode.</p>\n            </li>\n            <li>\n               <p>When <code>AlgorithmsConfig</code> is not provided,\n                  <code>CandidateGenerationConfig</code> uses the full set of algorithms for the\n               given training mode.</p>\n            </li>\n         </ul>\n         <p>For the list of all algorithms per problem type and training mode, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLAlgorithmConfig.html\">\n            AutoMLAlgorithmConfig</a>.</p>\n         <p>For more information on each algorithm, see the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-model-support-validation.html#autopilot-algorithm-support\">Algorithm support</a> section in Autopilot developer guide.</p>"
                     }
                 }
             },
@@ -3293,6 +3319,20 @@
                         "smithy.api#enumValue": "validation"
                     }
                 }
+            }
+        },
+        "com.amazonaws.sagemaker#AutoMLComputeConfig": {
+            "type": "structure",
+            "members": {
+                "EmrServerlessComputeConfig": {
+                    "target": "com.amazonaws.sagemaker#EmrServerlessComputeConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration for using <a href=\"https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/emr-serverless.html\"> EMR Serverless</a>\n         to run the AutoML job V2.</p>\n         <p>To allow your AutoML job V2 to automatically initiate a remote job on EMR Serverless\n         when additional compute resources are needed to process large datasets, you need to provide\n         an <code>EmrServerlessComputeConfig</code> object, which includes an\n            <code>ExecutionRoleARN</code> attribute, to the <code>AutoMLComputeConfig</code> of the\n         AutoML job V2 input request.</p>\n         <p>By seamlessly transitioning to EMR Serverless when required, the AutoML job can handle\n         datasets that would otherwise exceed the initially provisioned resources, without any\n         manual intervention from you. </p>\n         <p>EMR Serverless is available for the tabular and time series problem types. We\n         recommend setting up this option for tabular datasets larger than 5 GB and time series\n         datasets larger than 30 GB.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<note>\n            <p>This data type is intended for use exclusively by SageMaker Canvas and cannot be used in\n            other contexts at the moment.</p>\n         </note>\n         <p>Specifies the compute configuration for an AutoML job V2.</p>"
             }
         },
         "com.amazonaws.sagemaker#AutoMLContainerDefinition": {
@@ -4171,7 +4211,7 @@
                     "target": "com.amazonaws.sagemaker#S3Uri",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The Amazon S3 output path. Must be 128 characters or less.</p>",
+                        "smithy.api#documentation": "<p>The Amazon S3 output path. Must be 512 characters or less.</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -4445,6 +4485,29 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "Descending"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#AutoMountHomeEFS": {
+            "type": "enum",
+            "members": {
+                "ENABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Enabled"
+                    }
+                },
+                "DISABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Disabled"
+                    }
+                },
+                "DEFAULT_AS_DOMAIN": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DefaultAsDomain"
                     }
                 }
             }
@@ -5055,7 +5118,7 @@
                 "AlgorithmsConfig": {
                     "target": "com.amazonaws.sagemaker#AutoMLAlgorithmsConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>Your Autopilot job trains a default set of algorithms on your dataset. For tabular and\n         time-series data, you can customize the algorithm list by selecting a subset of algorithms\n         for your problem type.</p>\n         <p>\n            <code>AlgorithmsConfig</code> stores the customized selection of algorithms to train on\n         your data.</p>\n         <ul>\n            <li>\n               <p>\n                  <b>For the tabular problem type <code>TabularJobConfig</code>,</b>\n            the list of available algorithms to choose from depends on the training mode set\n               in <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobConfig.html\">\n                     <code>AutoMLJobConfig.Mode</code>\n                  </a>.</p>\n               <ul>\n                  <li>\n                     <p>\n                        <code>AlgorithmsConfig</code> should not be set when the training mode\n                        <code>AutoMLJobConfig.Mode</code> is set to <code>AUTO</code>.</p>\n                  </li>\n                  <li>\n                     <p>When <code>AlgorithmsConfig</code> is provided, one\n                        <code>AutoMLAlgorithms</code> attribute must be set and one only.</p>\n                     <p>If the list of algorithms provided as values for\n                        <code>AutoMLAlgorithms</code> is empty,\n                        <code>CandidateGenerationConfig</code> uses the full set of algorithms for\n                     the given training mode.</p>\n                  </li>\n                  <li>\n                     <p>When <code>AlgorithmsConfig</code> is not provided,\n                        <code>CandidateGenerationConfig</code> uses the full set of algorithms for\n                     the given training mode.</p>\n                  </li>\n               </ul>\n               <p>For the list of all algorithms per training mode, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLAlgorithmConfig.html\">\n                  AlgorithmConfig</a>.</p>\n               <p>For more information on each algorithm, see the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-model-support-validation.html#autopilot-algorithm-support\">Algorithm support</a> section in the Autopilot developer guide.</p>\n            </li>\n            <li>\n               <p>\n                  <b>For the time-series forecasting problem type <code>TimeSeriesForecastingJobConfig</code>,</b>\n            choose your algorithms from the list provided in\n                  <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLAlgorithmConfig.html\">\n                  AlgorithmConfig</a>.</p>\n               <p>For more information on each algorithm, see the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/timeseries-forecasting-algorithms.html\">Algorithms support for time-series forecasting</a> section in the Autopilot developer guide.</p>\n               <ul>\n                  <li>\n                     <p>When <code>AlgorithmsConfig</code> is provided, one\n                        <code>AutoMLAlgorithms</code> attribute must be set and one only.</p>\n                     <p>If the list of algorithms provided as values for\n                        <code>AutoMLAlgorithms</code> is empty,\n                        <code>CandidateGenerationConfig</code> uses the full set of algorithms for\n                     time-series forecasting.</p>\n                  </li>\n                  <li>\n                     <p>When <code>AlgorithmsConfig</code> is not provided,\n                        <code>CandidateGenerationConfig</code> uses the full set of algorithms for\n                     time-series forecasting.</p>\n                  </li>\n               </ul>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>Your Autopilot job trains a default set of algorithms on your dataset. For tabular and\n         time-series data, you can customize the algorithm list by selecting a subset of algorithms\n         for your problem type.</p>\n         <p>\n            <code>AlgorithmsConfig</code> stores the customized selection of algorithms to train on\n         your data.</p>\n         <ul>\n            <li>\n               <p>\n                  <b>For the tabular problem type\n                  <code>TabularJobConfig</code>,</b> the list of available algorithms to\n               choose from depends on the training mode set in <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobConfig.html\">\n                     <code>AutoMLJobConfig.Mode</code>\n                  </a>.</p>\n               <ul>\n                  <li>\n                     <p>\n                        <code>AlgorithmsConfig</code> should not be set when the training mode\n                        <code>AutoMLJobConfig.Mode</code> is set to <code>AUTO</code>.</p>\n                  </li>\n                  <li>\n                     <p>When <code>AlgorithmsConfig</code> is provided, one\n                        <code>AutoMLAlgorithms</code> attribute must be set and one only.</p>\n                     <p>If the list of algorithms provided as values for\n                        <code>AutoMLAlgorithms</code> is empty,\n                        <code>CandidateGenerationConfig</code> uses the full set of algorithms for\n                     the given training mode.</p>\n                  </li>\n                  <li>\n                     <p>When <code>AlgorithmsConfig</code> is not provided,\n                        <code>CandidateGenerationConfig</code> uses the full set of algorithms for\n                     the given training mode.</p>\n                  </li>\n               </ul>\n               <p>For the list of all algorithms per training mode, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLAlgorithmConfig.html\">\n                  AlgorithmConfig</a>.</p>\n               <p>For more information on each algorithm, see the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-model-support-validation.html#autopilot-algorithm-support\">Algorithm support</a> section in the Autopilot developer guide.</p>\n            </li>\n            <li>\n               <p>\n                  <b>For the time-series forecasting problem type\n                     <code>TimeSeriesForecastingJobConfig</code>,</b> choose your algorithms\n               from the list provided in <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLAlgorithmConfig.html\">\n                  AlgorithmConfig</a>.</p>\n               <p>For more information on each algorithm, see the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/timeseries-forecasting-algorithms.html\">Algorithms\n                  support for time-series forecasting</a> section in the Autopilot developer\n               guide.</p>\n               <ul>\n                  <li>\n                     <p>When <code>AlgorithmsConfig</code> is provided, one\n                        <code>AutoMLAlgorithms</code> attribute must be set and one only.</p>\n                     <p>If the list of algorithms provided as values for\n                        <code>AutoMLAlgorithms</code> is empty,\n                        <code>CandidateGenerationConfig</code> uses the full set of algorithms for\n                     time-series forecasting.</p>\n                  </li>\n                  <li>\n                     <p>When <code>AlgorithmsConfig</code> is not provided,\n                        <code>CandidateGenerationConfig</code> uses the full set of algorithms for\n                     time-series forecasting.</p>\n                  </li>\n               </ul>\n            </li>\n         </ul>"
                     }
                 }
             },
@@ -5241,6 +5304,12 @@
                     "target": "com.amazonaws.sagemaker#GenerativeAiSettings",
                     "traits": {
                         "smithy.api#documentation": "<p>The generative AI settings for the SageMaker Canvas application.</p>"
+                    }
+                },
+                "EmrServerlessSettings": {
+                    "target": "com.amazonaws.sagemaker#EmrServerlessSettings",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The settings for running Amazon EMR Serverless data processing jobs in SageMaker Canvas.</p>"
                     }
                 }
             },
@@ -6638,6 +6707,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The additional storage configurations for the instances in the SageMaker HyperPod cluster instance\n         group.</p>"
                     }
+                },
+                "OnStartDeepHealthChecks": {
+                    "target": "com.amazonaws.sagemaker#OnStartDeepHealthChecks",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.</p>"
+                    }
                 }
             },
             "traits": {
@@ -6714,6 +6789,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Specifies the additional storage configurations for the instances in the SageMaker HyperPod cluster\n         instance group.</p>"
                     }
+                },
+                "OnStartDeepHealthChecks": {
+                    "target": "com.amazonaws.sagemaker#OnStartDeepHealthChecks",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.</p>"
+                    }
                 }
             },
             "traits": {
@@ -6728,7 +6809,7 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 1,
-                    "max": 20
+                    "max": 100
                 }
             }
         },
@@ -6783,6 +6864,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "SystemUpdating"
+                    }
+                },
+                "DEEP_HEALTH_CHECK_IN_PROGRESS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DeepHealthCheckInProgress"
                     }
                 }
             }
@@ -7206,6 +7293,23 @@
                 "smithy.api#pattern": "^i-[a-f0-9]{8}(?:[a-f0-9]{9})?$"
             }
         },
+        "com.amazonaws.sagemaker#ClusterNodeRecovery": {
+            "type": "enum",
+            "members": {
+                "AUTOMATIC": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Automatic"
+                    }
+                },
+                "NONE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "None"
+                    }
+                }
+            }
+        },
         "com.amazonaws.sagemaker#ClusterNodeSummaries": {
             "type": "list",
             "member": {
@@ -7266,6 +7370,38 @@
                 "smithy.api#range": {
                     "min": 0
                 }
+            }
+        },
+        "com.amazonaws.sagemaker#ClusterOrchestrator": {
+            "type": "structure",
+            "members": {
+                "Eks": {
+                    "target": "com.amazonaws.sagemaker#ClusterOrchestratorEksConfig",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon EKS cluster used as the orchestrator for the SageMaker HyperPod cluster.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The type of orchestrator used for the SageMaker HyperPod cluster.</p>"
+            }
+        },
+        "com.amazonaws.sagemaker#ClusterOrchestratorEksConfig": {
+            "type": "structure",
+            "members": {
+                "ClusterArn": {
+                    "target": "com.amazonaws.sagemaker#EksClusterArn",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Amazon EKS cluster associated with the SageMaker HyperPod cluster.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The configuration settings for the Amazon EKS cluster used as the orchestrator for the SageMaker HyperPod cluster.</p>"
             }
         },
         "com.amazonaws.sagemaker#ClusterPrivateDnsHostname": {
@@ -7430,6 +7566,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Code Editor application \n      lifecycle configuration.</p>"
                     }
+                },
+                "AppLifecycleManagement": {
+                    "target": "com.amazonaws.sagemaker#AppLifecycleManagement",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Settings that are used to configure and manage the lifecycle of CodeEditor applications.</p>"
+                    }
                 }
             },
             "traits": {
@@ -7471,7 +7613,7 @@
                     "min": 1,
                     "max": 2048
                 },
-                "smithy.api#pattern": "^arn:aws(-cn|-us-gov)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:code-repository/[\\S]{1,2048}$"
+                "smithy.api#pattern": "^arn:aws(-cn|-us-gov|-iso-f)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:code-repository/[\\S]{1,2048}$"
             }
         },
         "com.amazonaws.sagemaker#CodeRepositoryContains": {
@@ -8114,7 +8256,7 @@
                 "Environment": {
                     "target": "com.amazonaws.sagemaker#EnvironmentMap",
                     "traits": {
-                        "smithy.api#documentation": "<p>The environment variables to set in the Docker container.</p>\n         <p>The maximum length of each key and value in the <code>Environment</code> map is\n            1024 bytes. The maximum length of all keys and values in the map, combined, is 32 KB. If\n            you pass multiple containers to a <code>CreateModel</code> request, then the maximum\n            length of all of their maps, combined, is also 32 KB.</p>"
+                        "smithy.api#documentation": "<p>The environment variables to set in the Docker container. Don't include any\n        sensitive data in your environment variables.</p>\n         <p>The maximum length of each key and value in the <code>Environment</code> map is\n            1024 bytes. The maximum length of all keys and values in the map, combined, is 32 KB. If\n            you pass multiple containers to a <code>CreateModel</code> request, then the maximum\n            length of all of their maps, combined, is also 32 KB.</p>"
                     }
                 },
                 "ModelPackageName": {
@@ -8907,7 +9049,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Creates an Autopilot job also referred to as Autopilot experiment or AutoML job.</p>\n         <note>\n            <p>We recommend using the new versions <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html\">CreateAutoMLJobV2</a> and <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html\">DescribeAutoMLJobV2</a>, which offer backward compatibility.</p>\n            <p>\n               <code>CreateAutoMLJobV2</code> can manage tabular problem types identical to those of\n            its previous version <code>CreateAutoMLJob</code>, as well as time-series forecasting,\n            non-tabular problem types such as image or text classification, and text generation\n            (LLMs fine-tuning).</p>\n            <p>Find guidelines about how to migrate a <code>CreateAutoMLJob</code> to\n               <code>CreateAutoMLJobV2</code> in <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment.html#autopilot-create-experiment-api-migrate-v1-v2\">Migrate a CreateAutoMLJob to CreateAutoMLJobV2</a>.</p>\n         </note>\n         <p>You can find the best-performing model after you run an AutoML job by calling <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html\">DescribeAutoMLJobV2</a> (recommended) or <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html\">DescribeAutoMLJob</a>.</p>"
+                "smithy.api#documentation": "<p>Creates an Autopilot job also referred to as Autopilot experiment or AutoML job.</p>\n         <p>An AutoML job in SageMaker is a fully automated process that allows you to build machine\n         learning models with minimal effort and machine learning expertise. When initiating an\n         AutoML job, you provide your data and optionally specify parameters tailored to your use\n         case. SageMaker then automates the entire model development lifecycle, including data\n         preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify\n         and accelerate the model building process by automating various tasks and exploring\n         different combinations of machine learning algorithms, data preprocessing techniques, and\n         hyperparameter values. The output of an AutoML job comprises one or more trained models\n         ready for deployment and inference. Additionally, SageMaker AutoML jobs generate a candidate\n         model leaderboard, allowing you to select the best-performing model for deployment.</p>\n         <p>For more information about AutoML jobs, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html\">https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html</a>\n         in the SageMaker developer guide.</p>\n         <note>\n            <p>We recommend using the new versions <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html\">CreateAutoMLJobV2</a> and <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html\">DescribeAutoMLJobV2</a>, which offer backward compatibility.</p>\n            <p>\n               <code>CreateAutoMLJobV2</code> can manage tabular problem types identical to those of\n            its previous version <code>CreateAutoMLJob</code>, as well as time-series forecasting,\n            non-tabular problem types such as image or text classification, and text generation\n            (LLMs fine-tuning).</p>\n            <p>Find guidelines about how to migrate a <code>CreateAutoMLJob</code> to\n               <code>CreateAutoMLJobV2</code> in <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment.html#autopilot-create-experiment-api-migrate-v1-v2\">Migrate a CreateAutoMLJob to CreateAutoMLJobV2</a>.</p>\n         </note>\n         <p>You can find the best-performing model after you run an AutoML job by calling <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html\">DescribeAutoMLJobV2</a> (recommended) or <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html\">DescribeAutoMLJob</a>.</p>"
             }
         },
         "com.amazonaws.sagemaker#CreateAutoMLJobRequest": {
@@ -9019,7 +9161,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2.</p>\n         <note>\n            <p>\n               <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html\">CreateAutoMLJobV2</a> and <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html\">DescribeAutoMLJobV2</a> are new versions of <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html\">CreateAutoMLJob</a>\n            and <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html\">DescribeAutoMLJob</a> which offer backward compatibility.</p>\n            <p>\n               <code>CreateAutoMLJobV2</code> can manage tabular problem types identical to those of\n            its previous version <code>CreateAutoMLJob</code>, as well as time-series forecasting,\n            non-tabular problem types such as image or text classification, and text generation\n            (LLMs fine-tuning).</p>\n            <p>Find guidelines about how to migrate a <code>CreateAutoMLJob</code> to\n               <code>CreateAutoMLJobV2</code> in <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment.html#autopilot-create-experiment-api-migrate-v1-v2\">Migrate a CreateAutoMLJob to CreateAutoMLJobV2</a>.</p>\n         </note>\n         <p>For the list of available problem types supported by <code>CreateAutoMLJobV2</code>, see\n            <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLProblemTypeConfig.html\">AutoMLProblemTypeConfig</a>.</p>\n         <p>You can find the best-performing model after you run an AutoML job V2 by calling <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html\">DescribeAutoMLJobV2</a>.</p>"
+                "smithy.api#documentation": "<p>Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2.</p>\n         <p>An AutoML job in SageMaker is a fully automated process that allows you to build machine\n         learning models with minimal effort and machine learning expertise. When initiating an\n         AutoML job, you provide your data and optionally specify parameters tailored to your use\n         case. SageMaker then automates the entire model development lifecycle, including data\n         preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify\n         and accelerate the model building process by automating various tasks and exploring\n         different combinations of machine learning algorithms, data preprocessing techniques, and\n         hyperparameter values. The output of an AutoML job comprises one or more trained models\n         ready for deployment and inference. Additionally, SageMaker AutoML jobs generate a candidate\n         model leaderboard, allowing you to select the best-performing model for deployment.</p>\n         <p>For more information about AutoML jobs, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html\">https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html</a>\n         in the SageMaker developer guide.</p>\n         <p>AutoML jobs V2 support various problem types such as regression, binary, and multiclass\n         classification with tabular data, text and image classification, time-series forecasting,\n         and fine-tuning of large language models (LLMs) for text generation.</p>\n         <note>\n            <p>\n               <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html\">CreateAutoMLJobV2</a> and <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html\">DescribeAutoMLJobV2</a> are new versions of <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html\">CreateAutoMLJob</a>\n            and <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html\">DescribeAutoMLJob</a> which offer backward compatibility.</p>\n            <p>\n               <code>CreateAutoMLJobV2</code> can manage tabular problem types identical to those of\n            its previous version <code>CreateAutoMLJob</code>, as well as time-series forecasting,\n            non-tabular problem types such as image or text classification, and text generation\n            (LLMs fine-tuning).</p>\n            <p>Find guidelines about how to migrate a <code>CreateAutoMLJob</code> to\n               <code>CreateAutoMLJobV2</code> in <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment.html#autopilot-create-experiment-api-migrate-v1-v2\">Migrate a CreateAutoMLJob to CreateAutoMLJobV2</a>.</p>\n         </note>\n         <p>For the list of available problem types supported by <code>CreateAutoMLJobV2</code>, see\n            <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLProblemTypeConfig.html\">AutoMLProblemTypeConfig</a>.</p>\n         <p>You can find the best-performing model after you run an AutoML job V2 by calling <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html\">DescribeAutoMLJobV2</a>.</p>"
             }
         },
         "com.amazonaws.sagemaker#CreateAutoMLJobV2Request": {
@@ -9094,6 +9236,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>This structure specifies how to split the data into train and validation\n         datasets.</p>\n         <p>The validation and training datasets must contain the same headers. For jobs created by\n         calling <code>CreateAutoMLJob</code>, the validation dataset must be less than 2 GB in\n         size.</p>\n         <note>\n            <p>This attribute must not be set for the time-series forecasting problem type, as Autopilot\n            automatically splits the input dataset into training and validation sets.</p>\n         </note>"
                     }
+                },
+                "AutoMLComputeConfig": {
+                    "target": "com.amazonaws.sagemaker#AutoMLComputeConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the compute configuration for the AutoML job V2.</p>"
+                    }
                 }
             },
             "traits": {
@@ -9162,6 +9310,18 @@
                     "target": "com.amazonaws.sagemaker#TagList",
                     "traits": {
                         "smithy.api#documentation": "<p>Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can\n         add tags to your cluster in the same way you add them in other Amazon Web Services services\n         that support tagging. To learn more about tagging Amazon Web Services resources in general,\n         see <a href=\"https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html\">Tagging\n               Amazon Web Services Resources User Guide</a>.</p>"
+                    }
+                },
+                "Orchestrator": {
+                    "target": "com.amazonaws.sagemaker#ClusterOrchestrator",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported\n         value is <code>\"eks\"</code>, which is to use an Amazon Elastic Kubernetes Service (EKS)\n         cluster as the orchestrator.</p>"
+                    }
+                },
+                "NodeRecovery": {
+                    "target": "com.amazonaws.sagemaker#ClusterNodeRecovery",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The node recovery mode for the SageMaker HyperPod cluster. When set to <code>Automatic</code>,\n         SageMaker HyperPod will automatically reboot or replace faulty nodes when issues are detected. When set\n         to <code>None</code>, cluster administrators will need to manually manage any faulty\n         cluster instances.</p>"
                     }
                 }
             },
@@ -13525,7 +13685,7 @@
                 "Environment": {
                     "target": "com.amazonaws.sagemaker#TransformEnvironmentMap",
                     "traits": {
-                        "smithy.api#documentation": "<p>The environment variables to set in the Docker container. We support up to 16 key and\n            values entries in the map.</p>"
+                        "smithy.api#documentation": "<p>The environment variables to set in the Docker container. Don't include any\n            sensitive data in your environment variables. We support up to 16 key and\n            values entries in the map.</p>"
                     }
                 },
                 "TransformInput": {
@@ -14774,6 +14934,23 @@
                 "smithy.api#length": {
                     "min": 0,
                     "max": 20
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#DeepHealthCheckType": {
+            "type": "enum",
+            "members": {
+                "INSTANCE_STRESS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "InstanceStress"
+                    }
+                },
+                "INSTANCE_CONNECTIVITY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "InstanceConnectivity"
+                    }
                 }
             }
         },
@@ -18091,6 +18268,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Returns the security configuration for traffic encryption or Amazon VPC\n         settings.</p>"
                     }
+                },
+                "AutoMLComputeConfig": {
+                    "target": "com.amazonaws.sagemaker#AutoMLComputeConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The compute configuration used for the AutoML job V2.</p>"
+                    }
                 }
             },
             "traits": {
@@ -18234,6 +18417,18 @@
                 },
                 "VpcConfig": {
                     "target": "com.amazonaws.sagemaker#VpcConfig"
+                },
+                "Orchestrator": {
+                    "target": "com.amazonaws.sagemaker#ClusterOrchestrator",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The type of orchestrator used for the SageMaker HyperPod cluster. </p>"
+                    }
+                },
+                "NodeRecovery": {
+                    "target": "com.amazonaws.sagemaker#ClusterNodeRecovery",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The node recovery mode configured for the SageMaker HyperPod cluster.</p>"
+                    }
                 }
             },
             "traits": {
@@ -27145,6 +27340,72 @@
                 "smithy.api#pattern": "^\\d+$"
             }
         },
+        "com.amazonaws.sagemaker#EksClusterArn": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 20,
+                    "max": 2048
+                },
+                "smithy.api#pattern": "^arn:aws[a-z\\-]*:eks:[a-z0-9\\-]*:[0-9]{12}:cluster\\/[0-9A-Za-z][A-Za-z0-9\\-_]{0,99}$"
+            }
+        },
+        "com.amazonaws.sagemaker#EmrServerlessComputeConfig": {
+            "type": "structure",
+            "members": {
+                "ExecutionRoleARN": {
+                    "target": "com.amazonaws.sagemaker#RoleArn",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The ARN of the IAM role granting the AutoML job V2 the necessary\n         permissions access policies to list, connect to, or manage EMR Serverless jobs. For\n         detailed information about the required permissions of this role, see \"How to configure\n         AutoML to initiate a remote job on EMR Serverless for large datasets\" in <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment.html\">Create a regression or classification job for tabular data using the AutoML API</a>\n         or <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-create-experiment-timeseries-forecasting.html#timeseries-forecasting-api-optional-params\">Create an AutoML job for time-series forecasting using the API</a>.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<note>\n            <p>This data type is intended for use exclusively by SageMaker Canvas and cannot be used in\n            other contexts at the moment.</p>\n         </note>\n         <p>Specifies the compute configuration for the EMR Serverless job.</p>"
+            }
+        },
+        "com.amazonaws.sagemaker#EmrServerlessSettings": {
+            "type": "structure",
+            "members": {
+                "ExecutionRoleArn": {
+                    "target": "com.amazonaws.sagemaker#RoleArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the Amazon Web Services IAM role that is assumed for\n      running Amazon EMR Serverless jobs in SageMaker Canvas. This role should have the necessary\n      permissions to read and write data attached and a trust relationship with\n      EMR Serverless.</p>"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.sagemaker#FeatureStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Describes whether Amazon EMR Serverless job capabilities are enabled or disabled in the SageMaker\n      Canvas application.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The settings for running Amazon EMR Serverless jobs in SageMaker Canvas.</p>"
+            }
+        },
+        "com.amazonaws.sagemaker#EmrSettings": {
+            "type": "structure",
+            "members": {
+                "AssumableRoleArns": {
+                    "target": "com.amazonaws.sagemaker#AssumableRoleArns",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An array of Amazon Resource Names (ARNs) of the IAM roles that the execution role of\n            SageMaker can assume for performing operations or tasks related to Amazon EMR clusters or Amazon EMR\n            Serverless applications. These roles define the permissions and access policies required\n            when performing Amazon EMR-related operations, such as listing, connecting to, or terminating\n            Amazon EMR clusters or Amazon EMR Serverless applications. They are typically used in\n            cross-account access scenarios, where the Amazon EMR resources (clusters or serverless\n            applications) are located in a different Amazon Web Services account than the SageMaker\n            domain.</p>"
+                    }
+                },
+                "ExecutionRoleArns": {
+                    "target": "com.amazonaws.sagemaker#ExecutionRoleArns",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An array of Amazon Resource Names (ARNs) of the IAM roles used by the Amazon EMR cluster instances\n            or job execution environments to access other Amazon Web Services services and resources needed during the \n            runtime of your Amazon EMR or Amazon EMR Serverless workloads, such as Amazon S3 for data access, Amazon CloudWatch for logging, or other\n            Amazon Web Services services based on the particular workload requirements.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The configuration parameters that specify the IAM roles assumed by the execution role of \n            SageMaker (assumable roles) and the cluster instances or job execution environments \n            (execution roles or runtime roles) to manage and access resources required for running Amazon EMR\n            clusters or Amazon EMR Serverless applications.</p>"
+            }
+        },
         "com.amazonaws.sagemaker#EnableCapture": {
             "type": "boolean"
         },
@@ -27347,6 +27608,20 @@
                         "smithy.api#enumValue": "CreationTime"
                     }
                 }
+            }
+        },
+        "com.amazonaws.sagemaker#EndpointConfigStepMetadata": {
+            "type": "structure",
+            "members": {
+                "Arn": {
+                    "target": "com.amazonaws.sagemaker#EndpointConfigArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the endpoint configuration used in the step.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Metadata for an endpoint configuration step.</p>"
             }
         },
         "com.amazonaws.sagemaker#EndpointConfigSummary": {
@@ -27730,6 +28005,20 @@
                 }
             }
         },
+        "com.amazonaws.sagemaker#EndpointStepMetadata": {
+            "type": "structure",
+            "members": {
+                "Arn": {
+                    "target": "com.amazonaws.sagemaker#EndpointArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the endpoint in the step.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Metadata for an endpoint step.</p>"
+            }
+        },
         "com.amazonaws.sagemaker#EndpointSummary": {
             "type": "structure",
             "members": {
@@ -27915,6 +28204,18 @@
                 "smithy.api#length": {
                     "min": 0,
                     "max": 100
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#ExecutionRoleArns": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.sagemaker#RoleArn"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 5
                 }
             }
         },
@@ -32058,6 +32359,47 @@
                 }
             }
         },
+        "com.amazonaws.sagemaker#IdleSettings": {
+            "type": "structure",
+            "members": {
+                "LifecycleManagement": {
+                    "target": "com.amazonaws.sagemaker#LifecycleManagement",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates whether idle shutdown is activated for the application type.</p>"
+                    }
+                },
+                "IdleTimeoutInMinutes": {
+                    "target": "com.amazonaws.sagemaker#IdleTimeoutInMinutes",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time that SageMaker waits after the application becomes idle before shutting it down.</p>"
+                    }
+                },
+                "MinIdleTimeoutInMinutes": {
+                    "target": "com.amazonaws.sagemaker#IdleTimeoutInMinutes",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The minimum value in minutes that custom idle shutdown can be set to by the user.</p>"
+                    }
+                },
+                "MaxIdleTimeoutInMinutes": {
+                    "target": "com.amazonaws.sagemaker#IdleTimeoutInMinutes",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum value in minutes that custom idle shutdown can be set to by the user.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Settings related to idle shutdown of Studio applications.</p>"
+            }
+        },
+        "com.amazonaws.sagemaker#IdleTimeoutInMinutes": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 60,
+                    "max": 525600
+                }
+            }
+        },
         "com.amazonaws.sagemaker#Image": {
             "type": "structure",
             "members": {
@@ -32131,7 +32473,7 @@
                     "min": 0,
                     "max": 256
                 },
-                "smithy.api#pattern": "^arn:aws(-[\\w]+)*:sagemaker:.+:[0-9]{12}:image/[a-z0-9]([-.]?[a-z0-9])*$"
+                "smithy.api#pattern": "^arn:aws(-[\\w]+)*:sagemaker:.+:[0-9]{12}:image/[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$"
             }
         },
         "com.amazonaws.sagemaker#ImageBaseImage": {
@@ -35095,6 +35437,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterLab application.</p>"
                     }
+                },
+                "AppLifecycleManagement": {
+                    "target": "com.amazonaws.sagemaker#AppLifecycleManagement",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates whether idle shutdown is activated for JupyterLab applications.</p>"
+                    }
+                },
+                "EmrSettings": {
+                    "target": "com.amazonaws.sagemaker#EmrSettings",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration parameters that specify the IAM roles assumed by the execution role of \n            SageMaker (assumable roles) and the cluster instances or job execution environments \n            (execution roles or runtime roles) to manage and access resources required for running Amazon EMR\n            clusters or Amazon EMR Serverless applications.</p>"
+                    }
                 }
             },
             "traits": {
@@ -35876,6 +36230,23 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.sagemaker#StudioLifecycleConfigArn"
+            }
+        },
+        "com.amazonaws.sagemaker#LifecycleManagement": {
+            "type": "enum",
+            "members": {
+                "Enabled": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ENABLED"
+                    }
+                },
+                "Disabled": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DISABLED"
+                    }
+                }
             }
         },
         "com.amazonaws.sagemaker#LineageEntityParameters": {
@@ -44263,6 +44634,12 @@
                     "traits": {
                         "smithy.api#enumValue": "Projects"
                     }
+                },
+                "INFERENCE_OPTIMIZATION": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "InferenceOptimization"
+                    }
                 }
             }
         },
@@ -45979,7 +46356,7 @@
                     "min": 1,
                     "max": 2048
                 },
-                "smithy.api#pattern": "^arn:aws(-cn|-us-gov)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$"
+                "smithy.api#pattern": "^arn:aws(-cn|-us-gov|-iso-f)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$"
             }
         },
         "com.amazonaws.sagemaker#ModelPackageArnList": {
@@ -46152,7 +46529,7 @@
                     "min": 1,
                     "max": 2048
                 },
-                "smithy.api#pattern": "^arn:aws(-cn|-us-gov)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package-group/[\\S]{1,2048}$"
+                "smithy.api#pattern": "^arn:aws(-cn|-us-gov|-iso-f)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package-group/[\\S]{1,2048}$"
             }
         },
         "com.amazonaws.sagemaker#ModelPackageGroupSortBy": {
@@ -49126,6 +49503,18 @@
                 "smithy.api#documentation": "<p>A list of user groups that exist in your OIDC Identity Provider (IdP). \n            One to ten groups can be used to create a single private work team. \n            When you add a user group to the list of <code>Groups</code>, you can add that user group to one or more\n            private work teams. If you add a user group to a private work team, all workers in that user group \n            are added to the work team.</p>"
             }
         },
+        "com.amazonaws.sagemaker#OnStartDeepHealthChecks": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.sagemaker#DeepHealthCheckType"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 2
+                }
+            }
+        },
         "com.amazonaws.sagemaker#OnlineStoreConfig": {
             "type": "structure",
             "members": {
@@ -50842,6 +51231,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the AutoML job that was run by this step.</p>"
                     }
+                },
+                "Endpoint": {
+                    "target": "com.amazonaws.sagemaker#EndpointStepMetadata",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The endpoint that was invoked during this step execution.</p>"
+                    }
+                },
+                "EndpointConfig": {
+                    "target": "com.amazonaws.sagemaker#EndpointConfigStepMetadata",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The endpoint configuration used to create an endpoint during this step execution.</p>"
+                    }
                 }
             },
             "traits": {
@@ -52105,9 +52506,7 @@
                 "LocalPath": {
                     "target": "com.amazonaws.sagemaker#ProcessingLocalPath",
                     "traits": {
-                        "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The local path of a directory where you want Amazon SageMaker to upload its contents to Amazon S3. \n            <code>LocalPath</code> is an absolute path to a directory containing output files. \n            This directory will be created by the platform and exist when your container's \n            entrypoint is invoked.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The local path of a directory where you want Amazon SageMaker to upload its contents to Amazon S3. \n            <code>LocalPath</code> is an absolute path to a directory containing output files. \n            This directory will be created by the platform and exist when your container's \n            entrypoint is invoked.</p>"
                     }
                 },
                 "S3UploadMode": {
@@ -52290,7 +52689,7 @@
                 "InferenceAmiVersion": {
                     "target": "com.amazonaws.sagemaker#ProductionVariantInferenceAmiVersion",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies an option from a collection of preconfigured Amazon Machine Image (AMI)\n            images. Each image is configured by Amazon Web Services with a set of software and driver\n            versions. Amazon Web Services optimizes these configurations for different machine\n            learning workloads.</p>\n         <p>By selecting an AMI version, you can ensure that your inference environment is\n            compatible with specific software requirements, such as CUDA driver versions, Linux\n            kernel versions, or Amazon Web Services Neuron driver versions.</p>"
+                        "smithy.api#documentation": "<p>Specifies an option from a collection of preconfigured Amazon Machine Image (AMI)\n            images. Each image is configured by Amazon Web Services with a set of software and driver\n            versions. Amazon Web Services optimizes these configurations for different machine\n            learning workloads.</p>\n         <p>By selecting an AMI version, you can ensure that your inference environment is\n            compatible with specific software requirements, such as CUDA driver versions, Linux\n            kernel versions, or Amazon Web Services Neuron driver versions.</p>\n         <p>The AMI version names, and their configurations, are the following:</p>\n         <dl>\n            <dt>al2-ami-sagemaker-inference-gpu-2</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>Accelerator: GPU</p>\n                  </li>\n                  <li>\n                     <p>NVIDIA driver version: 535.54.03</p>\n                  </li>\n                  <li>\n                     <p>CUDA driver version: 12.2</p>\n                  </li>\n                  <li>\n                     <p>Supported instance types: ml.g4dn.*, ml.g5.*, ml.g6.*, ml.p3.*,\n                                ml.p4d.*, ml.p4de.*, ml.p5.*</p>\n                  </li>\n               </ul>\n            </dd>\n         </dl>"
                     }
                 }
             },
@@ -54051,7 +54450,7 @@
                     "min": 1,
                     "max": 2048
                 },
-                "smithy.api#pattern": "^arn:aws(-cn|-us-gov)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:project/[\\S]{1,2048}$"
+                "smithy.api#pattern": "^arn:aws(-cn|-us-gov|-iso-f)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:project/[\\S]{1,2048}$"
             }
         },
         "com.amazonaws.sagemaker#ProjectEntityName": {
@@ -60446,6 +60845,20 @@
                 "smithy.api#pattern": ".*"
             }
         },
+        "com.amazonaws.sagemaker#SpaceAppLifecycleManagement": {
+            "type": "structure",
+            "members": {
+                "IdleSettings": {
+                    "target": "com.amazonaws.sagemaker#SpaceIdleSettings",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Settings related to idle shutdown of Studio applications.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Settings that are used to configure and manage the lifecycle of Amazon SageMaker Studio applications in a space.</p>"
+            }
+        },
         "com.amazonaws.sagemaker#SpaceArn": {
             "type": "string",
             "traits": {
@@ -60461,6 +60874,12 @@
             "members": {
                 "DefaultResourceSpec": {
                     "target": "com.amazonaws.sagemaker#ResourceSpec"
+                },
+                "AppLifecycleManagement": {
+                    "target": "com.amazonaws.sagemaker#SpaceAppLifecycleManagement",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Settings that are used to configure and manage the lifecycle of CodeEditor applications in a space.</p>"
+                    }
                 }
             },
             "traits": {
@@ -60538,6 +60957,20 @@
                 }
             }
         },
+        "com.amazonaws.sagemaker#SpaceIdleSettings": {
+            "type": "structure",
+            "members": {
+                "IdleTimeoutInMinutes": {
+                    "target": "com.amazonaws.sagemaker#IdleTimeoutInMinutes",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time that SageMaker waits after the application becomes idle before shutting it down.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Settings related to idle shutdown of Studio applications in a space.</p>"
+            }
+        },
         "com.amazonaws.sagemaker#SpaceJupyterLabAppSettings": {
             "type": "structure",
             "members": {
@@ -60548,6 +60981,12 @@
                     "target": "com.amazonaws.sagemaker#CodeRepositories",
                     "traits": {
                         "smithy.api#documentation": "<p>A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterLab application.</p>"
+                    }
+                },
+                "AppLifecycleManagement": {
+                    "target": "com.amazonaws.sagemaker#SpaceAppLifecycleManagement",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Settings that are used to configure and manage the lifecycle of JupyterLab applications in a space.</p>"
                     }
                 }
             },
@@ -62048,7 +62487,7 @@
                     "min": 0,
                     "max": 256
                 },
-                "smithy.api#pattern": "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/"
+                "smithy.api#pattern": "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/.*|None)$"
             }
         },
         "com.amazonaws.sagemaker#StudioLifecycleConfigContent": {
@@ -67219,6 +67658,12 @@
                         "smithy.api#documentation": "<p>Specify the instance groups to update.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "NodeRecovery": {
+                    "target": "com.amazonaws.sagemaker#ClusterNodeRecovery",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The node recovery mode to be applied to the SageMaker HyperPod cluster.</p>"
+                    }
                 }
             },
             "traits": {
@@ -69952,6 +70397,12 @@
                     "target": "com.amazonaws.sagemaker#StudioWebPortalSettings",
                     "traits": {
                         "smithy.api#documentation": "<p>Studio settings. If these settings are applied on a user level, they take priority over\n      the settings applied on a domain level.</p>"
+                    }
+                },
+                "AutoMountHomeEFS": {
+                    "target": "com.amazonaws.sagemaker#AutoMountHomeEFS",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates whether auto-mounting of an EFS volume is supported for the user profile. The <code>DefaultAsDomain</code> value is only supported for user profiles. Do not use the <code>DefaultAsDomain</code> value when setting this parameter for a domain.</p>"
                     }
                 }
             },

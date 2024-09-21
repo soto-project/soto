@@ -369,7 +369,7 @@ extension RDS {
     }
 
     public struct ApplyPendingMaintenanceActionMessage: AWSEncodableShape {
-        /// The pending maintenance action to apply to this resource. Valid Values: system-update, db-upgrade,  hardware-maintenance, ca-certificate-rotation
+        /// The pending maintenance action to apply to this resource. Valid Values:    ca-certificate-rotation     db-upgrade     hardware-maintenance     os-upgrade     system-update    For more information about these actions, see  Maintenance actions for Amazon Aurora or  Maintenance actions for Amazon RDS.
         public let applyAction: String?
         /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in  request of type immediate can't be undone. Valid Values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.
         public let optInType: String?
@@ -758,7 +758,7 @@ extension RDS {
     }
 
     public struct ConnectionPoolConfiguration: AWSEncodableShape {
-        /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. This setting only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. For an unlimited wait time, specify 0. Default: 120  Constraints:   Must be between 0 and 3600.
+        /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. This setting only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. Default: 120  Constraints:   Must be between 0 and 3600.
         public let connectionBorrowTimeout: Int?
         /// One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2. Default: no initialization query
         public let initQuery: String?
@@ -1614,7 +1614,7 @@ extension RDS {
         /// A list of DB security groups to associate with this DB instance. This setting applies to the legacy EC2-Classic platform, which is no longer used to create  new DB instances. Use the VpcSecurityGroupIds setting instead.
         @OptionalCustomCoding<ArrayCoder<_DBSecurityGroupsEncoding, String>>
         public var dbSecurityGroups: [String]?
-        /// A DB subnet group to associate with this DB instance. Constraints:   Must match the name of an existing DB subnet group.   Must not be default.   Example: mydbsubnetgroup
+        /// A DB subnet group to associate with this DB instance. Constraints:   Must match the name of an existing DB subnet group.   Example: mydbsubnetgroup
         public let dbSubnetGroupName: String?
         /// The Oracle system identifier (SID), which is the name of the Oracle database instance that  manages your database files. In this context, the term "Oracle database instance" refers exclusively  to the system global area (SGA) and Oracle background processes. If you don't specify a SID,  the value defaults to RDSCDB. The Oracle SID is also the name of your CDB.
         public let dbSystemId: String?
@@ -1644,7 +1644,7 @@ extension RDS {
         public let enableIAMDatabaseAuthentication: Bool?
         /// Specifies whether to enable Performance Insights for the DB instance. For more information, see  Using Amazon Performance Insights in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom DB instances.
         public let enablePerformanceInsights: Bool?
-        /// The database engine to use for this DB instance. Not every database engine is available in every Amazon Web Services Region. Valid Values:    aurora-mysql (for Aurora MySQL DB instances)    aurora-postgresql (for Aurora PostgreSQL DB instances)    custom-oracle-ee (for RDS Custom for Oracle DB instances)    custom-oracle-ee-cdb (for RDS Custom for Oracle DB instances)    custom-oracle-se2 (for RDS Custom for Oracle DB instances)    custom-oracle-se2-cdb (for RDS Custom for Oracle DB instances)    custom-sqlserver-ee (for RDS Custom for SQL Server DB instances)    custom-sqlserver-se (for RDS Custom for SQL Server DB instances)    custom-sqlserver-web (for RDS Custom for SQL Server DB instances)    db2-ae     db2-se     mariadb     mysql     oracle-ee     oracle-ee-cdb     oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
+        /// The database engine to use for this DB instance. Not every database engine is available in every Amazon Web Services Region. Valid Values:    aurora-mysql (for Aurora MySQL DB instances)    aurora-postgresql (for Aurora PostgreSQL DB instances)    custom-oracle-ee (for RDS Custom for Oracle DB instances)    custom-oracle-ee-cdb (for RDS Custom for Oracle DB instances)    custom-oracle-se2 (for RDS Custom for Oracle DB instances)    custom-oracle-se2-cdb (for RDS Custom for Oracle DB instances)    custom-sqlserver-ee (for RDS Custom for SQL Server DB instances)    custom-sqlserver-se (for RDS Custom for SQL Server DB instances)    custom-sqlserver-web (for RDS Custom for SQL Server DB instances)    custom-sqlserver-dev (for RDS Custom for SQL Server DB instances)    db2-ae     db2-se     mariadb     mysql     oracle-ee     oracle-ee-cdb     oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
         public let engine: String?
         /// The life cycle type for this DB instance.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  creating the DB instance will fail if the DB major version is past its end of standard support date.  This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see Using Amazon RDS Extended Support in the Amazon RDS User Guide. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
         public let engineLifecycleSupport: String?
@@ -1922,7 +1922,7 @@ extension RDS {
         public let performanceInsightsRetentionPeriod: Int?
         /// The port number that the DB instance uses for connections. Valid Values: 1150-65535  Default: Inherits the value from the source DB instance.
         public let port: Int?
-        /// When you are creating a read replica from one Amazon Web Services GovCloud (US) Region to another or from one China Amazon Web Services Region to another, the URL that contains a Signature Version 4 signed request for the CreateDBInstanceReadReplica API operation in the source Amazon Web Services Region that contains the source DB instance. This setting applies only to Amazon Web Services GovCloud (US) Regions and  China Amazon Web Services Regions. It's ignored in other Amazon Web Services Regions. This setting applies only when replicating from a source DB instance. Source DB clusters aren't supported in Amazon Web Services GovCloud (US) Regions and China Amazon Web Services Regions. You must specify this parameter when you create an encrypted read replica from another Amazon Web Services Region by using the Amazon RDS API. Don't specify PreSignedUrl when you are creating an encrypted read replica in the same Amazon Web Services Region. The presigned URL must be a valid request for the CreateDBInstanceReadReplica API operation that can run in the source Amazon Web Services Region that contains the encrypted source DB instance. The presigned URL request must contain the following parameter values:    DestinationRegion - The Amazon Web Services Region that the encrypted read replica is created in. This Amazon Web Services Region is the same one where the CreateDBInstanceReadReplica operation is called that contains this presigned URL. For example, if you create an encrypted DB instance in the us-west-1 Amazon Web Services Region, from a source DB instance in the us-east-2 Amazon Web Services Region, then you call the CreateDBInstanceReadReplica operation in the us-east-1 Amazon Web Services Region and provide a presigned URL that contains a call to the CreateDBInstanceReadReplica operation in the us-west-2 Amazon Web Services Region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 Amazon Web Services Region.    KmsKeyId - The KMS key identifier for the key to use to encrypt the read replica in the destination Amazon Web Services Region. This is the same identifier for both the CreateDBInstanceReadReplica operation that is called in the destination Amazon Web Services Region, and the operation contained in the presigned URL.    SourceDBInstanceIdentifier - The DB instance identifier for the encrypted DB instance to be replicated. This identifier must be in the Amazon Resource Name (ARN) format for the source Amazon Web Services Region. For example, if you are creating an encrypted read replica from a DB instance in the us-west-2 Amazon Web Services Region, then your SourceDBInstanceIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:instance:mysql-instance1-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4) and Signature Version 4 Signing Process.  If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a presigned URL that is a valid request for the operation that can run in the source Amazon Web Services Region.  SourceRegion isn't supported for SQL Server, because Amazon RDS for SQL Server  doesn't support cross-Region read replicas.  This setting doesn't apply to RDS Custom DB instances.
+        /// When you are creating a read replica from one Amazon Web Services GovCloud (US) Region to another or from one China Amazon Web Services Region to another, the URL that contains a Signature Version 4 signed request for the CreateDBInstanceReadReplica API operation in the source Amazon Web Services Region that contains the source DB instance. This setting applies only to Amazon Web Services GovCloud (US) Regions and  China Amazon Web Services Regions. It's ignored in other Amazon Web Services Regions. This setting applies only when replicating from a source DB instance. Source DB clusters aren't supported in Amazon Web Services GovCloud (US) Regions and China Amazon Web Services Regions. You must specify this parameter when you create an encrypted read replica from another Amazon Web Services Region by using the Amazon RDS API. Don't specify PreSignedUrl when you are creating an encrypted read replica in the same Amazon Web Services Region. The presigned URL must be a valid request for the CreateDBInstanceReadReplica API operation that can run in the source Amazon Web Services Region that contains the encrypted source DB instance. The presigned URL request must contain the following parameter values:    DestinationRegion - The Amazon Web Services Region that the encrypted read replica is created in. This Amazon Web Services Region is the same one where the CreateDBInstanceReadReplica operation is called that contains this presigned URL. For example, if you create an encrypted DB instance in the us-west-1 Amazon Web Services Region, from a source DB instance in the us-east-2 Amazon Web Services Region, then you call the CreateDBInstanceReadReplica operation in the us-east-1 Amazon Web Services Region and provide a presigned URL that contains a call to the CreateDBInstanceReadReplica operation in the us-west-2 Amazon Web Services Region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 Amazon Web Services Region.    KmsKeyId - The KMS key identifier for the key to use to encrypt the read replica in the destination Amazon Web Services Region. This is the same identifier for both the CreateDBInstanceReadReplica operation that is called in the destination Amazon Web Services Region, and the operation contained in the presigned URL.    SourceDBInstanceIdentifier - The DB instance identifier for the encrypted DB instance to be replicated. This identifier must be in the Amazon Resource Name (ARN) format for the source Amazon Web Services Region. For example, if you are creating an encrypted read replica from a DB instance in the us-west-2 Amazon Web Services Region, then your SourceDBInstanceIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:instance:mysql-instance1-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4) and Signature Version 4 Signing Process.  If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a presigned URL that is a valid request for the operation that can run in the source Amazon Web Services Region.  This setting doesn't apply to RDS Custom DB instances.
         public let preSignedUrl: String?
         /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance. This setting doesn't apply to RDS Custom DB instances.
         @OptionalCustomCoding<ArrayCoder<_ProcessorFeaturesEncoding, ProcessorFeature>>
@@ -2282,14 +2282,17 @@ extension RDS {
         public let dbShardGroupIdentifier: String?
         /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
         public let maxACU: Double?
+        /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
+        public let minACU: Double?
         /// Specifies whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from  within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC.  Access to the DB shard group is ultimately controlled by the security group it uses.  That public access is not permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:   If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB shard group is private.   If the default VPC in the target Region has an internet gateway attached to it, the DB shard group is public.   If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies:   If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB shard group is private.   If the subnets are part of a VPC that has an internet gateway attached to it, the DB shard group is public.
         public let publiclyAccessible: Bool?
 
-        public init(computeRedundancy: Int? = nil, dbClusterIdentifier: String? = nil, dbShardGroupIdentifier: String? = nil, maxACU: Double? = nil, publiclyAccessible: Bool? = nil) {
+        public init(computeRedundancy: Int? = nil, dbClusterIdentifier: String? = nil, dbShardGroupIdentifier: String? = nil, maxACU: Double? = nil, minACU: Double? = nil, publiclyAccessible: Bool? = nil) {
             self.computeRedundancy = computeRedundancy
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbShardGroupIdentifier = dbShardGroupIdentifier
             self.maxACU = maxACU
+            self.minACU = minACU
             self.publiclyAccessible = publiclyAccessible
         }
 
@@ -2298,6 +2301,7 @@ extension RDS {
             case dbClusterIdentifier = "DBClusterIdentifier"
             case dbShardGroupIdentifier = "DBShardGroupIdentifier"
             case maxACU = "MaxACU"
+            case minACU = "MinACU"
             case publiclyAccessible = "PubliclyAccessible"
         }
     }
@@ -4505,7 +4509,7 @@ extension RDS {
     public struct DBParameterGroupStatus: AWSDecodableShape {
         /// The name of the DB parameter group.
         public let dbParameterGroupName: String?
-        /// The status of parameter updates.
+        /// The status of parameter updates. Valid values are:    applying: The parameter group change is being applied to the database.    failed-to-apply: The parameter group is in an invalid state.    in-sync: The parameter group change is synchronized with the database.    pending-database-upgrade: The parameter group change will be applied after the DB instance is upgraded.    pending-reboot: The parameter group change will be applied after the DB instance reboots.
         public let parameterApplyStatus: String?
 
         public init(dbParameterGroupName: String? = nil, parameterApplyStatus: String? = nil) {
@@ -4961,18 +4965,21 @@ extension RDS {
         public let endpoint: String?
         /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
         public let maxACU: Double?
+        /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
+        public let minACU: Double?
         /// Indicates whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. For more information, see CreateDBShardGroup. This setting is only for Aurora Limitless Database.
         public let publiclyAccessible: Bool?
         /// The status of the DB shard group.
         public let status: String?
 
-        public init(computeRedundancy: Int? = nil, dbClusterIdentifier: String? = nil, dbShardGroupIdentifier: String? = nil, dbShardGroupResourceId: String? = nil, endpoint: String? = nil, maxACU: Double? = nil, publiclyAccessible: Bool? = nil, status: String? = nil) {
+        public init(computeRedundancy: Int? = nil, dbClusterIdentifier: String? = nil, dbShardGroupIdentifier: String? = nil, dbShardGroupResourceId: String? = nil, endpoint: String? = nil, maxACU: Double? = nil, minACU: Double? = nil, publiclyAccessible: Bool? = nil, status: String? = nil) {
             self.computeRedundancy = computeRedundancy
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbShardGroupIdentifier = dbShardGroupIdentifier
             self.dbShardGroupResourceId = dbShardGroupResourceId
             self.endpoint = endpoint
             self.maxACU = maxACU
+            self.minACU = minACU
             self.publiclyAccessible = publiclyAccessible
             self.status = status
         }
@@ -4984,6 +4991,7 @@ extension RDS {
             case dbShardGroupResourceId = "DBShardGroupResourceId"
             case endpoint = "Endpoint"
             case maxACU = "MaxACU"
+            case minACU = "MinACU"
             case publiclyAccessible = "PubliclyAccessible"
             case status = "Status"
         }
@@ -5452,11 +5460,11 @@ extension RDS {
     public struct DeleteDBClusterMessage: AWSEncodableShape {
         /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must match an existing DBClusterIdentifier.
         public let dbClusterIdentifier: String?
-        /// Specifies whether to remove automated backups immediately after the DB cluster is deleted. This parameter isn't case-sensitive. The default is to remove  automated backups immediately after the DB cluster is deleted.   You must delete automated backups for Amazon RDS Multi-AZ DB clusters. For more information about managing automated backups for RDS Multi-AZ DB clusters, see Managing automated backups.
+        /// Specifies whether to remove automated backups immediately after the DB cluster is deleted. This parameter isn't case-sensitive. The default is to remove  automated backups immediately after the DB cluster is deleted.
         public let deleteAutomatedBackups: Bool?
-        /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled.  Specifying this parameter and also skipping the creation of a final DB cluster snapshot  with the SkipFinalShapshot parameter results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
+        /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled.  If you specify this parameter and also skip the creation of a final DB cluster snapshot with the SkipFinalShapshot parameter, the request results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
         public let finalDBSnapshotIdentifier: String?
-        /// Specifies whether to skip the creation of a final DB cluster snapshot before the DB cluster is deleted. If skip is specified, no DB cluster snapshot is created. If skip isn't specified, a DB cluster snapshot  is created before the DB cluster is deleted. By default, skip isn't specified, and the DB cluster snapshot is created.  By default, this parameter is disabled.  You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is disabled.
+        /// Specifies whether to skip the creation of a final DB cluster snapshot before RDS deletes the DB cluster. If you set this value to true, RDS doesn't create a final DB cluster snapshot. If you set this value to false or don't specify it, RDS creates a DB cluster snapshot before it deletes the DB cluster. By default, this parameter is disabled, so RDS creates a final DB cluster snapshot.  If SkipFinalSnapshot is disabled, you must specify a value for the FinalDBSnapshotIdentifier parameter.
         public let skipFinalSnapshot: Bool?
 
         public init(dbClusterIdentifier: String? = nil, deleteAutomatedBackups: Bool? = nil, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
@@ -6103,7 +6111,7 @@ extension RDS {
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
-        /// A specific source to return parameters for. Valid Values:    user     engine     service
+        /// A specific source to return parameters for. Valid Values:    customer     engine     service
         public let source: String?
 
         public init(dbClusterParameterGroupName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
@@ -9485,10 +9493,13 @@ extension RDS {
         public let dbShardGroupIdentifier: String?
         /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
         public let maxACU: Double?
+        /// The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
+        public let minACU: Double?
 
-        public init(dbShardGroupIdentifier: String? = nil, maxACU: Double? = nil) {
+        public init(dbShardGroupIdentifier: String? = nil, maxACU: Double? = nil, minACU: Double? = nil) {
             self.dbShardGroupIdentifier = dbShardGroupIdentifier
             self.maxACU = maxACU
+            self.minACU = minACU
         }
 
         public func validate(name: String) throws {
@@ -9500,6 +9511,7 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case dbShardGroupIdentifier = "DBShardGroupIdentifier"
             case maxACU = "MaxACU"
+            case minACU = "MinACU"
         }
     }
 
@@ -9873,7 +9885,7 @@ extension RDS {
         public struct _OptionSettingsEncoding: ArrayCoderProperties { public static let member = "OptionSetting" }
         public struct _VpcSecurityGroupMembershipsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// A list of DBSecurityGroupMembership name strings used for this option.
+        /// A list of DB security groups used for this option.
         @OptionalCustomCoding<ArrayCoder<_DBSecurityGroupMembershipsEncoding, String>>
         public var dbSecurityGroupMemberships: [String]?
         /// The configuration of options to include in a group.
@@ -9885,7 +9897,7 @@ extension RDS {
         public let optionVersion: String?
         /// The optional port for the option.
         public let port: Int?
-        /// A list of VpcSecurityGroupMembership name strings used for this option.
+        /// A list of VPC security group names used for this option.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupMembershipsEncoding, String>>
         public var vpcSecurityGroupMemberships: [String]?
 
@@ -10480,7 +10492,7 @@ extension RDS {
     }
 
     public struct PendingMaintenanceAction: AWSDecodableShape {
-        /// The type of pending maintenance action that is available for the resource.  For more information about maintenance actions, see Maintaining a DB instance. Valid Values: system-update | db-upgrade | hardware-maintenance | ca-certificate-rotation
+        /// The type of pending maintenance action that is available for the resource.  For more information about maintenance actions, see Maintaining a DB instance. Valid Values:    ca-certificate-rotation     db-upgrade     hardware-maintenance     os-upgrade     system-update    For more information about these actions, see  Maintenance actions for Amazon Aurora or  Maintenance actions for Amazon RDS.
         public let action: String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date.
         public let autoAppliedAfterDate: Date?

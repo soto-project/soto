@@ -742,9 +742,9 @@ extension PinpointSMSVoiceV2 {
         public let configurationSetName: String
         /// The name that identifies the event destination.
         public let eventDestinationName: String
-        /// An object that contains information about an event destination for logging to Amazon Kinesis Data Firehose.
+        /// An object that contains information about an event destination for logging to Amazon Data Firehose.
         public let kinesisFirehoseDestination: KinesisFirehoseDestination?
-        /// An array of event types that determine which events to log. If "ALL" is used, then Amazon Pinpoint logs every event type.  The TEXT_SENT event type is not supported.
+        /// An array of event types that determine which events to log. If "ALL" is used, then AWS End User Messaging SMS and Voice logs every event type.  The TEXT_SENT event type is not supported.
         public let matchingEventTypes: [EventType]
         /// An object that contains information about an event destination for logging to Amazon SNS.
         public let snsDestination: SnsDestination?
@@ -874,9 +874,9 @@ extension PinpointSMSVoiceV2 {
         public let deletionProtectionEnabled: Bool?
         /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the new pool.
         public let isoCountryCode: String
-        /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
+        /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. After the pool is created the MessageType can't be changed.
         public let messageType: MessageType
-        /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.
+        /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn. After the pool is created you can add more origination identities to the pool by using AssociateOriginationIdentity.
         public let originationIdentity: String
         /// An array of tags (key and value pairs) associated with the pool.
         public let tags: [Tag]?
@@ -929,9 +929,9 @@ extension PinpointSMSVoiceV2 {
         public let poolArn: String?
         /// The unique identifier for the pool.
         public let poolId: String?
-        /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon Pinpoint automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+        /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
         public let selfManagedOptOutsEnabled: Bool?
-        /// Indicates whether shared routes are enabled for the pool.
+        /// Indicates whether shared routes are enabled for the pool. Set to false and only origination identities in this pool are used to send messages.
         public let sharedRoutesEnabled: Bool?
         /// The current status of the pool.   CREATING: The pool is currently being created and isn't yet available for use.   ACTIVE: The pool is active and available for use.   DELETING: The pool is being deleted.
         public let status: PoolStatus?
@@ -1764,7 +1764,7 @@ extension PinpointSMSVoiceV2 {
         public let poolArn: String?
         /// The PoolId of the pool that was deleted.
         public let poolId: String?
-        /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon Pinpoint automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+        /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
         public let selfManagedOptOutsEnabled: Bool?
         /// Indicates whether shared routes are enabled for the pool.
         public let sharedRoutesEnabled: Bool?
@@ -3449,7 +3449,7 @@ extension PinpointSMSVoiceV2 {
         public let enabled: Bool
         /// The name of the EventDestination.
         public let eventDestinationName: String
-        /// An object that contains information about an event destination for logging to Amazon Kinesis Data Firehose.
+        /// An object that contains information about an event destination for logging to Amazon Data Firehose.
         public let kinesisFirehoseDestination: KinesisFirehoseDestination?
         /// An array of event types that determine which events to log.  The TEXT_SENT event type is not supported.
         public let matchingEventTypes: [EventType]
@@ -3499,7 +3499,7 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct GetProtectConfigurationCountryRuleSetResult: AWSDecodableShape {
-        /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see Supported countries and regions (SMS channel) in the Amazon Pinpoint SMS user guide.
+        /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see Supported countries and regions (SMS channel) in the AWS End User Messaging SMS User Guide.
         public let countryRuleSet: [String: ProtectConfigurationCountryRuleSetInformation]
         /// The capability type associated with the returned ProtectConfigurationCountryRuleSetInformation objects.
         public let numberCapability: NumberCapability
@@ -3574,7 +3574,7 @@ extension PinpointSMSVoiceV2 {
     public struct KinesisFirehoseDestination: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let deliveryStreamArn: String
-        /// The ARN of an Identity and Access Management role that is able to write event data to an Amazon Kinesis Data Firehose destination.
+        /// The ARN of an Identity and Access Management role that is able to write event data to an Amazon Data Firehose destination.
         public let iamRoleArn: String
 
         public init(deliveryStreamArn: String, iamRoleArn: String) {
@@ -3919,7 +3919,7 @@ extension PinpointSMSVoiceV2 {
         public let poolId: String?
         /// The unique identifier for the registration.
         public let registrationId: String?
-        /// When set to false an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon Pinpoint automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out request. For more information see Self-managed opt-outs
+        /// When set to false an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out request. For more information see Self-managed opt-outs
         public let selfManagedOptOutsEnabled: Bool
         /// The current status of the phone number.
         public let status: NumberStatus
@@ -4013,9 +4013,9 @@ extension PinpointSMSVoiceV2 {
         public let poolArn: String
         /// The unique identifier for the pool.
         public let poolId: String
-        /// When set to false, an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon Pinpoint automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests. For more information see Self-managed opt-outs
+        /// When set to false, an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests. For more information see Self-managed opt-outs
         public let selfManagedOptOutsEnabled: Bool
-        /// Allows you to enable shared routes on your pool. By default, this is set to False. If you set this value to True, your messages are sent using phone numbers or sender IDs (depending on the country) that are shared with other Amazon Pinpoint users. In some countries, such as the United States, senders aren't allowed to use shared routes and must use a dedicated phone number or short code.
+        /// Allows you to enable shared routes on your pool. By default, this is set to False. If you set this value to True, your messages are sent using phone numbers or sender IDs (depending on the country) that are shared with other users. In some countries, such as the United States, senders aren't allowed to use shared routes and must use a dedicated phone number or short code.
         public let sharedRoutesEnabled: Bool
         /// The current status of the pool.
         public let status: PoolStatus
@@ -4937,7 +4937,7 @@ extension PinpointSMSVoiceV2 {
         public let phoneNumberId: String?
         /// The unique identifier for the registration.
         public let registrationId: String?
-        /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon Pinpoint automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+        /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
         public let selfManagedOptOutsEnabled: Bool?
         /// The current status of the request.
         public let status: NumberStatus?
@@ -5150,7 +5150,7 @@ extension PinpointSMSVoiceV2 {
         public let poolId: String?
         /// The unique identifier for the registration.
         public let registrationId: String?
-        /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon Pinpoint automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+        /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
         public let selfManagedOptOutsEnabled: Bool?
         /// The current status of the request.
         public let status: NumberStatus?
@@ -5524,15 +5524,15 @@ extension PinpointSMSVoiceV2 {
         public let configurationSetName: String?
         /// You can specify custom data in this field. If you do, that data is logged to the event destination.
         public let context: [String: String]?
-        /// This field is used for any country-specific registration requirements. Currently, this setting is only used when you send messages to recipients in India using a sender ID. For more information see Special requirements for sending SMS messages to recipients in India.
+        /// This field is used for any country-specific registration requirements. Currently, this setting is only used when you send messages to recipients in India using a sender ID. For more information see Special requirements for sending SMS messages to recipients in India.     IN_ENTITY_ID The entity ID or Principal Entity (PE) ID that you received after completing the sender ID registration process.    IN_TEMPLATE_ID The template ID that you received after completing the sender ID registration process.  Make sure that the Template ID that you specify matches your message template exactly. If your message doesn't match the template that you provided during the registration process, the mobile carriers might reject your message.
         public let destinationCountryParameters: [DestinationCountryParameterKey: String]?
         /// The destination phone number in E.164 format.
         public let destinationPhoneNumber: String
-        /// When set to true, the message is checked and validated, but isn't sent to the end recipient.
+        /// When set to true, the message is checked and validated, but isn't sent to the end recipient. You are not charged for using DryRun. The Message Parts per Second (MPS) limit when using DryRun is five. If your origination identity has a lower MPS limit then the lower MPS limit is used. For more information about MPS limits, see Message Parts per Second (MPS) limits in the AWS End User Messaging SMS User Guide..
         public let dryRun: Bool?
         /// When you register a short code in the US, you must specify a program name. If you don’t have a US short code, omit this attribute.
         public let keyword: String?
-        /// The maximum amount that you want to spend, in US dollars, per each text message part. A text message can contain multiple parts.
+        /// The maximum amount that you want to spend, in US dollars, per each text message. If the calculated amount to send the text message is greater than MaxPrice, the message is not sent and an error is returned.
         public let maxPrice: String?
         /// The body of the text message.
         public let messageBody: String?
@@ -5542,7 +5542,7 @@ extension PinpointSMSVoiceV2 {
         public let originationIdentity: String?
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String?
-        /// How long the text message is valid for. By default this is 72 hours.
+        /// How long the text message is valid for, in seconds. By default this is 72 hours. If the messages isn't handed off before the TTL expires we stop attempting to hand off the message and return TTL_EXPIRED event.
         public let timeToLive: Int?
 
         public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationCountryParameters: [DestinationCountryParameterKey: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, keyword: String? = nil, maxPrice: String? = nil, messageBody: String? = nil, messageType: MessageType? = nil, originationIdentity: String? = nil, protectConfigurationId: String? = nil, timeToLive: Int? = nil) {
@@ -6280,7 +6280,7 @@ extension PinpointSMSVoiceV2 {
         public let enabled: Bool?
         /// The name to use for the event destination.
         public let eventDestinationName: String
-        /// An object that contains information about an event destination for logging to Kinesis Data Firehose.
+        /// An object that contains information about an event destination for logging to Firehose.
         public let kinesisFirehoseDestination: KinesisFirehoseDestination?
         /// An array of event types that determine which events to log.  The TEXT_SENT event type is not supported.
         public let matchingEventTypes: [EventType]?
@@ -6350,7 +6350,7 @@ extension PinpointSMSVoiceV2 {
         public let optOutListName: String?
         /// The unique identifier of the phone number. Valid values for this field can be either the PhoneNumberId or PhoneNumberArn.
         public let phoneNumberId: String
-        /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon Pinpoint automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+        /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
         public let selfManagedOptOutsEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the two way channel.
         public let twoWayChannelArn: String?
@@ -6479,7 +6479,7 @@ extension PinpointSMSVoiceV2 {
         public let optOutListName: String?
         /// The unique identifier of the pool to update. Valid values are either the PoolId or PoolArn.
         public let poolId: String
-        /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon Pinpoint automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+        /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
         public let selfManagedOptOutsEnabled: Bool?
         /// Indicates whether shared routes are enabled for the pool.
         public let sharedRoutesEnabled: Bool?
@@ -6541,7 +6541,7 @@ extension PinpointSMSVoiceV2 {
         public let poolArn: String?
         /// The unique identifier of the pool.
         public let poolId: String?
-        /// When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon Pinpoint automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+        /// When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
         public let selfManagedOptOutsEnabled: Bool?
         /// Indicates whether shared routes are enabled for the pool.
         public let sharedRoutesEnabled: Bool?
@@ -6586,7 +6586,7 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct UpdateProtectConfigurationCountryRuleSetRequest: AWSEncodableShape {
-        /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see Supported countries and regions (SMS channel) in the Amazon Pinpoint SMS user guide.
+        /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see Supported countries and regions (SMS channel) in the AWS End User Messaging SMS User Guide.
         public let countryRuleSetUpdates: [String: ProtectConfigurationCountryRuleSetInformation]
         /// The number capability to apply the CountryRuleSetUpdates updates to.
         public let numberCapability: NumberCapability

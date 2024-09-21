@@ -86,6 +86,7 @@ public struct Batch: AWSService {
             "ap-southeast-2": "fips.batch.ap-southeast-2.amazonaws.com",
             "ap-southeast-3": "fips.batch.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "fips.batch.ap-southeast-4.amazonaws.com",
+            "ap-southeast-5": "fips.batch.ap-southeast-5.amazonaws.com",
             "ca-central-1": "fips.batch.ca-central-1.amazonaws.com",
             "ca-west-1": "fips.batch.ca-west-1.amazonaws.com",
             "eu-central-1": "fips.batch.eu-central-1.amazonaws.com",
@@ -111,7 +112,7 @@ public struct Batch: AWSService {
 
     // MARK: API Calls
 
-    /// Cancels a job in an Batch job queue. Jobs that are in the SUBMITTED or PENDING are canceled. A job inRUNNABLE remains in RUNNABLE until it reaches the head of the job queue. Then the job status is updated to FAILED.  A PENDING job is canceled after all dependency jobs are completed. Therefore, it may take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING, Batch attempts to cancel all child jobs. The array parent job is canceled when all child jobs are completed.  Jobs that progressed to the STARTING or RUNNING state aren't canceled. However, the API operation still succeeds, even if no job is canceled. These jobs must be terminated with the TerminateJob operation.
+    /// Cancels a job in an Batch job queue. Jobs that are in a SUBMITTED, PENDING, or RUNNABLE state are cancelled and the job status is updated to FAILED.  A PENDING job is canceled after all dependency jobs are completed. Therefore, it may take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING, Batch attempts to cancel all child jobs. The array parent job is canceled when all child jobs are completed.  Jobs that progressed to the STARTING or RUNNING state aren't canceled. However, the API operation still succeeds, even if no job is canceled. These jobs must be terminated with the TerminateJob operation.
     @Sendable
     public func cancelJob(_ input: CancelJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelJobResponse {
         return try await self.client.execute(

@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS AppIntegrations service.
 ///
-/// The Amazon AppIntegrations service enables you to configure and reuse connections to external applications. For information about how you can use external applications with Amazon Connect, see Set up pre-built integrations and Deliver information to agents using Amazon Connect Wisdom in the Amazon Connect Administrator Guide.
+///    Amazon AppIntegrations actions     Amazon AppIntegrations data types    The Amazon AppIntegrations service enables you to configure and reuse connections to external applications. For information about how you can use external applications with Amazon Connect, see the following topics in the Amazon Connect Administrator Guide:    Third-party applications (3p apps) in the agent workspace     Use Amazon Q in Connect for generative AI–powered agent assistance in real-time
 public struct AppIntegrations: AWSService {
     // MARK: Member variables
 
@@ -73,7 +73,7 @@ public struct AppIntegrations: AWSService {
 
     // MARK: API Calls
 
-    /// This API is in preview release and subject to change. Creates and persists an Application resource.
+    /// Creates and persists an Application resource.
     @Sendable
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationResponse {
         return try await self.client.execute(
@@ -92,6 +92,19 @@ public struct AppIntegrations: AWSService {
         return try await self.client.execute(
             operation: "CreateDataIntegration", 
             path: "/dataIntegrations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates and persists a DataIntegrationAssociation resource.
+    @Sendable
+    public func createDataIntegrationAssociation(_ input: CreateDataIntegrationAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataIntegrationAssociationResponse {
+        return try await self.client.execute(
+            operation: "CreateDataIntegrationAssociation", 
+            path: "/dataIntegrations/{DataIntegrationIdentifier}/associations", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -153,7 +166,7 @@ public struct AppIntegrations: AWSService {
         )
     }
 
-    /// This API is in preview release and subject to change. Get an Application resource.
+    /// Get an Application resource.
     @Sendable
     public func getApplication(_ input: GetApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApplicationResponse {
         return try await self.client.execute(
@@ -207,7 +220,7 @@ public struct AppIntegrations: AWSService {
         )
     }
 
-    /// This API is in preview release and subject to change. Lists applications in the account.
+    /// Lists applications in the account.
     @Sendable
     public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationsResponse {
         return try await self.client.execute(
@@ -315,7 +328,7 @@ public struct AppIntegrations: AWSService {
         )
     }
 
-    /// This API is in preview release and subject to change. Updates and persists an Application resource.
+    /// Updates and persists an Application resource.
     @Sendable
     public func updateApplication(_ input: UpdateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationResponse {
         return try await self.client.execute(
@@ -336,6 +349,19 @@ public struct AppIntegrations: AWSService {
         return try await self.client.execute(
             operation: "UpdateDataIntegration", 
             path: "/dataIntegrations/{Identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates and persists a DataIntegrationAssociation resource.   Updating a DataIntegrationAssociation with ExecutionConfiguration will rerun the on-demand job.
+    @Sendable
+    public func updateDataIntegrationAssociation(_ input: UpdateDataIntegrationAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataIntegrationAssociationResponse {
+        return try await self.client.execute(
+            operation: "UpdateDataIntegrationAssociation", 
+            path: "/dataIntegrations/{DataIntegrationIdentifier}/associations/{DataIntegrationAssociationIdentifier}", 
             httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
@@ -389,7 +415,7 @@ extension AppIntegrations {
         )
     }
 
-    /// This API is in preview release and subject to change. Lists applications in the account.
+    /// Lists applications in the account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

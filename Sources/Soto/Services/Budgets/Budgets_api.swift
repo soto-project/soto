@@ -72,7 +72,8 @@ public struct Budgets: AWSService {
     /// custom endpoints for regions
     static var serviceEndpoints: [String: String] {[
         "aws-cn-global": "budgets.amazonaws.com.cn",
-        "aws-global": "budgets.amazonaws.com"
+        "aws-global": "budgets.amazonaws.com",
+        "us-isob-east-1": "budgets.us-isob-east-1.sc2s.sgov.gov"
     ]}
 
     /// Default endpoint and region to use for each partition

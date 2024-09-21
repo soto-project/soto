@@ -72,26 +72,22 @@ public struct DataZone: AWSService {
 
     /// custom endpoints for regions
     static var serviceEndpoints: [String: String] {[
-        "af-south-1": "datazone.af-south-1.api.aws",
-        "ap-east-1": "datazone.ap-east-1.api.aws",
         "ap-northeast-1": "datazone.ap-northeast-1.api.aws",
         "ap-northeast-2": "datazone.ap-northeast-2.api.aws",
         "ap-northeast-3": "datazone.ap-northeast-3.api.aws",
-        "ap-south-1": "datazone.ap-south-1.api.aws",
         "ap-south-2": "datazone.ap-south-2.api.aws",
         "ap-southeast-1": "datazone.ap-southeast-1.api.aws",
         "ap-southeast-2": "datazone.ap-southeast-2.api.aws",
         "ap-southeast-3": "datazone.ap-southeast-3.api.aws",
         "ap-southeast-4": "datazone.ap-southeast-4.api.aws",
+        "ap-southeast-5": "datazone.ap-southeast-5.api.aws",
         "ca-central-1": "datazone.ca-central-1.api.aws",
         "ca-west-1": "datazone.ca-west-1.api.aws",
         "cn-north-1": "datazone.cn-north-1.api.amazonwebservices.com.cn",
         "cn-northwest-1": "datazone.cn-northwest-1.api.amazonwebservices.com.cn",
         "eu-central-1": "datazone.eu-central-1.api.aws",
-        "eu-central-2": "datazone.eu-central-2.api.aws",
         "eu-north-1": "datazone.eu-north-1.api.aws",
         "eu-south-1": "datazone.eu-south-1.api.aws",
-        "eu-south-2": "datazone.eu-south-2.api.aws",
         "eu-west-1": "datazone.eu-west-1.api.aws",
         "eu-west-2": "datazone.eu-west-2.api.aws",
         "eu-west-3": "datazone.eu-west-3.api.aws",
@@ -111,26 +107,22 @@ public struct DataZone: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
-            "af-south-1": "datazone-fips.af-south-1.api.aws",
-            "ap-east-1": "datazone-fips.ap-east-1.api.aws",
             "ap-northeast-1": "datazone-fips.ap-northeast-1.api.aws",
             "ap-northeast-2": "datazone-fips.ap-northeast-2.api.aws",
             "ap-northeast-3": "datazone-fips.ap-northeast-3.api.aws",
-            "ap-south-1": "datazone-fips.ap-south-1.api.aws",
             "ap-south-2": "datazone-fips.ap-south-2.api.aws",
             "ap-southeast-1": "datazone-fips.ap-southeast-1.api.aws",
             "ap-southeast-2": "datazone-fips.ap-southeast-2.api.aws",
             "ap-southeast-3": "datazone-fips.ap-southeast-3.api.aws",
             "ap-southeast-4": "datazone-fips.ap-southeast-4.api.aws",
+            "ap-southeast-5": "datazone-fips.ap-southeast-5.api.aws",
             "ca-central-1": "datazone-fips.ca-central-1.amazonaws.com",
             "ca-west-1": "datazone-fips.ca-west-1.api.aws",
             "cn-north-1": "datazone-fips.cn-north-1.api.amazonwebservices.com.cn",
             "cn-northwest-1": "datazone-fips.cn-northwest-1.api.amazonwebservices.com.cn",
             "eu-central-1": "datazone-fips.eu-central-1.api.aws",
-            "eu-central-2": "datazone-fips.eu-central-2.api.aws",
             "eu-north-1": "datazone-fips.eu-north-1.api.aws",
             "eu-south-1": "datazone-fips.eu-south-1.api.aws",
-            "eu-south-2": "datazone-fips.eu-south-2.api.aws",
             "eu-west-1": "datazone-fips.eu-west-1.api.aws",
             "eu-west-2": "datazone-fips.eu-west-2.api.aws",
             "eu-west-3": "datazone-fips.eu-west-3.api.aws",
@@ -169,6 +161,32 @@ public struct DataZone: AWSService {
             operation: "AcceptSubscriptionRequest", 
             path: "/v2/domains/{domainIdentifier}/subscription-requests/{identifier}/accept", 
             httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Adds the owner of an entity (a domain unit).
+    @Sendable
+    public func addEntityOwner(_ input: AddEntityOwnerInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AddEntityOwnerOutput {
+        return try await self.client.execute(
+            operation: "AddEntityOwner", 
+            path: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/addOwner", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Adds a policy grant (an authorization policy) to a specified entity, including domain units, environment blueprint configurations, or environment profiles.
+    @Sendable
+    public func addPolicyGrant(_ input: AddPolicyGrantInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AddPolicyGrantOutput {
+        return try await self.client.execute(
+            operation: "AddPolicyGrant", 
+            path: "/v2/domains/{domainIdentifier}/policies/managed/{entityType}/{entityIdentifier}/addGrant", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -227,6 +245,19 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Creates a data asset filter.
+    @Sendable
+    public func createAssetFilter(_ input: CreateAssetFilterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAssetFilterOutput {
+        return try await self.client.execute(
+            operation: "CreateAssetFilter", 
+            path: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates a revision of the asset.
     @Sendable
     public func createAssetRevision(_ input: CreateAssetRevisionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAssetRevisionOutput {
@@ -253,6 +284,32 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Creates a data product.
+    @Sendable
+    public func createDataProduct(_ input: CreateDataProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataProductOutput {
+        return try await self.client.execute(
+            operation: "CreateDataProduct", 
+            path: "/v2/domains/{domainIdentifier}/data-products", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a data product revision.
+    @Sendable
+    public func createDataProductRevision(_ input: CreateDataProductRevisionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataProductRevisionOutput {
+        return try await self.client.execute(
+            operation: "CreateDataProductRevision", 
+            path: "/v2/domains/{domainIdentifier}/data-products/{identifier}/revisions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Creates an Amazon DataZone data source.
     @Sendable
     public func createDataSource(_ input: CreateDataSourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataSourceOutput {
@@ -272,6 +329,19 @@ public struct DataZone: AWSService {
         return try await self.client.execute(
             operation: "CreateDomain", 
             path: "/v2/domains", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a domain unit in Amazon DataZone.
+    @Sendable
+    public func createDomainUnit(_ input: CreateDomainUnitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDomainUnitOutput {
+        return try await self.client.execute(
+            operation: "CreateDomainUnit", 
+            path: "/v2/domains/{domainIdentifier}/domain-units", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -461,12 +531,25 @@ public struct DataZone: AWSService {
         )
     }
 
-    /// Delets an asset in Amazon DataZone.
+    /// Deletes an asset in Amazon DataZone.
     @Sendable
     public func deleteAsset(_ input: DeleteAssetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAssetOutput {
         return try await self.client.execute(
             operation: "DeleteAsset", 
             path: "/v2/domains/{domainIdentifier}/assets/{identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes an asset filter.
+    @Sendable
+    public func deleteAssetFilter(_ input: DeleteAssetFilterInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "DeleteAssetFilter", 
+            path: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters/{identifier}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -480,6 +563,19 @@ public struct DataZone: AWSService {
         return try await self.client.execute(
             operation: "DeleteAssetType", 
             path: "/v2/domains/{domainIdentifier}/asset-types/{identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a data product in Amazon DataZone.
+    @Sendable
+    public func deleteDataProduct(_ input: DeleteDataProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataProductOutput {
+        return try await self.client.execute(
+            operation: "DeleteDataProduct", 
+            path: "/v2/domains/{domainIdentifier}/data-products/{identifier}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -506,6 +602,19 @@ public struct DataZone: AWSService {
         return try await self.client.execute(
             operation: "DeleteDomain", 
             path: "/v2/domains/{identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Deletes a domain unit.
+    @Sendable
+    public func deleteDomainUnit(_ input: DeleteDomainUnitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDomainUnitOutput {
+        return try await self.client.execute(
+            operation: "DeleteDomainUnit", 
+            path: "/v2/domains/{domainIdentifier}/domain-units/{identifier}", 
             httpMethod: .DELETE, 
             serviceConfig: self.config, 
             input: input, 
@@ -721,12 +830,38 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Gets an asset filter.
+    @Sendable
+    public func getAssetFilter(_ input: GetAssetFilterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssetFilterOutput {
+        return try await self.client.execute(
+            operation: "GetAssetFilter", 
+            path: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets an Amazon DataZone asset type.
     @Sendable
     public func getAssetType(_ input: GetAssetTypeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssetTypeOutput {
         return try await self.client.execute(
             operation: "GetAssetType", 
             path: "/v2/domains/{domainIdentifier}/asset-types/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets the data product.
+    @Sendable
+    public func getDataProduct(_ input: GetDataProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataProductOutput {
+        return try await self.client.execute(
+            operation: "GetDataProduct", 
+            path: "/v2/domains/{domainIdentifier}/data-products/{identifier}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -766,6 +901,19 @@ public struct DataZone: AWSService {
         return try await self.client.execute(
             operation: "GetDomain", 
             path: "/v2/domains/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets the details of the specified domain unit.
+    @Sendable
+    public func getDomainUnit(_ input: GetDomainUnitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDomainUnitOutput {
+        return try await self.client.execute(
+            operation: "GetDomainUnit", 
+            path: "/v2/domains/{domainIdentifier}/domain-units/{identifier}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -818,6 +966,19 @@ public struct DataZone: AWSService {
         return try await self.client.execute(
             operation: "GetEnvironmentBlueprintConfiguration", 
             path: "/v2/domains/{domainIdentifier}/environment-blueprint-configurations/{environmentBlueprintIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets the credentials of an environment in Amazon DataZone.
+    @Sendable
+    public func getEnvironmentCredentials(_ input: GetEnvironmentCredentialsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnvironmentCredentialsOutput {
+        return try await self.client.execute(
+            operation: "GetEnvironmentCredentials", 
+            path: "/v2/domains/{domainIdentifier}/environments/{environmentIdentifier}/credentials", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -916,7 +1077,7 @@ public struct DataZone: AWSService {
         )
     }
 
-    /// Gets a listing (a record of an asset at a given time).
+    /// Gets a listing (a record of an asset at a given time). If you specify a listing version, only details that are specific to that version are returned.
     @Sendable
     public func getListing(_ input: GetListingInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetListingOutput {
         return try await self.client.execute(
@@ -1033,12 +1194,38 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Lists asset filters.
+    @Sendable
+    public func listAssetFilters(_ input: ListAssetFiltersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetFiltersOutput {
+        return try await self.client.execute(
+            operation: "ListAssetFilters", 
+            path: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists the revisions for the asset.
     @Sendable
     public func listAssetRevisions(_ input: ListAssetRevisionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetRevisionsOutput {
         return try await self.client.execute(
             operation: "ListAssetRevisions", 
             path: "/v2/domains/{domainIdentifier}/assets/{identifier}/revisions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists data product revisions.
+    @Sendable
+    public func listDataProductRevisions(_ input: ListDataProductRevisionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataProductRevisionsOutput {
+        return try await self.client.execute(
+            operation: "ListDataProductRevisions", 
+            path: "/v2/domains/{domainIdentifier}/data-products/{identifier}/revisions", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -1085,12 +1272,38 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Lists child domain units for the specified parent domain unit.
+    @Sendable
+    public func listDomainUnitsForParent(_ input: ListDomainUnitsForParentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainUnitsForParentOutput {
+        return try await self.client.execute(
+            operation: "ListDomainUnitsForParent", 
+            path: "/v2/domains/{domainIdentifier}/domain-units", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists Amazon DataZone domains.
     @Sendable
     public func listDomains(_ input: ListDomainsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainsOutput {
         return try await self.client.execute(
             operation: "ListDomains", 
             path: "/v2/domains", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists the entity (domain units) owners.
+    @Sendable
+    public func listEntityOwners(_ input: ListEntityOwnersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEntityOwnersOutput {
+        return try await self.client.execute(
+            operation: "ListEntityOwners", 
+            path: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/owners", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -1195,6 +1408,19 @@ public struct DataZone: AWSService {
         return try await self.client.execute(
             operation: "ListNotifications", 
             path: "/v2/domains/{domainIdentifier}/notifications", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists policy grants.
+    @Sendable
+    public func listPolicyGrants(_ input: ListPolicyGrantsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPolicyGrantsOutput {
+        return try await self.client.execute(
+            operation: "ListPolicyGrants", 
+            path: "/v2/domains/{domainIdentifier}/policies/managed/{entityType}/{entityIdentifier}/grants", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -1371,6 +1597,32 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Removes an owner from an entity.
+    @Sendable
+    public func removeEntityOwner(_ input: RemoveEntityOwnerInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveEntityOwnerOutput {
+        return try await self.client.execute(
+            operation: "RemoveEntityOwner", 
+            path: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/removeOwner", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Removes a policy grant.
+    @Sendable
+    public func removePolicyGrant(_ input: RemovePolicyGrantInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RemovePolicyGrantOutput {
+        return try await self.client.execute(
+            operation: "RemovePolicyGrant", 
+            path: "/v2/domains/{domainIdentifier}/policies/managed/{entityType}/{entityIdentifier}/removeGrant", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Revokes a specified subscription in Amazon DataZone.
     @Sendable
     public func revokeSubscription(_ input: RevokeSubscriptionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RevokeSubscriptionOutput {
@@ -1501,6 +1753,19 @@ public struct DataZone: AWSService {
         )
     }
 
+    /// Updates an asset filter.
+    @Sendable
+    public func updateAssetFilter(_ input: UpdateAssetFilterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAssetFilterOutput {
+        return try await self.client.execute(
+            operation: "UpdateAssetFilter", 
+            path: "/v2/domains/{domainIdentifier}/assets/{assetIdentifier}/filters/{identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates the specified data source in Amazon DataZone.
     @Sendable
     public func updateDataSource(_ input: UpdateDataSourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSourceOutput {
@@ -1520,6 +1785,19 @@ public struct DataZone: AWSService {
         return try await self.client.execute(
             operation: "UpdateDomain", 
             path: "/v2/domains/{identifier}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Updates the domain unit.
+    @Sendable
+    public func updateDomainUnit(_ input: UpdateDomainUnitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDomainUnitOutput {
+        return try await self.client.execute(
+            operation: "UpdateDomainUnit", 
+            path: "/v2/domains/{domainIdentifier}/domain-units/{identifier}", 
             httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
@@ -1684,6 +1962,44 @@ extension DataZone {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DataZone {
+    /// Lists asset filters.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listAssetFiltersPaginator(
+        _ input: ListAssetFiltersInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAssetFiltersInput, ListAssetFiltersOutput> {
+        return .init(
+            input: input,
+            command: self.listAssetFilters,
+            inputKey: \ListAssetFiltersInput.nextToken,
+            outputKey: \ListAssetFiltersOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists data product revisions.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listDataProductRevisionsPaginator(
+        _ input: ListDataProductRevisionsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataProductRevisionsInput, ListDataProductRevisionsOutput> {
+        return .init(
+            input: input,
+            command: self.listDataProductRevisions,
+            inputKey: \ListDataProductRevisionsInput.nextToken,
+            outputKey: \ListDataProductRevisionsOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists data source run activities.
     /// Return PaginatorSequence for operation.
     ///
@@ -1741,6 +2057,25 @@ extension DataZone {
         )
     }
 
+    /// Lists child domain units for the specified parent domain unit.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listDomainUnitsForParentPaginator(
+        _ input: ListDomainUnitsForParentInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDomainUnitsForParentInput, ListDomainUnitsForParentOutput> {
+        return .init(
+            input: input,
+            command: self.listDomainUnitsForParent,
+            inputKey: \ListDomainUnitsForParentInput.nextToken,
+            outputKey: \ListDomainUnitsForParentOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists Amazon DataZone domains.
     /// Return PaginatorSequence for operation.
     ///
@@ -1756,6 +2091,25 @@ extension DataZone {
             command: self.listDomains,
             inputKey: \ListDomainsInput.nextToken,
             outputKey: \ListDomainsOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists the entity (domain units) owners.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listEntityOwnersPaginator(
+        _ input: ListEntityOwnersInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEntityOwnersInput, ListEntityOwnersOutput> {
+        return .init(
+            input: input,
+            command: self.listEntityOwners,
+            inputKey: \ListEntityOwnersInput.nextToken,
+            outputKey: \ListEntityOwnersOutput.nextToken,
             logger: logger
         )
     }
@@ -1908,6 +2262,25 @@ extension DataZone {
             command: self.listNotifications,
             inputKey: \ListNotificationsInput.nextToken,
             outputKey: \ListNotificationsOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Lists policy grants.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listPolicyGrantsPaginator(
+        _ input: ListPolicyGrantsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPolicyGrantsInput, ListPolicyGrantsOutput> {
+        return .init(
+            input: input,
+            command: self.listPolicyGrants,
+            inputKey: \ListPolicyGrantsInput.nextToken,
+            outputKey: \ListPolicyGrantsOutput.nextToken,
             logger: logger
         )
     }
@@ -2141,6 +2514,29 @@ extension DataZone {
     }
 }
 
+extension DataZone.ListAssetFiltersInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DataZone.ListAssetFiltersInput {
+        return .init(
+            assetIdentifier: self.assetIdentifier,
+            domainIdentifier: self.domainIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )
+    }
+}
+
+extension DataZone.ListDataProductRevisionsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DataZone.ListDataProductRevisionsInput {
+        return .init(
+            domainIdentifier: self.domainIdentifier,
+            identifier: self.identifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension DataZone.ListDataSourceRunActivitiesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataZone.ListDataSourceRunActivitiesInput {
         return .init(
@@ -2180,12 +2576,35 @@ extension DataZone.ListDataSourcesInput: AWSPaginateToken {
     }
 }
 
+extension DataZone.ListDomainUnitsForParentInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DataZone.ListDomainUnitsForParentInput {
+        return .init(
+            domainIdentifier: self.domainIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            parentDomainUnitIdentifier: self.parentDomainUnitIdentifier
+        )
+    }
+}
+
 extension DataZone.ListDomainsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataZone.ListDomainsInput {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,
             status: self.status
+        )
+    }
+}
+
+extension DataZone.ListEntityOwnersInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DataZone.ListEntityOwnersInput {
+        return .init(
+            domainIdentifier: self.domainIdentifier,
+            entityIdentifier: self.entityIdentifier,
+            entityType: self.entityType,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -2298,6 +2717,19 @@ extension DataZone.ListNotificationsInput: AWSPaginateToken {
     }
 }
 
+extension DataZone.ListPolicyGrantsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DataZone.ListPolicyGrantsInput {
+        return .init(
+            domainIdentifier: self.domainIdentifier,
+            entityIdentifier: self.entityIdentifier,
+            entityType: self.entityType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyType: self.policyType
+        )
+    }
+}
+
 extension DataZone.ListProjectMembershipsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DataZone.ListProjectMembershipsInput {
         return .init(
@@ -2331,6 +2763,7 @@ extension DataZone.ListSubscriptionGrantsInput: AWSPaginateToken {
             environmentId: self.environmentId,
             maxResults: self.maxResults,
             nextToken: token,
+            owningProjectId: self.owningProjectId,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,
             subscribedListingId: self.subscribedListingId,

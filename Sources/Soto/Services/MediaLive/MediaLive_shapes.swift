@@ -200,6 +200,44 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum Av1GopSizeUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case frames = "FRAMES"
+        case seconds = "SECONDS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Av1Level: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case av1Level2 = "AV1_LEVEL_2"
+        case av1Level21 = "AV1_LEVEL_2_1"
+        case av1Level3 = "AV1_LEVEL_3"
+        case av1Level31 = "AV1_LEVEL_3_1"
+        case av1Level4 = "AV1_LEVEL_4"
+        case av1Level41 = "AV1_LEVEL_4_1"
+        case av1Level5 = "AV1_LEVEL_5"
+        case av1Level51 = "AV1_LEVEL_5_1"
+        case av1Level52 = "AV1_LEVEL_5_2"
+        case av1Level53 = "AV1_LEVEL_5_3"
+        case av1Level6 = "AV1_LEVEL_6"
+        case av1Level61 = "AV1_LEVEL_6_1"
+        case av1Level62 = "AV1_LEVEL_6_2"
+        case av1Level63 = "AV1_LEVEL_6_3"
+        case av1LevelAuto = "AV1_LEVEL_AUTO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Av1LookAheadRateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Av1SceneChangeDetect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AvailBlankingState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -285,6 +323,17 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum ChannelPlacementGroupState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case assigned = "ASSIGNED"
+        case assigning = "ASSIGNING"
+        case deleteFailed = "DELETE_FAILED"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case unassigned = "UNASSIGNED"
+        case unassigning = "UNASSIGNING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ChannelState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -334,6 +383,21 @@ extension MediaLive {
         case ignore = "ignore"
         case missing = "missing"
         case notBreaching = "notBreaching"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case deleteFailed = "DELETE_FAILED"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case onPremises = "ON_PREMISES"
         public var description: String { return self.rawValue }
     }
 
@@ -1351,6 +1415,13 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum InputNetworkLocation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aws = "AWS"
+        case onPremise = "ON_PREMISE"
+        case onPremises = "ON_PREMISES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InputPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case equalInputPreference = "EQUAL_INPUT_PREFERENCE"
         case primaryInputPreferred = "PRIMARY_INPUT_PREFERRED"
@@ -1404,6 +1475,7 @@ extension MediaLive {
         case inputDevice = "INPUT_DEVICE"
         case mediaconnect = "MEDIACONNECT"
         case mp4File = "MP4_FILE"
+        case multicast = "MULTICAST"
         case rtmpPull = "RTMP_PULL"
         case rtmpPush = "RTMP_PUSH"
         case rtpPush = "RTP_PUSH"
@@ -1676,6 +1748,25 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum NetworkInterfaceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bridge = "BRIDGE"
+        case nat = "NAT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case deleteFailed = "DELETE_FAILED"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case idle = "IDLE"
+        case inUse = "IN_USE"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NielsenPcmToId3TaggingState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -1705,6 +1796,34 @@ extension MediaLive {
     public enum NielsenWatermarksDistributionTypes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case finalDistributor = "FINAL_DISTRIBUTOR"
         case programContent = "PROGRAM_CONTENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeConnectionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case connected = "CONNECTED"
+        case disconnected = "DISCONNECTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case backup = "BACKUP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NodeState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activationFailed = "ACTIVATION_FAILED"
+        case active = "ACTIVE"
+        case created = "CREATED"
+        case deregistered = "DEREGISTERED"
+        case deregistering = "DEREGISTERING"
+        case deregistrationFailed = "DEREGISTRATION_FAILED"
+        case draining = "DRAINING"
+        case inUse = "IN_USE"
+        case ready = "READY"
+        case readyToActivate = "READY_TO_ACTIVATE"
+        case registering = "REGISTERING"
+        case registrationFailed = "REGISTRATION_FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -1746,6 +1865,7 @@ extension MediaLive {
 
     public enum ReservationCodec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case audio = "AUDIO"
+        case av1 = "AV1"
         case avc = "AVC"
         case hevc = "HEVC"
         case link = "LINK"
@@ -2010,6 +2130,13 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum SrtEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aes128 = "AES128"
+        case aes192 = "AES192"
+        case aes256 = "AES256"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TemporalFilterPostFilterSharpening: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case disabled = "DISABLED"
@@ -2088,6 +2215,12 @@ extension MediaLive {
         case none = "NONE"
         case priv = "PRIV"
         case tdrl = "TDRL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateNodeStateShape: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case draining = "DRAINING"
         public var description: String { return self.rawValue }
     }
 
@@ -2276,6 +2409,23 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case sourceAncillaryChannelNumber = "sourceAncillaryChannelNumber"
+        }
+    }
+
+    public struct AnywhereSettings: AWSEncodableShape {
+        /// The ID of the channel placement group for the channel.
+        public let channelPlacementGroupId: String?
+        /// The ID of the cluster for the channel.
+        public let clusterId: String?
+
+        public init(channelPlacementGroupId: String? = nil, clusterId: String? = nil) {
+            self.channelPlacementGroupId = channelPlacementGroupId
+            self.clusterId = clusterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelPlacementGroupId = "channelPlacementGroupId"
+            case clusterId = "clusterId"
         }
     }
 
@@ -2798,6 +2948,142 @@ extension MediaLive {
             case failoverConditions = "failoverConditions"
             case inputPreference = "inputPreference"
             case secondaryInputId = "secondaryInputId"
+        }
+    }
+
+    public struct Av1ColorSpaceSettings: AWSEncodableShape & AWSDecodableShape {
+        public let colorSpacePassthroughSettings: ColorSpacePassthroughSettings?
+        public let hdr10Settings: Hdr10Settings?
+        public let rec601Settings: Rec601Settings?
+        public let rec709Settings: Rec709Settings?
+
+        public init(colorSpacePassthroughSettings: ColorSpacePassthroughSettings? = nil, hdr10Settings: Hdr10Settings? = nil, rec601Settings: Rec601Settings? = nil, rec709Settings: Rec709Settings? = nil) {
+            self.colorSpacePassthroughSettings = colorSpacePassthroughSettings
+            self.hdr10Settings = hdr10Settings
+            self.rec601Settings = rec601Settings
+            self.rec709Settings = rec709Settings
+        }
+
+        public func validate(name: String) throws {
+            try self.hdr10Settings?.validate(name: "\(name).hdr10Settings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colorSpacePassthroughSettings = "colorSpacePassthroughSettings"
+            case hdr10Settings = "hdr10Settings"
+            case rec601Settings = "rec601Settings"
+            case rec709Settings = "rec709Settings"
+        }
+    }
+
+    public struct Av1Settings: AWSEncodableShape & AWSDecodableShape {
+        /// Configures whether MediaLive will write AFD values into the video.
+        /// AUTO: MediaLive will try to preserve the input AFD value (in cases where multiple AFD values are valid).
+        /// FIXED: the AFD value will be the value configured in the fixedAfd parameter.
+        /// NONE: MediaLive won't write AFD into the video
+        public let afdSignaling: AfdSignaling?
+        /// The size of the buffer (HRD buffer model) in bits.
+        public let bufSize: Int?
+        /// Color Space settings
+        public let colorSpaceSettings: Av1ColorSpaceSettings?
+        /// Complete this property only if you set the afdSignaling property to FIXED. Choose the AFD value (4 bits) to write on all frames of the video encode.
+        public let fixedAfd: FixedAfd?
+        /// The denominator for the framerate. Framerate is a fraction, for example, 24000 / 1001.
+        public let framerateDenominator: Int?
+        /// The numerator for the framerate. Framerate is a fraction, for example, 24000 / 1001.
+        public let framerateNumerator: Int?
+        /// The GOP size (keyframe interval).
+        /// If GopSizeUnits is frames, GopSize must be a whole number and must be greater than or equal to 1.
+        /// If GopSizeUnits is seconds, GopSize must be greater than 0, but it can be a decimal.
+        public let gopSize: Double?
+        /// Choose the units for the GOP size: FRAMES or SECONDS. For SECONDS, MediaLive converts the size into a frame count at run time.
+        public let gopSizeUnits: Av1GopSizeUnits?
+        /// Sets the level. This parameter is one of the properties of the encoding scheme for AV1.
+        public let level: Av1Level?
+        /// Sets the amount of lookahead. A value of LOW can decrease latency and memory usage. A value of HIGH can produce better quality for certain content.
+        public let lookAheadRateControl: Av1LookAheadRateControl?
+        /// The maximum bitrate to assign.
+        /// For recommendations, see the description for qvbrQualityLevel.
+        public let maxBitrate: Int?
+        /// Applies only if you enable SceneChangeDetect. Sets the interval between frames. This property ensures a minimum separation between repeated (cadence) I-frames and any I-frames inserted by scene change detection (SCD frames).
+        /// Enter a number for the interval, measured in number of frames.
+        /// If an SCD frame and a cadence frame are closer than the specified number of frames, MediaLive shrinks or stretches the GOP to include the SCD frame. Then normal cadence resumes in the next GOP. For GOP stretch to succeed, you must enable LookAheadRateControl.
+        /// Note that the maximum GOP stretch = (GOP size) + (Minimum I-interval) - 1
+        public let minIInterval: Int?
+        /// The denominator for the output pixel aspect ratio (PAR).
+        public let parDenominator: Int?
+        /// The numerator for the output pixel aspect ratio (PAR).
+        public let parNumerator: Int?
+        /// Controls the target quality for the video encode. With QVBR rate control mode, the final quality is the target quality, constrained by the maxBitrate.
+        /// Set values for the qvbrQualityLevel property and maxBitrate property that suit your most important viewing devices.
+        /// To let MediaLive set the quality level (AUTO mode), leave the qvbrQualityLevel field empty. In this case, MediaLive uses the maximum bitrate, and the quality follows from that: more complex content might have a lower quality.
+        /// Or set a target quality level and a maximum bitrate. With more complex content, MediaLive will try to achieve the target quality, but it won't exceed the maximum bitrate. With less complex content, This option will use only the bitrate needed to reach the target quality.
+        /// Recommended values are:
+        /// Primary screen: qvbrQualityLevel: Leave empty. maxBitrate: 4,000,000
+        /// PC or tablet: qvbrQualityLevel: Leave empty. maxBitrate: 1,500,000 to 3,000,000
+        /// Smartphone: qvbrQualityLevel: Leave empty. maxBitrate: 1,000,000 to 1,500,000
+        public let qvbrQualityLevel: Int?
+        /// Controls whether MediaLive inserts I-frames when it detects a scene change. ENABLED or DISABLED.
+        public let sceneChangeDetect: Av1SceneChangeDetect?
+        /// Configures the timecode burn-in feature. If you enable this feature, the timecode will become part of the video.
+        public let timecodeBurninSettings: TimecodeBurninSettings?
+
+        public init(afdSignaling: AfdSignaling? = nil, bufSize: Int? = nil, colorSpaceSettings: Av1ColorSpaceSettings? = nil, fixedAfd: FixedAfd? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Av1GopSizeUnits? = nil, level: Av1Level? = nil, lookAheadRateControl: Av1LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qvbrQualityLevel: Int? = nil, sceneChangeDetect: Av1SceneChangeDetect? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil) {
+            self.afdSignaling = afdSignaling
+            self.bufSize = bufSize
+            self.colorSpaceSettings = colorSpaceSettings
+            self.fixedAfd = fixedAfd
+            self.framerateDenominator = framerateDenominator
+            self.framerateNumerator = framerateNumerator
+            self.gopSize = gopSize
+            self.gopSizeUnits = gopSizeUnits
+            self.level = level
+            self.lookAheadRateControl = lookAheadRateControl
+            self.maxBitrate = maxBitrate
+            self.minIInterval = minIInterval
+            self.parDenominator = parDenominator
+            self.parNumerator = parNumerator
+            self.qvbrQualityLevel = qvbrQualityLevel
+            self.sceneChangeDetect = sceneChangeDetect
+            self.timecodeBurninSettings = timecodeBurninSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bufSize, name: "bufSize", parent: name, max: 16000000)
+            try self.validate(self.bufSize, name: "bufSize", parent: name, min: 50000)
+            try self.colorSpaceSettings?.validate(name: "\(name).colorSpaceSettings")
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 3003)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 8000000)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 50000)
+            try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
+            try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
+            try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
+            try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
+            try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, max: 10)
+            try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, min: 1)
+            try self.timecodeBurninSettings?.validate(name: "\(name).timecodeBurninSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afdSignaling = "afdSignaling"
+            case bufSize = "bufSize"
+            case colorSpaceSettings = "colorSpaceSettings"
+            case fixedAfd = "fixedAfd"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopSize = "gopSize"
+            case gopSizeUnits = "gopSizeUnits"
+            case level = "level"
+            case lookAheadRateControl = "lookAheadRateControl"
+            case maxBitrate = "maxBitrate"
+            case minIInterval = "minIInterval"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case qvbrQualityLevel = "qvbrQualityLevel"
+            case sceneChangeDetect = "sceneChangeDetect"
+            case timecodeBurninSettings = "timecodeBurninSettings"
         }
     }
 
@@ -3522,6 +3808,8 @@ extension MediaLive {
     }
 
     public struct Channel: AWSDecodableShape {
+        /// Anywhere settings for this channel.
+        public let anywhereSettings: DescribeAnywhereSettings?
         /// The unique arn of the channel.
         public let arn: String?
         /// Specification of CDI inputs for this channel
@@ -3559,7 +3847,8 @@ extension MediaLive {
         /// Settings for VPC output
         public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+            self.anywhereSettings = anywhereSettings
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -3581,6 +3870,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anywhereSettings = "anywhereSettings"
             case arn = "arn"
             case cdiInputSpecification = "cdiInputSpecification"
             case channelClass = "channelClass"
@@ -3616,6 +3906,8 @@ extension MediaLive {
     }
 
     public struct ChannelSummary: AWSDecodableShape {
+        /// AnywhereSettings settings for this channel.
+        public let anywhereSettings: DescribeAnywhereSettings?
         /// The unique arn of the channel.
         public let arn: String?
         /// Specification of CDI inputs for this channel
@@ -3650,7 +3942,8 @@ extension MediaLive {
         /// Settings for any VPC outputs.
         public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+            self.anywhereSettings = anywhereSettings
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -3670,6 +3963,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anywhereSettings = "anywhereSettings"
             case arn = "arn"
             case cdiInputSpecification = "cdiInputSpecification"
             case channelClass = "channelClass"
@@ -3818,6 +4112,57 @@ extension MediaLive {
         }
     }
 
+    public struct ClusterNetworkSettings: AWSDecodableShape {
+        /// The network interface that is the default route for traffic to and from the node. MediaLive Anywhere uses this default when the destination for the traffic isn't covered by the route table for any of the networks. Specify the value of the appropriate logicalInterfaceName parameter that you create in the interfaceMappings.
+        public let defaultRoute: String?
+        /// An array of interfaceMapping objects for this Cluster. Each mapping logically connects one interface on the nodes with one Network. You need only one mapping for each interface because all the Nodes share the mapping.
+        public let interfaceMappings: [InterfaceMapping]?
+
+        public init(defaultRoute: String? = nil, interfaceMappings: [InterfaceMapping]? = nil) {
+            self.defaultRoute = defaultRoute
+            self.interfaceMappings = interfaceMappings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultRoute = "defaultRoute"
+            case interfaceMappings = "interfaceMappings"
+        }
+    }
+
+    public struct ClusterNetworkSettingsCreateRequest: AWSEncodableShape {
+        /// Specify one network interface as the default route for traffic to and from the Node. MediaLive Anywhere uses this default when the destination for the traffic isn't covered by the route table for any of the networks. Specify the value of the appropriate logicalInterfaceName parameter that you create in the interfaceMappings.
+        public let defaultRoute: String?
+        /// An array of interfaceMapping objects for this Cluster. You must create a mapping for node interfaces that you plan to use for encoding traffic. You typically don't create a mapping for the management interface. You define this mapping in the Cluster so that the mapping can be used by all the Nodes. Each mapping logically connects one interface on the nodes with one Network. Each mapping consists of a pair of parameters. The logicalInterfaceName parameter creates a logical name for the Node interface that handles a specific type of traffic. For example, my-Inputs-Interface. The networkID parameter refers to the ID of the network. When you create the Nodes in this Cluster, you will associate the logicalInterfaceName with the appropriate physical interface.
+        public let interfaceMappings: [InterfaceMappingCreateRequest]?
+
+        public init(defaultRoute: String? = nil, interfaceMappings: [InterfaceMappingCreateRequest]? = nil) {
+            self.defaultRoute = defaultRoute
+            self.interfaceMappings = interfaceMappings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultRoute = "defaultRoute"
+            case interfaceMappings = "interfaceMappings"
+        }
+    }
+
+    public struct ClusterNetworkSettingsUpdateRequest: AWSEncodableShape {
+        /// Include this parameter only if you want to change the default route for the Cluster. Specify one network interface as the default route for traffic to and from the node. MediaLive Anywhere uses this default when the destination for the traffic isn't covered by the route table for any of the networks. Specify the value of the appropriate logicalInterfaceName parameter that you create in the interfaceMappings.
+        public let defaultRoute: String?
+        /// An array of interfaceMapping objects for this Cluster. Include this parameter only if you want to change the interface mappings for the Cluster. Typically, you change the interface mappings only to fix an error you made when creating the mapping. In an update request, make sure that you enter the entire set of mappings again, not just the mappings that you want to add or change. You define this mapping so that the mapping can be used by all the Nodes. Each mapping logically connects one interface on the nodes with one Network. Each mapping consists of a pair of parameters. The logicalInterfaceName parameter creates a logical name for the Node interface that handles a specific type of traffic. For example, my-Inputs-Interface. The networkID parameter refers to the ID of the network. When you create the Nodes in this Cluster, you will associate the logicalInterfaceName with the appropriate physical interface.
+        public let interfaceMappings: [InterfaceMappingUpdateRequest]?
+
+        public init(defaultRoute: String? = nil, interfaceMappings: [InterfaceMappingUpdateRequest]? = nil) {
+            self.defaultRoute = defaultRoute
+            self.interfaceMappings = interfaceMappings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultRoute = "defaultRoute"
+            case interfaceMappings = "interfaceMappings"
+        }
+    }
+
     public struct CmafIngestGroupSettings: AWSEncodableShape & AWSDecodableShape {
         /// A HTTP destination for the tracks
         public let destination: OutputLocationRef?
@@ -3908,7 +4253,84 @@ extension MediaLive {
         public init() {}
     }
 
+    public struct CreateChannelPlacementGroupRequest: AWSEncodableShape {
+        /// The ID of the cluster.
+        public let clusterId: String
+        /// Specify a name that is unique in the Cluster. You can't change the name. Names are case-sensitive.
+        public let name: String?
+        /// An array of one ID for the Node that you want to associate with the ChannelPlacementGroup. (You can't associate more than one Node with the ChannelPlacementGroup.) The Node and the ChannelPlacementGroup must be in the same Cluster.
+        public let nodes: [String]?
+        /// An ID that you assign to a create request. This ID ensures idempotency when creating resources. the request.
+        public let requestId: String?
+        /// A collection of key-value pairs.
+        public let tags: [String: String]?
+
+        public init(clusterId: String, name: String? = nil, nodes: [String]? = nil, requestId: String? = CreateChannelPlacementGroupRequest.idempotencyToken(), tags: [String: String]? = nil) {
+            self.clusterId = clusterId
+            self.name = name
+            self.nodes = nodes
+            self.requestId = requestId
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterId, key: "ClusterId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.nodes, forKey: .nodes)
+            try container.encodeIfPresent(self.requestId, forKey: .requestId)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case nodes = "nodes"
+            case requestId = "requestId"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateChannelPlacementGroupResponse: AWSDecodableShape {
+        /// The ARN of this ChannelPlacementGroup. It is automatically assigned when the ChannelPlacementGroup is created.
+        public let arn: String?
+        /// Used in ListChannelPlacementGroupsResult
+        public let channels: [String]?
+        /// The ID of the Cluster that the Node belongs to.
+        public let clusterId: String?
+        /// The ID of the ChannelPlacementGroup. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The name that you specified for the ChannelPlacementGroup.
+        public let name: String?
+        /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+        public let nodes: [String]?
+        /// The current state of the ChannelPlacementGroup.
+        public let state: ChannelPlacementGroupState?
+
+        public init(arn: String? = nil, channels: [String]? = nil, clusterId: String? = nil, id: String? = nil, name: String? = nil, nodes: [String]? = nil, state: ChannelPlacementGroupState? = nil) {
+            self.arn = arn
+            self.channels = channels
+            self.clusterId = clusterId
+            self.id = id
+            self.name = name
+            self.nodes = nodes
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channels = "channels"
+            case clusterId = "clusterId"
+            case id = "id"
+            case name = "name"
+            case nodes = "nodes"
+            case state = "state"
+        }
+    }
+
     public struct CreateChannelRequest: AWSEncodableShape {
+        /// The Elemental Anywhere settings for this channel.
+        public let anywhereSettings: AnywhereSettings?
         /// Specification of CDI inputs for this channel
         public let cdiInputSpecification: CdiInputSpecification?
         /// The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
@@ -3937,7 +4359,8 @@ extension MediaLive {
         /// Settings for the VPC outputs
         public let vpc: VpcOutputSettings?
 
-        public init(cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceCreateSettings? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), roleArn: String? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
+        public init(anywhereSettings: AnywhereSettings? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceCreateSettings? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), roleArn: String? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
+            self.anywhereSettings = anywhereSettings
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
             self.destinations = destinations
@@ -3955,7 +4378,8 @@ extension MediaLive {
         }
 
         @available(*, deprecated, message: "Members reserved have been deprecated")
-        public init(cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceCreateSettings? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), reserved: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
+        public init(anywhereSettings: AnywhereSettings? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceCreateSettings? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), reserved: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
+            self.anywhereSettings = anywhereSettings
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
             self.destinations = destinations
@@ -3984,6 +4408,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anywhereSettings = "anywhereSettings"
             case cdiInputSpecification = "cdiInputSpecification"
             case channelClass = "channelClass"
             case destinations = "destinations"
@@ -4217,6 +4642,79 @@ extension MediaLive {
         }
     }
 
+    public struct CreateClusterRequest: AWSEncodableShape {
+        /// Specify a type. All the Nodes that you later add to this Cluster must be this type of hardware. One Cluster instance can't contain different hardware types. You won't be able to change this parameter after you create the Cluster.
+        public let clusterType: ClusterType?
+        /// The ARN of the IAM role for the Node in this Cluster. The role must include all the operations that you expect these Node to perform. If necessary, create a role in IAM, then attach it here.
+        public let instanceRoleArn: String?
+        /// Specify a name that is unique in the AWS account. We recommend that you assign a name that hints at the types of Nodes in the Cluster. Names are case-sensitive.
+        public let name: String?
+        /// Network settings that connect the Nodes in the Cluster to one or more of the Networks that the Cluster is associated with.
+        public let networkSettings: ClusterNetworkSettingsCreateRequest?
+        /// The unique ID of the request.
+        public let requestId: String?
+        /// A collection of key-value pairs.
+        public let tags: [String: String]?
+
+        public init(clusterType: ClusterType? = nil, instanceRoleArn: String? = nil, name: String? = nil, networkSettings: ClusterNetworkSettingsCreateRequest? = nil, requestId: String? = CreateClusterRequest.idempotencyToken(), tags: [String: String]? = nil) {
+            self.clusterType = clusterType
+            self.instanceRoleArn = instanceRoleArn
+            self.name = name
+            self.networkSettings = networkSettings
+            self.requestId = requestId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterType = "clusterType"
+            case instanceRoleArn = "instanceRoleArn"
+            case name = "name"
+            case networkSettings = "networkSettings"
+            case requestId = "requestId"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateClusterResponse: AWSDecodableShape {
+        /// The ARN of this Cluster. It is automatically assigned when the Cluster is created.
+        public let arn: String?
+        public let channelIds: [String]?
+        /// The hardware type for the Cluster
+        public let clusterType: ClusterType?
+        /// The ID of the  Cluster. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The ARN of the IAM role for the Node in this Cluster. Any Nodes that are associated with this Cluster assume this role. The role gives permissions to the operations that you expect these Node to perform.
+        public let instanceRoleArn: String?
+        /// The name that you specified for the Cluster.
+        public let name: String?
+        /// Network settings that connect the Nodes in the Cluster to one or more of the Networks that the Cluster is associated with.
+        public let networkSettings: ClusterNetworkSettings?
+        /// The current state of the Cluster.
+        public let state: ClusterState?
+
+        public init(arn: String? = nil, channelIds: [String]? = nil, clusterType: ClusterType? = nil, id: String? = nil, instanceRoleArn: String? = nil, name: String? = nil, networkSettings: ClusterNetworkSettings? = nil, state: ClusterState? = nil) {
+            self.arn = arn
+            self.channelIds = channelIds
+            self.clusterType = clusterType
+            self.id = id
+            self.instanceRoleArn = instanceRoleArn
+            self.name = name
+            self.networkSettings = networkSettings
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channelIds = "channelIds"
+            case clusterType = "clusterType"
+            case id = "id"
+            case instanceRoleArn = "instanceRoleArn"
+            case name = "name"
+            case networkSettings = "networkSettings"
+            case state = "state"
+        }
+    }
+
     public struct CreateEventBridgeRuleTemplateGroupRequest: AWSEncodableShape {
         /// A resource's optional description.
         public let description: String?
@@ -4372,12 +4870,17 @@ extension MediaLive {
         public let destinations: [InputDestinationRequest]?
         /// Settings for the devices.
         public let inputDevices: [InputDeviceSettings]?
+        /// The location of this input. AWS, for an input existing in the AWS Cloud, On-Prem for
+        /// an input in a customer network.
+        public let inputNetworkLocation: InputNetworkLocation?
         /// A list of security groups referenced by IDs to attach to the input.
         public let inputSecurityGroups: [String]?
         /// A list of the MediaConnect Flows that you want to use in this input. You can specify as few as one
         /// Flow and presently, as many as two. The only requirement is when you have more than one is that each Flow is in a
         /// separate Availability Zone as this ensures your EML input is redundant to AZ issues.
         public let mediaConnectFlows: [MediaConnectFlowRequest]?
+        /// Multicast Input settings.
+        public let multicastSettings: MulticastSettingsCreateRequest?
         /// Name of the input.
         public let name: String?
         /// Unique identifier of the request to ensure the request is handled
@@ -4396,11 +4899,13 @@ extension MediaLive {
         public let type: InputType?
         public let vpc: InputVpcRequest?
 
-        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceSettings]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, requestId: String? = CreateInputRequest.idempotencyToken(), roleArn: String? = nil, sources: [InputSourceRequest]? = nil, srtSettings: SrtSettingsRequest? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
+        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceSettings]? = nil, inputNetworkLocation: InputNetworkLocation? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, multicastSettings: MulticastSettingsCreateRequest? = nil, name: String? = nil, requestId: String? = CreateInputRequest.idempotencyToken(), roleArn: String? = nil, sources: [InputSourceRequest]? = nil, srtSettings: SrtSettingsRequest? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
             self.destinations = destinations
             self.inputDevices = inputDevices
+            self.inputNetworkLocation = inputNetworkLocation
             self.inputSecurityGroups = inputSecurityGroups
             self.mediaConnectFlows = mediaConnectFlows
+            self.multicastSettings = multicastSettings
             self.name = name
             self.requestId = requestId
             self.roleArn = roleArn
@@ -4414,8 +4919,10 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case destinations = "destinations"
             case inputDevices = "inputDevices"
+            case inputNetworkLocation = "inputNetworkLocation"
             case inputSecurityGroups = "inputSecurityGroups"
             case mediaConnectFlows = "mediaConnectFlows"
+            case multicastSettings = "multicastSettings"
             case name = "name"
             case requestId = "requestId"
             case roleArn = "roleArn"
@@ -4563,6 +5070,219 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case multiplex = "multiplex"
+        }
+    }
+
+    public struct CreateNetworkRequest: AWSEncodableShape {
+        /// An array of IpPoolCreateRequests that identify a collection of IP addresses in your network that you want to reserve for use in MediaLive Anywhere. MediaLiveAnywhere uses these IP addresses for Push inputs (in both Bridge and NATnetworks) and for output destinations (only in Bridge networks). EachIpPoolUpdateRequest specifies one CIDR block.
+        public let ipPools: [IpPoolCreateRequest]?
+        /// Specify a name that is unique in the AWS account. We recommend that you assign a name that hints at the type of traffic on the network. Names are case-sensitive.
+        public let name: String?
+        /// An ID that you assign to a create request. This ID ensures idempotency when creating resources.
+        public let requestId: String?
+        /// An array of routes that MediaLive Anywhere needs to know about in order to route encoding traffic.
+        public let routes: [RouteCreateRequest]?
+        /// A collection of key-value pairs.
+        public let tags: [String: String]?
+
+        public init(ipPools: [IpPoolCreateRequest]? = nil, name: String? = nil, requestId: String? = CreateNetworkRequest.idempotencyToken(), routes: [RouteCreateRequest]? = nil, tags: [String: String]? = nil) {
+            self.ipPools = ipPools
+            self.name = name
+            self.requestId = requestId
+            self.routes = routes
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipPools = "ipPools"
+            case name = "name"
+            case requestId = "requestId"
+            case routes = "routes"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateNetworkResponse: AWSDecodableShape {
+        /// The ARN of this Network. It is automatically assigned when the Network is created.
+        public let arn: String?
+        public let associatedClusterIds: [String]?
+        /// The ID of the Network. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// An array of IpPools in your organization's network that identify a collection of IP addresses in this network that are reserved for use in MediaLive Anywhere. MediaLive Anywhere uses these IP addresses for Push inputs (in both Bridge and NAT networks) and for output destinations (only in Bridge networks). Each IpPool specifies one CIDR block.
+        public let ipPools: [IpPool]?
+        /// The name that you specified for the Network.
+        public let name: String?
+        /// An array of routes that MediaLive Anywhere needs to know about in order to route encoding traffic.
+        public let routes: [Route]?
+        /// The current state of the Network. Only MediaLive Anywhere can change the state.
+        public let state: NetworkState?
+
+        public init(arn: String? = nil, associatedClusterIds: [String]? = nil, id: String? = nil, ipPools: [IpPool]? = nil, name: String? = nil, routes: [Route]? = nil, state: NetworkState? = nil) {
+            self.arn = arn
+            self.associatedClusterIds = associatedClusterIds
+            self.id = id
+            self.ipPools = ipPools
+            self.name = name
+            self.routes = routes
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case associatedClusterIds = "associatedClusterIds"
+            case id = "id"
+            case ipPools = "ipPools"
+            case name = "name"
+            case routes = "routes"
+            case state = "state"
+        }
+    }
+
+    public struct CreateNodeRegistrationScriptRequest: AWSEncodableShape {
+        /// The ID of the cluster
+        public let clusterId: String
+        /// If you're generating a re-registration script for an already existing node, this is where you provide the id.
+        public let id: String?
+        /// Specify a pattern for MediaLive Anywhere to use to assign a name to each Node in the Cluster. The pattern can include the variables $hn (hostname of the node hardware) and $ts for the date and time that the Node is created, in UTC (for example, 2024-08-20T23:35:12Z).
+        public let name: String?
+        /// Documentation update needed
+        public let nodeInterfaceMappings: [NodeInterfaceMapping]?
+        /// An ID that you assign to a create request. This ID ensures idempotency when creating resources.
+        public let requestId: String?
+        /// The initial role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+        public let role: NodeRole?
+
+        public init(clusterId: String, id: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, requestId: String? = CreateNodeRegistrationScriptRequest.idempotencyToken(), role: NodeRole? = nil) {
+            self.clusterId = clusterId
+            self.id = id
+            self.name = name
+            self.nodeInterfaceMappings = nodeInterfaceMappings
+            self.requestId = requestId
+            self.role = role
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterId, key: "ClusterId")
+            try container.encodeIfPresent(self.id, forKey: .id)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.nodeInterfaceMappings, forKey: .nodeInterfaceMappings)
+            try container.encodeIfPresent(self.requestId, forKey: .requestId)
+            try container.encodeIfPresent(self.role, forKey: .role)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case name = "name"
+            case nodeInterfaceMappings = "nodeInterfaceMappings"
+            case requestId = "requestId"
+            case role = "role"
+        }
+    }
+
+    public struct CreateNodeRegistrationScriptResponse: AWSDecodableShape {
+        /// A script that can be run on a Bring Your Own Device Elemental Anywhere system to create a node in a cluster.
+        public let nodeRegistrationScript: String?
+
+        public init(nodeRegistrationScript: String? = nil) {
+            self.nodeRegistrationScript = nodeRegistrationScript
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeRegistrationScript = "nodeRegistrationScript"
+        }
+    }
+
+    public struct CreateNodeRequest: AWSEncodableShape {
+        /// The ID of the cluster.
+        public let clusterId: String
+        /// The user-specified name of the Node to be created.
+        public let name: String?
+        /// Documentation update needed
+        public let nodeInterfaceMappings: [NodeInterfaceMappingCreateRequest]?
+        /// An ID that you assign to a create request. This ID ensures idempotency when creating resources.
+        public let requestId: String?
+        /// The initial role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+        public let role: NodeRole?
+        /// A collection of key-value pairs.
+        public let tags: [String: String]?
+
+        public init(clusterId: String, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMappingCreateRequest]? = nil, requestId: String? = CreateNodeRequest.idempotencyToken(), role: NodeRole? = nil, tags: [String: String]? = nil) {
+            self.clusterId = clusterId
+            self.name = name
+            self.nodeInterfaceMappings = nodeInterfaceMappings
+            self.requestId = requestId
+            self.role = role
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterId, key: "ClusterId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.nodeInterfaceMappings, forKey: .nodeInterfaceMappings)
+            try container.encodeIfPresent(self.requestId, forKey: .requestId)
+            try container.encodeIfPresent(self.role, forKey: .role)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case nodeInterfaceMappings = "nodeInterfaceMappings"
+            case requestId = "requestId"
+            case role = "role"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateNodeResponse: AWSDecodableShape {
+        /// The ARN of the Node. It is automatically assigned when the Node is created.
+        public let arn: String?
+        /// An array of IDs. Each ID is one ChannelPlacementGroup that is associated with this Node. Empty if the Node is not yet associated with any groups.
+        public let channelPlacementGroups: [String]?
+        /// The ID of the Cluster that the Node belongs to.
+        public let clusterId: String?
+        /// The current connection state of the Node.
+        public let connectionState: NodeConnectionState?
+        /// The unique ID of the Node. Unique in the Cluster. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The ARN of the EC2 instance hosting the Node.
+        public let instanceArn: String?
+        /// The name that you specified for the Node.
+        public let name: String?
+        /// Documentation update needed
+        public let nodeInterfaceMappings: [NodeInterfaceMapping]?
+        /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+        public let role: NodeRole?
+        /// The current state of the Node.
+        public let state: NodeState?
+
+        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, state: NodeState? = nil) {
+            self.arn = arn
+            self.channelPlacementGroups = channelPlacementGroups
+            self.clusterId = clusterId
+            self.connectionState = connectionState
+            self.id = id
+            self.instanceArn = instanceArn
+            self.name = name
+            self.nodeInterfaceMappings = nodeInterfaceMappings
+            self.role = role
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channelPlacementGroups = "channelPlacementGroups"
+            case clusterId = "clusterId"
+            case connectionState = "connectionState"
+            case id = "id"
+            case instanceArn = "instanceArn"
+            case name = "name"
+            case nodeInterfaceMappings = "nodeInterfaceMappings"
+            case role = "role"
+            case state = "state"
         }
     }
 
@@ -4746,6 +5466,64 @@ extension MediaLive {
         }
     }
 
+    public struct DeleteChannelPlacementGroupRequest: AWSEncodableShape {
+        /// The ID of the channel placement group.
+        public let channelPlacementGroupId: String
+        /// The ID of the cluster.
+        public let clusterId: String
+
+        public init(channelPlacementGroupId: String, clusterId: String) {
+            self.channelPlacementGroupId = channelPlacementGroupId
+            self.clusterId = clusterId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelPlacementGroupId, key: "ChannelPlacementGroupId")
+            request.encodePath(self.clusterId, key: "ClusterId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteChannelPlacementGroupResponse: AWSDecodableShape {
+        /// The ARN of this ChannelPlacementGroup. It is automatically assigned when the ChannelPlacementGroup is created.
+        public let arn: String?
+        /// Used in ListChannelPlacementGroupsResult
+        public let channels: [String]?
+        /// The ID of the Cluster that the Node belongs to.
+        public let clusterId: String?
+        /// The ID of the ChannelPlacementGroup. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The name that you specified for the ChannelPlacementGroup.
+        public let name: String?
+        /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+        public let nodes: [String]?
+        /// The current state of the ChannelPlacementGroup.
+        public let state: ChannelPlacementGroupState?
+
+        public init(arn: String? = nil, channels: [String]? = nil, clusterId: String? = nil, id: String? = nil, name: String? = nil, nodes: [String]? = nil, state: ChannelPlacementGroupState? = nil) {
+            self.arn = arn
+            self.channels = channels
+            self.clusterId = clusterId
+            self.id = id
+            self.name = name
+            self.nodes = nodes
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channels = "channels"
+            case clusterId = "clusterId"
+            case id = "id"
+            case name = "name"
+            case nodes = "nodes"
+            case state = "state"
+        }
+    }
+
     public struct DeleteChannelRequest: AWSEncodableShape {
         /// Unique ID of the channel.
         public let channelId: String
@@ -4764,6 +5542,8 @@ extension MediaLive {
     }
 
     public struct DeleteChannelResponse: AWSDecodableShape {
+        /// Anywhere settings for this channel.
+        public let anywhereSettings: DescribeAnywhereSettings?
         /// The unique arn of the channel.
         public let arn: String?
         /// Specification of CDI inputs for this channel
@@ -4801,7 +5581,8 @@ extension MediaLive {
         /// Settings for VPC output
         public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+            self.anywhereSettings = anywhereSettings
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -4823,6 +5604,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anywhereSettings = "anywhereSettings"
             case arn = "arn"
             case cdiInputSpecification = "cdiInputSpecification"
             case channelClass = "channelClass"
@@ -4876,6 +5658,63 @@ extension MediaLive {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteClusterRequest: AWSEncodableShape {
+        /// The ID of the cluster.
+        public let clusterId: String
+
+        public init(clusterId: String) {
+            self.clusterId = clusterId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterId, key: "ClusterId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteClusterResponse: AWSDecodableShape {
+        /// The ARN of this Cluster. It is automatically assigned when the Cluster is created.
+        public let arn: String?
+        public let channelIds: [String]?
+        /// The hardware type for the Cluster
+        public let clusterType: ClusterType?
+        /// The ID of the  Cluster. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The ARN of the IAM role for the Node in this Cluster. Any Nodes that are associated with this Cluster assume this role. The role gives permissions to the operations that you expect these Node to perform.
+        public let instanceRoleArn: String?
+        /// The name that you specified for the Cluster.
+        public let name: String?
+        /// Network settings that connect the Nodes in the Cluster to one or more of the Networks that the Cluster is associated with.
+        public let networkSettings: ClusterNetworkSettings?
+        /// The current state of the Cluster.
+        public let state: ClusterState?
+
+        public init(arn: String? = nil, channelIds: [String]? = nil, clusterType: ClusterType? = nil, id: String? = nil, instanceRoleArn: String? = nil, name: String? = nil, networkSettings: ClusterNetworkSettings? = nil, state: ClusterState? = nil) {
+            self.arn = arn
+            self.channelIds = channelIds
+            self.clusterType = clusterType
+            self.id = id
+            self.instanceRoleArn = instanceRoleArn
+            self.name = name
+            self.networkSettings = networkSettings
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channelIds = "channelIds"
+            case clusterType = "clusterType"
+            case id = "id"
+            case instanceRoleArn = "instanceRoleArn"
+            case name = "name"
+            case networkSettings = "networkSettings"
+            case state = "state"
+        }
     }
 
     public struct DeleteEventBridgeRuleTemplateGroupRequest: AWSEncodableShape {
@@ -5070,6 +5909,129 @@ extension MediaLive {
         }
     }
 
+    public struct DeleteNetworkRequest: AWSEncodableShape {
+        /// The ID of the network.
+        public let networkId: String
+
+        public init(networkId: String) {
+            self.networkId = networkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.networkId, key: "NetworkId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteNetworkResponse: AWSDecodableShape {
+        /// The ARN of this Network. It is automatically assigned when the Network is created.
+        public let arn: String?
+        public let associatedClusterIds: [String]?
+        /// The ID of the Network. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// An array of IpPools in your organization's network that identify a collection of IP addresses in this network that are reserved for use in MediaLive Anywhere. MediaLive Anywhere uses these IP addresses for Push inputs (in both Bridge and NAT networks) and for output destinations (only in Bridge networks). Each IpPool specifies one CIDR block.
+        public let ipPools: [IpPool]?
+        /// The name that you specified for the Network.
+        public let name: String?
+        /// An array of routes that MediaLive Anywhere needs to know about in order to route encoding traffic.
+        public let routes: [Route]?
+        /// The current state of the Network. Only MediaLive Anywhere can change the state.
+        public let state: NetworkState?
+
+        public init(arn: String? = nil, associatedClusterIds: [String]? = nil, id: String? = nil, ipPools: [IpPool]? = nil, name: String? = nil, routes: [Route]? = nil, state: NetworkState? = nil) {
+            self.arn = arn
+            self.associatedClusterIds = associatedClusterIds
+            self.id = id
+            self.ipPools = ipPools
+            self.name = name
+            self.routes = routes
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case associatedClusterIds = "associatedClusterIds"
+            case id = "id"
+            case ipPools = "ipPools"
+            case name = "name"
+            case routes = "routes"
+            case state = "state"
+        }
+    }
+
+    public struct DeleteNodeRequest: AWSEncodableShape {
+        /// The ID of the cluster
+        public let clusterId: String
+        /// The ID of the node.
+        public let nodeId: String
+
+        public init(clusterId: String, nodeId: String) {
+            self.clusterId = clusterId
+            self.nodeId = nodeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterId, key: "ClusterId")
+            request.encodePath(self.nodeId, key: "NodeId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteNodeResponse: AWSDecodableShape {
+        /// The ARN of the Node. It is automatically assigned when the Node is created.
+        public let arn: String?
+        /// An array of IDs. Each ID is one ChannelPlacementGroup that is associated with this Node. Empty if the Node is not yet associated with any groups.
+        public let channelPlacementGroups: [String]?
+        /// The ID of the Cluster that the Node belongs to.
+        public let clusterId: String?
+        /// The current connection state of the Node.
+        public let connectionState: NodeConnectionState?
+        /// The unique ID of the Node. Unique in the Cluster. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The ARN of the EC2 instance hosting the Node.
+        public let instanceArn: String?
+        /// The name that you specified for the Node.
+        public let name: String?
+        /// Documentation update needed
+        public let nodeInterfaceMappings: [NodeInterfaceMapping]?
+        /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+        public let role: NodeRole?
+        /// The current state of the Node.
+        public let state: NodeState?
+
+        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, state: NodeState? = nil) {
+            self.arn = arn
+            self.channelPlacementGroups = channelPlacementGroups
+            self.clusterId = clusterId
+            self.connectionState = connectionState
+            self.id = id
+            self.instanceArn = instanceArn
+            self.name = name
+            self.nodeInterfaceMappings = nodeInterfaceMappings
+            self.role = role
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channelPlacementGroups = "channelPlacementGroups"
+            case clusterId = "clusterId"
+            case connectionState = "connectionState"
+            case id = "id"
+            case instanceArn = "instanceArn"
+            case name = "name"
+            case nodeInterfaceMappings = "nodeInterfaceMappings"
+            case role = "role"
+            case state = "state"
+        }
+    }
+
     public struct DeleteReservationRequest: AWSEncodableShape {
         /// Unique reservation ID, e.g. '1234567'
         public let reservationId: String
@@ -5246,6 +6208,118 @@ extension MediaLive {
         }
     }
 
+    public struct DescribeAnywhereSettings: AWSDecodableShape {
+        /// The ID of the channel placement group for the channel.
+        public let channelPlacementGroupId: String?
+        /// The ID of the cluster for the channel.
+        public let clusterId: String?
+
+        public init(channelPlacementGroupId: String? = nil, clusterId: String? = nil) {
+            self.channelPlacementGroupId = channelPlacementGroupId
+            self.clusterId = clusterId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelPlacementGroupId = "channelPlacementGroupId"
+            case clusterId = "clusterId"
+        }
+    }
+
+    public struct DescribeChannelPlacementGroupRequest: AWSEncodableShape {
+        /// The ID of the channel placement group.
+        public let channelPlacementGroupId: String
+        /// The ID of the cluster.
+        public let clusterId: String
+
+        public init(channelPlacementGroupId: String, clusterId: String) {
+            self.channelPlacementGroupId = channelPlacementGroupId
+            self.clusterId = clusterId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelPlacementGroupId, key: "ChannelPlacementGroupId")
+            request.encodePath(self.clusterId, key: "ClusterId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeChannelPlacementGroupResponse: AWSDecodableShape {
+        /// The ARN of this ChannelPlacementGroup. It is automatically assigned when the ChannelPlacementGroup is created.
+        public let arn: String?
+        /// Used in ListChannelPlacementGroupsResult
+        public let channels: [String]?
+        /// The ID of the Cluster that the Node belongs to.
+        public let clusterId: String?
+        /// The ID of the ChannelPlacementGroup. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The name that you specified for the ChannelPlacementGroup.
+        public let name: String?
+        /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+        public let nodes: [String]?
+        /// The current state of the ChannelPlacementGroup.
+        public let state: ChannelPlacementGroupState?
+
+        public init(arn: String? = nil, channels: [String]? = nil, clusterId: String? = nil, id: String? = nil, name: String? = nil, nodes: [String]? = nil, state: ChannelPlacementGroupState? = nil) {
+            self.arn = arn
+            self.channels = channels
+            self.clusterId = clusterId
+            self.id = id
+            self.name = name
+            self.nodes = nodes
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channels = "channels"
+            case clusterId = "clusterId"
+            case id = "id"
+            case name = "name"
+            case nodes = "nodes"
+            case state = "state"
+        }
+    }
+
+    public struct DescribeChannelPlacementGroupSummary: AWSDecodableShape {
+        /// The ARN of this ChannelPlacementGroup. It is automatically assigned when the ChannelPlacementGroup is created.
+        public let arn: String?
+        /// Used in ListChannelPlacementGroupsResult
+        public let channels: [String]?
+        /// The ID of the Cluster that the Node belongs to.
+        public let clusterId: String?
+        /// The ID of the ChannelPlacementGroup. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The name that you specified for the ChannelPlacementGroup.
+        public let name: String?
+        /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+        public let nodes: [String]?
+        /// The current state of the ChannelPlacementGroup.
+        public let state: ChannelPlacementGroupState?
+
+        public init(arn: String? = nil, channels: [String]? = nil, clusterId: String? = nil, id: String? = nil, name: String? = nil, nodes: [String]? = nil, state: ChannelPlacementGroupState? = nil) {
+            self.arn = arn
+            self.channels = channels
+            self.clusterId = clusterId
+            self.id = id
+            self.name = name
+            self.nodes = nodes
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channels = "channels"
+            case clusterId = "clusterId"
+            case id = "id"
+            case name = "name"
+            case nodes = "nodes"
+            case state = "state"
+        }
+    }
+
     public struct DescribeChannelRequest: AWSEncodableShape {
         /// channel ID
         public let channelId: String
@@ -5264,6 +6338,8 @@ extension MediaLive {
     }
 
     public struct DescribeChannelResponse: AWSDecodableShape {
+        /// Anywhere settings for this channel.
+        public let anywhereSettings: DescribeAnywhereSettings?
         /// The unique arn of the channel.
         public let arn: String?
         /// Specification of CDI inputs for this channel
@@ -5301,7 +6377,8 @@ extension MediaLive {
         /// Settings for VPC output
         public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+            self.anywhereSettings = anywhereSettings
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -5323,6 +6400,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anywhereSettings = "anywhereSettings"
             case arn = "arn"
             case cdiInputSpecification = "cdiInputSpecification"
             case channelClass = "channelClass"
@@ -5341,6 +6419,104 @@ extension MediaLive {
             case state = "state"
             case tags = "tags"
             case vpc = "vpc"
+        }
+    }
+
+    public struct DescribeClusterRequest: AWSEncodableShape {
+        /// The ID of the cluster.
+        public let clusterId: String
+
+        public init(clusterId: String) {
+            self.clusterId = clusterId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterId, key: "ClusterId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeClusterResponse: AWSDecodableShape {
+        /// The ARN of this Cluster. It is automatically assigned when the Cluster is created.
+        public let arn: String?
+        public let channelIds: [String]?
+        /// The hardware type for the Cluster
+        public let clusterType: ClusterType?
+        /// The ID of the  Cluster. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The ARN of the IAM role for the Node in this Cluster. Any Nodes that are associated with this Cluster assume this role. The role gives permissions to the operations that you expect these Node to perform.
+        public let instanceRoleArn: String?
+        /// The name that you specified for the Cluster.
+        public let name: String?
+        /// Network settings that connect the Nodes in the Cluster to one or more of the Networks that the Cluster is associated with.
+        public let networkSettings: ClusterNetworkSettings?
+        /// The current state of the Cluster.
+        public let state: ClusterState?
+
+        public init(arn: String? = nil, channelIds: [String]? = nil, clusterType: ClusterType? = nil, id: String? = nil, instanceRoleArn: String? = nil, name: String? = nil, networkSettings: ClusterNetworkSettings? = nil, state: ClusterState? = nil) {
+            self.arn = arn
+            self.channelIds = channelIds
+            self.clusterType = clusterType
+            self.id = id
+            self.instanceRoleArn = instanceRoleArn
+            self.name = name
+            self.networkSettings = networkSettings
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channelIds = "channelIds"
+            case clusterType = "clusterType"
+            case id = "id"
+            case instanceRoleArn = "instanceRoleArn"
+            case name = "name"
+            case networkSettings = "networkSettings"
+            case state = "state"
+        }
+    }
+
+    public struct DescribeClusterSummary: AWSDecodableShape {
+        /// The ARN of this Cluster. It is automatically assigned when the Cluster is created.
+        public let arn: String?
+        /// An array of the IDs of the Channels that are associated with this Cluster. One Channel is associated with the Cluster as follows: A Channel belongs to a ChannelPlacementGroup. A ChannelPlacementGroup is attached to a Node. A Node belongs to a Cluster.
+        public let channelIds: [String]?
+        /// The hardware type for the Cluster.
+        public let clusterType: ClusterType?
+        /// The ID of the Cluster. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The ARN of the IAM role for the Node in this Cluster. Any Nodes that are associated with this Cluster assume this role. The role gives permissions to the operations that you expect these Node to perform.
+        public let instanceRoleArn: String?
+        /// The name that you specified for the Cluster.
+        public let name: String?
+        /// Network settings that connect the Nodes in the Cluster to one or more of the Networks that the Cluster is associated with.
+        public let networkSettings: ClusterNetworkSettings?
+        /// The current state of the Cluster.
+        public let state: ClusterState?
+
+        public init(arn: String? = nil, channelIds: [String]? = nil, clusterType: ClusterType? = nil, id: String? = nil, instanceRoleArn: String? = nil, name: String? = nil, networkSettings: ClusterNetworkSettings? = nil, state: ClusterState? = nil) {
+            self.arn = arn
+            self.channelIds = channelIds
+            self.clusterType = clusterType
+            self.id = id
+            self.instanceRoleArn = instanceRoleArn
+            self.name = name
+            self.networkSettings = networkSettings
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channelIds = "channelIds"
+            case clusterType = "clusterType"
+            case id = "id"
+            case instanceRoleArn = "instanceRoleArn"
+            case name = "name"
+            case networkSettings = "networkSettings"
+            case state = "state"
         }
     }
 
@@ -5517,10 +6693,13 @@ extension MediaLive {
         /// The generated ID of the input (unique for user account, immutable).
         public let id: String?
         /// STANDARD - MediaLive expects two sources to be connected to this input. If the channel is also STANDARD, both sources will be ingested. If the channel is SINGLE_PIPELINE, only the first source will be ingested; the second source will always be ignored, even if the first source fails.
-        /// SINGLE_PIPELINE - You can connect only one source to this input. If the ChannelClass is also  SINGLE_PIPELINE, this value is valid. If the ChannelClass is STANDARD, this value is not valid because the channel requires two sources in the input.
+        /// SINGLE_PIPELINE - You can connect only one source to this input. If the ChannelClass is also SINGLE_PIPELINE, this value is valid. If the ChannelClass is STANDARD, this value is not valid because the channel requires two sources in the input.
         public let inputClass: InputClass?
         /// Settings for the input devices.
         public let inputDevices: [InputDeviceSettings]?
+        /// The location of this input. AWS, for an input existing in the AWS Cloud, On-Prem for
+        /// an input in a customer network.
+        public let inputNetworkLocation: InputNetworkLocation?
         /// A list of IDs for all Inputs which are partners of this one.
         public let inputPartnerIds: [String]?
         /// Certain pull input sources can be dynamic, meaning that they can have their URL's dynamically changes
@@ -5528,6 +6707,8 @@ extension MediaLive {
         public let inputSourceType: InputSourceType?
         /// A list of MediaConnect Flows for this input.
         public let mediaConnectFlows: [MediaConnectFlow]?
+        /// Multicast Input settings.
+        public let multicastSettings: MulticastSettings?
         /// The user-assigned name (This is a mutable value).
         public let name: String?
         /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
@@ -5543,16 +6724,18 @@ extension MediaLive {
         public let tags: [String: String]?
         public let type: InputType?
 
-        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, srtSettings: SrtSettings? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
+        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputNetworkLocation: InputNetworkLocation? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, multicastSettings: MulticastSettings? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, srtSettings: SrtSettings? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
             self.attachedChannels = attachedChannels
             self.destinations = destinations
             self.id = id
             self.inputClass = inputClass
             self.inputDevices = inputDevices
+            self.inputNetworkLocation = inputNetworkLocation
             self.inputPartnerIds = inputPartnerIds
             self.inputSourceType = inputSourceType
             self.mediaConnectFlows = mediaConnectFlows
+            self.multicastSettings = multicastSettings
             self.name = name
             self.roleArn = roleArn
             self.securityGroups = securityGroups
@@ -5570,9 +6753,11 @@ extension MediaLive {
             case id = "id"
             case inputClass = "inputClass"
             case inputDevices = "inputDevices"
+            case inputNetworkLocation = "inputNetworkLocation"
             case inputPartnerIds = "inputPartnerIds"
             case inputSourceType = "inputSourceType"
             case mediaConnectFlows = "mediaConnectFlows"
+            case multicastSettings = "multicastSettings"
             case name = "name"
             case roleArn = "roleArn"
             case securityGroups = "securityGroups"
@@ -5747,6 +6932,218 @@ extension MediaLive {
             case programCount = "programCount"
             case state = "state"
             case tags = "tags"
+        }
+    }
+
+    public struct DescribeNetworkRequest: AWSEncodableShape {
+        /// The ID of the network.
+        public let networkId: String
+
+        public init(networkId: String) {
+            self.networkId = networkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.networkId, key: "NetworkId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeNetworkResponse: AWSDecodableShape {
+        /// The ARN of this Network. It is automatically assigned when the Network is created.
+        public let arn: String?
+        public let associatedClusterIds: [String]?
+        /// The ID of the Network. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// An array of IpPools in your organization's network that identify a collection of IP addresses in this network that are reserved for use in MediaLive Anywhere. MediaLive Anywhere uses these IP addresses for Push inputs (in both Bridge and NAT networks) and for output destinations (only in Bridge networks). Each IpPool specifies one CIDR block.
+        public let ipPools: [IpPool]?
+        /// The name that you specified for the Network.
+        public let name: String?
+        /// An array of routes that MediaLive Anywhere needs to know about in order to route encoding traffic.
+        public let routes: [Route]?
+        /// The current state of the Network. Only MediaLive Anywhere can change the state.
+        public let state: NetworkState?
+
+        public init(arn: String? = nil, associatedClusterIds: [String]? = nil, id: String? = nil, ipPools: [IpPool]? = nil, name: String? = nil, routes: [Route]? = nil, state: NetworkState? = nil) {
+            self.arn = arn
+            self.associatedClusterIds = associatedClusterIds
+            self.id = id
+            self.ipPools = ipPools
+            self.name = name
+            self.routes = routes
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case associatedClusterIds = "associatedClusterIds"
+            case id = "id"
+            case ipPools = "ipPools"
+            case name = "name"
+            case routes = "routes"
+            case state = "state"
+        }
+    }
+
+    public struct DescribeNetworkSummary: AWSDecodableShape {
+        /// The ARN of this Network. It is automatically assigned when the Network is created.
+        public let arn: String?
+        public let associatedClusterIds: [String]?
+        /// The ID of the Network. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// An array of IpPools in your organization's network that identify a collection of IP addresses in your organization's network that are reserved for use in MediaLive Anywhere. MediaLive Anywhere uses these IP addresses for Push inputs (in both Bridge and NAT networks) and for output destinations (only in Bridge networks). Each IpPool specifies one CIDR block.
+        public let ipPools: [IpPool]?
+        /// The name that you specified for this Network.
+        public let name: String?
+        /// An array of routes that MediaLive Anywhere needs to know about in order to route encoding traffic.
+        public let routes: [Route]?
+        /// The current state of the Network. Only MediaLive Anywhere can change the state.
+        public let state: NetworkState?
+
+        public init(arn: String? = nil, associatedClusterIds: [String]? = nil, id: String? = nil, ipPools: [IpPool]? = nil, name: String? = nil, routes: [Route]? = nil, state: NetworkState? = nil) {
+            self.arn = arn
+            self.associatedClusterIds = associatedClusterIds
+            self.id = id
+            self.ipPools = ipPools
+            self.name = name
+            self.routes = routes
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case associatedClusterIds = "associatedClusterIds"
+            case id = "id"
+            case ipPools = "ipPools"
+            case name = "name"
+            case routes = "routes"
+            case state = "state"
+        }
+    }
+
+    public struct DescribeNodeRequest: AWSEncodableShape {
+        /// The ID of the cluster
+        public let clusterId: String
+        /// The ID of the node.
+        public let nodeId: String
+
+        public init(clusterId: String, nodeId: String) {
+            self.clusterId = clusterId
+            self.nodeId = nodeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterId, key: "ClusterId")
+            request.encodePath(self.nodeId, key: "NodeId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeNodeResponse: AWSDecodableShape {
+        /// The ARN of the Node. It is automatically assigned when the Node is created.
+        public let arn: String?
+        /// An array of IDs. Each ID is one ChannelPlacementGroup that is associated with this Node. Empty if the Node is not yet associated with any groups.
+        public let channelPlacementGroups: [String]?
+        /// The ID of the Cluster that the Node belongs to.
+        public let clusterId: String?
+        /// The current connection state of the Node.
+        public let connectionState: NodeConnectionState?
+        /// The unique ID of the Node. Unique in the Cluster. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The ARN of the EC2 instance hosting the Node.
+        public let instanceArn: String?
+        /// The name that you specified for the Node.
+        public let name: String?
+        /// Documentation update needed
+        public let nodeInterfaceMappings: [NodeInterfaceMapping]?
+        /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+        public let role: NodeRole?
+        /// The current state of the Node.
+        public let state: NodeState?
+
+        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, state: NodeState? = nil) {
+            self.arn = arn
+            self.channelPlacementGroups = channelPlacementGroups
+            self.clusterId = clusterId
+            self.connectionState = connectionState
+            self.id = id
+            self.instanceArn = instanceArn
+            self.name = name
+            self.nodeInterfaceMappings = nodeInterfaceMappings
+            self.role = role
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channelPlacementGroups = "channelPlacementGroups"
+            case clusterId = "clusterId"
+            case connectionState = "connectionState"
+            case id = "id"
+            case instanceArn = "instanceArn"
+            case name = "name"
+            case nodeInterfaceMappings = "nodeInterfaceMappings"
+            case role = "role"
+            case state = "state"
+        }
+    }
+
+    public struct DescribeNodeSummary: AWSDecodableShape {
+        /// The ARN of the Node. It is automatically assigned when the Node is created.
+        public let arn: String?
+        /// An array of IDs. Each ID is one ChannelPlacementGroup that is associated with this Node. Empty if the Node is not yet associated with any groups.
+        public let channelPlacementGroups: [String]?
+        /// The ID of the Cluster that the Node belongs to.
+        public let clusterId: String?
+        /// The current connection state of the Node.
+        public let connectionState: NodeConnectionState?
+        /// The unique ID of the Node. Unique in the Cluster. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The EC2 ARN of the Instance associated with the Node.
+        public let instanceArn: String?
+        /// At the routing layer will get it from the callerId/context for use with bring your own device.
+        public let managedInstanceId: String?
+        /// The name that you specified for the Node.
+        public let name: String?
+        /// Documentation update needed
+        public let nodeInterfaceMappings: [NodeInterfaceMapping]?
+        /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+        public let role: NodeRole?
+        /// The current state of the Node.
+        public let state: NodeState?
+
+        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, managedInstanceId: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, state: NodeState? = nil) {
+            self.arn = arn
+            self.channelPlacementGroups = channelPlacementGroups
+            self.clusterId = clusterId
+            self.connectionState = connectionState
+            self.id = id
+            self.instanceArn = instanceArn
+            self.managedInstanceId = managedInstanceId
+            self.name = name
+            self.nodeInterfaceMappings = nodeInterfaceMappings
+            self.role = role
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channelPlacementGroups = "channelPlacementGroups"
+            case clusterId = "clusterId"
+            case connectionState = "connectionState"
+            case id = "id"
+            case instanceArn = "instanceArn"
+            case managedInstanceId = "managedInstanceId"
+            case name = "name"
+            case nodeInterfaceMappings = "nodeInterfaceMappings"
+            case role = "role"
+            case state = "state"
         }
     }
 
@@ -7373,6 +8770,9 @@ extension MediaLive {
         public let maxBitrate: Int?
         /// Only meaningful if sceneChangeDetect is set to enabled.  Defaults to 5 if multiplex rate control is used.  Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public let minIInterval: Int?
+        /// Sets the minimum QP. If you aren't familiar with quantization adjustment, leave the field empty. MediaLive will
+        /// apply an appropriate value.
+        public let minQp: Int?
         /// Number of reference frames to use. The encoder may use more than requested if using B-frames and/or interlaced encoding.
         public let numRefFrames: Int?
         /// This field indicates how the output pixel aspect ratio is specified.  If "specified" is selected then the output video pixel aspect ratio is determined by parNumerator and parDenominator, else if "initializeFromSource" is selected then the output pixsel aspect ratio will be set equal to the input video pixel aspect ratio of the first input.
@@ -7430,7 +8830,7 @@ extension MediaLive {
         /// - 'picTimingSei': Pass through picture timing SEI messages from the source specified in Timecode Config
         public let timecodeInsertion: H264TimecodeInsertionBehavior?
 
-        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufFillPct: Int? = nil, bufSize: Int? = nil, colorMetadata: H264ColorMetadata? = nil, colorSpaceSettings: H264ColorSpaceSettings? = nil, entropyEncoding: H264EntropyEncoding? = nil, filterSettings: H264FilterSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, forceFieldPictures: H264ForceFieldPictures? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numRefFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H264Profile? = nil, qualityLevel: H264QualityLevel? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, softness: Int? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
+        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufFillPct: Int? = nil, bufSize: Int? = nil, colorMetadata: H264ColorMetadata? = nil, colorSpaceSettings: H264ColorSpaceSettings? = nil, entropyEncoding: H264EntropyEncoding? = nil, filterSettings: H264FilterSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H264FlickerAq? = nil, forceFieldPictures: H264ForceFieldPictures? = nil, framerateControl: H264FramerateControl? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopNumBFrames: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, level: H264Level? = nil, lookAheadRateControl: H264LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, minQp: Int? = nil, numRefFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H264Profile? = nil, qualityLevel: H264QualityLevel? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H264RateControlMode? = nil, scanType: H264ScanType? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, softness: Int? = nil, spatialAq: H264SpatialAq? = nil, subgopLength: H264SubGopLength? = nil, syntax: H264Syntax? = nil, temporalAq: H264TemporalAq? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil, timecodeInsertion: H264TimecodeInsertionBehavior? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.afdSignaling = afdSignaling
             self.bitrate = bitrate
@@ -7455,6 +8855,7 @@ extension MediaLive {
             self.lookAheadRateControl = lookAheadRateControl
             self.maxBitrate = maxBitrate
             self.minIInterval = minIInterval
+            self.minQp = minQp
             self.numRefFrames = numRefFrames
             self.parControl = parControl
             self.parDenominator = parDenominator
@@ -7488,6 +8889,8 @@ extension MediaLive {
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
+            try self.validate(self.minQp, name: "minQp", parent: name, max: 51)
+            try self.validate(self.minQp, name: "minQp", parent: name, min: 1)
             try self.validate(self.numRefFrames, name: "numRefFrames", parent: name, max: 6)
             try self.validate(self.numRefFrames, name: "numRefFrames", parent: name, min: 1)
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
@@ -7526,6 +8929,7 @@ extension MediaLive {
             case lookAheadRateControl = "lookAheadRateControl"
             case maxBitrate = "maxBitrate"
             case minIInterval = "minIInterval"
+            case minQp = "minQp"
             case numRefFrames = "numRefFrames"
             case parControl = "parControl"
             case parDenominator = "parDenominator"
@@ -7633,6 +9037,9 @@ extension MediaLive {
         public let maxBitrate: Int?
         /// Only meaningful if sceneChangeDetect is set to enabled.  Defaults to 5 if multiplex rate control is used.  Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public let minIInterval: Int?
+        /// Sets the minimum QP. If you aren't familiar with quantization adjustment, leave the field empty. MediaLive will
+        /// apply an appropriate value.
+        public let minQp: Int?
         /// If you are setting up the picture as a tile, you must set this to "disabled". In all other configurations, you typically enter "enabled".
         public let mvOverPictureBoundaries: H265MvOverPictureBoundaries?
         /// If you are setting up the picture as a tile, you must set this to "disabled". In other configurations, you typically enter "enabled".
@@ -7688,7 +9095,7 @@ extension MediaLive {
         /// Select the tree block size used for encoding. If you enter "auto", the encoder will pick the best size. If you are setting up the picture as a tile, you must set this to 32x32. In all other configurations, you typically enter "auto".
         public let treeblockSize: H265TreeblockSize?
 
-        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, alternativeTransferFunction: H265AlternativeTransferFunction? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorMetadata: H265ColorMetadata? = nil, colorSpaceSettings: H265ColorSpaceSettings? = nil, filterSettings: H265FilterSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H265FlickerAq? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, level: H265Level? = nil, lookAheadRateControl: H265LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, mvOverPictureBoundaries: H265MvOverPictureBoundaries? = nil, mvTemporalPredictor: H265MvTemporalPredictor? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H265Profile? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H265RateControlMode? = nil, scanType: H265ScanType? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, tier: H265Tier? = nil, tileHeight: Int? = nil, tilePadding: H265TilePadding? = nil, tileWidth: Int? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil, timecodeInsertion: H265TimecodeInsertionBehavior? = nil, treeblockSize: H265TreeblockSize? = nil) {
+        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, afdSignaling: AfdSignaling? = nil, alternativeTransferFunction: H265AlternativeTransferFunction? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorMetadata: H265ColorMetadata? = nil, colorSpaceSettings: H265ColorSpaceSettings? = nil, filterSettings: H265FilterSettings? = nil, fixedAfd: FixedAfd? = nil, flickerAq: H265FlickerAq? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, level: H265Level? = nil, lookAheadRateControl: H265LookAheadRateControl? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, minQp: Int? = nil, mvOverPictureBoundaries: H265MvOverPictureBoundaries? = nil, mvTemporalPredictor: H265MvTemporalPredictor? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, profile: H265Profile? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: H265RateControlMode? = nil, scanType: H265ScanType? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, tier: H265Tier? = nil, tileHeight: Int? = nil, tilePadding: H265TilePadding? = nil, tileWidth: Int? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil, timecodeInsertion: H265TimecodeInsertionBehavior? = nil, treeblockSize: H265TreeblockSize? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.afdSignaling = afdSignaling
             self.alternativeTransferFunction = alternativeTransferFunction
@@ -7708,6 +9115,7 @@ extension MediaLive {
             self.lookAheadRateControl = lookAheadRateControl
             self.maxBitrate = maxBitrate
             self.minIInterval = minIInterval
+            self.minQp = minQp
             self.mvOverPictureBoundaries = mvOverPictureBoundaries
             self.mvTemporalPredictor = mvTemporalPredictor
             self.parDenominator = parDenominator
@@ -7741,6 +9149,8 @@ extension MediaLive {
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 100000)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
+            try self.validate(self.minQp, name: "minQp", parent: name, max: 51)
+            try self.validate(self.minQp, name: "minQp", parent: name, min: 1)
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
             try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, max: 10)
@@ -7774,6 +9184,7 @@ extension MediaLive {
             case lookAheadRateControl = "lookAheadRateControl"
             case maxBitrate = "maxBitrate"
             case minIInterval = "minIInterval"
+            case minQp = "minQp"
             case mvOverPictureBoundaries = "mvOverPictureBoundaries"
             case mvTemporalPredictor = "mvTemporalPredictor"
             case parDenominator = "parDenominator"
@@ -8384,10 +9795,13 @@ extension MediaLive {
         /// The generated ID of the input (unique for user account, immutable).
         public let id: String?
         /// STANDARD - MediaLive expects two sources to be connected to this input. If the channel is also STANDARD, both sources will be ingested. If the channel is SINGLE_PIPELINE, only the first source will be ingested; the second source will always be ignored, even if the first source fails.
-        /// SINGLE_PIPELINE - You can connect only one source to this input. If the ChannelClass is also  SINGLE_PIPELINE, this value is valid. If the ChannelClass is STANDARD, this value is not valid because the channel requires two sources in the input.
+        /// SINGLE_PIPELINE - You can connect only one source to this input. If the ChannelClass is also SINGLE_PIPELINE, this value is valid. If the ChannelClass is STANDARD, this value is not valid because the channel requires two sources in the input.
         public let inputClass: InputClass?
         /// Settings for the input devices.
         public let inputDevices: [InputDeviceSettings]?
+        /// The location of this input. AWS, for an input existing in the AWS Cloud, On-Prem for
+        /// an input in a customer network.
+        public let inputNetworkLocation: InputNetworkLocation?
         /// A list of IDs for all Inputs which are partners of this one.
         public let inputPartnerIds: [String]?
         /// Certain pull input sources can be dynamic, meaning that they can have their URL's dynamically changes
@@ -8395,6 +9809,8 @@ extension MediaLive {
         public let inputSourceType: InputSourceType?
         /// A list of MediaConnect Flows for this input.
         public let mediaConnectFlows: [MediaConnectFlow]?
+        /// Multicast Input settings.
+        public let multicastSettings: MulticastSettings?
         /// The user-assigned name (This is a mutable value).
         public let name: String?
         /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
@@ -8410,16 +9826,18 @@ extension MediaLive {
         public let tags: [String: String]?
         public let type: InputType?
 
-        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, srtSettings: SrtSettings? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
+        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputNetworkLocation: InputNetworkLocation? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, multicastSettings: MulticastSettings? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, srtSettings: SrtSettings? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
             self.attachedChannels = attachedChannels
             self.destinations = destinations
             self.id = id
             self.inputClass = inputClass
             self.inputDevices = inputDevices
+            self.inputNetworkLocation = inputNetworkLocation
             self.inputPartnerIds = inputPartnerIds
             self.inputSourceType = inputSourceType
             self.mediaConnectFlows = mediaConnectFlows
+            self.multicastSettings = multicastSettings
             self.name = name
             self.roleArn = roleArn
             self.securityGroups = securityGroups
@@ -8437,9 +9855,11 @@ extension MediaLive {
             case id = "id"
             case inputClass = "inputClass"
             case inputDevices = "inputDevices"
+            case inputNetworkLocation = "inputNetworkLocation"
             case inputPartnerIds = "inputPartnerIds"
             case inputSourceType = "inputSourceType"
             case mediaConnectFlows = "mediaConnectFlows"
+            case multicastSettings = "multicastSettings"
             case name = "name"
             case roleArn = "roleArn"
             case securityGroups = "securityGroups"
@@ -8460,12 +9880,15 @@ extension MediaLive {
         public let inputId: String?
         /// Settings of an input (caption selector, etc.)
         public let inputSettings: InputSettings?
+        /// Optional assignment of an input to a logical interface on the Node. Only applies to on premises channels.
+        public let logicalInterfaceNames: [String]?
 
-        public init(automaticInputFailoverSettings: AutomaticInputFailoverSettings? = nil, inputAttachmentName: String? = nil, inputId: String? = nil, inputSettings: InputSettings? = nil) {
+        public init(automaticInputFailoverSettings: AutomaticInputFailoverSettings? = nil, inputAttachmentName: String? = nil, inputId: String? = nil, inputSettings: InputSettings? = nil, logicalInterfaceNames: [String]? = nil) {
             self.automaticInputFailoverSettings = automaticInputFailoverSettings
             self.inputAttachmentName = inputAttachmentName
             self.inputId = inputId
             self.inputSettings = inputSettings
+            self.logicalInterfaceNames = logicalInterfaceNames
         }
 
         public func validate(name: String) throws {
@@ -8478,6 +9901,7 @@ extension MediaLive {
             case inputAttachmentName = "inputAttachmentName"
             case inputId = "inputId"
             case inputSettings = "inputSettings"
+            case logicalInterfaceNames = "logicalInterfaceNames"
         }
     }
 
@@ -8530,6 +9954,11 @@ extension MediaLive {
         /// The system-generated static IP address of endpoint.
         /// It remains fixed for the lifetime of the input.
         public let ip: String?
+        /// The ID of the attached network.
+        public let network: String?
+        /// If the push input has an input location of ON-PREM it's a requirement to specify what the route of the input
+        /// is going to be on the customer local network.
+        public let networkRoutes: [InputDestinationRoute]?
         /// The port number for the input.
         public let port: String?
         /// This represents the endpoint that the customer stream will be
@@ -8537,8 +9966,10 @@ extension MediaLive {
         public let url: String?
         public let vpc: InputDestinationVpc?
 
-        public init(ip: String? = nil, port: String? = nil, url: String? = nil, vpc: InputDestinationVpc? = nil) {
+        public init(ip: String? = nil, network: String? = nil, networkRoutes: [InputDestinationRoute]? = nil, port: String? = nil, url: String? = nil, vpc: InputDestinationVpc? = nil) {
             self.ip = ip
+            self.network = network
+            self.networkRoutes = networkRoutes
             self.port = port
             self.url = url
             self.vpc = vpc
@@ -8546,6 +9977,8 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case ip = "ip"
+            case network = "network"
+            case networkRoutes = "networkRoutes"
             case port = "port"
             case url = "url"
             case vpc = "vpc"
@@ -8553,16 +9986,47 @@ extension MediaLive {
     }
 
     public struct InputDestinationRequest: AWSEncodableShape {
+        /// If the push input has an input location of ON-PREM, ID the ID of the attached network.
+        public let network: String?
+        /// If the push input has an input location of ON-PREM it's a requirement to specify what the route of the input
+        /// is going to be on the customer local network.
+        public let networkRoutes: [InputRequestDestinationRoute]?
+        /// If the push input has an input location of ON-PREM it's optional to specify what the ip address
+        /// of the input is going to be on the customer local network.
+        public let staticIpAddress: String?
         /// A unique name for the location the RTMP stream is being pushed
         /// to.
         public let streamName: String?
 
-        public init(streamName: String? = nil) {
+        public init(network: String? = nil, networkRoutes: [InputRequestDestinationRoute]? = nil, staticIpAddress: String? = nil, streamName: String? = nil) {
+            self.network = network
+            self.networkRoutes = networkRoutes
+            self.staticIpAddress = staticIpAddress
             self.streamName = streamName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case network = "network"
+            case networkRoutes = "networkRoutes"
+            case staticIpAddress = "staticIpAddress"
             case streamName = "streamName"
+        }
+    }
+
+    public struct InputDestinationRoute: AWSDecodableShape {
+        /// The CIDR of the route.
+        public let cidr: String?
+        /// An optional gateway for the route.
+        public let gateway: String?
+
+        public init(cidr: String? = nil, gateway: String? = nil) {
+            self.cidr = cidr
+            self.gateway = gateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
+            case gateway = "gateway"
         }
     }
 
@@ -9032,6 +10496,23 @@ extension MediaLive {
         }
     }
 
+    public struct InputRequestDestinationRoute: AWSEncodableShape {
+        /// The CIDR of the route.
+        public let cidr: String?
+        /// An optional gateway for the route.
+        public let gateway: String?
+
+        public init(cidr: String? = nil, gateway: String? = nil) {
+            self.cidr = cidr
+            self.gateway = gateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
+            case gateway = "gateway"
+        }
+    }
+
     public struct InputSecurityGroup: AWSDecodableShape {
         /// Unique ARN of Input Security Group
         public let arn: String?
@@ -9269,6 +10750,96 @@ extension MediaLive {
         }
     }
 
+    public struct InterfaceMapping: AWSDecodableShape {
+        /// The logical name for one interface (on every Node) that handles a specific type of traffic. We recommend that the name hints at the physical interface it applies to. For example, it could refer to the traffic that the physical interface handles. For example, my-Inputs-Interface.
+        public let logicalInterfaceName: String?
+        /// The ID of the network that you want to connect to the specified logicalInterfaceName.
+        public let networkId: String?
+
+        public init(logicalInterfaceName: String? = nil, networkId: String? = nil) {
+            self.logicalInterfaceName = logicalInterfaceName
+            self.networkId = networkId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logicalInterfaceName = "logicalInterfaceName"
+            case networkId = "networkId"
+        }
+    }
+
+    public struct InterfaceMappingCreateRequest: AWSEncodableShape {
+        /// The logical name for one interface (on every Node) that handles a specific type of traffic. We recommend that the name hints at the physical interface it applies to. For example, it could refer to the traffic that the physical interface handles. For example, my-Inputs-Interface.
+        public let logicalInterfaceName: String?
+        /// The ID of the network that you want to connect to the specified logicalInterfaceName.
+        public let networkId: String?
+
+        public init(logicalInterfaceName: String? = nil, networkId: String? = nil) {
+            self.logicalInterfaceName = logicalInterfaceName
+            self.networkId = networkId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logicalInterfaceName = "logicalInterfaceName"
+            case networkId = "networkId"
+        }
+    }
+
+    public struct InterfaceMappingUpdateRequest: AWSEncodableShape {
+        /// The logical name for one interface (on every Node) that handles a specific type of traffic. We recommend that the name hints at the physical interface it applies to. For example, it could refer to the traffic that the physical interface handles. For example, my-Inputs-Interface.
+        public let logicalInterfaceName: String?
+        /// The ID of the network that you want to connect to the specified logicalInterfaceName. You can use the ListNetworks operation to discover all the IDs.
+        public let networkId: String?
+
+        public init(logicalInterfaceName: String? = nil, networkId: String? = nil) {
+            self.logicalInterfaceName = logicalInterfaceName
+            self.networkId = networkId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logicalInterfaceName = "logicalInterfaceName"
+            case networkId = "networkId"
+        }
+    }
+
+    public struct IpPool: AWSDecodableShape {
+        /// A CIDR block of IP addresses that are reserved for MediaLive Anywhere.
+        public let cidr: String?
+
+        public init(cidr: String? = nil) {
+            self.cidr = cidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
+        }
+    }
+
+    public struct IpPoolCreateRequest: AWSEncodableShape {
+        /// A CIDR block of IP addresses to reserve for MediaLive Anywhere.
+        public let cidr: String?
+
+        public init(cidr: String? = nil) {
+            self.cidr = cidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
+        }
+    }
+
+    public struct IpPoolUpdateRequest: AWSEncodableShape {
+        /// A CIDR block of IP addresses to reserve for MediaLive Anywhere.
+        public let cidr: String?
+
+        public init(cidr: String? = nil) {
+            self.cidr = cidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
+        }
+    }
+
     public struct KeyProviderSettings: AWSEncodableShape & AWSDecodableShape {
         public let staticKeySettings: StaticKeySettings?
 
@@ -9282,6 +10853,53 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case staticKeySettings = "staticKeySettings"
+        }
+    }
+
+    public struct ListChannelPlacementGroupsRequest: AWSEncodableShape {
+        /// The ID of the cluster
+        public let clusterId: String
+        /// The maximum number of items to return.
+        public let maxResults: Int?
+        /// The token to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(clusterId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.clusterId = clusterId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterId, key: "ClusterId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListChannelPlacementGroupsResponse: AWSDecodableShape {
+        /// An array of ChannelPlacementGroups that exist in the Cluster.
+        public let channelPlacementGroups: [DescribeChannelPlacementGroupSummary]?
+        /// Token for the next result.
+        public let nextToken: String?
+
+        public init(channelPlacementGroups: [DescribeChannelPlacementGroupSummary]? = nil, nextToken: String? = nil) {
+            self.channelPlacementGroups = channelPlacementGroups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelPlacementGroups = "channelPlacementGroups"
+            case nextToken = "nextToken"
         }
     }
 
@@ -9422,6 +11040,49 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchAlarmTemplates = "cloudWatchAlarmTemplates"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListClustersRequest: AWSEncodableShape {
+        /// The maximum number of items to return.
+        public let maxResults: Int?
+        /// The token to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListClustersResponse: AWSDecodableShape {
+        /// A list of the Clusters that exist in your AWS account.
+        public let clusters: [DescribeClusterSummary]?
+        /// Token for the next result.
+        public let nextToken: String?
+
+        public init(clusters: [DescribeClusterSummary]? = nil, nextToken: String? = nil) {
+            self.clusters = clusters
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusters = "clusters"
             case nextToken = "nextToken"
         }
     }
@@ -9774,12 +11435,102 @@ extension MediaLive {
         }
     }
 
+    public struct ListNetworksRequest: AWSEncodableShape {
+        /// The maximum number of items to return.
+        public let maxResults: Int?
+        /// The token to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListNetworksResponse: AWSDecodableShape {
+        /// An array of networks that you have created.
+        public let networks: [DescribeNetworkSummary]?
+        /// Token for the next ListNetworks request.
+        public let nextToken: String?
+
+        public init(networks: [DescribeNetworkSummary]? = nil, nextToken: String? = nil) {
+            self.networks = networks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networks = "networks"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNodesRequest: AWSEncodableShape {
+        /// The ID of the cluster
+        public let clusterId: String
+        /// The maximum number of items to return.
+        public let maxResults: Int?
+        /// The token to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(clusterId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.clusterId = clusterId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterId, key: "ClusterId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListNodesResponse: AWSDecodableShape {
+        /// Token for the next result.
+        public let nextToken: String?
+        /// An array of Nodes that exist in the Cluster.
+        public let nodes: [DescribeNodeSummary]?
+
+        public init(nextToken: String? = nil, nodes: [DescribeNodeSummary]? = nil) {
+            self.nextToken = nextToken
+            self.nodes = nodes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case nodes = "nodes"
+        }
+    }
+
     public struct ListOfferingsRequest: AWSEncodableShape {
         /// Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
         public let channelClass: String?
         /// Filter to offerings that match the configuration of an existing channel, e.g. '2345678' (a channel ID)
         public let channelConfiguration: String?
-        /// Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', or 'LINK'
+        /// Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', 'LINK', or 'AV1'
         public let codec: String?
         /// Filter by offering duration, e.g. '12'
         public let duration: String?
@@ -9858,7 +11609,7 @@ extension MediaLive {
     public struct ListReservationsRequest: AWSEncodableShape {
         /// Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
         public let channelClass: String?
-        /// Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', or 'LINK'
+        /// Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', 'LINK', or 'AV1'
         public let codec: String?
         /// Filter by bitrate, 'MAX_10_MBPS', 'MAX_20_MBPS', or 'MAX_50_MBPS'
         public let maximumBitrate: String?
@@ -10831,6 +12582,106 @@ extension MediaLive {
         }
     }
 
+    public struct MulticastInputSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Optionally, a source ip address to filter by for Source-specific Multicast (SSM)
+        public let sourceIpAddress: String?
+
+        public init(sourceIpAddress: String? = nil) {
+            self.sourceIpAddress = sourceIpAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceIpAddress = "sourceIpAddress"
+        }
+    }
+
+    public struct MulticastSettings: AWSDecodableShape {
+        public let sources: [MulticastSource]?
+
+        public init(sources: [MulticastSource]? = nil) {
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sources = "sources"
+        }
+    }
+
+    public struct MulticastSettingsCreateRequest: AWSEncodableShape {
+        public let sources: [MulticastSourceCreateRequest]?
+
+        public init(sources: [MulticastSourceCreateRequest]? = nil) {
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sources = "sources"
+        }
+    }
+
+    public struct MulticastSettingsUpdateRequest: AWSEncodableShape {
+        public let sources: [MulticastSourceUpdateRequest]?
+
+        public init(sources: [MulticastSourceUpdateRequest]? = nil) {
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sources = "sources"
+        }
+    }
+
+    public struct MulticastSource: AWSDecodableShape {
+        /// This represents the ip address of the device sending the multicast stream.
+        public let sourceIp: String?
+        /// This represents the customer's source URL where multicast stream is pulled from.
+        public let url: String?
+
+        public init(sourceIp: String? = nil, url: String? = nil) {
+            self.sourceIp = sourceIp
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceIp = "sourceIp"
+            case url = "url"
+        }
+    }
+
+    public struct MulticastSourceCreateRequest: AWSEncodableShape {
+        /// This represents the ip address of the device sending the multicast stream.
+        public let sourceIp: String?
+        /// This represents the customer's source URL where multicast stream is pulled from.
+        public let url: String?
+
+        public init(sourceIp: String? = nil, url: String? = nil) {
+            self.sourceIp = sourceIp
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceIp = "sourceIp"
+            case url = "url"
+        }
+    }
+
+    public struct MulticastSourceUpdateRequest: AWSEncodableShape {
+        /// This represents the ip address of the device sending the multicast stream.
+        public let sourceIp: String?
+        /// This represents the customer's source URL where multicast stream is pulled from.
+        public let url: String?
+
+        public init(sourceIp: String? = nil, url: String? = nil) {
+            self.sourceIp = sourceIp
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceIp = "sourceIp"
+            case url = "url"
+        }
+    }
+
     public struct Multiplex: AWSDecodableShape {
         /// The unique arn of the multiplex.
         public let arn: String?
@@ -10975,10 +12826,13 @@ extension MediaLive {
         }
     }
 
-    public struct MultiplexProgramPacketIdentifiersMap: AWSDecodableShape {
+    public struct MultiplexProgramPacketIdentifiersMap: AWSEncodableShape & AWSDecodableShape {
+        public let aribCaptionsPid: Int?
         public let audioPids: [Int]?
         public let dvbSubPids: [Int]?
         public let dvbTeletextPid: Int?
+        public let dvbTeletextPids: [Int]?
+        public let ecmPid: Int?
         public let etvPlatformPid: Int?
         public let etvSignalPid: Int?
         public let klvDataPids: [Int]?
@@ -10987,13 +12841,17 @@ extension MediaLive {
         public let privateMetadataPid: Int?
         public let scte27Pids: [Int]?
         public let scte35Pid: Int?
+        public let smpte2038Pid: Int?
         public let timedMetadataPid: Int?
         public let videoPid: Int?
 
-        public init(audioPids: [Int]? = nil, dvbSubPids: [Int]? = nil, dvbTeletextPid: Int? = nil, etvPlatformPid: Int? = nil, etvSignalPid: Int? = nil, klvDataPids: [Int]? = nil, pcrPid: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, scte27Pids: [Int]? = nil, scte35Pid: Int? = nil, timedMetadataPid: Int? = nil, videoPid: Int? = nil) {
+        public init(aribCaptionsPid: Int? = nil, audioPids: [Int]? = nil, dvbSubPids: [Int]? = nil, dvbTeletextPid: Int? = nil, dvbTeletextPids: [Int]? = nil, ecmPid: Int? = nil, etvPlatformPid: Int? = nil, etvSignalPid: Int? = nil, klvDataPids: [Int]? = nil, pcrPid: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, scte27Pids: [Int]? = nil, scte35Pid: Int? = nil, smpte2038Pid: Int? = nil, timedMetadataPid: Int? = nil, videoPid: Int? = nil) {
+            self.aribCaptionsPid = aribCaptionsPid
             self.audioPids = audioPids
             self.dvbSubPids = dvbSubPids
             self.dvbTeletextPid = dvbTeletextPid
+            self.dvbTeletextPids = dvbTeletextPids
+            self.ecmPid = ecmPid
             self.etvPlatformPid = etvPlatformPid
             self.etvSignalPid = etvSignalPid
             self.klvDataPids = klvDataPids
@@ -11002,14 +12860,18 @@ extension MediaLive {
             self.privateMetadataPid = privateMetadataPid
             self.scte27Pids = scte27Pids
             self.scte35Pid = scte35Pid
+            self.smpte2038Pid = smpte2038Pid
             self.timedMetadataPid = timedMetadataPid
             self.videoPid = videoPid
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aribCaptionsPid = "aribCaptionsPid"
             case audioPids = "audioPids"
             case dvbSubPids = "dvbSubPids"
             case dvbTeletextPid = "dvbTeletextPid"
+            case dvbTeletextPids = "dvbTeletextPids"
+            case ecmPid = "ecmPid"
             case etvPlatformPid = "etvPlatformPid"
             case etvSignalPid = "etvSignalPid"
             case klvDataPids = "klvDataPids"
@@ -11018,6 +12880,7 @@ extension MediaLive {
             case privateMetadataPid = "privateMetadataPid"
             case scte27Pids = "scte27Pids"
             case scte35Pid = "scte35Pid"
+            case smpte2038Pid = "smpte2038Pid"
             case timedMetadataPid = "timedMetadataPid"
             case videoPid = "videoPid"
         }
@@ -11165,7 +13028,7 @@ extension MediaLive {
         public let maximumBitrate: Int?
         /// Minimum statmux bitrate.
         public let minimumBitrate: Int?
-        /// The purpose of the priority is to use a combination of the\nmultiplex rate control algorithm and the QVBR capability of the\nencoder to prioritize the video quality of some channels in a\nmultiplex over others.  Channels that have a higher priority will\nget higher video quality at the expense of the video quality of\nother channels in the multiplex with lower priority.
+        /// The purpose of the priority is to use a combination of the\nmultiplex rate control algorithm and the QVBR capability of the\nencoder to prioritize the video quality of some channels in a\nmultiplex over others. Channels that have a higher priority will\nget higher video quality at the expense of the video quality of\nother channels in the multiplex with lower priority.
         public let priority: Int?
 
         public init(maximumBitrate: Int? = nil, minimumBitrate: Int? = nil, priority: Int? = nil) {
@@ -11263,11 +13126,14 @@ extension MediaLive {
     public struct NetworkInputSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specifies HLS input settings when the uri is for a HLS manifest.
         public let hlsInputSettings: HlsInputSettings?
+        /// Specifies multicast input settings when the uri is for a multicast event.
+        public let multicastInputSettings: MulticastInputSettings?
         /// Check HTTPS server certificates. When set to checkCryptographyOnly, cryptography in the certificate will be checked, but not the server's name. Certain subdomains (notably S3 buckets that use dots in the bucket name) do not strictly match the corresponding certificate's wildcard pattern and would otherwise cause the event to error. This setting is ignored for protocols that do not use https.
         public let serverValidation: NetworkInputServerValidation?
 
-        public init(hlsInputSettings: HlsInputSettings? = nil, serverValidation: NetworkInputServerValidation? = nil) {
+        public init(hlsInputSettings: HlsInputSettings? = nil, multicastInputSettings: MulticastInputSettings? = nil, serverValidation: NetworkInputServerValidation? = nil) {
             self.hlsInputSettings = hlsInputSettings
+            self.multicastInputSettings = multicastInputSettings
             self.serverValidation = serverValidation
         }
 
@@ -11277,6 +13143,7 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case hlsInputSettings = "hlsInputSettings"
+            case multicastInputSettings = "multicastInputSettings"
             case serverValidation = "serverValidation"
         }
     }
@@ -11381,6 +13248,47 @@ extension MediaLive {
         }
     }
 
+    public struct NodeInterfaceMapping: AWSEncodableShape & AWSDecodableShape {
+        /// A uniform logical interface name to address in a MediaLive channel configuration.
+        public let logicalInterfaceName: String?
+        public let networkInterfaceMode: NetworkInterfaceMode?
+        /// The name of the physical interface on the hardware that will be running Elemental anywhere.
+        public let physicalInterfaceName: String?
+
+        public init(logicalInterfaceName: String? = nil, networkInterfaceMode: NetworkInterfaceMode? = nil, physicalInterfaceName: String? = nil) {
+            self.logicalInterfaceName = logicalInterfaceName
+            self.networkInterfaceMode = networkInterfaceMode
+            self.physicalInterfaceName = physicalInterfaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logicalInterfaceName = "logicalInterfaceName"
+            case networkInterfaceMode = "networkInterfaceMode"
+            case physicalInterfaceName = "physicalInterfaceName"
+        }
+    }
+
+    public struct NodeInterfaceMappingCreateRequest: AWSEncodableShape {
+        /// Specify one of the logicalInterfaceNames that you created in the Cluster that this node belongs to. For example, my-Inputs-Interface.
+        public let logicalInterfaceName: String?
+        /// The style of the network -- NAT or BRIDGE.
+        public let networkInterfaceMode: NetworkInterfaceMode?
+        /// Specify the physical name that corresponds to the logicalInterfaceName that you specified in this interface mapping. For example, Eth1 or ENO1234EXAMPLE.
+        public let physicalInterfaceName: String?
+
+        public init(logicalInterfaceName: String? = nil, networkInterfaceMode: NetworkInterfaceMode? = nil, physicalInterfaceName: String? = nil) {
+            self.logicalInterfaceName = logicalInterfaceName
+            self.networkInterfaceMode = networkInterfaceMode
+            self.physicalInterfaceName = physicalInterfaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logicalInterfaceName = "logicalInterfaceName"
+            case networkInterfaceMode = "networkInterfaceMode"
+            case physicalInterfaceName = "physicalInterfaceName"
+        }
+    }
+
     public struct Offering: AWSDecodableShape {
         /// Unique offering ARN, e.g. 'arn:aws:medialive:us-west-2:123456789012:offering:87654321'
         public let arn: String?
@@ -11478,12 +13386,15 @@ extension MediaLive {
         public let multiplexSettings: MultiplexProgramChannelDestinationSettings?
         /// Destination settings for a standard output; one destination for each redundant encoder.
         public let settings: [OutputDestinationSettings]?
+        /// SRT settings for an SRT output; one destination for each redundant encoder.
+        public let srtSettings: [SrtOutputDestinationSettings]?
 
-        public init(id: String? = nil, mediaPackageSettings: [MediaPackageOutputDestinationSettings]? = nil, multiplexSettings: MultiplexProgramChannelDestinationSettings? = nil, settings: [OutputDestinationSettings]? = nil) {
+        public init(id: String? = nil, mediaPackageSettings: [MediaPackageOutputDestinationSettings]? = nil, multiplexSettings: MultiplexProgramChannelDestinationSettings? = nil, settings: [OutputDestinationSettings]? = nil, srtSettings: [SrtOutputDestinationSettings]? = nil) {
             self.id = id
             self.mediaPackageSettings = mediaPackageSettings
             self.multiplexSettings = multiplexSettings
             self.settings = settings
+            self.srtSettings = srtSettings
         }
 
         public func validate(name: String) throws {
@@ -11498,6 +13409,7 @@ extension MediaLive {
             case mediaPackageSettings = "mediaPackageSettings"
             case multiplexSettings = "multiplexSettings"
             case settings = "settings"
+            case srtSettings = "srtSettings"
         }
     }
 
@@ -11563,9 +13475,10 @@ extension MediaLive {
         public let msSmoothGroupSettings: MsSmoothGroupSettings?
         public let multiplexGroupSettings: MultiplexGroupSettings?
         public let rtmpGroupSettings: RtmpGroupSettings?
+        public let srtGroupSettings: SrtGroupSettings?
         public let udpGroupSettings: UdpGroupSettings?
 
-        public init(archiveGroupSettings: ArchiveGroupSettings? = nil, cmafIngestGroupSettings: CmafIngestGroupSettings? = nil, frameCaptureGroupSettings: FrameCaptureGroupSettings? = nil, hlsGroupSettings: HlsGroupSettings? = nil, mediaPackageGroupSettings: MediaPackageGroupSettings? = nil, msSmoothGroupSettings: MsSmoothGroupSettings? = nil, multiplexGroupSettings: MultiplexGroupSettings? = nil, rtmpGroupSettings: RtmpGroupSettings? = nil, udpGroupSettings: UdpGroupSettings? = nil) {
+        public init(archiveGroupSettings: ArchiveGroupSettings? = nil, cmafIngestGroupSettings: CmafIngestGroupSettings? = nil, frameCaptureGroupSettings: FrameCaptureGroupSettings? = nil, hlsGroupSettings: HlsGroupSettings? = nil, mediaPackageGroupSettings: MediaPackageGroupSettings? = nil, msSmoothGroupSettings: MsSmoothGroupSettings? = nil, multiplexGroupSettings: MultiplexGroupSettings? = nil, rtmpGroupSettings: RtmpGroupSettings? = nil, srtGroupSettings: SrtGroupSettings? = nil, udpGroupSettings: UdpGroupSettings? = nil) {
             self.archiveGroupSettings = archiveGroupSettings
             self.cmafIngestGroupSettings = cmafIngestGroupSettings
             self.frameCaptureGroupSettings = frameCaptureGroupSettings
@@ -11574,6 +13487,7 @@ extension MediaLive {
             self.msSmoothGroupSettings = msSmoothGroupSettings
             self.multiplexGroupSettings = multiplexGroupSettings
             self.rtmpGroupSettings = rtmpGroupSettings
+            self.srtGroupSettings = srtGroupSettings
             self.udpGroupSettings = udpGroupSettings
         }
 
@@ -11595,6 +13509,7 @@ extension MediaLive {
             case msSmoothGroupSettings = "msSmoothGroupSettings"
             case multiplexGroupSettings = "multiplexGroupSettings"
             case rtmpGroupSettings = "rtmpGroupSettings"
+            case srtGroupSettings = "srtGroupSettings"
             case udpGroupSettings = "udpGroupSettings"
         }
     }
@@ -11635,9 +13550,10 @@ extension MediaLive {
         public let msSmoothOutputSettings: MsSmoothOutputSettings?
         public let multiplexOutputSettings: MultiplexOutputSettings?
         public let rtmpOutputSettings: RtmpOutputSettings?
+        public let srtOutputSettings: SrtOutputSettings?
         public let udpOutputSettings: UdpOutputSettings?
 
-        public init(archiveOutputSettings: ArchiveOutputSettings? = nil, cmafIngestOutputSettings: CmafIngestOutputSettings? = nil, frameCaptureOutputSettings: FrameCaptureOutputSettings? = nil, hlsOutputSettings: HlsOutputSettings? = nil, mediaPackageOutputSettings: MediaPackageOutputSettings? = nil, msSmoothOutputSettings: MsSmoothOutputSettings? = nil, multiplexOutputSettings: MultiplexOutputSettings? = nil, rtmpOutputSettings: RtmpOutputSettings? = nil, udpOutputSettings: UdpOutputSettings? = nil) {
+        public init(archiveOutputSettings: ArchiveOutputSettings? = nil, cmafIngestOutputSettings: CmafIngestOutputSettings? = nil, frameCaptureOutputSettings: FrameCaptureOutputSettings? = nil, hlsOutputSettings: HlsOutputSettings? = nil, mediaPackageOutputSettings: MediaPackageOutputSettings? = nil, msSmoothOutputSettings: MsSmoothOutputSettings? = nil, multiplexOutputSettings: MultiplexOutputSettings? = nil, rtmpOutputSettings: RtmpOutputSettings? = nil, srtOutputSettings: SrtOutputSettings? = nil, udpOutputSettings: UdpOutputSettings? = nil) {
             self.archiveOutputSettings = archiveOutputSettings
             self.cmafIngestOutputSettings = cmafIngestOutputSettings
             self.frameCaptureOutputSettings = frameCaptureOutputSettings
@@ -11646,6 +13562,7 @@ extension MediaLive {
             self.msSmoothOutputSettings = msSmoothOutputSettings
             self.multiplexOutputSettings = multiplexOutputSettings
             self.rtmpOutputSettings = rtmpOutputSettings
+            self.srtOutputSettings = srtOutputSettings
             self.udpOutputSettings = udpOutputSettings
         }
 
@@ -11653,6 +13570,7 @@ extension MediaLive {
             try self.archiveOutputSettings?.validate(name: "\(name).archiveOutputSettings")
             try self.hlsOutputSettings?.validate(name: "\(name).hlsOutputSettings")
             try self.rtmpOutputSettings?.validate(name: "\(name).rtmpOutputSettings")
+            try self.srtOutputSettings?.validate(name: "\(name).srtOutputSettings")
             try self.udpOutputSettings?.validate(name: "\(name).udpOutputSettings")
         }
 
@@ -11665,6 +13583,7 @@ extension MediaLive {
             case msSmoothOutputSettings = "msSmoothOutputSettings"
             case multiplexOutputSettings = "multiplexOutputSettings"
             case rtmpOutputSettings = "rtmpOutputSettings"
+            case srtOutputSettings = "srtOutputSettings"
             case udpOutputSettings = "udpOutputSettings"
         }
     }
@@ -12059,6 +13978,8 @@ extension MediaLive {
     }
 
     public struct RestartChannelPipelinesResponse: AWSDecodableShape {
+        /// Anywhere settings for this channel.
+        public let anywhereSettings: DescribeAnywhereSettings?
         /// The unique arn of the channel.
         public let arn: String?
         /// Specification of CDI inputs for this channel
@@ -12098,7 +14019,8 @@ extension MediaLive {
         /// Settings for VPC output
         public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, maintenanceStatus: String? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, maintenanceStatus: String? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+            self.anywhereSettings = anywhereSettings
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -12121,6 +14043,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anywhereSettings = "anywhereSettings"
             case arn = "arn"
             case cdiInputSpecification = "cdiInputSpecification"
             case channelClass = "channelClass"
@@ -12140,6 +14063,57 @@ extension MediaLive {
             case state = "state"
             case tags = "tags"
             case vpc = "vpc"
+        }
+    }
+
+    public struct Route: AWSDecodableShape {
+        /// A CIDR block for one Route.
+        public let cidr: String?
+        /// The IP address of the Gateway for this route, if applicable.
+        public let gateway: String?
+
+        public init(cidr: String? = nil, gateway: String? = nil) {
+            self.cidr = cidr
+            self.gateway = gateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
+            case gateway = "gateway"
+        }
+    }
+
+    public struct RouteCreateRequest: AWSEncodableShape {
+        /// A CIDR block for one Route.
+        public let cidr: String?
+        /// The IP address of the Gateway for this route, if applicable.
+        public let gateway: String?
+
+        public init(cidr: String? = nil, gateway: String? = nil) {
+            self.cidr = cidr
+            self.gateway = gateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
+            case gateway = "gateway"
+        }
+    }
+
+    public struct RouteUpdateRequest: AWSEncodableShape {
+        /// A CIDR block for one Route.
+        public let cidr: String?
+        /// The IP address of the Gateway for this route, if applicable.
+        public let gateway: String?
+
+        public init(cidr: String? = nil, gateway: String? = nil) {
+            self.cidr = cidr
+            self.gateway = gateway
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
+            case gateway = "gateway"
         }
     }
 
@@ -12800,6 +14774,75 @@ extension MediaLive {
         }
     }
 
+    public struct SrtGroupSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies behavior of last resort when input video is lost, and no more backup inputs are available. When dropTs is selected the entire transport stream will stop being emitted.  When dropProgram is selected the program can be dropped from the transport stream (and replaced with null packets to meet the TS bitrate requirement).  Or, when emitProgram is chosen the transport stream will continue to be produced normally with repeat frames, black frames, or slate frames substituted for the absent input video.
+        public let inputLossAction: InputLossActionForUdpOut?
+
+        public init(inputLossAction: InputLossActionForUdpOut? = nil) {
+            self.inputLossAction = inputLossAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputLossAction = "inputLossAction"
+        }
+    }
+
+    public struct SrtOutputDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Arn used to extract the password from Secrets Manager
+        public let encryptionPassphraseSecretArn: String?
+        /// Stream id for SRT destinations (URLs of type srt://)
+        public let streamId: String?
+        /// A URL specifying a destination
+        public let url: String?
+
+        public init(encryptionPassphraseSecretArn: String? = nil, streamId: String? = nil, url: String? = nil) {
+            self.encryptionPassphraseSecretArn = encryptionPassphraseSecretArn
+            self.streamId = streamId
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionPassphraseSecretArn = "encryptionPassphraseSecretArn"
+            case streamId = "streamId"
+            case url = "url"
+        }
+    }
+
+    public struct SrtOutputSettings: AWSEncodableShape & AWSDecodableShape {
+        /// SRT output buffering in milliseconds. A higher value increases latency through the encoder. But the benefits are that it helps to maintain a constant, low-jitter SRT output, and it accommodates clock recovery, input switching, input disruptions, picture reordering, and so on. Range: 0-10000 milliseconds.
+        public let bufferMsec: Int?
+        public let containerSettings: UdpContainerSettings?
+        public let destination: OutputLocationRef?
+        /// The encryption level for the content. Valid values are AES128, AES192, AES256. You and the downstream system should plan how to set this field because the values must not conflict with each other.
+        public let encryptionType: SrtEncryptionType?
+        /// The latency value, in milliseconds, that is proposed during the SRT connection handshake. SRT will choose the maximum of the values proposed by the sender and receiver. On the sender side, latency is the amount of time a packet is held to give it a chance to be delivered successfully. On the receiver side, latency is the amount of time the packet is held before delivering to the application, aiding in packet recovery and matching as closely as possible the packet timing of the sender. Range: 40-16000 milliseconds.
+        public let latency: Int?
+
+        public init(bufferMsec: Int? = nil, containerSettings: UdpContainerSettings? = nil, destination: OutputLocationRef? = nil, encryptionType: SrtEncryptionType? = nil, latency: Int? = nil) {
+            self.bufferMsec = bufferMsec
+            self.containerSettings = containerSettings
+            self.destination = destination
+            self.encryptionType = encryptionType
+            self.latency = latency
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bufferMsec, name: "bufferMsec", parent: name, max: 10000)
+            try self.validate(self.bufferMsec, name: "bufferMsec", parent: name, min: 0)
+            try self.containerSettings?.validate(name: "\(name).containerSettings")
+            try self.validate(self.latency, name: "latency", parent: name, max: 16000)
+            try self.validate(self.latency, name: "latency", parent: name, min: 40)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bufferMsec = "bufferMsec"
+            case containerSettings = "containerSettings"
+            case destination = "destination"
+            case encryptionType = "encryptionType"
+            case latency = "latency"
+        }
+    }
+
     public struct SrtSettings: AWSDecodableShape {
         public let srtCallerSources: [SrtCallerSource]?
 
@@ -12862,6 +14905,8 @@ extension MediaLive {
     }
 
     public struct StartChannelResponse: AWSDecodableShape {
+        /// Anywhere settings for this channel.
+        public let anywhereSettings: DescribeAnywhereSettings?
         /// The unique arn of the channel.
         public let arn: String?
         /// Specification of CDI inputs for this channel
@@ -12899,7 +14944,8 @@ extension MediaLive {
         /// Settings for VPC output
         public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+            self.anywhereSettings = anywhereSettings
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -12921,6 +14967,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anywhereSettings = "anywhereSettings"
             case arn = "arn"
             case cdiInputSpecification = "cdiInputSpecification"
             case channelClass = "channelClass"
@@ -13605,6 +15652,8 @@ extension MediaLive {
     }
 
     public struct StopChannelResponse: AWSDecodableShape {
+        /// Anywhere settings for this channel.
+        public let anywhereSettings: DescribeAnywhereSettings?
         /// The unique arn of the channel.
         public let arn: String?
         /// Specification of CDI inputs for this channel
@@ -13642,7 +15691,8 @@ extension MediaLive {
         /// Settings for VPC output
         public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+            self.anywhereSettings = anywhereSettings
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -13664,6 +15714,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anywhereSettings = "anywhereSettings"
             case arn = "arn"
             case cdiInputSpecification = "cdiInputSpecification"
             case channelClass = "channelClass"
@@ -14168,6 +16219,75 @@ extension MediaLive {
         }
     }
 
+    public struct UpdateChannelPlacementGroupRequest: AWSEncodableShape {
+        /// The ID of the channel placement group.
+        public let channelPlacementGroupId: String
+        /// The ID of the cluster.
+        public let clusterId: String
+        /// Include this parameter only if you want to change the current name of the ChannelPlacementGroup. Specify a name that is unique in the Cluster. You can't change the name. Names are case-sensitive.
+        public let name: String?
+        /// Include this parameter only if you want to change the list of Nodes that are associated with the ChannelPlacementGroup.
+        public let nodes: [String]?
+
+        public init(channelPlacementGroupId: String, clusterId: String, name: String? = nil, nodes: [String]? = nil) {
+            self.channelPlacementGroupId = channelPlacementGroupId
+            self.clusterId = clusterId
+            self.name = name
+            self.nodes = nodes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelPlacementGroupId, key: "ChannelPlacementGroupId")
+            request.encodePath(self.clusterId, key: "ClusterId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.nodes, forKey: .nodes)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case nodes = "nodes"
+        }
+    }
+
+    public struct UpdateChannelPlacementGroupResponse: AWSDecodableShape {
+        /// The ARN of this ChannelPlacementGroup. It is automatically assigned when the ChannelPlacementGroup is created.
+        public let arn: String?
+        /// Used in ListChannelPlacementGroupsResult
+        public let channels: [String]?
+        /// The ID of the Cluster that the Node belongs to.
+        public let clusterId: String?
+        /// The ID of the ChannelPlacementGroup. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The name that you specified for the ChannelPlacementGroup.
+        public let name: String?
+        /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+        public let nodes: [String]?
+        /// The current state of the ChannelPlacementGroup.
+        public let state: ChannelPlacementGroupState?
+
+        public init(arn: String? = nil, channels: [String]? = nil, clusterId: String? = nil, id: String? = nil, name: String? = nil, nodes: [String]? = nil, state: ChannelPlacementGroupState? = nil) {
+            self.arn = arn
+            self.channels = channels
+            self.clusterId = clusterId
+            self.id = id
+            self.name = name
+            self.nodes = nodes
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channels = "channels"
+            case clusterId = "clusterId"
+            case id = "id"
+            case name = "name"
+            case nodes = "nodes"
+            case state = "state"
+        }
+    }
+
     public struct UpdateChannelRequest: AWSEncodableShape {
         /// Specification of CDI inputs for this channel
         public let cdiInputSpecification: CdiInputSpecification?
@@ -14475,6 +16595,71 @@ extension MediaLive {
         }
     }
 
+    public struct UpdateClusterRequest: AWSEncodableShape {
+        /// The ID of the cluster
+        public let clusterId: String
+        /// Include this parameter only if you want to change the current name of the Cluster. Specify a name that is unique in the AWS account. You can't change the name. Names are case-sensitive.
+        public let name: String?
+        /// Include this property only if you want to change the current connections between the Nodes in the Cluster and the Networks the Cluster is associated with.
+        public let networkSettings: ClusterNetworkSettingsUpdateRequest?
+
+        public init(clusterId: String, name: String? = nil, networkSettings: ClusterNetworkSettingsUpdateRequest? = nil) {
+            self.clusterId = clusterId
+            self.name = name
+            self.networkSettings = networkSettings
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterId, key: "ClusterId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.networkSettings, forKey: .networkSettings)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case networkSettings = "networkSettings"
+        }
+    }
+
+    public struct UpdateClusterResponse: AWSDecodableShape {
+        /// The ARN of the Cluster.
+        public let arn: String?
+        /// An array of the IDs of the Channels that are associated with this Cluster. One Channel is associated with the Cluster as follows: A Channel belongs to a ChannelPlacementGroup. A ChannelPlacementGroup is attached to a Node. A Node belongs to a Cluster.
+        public let channelIds: [String]?
+        /// The hardware type for the Cluster
+        public let clusterType: ClusterType?
+        /// The unique ID of the Cluster.
+        public let id: String?
+        /// The user-specified name of the Cluster.
+        public let name: String?
+        /// Network settings that connect the Nodes in the Cluster to one or more of the Networks that the Cluster is associated with.
+        public let networkSettings: ClusterNetworkSettings?
+        /// The current state of the Cluster.
+        public let state: ClusterState?
+
+        public init(arn: String? = nil, channelIds: [String]? = nil, clusterType: ClusterType? = nil, id: String? = nil, name: String? = nil, networkSettings: ClusterNetworkSettings? = nil, state: ClusterState? = nil) {
+            self.arn = arn
+            self.channelIds = channelIds
+            self.clusterType = clusterType
+            self.id = id
+            self.name = name
+            self.networkSettings = networkSettings
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channelIds = "channelIds"
+            case clusterType = "clusterType"
+            case id = "id"
+            case name = "name"
+            case networkSettings = "networkSettings"
+            case state = "state"
+        }
+    }
+
     public struct UpdateEventBridgeRuleTemplateGroupRequest: AWSEncodableShape {
         /// A resource's optional description.
         public let description: String?
@@ -14760,6 +16945,8 @@ extension MediaLive {
         /// Flow and presently, as many as two. The only requirement is when you have more than one is that each Flow is in a
         /// separate Availability Zone as this ensures your EML input is redundant to AZ issues.
         public let mediaConnectFlows: [MediaConnectFlowRequest]?
+        /// Multicast Input settings.
+        public let multicastSettings: MulticastSettingsUpdateRequest?
         /// Name of the input.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
@@ -14771,12 +16958,13 @@ extension MediaLive {
         /// The settings associated with an SRT input.
         public let srtSettings: SrtSettingsRequest?
 
-        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceRequest]? = nil, inputId: String, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil, srtSettings: SrtSettingsRequest? = nil) {
+        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceRequest]? = nil, inputId: String, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, multicastSettings: MulticastSettingsUpdateRequest? = nil, name: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil, srtSettings: SrtSettingsRequest? = nil) {
             self.destinations = destinations
             self.inputDevices = inputDevices
             self.inputId = inputId
             self.inputSecurityGroups = inputSecurityGroups
             self.mediaConnectFlows = mediaConnectFlows
+            self.multicastSettings = multicastSettings
             self.name = name
             self.roleArn = roleArn
             self.sources = sources
@@ -14791,6 +16979,7 @@ extension MediaLive {
             request.encodePath(self.inputId, key: "InputId")
             try container.encodeIfPresent(self.inputSecurityGroups, forKey: .inputSecurityGroups)
             try container.encodeIfPresent(self.mediaConnectFlows, forKey: .mediaConnectFlows)
+            try container.encodeIfPresent(self.multicastSettings, forKey: .multicastSettings)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
             try container.encodeIfPresent(self.sources, forKey: .sources)
@@ -14802,6 +16991,7 @@ extension MediaLive {
             case inputDevices = "inputDevices"
             case inputSecurityGroups = "inputSecurityGroups"
             case mediaConnectFlows = "mediaConnectFlows"
+            case multicastSettings = "multicastSettings"
             case name = "name"
             case roleArn = "roleArn"
             case sources = "sources"
@@ -14912,11 +17102,13 @@ extension MediaLive {
         public let multiplexSettings: MultiplexSettings?
         /// Name of the multiplex.
         public let name: String?
+        public let packetIdentifiersMapping: [String: MultiplexProgramPacketIdentifiersMap]?
 
-        public init(multiplexId: String, multiplexSettings: MultiplexSettings? = nil, name: String? = nil) {
+        public init(multiplexId: String, multiplexSettings: MultiplexSettings? = nil, name: String? = nil, packetIdentifiersMapping: [String: MultiplexProgramPacketIdentifiersMap]? = nil) {
             self.multiplexId = multiplexId
             self.multiplexSettings = multiplexSettings
             self.name = name
+            self.packetIdentifiersMapping = packetIdentifiersMapping
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -14925,6 +17117,7 @@ extension MediaLive {
             request.encodePath(self.multiplexId, key: "MultiplexId")
             try container.encodeIfPresent(self.multiplexSettings, forKey: .multiplexSettings)
             try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.packetIdentifiersMapping, forKey: .packetIdentifiersMapping)
         }
 
         public func validate(name: String) throws {
@@ -14934,6 +17127,7 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case multiplexSettings = "multiplexSettings"
             case name = "name"
+            case packetIdentifiersMapping = "packetIdentifiersMapping"
         }
     }
 
@@ -14947,6 +17141,232 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case multiplex = "multiplex"
+        }
+    }
+
+    public struct UpdateNetworkRequest: AWSEncodableShape {
+        /// Include this parameter only if you want to change the pool of IP addresses in the network. An array of IpPoolCreateRequests that identify a collection of IP addresses in this network that you want to reserve for use in MediaLive Anywhere. MediaLive Anywhere uses these IP addresses for Push inputs (in both Bridge and NAT networks) and for output destinations (only in Bridge networks). Each IpPoolUpdateRequest specifies one CIDR block.
+        public let ipPools: [IpPoolUpdateRequest]?
+        /// Include this parameter only if you want to change the name of the Network. Specify a name that is unique in the AWS account. Names are case-sensitive.
+        public let name: String?
+        /// The ID of the network
+        public let networkId: String
+        /// Include this parameter only if you want to change or add routes in the Network. An array of Routes that MediaLive Anywhere needs to know about in order to route encoding traffic.
+        public let routes: [RouteUpdateRequest]?
+
+        public init(ipPools: [IpPoolUpdateRequest]? = nil, name: String? = nil, networkId: String, routes: [RouteUpdateRequest]? = nil) {
+            self.ipPools = ipPools
+            self.name = name
+            self.networkId = networkId
+            self.routes = routes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.ipPools, forKey: .ipPools)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.networkId, key: "NetworkId")
+            try container.encodeIfPresent(self.routes, forKey: .routes)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipPools = "ipPools"
+            case name = "name"
+            case routes = "routes"
+        }
+    }
+
+    public struct UpdateNetworkResponse: AWSDecodableShape {
+        /// The ARN of this Network. It is automatically assigned when the Network is created.
+        public let arn: String?
+        public let associatedClusterIds: [String]?
+        /// The ID of the Network. Unique in the AWS account. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// An array of IpPools in your organization's network that identify a collection of IP addresses in this network that are reserved for use in MediaLive Anywhere. MediaLive Anywhere uses these IP addresses for Push inputs (in both Bridge and NAT networks) and for output destinations (only in Bridge networks). Each IpPool specifies one CIDR block.
+        public let ipPools: [IpPool]?
+        /// The name that you specified for the Network.
+        public let name: String?
+        /// An array of Routes that MediaLive Anywhere needs to know about in order to route encoding traffic.
+        public let routes: [Route]?
+        /// The current state of the Network. Only MediaLive Anywhere can change the state.
+        public let state: NetworkState?
+
+        public init(arn: String? = nil, associatedClusterIds: [String]? = nil, id: String? = nil, ipPools: [IpPool]? = nil, name: String? = nil, routes: [Route]? = nil, state: NetworkState? = nil) {
+            self.arn = arn
+            self.associatedClusterIds = associatedClusterIds
+            self.id = id
+            self.ipPools = ipPools
+            self.name = name
+            self.routes = routes
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case associatedClusterIds = "associatedClusterIds"
+            case id = "id"
+            case ipPools = "ipPools"
+            case name = "name"
+            case routes = "routes"
+            case state = "state"
+        }
+    }
+
+    public struct UpdateNodeRequest: AWSEncodableShape {
+        /// The ID of the cluster
+        public let clusterId: String
+        /// Include this parameter only if you want to change the current name of the Node. Specify a name that is unique in the Cluster. You can't change the name. Names are case-sensitive.
+        public let name: String?
+        /// The ID of the node.
+        public let nodeId: String
+        /// The initial role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+        public let role: NodeRole?
+
+        public init(clusterId: String, name: String? = nil, nodeId: String, role: NodeRole? = nil) {
+            self.clusterId = clusterId
+            self.name = name
+            self.nodeId = nodeId
+            self.role = role
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterId, key: "ClusterId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.nodeId, key: "NodeId")
+            try container.encodeIfPresent(self.role, forKey: .role)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case role = "role"
+        }
+    }
+
+    public struct UpdateNodeResponse: AWSDecodableShape {
+        /// The ARN of the Node. It is automatically assigned when the Node is created.
+        public let arn: String?
+        /// An array of IDs. Each ID is one ChannelPlacementGroup that is associated with this Node. Empty if the Node is not yet associated with any groups.
+        public let channelPlacementGroups: [String]?
+        /// The ID of the Cluster that the Node belongs to.
+        public let clusterId: String?
+        /// The current connection state of the Node.
+        public let connectionState: NodeConnectionState?
+        /// The unique ID of the Node. Unique in the Cluster. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The ARN of the EC2 instance hosting the Node.
+        public let instanceArn: String?
+        /// The name that you specified for the Node.
+        public let name: String?
+        /// Documentation update needed
+        public let nodeInterfaceMappings: [NodeInterfaceMapping]?
+        /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+        public let role: NodeRole?
+        /// The current state of the Node.
+        public let state: NodeState?
+
+        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, state: NodeState? = nil) {
+            self.arn = arn
+            self.channelPlacementGroups = channelPlacementGroups
+            self.clusterId = clusterId
+            self.connectionState = connectionState
+            self.id = id
+            self.instanceArn = instanceArn
+            self.name = name
+            self.nodeInterfaceMappings = nodeInterfaceMappings
+            self.role = role
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channelPlacementGroups = "channelPlacementGroups"
+            case clusterId = "clusterId"
+            case connectionState = "connectionState"
+            case id = "id"
+            case instanceArn = "instanceArn"
+            case name = "name"
+            case nodeInterfaceMappings = "nodeInterfaceMappings"
+            case role = "role"
+            case state = "state"
+        }
+    }
+
+    public struct UpdateNodeStateRequest: AWSEncodableShape {
+        /// The ID of the cluster
+        public let clusterId: String
+        /// The ID of the node.
+        public let nodeId: String
+        /// The state to apply to the Node. Set to ACTIVE (COMMISSIONED) to indicate that the Node is deployable. MediaLive Anywhere will consider this node it needs a Node to run a Channel on, or when it needs a Node to promote from a backup node to an active node. Set to DRAINING to isolate the Node so that MediaLive Anywhere won't use it.
+        public let state: UpdateNodeStateShape?
+
+        public init(clusterId: String, nodeId: String, state: UpdateNodeStateShape? = nil) {
+            self.clusterId = clusterId
+            self.nodeId = nodeId
+            self.state = state
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterId, key: "ClusterId")
+            request.encodePath(self.nodeId, key: "NodeId")
+            try container.encodeIfPresent(self.state, forKey: .state)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+        }
+    }
+
+    public struct UpdateNodeStateResponse: AWSDecodableShape {
+        /// The ARN of the Node. It is automatically assigned when the Node is created.
+        public let arn: String?
+        /// An array of IDs. Each ID is one ChannelPlacementGroup that is associated with this Node. Empty if the Node is not yet associated with any groups.
+        public let channelPlacementGroups: [String]?
+        /// The ID of the Cluster that the Node belongs to.
+        public let clusterId: String?
+        /// The current connection state of the Node.
+        public let connectionState: NodeConnectionState?
+        /// The unique ID of the Node. Unique in the Cluster. The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The ARN of the EC2 instance hosting the Node.
+        public let instanceArn: String?
+        /// The name that you specified for the Node.
+        public let name: String?
+        /// Documentation update needed
+        public let nodeInterfaceMappings: [NodeInterfaceMapping]?
+        /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+        public let role: NodeRole?
+        /// The current state of the Node.
+        public let state: NodeState?
+
+        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, state: NodeState? = nil) {
+            self.arn = arn
+            self.channelPlacementGroups = channelPlacementGroups
+            self.clusterId = clusterId
+            self.connectionState = connectionState
+            self.id = id
+            self.instanceArn = instanceArn
+            self.name = name
+            self.nodeInterfaceMappings = nodeInterfaceMappings
+            self.role = role
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case channelPlacementGroups = "channelPlacementGroups"
+            case clusterId = "clusterId"
+            case connectionState = "connectionState"
+            case id = "id"
+            case instanceArn = "instanceArn"
+            case name = "name"
+            case nodeInterfaceMappings = "nodeInterfaceMappings"
+            case role = "role"
+            case state = "state"
         }
     }
 
@@ -15016,12 +17436,14 @@ extension MediaLive {
     }
 
     public struct VideoCodecSettings: AWSEncodableShape & AWSDecodableShape {
+        public let av1Settings: Av1Settings?
         public let frameCaptureSettings: FrameCaptureSettings?
         public let h264Settings: H264Settings?
         public let h265Settings: H265Settings?
         public let mpeg2Settings: Mpeg2Settings?
 
-        public init(frameCaptureSettings: FrameCaptureSettings? = nil, h264Settings: H264Settings? = nil, h265Settings: H265Settings? = nil, mpeg2Settings: Mpeg2Settings? = nil) {
+        public init(av1Settings: Av1Settings? = nil, frameCaptureSettings: FrameCaptureSettings? = nil, h264Settings: H264Settings? = nil, h265Settings: H265Settings? = nil, mpeg2Settings: Mpeg2Settings? = nil) {
+            self.av1Settings = av1Settings
             self.frameCaptureSettings = frameCaptureSettings
             self.h264Settings = h264Settings
             self.h265Settings = h265Settings
@@ -15029,6 +17451,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.av1Settings?.validate(name: "\(name).av1Settings")
             try self.frameCaptureSettings?.validate(name: "\(name).frameCaptureSettings")
             try self.h264Settings?.validate(name: "\(name).h264Settings")
             try self.h265Settings?.validate(name: "\(name).h265Settings")
@@ -15036,6 +17459,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case av1Settings = "av1Settings"
             case frameCaptureSettings = "frameCaptureSettings"
             case h264Settings = "h264Settings"
             case h265Settings = "h265Settings"

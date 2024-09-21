@@ -56,6 +56,13 @@ extension StorageGateway {
         public var description: String { return self.rawValue }
     }
 
+    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dsseKms = "DsseKms"
+        case sseKms = "SseKms"
+        case sseS3 = "SseS3"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FileShareType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case nfs = "NFS"
         case smb = "SMB"
@@ -491,6 +498,7 @@ extension StorageGateway {
             try self.validate(self.targetName, name: "targetName", parent: name, pattern: "^[-\\.;a-z0-9]+$")
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -848,6 +856,7 @@ extension StorageGateway {
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "^\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z$")
             try self.validate(self.sourceVolumeARN, name: "sourceVolumeARN", parent: name, max: 500)
             try self.validate(self.sourceVolumeARN, name: "sourceVolumeARN", parent: name, min: 50)
+            try self.validate(self.sourceVolumeARN, name: "sourceVolumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -900,21 +909,23 @@ extension StorageGateway {
         public let clientToken: String
         /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
+        /// A value that specifies the type of server-side encryption that the file share will use for the data that it stores in Amazon S3.  We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.
+        public let encryptionType: EncryptionType?
         /// The name of the file share. Optional.   FileShareName must be set if an S3 prefix name is set in LocationARN, or if an access point or access point alias is used.
         public let fileShareName: String?
         /// The Amazon Resource Name (ARN) of the S3 File Gateway on which you want to create a file share.
         public let gatewayARN: String
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false
         public let guessMIMETypeEnabled: Bool?
-        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the EncryptionType parameter instead.  We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.  Valid Values: true | false
         public let kmsEncrypted: Bool?
-        /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
+        /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true, or if EncryptionType is SseKms or DsseKms.
         public let kmsKey: String?
         /// A custom ARN for the backend storage used for storing data for file shares. It includes a resource ARN with an optional prefix concatenation. The prefix must end with a forward slash (/).  You can specify LocationARN as a bucket ARN, access point ARN or access point alias, as shown in the following examples. Bucket ARN:  arn:aws:s3:::my-bucket/prefix/  Access point ARN:  arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/  If you specify an access point, the bucket policy must be configured to delegate access control to the access point. For information, see Delegating access control to access points in the Amazon S3 User Guide. Access point alias:  test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias
         public let locationARN: String
         /// File share default values. Optional.
         public let nfsFileShareDefaults: NFSFileShareDefaults?
-        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
+        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. This setting is not meant to specify an exact time at which the notification will be sent. In some cases, the gateway might require more than the specified delay time to generate and send notifications.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?
@@ -931,13 +942,40 @@ extension StorageGateway {
         /// Specifies the DNS name for the VPC endpoint that the NFS file share uses to connect to Amazon S3.  This parameter is required for NFS file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
         public let vpcEndpointDNSName: String?
 
-        public init(auditDestinationARN: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, clientToken: String, defaultStorageClass: String? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, locationARN: String, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, squash: String? = nil, tags: [Tag]? = nil, vpcEndpointDNSName: String? = nil) {
+        public init(auditDestinationARN: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, clientToken: String, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, kmsKey: String? = nil, locationARN: String, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, squash: String? = nil, tags: [Tag]? = nil, vpcEndpointDNSName: String? = nil) {
             self.auditDestinationARN = auditDestinationARN
             self.bucketRegion = bucketRegion
             self.cacheAttributes = cacheAttributes
             self.clientList = clientList
             self.clientToken = clientToken
             self.defaultStorageClass = defaultStorageClass
+            self.encryptionType = encryptionType
+            self.fileShareName = fileShareName
+            self.gatewayARN = gatewayARN
+            self.guessMIMETypeEnabled = guessMIMETypeEnabled
+            self.kmsEncrypted = nil
+            self.kmsKey = kmsKey
+            self.locationARN = locationARN
+            self.nfsFileShareDefaults = nfsFileShareDefaults
+            self.notificationPolicy = notificationPolicy
+            self.objectACL = objectACL
+            self.readOnly = readOnly
+            self.requesterPays = requesterPays
+            self.role = role
+            self.squash = squash
+            self.tags = tags
+            self.vpcEndpointDNSName = vpcEndpointDNSName
+        }
+
+        @available(*, deprecated, message: "Members kmsEncrypted have been deprecated")
+        public init(auditDestinationARN: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, clientToken: String, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, locationARN: String, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, squash: String? = nil, tags: [Tag]? = nil, vpcEndpointDNSName: String? = nil) {
+            self.auditDestinationARN = auditDestinationARN
+            self.bucketRegion = bucketRegion
+            self.cacheAttributes = cacheAttributes
+            self.clientList = clientList
+            self.clientToken = clientToken
+            self.defaultStorageClass = defaultStorageClass
+            self.encryptionType = encryptionType
             self.fileShareName = fileShareName
             self.gatewayARN = gatewayARN
             self.guessMIMETypeEnabled = guessMIMETypeEnabled
@@ -1001,6 +1039,7 @@ extension StorageGateway {
             case clientList = "ClientList"
             case clientToken = "ClientToken"
             case defaultStorageClass = "DefaultStorageClass"
+            case encryptionType = "EncryptionType"
             case fileShareName = "FileShareName"
             case gatewayARN = "GatewayARN"
             case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
@@ -1051,6 +1090,8 @@ extension StorageGateway {
         public let clientToken: String
         /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
+        /// A value that specifies the type of server-side encryption that the file share will use for the data that it stores in Amazon S3.  We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.
+        public let encryptionType: EncryptionType?
         /// The name of the file share. Optional.   FileShareName must be set if an S3 prefix name is set in LocationARN, or if an access point or access point alias is used.
         public let fileShareName: String?
         /// The ARN of the S3 File Gateway on which you want to create a file share.
@@ -1059,13 +1100,13 @@ extension StorageGateway {
         public let guessMIMETypeEnabled: Bool?
         /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let invalidUserList: [String]?
-        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the EncryptionType parameter instead.  We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.  Valid Values: true | false
         public let kmsEncrypted: Bool?
-        /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
+        /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true, or if EncryptionType is SseKms or DsseKms.
         public let kmsKey: String?
         /// A custom ARN for the backend storage used for storing data for file shares. It includes a resource ARN with an optional prefix concatenation. The prefix must end with a forward slash (/).  You can specify LocationARN as a bucket ARN, access point ARN or access point alias, as shown in the following examples. Bucket ARN:  arn:aws:s3:::my-bucket/prefix/  Access point ARN:  arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/  If you specify an access point, the bucket policy must be configured to delegate access control to the access point. For information, see Delegating access control to access points in the Amazon S3 User Guide. Access point alias:  test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias
         public let locationARN: String
-        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
+        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. This setting is not meant to specify an exact time at which the notification will be sent. In some cases, the gateway might require more than the specified delay time to generate and send notifications.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?
@@ -1077,7 +1118,7 @@ extension StorageGateway {
         public let requesterPays: Bool?
         /// The ARN of the Identity and Access Management (IAM) role that an S3 File Gateway assumes when it accesses the underlying storage.
         public let role: String
-        /// Set this value to true to enable access control list (ACL) on the SMB file share. Set it to false to map file and directory permissions to the POSIX permissions. For more information, see Using Microsoft Windows ACLs to control access to an SMB file share in the Storage Gateway User Guide. Valid Values: true | false
+        /// Set this value to true to enable access control list (ACL) on the SMB file share. Set it to false to map file and directory permissions to the POSIX permissions. For more information, see Using Windows ACLs to limit SMB file share access in the Amazon S3 File Gateway User Guide. Valid Values: true | false
         public let smbaclEnabled: Bool?
         /// A list of up to 50 tags that can be assigned to the NFS file share. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
         public let tags: [Tag]?
@@ -1086,7 +1127,7 @@ extension StorageGateway {
         /// Specifies the DNS name for the VPC endpoint that the SMB file share uses to connect to Amazon S3.  This parameter is required for SMB file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
         public let vpcEndpointDNSName: String?
 
-        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, clientToken: String, defaultStorageClass: String? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, locationARN: String, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, smbaclEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil, vpcEndpointDNSName: String? = nil) {
+        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, clientToken: String, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsKey: String? = nil, locationARN: String, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, smbaclEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil, vpcEndpointDNSName: String? = nil) {
             self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
             self.auditDestinationARN = auditDestinationARN
@@ -1096,6 +1137,38 @@ extension StorageGateway {
             self.caseSensitivity = caseSensitivity
             self.clientToken = clientToken
             self.defaultStorageClass = defaultStorageClass
+            self.encryptionType = encryptionType
+            self.fileShareName = fileShareName
+            self.gatewayARN = gatewayARN
+            self.guessMIMETypeEnabled = guessMIMETypeEnabled
+            self.invalidUserList = invalidUserList
+            self.kmsEncrypted = nil
+            self.kmsKey = kmsKey
+            self.locationARN = locationARN
+            self.notificationPolicy = notificationPolicy
+            self.objectACL = objectACL
+            self.oplocksEnabled = oplocksEnabled
+            self.readOnly = readOnly
+            self.requesterPays = requesterPays
+            self.role = role
+            self.smbaclEnabled = smbaclEnabled
+            self.tags = tags
+            self.validUserList = validUserList
+            self.vpcEndpointDNSName = vpcEndpointDNSName
+        }
+
+        @available(*, deprecated, message: "Members kmsEncrypted have been deprecated")
+        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, clientToken: String, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, locationARN: String, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, smbaclEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil, vpcEndpointDNSName: String? = nil) {
+            self.accessBasedEnumeration = accessBasedEnumeration
+            self.adminUserList = adminUserList
+            self.auditDestinationARN = auditDestinationARN
+            self.authentication = authentication
+            self.bucketRegion = bucketRegion
+            self.cacheAttributes = cacheAttributes
+            self.caseSensitivity = caseSensitivity
+            self.clientToken = clientToken
+            self.defaultStorageClass = defaultStorageClass
+            self.encryptionType = encryptionType
             self.fileShareName = fileShareName
             self.gatewayARN = gatewayARN
             self.guessMIMETypeEnabled = guessMIMETypeEnabled
@@ -1173,6 +1246,7 @@ extension StorageGateway {
             case caseSensitivity = "CaseSensitivity"
             case clientToken = "ClientToken"
             case defaultStorageClass = "DefaultStorageClass"
+            case encryptionType = "EncryptionType"
             case fileShareName = "FileShareName"
             case gatewayARN = "GatewayARN"
             case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
@@ -1228,6 +1302,7 @@ extension StorageGateway {
             }
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1280,6 +1355,7 @@ extension StorageGateway {
             }
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1775,6 +1851,7 @@ extension StorageGateway {
         public func validate(name: String) throws {
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1915,6 +1992,7 @@ extension StorageGateway {
         public func validate(name: String) throws {
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2107,6 +2185,7 @@ extension StorageGateway {
             try self.volumeARNs.forEach {
                 try validate($0, name: "volumeARNs[]", parent: name, max: 500)
                 try validate($0, name: "volumeARNs[]", parent: name, min: 50)
+                try validate($0, name: "volumeARNs[]", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
             }
         }
 
@@ -2334,7 +2413,7 @@ extension StorageGateway {
         public let hourOfDay: Int?
         /// The minute component of the maintenance start time represented as mm, where mm is the minute (0 to 59). The minute of the hour is in the time zone of the gateway.
         public let minuteOfHour: Int?
-        /// A set of variables indicating the software update preferences for the gateway. Includes AutomaticUpdatePolicy field with the following inputs:  ALL_VERSIONS - Enables regular gateway maintenance updates.  EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates.
+        /// A set of variables indicating the software update preferences for the gateway. Includes AutomaticUpdatePolicy parameter with the following inputs:  ALL_VERSIONS - Enables regular gateway maintenance updates.  EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates. The gateway will still receive emergency version updates on rare occasions if necessary to remedy highly critical security or durability issues. You will be notified before an emergency version update is applied. These updates are applied during your gateway's scheduled maintenance window.
         public let softwareUpdatePreferences: SoftwareUpdatePreferences?
         /// A value that indicates the time zone that is set for the gateway. The start time and day of week specified should be in the time zone of the gateway.
         public let timezone: String?
@@ -2494,6 +2573,7 @@ extension StorageGateway {
         public func validate(name: String) throws {
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2546,6 +2626,7 @@ extension StorageGateway {
             try self.volumeARNs.forEach {
                 try validate($0, name: "volumeARNs[]", parent: name, max: 500)
                 try validate($0, name: "volumeARNs[]", parent: name, min: 50)
+                try validate($0, name: "volumeARNs[]", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
             }
         }
 
@@ -2870,6 +2951,7 @@ extension StorageGateway {
         public func validate(name: String) throws {
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3634,6 +3716,7 @@ extension StorageGateway {
         public func validate(name: String) throws {
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3783,6 +3866,8 @@ extension StorageGateway {
         public let clientList: [String]?
         /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
+        /// A value that specifies the type of server-side encryption that the file share will use for the data that it stores in Amazon S3.  We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.
+        public let encryptionType: EncryptionType?
         public let fileShareARN: String?
         public let fileShareId: String?
         /// The name of the file share. Optional.   FileShareName must be set if an S3 prefix name is set in LocationARN, or if an access point or access point alias is used.
@@ -3791,12 +3876,12 @@ extension StorageGateway {
         public let gatewayARN: String?
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false
         public let guessMIMETypeEnabled: Bool?
-        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the EncryptionType parameter instead.  We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.  Valid Values: true | false
         public let kmsEncrypted: Bool?
         public let kmsKey: String?
         public let locationARN: String?
         public let nfsFileShareDefaults: NFSFileShareDefaults?
-        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
+        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. This setting is not meant to specify an exact time at which the notification will be sent. In some cases, the gateway might require more than the specified delay time to generate and send notifications.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
         public let objectACL: ObjectACL?
         public let path: String?
@@ -3811,12 +3896,42 @@ extension StorageGateway {
         /// Specifies the DNS name for the VPC endpoint that the NFS file share uses to connect to Amazon S3.  This parameter is required for NFS file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
         public let vpcEndpointDNSName: String?
 
-        public init(auditDestinationARN: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, locationARN: String? = nil, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, squash: String? = nil, tags: [Tag]? = nil, vpcEndpointDNSName: String? = nil) {
+        public init(auditDestinationARN: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, kmsKey: String? = nil, locationARN: String? = nil, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, squash: String? = nil, tags: [Tag]? = nil, vpcEndpointDNSName: String? = nil) {
             self.auditDestinationARN = auditDestinationARN
             self.bucketRegion = bucketRegion
             self.cacheAttributes = cacheAttributes
             self.clientList = clientList
             self.defaultStorageClass = defaultStorageClass
+            self.encryptionType = encryptionType
+            self.fileShareARN = fileShareARN
+            self.fileShareId = fileShareId
+            self.fileShareName = fileShareName
+            self.fileShareStatus = fileShareStatus
+            self.gatewayARN = gatewayARN
+            self.guessMIMETypeEnabled = guessMIMETypeEnabled
+            self.kmsEncrypted = nil
+            self.kmsKey = kmsKey
+            self.locationARN = locationARN
+            self.nfsFileShareDefaults = nfsFileShareDefaults
+            self.notificationPolicy = notificationPolicy
+            self.objectACL = objectACL
+            self.path = path
+            self.readOnly = readOnly
+            self.requesterPays = requesterPays
+            self.role = role
+            self.squash = squash
+            self.tags = tags
+            self.vpcEndpointDNSName = vpcEndpointDNSName
+        }
+
+        @available(*, deprecated, message: "Members kmsEncrypted have been deprecated")
+        public init(auditDestinationARN: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, locationARN: String? = nil, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, squash: String? = nil, tags: [Tag]? = nil, vpcEndpointDNSName: String? = nil) {
+            self.auditDestinationARN = auditDestinationARN
+            self.bucketRegion = bucketRegion
+            self.cacheAttributes = cacheAttributes
+            self.clientList = clientList
+            self.defaultStorageClass = defaultStorageClass
+            self.encryptionType = encryptionType
             self.fileShareARN = fileShareARN
             self.fileShareId = fileShareId
             self.fileShareName = fileShareName
@@ -3844,6 +3959,7 @@ extension StorageGateway {
             case cacheAttributes = "CacheAttributes"
             case clientList = "ClientList"
             case defaultStorageClass = "DefaultStorageClass"
+            case encryptionType = "EncryptionType"
             case fileShareARN = "FileShareARN"
             case fileShareId = "FileShareId"
             case fileShareName = "FileShareName"
@@ -4159,6 +4275,8 @@ extension StorageGateway {
         public let caseSensitivity: CaseSensitivity?
         /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
+        /// A value that specifies the type of server-side encryption that the file share will use for the data that it stores in Amazon S3.  We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.
+        public let encryptionType: EncryptionType?
         public let fileShareARN: String?
         public let fileShareId: String?
         /// The name of the file share. Optional.   FileShareName must be set if an S3 prefix name is set in LocationARN, or if an access point or access point alias is used.
@@ -4169,11 +4287,11 @@ extension StorageGateway {
         public let guessMIMETypeEnabled: Bool?
         /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let invalidUserList: [String]?
-        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the EncryptionType parameter instead.  We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.  Valid Values: true | false
         public let kmsEncrypted: Bool?
         public let kmsKey: String?
         public let locationARN: String?
-        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
+        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. This setting is not meant to specify an exact time at which the notification will be sent. In some cases, the gateway might require more than the specified delay time to generate and send notifications.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
         public let objectACL: ObjectACL?
         /// Specifies whether opportunistic locking is enabled for the SMB file share.  Enabling opportunistic locking on case-sensitive shares is not recommended for workloads that involve access to files with the same name in different case.  Valid Values: true | false
@@ -4185,7 +4303,7 @@ extension StorageGateway {
         /// A value that sets who pays the cost of the request and the cost associated with data download from the S3 bucket. If this value is set to true, the requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner always pays the cost of storing data.   RequesterPays is a configuration for the S3 bucket that backs the file share, so make sure that the configuration on the file share is the same as the S3 bucket configuration.  Valid Values: true | false
         public let requesterPays: Bool?
         public let role: String?
-        /// If this value is set to true, it indicates that access control list (ACL) is enabled on the SMB file share. If it is set to false, it indicates that file and directory permissions are mapped to the POSIX permission. For more information, see Using Microsoft Windows ACLs to control access to an SMB file share in the Storage Gateway User Guide.
+        /// If this value is set to true, it indicates that access control list (ACL) is enabled on the SMB file share. If it is set to false, it indicates that file and directory permissions are mapped to the POSIX permission. For more information, see Using Windows ACLs to limit SMB file share access in the Amazon S3 File Gateway User Guide.
         public let smbaclEnabled: Bool?
         /// A list of up to 50 tags assigned to the SMB file share, sorted alphabetically by key name. Each tag is a key-value pair. For a gateway with more than 10 tags assigned, you can view all tags using the ListTagsForResource API operation.
         public let tags: [Tag]?
@@ -4194,7 +4312,7 @@ extension StorageGateway {
         /// Specifies the DNS name for the VPC endpoint that the SMB file share uses to connect to Amazon S3.  This parameter is required for SMB file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
         public let vpcEndpointDNSName: String?
 
-        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, locationARN: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, smbaclEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil, vpcEndpointDNSName: String? = nil) {
+        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsKey: String? = nil, locationARN: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, smbaclEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil, vpcEndpointDNSName: String? = nil) {
             self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
             self.auditDestinationARN = auditDestinationARN
@@ -4203,6 +4321,41 @@ extension StorageGateway {
             self.cacheAttributes = cacheAttributes
             self.caseSensitivity = caseSensitivity
             self.defaultStorageClass = defaultStorageClass
+            self.encryptionType = encryptionType
+            self.fileShareARN = fileShareARN
+            self.fileShareId = fileShareId
+            self.fileShareName = fileShareName
+            self.fileShareStatus = fileShareStatus
+            self.gatewayARN = gatewayARN
+            self.guessMIMETypeEnabled = guessMIMETypeEnabled
+            self.invalidUserList = invalidUserList
+            self.kmsEncrypted = nil
+            self.kmsKey = kmsKey
+            self.locationARN = locationARN
+            self.notificationPolicy = notificationPolicy
+            self.objectACL = objectACL
+            self.oplocksEnabled = oplocksEnabled
+            self.path = path
+            self.readOnly = readOnly
+            self.requesterPays = requesterPays
+            self.role = role
+            self.smbaclEnabled = smbaclEnabled
+            self.tags = tags
+            self.validUserList = validUserList
+            self.vpcEndpointDNSName = vpcEndpointDNSName
+        }
+
+        @available(*, deprecated, message: "Members kmsEncrypted have been deprecated")
+        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, locationARN: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, smbaclEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil, vpcEndpointDNSName: String? = nil) {
+            self.accessBasedEnumeration = accessBasedEnumeration
+            self.adminUserList = adminUserList
+            self.auditDestinationARN = auditDestinationARN
+            self.authentication = authentication
+            self.bucketRegion = bucketRegion
+            self.cacheAttributes = cacheAttributes
+            self.caseSensitivity = caseSensitivity
+            self.defaultStorageClass = defaultStorageClass
+            self.encryptionType = encryptionType
             self.fileShareARN = fileShareARN
             self.fileShareId = fileShareId
             self.fileShareName = fileShareName
@@ -4235,6 +4388,7 @@ extension StorageGateway {
             case cacheAttributes = "CacheAttributes"
             case caseSensitivity = "CaseSensitivity"
             case defaultStorageClass = "DefaultStorageClass"
+            case encryptionType = "EncryptionType"
             case fileShareARN = "FileShareARN"
             case fileShareId = "FileShareId"
             case fileShareName = "FileShareName"
@@ -4383,7 +4537,7 @@ extension StorageGateway {
     }
 
     public struct SoftwareUpdatePreferences: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates the automatic update policy for a gateway.  ALL_VERSIONS - Enables regular gateway maintenance updates.  EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates.
+        /// Indicates the automatic update policy for a gateway.  ALL_VERSIONS - Enables regular gateway maintenance updates.  EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates. The gateway will still receive emergency version updates on rare occasions if necessary to remedy highly critical security or durability issues. You will be notified before an emergency version update is applied. These updates are applied during your gateway's scheduled maintenance window.
         public let automaticUpdatePolicy: AutomaticUpdatePolicy?
 
         public init(automaticUpdatePolicy: AutomaticUpdatePolicy? = nil) {
@@ -5045,7 +5199,7 @@ extension StorageGateway {
         public let hourOfDay: Int?
         /// The minute component of the maintenance start time represented as mm, where mm is the minute (00 to 59). The minute of the hour is in the time zone of the gateway.
         public let minuteOfHour: Int?
-        /// A set of variables indicating the software update preferences for the gateway. Includes AutomaticUpdatePolicy field with the following inputs:  ALL_VERSIONS - Enables regular gateway maintenance updates.  EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates.
+        /// A set of variables indicating the software update preferences for the gateway. Includes AutomaticUpdatePolicy field with the following inputs:  ALL_VERSIONS - Enables regular gateway maintenance updates.  EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates. The gateway will still receive emergency version updates on rare occasions if necessary to remedy highly critical security or durability issues. You will be notified before an emergency version update is applied. These updates are applied during your gateway's scheduled maintenance window.
         public let softwareUpdatePreferences: SoftwareUpdatePreferences?
 
         public init(dayOfMonth: Int? = nil, dayOfWeek: Int? = nil, gatewayARN: String, hourOfDay: Int? = nil, minuteOfHour: Int? = nil, softwareUpdatePreferences: SoftwareUpdatePreferences? = nil) {
@@ -5101,19 +5255,21 @@ extension StorageGateway {
         public let clientList: [String]?
         /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
+        /// A value that specifies the type of server-side encryption that the file share will use for the data that it stores in Amazon S3.  We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.
+        public let encryptionType: EncryptionType?
         /// The Amazon Resource Name (ARN) of the file share to be updated.
         public let fileShareARN: String
         /// The name of the file share. Optional.   FileShareName must be set if an S3 prefix name is set in LocationARN, or if an access point or access point alias is used.
         public let fileShareName: String?
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false
         public let guessMIMETypeEnabled: Bool?
-        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the EncryptionType parameter instead.  We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.  Valid Values: true | false
         public let kmsEncrypted: Bool?
-        /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
+        /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true, or if EncryptionType is SseKms or DsseKms.
         public let kmsKey: String?
         /// The default values for the file share. Optional.
         public let nfsFileShareDefaults: NFSFileShareDefaults?
-        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
+        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. This setting is not meant to specify an exact time at which the notification will be sent. In some cases, the gateway might require more than the specified delay time to generate and send notifications.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?
@@ -5124,11 +5280,32 @@ extension StorageGateway {
         /// The user mapped to anonymous user. Valid values are the following:    RootSquash: Only root is mapped to anonymous user.    NoSquash: No one is mapped to anonymous user.    AllSquash: Everyone is mapped to anonymous user.
         public let squash: String?
 
-        public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, squash: String? = nil) {
+        public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, kmsKey: String? = nil, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, squash: String? = nil) {
             self.auditDestinationARN = auditDestinationARN
             self.cacheAttributes = cacheAttributes
             self.clientList = clientList
             self.defaultStorageClass = defaultStorageClass
+            self.encryptionType = encryptionType
+            self.fileShareARN = fileShareARN
+            self.fileShareName = fileShareName
+            self.guessMIMETypeEnabled = guessMIMETypeEnabled
+            self.kmsEncrypted = nil
+            self.kmsKey = kmsKey
+            self.nfsFileShareDefaults = nfsFileShareDefaults
+            self.notificationPolicy = notificationPolicy
+            self.objectACL = objectACL
+            self.readOnly = readOnly
+            self.requesterPays = requesterPays
+            self.squash = squash
+        }
+
+        @available(*, deprecated, message: "Members kmsEncrypted have been deprecated")
+        public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, squash: String? = nil) {
+            self.auditDestinationARN = auditDestinationARN
+            self.cacheAttributes = cacheAttributes
+            self.clientList = clientList
+            self.defaultStorageClass = defaultStorageClass
+            self.encryptionType = encryptionType
             self.fileShareARN = fileShareARN
             self.fileShareName = fileShareName
             self.guessMIMETypeEnabled = guessMIMETypeEnabled
@@ -5171,6 +5348,7 @@ extension StorageGateway {
             case cacheAttributes = "CacheAttributes"
             case clientList = "ClientList"
             case defaultStorageClass = "DefaultStorageClass"
+            case encryptionType = "EncryptionType"
             case fileShareARN = "FileShareARN"
             case fileShareName = "FileShareName"
             case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
@@ -5211,6 +5389,8 @@ extension StorageGateway {
         public let caseSensitivity: CaseSensitivity?
         /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
+        /// A value that specifies the type of server-side encryption that the file share will use for the data that it stores in Amazon S3.  We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.
+        public let encryptionType: EncryptionType?
         /// The Amazon Resource Name (ARN) of the SMB file share that you want to update.
         public let fileShareARN: String
         /// The name of the file share. Optional.   FileShareName must be set if an S3 prefix name is set in LocationARN, or if an access point or access point alias is used.
@@ -5219,11 +5399,11 @@ extension StorageGateway {
         public let guessMIMETypeEnabled: Bool?
         /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let invalidUserList: [String]?
-        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Optional. Set to true to use Amazon S3 server-side encryption with your own KMS key (SSE-KMS), or false to use a key managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the EncryptionType parameter instead.  We recommend using EncryptionType instead of KMSEncrypted to set the file share encryption method. You do not need to provide values for both parameters. If values for both parameters exist in the same request, then the specified encryption methods must not conflict. For example, if EncryptionType is SseS3, then KMSEncrypted must be false. If EncryptionType is SseKms or DsseKms, then KMSEncrypted must be true.  Valid Values: true | false
         public let kmsEncrypted: Bool?
-        /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
+        /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value must be set if KMSEncrypted is true, or if EncryptionType is SseKms or DsseKms.
         public let kmsKey: String?
-        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
+        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. This setting is not meant to specify an exact time at which the notification will be sent. In some cases, the gateway might require more than the specified delay time to generate and send notifications.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?
@@ -5233,18 +5413,43 @@ extension StorageGateway {
         public let readOnly: Bool?
         /// A value that sets who pays the cost of the request and the cost associated with data download from the S3 bucket. If this value is set to true, the requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner always pays the cost of storing data.   RequesterPays is a configuration for the S3 bucket that backs the file share, so make sure that the configuration on the file share is the same as the S3 bucket configuration.  Valid Values: true | false
         public let requesterPays: Bool?
-        /// Set this value to true to enable access control list (ACL) on the SMB file share. Set it to false to map file and directory permissions to the POSIX permissions. For more information, see Using Microsoft Windows ACLs to control access to an SMB file share in the Storage Gateway User Guide. Valid Values: true | false
+        /// Set this value to true to enable access control list (ACL) on the SMB file share. Set it to false to map file and directory permissions to the POSIX permissions. For more information, see Using Windows ACLs to limit SMB file share access in the Amazon S3 File Gateway User Guide. Valid Values: true | false
         public let smbaclEnabled: Bool?
         /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let validUserList: [String]?
 
-        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, smbaclEnabled: Bool? = nil, validUserList: [String]? = nil) {
+        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsKey: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, smbaclEnabled: Bool? = nil, validUserList: [String]? = nil) {
             self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
             self.auditDestinationARN = auditDestinationARN
             self.cacheAttributes = cacheAttributes
             self.caseSensitivity = caseSensitivity
             self.defaultStorageClass = defaultStorageClass
+            self.encryptionType = encryptionType
+            self.fileShareARN = fileShareARN
+            self.fileShareName = fileShareName
+            self.guessMIMETypeEnabled = guessMIMETypeEnabled
+            self.invalidUserList = invalidUserList
+            self.kmsEncrypted = nil
+            self.kmsKey = kmsKey
+            self.notificationPolicy = notificationPolicy
+            self.objectACL = objectACL
+            self.oplocksEnabled = oplocksEnabled
+            self.readOnly = readOnly
+            self.requesterPays = requesterPays
+            self.smbaclEnabled = smbaclEnabled
+            self.validUserList = validUserList
+        }
+
+        @available(*, deprecated, message: "Members kmsEncrypted have been deprecated")
+        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, encryptionType: EncryptionType? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, smbaclEnabled: Bool? = nil, validUserList: [String]? = nil) {
+            self.accessBasedEnumeration = accessBasedEnumeration
+            self.adminUserList = adminUserList
+            self.auditDestinationARN = auditDestinationARN
+            self.cacheAttributes = cacheAttributes
+            self.caseSensitivity = caseSensitivity
+            self.defaultStorageClass = defaultStorageClass
+            self.encryptionType = encryptionType
             self.fileShareARN = fileShareARN
             self.fileShareName = fileShareName
             self.guessMIMETypeEnabled = guessMIMETypeEnabled
@@ -5298,6 +5503,7 @@ extension StorageGateway {
             case cacheAttributes = "CacheAttributes"
             case caseSensitivity = "CaseSensitivity"
             case defaultStorageClass = "DefaultStorageClass"
+            case encryptionType = "EncryptionType"
             case fileShareARN = "FileShareARN"
             case fileShareName = "FileShareName"
             case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
@@ -5459,6 +5665,7 @@ extension StorageGateway {
             }
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
